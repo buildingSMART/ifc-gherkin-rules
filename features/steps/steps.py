@@ -1,4 +1,5 @@
 import ast
+import json
 import typing
 import operator
 
@@ -14,12 +15,13 @@ def instance_converter(kv_pairs):
     def c(v):
         if isinstance(v, ifcopenshell.entity_instance):
             return str(v)
-
+        else:
+            return v
     return {k: c(v) for k, v in kv_pairs}
 
 
 # @note dataclasses.asdict used deepcopy() which doesn't work on entity instance
-asdict = lambda dc: dict(dc.__dict__, message=str(dc))
+asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc))
 
 
 def fmt(x):
@@ -115,9 +117,9 @@ def step_impl(context, something, num):
                 yield edge_use_error(inst, ed, edge_usage[ed])
 
     errors = list(_())
-    error_formatter = asdict if context.config.format == ["json"] else lambda x: x
+    error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
     assert not errors, "Errors occured:\n{}".format(
-        "\n".join(map(str, map(error_formatter, errors)))
+        "\n".join(map(error_formatter, errors))
     )
 
 

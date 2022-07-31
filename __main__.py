@@ -1,7 +1,8 @@
+from functools import reduce
 import itertools
 import json
 import operator
-from .main import run
+from .main import run, RuleType
 
 def wrap(n):
     def inner(it):
@@ -15,7 +16,8 @@ def wrap(n):
 
 if __name__ == "__main__":
     import sys
-    results = sorted(run(*(v for v in sys.argv[1:] if not v.startswith("--"))))
+
+    results = sorted(run(*(v for v in sys.argv[1:] if not v.startswith("--")), rule_type=RuleType.from_argv(sys.argv)))
     if "--json" in sys.argv:
         json.dump(results, sys.stdout)
     else:

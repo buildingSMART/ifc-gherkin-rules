@@ -20,9 +20,22 @@ def instance_converter(kv_pairs):
     return {k: c(v) for k, v in kv_pairs}
 
 
-# @note dataclasses.asdict used deepcopy() which doesn't work on entity instance
-asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc))
+def get_mvd(ifc_file):
+    try:
+        detected_mvd = ifc_file.header.file_description.description[0].split(" ", 1)[1]
+        detected_mvd = detected_mvd[1:-1]
+    except:
+        detected_mvd = None
+    return detected_mvd
 
+def get_inst_attributes(dc):
+    if hasattr(dc, 'inst'):
+        yield 'inst_guid', getattr(dc.inst, 'GlobalId', None)
+        yield 'inst_type', dc.inst.is_a()
+        yield 'inst_id', dc.inst.id()
+
+# @note dataclasses.asdict used deepcopy() which doesn't work on entity instance
+asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc), **dict(get_inst_attributes(dc)))
 
 def fmt(x):
     if isinstance(x, frozenset) and len(x) == 2 and set(map(type, x)) == {tuple}:
@@ -44,6 +57,26 @@ class edge_use_error:
 
     def __str__(self):
         return f"On instance {fmt(self.inst)} the edge {fmt(self.edge)} was referenced {fmt(self.count)} times"
+
+
+@dataclass
+class instance_count_error:
+    insts: ifcopenshell.entity_instance
+
+    def __str__(self):
+        if len(self.insts):
+            return f"The following {len(self.insts)} instances where encountered: {';'.join(map(fmt, self.insts))}"
+        else:
+            return f"0 instances where encountered"
+
+
+@dataclass
+class instance_structure_error:
+    related: ifcopenshell.entity_instance
+    relating: ifcopenshell.entity_instance
+
+    def __str__(self):
+        return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
 
 
 def is_a(s):
@@ -100,6 +133,11 @@ def step_impl(context, entity):
     except:
         context.instances = []
 
+def handle_errors(context, errors):
+    error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
+    assert not errors, "Errors occured:\n{}".format(
+        "\n".join(map(error_formatter, errors))
+    )
 
 @then(
     "Every {something} shall be referenced exactly {num:d} times by the loops of the face"
@@ -116,11 +154,7 @@ def step_impl(context, something, num):
             for ed in invalid:
                 yield edge_use_error(inst, ed, edge_usage[ed])
 
-    errors = list(_())
-    error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
-    assert not errors, "Errors occured:\n{}".format(
-        "\n".join(map(error_formatter, errors))
-    )
+    handle_errors(context, list(_()))
 
 
 @given("{attribute} = {value}")
@@ -129,3 +163,52 @@ def step_impl(context, attribute, value):
     context.instances = list(
         filter(lambda inst: getattr(inst, attribute) == value, context.instances)
     )
+
+
+@given('A file with {field} "{value}"')
+def step_impl(context, field, value):
+    if field == "Model View Definition":
+        applicable = get_mvd(context.model) == value
+    elif field == "Schema Identifier":
+        applicable = context.model.schema.lower() == value.lower()
+    else:
+        raise NotImplementedError(f'A file with "{field}" is not implemented')
+
+    context.applicable = getattr(context, 'applicable', True) and applicable
+
+
+@then('There shall be {constraint} {num:d} instance(s) of {entity}')
+def step_impl(context, constraint, num, entity):
+    stmt_to_op = {"at least": operator.ge, "at most": operator.le}
+    assert constraint in stmt_to_op
+    op = stmt_to_op[constraint]
+
+    errors = []
+
+    if getattr(context, 'applicable', True):
+        insts = context.model.by_type(entity)
+        if not op(len(insts), num):
+            errors.append(instance_count_error(insts))
+
+    handle_errors(context, errors)
+
+
+@then('The {related} shall be assigned to the {relating} if {other_entity} {condition} present')
+def step_impl(context, related, relating, other_entity, condition):
+    stmt_to_op = {"is": operator.eq, "is not": operator.ne}
+    assert condition in stmt_to_op
+    pred = stmt_to_op[condition]
+    op = lambda n: not pred(n, 0)
+
+    errors = []
+
+    if getattr(context, 'applicable', True):
+
+        if op(len(context.model.by_type(other_entity))):
+
+            for inst in context.model.by_type(related):
+                for rel in getattr(inst, 'Decomposes', []):
+                    if not rel.RelatingObject.is_a(relating):
+                        errors.append(instance_structure_error(inst, rel.RelatingObject))
+
+    handle_errors(context, errors)

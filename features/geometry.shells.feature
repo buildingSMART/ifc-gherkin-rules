@@ -1,3 +1,4 @@
+@informal-proposition
 Feature: Shell geometry propositions
 
   Scenario: IfcClosedShell

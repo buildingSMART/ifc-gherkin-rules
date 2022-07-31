@@ -1,25 +1,45 @@
 import json
+import operator
 import os
 import subprocess
 import sys
 import tempfile
 import functools
+from enum import Flag, auto
+
+class RuleType(Flag):
+    INFORMAL_PROPOSITION = auto()
+    IMPLEMENTER_AGREEMENT = auto()
+    ALL = INFORMAL_PROPOSITION | IMPLEMENTER_AGREEMENT
+
+    @staticmethod
+    def from_argv(argv):
+        try:
+            return functools.reduce(operator.or_, (v for nm, v in RuleType.__members__.items() if "--" + nm.lower().replace("_", "-") in argv))
+        except:
+            return RuleType.ALL
 
 @functools.lru_cache(maxsize=16)
 def get_remote(cwd):
-    return subprocess.check_output(['git', 'remote'], cwd=cwd).decode('ascii').split('\n')[0]
+    return subprocess.check_output(['git', 'remote', 'get-url', 'origin'], cwd=cwd).decode('ascii').split('\n')[0]
 
 @functools.lru_cache(maxsize=16)
 def get_commits(cwd, feature_file):
     return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
 
-def run(filename):
+def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
     fd, jsonfn = tempfile.mkstemp("pytest.json")
+
+    tag_filter = []
+    if rule_type != RuleType.ALL:
+        tag_filter.append(
+            '--tags=' + ' and '.join(['@'+nm.lower().replace("_", "-") for nm, v in RuleType.__members__.items() if v in rule_type])
+        )
     
-    subprocess.call([sys.executable, "-m", "behave", "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.call([sys.executable, "-m", "behave", *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     with open(jsonfn) as f:
         log = json.load(f)
         for item in log:
@@ -35,7 +55,8 @@ def run(filename):
                     step_status = step.get('result', {}).get('status')
                     if step_status and step_status != 'passed':
                         for occurence in list(map(json.loads, step['result']['error_message'][1:])):
-                            yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", occurence["inst"], occurence["message"]
+                            inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
+                            yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, occurence["message"]
 
             
     os.close(fd)

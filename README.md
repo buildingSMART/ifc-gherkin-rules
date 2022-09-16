@@ -1,5 +1,29 @@
 # IFC Gherkin rules
 
+## Usage as part of buildingSMART validation service
+
+### Overview
+
+The workflow presented below is currently being developed, where a Pull Request to this repository (which is a submodule in https://github.com/buildingSMART/validate) will result in a novel "sandbox" URL being constructed, where end-users can try out the aumented body of rules.
+
+![](gherkin-rule-editing-workflow.png)
+
+### Making changes
+
+The rules developed in this repository follow the general ideas of Gherkin and its python implementation behave.
+
+This means there are human readable definitions of rules and Python implementations.
+
+A third component of this repository are minimal sample files with expected outcomes, which means that extensions and modifications can be suggested with confidence of not breaking existing functionality.
+
+#### Advised workflow
+
+https://github.dev/AECgeeks/ifc-gherkin-rules
+
+(to be continued)
+
+## Command line usage
+
 Informal propositions and implementer agreements written in Gherkin for automatic validation of IFC building models using steps implemented in IfcOpenShell.
 
 ~~~

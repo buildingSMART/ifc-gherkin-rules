@@ -1,9 +1,14 @@
 import os
 import glob
+import sys
 
 import pytest
 
-from ..main import run
+try:
+    from ..main import run
+except ImportError:
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+    from main import run    
 
 test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/*.ifc"))
 @pytest.mark.parametrize("filename", test_files)

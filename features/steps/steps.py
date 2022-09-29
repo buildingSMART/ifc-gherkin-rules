@@ -1,5 +1,6 @@
 import ast
 import json
+import numpy
 import typing
 import operator
 
@@ -58,6 +59,17 @@ class edge_use_error:
     def __str__(self):
         return f"On instance {fmt(self.inst)} the edge {fmt(self.edge)} was referenced {fmt(self.count)} times"
 
+@dataclass
+class edge_length_error:
+    inst: ifcopenshell.entity_instance
+    edge: typing.Any
+    length: float
+    predicate: str
+    requirement: float
+    modifier: str = ''
+    
+    def __str__(self):
+        return f"On instance {fmt(self.inst)} the edge {fmt(self.edge)} has {self.modifier}length {self.length}. The value {self.requirement} is not {self.predicate} that that."
 
 @dataclass
 class instance_count_error:
@@ -159,9 +171,13 @@ def step_impl(context, something, num):
 
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
-    value = ast.literal_eval(value)
+    if value == 'not null':
+        pred = lambda x: x is not None
+    else:
+        value = ast.literal_eval(value)
+        pred = lambda x: x == value
     context.instances = list(
-        filter(lambda inst: getattr(inst, attribute) == value, context.instances)
+        filter(lambda inst: pred(getattr(inst, attribute)), context.instances)
     )
 
 
@@ -212,3 +228,64 @@ def step_impl(context, related, relating, other_entity, condition):
                         errors.append(instance_structure_error(inst, rel.RelatingObject))
 
     handle_errors(context, errors)
+
+
+def is_closed(seq_of_pt):
+    # @todo tolerance
+    return seq_of_pt[0] == seq_of_pt[-1]
+
+
+def get_points(inst):
+    if inst.is_a().startswith('IfcCartesianPointList'):
+        return inst.CoordList
+    elif inst.is_a('IfcPolyline'):
+        return [p.Coordinates for p in inst.Points]
+    else:
+        raise NotImplementedError(f'get_points() not implemented on {inst.is_a}')
+
+
+@given('{attr} forms {closed_or_open} curve')
+def step_impl(context, attr, closed_or_open):
+    assert closed_or_open in ('a closed', 'an open')
+    should_be_closed = closed_or_open == 'a closed'
+    context.instances = list(
+        map(operator.itemgetter(0), filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, map(is_closed, map(get_points, map(operator.attrgetter(attr), context.instances))))))
+    )
+
+@then('{attr} has to be {pred} the {what} of {which} segments of the {attr2}')
+def step_impl(context, attr, pred, what, which, attr2):
+    assert pred in ('smaller than or equal to',)
+    assert what in ('length', 'length / 2')
+    assert which in ('the start and end', 'the inner', 'all')
+    
+    def slice_indices(arr):
+        if which == 'the start and end':
+            return [0, len(arr) - 1]
+        elif which == 'the inner':
+            return range(1, len(arr) - 1)
+        elif which == 'all':
+            return range(len(arr))
+
+    fn = operator.le
+
+    def _():
+        for inst in context.instances:
+            points = numpy.array(get_points(getattr(inst, attr2)))
+            points_shifted = points[1:]
+            points = points[:-1]
+            edges_vecs = points_shifted - points
+            edge_lengths = numpy.linalg.norm(edges_vecs, axis=1)
+            comparison_value = getattr(inst, attr)
+            if what == 'length / 2':
+                factor = 0.5
+                modifier = {'modifier': 'half '}
+            else:
+                factor = 1.0
+                modifier = {}
+
+            idxs = slice_indices(edge_lengths)
+            for idx, bl in filter(lambda p: p[0] in idxs, enumerate(fn(comparison_value, edge_lengths * factor))):
+                if not bl:
+                    yield edge_length_error(inst, (tuple(points[idx]), tuple(points_shifted[idx])), edge_lengths[idx] * factor, pred, comparison_value, **modifier)
+
+    handle_errors(context, list(_()))

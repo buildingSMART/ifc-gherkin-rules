@@ -20,6 +20,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
+        conda install numpy
         conda install -c conda-forge ifcopenshell
         pip install behave pytest
     - name: Lint with flake8

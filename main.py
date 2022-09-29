@@ -47,9 +47,16 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
             '--tags=' + ' and '.join(['@'+nm.lower().replace("_", "-") for nm, v in RuleType.__members__.items() if v in rule_type])
         )
     
-    subprocess.call([sys.executable, "-m", "behave", *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.run([sys.executable, "-m", "behave", *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
     with open(jsonfn) as f:
-        log = json.load(f)
+        try:
+            log = json.load(f)
+        except json.JSONDecodeError:
+            f.seek(0)
+            print("Error invoking behave:", file=sys.stderr)
+            print(proc.stderr.decode('utf-8'), file=sys.stderr)
+            print(f.read(), file=sys.stderr)
+            exit(1)
         for item in log:
             feature_name = item['name']
             feature_file = item['location'].split(':')[0]

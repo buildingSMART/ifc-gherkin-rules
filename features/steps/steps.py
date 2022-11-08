@@ -79,6 +79,24 @@ class instance_structure_error:
         return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
 
 
+@dataclass
+class representation_shape_error:
+    inst: ifcopenshell.entity_instance
+    representation_id: str
+    
+    def __str__(self):
+        return f"On instance {fmt(self.inst)} the instance should have one {self.representation_id} shape representation"
+
+
+@dataclass
+class representation_type_error:
+    inst: ifcopenshell.entity_instance
+    representation_id: str
+    representation_type: str
+    
+    def __str__(self):
+        return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
+
 def is_a(s):
     return lambda inst: inst.is_a(s)
 
@@ -124,6 +142,27 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 
     return sequence_type(inner())
+
+
+def do_try(fn, default=None):
+    try: return fn()
+    except: return default
+
+def condition(inst, representation_id, representation_type):
+    def is_valid(inst, representation_id, representation_type):
+        representation_type = representation_type.strip(',')
+        return any([repr.RepresentationIdentifier in representation_id and repr.RepresentationType in representation_type for repr in do_try(lambda: inst.Representation.Representations, [])])
+
+    if is_valid(inst,representation_id, representation_type):
+        return any([repr.RepresentationIdentifier == representation_id and repr.RepresentationType in representation_type for repr in do_try(lambda: inst.Representation.Representations, [])])
+         
+def instance_getter(i,representation_id, representation_type, negative=False):
+    if negative:
+        if not condition(i, representation_id, representation_type):
+            return i
+    else:
+        if condition(i, representation_id, representation_type):
+            return i
 
 
 @given("An {entity}")
@@ -212,3 +251,27 @@ def step_impl(context, related, relating, other_entity, condition):
                         errors.append(instance_structure_error(inst, rel.RelatingObject))
 
     handle_errors(context, errors)
+
+
+@given('The {representation_id} shape representation has RepresentationType "{representation_type}"')
+def step_impl(context, representation_id, representation_type):
+    context.instances =list(filter(None, list(map(lambda i: instance_getter(i, representation_id, representation_type), context.instances))))
+    
+@then('The {representation_id} shape representation has RepresentationType "{representation_type}"')
+def step_impl(context, representation_id, representation_type):
+    errors = list(filter(None, list(map(lambda i: instance_getter(i, representation_id, representation_type, 1), context.instances))))
+    errors = [representation_type_error(error, representation_id, representation_type) for error in errors]
+    handle_errors(context, errors)
+
+@then("There shall be one {representation_id} shape representation")
+def step_impl(context, representation_id):
+    errors = []
+    if context.instances:
+        for inst in context.instances:
+            if inst.Representation:
+                present = representation_id in map(operator.attrgetter('RepresentationIdentifier'), inst.Representation.Representations)
+                if not present:
+                    errors.append(representation_shape_error(inst, representation_id))
+    
+    handle_errors(context, errors)
+    

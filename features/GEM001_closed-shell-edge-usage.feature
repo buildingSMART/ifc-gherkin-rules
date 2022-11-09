@@ -1,5 +1,6 @@
 @informal-proposition
-Feature: Shell geometry propositions
+@GEM
+Feature: GEM001 - Closed shell edge usage
 
   Scenario: IfcClosedShell
 

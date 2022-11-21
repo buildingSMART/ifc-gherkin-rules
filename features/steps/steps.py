@@ -78,6 +78,16 @@ class instance_structure_error:
     def __str__(self):
         return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
 
+@dataclass
+class instance_nesting_error:
+    related: ifcopenshell.entity_instance
+    relating_objects: ifcopenshell.entity_instance
+
+    def __str__(self):
+        if len(self.relating_objects):
+            return f"The instances {len(self.related)} were assigned to: {';'.join(map(fmt, self.relating_objects))}"
+        else:
+            return f"0 instances where encountered"
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -117,17 +127,9 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
         elif inst.is_a("IfcPolygonalFaceSet"):
             coords = inst.Coordinates.CoordList
             for f in inst.Faces:
-                def emit(loop):
-                    fcoords = list(map(lambda i: coords[i - 1], loop))
-                    shifted = fcoords[1:] + [fcoords[0]]
-                    return map(edge_type, zip(fcoords, shifted))
-                
-                yield from emit(f.CoordIndex)
-
-                if f.is_a("IfcIndexedPolygonalFaceWithVoids"):
-                    for inner in f.InnerCoordIndices:
-                        yield from emit(inner)
-                    
+                fcoords = list(map(lambda i: coords[i - 1], f.CoordIndex))
+                shifted = fcoords[1:] + [fcoords[0]]
+                yield from map(edge_type, zip(fcoords, shifted))
         else:
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 
@@ -200,6 +202,61 @@ def step_impl(context, constraint, num, entity):
 
     handle_errors(context, errors)
 
+@then('Each {entity} must nest {constraint} {num:d} instance(s) of {other_entity}')
+def step_impl(context, entity, num, constraint, other_entity):
+    stmt_to_op = {'exactly': operator.eq, "at most": operator.le}
+    assert constraint in stmt_to_op
+    op = stmt_to_op[constraint]
+
+    errors = []
+
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
+            if not op(sum(1 for i in nested_entities if i.is_a() == other_entity), num):
+                errors.append(instance_count_error([i for i in nested_entities if i.is_a() == other_entity]))
+
+    handle_errors(context, errors)
+
+@then('Each {entity} must be nested only by {other_entity}')
+def step_impl(context, entity, other_entity):
+    
+    errors = []
+
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            relating_objects_lst = [i.RelatingObject.is_a() for i in inst.Nests]
+            relating_object = relating_objects_lst[0]
+            if not other_entity == relating_object:
+                errors.append(instance_nesting_error(inst, relating_objects_lst))
+
+@then('Each {entity} must nest only the following entities: {other_entities}')
+def step_impl(context, entity, other_entities):
+
+    errors = []
+
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
+            if not set([i.is_a() for i in nested_entities]).issubset(other_entities.split(',')):
+                errors.append(instance_nesting_error(inst, nested_entities))
+                #todo differentiate which 'prohibited' entity was found
+
+@then('Each {entity} nests a list of {segment_annotation}, each of which has DesignParameters typed as {parameter_annotation}')
+def step_impl(context, entity, segment_annotation, parameter_annotation):
+
+    errors = []
+    
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            segments = [inst for rel in inst.IsNestedBy for inst in rel.RelatedObjects]
+            if not all(operator.eq(segment.is_a(),segment_annotation) for segment in segments):
+                errors.append(instance_nesting_error(inst, segments))
+            parameters = [segment.DesignParameters for segment in segments]
+            if not all(operator.eq(parameters.is_a(),parameter_annotation) for parameters in parameters):
+                errors.append(instance_nesting_error(inst, parameters))
+            #@todo perhaps a different data class with more precise information, how many? which other attributes were found?
+            
 
 @then('The {related} shall be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):

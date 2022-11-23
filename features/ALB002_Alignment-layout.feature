@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALB
-Feature: ALB001 - Alignment Layout
+Feature: ALB002 - Alignment Layout
 
   Scenario: Agreement on nested attributes of IfcAlignment
 

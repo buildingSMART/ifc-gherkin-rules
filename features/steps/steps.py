@@ -127,9 +127,16 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
         elif inst.is_a("IfcPolygonalFaceSet"):
             coords = inst.Coordinates.CoordList
             for f in inst.Faces:
-                fcoords = list(map(lambda i: coords[i - 1], f.CoordIndex))
-                shifted = fcoords[1:] + [fcoords[0]]
-                yield from map(edge_type, zip(fcoords, shifted))
+                def emit(loop):
+                    fcoords = list(map(lambda i: coords[i - 1], loop))
+                    shifted = fcoords[1:] + [fcoords[0]]
+                    return map(edge_type, zip(fcoords, shifted))
+
+                yield from emit(f.CoordIndex)
+
+                if f.is_a("IfcIndexedPolygonalFaceWithVoids"):
+                    for inner in f.InnerCoordIndices:
+                        yield from emit(inner)
         else:
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 

@@ -74,20 +74,13 @@ class instance_count_error:
 class instance_structure_error:
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
+    relationship_type: str
 
     def __str__(self):
-        return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
-
-@dataclass
-class instance_nesting_error:
-    related: ifcopenshell.entity_instance
-    relating_objects: ifcopenshell.entity_instance
-
-    def __str__(self):
-        if len(self.relating_objects):
-            return f"The instances {len(self.related)} were assigned to: {';'.join(map(fmt, self.relating_objects))}"
+        if len(self.relating):
+            return f"The instance {fmt(self.related)} is {self.relationship_type} {fmt(self.relating)}"
         else:
-            return f"0 instances where encountered"
+            return f"This instance {self.related} is not {self.relationship_type} anything"
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -193,7 +186,6 @@ def step_impl(context, field, value):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
-
 @then('There shall be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
     stmt_to_op = {"at least": operator.ge, "at most": operator.le}
@@ -220,34 +212,40 @@ def step_impl(context, entity, num, constraint, other_entity):
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
-            if not op(sum(1 for i in nested_entities if i.is_a() == other_entity), num):
-                errors.append(instance_count_error([i for i in nested_entities if i.is_a() == other_entity]))
+            if not op(len([1 for i in nested_entities if i.is_a() == other_entity]), num):
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() == other_entity], 'nesting'))
 
     handle_errors(context, errors)
 
-@then('Each {entity} must be nested only by {other_entity}')
-def step_impl(context, entity, other_entity):
-    
+@then('Each {entity} must be nested only by {num:d} {other_entity}')
+def step_impl(context, entity, other_entity, num):
     errors = []
 
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
-            relating_objects_lst = [i.RelatingObject.is_a() for i in inst.Nests]
-            relating_object = relating_objects_lst[0]
-            if not other_entity == relating_object:
-                errors.append(instance_nesting_error(inst, relating_objects_lst))
+            relating = [i.RelatingObject for i in inst.Nests]
+            if not len(relating) <= num:
+                errors.append(instance_count_error(relating))
+            if not other_entity == relating[0].is_a():
+                errors.append(instance_structure_error(inst, relating, 'nested by'))
 
-@then('Each {entity} must nest only the following entities: {other_entities}')
+    handle_errors(context, errors)
+
+@then('Each {entity} may nest only the following entities: {other_entities}')
 def step_impl(context, entity, other_entities):
 
-    errors = []
+    allowed_entity_types = other_entities.split(', ')
 
+    errors = []
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
-            if not set([i.is_a() for i in nested_entities]).issubset(other_entities.split(',')):
-                errors.append(instance_nesting_error(inst, nested_entities))
-                #todo differentiate which 'prohibited' entity was found
+            nested_entity_types = [i.is_a() for i in nested_entities]
+            if not set(nested_entity_types) <= set((allowed_entity_types)):
+                differences = list(set(nested_entity_types) - set(allowed_entity_types))
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nesting'))
+    
+    handle_errors(context, errors)
 
 @then('Each {entity} nests a list of {segment_annotation}, each of which has DesignParameters typed as {parameter_annotation}')
 def step_impl(context, entity, segment_annotation, parameter_annotation):
@@ -258,12 +256,13 @@ def step_impl(context, entity, segment_annotation, parameter_annotation):
         for inst in context.model.by_type(entity):
             segments = [inst for rel in inst.IsNestedBy for inst in rel.RelatedObjects]
             if not all(operator.eq(segment.is_a(),segment_annotation) for segment in segments):
-                errors.append(instance_nesting_error(inst, segments))
-            parameters = [segment.DesignParameters for segment in segments]
-            if not all(operator.eq(parameters.is_a(),parameter_annotation) for parameters in parameters):
-                errors.append(instance_nesting_error(inst, parameters))
-            #@todo perhaps a different data class with more precise information, how many? which other attributes were found?
-            
+                errors.append(instance_structure_error(inst, segments, 'nesting'))
+            else:
+                parameters = [segment.DesignParameters for segment in segments]
+                if not all(operator.eq(parameters.is_a(),parameter_annotation) for parameters in parameters):
+                    errors.append(instance_structure_error(inst, parameters, 'typed as'))
+                        
+    handle_errors(context, errors)
 
 @then('The {related} shall be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
@@ -281,6 +280,6 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        errors.append(instance_structure_error(inst, rel.RelatingObject))
+                        errors.append(instance_structure_error(inst, rel.RelatingObject, 'assigned to'))
 
     handle_errors(context, errors)

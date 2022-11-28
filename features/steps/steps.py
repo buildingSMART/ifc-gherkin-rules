@@ -225,40 +225,54 @@ def step_impl(context, related, relating, other_entity, condition):
 class instance_contained_error:
     entity: ifcopenshell.entity_instance
     other_entity: ifcopenshell.entity_instance
+    condition: str
+    directness: str
 
     def __str__(self):
-        return f"The instance {fmt(self.entity)} is not contained in {fmt(self.other_entity)}"
+        if self.condition == 'must':
+            return f"The instance {fmt(self.entity)} is not {self.directness} contained in {fmt(self.other_entity)}"
+        elif self.condition == 'must not':
+            return f"The instance {fmt(self.entity)} is {self.directness} contained in {fmt(self.other_entity)}"
 
+@then('Each {entity} {condition} be {directness} contained in {other_entity}')
 
-@then('Each {entity} {condition} be contained in {other_entity}')
-def step_impl(context, entity, condition, other_entity):
+def step_impl(context, entity, condition, directness, other_entity):
     stmt_to_op = ["must", "must not"]
     assert condition in stmt_to_op
+
+    stmt_about_directness = ["directly", "indirectly", "directly or indirectly", "indirectly or directly"]
+    assert directness in stmt_about_directness
 
     errors = []
 
     if context.instances and getattr(context, 'applicable', True):
-        entities = []
         for ent in context.model.by_type(entity):
-            entities.append(ent)
-        for ent in entities:
-            try:
-                # ent -> IfcAlignment
-                containing_relation = ent.ContainedInStructure[0]  # SET [0:1] IfcRelContainedInSpatialStructure
-                relating_spacial_element = containing_relation.RelatingStructure  # IfcSpatialElement IfcFacility
-                while relating_spacial_element.Decomposes[0]:
-                    decomposed_element = relating_spacial_element.Decomposes[0]  # SET [0:1] IfcRelAggregates
-                    relating_spacial_element = decomposed_element.RelatingObject  # IfcObjectDefinition IfcSite
-                    is_entity = getattr(relating_spacial_element, 'is_a')(other_entity)
-                    if (is_entity and condition == "must") or (not is_entity and condition == "must not"):
+            if len(ent.ContainedInStructure) > 0:
+                containing_relation = ent.ContainedInStructure[0]
+                relating_spatial_element = containing_relation.RelatingStructure
+                is_directly_contained = getattr(relating_spatial_element, 'is_a')(other_entity)
+                while len(relating_spatial_element.Decomposes) > 0:
+                    decomposed_element = relating_spatial_element.Decomposes[0]
+                    relating_spatial_element = decomposed_element.RelatingObject
+                    is_indirectly_contained = getattr(relating_spatial_element, 'is_a')(other_entity)
+                    if is_indirectly_contained:
                         break
-                    else:
-                        continue
-            except IndexError:  # no relation found, tuple index out of range
-                errors.append(instance_contained_error(entity, other_entity))
-                break
-            except RuntimeError:  # most likely a linked instance not found
-                errors.append(instance_contained_error(entity, other_entity))
-                break
+            elif len(ent.ContainedInStructure) == 0:
+                is_directly_contained = False
+                is_indirectly_contained = False
+            if condition == "must":
+                if directness == "directly" and not is_directly_contained:
+                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                elif directness == "indirectly" and not is_indirectly_contained:
+                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                elif directness in ["directly or indirectly", "indirectly or directly"] and not (is_directly_contained or is_indirectly_contained):
+                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+            elif condition == "must not":
+                if directness == "directly" and is_directly_contained:
+                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                elif directness == "indirectly" and is_indirectly_contained:
+                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                elif directness in ["directly or indirectly", "indirectly or directly"] and (is_directly_contained or is_indirectly_contained):
+                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
 
     handle_errors(context, errors)

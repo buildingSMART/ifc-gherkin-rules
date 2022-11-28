@@ -78,7 +78,10 @@ class instance_structure_error:
 
     def __str__(self):
         if len(self.relating):
-            return f"The instance {fmt(self.related)} is {self.relationship_type} {fmt(self.relating)}"
+            if len(self.relating) > 1:
+                return f"The instance {fmt(self.related)} is {self.relationship_type} the following {len(self.relating)} instances: {';'.join(map(fmt, self.relating))}"
+            else:
+                return f"The instance {fmt(self.related)} is {self.relationship_type} {fmt(self.relating)}"
         else:
             return f"This instance {self.related} is not {self.relationship_type} anything"
 
@@ -214,6 +217,8 @@ def step_impl(context, entity, num, constraint, other_entity):
             nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
             if not op(len([1 for i in nested_entities if i.is_a() == other_entity]), num):
                 errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() == other_entity], 'nesting'))
+                # errors.append(instance_count_error([i for i in nested_entities if i.is_a() == other_entity]))
+
 
     handle_errors(context, errors)
 
@@ -224,9 +229,7 @@ def step_impl(context, entity, other_entity, num):
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             relating = [i.RelatingObject for i in inst.Nests]
-            if not len(relating) <= num:
-                errors.append(instance_count_error(relating))
-            if not other_entity == relating[0].is_a():
+            if not all([len(relating) <= num, other_entity == relating[0].is_a()]):
                 errors.append(instance_structure_error(inst, relating, 'nested by'))
 
     handle_errors(context, errors)
@@ -261,7 +264,7 @@ def step_impl(context, entity, segment_annotation, parameter_annotation):
                 parameters = [segment.DesignParameters for segment in segments]
                 if not all(operator.eq(parameters.is_a(),parameter_annotation) for parameters in parameters):
                     errors.append(instance_structure_error(inst, parameters, 'typed as'))
-                        
+
     handle_errors(context, errors)
 
 @then('The {related} shall be assigned to the {relating} if {other_entity} {condition} present')

@@ -32,6 +32,7 @@ A feature file is a file, written using Gherkin syntax, describing the rule beha
 In the branch just created, add a Gherkin feature file following these instructions.
 
 **File format**: `.feature`
+
 **Location**: https://github.com/buildingSMART/ifc-gherkin-rules/features
 
 
@@ -235,6 +236,7 @@ The python steps are the implementation (using python language) of the Gherkin g
 In the same branch used for the Gherkin rules, change or add python steps following these instructions.
 
 **File format**: `.py`
+
 **Location**: https://github.com/buildingSMART/ifc-gherkin-rules/steps
 
 
@@ -271,6 +273,7 @@ Unit test files are atomic IFC files, created to develop a rule and test its beh
 In the same branch used for the Gherkin rules, and python steps, create unit test files following these instructions. **IMPORTANT**: every rule developed must have a set of unit test files.
 
 **File format**: `.ifc`
+
 **Location**: https://github.com/buildingSMART/ifc-gherkin-rules/test
 
 - in the test folder, create a subfolder using the rule code (E.g., ALB001)

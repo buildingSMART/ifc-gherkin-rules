@@ -62,12 +62,13 @@ class edge_use_error:
 @dataclass
 class instance_count_error:
     insts: ifcopenshell.entity_instance
+    type_name: str
 
     def __str__(self):
         if len(self.insts):
-            return f"The following {len(self.insts)} instances where encountered: {';'.join(map(fmt, self.insts))}"
+            return f"The following {len(self.insts)} instances of type {self.type_name} were encountered: {';'.join(map(fmt, self.insts))}"
         else:
-            return f"0 instances where encountered"
+            return f"No instances of type {self.type_name} were encountered"
 
 
 @dataclass
@@ -196,7 +197,7 @@ def step_impl(context, constraint, num, entity):
     if getattr(context, 'applicable', True):
         insts = context.model.by_type(entity)
         if not op(len(insts), num):
-            errors.append(instance_count_error(insts))
+            errors.append(instance_count_error(insts, entity))
 
     handle_errors(context, errors)
 

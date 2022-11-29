@@ -18,6 +18,8 @@ def test_invocation(filename):
     base = os.path.basename(filename)
     
     print()
+    print(base)
+    print()
     print(f"{len(results)} errors")
     if results:
         print(tabulate.tabulate(

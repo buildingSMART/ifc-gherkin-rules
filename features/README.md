@@ -33,7 +33,7 @@ In the branch just created, add a Gherkin feature file following these instructi
 
 **File format**: `.feature`
 
-**Location**: https://github.com/buildingSMART/ifc-gherkin-rules/features
+**Location**: https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/features
 
 
 #### Naming convention for feature files
@@ -237,7 +237,7 @@ In the same branch used for the Gherkin rules, change or add python steps follow
 
 **File format**: `.py`
 
-**Location**: https://github.com/buildingSMART/ifc-gherkin-rules/steps
+**Location**: https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/features/steps
 
 
 #### Naming convention for python files
@@ -274,9 +274,9 @@ In the same branch used for the Gherkin rules, and python steps, create unit tes
 
 **File format**: `.ifc`
 
-**Location**: https://github.com/buildingSMART/ifc-gherkin-rules/test
+**Location**: https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/test/files
 
-- in the test folder, create a subfolder using the rule code (E.g., ALB001)
+- in the test/files folder, create a subfolder using the rule code (E.g., ALB001)
 - add the set of unit test files for that rule in this subfolder
 
 #### Naming convention for unit test files files

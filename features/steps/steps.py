@@ -25,8 +25,8 @@ def get_mvd(ifc_file):
         detected_mvd = ifc_file.header.file_description.description[0].split(" ", 1)[1]
         detected_mvd = detected_mvd[1:-1]
     except:
-        detected_mvd = None
-    return detected_mvd
+        detected_mvd = ''
+    return detected_mvd.lower()
 
 def get_inst_attributes(dc):
     if hasattr(dc, 'inst'):
@@ -167,14 +167,15 @@ def step_impl(context, attribute, value):
 
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
-    values = list(values.replace('"', "").split(', '))
+    values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
     if field == "Model View Definition":
-        applicable = any([get_mvd(context.model) == value for value in values])
+        applicable = get_mvd(context.model) in values
     elif field == "Schema Identifier":
-        applicable = any([context.model.schema.lower() == value.lower() for value in values])
+        applicable = context.model.schema.lower() in values
     else:
         raise NotImplementedError(f'A file with "{field}" is not implemented')
 
+    context.applicable = getattr(context, 'applicable', True) and applicable
 
 @then('There shall be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):

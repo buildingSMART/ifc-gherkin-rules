@@ -25,8 +25,8 @@ def get_mvd(ifc_file):
         detected_mvd = ifc_file.header.file_description.description[0].split(" ", 1)[1]
         detected_mvd = detected_mvd[1:-1]
     except:
-        detected_mvd = ''
-    return detected_mvd.lower()
+        detected_mvd = None
+    return detected_mvd
 
 def get_inst_attributes(dc):
     if hasattr(dc, 'inst'):
@@ -164,12 +164,12 @@ def step_impl(context, attribute, value):
         filter(lambda inst: getattr(inst, attribute) == value, context.instances)
     )
 
-
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
     values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
     if field == "Model View Definition":
-        applicable = get_mvd(context.model) in values
+        conditional_lowercase = lambda s: s.lower() if s else None
+        applicable = conditional_lowercase(get_mvd(context.model)) in values
     elif field == "Schema Identifier":
         applicable = context.model.schema.lower() in values
     else:

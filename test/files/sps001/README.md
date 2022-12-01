@@ -12,4 +12,4 @@
 | fail-sps001-2-sites-1-buildings-variant-0.ifc | fail | (1) The following 2 instances of type IfcSite were encountered ... (2) The instance #24=IfcBuilding ... is assigned to #20=IfcProject ... | File with 2 sites and 1 buildings, building assigned to project |
 | fail-sps001-2-sites-1-buildings-variant-1.ifc | fail | The following 2 instances of type IfcSite were encountered ... | File with 2 sites and 1 buildings, building assigned to site    |
 | fail-sps001-2-sites-2-buildings-variant-0.ifc | fail | (1) The following 2 instances of type IfcSite were encountered ... (2) The instance #24=IfcBuilding ... is assigned to #20=IfcProject ... (3) The instance #25=IfcBuilding ... is assigned to #20=IfcProject ... | File with 2 sites and 2 buildings, building assigned to project |
-| fail-sps001-2-sites-2-buildings-variant-1.ifc | fail | The following 2 instances of type IfcSite were encountered ... (2)  | File with 2 sites and 2 buildings, building assigned to site    |
+| fail-sps001-2-sites-2-buildings-variant-1.ifc | fail | The following 2 instances of type IfcSite were encountered ... | File with 2 sites and 2 buildings, building assigned to site    |

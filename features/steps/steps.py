@@ -173,18 +173,18 @@ def step_impl(context, attribute, value):
         filter(lambda inst: getattr(inst, attribute) == value, context.instances)
     )
 
-
-@given('A file with {field} "{value}"')
-def step_impl(context, field, value):
+@given('A file with {field} "{values}"')
+def step_impl(context, field, values):
+    values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
     if field == "Model View Definition":
-        applicable = get_mvd(context.model) == value
+        conditional_lowercase = lambda s: s.lower() if s else None
+        applicable = conditional_lowercase(get_mvd(context.model)) in values
     elif field == "Schema Identifier":
-        applicable = context.model.schema.lower() == value.lower()
+        applicable = context.model.schema.lower() in values
     else:
         raise NotImplementedError(f'A file with "{field}" is not implemented')
 
     context.applicable = getattr(context, 'applicable', True) and applicable
-
 
 @then('There shall be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):

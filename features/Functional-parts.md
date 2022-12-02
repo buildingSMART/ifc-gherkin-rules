@@ -17,4 +17,5 @@
 | OJT  | Object typing                    | @OJT        |                                                  |
 | PRP  | Properties                       | @PRP        |                                                  |
 | GEM  | Geometric representation         | @GEM        | Shall be further decomposed                      |
+| AXG  | Axis geometry                    | @AXG        |                                                  |
 | LIB  | Library reference                | @LIB        |                                                  |

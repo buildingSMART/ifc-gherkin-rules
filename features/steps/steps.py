@@ -85,6 +85,20 @@ class instance_structure_error:
         else:
             return f"This instance {self.related} is not {self.relationship_type} anything"
 
+@dataclass
+class attribute_type_error:
+    inst: ifcopenshell.entity_instance
+    related: ifcopenshell.entity_instance
+    attribute: str
+    expected_entity_type: str
+
+    def __str__(self):
+        if len (self.related):
+            return f"The instance {self.inst} expected type {self.expected_entity_type} for the attribute {self.attribute}, but found type {fmt(self.related)}  "
+        else:
+            return f"This instance {self.inst} has no value for attribute {self.attribute}"
+
+
 def is_a(s):
     return lambda inst: inst.is_a(s)
 
@@ -177,13 +191,29 @@ def step_impl(context, attribute, value):
         filter(lambda inst: getattr(inst, attribute) == value, context.instances)
     )
 
+@given("The element {relationship_type} an {entity}")
+def step_impl(context, relationship_type, entity):
+    reltype_to_extr = {'nests': 'Nests', 'is nested by': 'IsNestedBy'}
+    assert relationship_type in reltype_to_extr
+    extr = reltype_to_extr[relationship_type]
 
-@given('A file with {field} "{value}"')
-def step_impl(context, field, value):
+    context.instances = context.instances
+    instances = context.instances
+    if relationship_type == 'nests':
+        context.instances = list(
+            filter(lambda inst: inst.Nests[0].RelatingObject.is_a(entity),
+                                context.instances)
+        )
+    instances = context.instances
+
+@given('A file with {field} "{values}"')
+def step_impl(context, field, values):
+    values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
     if field == "Model View Definition":
-        applicable = get_mvd(context.model) == value
+        conditional_lowercase = lambda s: s.lower() if s else None
+        applicable = conditional_lowercase(get_mvd(context.model)) in values
     elif field == "Schema Identifier":
-        applicable = context.model.schema.lower() == value.lower()
+        applicable = context.model.schema.lower() in values
     else:
         raise NotImplementedError(f'A file with "{field}" is not implemented')
 
@@ -250,20 +280,17 @@ def step_impl(context, entity, other_entities):
     
     handle_errors(context, errors)
 
-@then('Each {entity} nests a list of {segment_annotation}, each of which has DesignParameters typed as {parameter_annotation}')
-def step_impl(context, entity, segment_annotation, parameter_annotation):
+@then('Each {entity} nests a list of only {other_entity}')
+def step_impl(context, entity, other_entity):
 
     errors = []
     
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             segments = [inst for rel in inst.IsNestedBy for inst in rel.RelatedObjects]
-            if not all(operator.eq(segment.is_a(),segment_annotation) for segment in segments):
-                errors.append(instance_structure_error(inst, segments, 'nesting'))
-            else:
-                parameters = [segment.DesignParameters for segment in segments]
-                if not all(operator.eq(parameters.is_a(),parameter_annotation) for parameters in parameters):
-                    errors.append(instance_structure_error(inst, parameters, 'typed as'))
+            false_elements = list(filter(lambda x : not x.is_a(other_entity), segments))
+            if len(false_elements):
+                errors.append(instance_structure_error(inst, false_elements, 'nesting a list that includes'))
 
     handle_errors(context, errors)
 
@@ -283,6 +310,17 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        errors.append(instance_structure_error(inst, rel.RelatingObject, 'assigned to'))
+                        errors.append(instance_structure_error(inst, [rel.RelatingObject], 'assigned to'))
 
     handle_errors(context, errors)
+
+@then ('The value of attribute {attribute} should be of type {expected_entity_type}')
+def stemp_impl(context, attribute, expected_entity_type):
+
+    def _():
+        for inst in context.instances:
+            related_entity = getattr(inst, attribute, [])
+            if not related_entity.is_a(expected_entity_type):
+                yield attribute_type_error(inst, [related_entity], attribute, expected_entity_type)
+
+    handle_errors(context, list(_()))

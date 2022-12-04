@@ -73,15 +73,15 @@ file.write('fail-alb002-scenario03.ifc')
 ''''
 Scenario 4: Agreement on structure of alignment segments
 '''
-file, owner = setup('pass-alb002-alignment-layout.ifc')
+# file, owner = setup('pass-alb002-alignment-layout.ifc')
 
-inst = file.by_type("IfcAlignmentHorizontal")[0]
-file.remove(inst.IsNestedBy[0])
+# inst = file.by_type("IfcAlignmentHorizontal")[0]
+# file.remove(inst.IsNestedBy[0])
 
-file.createIfcRelNests(create_guid(), owner, RelatingObject = inst, 
-                        RelatedObjects = [file.createIfcWall(create_guid(), owner, Name='dummy wall')])
+# file.createIfcRelNests(create_guid(), owner, RelatingObject = inst, 
+#                         RelatedObjects = [file.createIfcWall(create_guid(), owner, Name='dummy wall')])
 
-file.write('fail-alb002-scenario04.ifc')
+# file.write('fail-alb002-scenario04.ifc')
 # import pdb; pdb.set_trace()
 
 

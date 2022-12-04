@@ -5,7 +5,7 @@ import random
 #Scenario 5 -> Attribute designparameter of wrong segment type (directions are husled and placed back wrong)
 directions = ('IfcAlignmentHorizontal', 'IfcAlignmentVertical', 'IfcAlignmentCant') #global variable used both local and global, but better for readability
 def create_fail_scenario05(direction):
-    f = ifcopenshell.open('pass-alb002-manually_created_file.ifc')
+    f = ifcopenshell.open('pass-alb002-generated_file.ifc')
     segments = list(map(lambda x: f.by_type(x)[0].IsNestedBy[0].RelatedObjects[1].DesignParameters, list(directions)))
     direction_segment_pairs = {'IfcAlignmentHorizontal': segments[0], 'IfcAlignmentVertical': segments[1], 'IfcAlignmentCant': segments[2]}
 
@@ -27,7 +27,7 @@ for direction in directions:
 # Scenario 4 -> Each direction nest a list with IfcWall in it, not only IfcAlignmentSegment
 
 def create_fail_scenario04(direction):
-    f = ifcopenshell.open('pass-alb002-manually_created_file.ifc')
+    f = ifcopenshell.open('pass-alb002-generated_file.ifc')
     owner = f.by_type("IfcOwnerHistory")[0]
     relationships = f.by_type(direction)[0].IsNestedBy[0]
     new_segments = list(relationships.RelatedObjects)

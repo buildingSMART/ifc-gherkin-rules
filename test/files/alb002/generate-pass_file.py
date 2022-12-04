@@ -43,4 +43,4 @@ file.createIfcRelNests( create_guid(), owner, RelatingObject = alignment_cant_in
                       )
 
                     
-file.write('pass-alb002-manually_created_file.ifc')
+file.write('pass-alb002-generated_file.ifc')

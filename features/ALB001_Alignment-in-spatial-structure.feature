@@ -1,7 +1,6 @@
 @implementer-agreement
 @ALB
-
-Feature: ALB001 - Alignment in spatial structure
+Feature: ALB001_Alignment in spatial structure
 
   Scenario: Agreement on each IfcAlignment being contained in an IfcSite
 

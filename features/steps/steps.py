@@ -79,6 +79,19 @@ class instance_structure_error:
     def __str__(self):
         return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
 
+@dataclass
+class instance_contained_error:
+    entity: ifcopenshell.entity_instance
+    other_entity: ifcopenshell.entity_instance
+    condition: str
+    directness: str
+
+    def __str__(self):
+        if self.condition == 'must':
+            return f"The instance {fmt(self.entity)} is not {self.directness} contained in {fmt(self.other_entity)}"
+        elif self.condition == 'must not':
+            return f"The instance {fmt(self.entity)} is {self.directness} contained in {fmt(self.other_entity)}"
+
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -222,26 +235,13 @@ def step_impl(context, related, relating, other_entity, condition):
 
     handle_errors(context, errors)
 
-@dataclass
-class instance_contained_error:
-    entity: ifcopenshell.entity_instance
-    other_entity: ifcopenshell.entity_instance
-    condition: str
-    directness: str
-
-    def __str__(self):
-        if self.condition == 'must':
-            return f"The instance {fmt(self.entity)} is not {self.directness} contained in {fmt(self.other_entity)}"
-        elif self.condition == 'must not':
-            return f"The instance {fmt(self.entity)} is {self.directness} contained in {fmt(self.other_entity)}"
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
-
 def step_impl(context, entity, condition, directness, other_entity):
-    stmt_to_op = ["must", "must not"]
+    stmt_to_op = ['must', 'must not']
     assert condition in stmt_to_op
 
-    stmt_about_directness = ["directly", "indirectly", "directly or indirectly", "indirectly or directly"]
+    stmt_about_directness = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
     assert directness in stmt_about_directness
 
     errors = []
@@ -261,19 +261,19 @@ def step_impl(context, entity, condition, directness, other_entity):
             elif len(ent.ContainedInStructure) == 0:
                 is_directly_contained = False
                 is_indirectly_contained = False
-            if condition == "must":
-                if directness == "directly" and not is_directly_contained:
+            if condition == 'must':
+                if directness == 'directly' and not is_directly_contained:
                     errors.append(instance_contained_error(ent, other_entity, condition, directness))
-                elif directness == "indirectly" and not is_indirectly_contained:
+                elif directness == 'indirectly' and not is_indirectly_contained:
                     errors.append(instance_contained_error(ent, other_entity, condition, directness))
-                elif directness in ["directly or indirectly", "indirectly or directly"] and not (is_directly_contained or is_indirectly_contained):
+                elif directness in ['directly or indirectly', 'indirectly or directly'] and not (is_directly_contained or is_indirectly_contained):
                     errors.append(instance_contained_error(ent, other_entity, condition, directness))
-            elif condition == "must not":
-                if directness == "directly" and is_directly_contained:
+            elif condition == 'must not':
+                if directness == 'directly' and is_directly_contained:
                     errors.append(instance_contained_error(ent, other_entity, condition, directness))
-                elif directness == "indirectly" and is_indirectly_contained:
+                elif directness == 'indirectly' and is_indirectly_contained:
                     errors.append(instance_contained_error(ent, other_entity, condition, directness))
-                elif directness in ["directly or indirectly", "indirectly or directly"] and (is_directly_contained or is_indirectly_contained):
+                elif directness in ['directly or indirectly', 'indirectly or directly'] and (is_directly_contained or is_indirectly_contained):
                     errors.append(instance_contained_error(ent, other_entity, condition, directness))
 
     handle_errors(context, errors)

@@ -62,12 +62,13 @@ class edge_use_error:
 @dataclass
 class instance_count_error:
     insts: ifcopenshell.entity_instance
+    type_name: str
 
     def __str__(self):
         if len(self.insts):
-            return f"The following {len(self.insts)} instances where encountered: {';'.join(map(fmt, self.insts))}"
+            return f"The following {len(self.insts)} instances of type {self.type_name} were encountered: {';'.join(map(fmt, self.insts))}"
         else:
-            return f"0 instances where encountered"
+            return f"No instances of type {self.type_name} were encountered"
 
 
 @dataclass
@@ -172,18 +173,18 @@ def step_impl(context, attribute, value):
         filter(lambda inst: getattr(inst, attribute) == value, context.instances)
     )
 
-
-@given('A file with {field} "{value}"')
-def step_impl(context, field, value):
+@given('A file with {field} "{values}"')
+def step_impl(context, field, values):
+    values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
     if field == "Model View Definition":
-        applicable = get_mvd(context.model) == value
+        conditional_lowercase = lambda s: s.lower() if s else None
+        applicable = conditional_lowercase(get_mvd(context.model)) in values
     elif field == "Schema Identifier":
-        applicable = context.model.schema.lower() == value.lower()
+        applicable = context.model.schema.lower() in values
     else:
         raise NotImplementedError(f'A file with "{field}" is not implemented')
 
     context.applicable = getattr(context, 'applicable', True) and applicable
-
 
 @then('There shall be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
@@ -196,7 +197,7 @@ def step_impl(context, constraint, num, entity):
     if getattr(context, 'applicable', True):
         insts = context.model.by_type(entity)
         if not op(len(insts), num):
-            errors.append(instance_count_error(insts))
+            errors.append(instance_count_error(insts, entity))
 
     handle_errors(context, errors)
 

@@ -94,7 +94,7 @@ class attribute_type_error:
 
     def __str__(self):
         if len (self.related):
-            return f"The instance {self.inst} expected type {self.expected_entity_type} for the attribute {self.attribute}, but found type {fmt(self.related)}  "
+            return f"The instance {self.inst} expected type '{self.expected_entity_type}' for the attribute {self.attribute}, but found {fmt(self.related)}  "
         else:
             return f"This instance {self.inst} has no value for attribute {self.attribute}"
 

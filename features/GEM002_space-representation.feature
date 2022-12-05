@@ -1,5 +1,5 @@
 @GEM
-Feature: Implementer agreement 152
+Feature: Space representation
 
   Scenario: Agreement152_1 - Agreement that all spaces shall have a body shape representation 
 

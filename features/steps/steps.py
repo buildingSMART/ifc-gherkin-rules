@@ -150,7 +150,7 @@ def do_try(fn, default=None):
 
 def condition(inst, representation_id, representation_type):
     def is_valid(inst, representation_id, representation_type):
-        representation_type = representation_type.strip(',')
+        representation_type = list(map(lambda s: s.strip(" ").strip("\""), representation_type.split(",")))
         return any([repr.RepresentationIdentifier in representation_id and repr.RepresentationType in representation_type for repr in do_try(lambda: inst.Representation.Representations, [])])
 
     if is_valid(inst,representation_id, representation_type):

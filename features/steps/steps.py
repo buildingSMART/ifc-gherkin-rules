@@ -193,18 +193,12 @@ def step_impl(context, attribute, value):
 
 @given("The element {relationship_type} an {entity}")
 def step_impl(context, relationship_type, entity):
-    reltype_to_extr = {'nests': 'Nests', 'is nested by': 'IsNestedBy'}
+    reltype_to_extr = {'nests': {'attribute':'Nests','object_placement':'RelatingObject'},
+                      'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects'}}
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
-
-    context.instances = context.instances
-    instances = context.instances
-    if relationship_type == 'nests':
-        context.instances = list(
-            filter(lambda inst: inst.Nests[0].RelatingObject.is_a(entity),
-                                context.instances)
-        )
-    instances = context.instances
+    context.instances = list(filter(lambda inst: getattr(getattr(inst,extr['attribute'])[0],extr['object_placement']).is_a(entity),
+                            context.instances)) 
 
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
@@ -234,7 +228,7 @@ def step_impl(context, constraint, num, entity):
 
     handle_errors(context, errors)
 
-@then('Each {entity} must nest {constraint} {num:d} instance(s) of {other_entity}')
+@then('Each {entity} must be nested by {constraint} {num:d} instance(s) of {other_entity}')
 def step_impl(context, entity, num, constraint, other_entity):
     stmt_to_op = {'exactly': operator.eq, "at most": operator.le}
     assert constraint in stmt_to_op
@@ -245,26 +239,25 @@ def step_impl(context, entity, num, constraint, other_entity):
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
-            if not op(len([1 for i in nested_entities if i.is_a() == other_entity]), num):
-                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() == other_entity], 'nesting'))
-                # errors.append(instance_count_error([i for i in nested_entities if i.is_a() == other_entity]))
+            if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nesting'))
 
 
     handle_errors(context, errors)
 
-@then('Each {entity} must be nested only by {num:d} {other_entity}')
+@then('Each {entity} must nest only {num:d} {other_entity}')
 def step_impl(context, entity, other_entity, num):
     errors = []
 
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             relating = [i.RelatingObject for i in inst.Nests]
-            if not all([len(relating) <= num, other_entity == relating[0].is_a()]):
-                errors.append(instance_structure_error(inst, relating, 'nested by'))
+            if not all([len(relating) <= num, relating[0].is_a(other_entity)]):
+                errors.append(instance_structure_error(inst, relating, 'nesting'))
 
     handle_errors(context, errors)
 
-@then('Each {entity} may nest only the following entities: {other_entities}')
+@then('Each {entity} may be nested by only the following entities: {other_entities}')
 def step_impl(context, entity, other_entities):
 
     allowed_entity_types = other_entities.split(', ')
@@ -276,21 +269,22 @@ def step_impl(context, entity, other_entities):
             nested_entity_types = [i.is_a() for i in nested_entities]
             if not set(nested_entity_types) <= set((allowed_entity_types)):
                 differences = list(set(nested_entity_types) - set(allowed_entity_types))
-                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nesting'))
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
     
     handle_errors(context, errors)
 
-@then('Each {entity} nests a list of only {other_entity}')
+@then('Each {entity} is nested by a list of only {other_entity}')
 def step_impl(context, entity, other_entity):
+    
 
     errors = []
-    
+
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             segments = [inst for rel in inst.IsNestedBy for inst in rel.RelatedObjects]
             false_elements = list(filter(lambda x : not x.is_a(other_entity), segments))
             if len(false_elements):
-                errors.append(instance_structure_error(inst, false_elements, 'nesting a list that includes'))
+                errors.append(instance_structure_error(inst, false_elements, 'nested by a list that includes'))
 
     handle_errors(context, errors)
 

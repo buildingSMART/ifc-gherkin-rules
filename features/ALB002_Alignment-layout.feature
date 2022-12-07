@@ -15,17 +15,17 @@ Feature: ALB002 - Alignment Layout
 
       Given a file with Schema Identifier "IFC4X3"
 
-      Then Each IfcAlignmentHorizontal must nest only 1 IfcAlignment
-       And Each IfcAlignmentVertical must nest only 1 IfcAlignment
-       And Each IfcAlignmentCant must nest only 1 IfcAlignment
+      Then Each IfcAlignmentHorizontal must nest: only 1 instance(s) of IfcAlignment
+       And Each IfcAlignmentVertical must nest: only 1 instance(s) of IfcAlignment
+       And Each IfcAlignmentCant must nest: only 1 instance(s) of IfcAlignment
   
   Scenario: Agreement of structure of alignments segments
 
       Given a file with Schema Identifier "IFC4X3"
 
-      Then Each IfcAlignmentHorizontal is nested by a list of only IfcAlignmentSegment
-      Then Each IfcAlignmentVertical is nested by a list of only IfcAlignmentSegment
-      Then Each IfcAlignmentCant is nested by a list of only IfcAlignmentSegment
+      Then Each IfcAlignmentHorizontal is nested by: a list of only instance(s) of IfcAlignmentSegment
+      Then Each IfcAlignmentVertical is nested by: a list of only instance(s) of IfcAlignmentSegment
+      Then Each IfcAlignmentCant is nested by: a list of only instance(s) of IfcAlignmentSegment
 
 
   Scenario: Agreement of the segments of the horizontal alignment

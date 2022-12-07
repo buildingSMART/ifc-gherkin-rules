@@ -69,6 +69,13 @@ class instance_count_error:
         else:
             return f"0 instances where encountered"
 
+@dataclass
+class custom_error:
+    msg = str
+
+    def __str__(self):
+        return f"{self.msg}"
+
 
 @dataclass
 class instance_structure_error:
@@ -188,7 +195,7 @@ def step_impl(context, something, num):
 def step_impl(context, attribute, value):
     value = ast.literal_eval(value)
     context.instances = list(
-        filter(lambda inst: getattr(inst, attribute) == value, context.instances)
+        filter(lambda inst: getattr(inst, attribute, True) == value, context.instances)
     )
 
 @given("The element {relationship_type} an {entity}")
@@ -244,33 +251,37 @@ def step_impl(context, entity, num, constraint, other_entity):
 
     handle_errors(context, errors)
 
-@then('Each {entity} must nest only {num:d} {other_entity}')
-def step_impl(context, entity, other_entity, num):
-    errors = []
-
-    if getattr(context, 'applicable', True):
-        for inst in context.model.by_type(entity):
-            relating = [i.RelatingObject for i in inst.Nests]
-            if not all([len(relating) <= num, relating[0].is_a(other_entity)]):
-                errors.append(instance_structure_error(inst, relating, 'nesting'))
-
-    handle_errors(context, errors)
-
-@then('Each {entity} {relationship_type} a list of only {other_entity}')
-def step_impl(context, entity, relationship_type, other_entity):
-    reltype_to_extr = {'must nest': {'attribute':'Nests','object_placement':'RelatingObject'},
-                      'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects'}}
+@then('Each {entity} {relationship_type}: {condition} instance(s) of {other_entity}')
+def step_impl(context, entity, relationship_type, condition, other_entity):
+    reltype_to_extr = {'must nest': {'attribute':'Nests','object_placement':'RelatingObject', 'error_log':'nesting'},
+                      'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects', 'error_log': 'nested by'}}
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
+    error_log = extr['error_log']
+
+    conditions = ['only 1', 'a list of only', 'only']
+    assert condition in conditions
 
     errors = []
 
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
-            related_entities = [inst for rel in getattr(inst, extr['attribute']) for inst in getattr(rel, extr['object_placement'])]
+            related_entities = list(map(lambda x: getattr(x, extr['object_placement']), getattr(inst, extr['attribute'])))
+            if type(related_entities[0]) is tuple: 
+                related_entities = list(related_entities[0]) # if entity has only one IfcRelNests, convert to list
             false_elements = list(filter(lambda x : not x.is_a(other_entity), related_entities))
-            if len(false_elements):
-                errors.append(instance_structure_error(inst, false_elements, 'nested by a list that includes'))
+            correct_elements = list(filter(lambda x : x.is_a(other_entity), related_entities))
+
+            if condition == 'only 1' and len(correct_elements) > 1:
+                    errors.append(instance_structure_error(inst, correct_elements, f'{error_log}'))
+            if condition == 'a list of only':
+                if len(getattr(inst, extr['attribute'])) > 1:
+                    errors.append(instance_structure_error(f'{error_log} more than 1 list, including'))
+                elif len(false_elements):
+                    errors.append(instance_structure_error(inst, false_elements, f'{error_log} a list that includes'))
+            if condition == 'only' and len(false_elements):
+                errors.append(instance_structure_error(inst, correct_elements, f'{error_log}'))
+
 
     handle_errors(context, errors)
 

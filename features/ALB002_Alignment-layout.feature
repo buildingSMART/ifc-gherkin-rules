@@ -50,7 +50,7 @@ Feature: ALB002 - Alignment Layout
       
        Then The value of attribute DesignParameters should be of type IfcAlignmentVerticalSegment
   
-  Scenario: Agreement of the segments of the vertical alignment
+  Scenario: Agreement of the segments of the cant alignment
       
       Given an IfcAlignmentSegment
         And The element nests an IfcAlignmentCant

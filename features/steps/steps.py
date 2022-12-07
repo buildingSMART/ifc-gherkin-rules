@@ -197,8 +197,7 @@ def step_impl(context, relationship_type, entity):
                       'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects'}}
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
-    context.instances = list(filter(lambda inst: getattr(getattr(inst,extr['attribute'])[0],extr['object_placement']).is_a(entity),
-                            context.instances)) 
+    context.instances = list(filter(lambda inst: getattr(getattr(inst,extr['attribute'])[0],extr['object_placement']).is_a(entity), context.instances)) 
 
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
@@ -257,36 +256,24 @@ def step_impl(context, entity, other_entity, num):
 
     handle_errors(context, errors)
 
-@then('Each {entity} may be nested by only the following entities: {other_entities}')
-def step_impl(context, entity, other_entities):
-
-    allowed_entity_types = other_entities.split(', ')
-
-    errors = []
-    if getattr(context, 'applicable', True):
-        for inst in context.model.by_type(entity):
-            nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
-            nested_entity_types = [i.is_a() for i in nested_entities]
-            if not set(nested_entity_types) <= set((allowed_entity_types)):
-                differences = list(set(nested_entity_types) - set(allowed_entity_types))
-                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
-    
-    handle_errors(context, errors)
-
-@then('Each {entity} is nested by a list of only {other_entity}')
-def step_impl(context, entity, other_entity):
-    
+@then('Each {entity} {relationship_type} a list of only {other_entity}')
+def step_impl(context, entity, relationship_type, other_entity):
+    reltype_to_extr = {'must nest': {'attribute':'Nests','object_placement':'RelatingObject'},
+                      'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects'}}
+    assert relationship_type in reltype_to_extr
+    extr = reltype_to_extr[relationship_type]
 
     errors = []
 
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
-            segments = [inst for rel in inst.IsNestedBy for inst in rel.RelatedObjects]
-            false_elements = list(filter(lambda x : not x.is_a(other_entity), segments))
+            related_entities = [inst for rel in getattr(inst, extr['attribute']) for inst in getattr(rel, extr['object_placement'])]
+            false_elements = list(filter(lambda x : not x.is_a(other_entity), related_entities))
             if len(false_elements):
                 errors.append(instance_structure_error(inst, false_elements, 'nested by a list that includes'))
 
     handle_errors(context, errors)
+
 
 @then('The {related} shall be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):

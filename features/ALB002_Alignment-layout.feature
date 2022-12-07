@@ -19,14 +19,6 @@ Feature: ALB002 - Alignment Layout
        And Each IfcAlignmentVertical must nest only 1 IfcAlignment
        And Each IfcAlignmentCant must nest only 1 IfcAlignment
   
-    
-  Scenario: Agreement on constraints of allowed attributes nesting nested attributes of IfcAlignment
-
-      Given a file with Schema Identifier "IFC4X3"
-
-      Then Each IfcAlignment may be nested by only the following entities: IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent, IfcAlignment
-
-
   Scenario: Agreement of structure of alignments segments
 
       Given a file with Schema Identifier "IFC4X3"

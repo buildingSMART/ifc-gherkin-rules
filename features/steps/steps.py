@@ -70,14 +70,6 @@ class instance_count_error:
             return f"0 instances where encountered"
 
 @dataclass
-class custom_error:
-    msg = str
-
-    def __str__(self):
-        return f"{self.msg}"
-
-
-@dataclass
 class instance_structure_error:
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance

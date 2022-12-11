@@ -79,6 +79,25 @@ class instance_structure_error:
     def __str__(self):
         return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
 
+@dataclass
+class instance_placement_error:
+    entity: ifcopenshell.entity_instance
+    placement: str
+
+    def __str__(self):
+        return f"The placement of {fmt(self.entity)} is not defined by {fmt(self.placement)}, but with {fmt(self.entity.ObjectPlacement)}"
+
+@dataclass
+class instance_relative_placement_error:
+    entity: ifcopenshell.entity_instance
+    container: ifcopenshell.entity_instance
+    relationship: str
+    container_obj_placement: ifcopenshell.entity_instance
+    entity_obj_placement: ifcopenshell.entity_instance
+
+    def __str__(self):
+        return f"The entity {fmt(self.entity)} is contained in {fmt(self.container)} with the {fmt(self.relationship)} relationship. " \
+               f"The container points to {fmt(self.container_obj_placement)}, but the entity to {fmt(self.entity_obj_placement)}"
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -186,6 +205,17 @@ def step_impl(context, field, values):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
+@given('The {entity} is a part of another {other_entity} through the relationship {relationship}')
+def step_impl(context, entity, other_entity, relationship):
+    relationships = context.model.by_type(relationship)
+    instances = []
+    for rel in relationships:
+        if rel.RelatingObject.is_a(other_entity):
+            for obj in rel.RelatedObjects:
+                if obj.is_a(entity):
+                    instances.append(obj)
+    context.instances = instances
+
 @then('There shall be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
     stmt_to_op = {"at least": operator.ge, "at most": operator.le}
@@ -219,5 +249,37 @@ def step_impl(context, related, relating, other_entity, condition):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
                         errors.append(instance_structure_error(inst, rel.RelatingObject))
+
+    handle_errors(context, errors)
+
+@then('The relative placement of that {entity} must be provided by an {other_entity} entity')
+def step_impl(context, entity, other_entity):
+
+    errors = []
+
+    for obj in context.instances:
+        if not obj.ObjectPlacement.is_a(other_entity):
+            errors.append(instance_placement_error(obj,other_entity))
+
+    handle_errors(context, errors)
+
+@then('The {entity} entity must point to the {other_entity} of the container element established with {relationship} relationship')
+def step_impl(context, entity, other_entity, relationship):
+
+    errors = []
+
+    stmt_to_op = {'IfcRelAggregates': 'Decomposes'}
+    assert relationship in stmt_to_op
+
+    for entity in context.instances:
+        entity_relation = getattr(entity, stmt_to_op[relationship])[0]
+        if relationship == 'IfcRelAggregates':
+            container = entity_relation.RelatingObject
+        elif relationship == 'IfcRelContainedInSpatialStructure':
+            pass # TODO -> implement other relationships to have a general approach?
+        container_obj_placement = container.ObjectPlacement
+        entity_obj_placement = entity.ObjectPlacement
+        if container_obj_placement != entity_obj_placement.PlacementRelTo:
+            errors.append(instance_relative_placement_error(entity, container, relationship, container_obj_placement, entity_obj_placement.PlacementRelTo))
 
     handle_errors(context, errors)

@@ -62,12 +62,13 @@ class edge_use_error:
 @dataclass
 class instance_count_error:
     insts: ifcopenshell.entity_instance
+    type_name: str
 
     def __str__(self):
         if len(self.insts):
-            return f"The following {len(self.insts)} instances where encountered: {';'.join(map(fmt, self.insts))}"
+            return f"The following {len(self.insts)} instances of type {self.type_name} were encountered: {';'.join(map(fmt, self.insts))}"
         else:
-            return f"0 instances where encountered"
+            return f"No instances of type {self.type_name} were encountered"
 
 @dataclass
 class instance_structure_error:
@@ -97,6 +98,24 @@ class attribute_type_error:
         else:
             return f"This instance {self.inst} has no value for attribute {self.attribute}"
 
+
+@dataclass
+class representation_shape_error:
+    inst: ifcopenshell.entity_instance
+    representation_id: str
+    
+    def __str__(self):
+        return f"On instance {fmt(self.inst)} the instance should have one {self.representation_id} shape representation"
+
+
+@dataclass
+class representation_type_error:
+    inst: ifcopenshell.entity_instance
+    representation_id: str
+    representation_type: str
+    
+    def __str__(self):
+        return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -152,6 +171,27 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
     return sequence_type(inner())
 
 
+def do_try(fn, default=None):
+    try: return fn()
+    except: return default
+
+def condition(inst, representation_id, representation_type):
+    def is_valid(inst, representation_id, representation_type):
+        representation_type = list(map(lambda s: s.strip(" ").strip("\""), representation_type.split(",")))
+        return any([repr.RepresentationIdentifier in representation_id and repr.RepresentationType in representation_type for repr in do_try(lambda: inst.Representation.Representations, [])])
+
+    if is_valid(inst,representation_id, representation_type):
+        return any([repr.RepresentationIdentifier == representation_id and repr.RepresentationType in representation_type for repr in do_try(lambda: inst.Representation.Representations, [])])
+         
+def instance_getter(i,representation_id, representation_type, negative=False):
+    if negative:
+        if not condition(i, representation_id, representation_type):
+            return i
+    else:
+        if condition(i, representation_id, representation_type):
+            return i
+
+
 @given("An {entity}")
 def step_impl(context, entity):
     try:
@@ -197,7 +237,8 @@ def step_impl(context, relationship_type, entity):
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
     context.instances = list(filter(lambda inst: getattr(getattr(inst,extr['attribute'])[0],extr['object_placement']).is_a(entity), context.instances)) 
-
+    
+    
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
     values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
@@ -222,7 +263,7 @@ def step_impl(context, constraint, num, entity):
     if getattr(context, 'applicable', True):
         insts = context.model.by_type(entity)
         if not op(len(insts), num):
-            errors.append(instance_count_error(insts))
+            errors.append(instance_count_error(insts, entity))
 
     handle_errors(context, errors)
 
@@ -308,3 +349,25 @@ def stemp_impl(context, attribute, expected_entity_type):
                 yield attribute_type_error(inst, [related_entity], attribute, expected_entity_type)
 
     handle_errors(context, list(_()))
+
+@given('The {representation_id} shape representation has RepresentationType "{representation_type}"')
+def step_impl(context, representation_id, representation_type):
+    context.instances =list(filter(None, list(map(lambda i: instance_getter(i, representation_id, representation_type), context.instances))))
+    
+@then('The {representation_id} shape representation has RepresentationType "{representation_type}"')
+def step_impl(context, representation_id, representation_type):
+    errors = list(filter(None, list(map(lambda i: instance_getter(i, representation_id, representation_type, 1), context.instances))))
+    errors = [representation_type_error(error, representation_id, representation_type) for error in errors]
+    handle_errors(context, errors)
+
+@then("There shall be one {representation_id} shape representation")
+def step_impl(context, representation_id):
+    errors = []
+    if context.instances:
+        for inst in context.instances:
+            if inst.Representation:
+                present = representation_id in map(operator.attrgetter('RepresentationIdentifier'), inst.Representation.Representations)
+                if not present:
+                    errors.append(representation_shape_error(inst, representation_id))
+    
+    handle_errors(context, errors)

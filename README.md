@@ -27,7 +27,7 @@ https://github.dev/AECgeeks/ifc-gherkin-rules
 Informal propositions and implementer agreements written in Gherkin for automatic validation of IFC building models using steps implemented in IfcOpenShell.
 
 ~~~
-$ python -m ifc-gherkin-rules ifc-gherkin-rules\test\files\cube-advanced-brep.ifc
+$ python -m ifc-gherkin-rules ifc-gherkin-rules\test\files\gem001\fail-gem001-cube-advanced-brep.ifc
 Feature: Shell geometry propositions/IfcClosedShell.v1
     URL: /blob/8dbd61e/features/geometry.shells.feature
 

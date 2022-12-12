@@ -1,7 +1,6 @@
 import itertools
 import ifcopenshell
 import ifcopenshell.template
-from regex import F
 
 for num_sites, num_buildings, assign_to_site in itertools.product(range(3), range(3), (0, 1)):
     if num_sites == 0 and assign_to_site == 1:

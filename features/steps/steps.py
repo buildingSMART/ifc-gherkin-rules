@@ -58,6 +58,15 @@ class edge_use_error:
     def __str__(self):
         return f"On instance {fmt(self.inst)} the edge {fmt(self.edge)} was referenced {fmt(self.count)} times"
 
+@dataclass
+class representation_value_error:
+    inst: ifcopenshell.entity_instance
+    duplicate_values: str
+    duplicate_representations: ifcopenshell.entity_instance
+
+    def __str__(self):
+        return f"Instance {fmt(self.inst)} contained the following non-unique identifier(s): {', '.join(map(fmt, self.duplicate_values))} at instances {';'.join(map(fmt, self.duplicate_representations))}"
+
 
 @dataclass
 class instance_count_error:
@@ -173,6 +182,24 @@ def step_impl(context, attribute, value):
         filter(lambda inst: getattr(inst, attribute) == value, context.instances)
     )
 
+
+@given('The element has {constraint} {num:d} instance(s) of {entity}')
+def step_impl(context, constraint, num, entity):
+    ent_attr = {'IfcShapeRepresentation':'Representations'} # can easily be updated with more entities and attributes
+    assert entity in ent_attr
+    attr = ent_attr[entity]
+
+    stmt_to_op = {"at least": operator.ge, "more than": operator.gt}
+    assert constraint in stmt_to_op
+    op = stmt_to_op[constraint]
+
+    context.instances = list(
+        filter(
+            lambda i: op(len(getattr(i, attr,[])), num), context.instances
+        )
+    )
+
+
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
     values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
@@ -198,6 +225,28 @@ def step_impl(context, constraint, num, entity):
         insts = context.model.by_type(entity)
         if not op(len(insts), num):
             errors.append(instance_count_error(insts, entity))
+
+    handle_errors(context, errors)
+
+
+@then('Each instance of {entity} has a unique value for the attribute {attribute}')
+def step_impl(context, entity, attribute):
+    ent_attr = {'IfcShapeRepresentation':'Representations'}
+    assert entity in ent_attr
+    attr_get = ent_attr[entity]
+
+    errors = []
+    if context.instances:
+        for inst in context.instances:
+            attribute_intances = getattr(inst, attr_get, [])
+            duplicate_values = [
+                value for (value,count) in Counter(
+                    list(map(lambda i: getattr(i, attribute, []), attribute_intances))
+                ).items() if count > 1
+            ]
+            if len(duplicate_values):
+                false_instances = list(filter(lambda i: getattr(i, attribute, []) in duplicate_values, attribute_intances))
+                errors.append(representation_value_error(inst, duplicate_values, false_instances))
 
     handle_errors(context, errors)
 

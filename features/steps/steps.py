@@ -4,7 +4,7 @@ import typing
 import operator
 
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import ifcopenshell
 
@@ -75,23 +75,32 @@ class instance_count_error:
 class instance_structure_error:
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
+    relationship_type: str
+    optional_values: field(default_factory=dict)
 
     def __str__(self):
-        return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
+        def do_try(x, dict):
+            try: return dict[x]
+            except: return ''
+        self.pos_neg = 'is not' if do_try('condition', self.optional_values) == 'must' else 'is'
+        self.directness = do_try('directness', self.optional_values)
 
-@dataclass
-class instance_contained_error:
-    entity: ifcopenshell.entity_instance
-    other_entity: ifcopenshell.entity_instance
-    condition: str
-    directness: str
+        if len(self.relating):
+            if len(self.relating) > 1:
+                return f"The instance {fmt(self.related)} is {self.relationship_type} the following {len(self.relating)} instances: {';'.join(map(fmt, self.relating))}"
+            else:
+                return f"The instance {fmt(self.related)} {self.pos_neg} {self.directness} {self.relationship_type} in {fmt(self.relating)}"
+        else:
+            return f"This instance {self.related} is not {self.relationship_type} anything"
 
-    def __str__(self):
-        if self.condition == 'must':
-            return f"The instance {fmt(self.entity)} is not {self.directness} contained in {fmt(self.other_entity)}"
-        elif self.condition == 'must not':
-            return f"The instance {fmt(self.entity)} is {self.directness} contained in {fmt(self.other_entity)}"
 
+# @dataclass
+# class instance_structure_error:
+#     related: ifcopenshell.entity_instance
+#     relating: ifcopenshell.entity_instance
+
+#     def __str__(self):
+#         return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -231,13 +240,13 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        errors.append(instance_structure_error(inst, rel.RelatingObject))
+                        errors.append(instance_structure_error(inst, [rel.RelatingObject], 'assigned to', {}))
 
     handle_errors(context, errors)
 
 
-@then('Each {entity} {condition} be {directness} contained in {other_entity}')
-def step_impl(context, entity, condition, directness, other_entity):
+@then('Each {entity} {condition} be {directness} {relationship_type} in {other_entity}')
+def step_impl(context, entity, condition, directness, relationship_type, other_entity):
     stmt_to_op = ['must', 'must not']
     assert condition in stmt_to_op
 
@@ -263,17 +272,17 @@ def step_impl(context, entity, condition, directness, other_entity):
                 is_indirectly_contained = False
             if condition == 'must':
                 if directness == 'directly' and not is_directly_contained:
-                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                    errors.append(instance_structure_error(ent, other_entity, relationship_type, optional_values={'condition':condition, 'directness':directness}))
                 elif directness == 'indirectly' and not is_indirectly_contained:
-                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                    errors.append(instance_structure_error(ent, other_entity, relationship_type, optional_values={'condition': condition, 'directness':directness}))
                 elif directness in ['directly or indirectly', 'indirectly or directly'] and not (is_directly_contained or is_indirectly_contained):
-                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                    errors.append(instance_structure_error(ent, other_entity, relationship_type, optional_values={'condition': condition, 'directness':directness}))
             elif condition == 'must not':
                 if directness == 'directly' and is_directly_contained:
-                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                    errors.append(instance_structure_error(ent, other_entity, relationship_type, optional_values={'condition': condition, 'directness':directness}))
                 elif directness == 'indirectly' and is_indirectly_contained:
-                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                    errors.append(instance_structure_error(ent, other_entity, relationship_type, optional_values={'condition': condition, 'directness':directness}))
                 elif directness in ['directly or indirectly', 'indirectly or directly'] and (is_directly_contained or is_indirectly_contained):
-                    errors.append(instance_contained_error(ent, other_entity, condition, directness))
+                    errors.append(instance_structure_error(ent, other_entity, relationship_type, optional_values={'condition': condition, 'directness':directness}))
 
     handle_errors(context, errors)

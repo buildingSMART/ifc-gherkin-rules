@@ -4,7 +4,7 @@ import typing
 import operator
 
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import ifcopenshell
 
@@ -75,13 +75,20 @@ class instance_structure_error:
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
     relationship_type: str
+    optional_values: field(default_factory=dict)
 
     def __str__(self):
+        def do_try(x, dict):
+            try: return dict[x]
+            except: return ''
+        self.pos_neg = 'is not' if do_try('condition', self.optional_values) == 'must' else 'is'
+        self.directness = do_try('directness', self.optional_values)
+        
         if len(self.relating):
             if len(self.relating) > 1:
                 return f"The instance {fmt(self.related)} is {self.relationship_type} the following {len(self.relating)} instances: {';'.join(map(fmt, self.relating))}"
             else:
-                return f"The instance {fmt(self.related)} is {self.relationship_type} {fmt(self.relating)}"
+                return f"The instance {fmt(self.related)} {self.pos_neg} {self.directness} {self.relationship_type} in {fmt(self.relating)}"
         else:
             return f"This instance {self.related} is not {self.relationship_type} anything"
 
@@ -279,7 +286,7 @@ def step_impl(context, entity, num, constraint, other_entity):
         for inst in context.model.by_type(entity):
             nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
             if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
-                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nesting'))
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nesting',{}))
 
 
     handle_errors(context, errors)
@@ -306,14 +313,14 @@ def step_impl(context, entity, relationship_type, condition, other_entity):
             correct_elements = list(filter(lambda x : x.is_a(other_entity), related_entities))
 
             if condition == 'only 1' and len(correct_elements) > 1:
-                    errors.append(instance_structure_error(inst, correct_elements, f'{error_log}'))
+                    errors.append(instance_structure_error(inst, correct_elements, f'{error_log}',{}))
             if condition == 'a list of only':
                 if len(getattr(inst, extr['attribute'],[])) > 1:
-                    errors.append(instance_structure_error(f'{error_log} more than 1 list, including'))
+                    errors.append(instance_structure_error(f'{error_log} more than 1 list, including',{}))
                 elif len(false_elements):
-                    errors.append(instance_structure_error(inst, false_elements, f'{error_log} a list that includes'))
+                    errors.append(instance_structure_error(inst, false_elements, f'{error_log} a list that includes',{}))
             if condition == 'only' and len(false_elements):
-                errors.append(instance_structure_error(inst, correct_elements, f'{error_log}'))
+                errors.append(instance_structure_error(inst, correct_elements, f'{error_log}',{}))
 
 
     handle_errors(context, errors)
@@ -335,7 +342,7 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        errors.append(instance_structure_error(inst, [rel.RelatingObject], 'assigned to'))
+                        errors.append(instance_structure_error(inst, [rel.RelatingObject], 'assigned to',{}))
 
     handle_errors(context, errors)
 

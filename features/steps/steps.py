@@ -79,11 +79,8 @@ class instance_structure_error:
     optional_values: field(default_factory=dict)
 
     def __str__(self):
-        def do_try(x, dict):
-            try: return dict[x]
-            except: return ''
-        self.pos_neg = 'is not' if do_try('condition', self.optional_values) == 'must' else 'is'
-        self.directness = do_try('directness', self.optional_values)
+        self.pos_neg = 'is not' if do_try(lambda: self.optional_values['condition'], '') == 'must' else 'is'
+        self.directness = do_try(lambda: self.optional_values['directness'],'')
 
         if len(self.relating):
             if len(self.relating) > 1:
@@ -93,14 +90,6 @@ class instance_structure_error:
         else:
             return f"This instance {self.related} is not {self.relationship_type} anything"
 
-
-# @dataclass
-# class instance_structure_error:
-#     related: ifcopenshell.entity_instance
-#     relating: ifcopenshell.entity_instance
-
-#     def __str__(self):
-#         return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -155,6 +144,10 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 
     return sequence_type(inner())
+
+def do_try(fn, default=None):
+    try: return fn()
+    except: return default
 
 
 @given("An {entity}")

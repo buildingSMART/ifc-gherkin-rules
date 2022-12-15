@@ -2,6 +2,8 @@ import ast
 import json
 import typing
 import operator
+import random
+import string
 
 from collections import Counter
 from dataclasses import dataclass
@@ -34,6 +36,11 @@ def get_inst_attributes(dc):
         yield 'inst_type', dc.inst.is_a()
         yield 'inst_id', dc.inst.id()
 
+def random_string():
+    c = string.ascii_uppercase + string.digits
+    return ''.join(random.choice(c) for i in range(64))
+
+
 # @note dataclasses.asdict used deepcopy() which doesn't work on entity instance
 asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc), **dict(get_inst_attributes(dc)))
 
@@ -61,11 +68,11 @@ class edge_use_error:
 @dataclass
 class representation_value_error:
     inst: ifcopenshell.entity_instance
-    duplicate_values: str
+    duplicate_value: str
     duplicate_representations: ifcopenshell.entity_instance
 
     def __str__(self):
-        return f"Instance {fmt(self.inst)} contained the following non-unique identifier(s): {', '.join(map(fmt, self.duplicate_values))} at instances {';'.join(map(fmt, self.duplicate_representations))}"
+        return f"Instance {fmt(self.inst)} has multiple representations for Identifier {', '.join(map(fmt, self.duplicate_value))} at instances {';'.join(map(fmt, self.duplicate_representations))}"
 
 
 @dataclass
@@ -182,10 +189,21 @@ def step_impl(context, attribute, value):
         filter(lambda inst: getattr(inst, attribute) == value, context.instances)
     )
 
+def add_attribute_values(i, attribute):
+    if 'attribute_list' in i:
+        return (i[0], getattr(i[1], attribute, None), 'attribute_list')
+    else:
+        return (i, getattr(i, attribute, None), 'attribute_list')
+
+@given('Its values for attribute {attribute}')
+def step_impl(context, attribute):
+    filtered = list(map(lambda i: add_attribute_values(i, attribute), context.instances))
+    context.instances = list(filter(lambda i: i[1] is not None, filtered))
+    
 
 @given('The element has {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
-    ent_attr = {'IfcShapeRepresentation':'Representations'} # can easily be updated with more entities and attributes
+    ent_attr = {'IfcShapeRepresentation':'Representations'}
     assert entity in ent_attr
     attr = ent_attr[entity]
 
@@ -228,6 +246,19 @@ def step_impl(context, constraint, num, entity):
 
     handle_errors(context, errors)
 
+@then('The values for attribute {attribute} shall be unique')
+def step_impl(context, attribute):
+    errors = []
+    
+    for inst in context.instances:
+        attribute_instances = inst[1]
+        instance_value_pair = list(map(lambda i: (i, getattr(i, attribute, random_string())), attribute_instances))
+        duplicate_values = [value for (value,count) in Counter([v[1] for v in instance_value_pair]).items() if count > 1]
+        if len(duplicate_values):
+            false_instances = [i[0] for i in instance_value_pair if i[1] in duplicate_values]
+            errors.append(representation_value_error(inst[0], duplicate_values, false_instances))
+    handle_errors(context, errors)
+
 
 @then('Each instance of {entity} has a unique value for the attribute {attribute}')
 def step_impl(context, entity, attribute):
@@ -236,17 +267,13 @@ def step_impl(context, entity, attribute):
     attr_get = ent_attr[entity]
 
     errors = []
-    if context.instances:
-        for inst in context.instances:
-            attribute_intances = getattr(inst, attr_get, [])
-            duplicate_values = [
-                value for (value,count) in Counter(
-                    list(map(lambda i: getattr(i, attribute, []), attribute_intances))
-                ).items() if count > 1
-            ]
-            if len(duplicate_values):
-                false_instances = list(filter(lambda i: getattr(i, attribute, []) in duplicate_values, attribute_intances))
-                errors.append(representation_value_error(inst, duplicate_values, false_instances))
+    for inst in context.instances:
+        attribute_intances = getattr(inst, attr_get, [])
+        instance_value_pair = list(map(lambda i: (i, getattr(i, attribute, random_string())), attribute_intances))  #[instance, value),(i,v),..]
+        duplicate_values = [value for (value,count) in Counter([v[1] for v in instance_value_pair]).items() if count > 1]
+        if len(duplicate_values):
+            false_instances = [i[0] for i in instance_value_pair if i[1] in duplicate_values]
+            errors.append(representation_value_error(inst, duplicate_values, false_instances))
 
     handle_errors(context, errors)
 

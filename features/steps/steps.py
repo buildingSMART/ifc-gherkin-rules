@@ -78,11 +78,8 @@ class instance_structure_error:
     optional_values: field(default_factory=dict)
 
     def __str__(self):
-        def do_try(x, dict):
-            try: return dict[x]
-            except: return ''
-        self.pos_neg = 'is not' if do_try('condition', self.optional_values) == 'must' else 'is'
-        self.directness = do_try('directness', self.optional_values)
+        self.pos_neg = 'is not' if do_try(lambda: self.optional_values['condition'], '') == 'must' else 'is'
+        self.directness = do_try(lambda: self.optional_values['directness'],'')
         
         if len(self.relating):
             if len(self.relating) > 1:
@@ -243,7 +240,7 @@ def step_impl(context, relationship_type, entity):
                       'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects'}}
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
-    context.instances = list(filter(lambda inst: getattr(getattr(inst,extr['attribute'])[0],extr['object_placement']).is_a(entity), context.instances)) 
+    context.instances = list(filter(lambda inst: do_try(lambda: getattr(getattr(inst,extr['attribute'])[0],extr['object_placement']).is_a(entity),False), context.instances))  
     
     
 @given('A file with {field} "{values}"')

@@ -189,16 +189,23 @@ def step_impl(context, attribute, value):
         filter(lambda inst: getattr(inst, attribute) == value, context.instances)
     )
 
-def add_attribute_values(i, attribute):
-    if 'attribute_list' in i:
-        return (i[0], getattr(i[1], attribute, None), 'attribute_list')
+def add_attribute_values(i, attribute, context):
+    if context.get('attribute'):
+        return (i[0], getattr(i[1], attribute, None))
     else:
-        return (i, getattr(i, attribute, None), 'attribute_list')
+        return (i, getattr(i, attribute, None))
 
 @given('Its values for attribute {attribute}')
 def step_impl(context, attribute):
-    filtered = list(map(lambda i: add_attribute_values(i, attribute), context.instances))
-    context.instances = list(filter(lambda i: i[1] is not None, filtered))
+    values = list(map(lambda i: (i, getattr(i, attribute, None)), context.instances))
+    filter_nones = list(filter(lambda i: i[1] is not None, values))
+
+    context._push()
+    context.instances = []
+    for var, attr in filter_nones: 
+        setattr(context, 'entities', {'var':var, attribute:attr})
+        context.instances.append(attr)
+    setattr(context, 'attribute', attribute)
     
 
 @given('The element has {constraint} {num:d} instance(s) of {entity}')
@@ -246,10 +253,26 @@ def step_impl(context, constraint, num, entity):
 
     handle_errors(context, errors)
 
+@then('The element must have unique values for the attribute {}')
+def step_impl(context, attribute):
+    errors = []
+    unwrap = list(filter(None, list(map(lambda layer: layer.get('entities'), context._stack))))
+    if len(unwrap):
+        last = unwrap[-1].get('var')
+
+        for instances in context.instances:
+            attribute_instances = instances
+            instance_value_pair = list(map(lambda i: (i, getattr(i, attribute, random_string())), attribute_instances))
+            duplicate_values = [value for (value,count) in Counter([v[1] for v in instance_value_pair]).items() if count > 1]
+            if len(duplicate_values):
+                false_instances = [i[0] for i in instance_value_pair if i[1] in duplicate_values]
+                errors.append(representation_value_error(last, duplicate_values, false_instances))
+    handle_errors(context, errors)
+
+
 @then('The values for attribute {attribute} shall be unique')
 def step_impl(context, attribute):
     errors = []
-    
     for inst in context.instances:
         attribute_instances = inst[1]
         instance_value_pair = list(map(lambda i: (i, getattr(i, attribute, random_string())), attribute_instances))
@@ -257,6 +280,7 @@ def step_impl(context, attribute):
         if len(duplicate_values):
             false_instances = [i[0] for i in instance_value_pair if i[1] in duplicate_values]
             errors.append(representation_value_error(inst[0], duplicate_values, false_instances))
+
     handle_errors(context, errors)
 
 

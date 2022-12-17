@@ -15,4 +15,4 @@ Feature: GEM003 - Unique Representation Identifier
         And Its values for attribute Representation
         And Its values for attribute Representations
 
-        Then The values for attribute RepresentationIdentifier shall be unique
+        Then The element must have unique values for the attribute RepresentationIdentifier

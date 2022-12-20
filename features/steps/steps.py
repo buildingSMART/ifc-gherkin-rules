@@ -34,6 +34,18 @@ def get_inst_attributes(dc):
         yield 'inst_type', dc.inst.is_a()
         yield 'inst_id', dc.inst.id()
 
+def stmt_to_op(statement):
+    stmt_to_op = {
+        "is": operator.eq, # a == b
+        "exactly": operator.eq, # == b
+        "is not": operator.ne, # a != b
+        "at least": operator.ge, # a >= b
+        "more than": operator.gt, # a > b
+        "at most": operator.le # a <= b
+    }
+    assert statement in stmt_to_op
+    return stmt_to_op[statement]
+
 # @note dataclasses.asdict used deepcopy() which doesn't work on entity instance
 asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc), **dict(get_inst_attributes(dc)))
 
@@ -227,9 +239,7 @@ def step_impl(context, field, values):
 
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
-    stmt_to_op = {"at least": operator.ge, "at most": operator.le}
-    assert constraint in stmt_to_op
-    op = stmt_to_op[constraint]
+    op = stmt_to_op(constraint)
 
     errors = []
 
@@ -243,9 +253,7 @@ def step_impl(context, constraint, num, entity):
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
-    stmt_to_op = {"is": operator.eq, "is not": operator.ne}
-    assert condition in stmt_to_op
-    pred = stmt_to_op[condition]
+    pred = stmt_to_op(condition)
     op = lambda n: not pred(n, 0)
 
     errors = []

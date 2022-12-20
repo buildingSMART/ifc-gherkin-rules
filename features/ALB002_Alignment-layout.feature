@@ -33,18 +33,18 @@ Feature: ALB002 - Alignment Layout
       Given an IfcAlignmentSegment
         And The element nests an IfcAlignmentHorizontal
       
-       Then The value of attribute DesignParameters should be of type IfcAlignmentHorizontalSegment
+       Then The type of attribute DesignParameters should be IfcAlignmentHorizontalSegment
     
   Scenario: Agreement of the segments of the vertical alignment
       
       Given an IfcAlignmentSegment
         And The element nests an IfcAlignmentVertical
       
-       Then The value of attribute DesignParameters should be of type IfcAlignmentVerticalSegment
+       Then The type of attribute DesignParameters should be IfcAlignmentVerticalSegment
   
   Scenario: Agreement of the segments of the cant alignment
       
       Given an IfcAlignmentSegment
         And The element nests an IfcAlignmentCant
       
-       Then The value of attribute DesignParameters should be of type IfcAlignmentCantSegment
+       Then The type of attribute DesignParameters should be IfcAlignmentCantSegment

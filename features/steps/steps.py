@@ -343,8 +343,8 @@ def step_impl(context, related, relating, other_entity, condition):
 
     handle_errors(context, errors)
 
-@then ('The value of attribute {attribute} should be of type {expected_entity_type}')
-def stemp_impl(context, attribute, expected_entity_type):
+@then ('The type of attribute {attribute} should be {expected_entity_type}')
+def step_impl(context, attribute, expected_entity_type):
 
     def _():
         for inst in context.instances:

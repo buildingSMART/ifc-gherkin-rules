@@ -4,7 +4,7 @@ import typing
 import operator
 
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import ifcopenshell
 
@@ -75,9 +75,20 @@ class instance_count_error:
 class instance_structure_error:
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
+    relationship_type: str
+    optional_values: field(default_factory=dict)
 
     def __str__(self):
-        return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
+        self.pos_neg = 'is not' if do_try(lambda: self.optional_values['condition'], '') == 'must' else 'is'
+        self.directness = do_try(lambda: self.optional_values['directness'],'')
+        
+        if len(self.relating):
+            if len(self.relating) > 1:
+                return f"The instance {fmt(self.related)} is {self.relationship_type} the following {len(self.relating)} instances: {';'.join(map(fmt, self.relating))}"
+            else:
+                return f"The instance {fmt(self.related)} {self.pos_neg} {self.directness} {self.relationship_type} in {fmt(self.relating)}"
+        else:
+            return f"This instance {self.related} is not {self.relationship_type} anything"
 
 
 @dataclass
@@ -257,7 +268,7 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        errors.append(instance_structure_error(inst, rel.RelatingObject))
+                        errors.append(instance_structure_error(inst, [rel.RelatingObject], 'assigned to',{}))
 
     handle_errors(context, errors)
 
@@ -283,4 +294,19 @@ def step_impl(context, representation_id):
                     errors.append(representation_shape_error(inst, representation_id))
     
     handle_errors(context, errors)
+
+@then('Each {entity} may be nested by only the following entities: {other_entities}')
+def step_impl(context, entity, other_entities):
+
+    allowed_entity_types = other_entities.split(', ')
+
+    errors = []
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
+            nested_entity_types = [i.is_a() for i in nested_entities]
+            if not set(nested_entity_types) <= set((allowed_entity_types)):
+                differences = list(set(nested_entity_types) - set(allowed_entity_types))
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by',{}))
     
+    handle_errors(context, errors)

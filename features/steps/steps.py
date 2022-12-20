@@ -37,7 +37,7 @@ def get_inst_attributes(dc):
 def stmt_to_op(statement):
     stmt_to_op = {
         "is": operator.eq, # a == b
-        "exactly": operator.eq, # == b
+        "exactly": operator.eq, # a == b
         "is not": operator.ne, # a != b
         "at least": operator.ge, # a >= b
         "more than": operator.gt, # a > b

@@ -36,12 +36,13 @@ def get_inst_attributes(dc):
 
 def stmt_to_op(statement):
     stmt_to_op = {
-        "is": operator.eq, # a == b
+        "equal to": operator.eq, # a == b
         "exactly": operator.eq, # a == b
-        "is not": operator.ne, # a != b
+        "not": operator.ne, # a != b
         "at least": operator.ge, # a >= b
         "more than": operator.gt, # a > b
-        "at most": operator.le # a <= b
+        "at most": operator.le, # a <= b
+        "less than": operator.lt # a < b
     }
     assert statement in stmt_to_op
     return stmt_to_op[statement]
@@ -253,7 +254,10 @@ def step_impl(context, constraint, num, entity):
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
-    pred = stmt_to_op(condition)
+    stmt_to_op = {"is": operator.eq, "is not": operator.ne}
+    assert condition in stmt_to_op
+    pred = stmt_to_op[condition]
+
     op = lambda n: not pred(n, 0)
 
     errors = []

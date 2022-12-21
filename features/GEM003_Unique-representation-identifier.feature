@@ -2,7 +2,7 @@
 @GEM
 Feature: GEM003 - Unique Representation Identifier
 
-  Scenario: A Shape Representation identifier must not be used twie within the product representation of an IfcProduct element
+  Scenario: A Shape Representation identifier must not be used twice within the product representation of an IfcProduct element
 
       Given An IfcProduct
         And Its values for attribute Representation

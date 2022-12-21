@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALB
-Feature: ALB002 - Alignment Directions
+Feature: ALB003 - Alignment Directions
 
   Scenario: Agreement on nested directions of IfcAlignment
 

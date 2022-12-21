@@ -2,6 +2,7 @@ import ast
 import json
 import typing
 import operator
+import re
 
 from collections import Counter
 from dataclasses import dataclass
@@ -35,7 +36,9 @@ def get_inst_attributes(dc):
         yield 'inst_id', dc.inst.id()
 
 def stmt_to_op(statement):
+    statement = statement.replace('is', '').strip()
     stmt_to_op = {
+        '': operator.eq, # a == b
         "equal to": operator.eq, # a == b
         "exactly": operator.eq, # a == b
         "not": operator.ne, # a != b
@@ -254,9 +257,7 @@ def step_impl(context, constraint, num, entity):
 
 @then('The {related} shall be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
-    stmt_to_op = {"is": operator.eq, "is not": operator.ne}
-    assert condition in stmt_to_op
-    pred = stmt_to_op[condition]
+    pred = stmt_to_op(condition)
 
     op = lambda n: not pred(n, 0)
 

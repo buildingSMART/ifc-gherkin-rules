@@ -2,11 +2,13 @@ import ast
 import json
 import typing
 import operator
+import functools
 
 from collections import Counter
 from dataclasses import dataclass, field
 
 import ifcopenshell
+from pyparsing import Word, CaselessKeyword, alphas
 
 from behave import *
 
@@ -283,21 +285,31 @@ def step_impl(context, entity, num, constraint, other_entity):
         for inst in context.model.by_type(entity):
             nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
             if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
-                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nesting',{}))
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by',{}))
 
 
     handle_errors(context, errors)
 
-@then('Each {entity} {relationship_type}: {condition} instance(s) of {other_entity}')
-def step_impl(context, entity, relationship_type, condition, other_entity):
-    reltype_to_extr = {'must nest': {'attribute':'Nests','object_placement':'RelatingObject', 'error_log':'nesting'},
-                      'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects', 'error_log': 'nested by'}}
-    assert relationship_type in reltype_to_extr
-    extr = reltype_to_extr[relationship_type]
-    error_log = extr['error_log']
 
-    conditions = ['only 1', 'a list of only', 'only']
-    assert condition in conditions
+
+@then('Each {entity} {fragment} instance(s) of {other_entity}')
+def step_impl(context, entity, fragment, other_entity):
+    reltype_to_extr = {'must nest': {'attribute':'Nests','object_placement':'RelatingObject', 'error_log_txt':'nesting'},
+                    'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects', 'error_log_txt': 'nested by'}}
+    conditions = ['only 1', 'a list of only']
+
+    condition = functools.reduce(operator.or_, [CaselessKeyword(i) for i in conditions])('condition')
+    relationship_type = functools.reduce(operator.or_, [CaselessKeyword(i[0]) for i in reltype_to_extr.items()])('relationship_type')
+
+    grammar = relationship_type + condition #e.g. each entity 'is nested by(relationship_type)' 'a list of only (condition)' instance(s) of other entity
+    parse = grammar.parseString(fragment)
+
+    relationship_type = parse['relationship_type']
+    condition = parse['condition']
+
+
+    extr = reltype_to_extr[relationship_type]
+    error_log_txt = extr['error_log_txt']
 
     errors = []
 
@@ -305,20 +317,20 @@ def step_impl(context, entity, relationship_type, condition, other_entity):
         for inst in context.model.by_type(entity):
             related_entities = list(map(lambda x: getattr(x, extr['object_placement'],[]), getattr(inst, extr['attribute'],[])))
             if len(related_entities):
-                if isinstance(tuple, related_entities[0]):
+                if isinstance(related_entities[0], tuple): 
                     related_entities = list(related_entities[0]) # if entity has only one IfcRelNests, convert to list
                 false_elements = list(filter(lambda x : not x.is_a(other_entity), related_entities))
                 correct_elements = list(filter(lambda x : x.is_a(other_entity), related_entities))
 
                 if condition == 'only 1' and len(correct_elements) > 1:
-                        errors.append(instance_structure_error(inst, correct_elements, f'{error_log}',{}))
+                        errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}',{}))
                 if condition == 'a list of only':
                     if len(getattr(inst, extr['attribute'],[])) > 1:
-                        errors.append(instance_structure_error(f'{error_log} more than 1 list, including',{}))
+                        errors.append(instance_structure_error(f'{error_log_txt} more than 1 list, including',{}))
                     elif len(false_elements):
-                        errors.append(instance_structure_error(inst, false_elements, f'{error_log} a list that includes',{}))
+                        errors.append(instance_structure_error(inst, false_elements, f'{error_log_txt} a list that includes',{}))
                 if condition == 'only' and len(false_elements):
-                    errors.append(instance_structure_error(inst, correct_elements, f'{error_log}',{}))
+                    errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}',{}))
 
 
     handle_errors(context, errors)

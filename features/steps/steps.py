@@ -195,17 +195,8 @@ def map_state(values, fn):
     else:
         return fn(values)
 
-@given('Its values for attribute {attribute}')
+@given('Its attribute {attribute}')
 def step_impl(context, attribute):
-    # values = list(map(lambda i: (i, getattr(i, attribute, None)), context.instances))
-    # filter_nones = list(filter(lambda i: i[1] is not None, values))
-
-    # context._push()
-    # context.instances = []
-    # for var, attr in filter_nones: 
-    #     setattr(context, 'entities', {'var':var, attribute:attr})
-    #     context.instances.append(attr)
-    # setattr(context, 'attribute', attribute)
     context._push()
     context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
     setattr(context, 'instances', context.instances)

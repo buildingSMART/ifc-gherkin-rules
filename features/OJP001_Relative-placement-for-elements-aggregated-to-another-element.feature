@@ -1,6 +1,6 @@
 @implementer-agreement
 @OJP
-Feature: OJP001_Relative placement for elements aggregated to another element
+Feature: OJP001 - Relative placement for elements aggregated to another element
 
   Scenario: Agreement on the relative placement of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
 

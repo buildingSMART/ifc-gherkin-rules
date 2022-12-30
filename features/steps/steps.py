@@ -79,14 +79,11 @@ class instance_structure_error:
     optional_values: field(default_factory=dict)
 
     def __str__(self):
-        self.pos_neg = 'is not' if do_try(lambda: self.optional_values['condition'], '') == 'must' else 'is'
-        self.directness = do_try(lambda: self.optional_values['directness'],'')
-        
+        pos_neg = 'is not' if self.optional_values.get('condition', '') == 'must' else 'is'
+        directness = self.optional_values.get('directness', '')
+
         if len(self.relating):
-            if len(self.relating) > 1:
-                return f"The instance {fmt(self.related)} is {self.relationship_type} the following {len(self.relating)} instances: {';'.join(map(fmt, self.relating))}"
-            else:
-                return f"The instance {fmt(self.related)} {self.pos_neg} {self.directness} {self.relationship_type} in {fmt(self.relating)}"
+            return f"The instance {fmt(self.related)} {pos_neg} {directness} {self.relationship_type} (in) the following ({len(self.relating)}) instances: {';'.join(map(fmt, self.relating))}"
         else:
             return f"This instance {self.related} is not {self.relationship_type} anything"
 
@@ -298,15 +295,15 @@ def step_impl(context, representation_id):
 @then('Each {entity} may be nested by only the following entities: {other_entities}')
 def step_impl(context, entity, other_entities):
 
-    allowed_entity_types = other_entities.split(', ')
+    allowed_entity_types = set(map(str.strip, other_entities.split(',')))
 
     errors = []
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
-            nested_entity_types = [i.is_a() for i in nested_entities]
-            if not set(nested_entity_types) <= set((allowed_entity_types)):
-                differences = list(set(nested_entity_types) - set(allowed_entity_types))
-                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by',{}))
+            nested_entity_types = set(i.is_a() for i in nested_entities)
+            if not nested_entity_types <= allowed_entity_types:
+                differences = list(nested_entity_types - allowed_entity_types)
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by', {}))
     
     handle_errors(context, errors)

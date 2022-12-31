@@ -76,7 +76,8 @@ class instance_structure_error:
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
     relationship_type: str
-    optional_values: field(default_factory=dict)
+    optional_values: dict = field(default_factory=dict)
+
 
     def __str__(self):
         pos_neg = 'is not' if self.optional_values.get('condition', '') == 'must' else 'is'
@@ -86,6 +87,8 @@ class instance_structure_error:
             return f"The instance {fmt(self.related)} {pos_neg} {directness} {self.relationship_type} (in) the following ({len(self.relating)}) instances: {';'.join(map(fmt, self.relating))}"
         else:
             return f"This instance {self.related} is not {self.relationship_type} anything"
+
+
 
 
 @dataclass
@@ -304,6 +307,6 @@ def step_impl(context, entity, other_entities):
             nested_entity_types = set(i.is_a() for i in nested_entities)
             if not nested_entity_types <= allowed_entity_types:
                 differences = list(nested_entity_types - allowed_entity_types)
-                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by', {}))
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
     
     handle_errors(context, errors)

@@ -49,6 +49,22 @@ def fmt(x):
         return v
 
 
+def get_entity_point_components(entity):
+    if entity.is_a('IfcPolyLoop'):
+        points = entity.Polygon
+    elif entity.is_a('IfcPolyline'):
+        points = entity.Points
+    return points
+
+
+def get_sending_system_precision(context):
+    try:
+        geo_representations = context.model.by_type('IFCGEOMETRICREPRESENTATIONCONTEXT')
+        precision = list(filter(is_a('IFCGEOMETRICREPRESENTATIONCONTEXT'), geo_representations))[0].Precision
+    except:  # make more precise exception caching in further practice?
+        precision = '1e-04'
+    return precision
+
 @dataclass
 class edge_use_error:
     inst: ifcopenshell.entity_instance
@@ -97,6 +113,19 @@ class representation_type_error:
     
     def __str__(self):
         return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
+
+
+@dataclass
+class polyobject_structure_error:
+    inst: ifcopenshell.entity_instance
+    points: list
+    error_cause: str
+
+    def __str__(self):
+        if self.error_cause == 'duplicate_points':
+            return f"On instance {fmt(self.inst)} some of the {self.points} are duplicate"
+        elif self.error_cause == 'first_last_not_referenced':
+            return f"On instance {fmt(self.inst)} first point {self.points[0]} is the same as last point {self.points[-1]} but not by reference"
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -225,6 +254,23 @@ def step_impl(context, field, values):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
+@given('{entity} first and last point are {constraint}')
+def step_impl(context, entity, constraint):
+    assert constraint in ['identical', 'different']
+    instances = []
+    precision = get_sending_system_precision(context)
+    for instance in context.instances:
+        points = get_entity_point_components(instance)
+        points_coordinates = [point.Coordinates for point in points]
+        points_coordinates_rounded = []
+        for point_coordinates in points_coordinates:
+            point_coordinates_rounded = tuple(round(point / precision) * precision for point in point_coordinates)
+            points_coordinates_rounded.append(point_coordinates_rounded)
+        if (points_coordinates_rounded[0] != points_coordinates_rounded[-1] and constraint == 'different') or (
+                points_coordinates_rounded[0] == points_coordinates_rounded[-1] and constraint == 'identical'):
+            instances.append(instance)
+    context.instances = instances
+
 @then('There shall be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
     stmt_to_op = {"at least": operator.ge, "at most": operator.le}
@@ -283,4 +329,30 @@ def step_impl(context, representation_id):
                     errors.append(representation_shape_error(inst, representation_id))
     
     handle_errors(context, errors)
-    
+
+@then("The {entity} must have no duplicate points")
+def step_impl(context, entity):
+    if getattr(context, 'applicable', True):
+        errors = []
+        precision = get_sending_system_precision(context)
+        for instance in context.instances:
+            points = get_entity_point_components(instance)
+            points_coordinates = [point.Coordinates for point in points]
+            points_coordinates_rounded = []
+            for point_coordinates in points_coordinates:
+                point_coordinates_rounded = tuple(round(point / precision) * precision for point in point_coordinates)
+                points_coordinates_rounded.append(point_coordinates_rounded)
+            if len(points_coordinates_rounded) != len(set(points_coordinates_rounded)):
+                errors.append(polyobject_structure_error(instance, points, 'duplicate_points'))
+    handle_errors(context, errors)
+
+
+@then("The {entity} first and last point must be identical by reference")
+def step_impl(context, entity):
+    if getattr(context, 'applicable', True):
+        errors = []
+        for instance in context.instances:
+            points = get_entity_point_components(instance)
+            if str(points[0]) != str(points[-1]):
+                errors.append(polyobject_structure_error(instance, points, 'first_last_not_referenced'))
+    handle_errors(context, errors)

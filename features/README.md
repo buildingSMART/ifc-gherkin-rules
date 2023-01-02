@@ -206,7 +206,7 @@ Use **must**, not **shall** to impose requirements.
 ```
 Given A file with Schema Identifier "IFC2X3"
 And A file with Model View Definition "CoordinationView"
-Then There shall be exactly 1 IfcSite element(s)
+Then There must be exactly 1 IfcSite element(s)
 ```
 </details>
 <details><summary>right</summary>

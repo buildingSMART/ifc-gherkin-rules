@@ -188,7 +188,7 @@ def handle_errors(context, errors):
     )
 
 @then(
-    "Every {something} shall be referenced exactly {num:d} times by the loops of the face"
+    "Every {something} must be referenced exactly {num:d} times by the loops of the face"
 )
 def step_impl(context, something, num):
     assert something in ("edge", "oriented edge")
@@ -225,7 +225,7 @@ def step_impl(context, field, values):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
-@then('There shall be {constraint} {num:d} instance(s) of {entity}')
+@then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
     stmt_to_op = {"at least": operator.ge, "at most": operator.le}
     assert constraint in stmt_to_op
@@ -241,7 +241,7 @@ def step_impl(context, constraint, num, entity):
     handle_errors(context, errors)
 
 
-@then('The {related} shall be assigned to the {relating} if {other_entity} {condition} present')
+@then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
     stmt_to_op = {"is": operator.eq, "is not": operator.ne}
     assert condition in stmt_to_op
@@ -272,7 +272,7 @@ def step_impl(context, representation_id, representation_type):
     errors = [representation_type_error(error, representation_id, representation_type) for error in errors]
     handle_errors(context, errors)
 
-@then("There shall be one {representation_id} shape representation")
+@then("There must be one {representation_id} shape representation")
 def step_impl(context, representation_id):
     errors = []
     if context.instances:

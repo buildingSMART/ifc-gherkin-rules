@@ -203,8 +203,13 @@ def instance_getter(i,representation_id, representation_type, negative=False):
         if condition(i, representation_id, representation_type):
             return i
 
+def strip_split(stmt, strp = ' ', splt = ' '):
+    return list(
+        map(str.lower, map(lambda s: s.strip(strp), stmt.split(splt)))
+    )
+
 def include_subtypes(stmt):
-    stmt = stmt.split()
+    stmt = strip_split(stmt, strp = '[]')
     if len(stmt) > 1 and 'subtypes' in stmt:
         excluding_statements = ['without', 'not', 'excluding', 'no']
         if len(set(stmt).intersection(set(excluding_statements))):
@@ -270,7 +275,7 @@ def step_impl(context, attribute, value):
 
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
-    values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
+    values = strip_split(values, strp = '"', splt = ' or ')
     if field == "Model View Definition":
         conditional_lowercase = lambda s: s.lower() if s else None
         applicable = conditional_lowercase(get_mvd(context.model)) in values

@@ -8,7 +8,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 
 import ifcopenshell
-from pyparsing import Word, CaselessKeyword, alphas
+import pyparsing
 
 from behave import *
 
@@ -298,16 +298,14 @@ def step_impl(context, entity, fragment, other_entity):
                     'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects', 'error_log_txt': 'nested by'}}
     conditions = ['only 1', 'a list of only']
 
-    condition = functools.reduce(operator.or_, [CaselessKeyword(i) for i in conditions])('condition')
-    relationship_type = functools.reduce(operator.or_, [CaselessKeyword(i[0]) for i in reltype_to_extr.items()])('relationship_type')
+    condition = functools.reduce(operator.or_, [pyparsing.CaselessKeyword(i) for i in conditions])('condition')
+    relationship_type = functools.reduce(operator.or_, [pyparsing.CaselessKeyword(i[0]) for i in reltype_to_extr.items()])('relationship_type')
 
     grammar = relationship_type + condition #e.g. each entity 'is nested by(relationship_type)' 'a list of only (condition)' instance(s) of other entity
     parse = grammar.parseString(fragment)
 
     relationship_type = parse['relationship_type']
     condition = parse['condition']
-
-
     extr = reltype_to_extr[relationship_type]
     error_log_txt = extr['error_log_txt']
 

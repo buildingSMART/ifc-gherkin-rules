@@ -19,11 +19,11 @@ alignment_horizontal_instance = file.createIfcAlignmentHorizontal(create_guid(),
 alignment_vertical_instance = file.createIfcAlignmentVertical(create_guid(), owner, Name='AV3')
 alignment_cant_instance = file.createIfcAlignmentCant(create_guid(), owner, Name='AV3')
 
-directions = [alignment_horizontal_instance, alignment_vertical_instance, alignment_cant_instance]
+layout = [alignment_horizontal_instance, alignment_vertical_instance, alignment_cant_instance]
 
-directions.append(file.createIfcWall(create_guid(), owner, Name='dummy wall')) #IfcWall is not one of the direction entities
+layout.append(file.createIfcWall(create_guid(), owner, Name='dummy wall')) #IfcWall is not one of the layout entities
 
-file.createIfcRelNests(create_guid(), owner, RelatingObject = file.by_type("IfcAlignment")[0], RelatedObjects = [d for d in directions])
+file.createIfcRelNests(create_guid(), owner, RelatingObject = file.by_type("IfcAlignment")[0], RelatedObjects = [d for d in layout])
 
 file.createIfcRelNests( create_guid(), owner, RelatingObject = alignment_horizontal_instance,
                         RelatedObjects = [ file.createIfcAlignmentSegment(create_guid(),
@@ -45,4 +45,4 @@ file.createIfcRelNests( create_guid(), owner, RelatingObject = alignment_cant_in
                       )
 
                     
-file.write('fail-alb003-wrong_direction.ifc')
+file.write('fail-alb003-wrong_layout.ifc')

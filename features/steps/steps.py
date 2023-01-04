@@ -110,21 +110,21 @@ class representation_type_error:
         return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
 
 @dataclass 
-class value_condition_error:
+class value_error_msg:
     related: ifcopenshell.entity_instance = field(default='None')
     values: str = field(default='None')
     attribute: str = field(default='None')
-    condition: str = field(default='None')
+    identical_or_unique: str = field(default='None')
     relating: ifcopenshell.entity_instance = field(default='None')
     include_relating: bool = field(default=False) # not relevant in HasAttribute case, but is in GEM003
 
 
     def __str__(self):
-        str = f"on instance {', '.join(map(fmt, self.relating))}" if self.include_relating else ''
+        relating_statement = f"on instance {', '.join(map(fmt, self.relating))}" if self.include_relating else ''
         return (
             f"On instance(s) {';'.join(map(fmt, self.related))}, "
-            f"the following non-{self.condition} value(s) for attribute {self.attribute} was/were found: "
-            f"{', '.join(map(fmt, self.values))} {str}"
+            f"the following non-{self.identical_or_unique} value(s) for attribute {self.attribute} was/were found: "
+            f"{', '.join(map(fmt, self.values))} {relating_statement}"
         )
 
 
@@ -233,6 +233,20 @@ def step_impl(context, entity_opt_stmt):
         context.instances = context.model.by_type(entity, include_subtypes = include_subtypes(entity_opt_stmt))
     except:
         context.instances = []
+
+@given("{the_or_all} instances of {entity_opt_stmt}")
+def step_impl(context, the_or_all, entity_opt_stmt):
+    the_or_all = the_or_all
+
+    entity = entity_opt_stmt.split()[0]
+
+    try:
+        context.instances = context.model.by_type(entity, include_subtypes = include_subtypes(entity_opt_stmt))
+        within_model = 'all' in the_or_all.lower()
+    except:
+        context.instances = []
+
+    context.within_model = getattr(context, 'within_model', True) and within_model
 
 @given('Its attribute {attribute}')
 def step_impl(context, attribute):
@@ -350,16 +364,16 @@ def get_duplicates(values):
     duplicates = [x for x in values if x in seen or seen.add(x)]
     return duplicates
 
-def evaluate_condition(msg, insts, condition, relating):
+def evaluate_identical_unique(msg, insts, identical_or_unique, relating):
     if (
-        condition == 'identical' and
+        identical_or_unique == 'identical' and
         len(msg.values) > 1 and
         not msg.duplicates
     ):
         return msg.values, relating
 
     elif(
-        condition == 'unique' and
+        identical_or_unique == 'unique' and
         len(msg.duplicates)
     ):
         false_instances = [insts[1][i] for i, x in enumerate(msg.values) if x in msg.duplicates]
@@ -367,27 +381,29 @@ def evaluate_condition(msg, insts, condition, relating):
 
     else: return None, None
 
-@then("{case} values must be {identical_or_unique}")
-def step_impl(context, case, identical_or_unique):
+@then("The values must be {identical_or_unique}")
+def step_impl(context, identical_or_unique):
     errors = []
+
+    within_model = getattr(context, 'within_model', True)
 
     if getattr(context, 'applicable', True):
         stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-        if case.lower() == 'the': # 'the' in this case refers to 
-            for i, values in enumerate(context.instances):
-                inst_tree = [t[i] for t in stack_tree]
-                duplicates = get_duplicates(values)
-                if len(duplicates):
-                    false_instances = [inst_tree[1][i] for i, x in enumerate(values) if x in duplicates]
-                    errors.append(representation_value_error(inst_tree[-1], duplicates, false_instances))
-    
-        if case.lower() == 'all': #'all' refers to 'all values of first context.instances'; in case of GRF001 'IfcGeometricRepresentationContext'
-            msg = value_condition_error(condition=identical_or_unique, attribute=context.attribute)
-            msg.values = [do_try(lambda: i[0].is_a(), i) for i in context.instances] # @todo convert empty tuple to None?
-            msg.duplicates = get_duplicates(msg.values)
-            msg.related = stack_tree[-1]
-            msg.values, msg.relating = evaluate_condition(msg, msg.related, identical_or_unique, relating = context.instances)
+        instances = [context.instances] if within_model else context.instances
+
+        for i, values in enumerate(instances):
+            msg = value_error_msg(identical_or_unique=identical_or_unique, attribute=context.attribute)
+            msg.values = [do_try(lambda: i[0].is_a(), i) for i in values] # @todo convert empty tuple to None? Maybe more 'restyling' for better output? e.g. converting to lower_case letters, specifying type of value etc
+            seen = set()
+            msg.duplicates = [x for x in msg.values if x in seen or seen.add(x)]
+
+            msg.related = stack_tree[-1] # in case of within model, so maybe move there
+            
+            msg.values, msg.relating = evaluate_identical_unique(msg, msg.related, identical_or_unique, relating = context.instances)
+
             if (msg.values and msg.relating):
+                if not within_model:
+                    msg.include_relating
                 errors.append(msg)
-    
+
     handle_errors(context, errors)

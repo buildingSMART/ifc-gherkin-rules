@@ -159,9 +159,14 @@ class value_error_msg:
 
 
     def __str__(self):
+        if not isinstance(self.related, list):
+            related = [self.related]
+        else:
+            related = self.related # don't modify self
+
         relating_statement = f"on instance {', '.join(map(fmt, self.relating))}" if self.include_relating else ''
         return (
-            f"On instance(s) {';'.join(map(fmt, self.related))}, "
+            f"On instance(s) {';'.join(map(fmt, related))}, "
             f"the following non-{self.identical_or_unique} value(s) for attribute {self.attribute} was/were found: "
             f"{', '.join(map(fmt, self.values))} {relating_statement}"
         )
@@ -495,46 +500,60 @@ def get_duplicates(values):
     duplicates = [x for x in values if x in seen or seen.add(x)]
     return duplicates
 
-def evaluate_identical_unique(msg, insts, identical_or_unique, relating):
+def evaluate_identical_unique(msg, stack_tree, i, identical_or_unique, relating):
     if (
         identical_or_unique == 'identical' and
         len(msg.values) > 1 and
         not msg.duplicates
     ):
-        return msg.values, relating
+        return msg.values, relating, stack_tree[-1] # values, relating, related
 
     elif(
         identical_or_unique == 'unique' and
         len(msg.duplicates)
-    ):
-        false_instances = [insts[1][i] for i, x in enumerate(msg.values) if x in msg.duplicates]
-        return msg.duplicates, false_instances
+    ):  
+        inst_tree = [t[i] for t in stack_tree]
+        false_instances = [inst_tree[1][i] for i, x in enumerate(msg.values) if x in msg.duplicates]
+        return msg.duplicates, false_instances, inst_tree[-1] # values, relating, related
 
-    else: return None, None
+    else: return None, None, None
+
+def convert_values(values, context):
+    """
+    Converts ifcopenshell instance type to strings to check for duplicates, if applicable
+    Perhaps also specify output type (entity instances/integers/strings etc) for further error analysis
+    """
+    converted_values = []
+    for value in values:
+        try:
+            converted_values.append(value[0].is_a())
+            setattr(context, 'include_relating_entities', False)
+        except (IndexError, AttributeError):
+            value = 'None' if value == () else value
+            converted_values.append(value)
+    return converted_values
 
 @then("The values must be {identical_or_unique}")
 def step_impl(context, identical_or_unique):
     errors = []
 
-    within_model = getattr(context, 'within_model', True)
+    within_model = getattr(context, 'within_model', False)
 
     if getattr(context, 'applicable', True):
         stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
         instances = [context.instances] if within_model else context.instances
 
         for i, values in enumerate(instances):
-            msg = value_error_msg(identical_or_unique=identical_or_unique, attribute=context.attribute)
-            msg.values = [do_try(lambda: i[0].is_a(), i) for i in values] # @todo convert empty tuple to None? Maybe more 'restyling' for better output? e.g. converting to lower_case letters, specifying type of value etc
-            seen = set()
-            msg.duplicates = [x for x in msg.values if x in seen or seen.add(x)]
+            if not values:
+                continue
 
-            msg.related = stack_tree[-1] # in case of within model, so maybe move there
-            
-            msg.values, msg.relating = evaluate_identical_unique(msg, msg.related, identical_or_unique, relating = context.instances)
+            msg = value_error_msg(identical_or_unique=identical_or_unique, attribute=getattr(context, 'attribute', 'None'))
+            msg.values = convert_values(values, context) 
+            msg.include_relating = getattr(context, 'include_relating_entities', True)
+            msg.duplicates = get_duplicates(msg.values)
+            msg.values, msg.relating, msg.related = evaluate_identical_unique(msg, stack_tree, i, identical_or_unique, relating = context.instances)
 
             if (msg.values and msg.relating):
-                if not within_model:
-                    msg.include_relating
                 errors.append(msg)
 <<<<<<< HEAD
     

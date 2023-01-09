@@ -98,6 +98,22 @@ Then ...
 ```
 </details>
 
+ - must include **a description of the rule** that start with "The rule verifies that..." 
+
+<details><summary>examples</summary>
+
+```
+@implementer-agreement
+@ALB
+Feature: ALB003 - Allowed entities nested in Alignment
+The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts) or with Referents (e.g., mileage markers). And not with any other entity.
+
+  Scenario: Agreement on nested elements of IfcAlignment
+  Given ...
+  Then ...
+```
+</details>
+
 #### Mandatory Given(s)
 If the rule in the feature file applies only to specific IFC version(s) and/or View Definition(s), then the feature file (or each of its Scenarios, if it has more than one) must start with Given steps specifying the applicability of the following steps
 

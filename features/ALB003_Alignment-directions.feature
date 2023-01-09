@@ -1,8 +1,8 @@
 @implementer-agreement
 @ALB
-Feature: ALB003 - Alignment Layout
+Feature: ALB003 - Alignment Nesting
 
-  Scenario: Agreement on nested Layout of IfcAlignment
+  Scenario: Agreement on nested elements of IfcAlignment
 
       Given a file with Schema Identifier "IFC4X3"
 

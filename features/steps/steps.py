@@ -36,10 +36,6 @@ def get_inst_attributes(dc):
         yield 'inst_type', dc.inst.is_a()
         yield 'inst_id', dc.inst.id()
 
-def random_string():
-    c = string.ascii_uppercase + string.digits
-    return ''.join(random.choice(c) for i in range(64))
-
 
 # @note dataclasses.asdict used deepcopy() which doesn't work on entity instance
 asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc), **dict(get_inst_attributes(dc)))

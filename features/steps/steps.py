@@ -3,6 +3,7 @@ import json
 import typing
 import operator
 import functools
+import re
 
 from collections import Counter
 from dataclasses import dataclass, field
@@ -35,6 +36,21 @@ def get_inst_attributes(dc):
         yield 'inst_guid', getattr(dc.inst, 'GlobalId', None)
         yield 'inst_type', dc.inst.is_a()
         yield 'inst_id', dc.inst.id()
+
+def stmt_to_op(statement):
+    statement = statement.replace('is', '').strip()
+    stmt_to_op = {
+        '': operator.eq, # a == b
+        "equal to": operator.eq, # a == b
+        "exactly": operator.eq, # a == b
+        "not": operator.ne, # a != b
+        "at least": operator.ge, # a >= b
+        "more than": operator.gt, # a > b
+        "at most": operator.le, # a <= b
+        "less than": operator.lt # a < b
+    }
+    assert statement in stmt_to_op
+    return stmt_to_op[statement]
 
 # @note dataclasses.asdict used deepcopy() which doesn't work on entity instance
 asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc), **dict(get_inst_attributes(dc)))
@@ -210,7 +226,7 @@ def handle_errors(context, errors):
     )
 
 @then(
-    "Every {something} shall be referenced exactly {num:d} times by the loops of the face"
+    "Every {something} must be referenced exactly {num:d} times by the loops of the face"
 )
 def step_impl(context, something, num):
     assert something in ("edge", "oriented edge")
@@ -256,11 +272,9 @@ def step_impl(context, field, values):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
-@then('There shall be {constraint} {num:d} instance(s) of {entity}')
+@then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
-    stmt_to_op = {"at least": operator.ge, "at most": operator.le}
-    assert constraint in stmt_to_op
-    op = stmt_to_op[constraint]
+    op = stmt_to_op(constraint)
 
     errors = []
 
@@ -332,11 +346,10 @@ def step_impl(context, entity, fragment, other_entity):
     handle_errors(context, errors)
 
 
-@then('The {related} shall be assigned to the {relating} if {other_entity} {condition} present')
+@then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
-    stmt_to_op = {"is": operator.eq, "is not": operator.ne}
-    assert condition in stmt_to_op
-    pred = stmt_to_op[condition]
+    pred = stmt_to_op(condition)
+
     op = lambda n: not pred(n, 0)
 
     errors = []
@@ -373,7 +386,7 @@ def step_impl(context, representation_id, representation_type):
     errors = [representation_type_error(error, representation_id, representation_type) for error in errors]
     handle_errors(context, errors)
 
-@then("There shall be one {representation_id} shape representation")
+@then("There must be one {representation_id} shape representation")
 def step_impl(context, representation_id):
     errors = []
     if context.instances:

@@ -2,6 +2,7 @@ import ast
 import json
 import typing
 import operator
+import re
 
 from collections import Counter
 from dataclasses import dataclass
@@ -10,6 +11,69 @@ import ifcopenshell
 
 from behave import *
 
+relating_attr_matrix = {'IfcRelAssignsToActor': 'RelatingActor', #TODO - move to some util folders?
+ 'IfcRelAssignsToControl': 'RelatingControl',
+ 'IfcRelAssignsToGroup': 'RelatingGroup',
+ 'IfcRelAssignsToProcess': 'RelatingProcess',
+ 'IfcRelAssignsToProduct': 'RelatingProduct',
+ 'IfcRelAssignsToResource': 'RelatingResource',
+ 'IfcRelAssociatesApproval': 'RelatingApproval',
+ 'IfcRelAssociatesClassification': 'RelatingClassification',
+ 'IfcRelAssociatesConstraint': 'RelatingConstraint',
+ 'IfcRelAssociatesDocument': 'RelatingDocument',
+ 'IfcRelAssociatesLibrary': 'RelatingLibrary',
+ 'IfcRelAssociatesMaterial': 'RelatingMaterial',
+ 'IfcRelConnectsElements': 'RelatingElement',
+ 'IfcRelConnectsPortToElement': 'RelatingPort',
+ 'IfcRelConnectsPorts': 'RelatingPort',
+ 'IfcRelConnectsStructuralActivity': 'RelatingElement',
+ 'IfcRelConnectsStructuralMember': 'RelatingStructuralMember',
+ 'IfcRelContainedInSpatialStructure': 'RelatingStructure',
+ 'IfcRelCoversBldgElements': 'RelatingBuildingElement',
+ 'IfcRelCoversSpaces': 'RelatingSpace',
+ 'IfcRelFillsElement': 'RelatingOpeningElement',
+ 'IfcRelFlowControlElements': 'RelatingFlowElement',
+ 'IfcRelInterferesElements': 'RelatingElement',
+ 'IfcRelReferencedInSpatialStructure': 'RelatingStructure',
+ 'IfcRelSequence': 'RelatingProcess',
+ 'IfcRelServicesBuildings': 'RelatingSystem',
+ 'IfcRelSpaceBoundary': 'RelatingSpace',
+ 'IfcRelDeclares': 'RelatingContext',
+ 'IfcRelAggregates': 'RelatingObject',
+ 'IfcRelNests': 'RelatingObject',
+ 'IfcRelProjectsElement': 'RelatingElement',
+ 'IfcRelVoidsElement': 'RelatingBuildingElement',
+ 'IfcRelDefinesByObject': 'RelatingObject',
+ 'IfcRelDefinesByProperties': 'RelatingPropertyDefinition',
+ 'IfcRelDefinesByTemplate': 'RelatingTemplate',
+ 'IfcRelDefinesByType': 'RelatingType'}
+
+related_attr_matrix = {'IfcRelAssigns': 'RelatedObjects',
+ 'IfcRelAssociates': 'RelatedObjects',
+ 'IfcRelConnectsElements': 'RelatedElement',
+ 'IfcRelConnectsPortToElement': 'RelatedElement',
+ 'IfcRelConnectsPorts': 'RelatedPort',
+ 'IfcRelConnectsStructuralActivity': 'RelatedStructuralActivity',
+ 'IfcRelConnectsStructuralMember': 'RelatedStructuralConnection',
+ 'IfcRelContainedInSpatialStructure': 'RelatedElements',
+ 'IfcRelCoversBldgElements': 'RelatedCoverings',
+ 'IfcRelCoversSpaces': 'RelatedCoverings',
+ 'IfcRelFillsElement': 'RelatedBuildingElement',
+ 'IfcRelFlowControlElements': 'RelatedControlElements',
+ 'IfcRelInterferesElements': 'RelatedElement',
+ 'IfcRelReferencedInSpatialStructure': 'RelatedElements',
+ 'IfcRelSequence': 'RelatedProcess',
+ 'IfcRelServicesBuildings': 'RelatedBuildings',
+ 'IfcRelSpaceBoundary': 'RelatedBuildingElement',
+ 'IfcRelDeclares': 'RelatedDefinitions',
+ 'IfcRelAggregates': 'RelatedObjects',
+ 'IfcRelNests': 'RelatedObjects',
+ 'IfcRelProjectsElement': 'RelatedFeatureElement',
+ 'IfcRelVoidsElement': 'RelatedOpeningElement',
+ 'IfcRelDefinesByObject': 'RelatedObjects',
+ 'IfcRelDefinesByProperties': 'RelatedObjects',
+ 'IfcRelDefinesByTemplate': 'RelatedPropertySets',
+ 'IfcRelDefinesByType': 'RelatedObjects'}
 
 def instance_converter(kv_pairs):
     def c(v):
@@ -208,8 +272,17 @@ def step_impl(context, entity, other_entity, relationship):
     relationships = context.model.by_type(relationship)
     instances = []
     for rel in relationships:
-        if rel.RelatingObject.is_a(other_entity):
-            for obj in rel.RelatedObjects:
+        regex = re.compile(r'([0-9]+=)([A-Za-z0-9]+)\(')
+        relationships_str = regex.search(str(rel)).group(2)
+        relationship_relating_attr = relating_attr_matrix.get(relationships_str)
+        relationship_related_attr = related_attr_matrix.get(relationships_str)
+        if getattr(rel, relationship_relating_attr).is_a(other_entity):
+            try: #check if the related attribute returns a tuple/list or just a single instance
+                iter(getattr(rel, relationship_related_attr))
+                related_objects = getattr(rel, relationship_related_attr)
+            except TypeError:
+                related_objects = tuple(getattr(rel, relationship_related_attr))
+            for obj in related_objects:
                 if obj.is_a(entity):
                     instances.append(obj)
     context.instances = instances
@@ -260,8 +333,7 @@ def step_impl(context, entity, other_entity):
         handle_errors(context, errors)
 
 
-@then(
-    'The {entity} entity must point to the {other_entity} of the container element established with {relationship} relationship')
+@then('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
 def step_impl(context, entity, other_entity, relationship):
     if getattr(context, 'applicable', True):
         errors = []

@@ -8,4 +8,4 @@ Feature: OJP001 - Relative placement for elements aggregated to another element
       And An IfcElement
       And The IfcElement is a part of another IfcElement through the relationship IfcRelAggregates
       Then The relative placement of that IfcElement must be provided by an IfcLocalPlacement entity
-      And The PlacementRelTo entity must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship
+      And The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship

@@ -7,16 +7,16 @@ In that case, it must be identical by reference (referencing the same instance),
   Scenario: Agreement on no duplicated points within a polyloop
 
       Given An IfcPolyLoop
-      Then The IfcPolyLoop must have no duplicate points
+      Then It must have no duplicate points
 
   Scenario: Agreement on no duplicated points within a polyline
 
       Given An IfcPolyLine
-      Given IfcPolyLine forms an open curve
-      Then The IfcPolyline must have no duplicate points
+      And It forms an open curve
+      Then It must have no duplicate points
 
   Scenario: Agreement on first and last point of IfcPolyline being identical by reference (referencing the same instance of IfcCartesianPoint)
 
       Given An IfcPolyline
-      And IfcPolyLine forms a closed curve
-      Then The IfcPolyline first and last point must be identical by reference
+      And It forms a closed curve
+      Then Its first and last point must be identical by reference

@@ -355,8 +355,8 @@ def step_impl(context, representation_id):
     
     handle_errors(context, errors)
 
-@then("The {entity} must have no duplicate points")
-def step_impl(context, entity):
+@then("It must have no duplicate points")
+def step_impl(context):
     if getattr(context, 'applicable', True):
         errors = []
         precision = get_sending_system_precision(context)
@@ -368,8 +368,8 @@ def step_impl(context, entity):
         handle_errors(context, errors)
 
 
-@then("The {entity} first and last point must be identical by reference")
-def step_impl(context, entity):
+@then("Its first and last point must be identical by reference")
+def step_impl(context):
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:

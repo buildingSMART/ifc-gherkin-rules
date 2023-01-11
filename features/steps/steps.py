@@ -3,77 +3,18 @@ import json
 import typing
 import operator
 import re
+import csv
+import os
 
 from collections import Counter
 from dataclasses import dataclass
+from pathlib import Path
+
 
 import ifcopenshell
 
 from behave import *
 
-relating_attr_matrix = {'IfcRelAssignsToActor': 'RelatingActor', #TODO - move to some util folders?
- 'IfcRelAssignsToControl': 'RelatingControl',
- 'IfcRelAssignsToGroup': 'RelatingGroup',
- 'IfcRelAssignsToProcess': 'RelatingProcess',
- 'IfcRelAssignsToProduct': 'RelatingProduct',
- 'IfcRelAssignsToResource': 'RelatingResource',
- 'IfcRelAssociatesApproval': 'RelatingApproval',
- 'IfcRelAssociatesClassification': 'RelatingClassification',
- 'IfcRelAssociatesConstraint': 'RelatingConstraint',
- 'IfcRelAssociatesDocument': 'RelatingDocument',
- 'IfcRelAssociatesLibrary': 'RelatingLibrary',
- 'IfcRelAssociatesMaterial': 'RelatingMaterial',
- 'IfcRelConnectsElements': 'RelatingElement',
- 'IfcRelConnectsPortToElement': 'RelatingPort',
- 'IfcRelConnectsPorts': 'RelatingPort',
- 'IfcRelConnectsStructuralActivity': 'RelatingElement',
- 'IfcRelConnectsStructuralMember': 'RelatingStructuralMember',
- 'IfcRelContainedInSpatialStructure': 'RelatingStructure',
- 'IfcRelCoversBldgElements': 'RelatingBuildingElement',
- 'IfcRelCoversSpaces': 'RelatingSpace',
- 'IfcRelFillsElement': 'RelatingOpeningElement',
- 'IfcRelFlowControlElements': 'RelatingFlowElement',
- 'IfcRelInterferesElements': 'RelatingElement',
- 'IfcRelReferencedInSpatialStructure': 'RelatingStructure',
- 'IfcRelSequence': 'RelatingProcess',
- 'IfcRelServicesBuildings': 'RelatingSystem',
- 'IfcRelSpaceBoundary': 'RelatingSpace',
- 'IfcRelDeclares': 'RelatingContext',
- 'IfcRelAggregates': 'RelatingObject',
- 'IfcRelNests': 'RelatingObject',
- 'IfcRelProjectsElement': 'RelatingElement',
- 'IfcRelVoidsElement': 'RelatingBuildingElement',
- 'IfcRelDefinesByObject': 'RelatingObject',
- 'IfcRelDefinesByProperties': 'RelatingPropertyDefinition',
- 'IfcRelDefinesByTemplate': 'RelatingTemplate',
- 'IfcRelDefinesByType': 'RelatingType'}
-
-related_attr_matrix = {'IfcRelAssigns': 'RelatedObjects',
- 'IfcRelAssociates': 'RelatedObjects',
- 'IfcRelConnectsElements': 'RelatedElement',
- 'IfcRelConnectsPortToElement': 'RelatedElement',
- 'IfcRelConnectsPorts': 'RelatedPort',
- 'IfcRelConnectsStructuralActivity': 'RelatedStructuralActivity',
- 'IfcRelConnectsStructuralMember': 'RelatedStructuralConnection',
- 'IfcRelContainedInSpatialStructure': 'RelatedElements',
- 'IfcRelCoversBldgElements': 'RelatedCoverings',
- 'IfcRelCoversSpaces': 'RelatedCoverings',
- 'IfcRelFillsElement': 'RelatedBuildingElement',
- 'IfcRelFlowControlElements': 'RelatedControlElements',
- 'IfcRelInterferesElements': 'RelatedElement',
- 'IfcRelReferencedInSpatialStructure': 'RelatedElements',
- 'IfcRelSequence': 'RelatedProcess',
- 'IfcRelServicesBuildings': 'RelatedBuildings',
- 'IfcRelSpaceBoundary': 'RelatedBuildingElement',
- 'IfcRelDeclares': 'RelatedDefinitions',
- 'IfcRelAggregates': 'RelatedObjects',
- 'IfcRelNests': 'RelatedObjects',
- 'IfcRelProjectsElement': 'RelatedFeatureElement',
- 'IfcRelVoidsElement': 'RelatedOpeningElement',
- 'IfcRelDefinesByObject': 'RelatedObjects',
- 'IfcRelDefinesByProperties': 'RelatedObjects',
- 'IfcRelDefinesByTemplate': 'RelatedPropertySets',
- 'IfcRelDefinesByType': 'RelatedObjects'}
 
 def instance_converter(kv_pairs):
     def c(v):
@@ -267,10 +208,15 @@ def step_impl(context, field, values):
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 
-@given('The {entity} is a part of another {other_entity} through the relationship {relationship}')
+@given('A relationship {relationship} from {entity} to {other_entity}')
 def step_impl(context, entity, other_entity, relationship):
     relationships = context.model.by_type(relationship)
     instances = []
+    dirname = os.path.dirname(__file__)
+    filename_related_attr_matrix = os.path.join(Path(dirname).parent, r'resources\related_entity_attributes.csv')
+    filename_relating_attr_matrix = os.path.join(Path(dirname).parent, r'resources\relating_entity_attributes.csv')
+    related_attr_matrix = next(csv.DictReader(open(filename_related_attr_matrix)))
+    relating_attr_matrix = next(csv.DictReader(open(filename_relating_attr_matrix)))
     for rel in relationships:
         regex = re.compile(r'([0-9]+=)([A-Za-z0-9]+)\(')
         relationships_str = regex.search(str(rel)).group(2)
@@ -328,6 +274,9 @@ def step_impl(context, entity, other_entity):
     if getattr(context, 'applicable', True):
         errors = []
         for obj in context.instances:
+            if obj.ObjectPlacement is None:
+                errors.append(instance_placement_error(obj, other_entity, "", "", "", ""))
+                continue
             if not obj.ObjectPlacement.is_a(other_entity):
                 errors.append(instance_placement_error(obj, other_entity, "", "", "", ""))
         handle_errors(context, errors)
@@ -354,7 +303,10 @@ def step_impl(context, entity, other_entity, relationship):
                 is_correct = container_obj_placement == entity_obj_placement_rel
             except AttributeError:
                 is_correct = False
-            entity_obj_placement_rel = entity_obj_placement_rel if entity_obj_placement_rel else "Not found"
+            try:
+                entity_obj_placement_rel = entity_obj_placement_rel
+            except UnboundLocalError:
+                entity_obj_placement_rel = "Not found"
             if not is_correct:
                 errors.append(instance_placement_error(entity, '', container, relationship, container_obj_placement,
                                                        entity_obj_placement_rel))

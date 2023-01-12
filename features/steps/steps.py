@@ -88,6 +88,18 @@ class instance_count_error:
         else:
             return f"No instances of type {self.type_name} were encountered"
 
+
+@dataclass
+class representation_value_error:
+    inst: ifcopenshell.entity_instance
+    duplicate_value: str
+    duplicate_representations: ifcopenshell.entity_instance
+
+    def __str__(self):
+        return f"Instance {fmt(self.inst)} has multiple representations for Identifier {', '.join(map(fmt, self.duplicate_value))} at instances {';'.join(map(fmt, self.duplicate_representations))}"
+
+
+
 @dataclass
 class instance_structure_error:
     related: ifcopenshell.entity_instance
@@ -136,6 +148,30 @@ class representation_type_error:
     
     def __str__(self):
         return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
+
+@dataclass 
+class value_error_msg:
+    related: ifcopenshell.entity_instance = field(default='None')
+    values: str = field(default='None')
+    attribute: str = field(default='None')
+    identical_or_unique: str = field(default='None')
+    relating: ifcopenshell.entity_instance = field(default='None')
+    include_relating: bool = field(default=False) # not relevant in HasAttribute case, but is in GEM003
+
+
+    def __str__(self):
+        if not isinstance(self.related, list):
+            related = [self.related]
+        else:
+            related = self.related # don't modify self
+
+        relating_statement = f"on instance {', '.join(map(fmt, self.relating))}" if self.include_relating else ''
+        return (
+            f"On instance(s) {';'.join(map(fmt, related))}, "
+            f"the following non-{self.identical_or_unique} value(s) for attribute {self.attribute} was/were found: "
+            f"{', '.join(map(fmt, self.values))} {relating_statement}"
+        )
+
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -211,13 +247,58 @@ def instance_getter(i,representation_id, representation_type, negative=False):
         if condition(i, representation_id, representation_type):
             return i
 
+def strip_split(stmt, strp = ' ', splt = ' '):
+    return list(
+        map(str.lower, map(lambda s: s.strip(strp), stmt.split(splt)))
+    )
 
-@given("An {entity}")
-def step_impl(context, entity):
+def include_subtypes(stmt):
+    stmt = strip_split(stmt, strp = '[]')
+    if len(stmt) > 1 and 'subtypes' in stmt:
+        excluding_statements = ['without', 'not', 'excluding', 'no']
+        if len(set(stmt).intersection(set(excluding_statements))):
+            return False
+        else:
+            return True
+    else:
+        return True
+
+def map_state(values, fn):
+    if isinstance(values, (tuple, list)):
+        return type(values)(map_state(v, fn) for v in values)
+    else:
+        return fn(values)
+
+@given("An {entity_opt_stmt}")
+def step_impl(context, entity_opt_stmt):
+    entity = entity_opt_stmt.split()[0]
+
     try:
-        context.instances = context.model.by_type(entity)
+        context.instances = context.model.by_type(entity, include_subtypes = include_subtypes(entity_opt_stmt))
     except:
         context.instances = []
+
+@given("{the_or_all} instances of {entity_opt_stmt}")
+def step_impl(context, the_or_all, entity_opt_stmt):
+    the_or_all = the_or_all
+
+    entity = entity_opt_stmt.split()[0]
+
+    try:
+        context.instances = context.model.by_type(entity, include_subtypes = include_subtypes(entity_opt_stmt))
+        within_model = 'all' in the_or_all.lower()
+    except:
+        context.instances = []
+
+    context.within_model = getattr(context, 'within_model', True) and within_model
+
+@given('Its attribute {attribute}')
+def step_impl(context, attribute):
+    context._push()
+    context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
+    setattr(context, 'instances', context.instances)
+    setattr(context, 'attribute', attribute)
+
 
 def handle_errors(context, errors):
     error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
@@ -261,7 +342,7 @@ def step_impl(context, relationship_type, entity):
     
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
-    values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
+    values = strip_split(values, strp = '"', splt = ' or ')
     if field == "Model View Definition":
         conditional_lowercase = lambda s: s.lower() if s else None
         applicable = conditional_lowercase(get_mvd(context.model)) in values
@@ -269,7 +350,7 @@ def step_impl(context, field, values):
         applicable = context.model.schema.lower() in values
     else:
         raise NotImplementedError(f'A file with "{field}" is not implemented')
-
+ 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
@@ -396,4 +477,67 @@ def step_impl(context, representation_id):
                 if not present:
                     errors.append(representation_shape_error(inst, representation_id))
     
+    handle_errors(context, errors)
+
+def get_duplicates(values):
+    seen = set()
+    duplicates = [x for x in values if x in seen or seen.add(x)]
+    return duplicates
+
+def evaluate_identical_unique(msg, stack_tree, i, identical_or_unique, relating):
+    if (
+        identical_or_unique == 'identical' and
+        len(msg.values) > 1 and
+        not msg.duplicates
+    ):
+        return msg.values, relating, stack_tree[-1] # values, relating, related
+
+    elif(
+        identical_or_unique == 'unique' and
+        len(msg.duplicates)
+    ):  
+        inst_tree = [t[i] for t in stack_tree]
+        false_instances = [inst_tree[1][i] for i, x in enumerate(msg.values) if x in msg.duplicates]
+        return msg.duplicates, false_instances, inst_tree[-1] # values, relating, related
+
+    else: return None, None, None
+
+def convert_values(values, context):
+    """
+    Converts ifcopenshell instance type to strings to check for duplicates, if applicable
+    Perhaps also specify output type (entity instances/integers/strings etc) for further error analysis
+    """
+    converted_values = []
+    for value in values:
+        try:
+            converted_values.append(value[0].is_a())
+            setattr(context, 'include_relating_entities', False)
+        except (IndexError, AttributeError):
+            value = 'None' if value == () else value
+            converted_values.append(value)
+    return converted_values
+
+@then("The values must be {identical_or_unique}")
+def step_impl(context, identical_or_unique):
+    errors = []
+
+    within_model = getattr(context, 'within_model', False)
+
+    if getattr(context, 'applicable', True):
+        stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+        instances = [context.instances] if within_model else context.instances
+
+        for i, values in enumerate(instances):
+            if not values:
+                continue
+
+            msg = value_error_msg(identical_or_unique=identical_or_unique, attribute=getattr(context, 'attribute', 'None'))
+            msg.values = convert_values(values, context) 
+            msg.include_relating = getattr(context, 'include_relating_entities', True)
+            msg.duplicates = get_duplicates(msg.values)
+            msg.values, msg.relating, msg.related = evaluate_identical_unique(msg, stack_tree, i, identical_or_unique, relating = context.instances)
+
+            if (msg.values and msg.relating):
+                errors.append(msg)
+
     handle_errors(context, errors)

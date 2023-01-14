@@ -3,7 +3,6 @@ import json
 import typing
 import operator
 import functools
-import re
 
 from collections import Counter
 from dataclasses import dataclass, field

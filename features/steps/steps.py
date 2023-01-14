@@ -3,13 +3,16 @@ import json
 import typing
 import operator
 import functools
-import re
+import itertools
 
+import glob 
+import os
 from collections import Counter
 from dataclasses import dataclass, field
+from pathlib import Path
+import pyparsing
 
 import ifcopenshell
-import pyparsing
 
 from behave import *
 
@@ -137,6 +140,15 @@ class representation_type_error:
     def __str__(self):
         return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
 
+@dataclass
+class invalid_value_error:
+    related: ifcopenshell.entity_instance
+    attribute: str
+    value: str
+
+    def __str__(self):
+        return f"On instance {fmt(self.related)} the following invalid value for {self.attribute} has been found: {self.value}"
+
 def is_a(s):
     return lambda inst: inst.is_a(s)
 
@@ -224,6 +236,20 @@ def handle_errors(context, errors):
     assert not errors, "Errors occured:\n{}".format(
         "\n".join(map(error_formatter, errors))
     )
+
+def map_state(values, fn):
+    if isinstance(values, (tuple, list)):
+        return type(values)(map_state(v, fn) for v in values)
+    else:
+        return fn(values)
+
+@given('Its attribute {attribute}')
+def step_impl(context, attribute):
+    context._push()
+    context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
+    setattr(context, 'instances', context.instances)
+    setattr(context, 'attribute', attribute)
+
 
 @then(
     "Every {something} must be referenced exactly {num:d} times by the loops of the face"
@@ -397,3 +423,33 @@ def step_impl(context, representation_id):
                     errors.append(representation_shape_error(inst, representation_id))
     
     handle_errors(context, errors)
+
+@then('The values must be valid')
+def step_impl(context):
+    errors = []
+    
+    within_model = getattr(context, 'within_model', False)
+    stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+    instances = [context.instances] if within_model else context.instances
+
+    for i, values in enumerate(instances):
+        if not values:
+            continue
+        attribute = getattr(context, 'attribute', 'None')
+        
+        parent_path = Path(os.path.dirname(__file__)).parent
+        filename = f'{attribute}.csv'
+        csv_path = do_try(lambda: glob.glob(os.path.join(parent_path, f"docs/**/{filename}"), recursive=True)[0])
+        assert csv_path, f"{filename} not found in documentation"
+
+        valid_values = []
+        with open(csv_path, newline='') as csvfile:
+            valid_values = [row.split(',')[1] for row in csvfile]
+        
+        errors.append([
+            invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value)
+            for iv, value in enumerate(values) 
+            if not value in valid_values
+        ])
+
+    handle_errors(context, list(itertools.chain(*errors)))

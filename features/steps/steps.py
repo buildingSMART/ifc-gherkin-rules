@@ -222,10 +222,6 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
 
     return sequence_type(inner())
 
-def do_try(fn, default=None):
-    try: return fn()
-    except: return default
-
 
 def do_try(fn, default=None):
     try: return fn()
@@ -248,12 +244,47 @@ def instance_getter(i,representation_id, representation_type, negative=False):
             return i
 
 
-@given("An {entity}")
-def step_impl(context, entity):
+
+def strip_split(stmt, strp = ' ', splt = ' '):
+    return list(
+        map(str.lower, map(lambda s: s.strip(strp), stmt.split(splt)))
+    )
+
+def include_subtypes(stmt):
+    stmt = strip_split(stmt, strp = '[]')
+    if len(stmt) > 1 and 'subtypes' in stmt:
+        excluding_statements = ['without', 'not', 'excluding', 'no']
+        if len(set(stmt).intersection(set(excluding_statements))):
+            return False
+        else:
+            return True
+    else:
+        return True
+
+@given("An {entity_opt_stmt}")
+def step_impl(context, entity_opt_stmt):
+    entity = entity_opt_stmt.split()[0]
+
     try:
-        context.instances = context.model.by_type(entity)
+        context.instances = context.model.by_type(entity, include_subtypes = include_subtypes(entity_opt_stmt))
     except:
         context.instances = []
+
+    context.within_model = False
+
+@given("All instances of {entity_opt_stmt}")
+def step_impl(context, entity_opt_stmt):
+
+    entity = entity_opt_stmt.split()[0]
+
+    try:
+        context.instances = context.model.by_type(entity, include_subtypes = include_subtypes(entity_opt_stmt))
+        within_model = True
+    except:
+        context.instances = []
+
+    context.within_model = getattr(context, 'within_model', True) and within_model
+
 
 def handle_errors(context, errors):
     error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str

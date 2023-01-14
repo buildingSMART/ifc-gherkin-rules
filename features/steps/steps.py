@@ -217,24 +217,6 @@ def instance_getter(i,representation_id, representation_type, negative=False):
 
 @given("An {entity}")
 def step_impl(context, entity):
-    # print('HERE')
-    # geo_representations = context.model.by_type('IFCGEOMETRICREPRESENTATIONCONTEXT')
-    # #print_dirs(geo_representations[0])
-    # # print(geo_representations)
-    # inversed = list(context.model.get_inverse(geo_representations[0]))[0]
-    # print(inversed)
-    # print(context.model.traverse(inversed))
-    # # print(dir(inversed))
-    # # print_dirs(inversed)
-    # # print('HERE')
-    # # inversed.unwrap_value(v=1)
-    # # print('HERE2')
-    # polylines = context.model.by_type('IFCPOLYLINE')[0]
-    # print(context.model.traverse(polylines))
-    # print(context.model.get_inverse(polylines))
-    # # print_dirs(polylines)
-    # # print('HERE2')
-    # raise
     try:
         context.instances = context.model.by_type(entity)
     except:

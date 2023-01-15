@@ -70,13 +70,35 @@ def get_points(inst, return_type = 'coord'):
     else:
         raise NotImplementedError(f'get_points() not implemented on {inst.is_a}')
 
-def get_sending_system_precision(context):
-    try:
-        geo_representations = context.model.by_type('IFCGEOMETRICREPRESENTATIONCONTEXT')
-        precision = list(filter(is_a('IFCGEOMETRICREPRESENTATIONCONTEXT'), geo_representations))[0].Precision
-    except:  # make more precise exception caching in further practice?
-        precision = '1e-04'
-    return precision
+def get_entity_contexts(ifc_context, ent):
+    if hasattr(ent, 'ContextOfItems'):
+        return ent.ContextOfItems
+    set_instances = []
+    if len(ifc_context.model.get_inverse(ent)) == 0:
+        return None # inverse unattainable, context not found
+    for rev_item in ifc_context.model.get_inverse(ent):
+        if hasattr(rev_item, 'ContextOfItems'):
+            set_instances.append(rev_item.ContextOfItems)
+    if len(set_instances) > 0:
+        return set_instances
+    else:
+        entity_context = get_entity_contexts(ifc_context, rev_item)
+        return entity_context
+
+def get_precision_from_contexts(entity_contexts, func_to_return='max', default_precision= 1e-05):
+    precisions = []
+    if entity_contexts is None:
+        return default_precision
+    for entity_context in entity_contexts:
+        if hasattr(entity_context, 'Precision') and entity_context.Precision:
+            return entity_context.Precision
+        elif hasattr(entity_context, 'ParentContext'):
+            precision = get_precision_from_contexts([entity_context.ParentContext])
+        precisions.append(precision)
+    if func_to_return == 'max':
+        return max(precisions)
+    elif func_to_return == 'min':
+        return min(precisions)
 
 @dataclass
 class edge_use_error:
@@ -341,8 +363,9 @@ def step_impl(context, representation_id):
 def step_impl(context):
     if getattr(context, 'applicable', True):
         errors = []
-        precision = get_sending_system_precision(context)
         for instance in context.instances:
+            entity_contexts = get_entity_contexts(context, instance)
+            precision = get_precision_from_contexts(entity_contexts)
             points_coordinates = get_points(instance)
             for i in itertools.combinations(points_coordinates, 2):
                 if math.dist(i[0], i[1]) < precision:

@@ -5,6 +5,7 @@ import operator
 import re
 import csv
 import os
+import glob
 
 from collections import Counter
 from dataclasses import dataclass
@@ -53,6 +54,21 @@ def fmt(x):
             return "...".join((v[:25], v[-7:]))
         return v
 
+def do_try(fn, default=None):
+    try: return fn()
+    except: return default
+def get_abs_path(rel_path):
+    dir_name = os.path.dirname(__file__)
+    parent_path = Path(dir_name).parent
+    csv_path = do_try(lambda: glob.glob(os.path.join(parent_path, rel_path), recursive=True)[0])
+    return csv_path
+def get_csv(abs_path, return_type = 'list', newline = '', delimiter = ',', quotechar = '|'):
+    with open(abs_path, newline=newline) as csvfile:
+        if return_type == 'dict':
+            reader = csv.DictReader(csvfile)
+        elif return_type == 'list':
+            reader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
+        return [row for row in reader]
 
 @dataclass
 class edge_use_error:
@@ -210,13 +226,12 @@ def step_impl(context, field, values):
 
 @given('A relationship {relationship} from {entity} to {other_entity}')
 def step_impl(context, entity, other_entity, relationship):
-    relationships = context.model.by_type(relationship)
     instances = []
-    dirname = os.path.dirname(__file__)
-    filename_related_attr_matrix = os.path.join(Path(dirname).parent, r'resources\related_entity_attributes.csv')
-    filename_relating_attr_matrix = os.path.join(Path(dirname).parent, r'resources\relating_entity_attributes.csv')
-    related_attr_matrix = next(csv.DictReader(open(filename_related_attr_matrix)))
-    relating_attr_matrix = next(csv.DictReader(open(filename_relating_attr_matrix)))
+    relationships = context.model.by_type(relationship)
+    filename_related_attr_matrix = get_abs_path(r'resources\related_entity_attributes.csv')
+    filename_relating_attr_matrix = get_abs_path(r'resources\relating_entity_attributes.csv')
+    related_attr_matrix = get_csv(filename_related_attr_matrix, return_type='dict')[0]
+    relating_attr_matrix = get_csv(filename_relating_attr_matrix, return_type='dict')[0]
     for rel in relationships:
         regex = re.compile(r'([0-9]+=)([A-Za-z0-9]+)\(')
         relationships_str = regex.search(str(rel)).group(2)

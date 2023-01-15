@@ -17,13 +17,9 @@ with open('README.md') as f:
         if elem in exclude or not any([i.isalpha() for i in elem]):
             continue
         rows.append(clean_line)
-
-        print(clean_line[0])
     rows = rows[:1] + rows[2:]
 
 
 df = pd.DataFrame(rows)
-# df2 = df[df.iloc[:,0] != 'Identifier']
 
-
-df.to_csv('RepresentationIdentifier.csv')
+df.to_csv('RepresentationIdentifier.csv', header=None, index=False)

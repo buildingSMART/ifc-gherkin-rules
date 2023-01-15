@@ -228,8 +228,8 @@ def step_impl(context, field, values):
 def step_impl(context, entity, other_entity, relationship):
     instances = []
     relationships = context.model.by_type(relationship)
-    filename_related_attr_matrix = get_abs_path(r'resources\related_entity_attributes.csv')
-    filename_relating_attr_matrix = get_abs_path(r'resources\relating_entity_attributes.csv')
+    filename_related_attr_matrix = get_abs_path(r'resources\attribute_mapping\related_entity_attributes.csv')
+    filename_relating_attr_matrix = get_abs_path(r'resources\attribute_mapping\relating_entity_attributes.csv')
     related_attr_matrix = get_csv(filename_related_attr_matrix, return_type='dict')[0]
     relating_attr_matrix = get_csv(filename_relating_attr_matrix, return_type='dict')[0]
     for rel in relationships:
@@ -289,40 +289,43 @@ def step_impl(context, entity, other_entity):
     if getattr(context, 'applicable', True):
         errors = []
         for obj in context.instances:
-            if obj.ObjectPlacement is None:
-                errors.append(instance_placement_error(obj, other_entity, "", "", "", ""))
-                continue
-            if not obj.ObjectPlacement.is_a(other_entity):
+            if not do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
                 errors.append(instance_placement_error(obj, other_entity, "", "", "", ""))
         handle_errors(context, errors)
-
 
 @then('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
 def step_impl(context, entity, other_entity, relationship):
     if getattr(context, 'applicable', True):
         errors = []
+        filename_related_attr_matrix = get_abs_path(r'resources\attribute_mapping\related_entity_attributes.csv')
+        filename_relating_attr_matrix = get_abs_path(r'resources\attribute_mapping\relating_entity_attributes.csv')
+        related_attr_matrix = get_csv(filename_related_attr_matrix, return_type='dict')[0]
+        relating_attr_matrix = get_csv(filename_relating_attr_matrix, return_type='dict')[0]
 
-        stmt_to_op = {'IfcRelAggregates': 'Decomposes'}
-        assert relationship in stmt_to_op
+        relationship_relating_attr = relating_attr_matrix.get(relationship)
+        relationship_related_attr = related_attr_matrix.get(relationship)
+        relationships = context.model.by_type(relationship)
 
-        for entity in context.instances:
-            entity_relation = getattr(entity, stmt_to_op[relationship])[0]
-            if relationship == 'IfcRelAggregates':
-                container = entity_relation.RelatingObject
-            elif relationship == 'IfcRelContainedInSpatialStructure':
-                pass  # TODO -> implement other relationships to have a general approach?
-            container_obj_placement = container.ObjectPlacement
-            entity_obj_placement = entity.ObjectPlacement
-            try:
-                entity_obj_placement_rel = entity_obj_placement.PlacementRelTo
-                is_correct = container_obj_placement == entity_obj_placement_rel
-            except AttributeError:
-                is_correct = False
-            try:
-                entity_obj_placement_rel = entity_obj_placement_rel
-            except UnboundLocalError:
-                entity_obj_placement_rel = "Not found"
-            if not is_correct:
-                errors.append(instance_placement_error(entity, '', container, relationship, container_obj_placement,
-                                                       entity_obj_placement_rel))
+        for rel in relationships:
+            try:  # check if the related attribute returns a tuple/list or just a single instance
+                iter(getattr(rel, relationship_related_attr))
+                related_objects = getattr(rel, relationship_related_attr)
+            except TypeError:
+                related_objects = tuple(getattr(rel, relationship_related_attr))
+            for related_object in related_objects:
+                if related_object not in context.instances:
+                    continue
+                related_obj_placement = related_object.ObjectPlacement
+                entity_obj_placement_rel = related_obj_placement.PlacementRelTo
+                relating_object = getattr(rel, relationship_relating_attr)
+                relating_obj_placement = relating_object.ObjectPlacement
+                try:
+                    entity_obj_placement_rel = related_obj_placement.PlacementRelTo
+                    is_correct = relating_obj_placement == entity_obj_placement_rel
+                except AttributeError:
+                    is_correct = False
+                if not entity_obj_placement_rel:
+                    entity_obj_placement_rel = 'Not found'
+                if not is_correct:
+                    errors.append(instance_placement_error(related_object, '', relating_object, relationship, relating_obj_placement, entity_obj_placement_rel))
         handle_errors(context, errors)

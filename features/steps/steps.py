@@ -158,11 +158,7 @@ class value_identical_unique_error:
     entity_instance_in_values: bool = field(default=False)
 
     def __str__(self):
-<<<<<<< HEAD
-        relating_statement = f"on instance {', '.join(map(fmt, self.relating))}" if self.include_relating else ''
-=======
         relating_statement = f"on instance(s) {', '.join(map(fmt, self.relating))}" if not self.entity_instance_in_values else ''
->>>>>>> 5132f9d (then statement and dataclass restructure)
         return (
             f"On instance(s) {';'.join(map(fmt, self.related))}, "
             f"the following non-{self.identical_or_unique} value(s) for attribute {self.attribute} was/were found: "
@@ -495,24 +491,6 @@ def get_duplicate_values(values):
     duplicates = [x for x in values if x in seen or seen.add(x)]
     return duplicates
 
-<<<<<<< HEAD
-def evaluate_identical_unique(msg, insts, identical_or_unique, relating):
-    if (
-        identical_or_unique == 'identical' and
-        len(msg.values) > 1 and
-        not msg.duplicates
-    ):
-        return msg.values, relating
-
-    elif(
-        identical_or_unique == 'unique' and
-        len(msg.duplicates)
-    ):
-        false_instances = [insts[1][i] for i, x in enumerate(msg.values) if x in msg.duplicates]
-        return msg.duplicates, false_instances
-
-    else: return None, None
-=======
 def ifcopenshell_instance_type_to_string(v):
     """
         Converts ifcopenshell instance type to strings, if applicable
@@ -532,43 +510,12 @@ def map_many(v, fn, *args):
     """
     return map_many(map(fn, v), *args) if args else map(fn, v)
 
-def check_entity_inst_nestedlist(v):
-    """
-        Check recursively if value is an instance of ifcopenshell.entity_instance
-    """
-    if isinstance(v, (tuple, list)):
-        return type(v)(check_entity_inst_nestedlist(vi) for vi in v)
-    else:
-        return do_try(lambda: isinstance(v[0], ifcopenshell.entity_instance), False)
->>>>>>> 5132f9d (then statement and dataclass restructure)
-
 @then("The values must be {identical_or_unique}")
 def step_impl(context, identical_or_unique):
     errors = []
 
-<<<<<<< HEAD
-    within_model = getattr(context, 'within_model', True)
-
-=======
->>>>>>> 5132f9d (then statement and dataclass restructure)
     if getattr(context, 'applicable', True):
 
-<<<<<<< HEAD
-        for i, values in enumerate(instances):
-            msg = value_error_msg(identical_or_unique=identical_or_unique, attribute=context.attribute)
-            msg.values = [do_try(lambda: i[0].is_a(), i) for i in values] # @todo convert empty tuple to None? Maybe more 'restyling' for better output? e.g. converting to lower_case letters, specifying type of value etc
-            seen = set()
-            msg.duplicates = [x for x in msg.values if x in seen or seen.add(x)]
-
-            msg.related = stack_tree[-1] # in case of within model, so maybe move there
-            
-            msg.values, msg.relating = evaluate_identical_unique(msg, msg.related, identical_or_unique, relating = context.instances)
-
-            if (msg.values and msg.relating):
-                if not within_model:
-                    msg.include_relating
-                errors.append(msg)
-=======
         stack_tree= list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
 
         for i, values in enumerate([context.instances] if getattr(context, 'within_model', False) else context.instances):
@@ -595,7 +542,6 @@ def step_impl(context, identical_or_unique):
             # don't duplicate in error message if values contain instance of ifcopenshell.entity_instance
             entity_instance_in_values = any(map_state(values, lambda v: do_try(lambda: isinstance(v, ifcopenshell.entity_instance), False)))
             errors.append(value_identical_unique_error(related, values_str, attribute, identical_or_unique, relating, entity_instance_in_values))
->>>>>>> 5132f9d (then statement and dataclass restructure)
 
     handle_errors(context, errors)
 

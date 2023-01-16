@@ -1,5 +1,5 @@
 @GRF
-Feature: GRF - Identical coordinate operations for all representation contexts
+Feature: GRF001 - Identical coordinate operations for all representation contexts
 
 """
 The rule verifies that the same coordinate system is used within an IFC model. 

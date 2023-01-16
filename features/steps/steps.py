@@ -496,15 +496,6 @@ def map_many(v, fn, *args):
     """
     return map_many(map(fn, v), *args) if args else map(fn, v)
 
-def check_entity_inst_nestedlist(v):
-    """
-        Check recursively if value is an instance of ifcopenshell.entity_instance
-    """
-    if isinstance(v, (tuple, list)):
-        return type(v)(check_entity_inst_nestedlist(vi) for vi in v)
-    else:
-        return do_try(lambda: isinstance(v[0], ifcopenshell.entity_instance), False)
-
 @then("The values must be {identical_or_unique}")
 def step_impl(context, identical_or_unique):
     errors = []

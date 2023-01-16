@@ -515,28 +515,28 @@ def evaluate_identical_unique(msg, insts, identical_or_unique, relating):
 =======
 def ifcopenshell_instance_type_to_string(v):
     """
-    In a list, converts ifcopenshell instance type to strings, if applicable
+        Converts ifcopenshell instance type to strings, if applicable
     """
     return do_try(lambda: v[0].is_a(), v)
 
 def empty_tuple_to_string(v):
     """
-    In a list, converts empty tuples type to strings, if applicable
-    To be used for meaningful error messages
+        Converts empty tuples type to strings, if applicable
+        To be used for meaningful error messages
     """
     return 'None' if isinstance(v, tuple) and not v else v
 
 def map_many(v, fn, *args):
     """
         Maps multiple functions to a list
-        Used in: 
-            - GEM003 - Unique Representation Identifier
-            - GRF001 - Identical coordinate operations for all representation contexts
     """
     return map_many(map(fn, v), *args) if args else map(fn, v)
 
 def check_entity_inst_nestedlist(v):
-    if isinstance(v, (list)):
+    """
+        Check recursively if value is an instance of ifcopenshell.entity_instance
+    """
+    if isinstance(v, (tuple, list)):
         return type(v)(check_entity_inst_nestedlist(vi) for vi in v)
     else:
         return do_try(lambda: isinstance(v[0], ifcopenshell.entity_instance), False)
@@ -544,13 +544,6 @@ def check_entity_inst_nestedlist(v):
 
 @then("The values must be {identical_or_unique}")
 def step_impl(context, identical_or_unique):
-    """
-        Function to check if given values are either identical or unique
-        by going back in stack frames of previous Given statement
-        Used for:
-            - GEM003
-            - GRF001
-    """
     errors = []
 
 <<<<<<< HEAD
@@ -589,7 +582,7 @@ def step_impl(context, identical_or_unique):
 
             if (identical_or_unique == 'identical' and len(values_str) > 1 and not duplicates):
                 relating = context.instances
-                related = stack_tree[-1] # is this linked to identical?
+                related = stack_tree[-1] 
             elif (identical_or_unique == 'unique' and len(duplicates)):
                 inst_tree = [t[i] for t in stack_tree]
                 related = inst_tree[-1]
@@ -598,8 +591,9 @@ def step_impl(context, identical_or_unique):
                 relating = false_instances
             else:
                 continue
-
-            entity_instance_in_values = any([check_entity_inst_nestedlist(v) for v in values]) # don't duplicate in error message if this is the case
+            
+            # don't duplicate in error message if values contain instance of ifcopenshell.entity_instance
+            entity_instance_in_values = any(map_state(values, lambda v: do_try(lambda: isinstance(v, ifcopenshell.entity_instance), False)))
             errors.append(value_identical_unique_error(related, values_str, attribute, identical_or_unique, relating, entity_instance_in_values))
 >>>>>>> 5132f9d (then statement and dataclass restructure)
 

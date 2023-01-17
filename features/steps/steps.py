@@ -89,17 +89,6 @@ class instance_count_error:
             return f"No instances of type {self.type_name} were encountered"
 
 @dataclass
-class representation_value_error:
-    inst: ifcopenshell.entity_instance
-    duplicate_value: str
-    duplicate_representations: ifcopenshell.entity_instance
-
-    def __str__(self):
-        return f"Instance {fmt(self.inst)} has multiple representations for Identifier {', '.join(map(fmt, self.duplicate_value))} at instances {';'.join(map(fmt, self.duplicate_representations))}"
-
-
-
-@dataclass
 class instance_structure_error:
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance

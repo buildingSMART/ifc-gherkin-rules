@@ -505,7 +505,7 @@ def step_impl(context, identical_or_unique):
                 continue
                         
             values_str = list(map_many(values, empty_tuple_to_string, ifcopenshell_instance_type_to_string))
-            attribute = getattr(context, 'attribute', 'None')
+            attribute = getattr(context, 'attribute', None)
 
             duplicates = get_duplicate_values(values_str)
 

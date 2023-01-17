@@ -277,7 +277,6 @@ def step_impl(context, the_or_all, entity_opt_stmt):
 def step_impl(context, attribute):
     context._push()
     context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
-    setattr(context, 'instances', context.instances)
     setattr(context, 'attribute', attribute)
 
 

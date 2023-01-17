@@ -477,7 +477,7 @@ def ifcopenshell_instance_type_to_string(v):
     """
         Converts ifcopenshell instance type to strings, if applicable
     """
-    return do_try(lambda: v[0].is_a(), v)
+    return do_try(lambda: v[0].is_a(), v) # v[0] when v is (ifcopenshell.entity_instance)
 
 def empty_tuple_to_string(v):
     """

@@ -516,10 +516,10 @@ def step_impl(context, identical_or_unique):
 
             duplicates = get_duplicate_values(values_str)
 
-            if (identical_or_unique == 'identical' and len(values_str) > 1 and not duplicates):
+            if (identical_or_unique == 'identical' and len(set(values_str)) > 1):
                 relating = context.instances
                 related = stack_tree[-1] 
-            elif (identical_or_unique == 'unique' and len(duplicates)):
+            elif (identical_or_unique == 'unique' and duplicates):
                 inst_tree = [t[i] for t in stack_tree]
                 related = inst_tree[-1]
                 false_instances = [inst_tree[1][i] for i,x in enumerate(values_str) if x in duplicates]

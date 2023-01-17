@@ -138,12 +138,12 @@ class representation_type_error:
         return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
 
 @dataclass 
-class value_identical_unique_error:
-    related: ifcopenshell.entity_instance 
-    values: str 
+class identical_unique_error:
+    related: typing.Sequence[ifcopenshell.entity_instance]
+    values: typing.Sequence[typing.Any] 
     attribute: str 
     identical_or_unique: str 
-    relating: ifcopenshell.entity_instance
+    relating: typing.Sequence[ifcopenshell.entity_instance]
     entity_instance_in_values: bool = field(default=False)
 
     def __str__(self):
@@ -529,7 +529,7 @@ def step_impl(context, identical_or_unique):
             
             # don't duplicate in error message if values contain instance of ifcopenshell.entity_instance
             entity_instance_in_values = any(map_state(values, lambda v: do_try(lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-            errors.append(value_identical_unique_error(related, values_str, attribute, identical_or_unique, relating, entity_instance_in_values))
+            errors.append(identical_unique_error(related, values_str, attribute, identical_or_unique, relating, entity_instance_in_values))
 
     handle_errors(context, errors)
 

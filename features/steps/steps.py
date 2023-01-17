@@ -235,7 +235,7 @@ def strip_split(stmt, strp = ' ', splt = ' '):
 
 def include_subtypes(stmt):
     stmt = strip_split(stmt, strp = '[]')
-    excluding_statements = {['without', 'not', 'excluding', 'no']}
+    excluding_statements = {'without', 'not', 'excluding', 'no'}
     return not set(stmt).intersection(set(excluding_statements))
 
 def map_state(values, fn):

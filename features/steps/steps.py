@@ -269,8 +269,9 @@ def step_impl(context, field, values):
 def step_impl(context, entity, other_entity, relationship):
     instances = []
     relationships = context.model.by_type(relationship)
-    filename_related_attr_matrix = get_abs_path(r'resources\attribute_mapping\related_entity_attributes.csv')
-    filename_relating_attr_matrix = get_abs_path(r'resources\attribute_mapping\relating_entity_attributes.csv')
+
+    filename_related_attr_matrix = get_abs_path(f"resources/**/related_entity_attributes.csv")
+    filename_relating_attr_matrix = get_abs_path(f"resources/**/relating_entity_attributes.csv")
     related_attr_matrix = get_csv(filename_related_attr_matrix, return_type='dict')[0]
     relating_attr_matrix = get_csv(filename_relating_attr_matrix, return_type='dict')[0]
     for rel in relationships:
@@ -362,8 +363,8 @@ def step_impl(context, entity, other_entity):
 def step_impl(context, entity, other_entity, relationship):
     if getattr(context, 'applicable', True):
         errors = []
-        filename_related_attr_matrix = get_abs_path(r'resources\attribute_mapping\related_entity_attributes.csv')
-        filename_relating_attr_matrix = get_abs_path(r'resources\attribute_mapping\relating_entity_attributes.csv')
+        filename_related_attr_matrix = get_abs_path(f"resources/**/related_entity_attributes.csv")
+        filename_relating_attr_matrix = get_abs_path(f"resources/**/relating_entity_attributes.csv")
         related_attr_matrix = get_csv(filename_related_attr_matrix, return_type='dict')[0]
         relating_attr_matrix = get_csv(filename_relating_attr_matrix, return_type='dict')[0]
 

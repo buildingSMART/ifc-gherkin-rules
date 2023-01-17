@@ -235,14 +235,8 @@ def strip_split(stmt, strp = ' ', splt = ' '):
 
 def include_subtypes(stmt):
     stmt = strip_split(stmt, strp = '[]')
-    if len(stmt) > 1 and 'subtypes' in stmt:
-        excluding_statements = ['without', 'not', 'excluding', 'no']
-        if len(set(stmt).intersection(set(excluding_statements))):
-            return False
-        else:
-            return True
-    else:
-        return True
+    excluding_statements = {['without', 'not', 'excluding', 'no']}
+    return not set(stmt).intersection(set(excluding_statements))
 
 def map_state(values, fn):
     if isinstance(values, (tuple, list)):

@@ -228,13 +228,13 @@ def instance_getter(i,representation_id, representation_type, negative=False):
         if condition(i, representation_id, representation_type):
             return i
 
-def strip_split(stmt, strp = ' ', splt = ' '):
+def strip_split(stmt, strp = ' ', splt = ','):
     return list(
-        map(str.lower, map(lambda s: s.strip(strp), stmt.split(splt)))
+        map(lambda s: s.strip(strp), stmt.lower().split(splt))
     )
 
 def include_subtypes(stmt):
-    stmt = strip_split(stmt, strp = '[]')
+    stmt = strip_split(stmt, strp = '[]', splt=' ')
     excluding_statements = {'without', 'not', 'excluding', 'no'}
     return not set(stmt).intersection(set(excluding_statements))
 
@@ -255,8 +255,6 @@ def step_impl(context, entity_opt_stmt):
 
 @given("{the_or_all} instances of {entity_opt_stmt}")
 def step_impl(context, the_or_all, entity_opt_stmt):
-    the_or_all = the_or_all
-
     entity = entity_opt_stmt.split()[0]
 
     try:

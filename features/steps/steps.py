@@ -261,7 +261,6 @@ def map_state(values, fn):
 def step_impl(context, attribute):
     context._push()
     context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
-    setattr(context, 'instances', context.instances)
     setattr(context, 'attribute', attribute)
 
 

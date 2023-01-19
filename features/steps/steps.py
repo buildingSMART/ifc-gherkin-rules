@@ -90,6 +90,7 @@ class instance_count_error:
 
 @dataclass
 class instance_structure_error:
+    #@todo reverse order to relating -> nest-relationship -> related
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
     relationship_type: str
@@ -139,19 +140,19 @@ class representation_type_error:
 
 @dataclass 
 class identical_unique_error:
-    related: typing.Sequence[ifcopenshell.entity_instance]
+    relating: typing.Sequence[ifcopenshell.entity_instance]
     values: typing.Sequence[typing.Any] 
     attribute: str 
     identical_or_unique: str 
-    relating: typing.Sequence[ifcopenshell.entity_instance]
+    related: typing.Sequence[ifcopenshell.entity_instance]
     entity_instance_in_values: bool = field(default=False)
 
     def __str__(self):
-        relating_statement = f"on instance(s) {', '.join(map(fmt, self.relating))}" if not self.entity_instance_in_values else ''
+        related_statement = f"on instance(s) {', '.join(map(fmt, self.related))}" if not self.entity_instance_in_values else ''
         return (
-            f"On instance(s) {';'.join(map(fmt, self.related))}, "
+            f"On instance(s) {';'.join(map(fmt, self.relating))}, "
             f"the following non-{self.identical_or_unique} value(s) for attribute {self.attribute} was/were found: "
-            f"{', '.join(map(fmt, self.values))} {relating_statement}"
+            f"{', '.join(map(fmt, self.values))} {related_statement}"
         )
 
 def is_a(s):
@@ -401,6 +402,7 @@ def step_impl(context, entity, fragment, other_entity):
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
+    #@todo reverse order to relating -> nest-relationship -> related
     pred = stmt_to_op(condition)
 
     op = lambda n: not pred(n, 0)
@@ -508,20 +510,20 @@ def step_impl(context, identical_or_unique):
             duplicates = get_duplicate_values(values_str)
 
             if (identical_or_unique == 'identical' and len(set(values_str)) > 1):
-                relating = context.instances
-                related = stack_tree[-1] 
+                related = context.instances
+                relating = stack_tree[-1] 
             elif (identical_or_unique == 'unique' and duplicates):
                 inst_tree = [t[i] for t in stack_tree]
-                related = inst_tree[-1]
+                relating = inst_tree[-1]
                 false_instances = [inst_tree[1][i] for i,x in enumerate(values_str) if x in duplicates]
                 values_str = duplicates # in this case, the duplicates are the values that cause an error
-                relating = false_instances
+                related = false_instances
             else:
                 continue
             
             # don't duplicate in error message if values contain instance of ifcopenshell.entity_instance
             entity_instance_in_values = any(map_state(values, lambda v: do_try(lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-            errors.append(identical_unique_error(related, values_str, attribute, identical_or_unique, relating, entity_instance_in_values))
+            errors.append(identical_unique_error(relating, values_str, attribute, identical_or_unique, related, entity_instance_in_values))
 
     handle_errors(context, errors)
 

@@ -473,11 +473,19 @@ def get_duplicate_values(values):
     duplicates = [x for x in values if x in seen or seen.add(x)]
     return duplicates
 
+def unpack_value(tup):
+    for item in tup:
+        if isinstance(item, tuple):
+            unpack_value(item)
+        else:
+            return item
+
 def ifcopenshell_instance_type_to_string(v):
     """
         Converts ifcopenshell instance type to strings, if applicable
     """
-    return do_try(lambda: v[0].is_a(), v) # v[0] when v is (ifcopenshell.entity_instance)
+    unpack_v = unpack_value(v) # from '(entity_instance)' to 'entity_instance', if applicable
+    return v if not isinstance(unpack_v, ifcopenshell.entity_instance) else unpack_v.is_a()
 
 def empty_tuple_to_string(v):
     """

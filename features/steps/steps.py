@@ -542,7 +542,7 @@ def step_impl(context, identical_or_unique):
 
             duplicates = get_duplicate_values(values)
             values_are_identical = all([identical_values_in_sequence(
-                value, values, consider_inheritance=False) for value in values])
+                value, values, consider_inheritance=True) for value in values])
 
             if (identical_or_unique == 'identical' and not values_are_identical):
                 incorrect_values = values

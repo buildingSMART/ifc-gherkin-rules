@@ -141,18 +141,18 @@ class representation_type_error:
 @dataclass 
 class identical_unique_error:
     relating: typing.Sequence[ifcopenshell.entity_instance]
-    values: typing.Sequence[typing.Any] 
+    incorrect_values: typing.Sequence[typing.Any] 
     attribute: str 
     identical_or_unique: str 
-    related: typing.Sequence[ifcopenshell.entity_instance]
-    entity_instance_in_values: bool = field(default=True)
+    incorrect_insts: typing.Sequence[ifcopenshell.entity_instance]
+    report_incorrect_insts: bool = field(default=True)
 
     def __str__(self):
-        related_statement = f"on instance(s) {', '.join(map(fmt, self.related))}" if not self.entity_instance_in_values else ''
+        incorrect_insts_statement = f"on instance(s) {', '.join(map(fmt, self.incorrect_insts))}" if not self.report_incorrect_insts else ''
         return (
             f"On instance(s) {';'.join(map(fmt, self.relating))}, "
             f"the following non-{self.identical_or_unique} value(s) for attribute {self.attribute} was/were found: "
-            f"{', '.join(map(fmt, self.values))} {related_statement}"
+            f"{', '.join(map(fmt, self.incorrect_values))} {incorrect_insts_statement}"
         )
 
 def is_a(s):
@@ -545,24 +545,24 @@ def step_impl(context, identical_or_unique):
                 value, values, consider_inheritance=False) for value in values])
 
             if (identical_or_unique == 'identical' and not values_are_identical):
-                related = context.instances
+                incorrect_values = values
+                incorrect_insts = context.instances
                 relating = stack_tree[-1]
             elif (identical_or_unique == 'unique' and duplicates): #rule: gem003
                 inst_tree = [t[i] for t in stack_tree]
                 relating = inst_tree[-1]
                 false_instances = [inst_tree[1][i]
                                    for i, x in enumerate(values) if x in duplicates]
-                # in this case, the duplicates are the values that cause an error
-                values = duplicates
-                related = false_instances # instance where the duplicate value is found
+                incorrect_values = duplicates
+                incorrect_insts = false_instances # instance where the duplicate value is found
             else:
                 continue
 
             # don't mention ifcopenshell.entity_instance twice in error message
-            entity_instance_in_values = any(map_state(values, lambda v: do_try(
+            report_incorrect_insts = any(map_state(values, lambda v: do_try(
                 lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-            errors.append(identical_unique_error(relating, values, attribute,
-                          identical_or_unique, related, entity_instance_in_values))
+            errors.append(identical_unique_error(relating, incorrect_values, attribute,
+                          identical_or_unique, incorrect_insts, report_incorrect_insts))
 
     handle_errors(context, errors)
 

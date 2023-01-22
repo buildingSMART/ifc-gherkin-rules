@@ -653,3 +653,19 @@ def step_impl(context, representation_id):
                     errors.append(representation_shape_error(inst, representation_id))
     
     handle_errors(context, errors)
+
+@then('Each {entity} may be nested by only the following entities: {other_entities}')
+def step_impl(context, entity, other_entities):
+
+    allowed_entity_types = set(map(str.strip, other_entities.split(',')))
+
+    errors = []
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
+            nested_entity_types = set(i.is_a() for i in nested_entities)
+            if not nested_entity_types <= allowed_entity_types:
+                differences = list(nested_entity_types - allowed_entity_types)
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
+    
+    handle_errors(context, errors)

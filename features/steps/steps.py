@@ -247,6 +247,7 @@ def map_state(values, fn):
 
 @given("An {entity_opt_stmt}")
 def step_impl(context, entity_opt_stmt):
+    #@todo use pyparsing and/or brackets 
     entity = entity_opt_stmt.split()[0]
 
     try:
@@ -255,6 +256,7 @@ def step_impl(context, entity_opt_stmt):
         context.instances = []
 
 @given("{the_or_all} instances of {entity_opt_stmt}")
+#@todo use pyparsing and/or brackets, e.g. to merge with statement above
 def step_impl(context, the_or_all, entity_opt_stmt):
     entity = entity_opt_stmt.split()[0]
 
@@ -264,6 +266,7 @@ def step_impl(context, the_or_all, entity_opt_stmt):
     except:
         context.instances = []
 
+    #@todo check if setting this in global gives desired output
     context.within_model = getattr(context, 'within_model', True) and within_model
 
 @given('Its attribute {attribute}')
@@ -471,6 +474,7 @@ def step_impl(context, entity, other_entities):
 
 
 """Functions for error messages"""
+#@todo check which information should be in error message / error codes ? 
 def ifcopenshell_instance_type_to_string(v):
     """ Converts ifcopenshell instance type to strings, if applicable
     To be used in error messages, if the type of the entity_instance is preferred over the complete instance

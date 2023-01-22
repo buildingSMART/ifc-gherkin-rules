@@ -9,11 +9,15 @@ import os
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
-
+from parse_type import TypeBuilder
 
 import ifcopenshell
 
 from behave import *
+
+
+register_type(from_to=TypeBuilder.make_enum({"from": 0, "to": 1 }))
+register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and following that": 1 }))
 
 
 def instance_converter(kv_pairs):
@@ -208,8 +212,10 @@ def step_impl(context, field, values):
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 
-@given('A relationship {relationship} from {entity} to {other_entity}')
-def step_impl(context, entity, other_entity, relationship):
+@given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
+def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail):
+    assert dir1 != dir2
+
     relationships = context.model.by_type(relationship)
     instances = []
     dirname = os.path.dirname(__file__)
@@ -220,8 +226,11 @@ def step_impl(context, entity, other_entity, relationship):
     for rel in relationships:
         regex = re.compile(r'([0-9]+=)([A-Za-z0-9]+)\(')
         relationships_str = regex.search(str(rel)).group(2)
-        relationship_relating_attr = relating_attr_matrix.get(relationships_str)
-        relationship_related_attr = related_attr_matrix.get(relationships_str)
+        
+        attr_to_entity = relating_attr_matrix.get(relationships_str)
+        attr_to_other = related_attr_matrix.get(relationships_str)
+
+        
         if getattr(rel, relationship_relating_attr).is_a(other_entity):
             try: #check if the related attribute returns a tuple/list or just a single instance
                 iter(getattr(rel, relationship_related_attr))

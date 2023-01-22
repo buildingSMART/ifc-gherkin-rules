@@ -492,6 +492,7 @@ def map_many(v, fn, *args):
     For example, for convert non-string values to string for more understandable error messages
 
     e.g. strings = list(map_many(values, empty_tuple_to_string, ifcopenshell_instance_type_to_string))
+    converts '#23IfcRoof' ... & '()' to 'IfcRoof' and 'None' in error message
     """
     return map_many(map(fn, v), *args) if args else map(fn, v)
 """"""
@@ -520,7 +521,7 @@ def identical_values_in_sequence(value, values, consider_inheritance = False):
     """ Check if a given value is identical to any of the values in given list, 
         use when iterating over a list
     """
-    assert isinstance(values, list)
+    assert isinstance(values, (list, tuple))
     value_unp = unpack_tuple(value) #unpacks e.g. '(#23Wall..)' to '#23IfcWall..' 
     first_value = unpack_tuple(values[0])
 

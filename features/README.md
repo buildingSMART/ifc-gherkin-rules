@@ -60,7 +60,8 @@ SPS001_Basic-spatial-structure-for-buildings.feature
 #### Mandatory content
 `.feature` files:
 - must start with a tag to the functional part. See [Functional parts](./Functional-parts.md)
-- must include exactly 1 Feature, named using the rule code and the rule title (similar to the file name, just with blank spaces instead of `-`)
+- must include exactly 1 Feature
+- the naming convention for the Feature is the following: rule code - rule title (the same used for the file name). For the rule title blank spaces must be used instead of `-` 
 
 <details><summary>wrong</summary>
 
@@ -69,15 +70,20 @@ Feature: ALB001_Alignment Layout
 
 Given ...
 Then ...
-And ...
 ```
 ```
 @ALB
-Feature: ALB001 - Alignment Layout
+Feature: ALB001_Alignment-Layout
 
 Given ...
 Then ...
-And ...
+```
+```
+@ALB
+Feature: ALB001 - Alignment-Layout
+
+Given ...
+Then ...
 ```
 
 </details>
@@ -85,11 +91,26 @@ And ...
 
 ```
 @ALB
-Feature: ALB001_Alignment Layout
+Feature: ALB001 - Alignment Layout
 
 Given ...
 Then ...
-And ...
+```
+</details>
+
+ - must include **a description of the rule** that start with "The rule verifies that..." 
+
+<details><summary>examples</summary>
+
+```
+@implementer-agreement
+@ALB
+Feature: ALB003 - Allowed entities nested in Alignment
+The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts) or with Referents (e.g., mileage markers). And not with any other entity.
+
+  Scenario: Agreement on nested elements of IfcAlignment
+  Given ...
+  Then ...
 ```
 </details>
 
@@ -201,7 +222,7 @@ Use **must**, not **shall** to impose requirements.
 ```
 Given A file with Schema Identifier "IFC2X3"
 And A file with Model View Definition "CoordinationView"
-Then There shall be exactly 1 IfcSite element(s)
+Then There must be exactly 1 IfcSite element(s)
 ```
 </details>
 <details><summary>right</summary>

@@ -380,8 +380,8 @@ def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail=0):
     relationships = context.model.by_type(relationship)
     instances = []
     dirname = os.path.dirname(__file__)
-    filename_related_attr_matrix = os.path.join(Path(dirname).parent, r'resources\related_entity_attributes.csv')
-    filename_relating_attr_matrix = os.path.join(Path(dirname).parent, r'resources\relating_entity_attributes.csv')
+    filename_related_attr_matrix = Path(dirname).parent /'resources' / 'related_entity_attributes.csv'
+    filename_relating_attr_matrix = Path(dirname).parent / 'resources' / 'relating_entity_attributes.csv'
     related_attr_matrix = next(csv.DictReader(open(filename_related_attr_matrix)))
     relating_attr_matrix = next(csv.DictReader(open(filename_relating_attr_matrix)))
     

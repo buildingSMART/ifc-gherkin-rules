@@ -194,6 +194,15 @@ class instance_placement_error:
             return f"The entity {fmt(self.entity)} is contained in {fmt(self.container)} with the {fmt(self.relationship)} relationship. " \
                    f"The container points to {fmt(self.container_obj_placement)}, but the entity to {fmt(self.entity_obj_placement)}"
 
+@dataclass
+class instance_attribute_value_error:
+    path: typing.Sequence[ifcopenshell.entity_instance]
+    allowed_values: typing.Sequence[typing.Any]
+
+    def __str__(self):
+        return f"The value {self.path[0]!r} on {self.path[1]} is not one of {', '.join(map(repr, self.allowed_values))}"
+
+
 def is_a(s):
     return lambda inst: inst.is_a(s)
 
@@ -363,8 +372,9 @@ def step_impl(context, field, values):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
+@given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
 @given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
-def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail):
+def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail=0):
     assert dir1 != dir2
 
     relationships = context.model.by_type(relationship)
@@ -376,27 +386,25 @@ def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail):
     relating_attr_matrix = next(csv.DictReader(open(filename_relating_attr_matrix)))
     
     for rel in relationships:
-        regex = re.compile(r'([0-9]+=)([A-Za-z0-9]+)\(')
-        relationships_str = regex.search(str(rel)).group(2)
-        
-        attr_to_entity = relating_attr_matrix.get(relationships_str)
-        attr_to_other = related_attr_matrix.get(relationships_str)
+        attr_to_entity = relating_attr_matrix.get(rel.is_a())
+        attr_to_other = related_attr_matrix.get(rel.is_a())
 
         if dir1:
             attr_to_entity, attr_to_other = attr_to_other, attr_to_entity
-        
-        if getattr(rel, attr_to_other).is_a(other_entity):
-            
-            related_objects = getattr(rel, attr_to_entity)
-            if not isinstance(related_objects, (list, tuple)):
-                related_objects = [related_objects]
 
-            for obj in related_objects:
-                if obj.is_a(entity):
-                    if tail:
-                        instances.append(obj)
-                    else:
-                        instances.append(getattr(rel, attr_to_other))
+        def make_aggregate(val):
+            if not isinstance(val, (list, tuple)):
+                val = [val]
+            return val
+
+        to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
+        to_other = set(filter(lambda i: i.is_a(other_entity), make_aggregate(getattr(rel, attr_to_other))))
+
+        if v := set(context.instances) & to_entity:
+            if tail:
+                instances.extend(to_other)
+            else:
+                instances.extend(v)
 
     context.instances = instances
 
@@ -451,30 +459,43 @@ def convert_values(values, context):
             converted_values.append(value)
     return converted_values
 
-@then("The values must be {identical_or_unique}")
-def step_impl(context, identical_or_unique):
+@then("The value must be {constraint}")
+@then("The values must be {constraint}")
+def step_impl(context, constraint):
     errors = []
 
     within_model = getattr(context, 'within_model', False)
 
     if getattr(context, 'applicable', True):
+
         stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
         instances = [context.instances] if within_model else context.instances
 
-        for i, values in enumerate(instances):
-            if not values:
-                continue
+        if constraint in ('identical', 'unique'):
 
-            msg = value_error_msg(identical_or_unique=identical_or_unique, attribute=getattr(context, 'attribute', 'None'))
-            msg.values = convert_values(values, context) #converts ifcopenshell instances to plain str, if applicable 
-            msg.include_relating = getattr(context, 'include_relating_entities', True)
+            for i, values in enumerate(instances):
+                if not values:
+                    continue
 
-            msg.duplicates = get_duplicates(msg.values)
-            
-            msg.values, msg.relating, msg.related = evaluate_identical_unique(msg, stack_tree, i, identical_or_unique, relating = context.instances)
+                msg = value_error_msg(identical_or_unique=constraint, attribute=getattr(context, 'attribute', 'None'))
+                msg.values = convert_values(values, context) #converts ifcopenshell instances to plain str, if applicable 
+                msg.include_relating = getattr(context, 'include_relating_entities', True)
 
-            if (msg.values and msg.relating):
-                errors.append(msg)
+                msg.duplicates = get_duplicates(msg.values)
+                
+                msg.values, msg.relating, msg.related = evaluate_identical_unique(msg, stack_tree, i, constraint, relating = context.instances)
+
+                if (msg.values and msg.relating):
+                    errors.append(msg)
+
+        else:
+            values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
+
+            if stack_tree:
+                for i in range(len(stack_tree[0])):
+                    path = [l[i] for l in stack_tree]
+                    if path[0] not in values:
+                        errors.append(instance_attribute_value_error(path, values))
 
     handle_errors(context, errors)
 

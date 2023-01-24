@@ -50,9 +50,11 @@ def fmt(x):
             return "...".join((v[:25], v[-7:]))
         return v
 
-def is_closed(seq_of_pt):
-    # @todo tolerance
-    return seq_of_pt[0] == seq_of_pt[-1]
+def is_closed(context, instance):
+    entity_contexts = get_entity_contexts(context, instance)
+    precision = get_precision_from_contexts(entity_contexts)
+    points_coordinates = get_points(instance)
+    return math.dist(points_coordinates[0], points_coordinates[-1]) < precision
 
 def get_points(inst, return_type = 'coord'):
     if inst.is_a().startswith('IfcCartesianPointList'):
@@ -85,7 +87,7 @@ def get_entity_contexts(ifc_context, ent):
         entity_context = get_entity_contexts(ifc_context, rev_item)
         return entity_context
 
-def get_precision_from_contexts(entity_contexts, func_to_return='max', default_precision= 1e-05):
+def get_precision_from_contexts(entity_contexts, func_to_return=max, default_precision= 1e-05):
     precisions = []
     if entity_contexts is None:
         return default_precision
@@ -95,10 +97,8 @@ def get_precision_from_contexts(entity_contexts, func_to_return='max', default_p
         elif hasattr(entity_context, 'ParentContext'):
             precision = get_precision_from_contexts([entity_context.ParentContext])
         precisions.append(precision)
-    if func_to_return == 'max':
-        return max(precisions)
-    elif func_to_return == 'min':
-        return min(precisions)
+    return func_to_return(precisions)
+
 
 @dataclass
 class edge_use_error:
@@ -288,16 +288,22 @@ def step_impl(context, field, values):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
+
 @given('{attr} forms {closed_or_open} curve')
 def step_impl(context, attr, closed_or_open):
     assert closed_or_open in ('a closed', 'an open')
     should_be_closed = closed_or_open == 'a closed'
-    try:
-        points = list(map(get_points, context.instances))
-    except NotImplementedError:
-        points = map(get_points, map(operator.attrgetter(attr), context.instances))
+    if attr == 'It': # if a pronoun is used instances are filtered based on previously established context
+        instances = context.instances
+    else: # if a specific entity is used instances are filtered based on the ifc model
+        instances = map(operator.attrgetter(attr), context.instances)
+
+    are_closed = []
+    for instance in instances:
+        are_closed.append(is_closed(context, instance))
+
     context.instances = list(
-        map(operator.itemgetter(0), filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, map(is_closed, points))))
+        map(operator.itemgetter(0), filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, are_closed)))
     )
 
 @then('There shall be {constraint} {num:d} instance(s) of {entity}')
@@ -359,17 +365,23 @@ def step_impl(context, representation_id):
     
     handle_errors(context, errors)
 
-@then("It must have no duplicate points")
-def step_impl(context):
+@then("It must have no duplicate points {clause} first and last point")
+def step_impl(context, clause):
+    assert clause in ('including', 'excluding')
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:
             entity_contexts = get_entity_contexts(context, instance)
             precision = get_precision_from_contexts(entity_contexts)
             points_coordinates = get_points(instance)
+            comparison_nr = 1
             for i in itertools.combinations(points_coordinates, 2):
                 if math.dist(i[0], i[1]) < precision:
-                    errors.append(polyobject_structure_error(instance, points_coordinates, 'duplicate_points'))
+                    if clause == 'including' or (clause == 'excluding' and comparison_nr != len(points_coordinates)-1):
+                        # combinations() produces tuples in a sorted order, first and last item is compared with items 0 and n-1
+                        errors.append(polyobject_structure_error(instance, points_coordinates, 'duplicate_points'))
+                        break
+                comparison_nr += 1
         handle_errors(context, errors)
 
 

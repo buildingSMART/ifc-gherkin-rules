@@ -94,37 +94,37 @@ for ent_1, ent_2, variate in itertools.product(entities, entities, (0, 1)):
 
     file.write(f'{pass_or_fail}-{ent_1.lower()}-{ent_2.lower()}{different_values}.ifc')
 
-count = 0
-for i in range(2):
-    count += 1
-    file = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD1")
+# count = 0
+# for i in range(2):
+#     count += 1
+#     file = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD1")
 
-    WorldCoordinateSystem = file.by_type("IFCAXIS2PLACEMENT3D")[0]
-    TrueNorth = file.by_type("IFCDirection")[-1]
+#     WorldCoordinateSystem = file.by_type("IFCAXIS2PLACEMENT3D")[0]
+#     TrueNorth = file.by_type("IFCDirection")[-1]
 
-    context_1 = file.by_type("IfcGeometricRepresentationContext")[0]
-    TargetCRS = file.createIfcProjectedCrs(
-        Name='EPSG:3857',  # plz 04177
-        GeodeticDatum='WGS84',
-        MapProjection='WSG',
-        MapZone='3',  # GausKrueger
-        MapUnit=file.by_type("IFCSIUNIT")[0]
-    )
+#     context_1 = file.by_type("IfcGeometricRepresentationContext")[0]
+#     TargetCRS = file.createIfcProjectedCrs(
+#         Name='EPSG:3857',  # plz 04177
+#         GeodeticDatum='WGS84',
+#         MapProjection='WSG',
+#         MapZone='3',  # GausKrueger
+#         MapUnit=file.by_type("IFCSIUNIT")[0]
+#     )
 
-    file.createIfcRigidOperation(
-                    SourceCRS=context_1,
-                    TargetCRS=TargetCRS,
-                    FirstCoordinate=92.2
-                )
+#     file.createIfcRigidOperation(
+#                     SourceCRS=context_1,
+#                     TargetCRS=TargetCRS,
+#                     FirstCoordinate=92.2
+#                 )
     
-    file.createIfcRigidOpeation(
-        SourceCRS = file.createIfcGeometricRepresentationContext(
-                        ContextType='Model',
-                        CoordinateSpaceDimension=3,
-                        Precision=10 ** -5,
-                        WorldCoordinateSystem=WorldCoordinateSystem,
-                        TrueNorth=TrueNorth
-                    ),
-        TargetCRS = Target
-    )
+#     file.createIfcRigidOpeation(
+#         SourceCRS = file.createIfcGeometricRepresentationContext(
+#                         ContextType='Model',
+#                         CoordinateSpaceDimension=3,
+#                         Precision=10 ** -5,
+#                         WorldCoordinateSystem=WorldCoordinateSystem,
+#                         TrueNorth=TrueNorth
+#                     ),
+#         TargetCRS = Target
+#     )
     

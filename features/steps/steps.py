@@ -51,12 +51,12 @@ def fmt(x):
         return v
 
 def is_closed(context, instance):
-    entity_contexts = get_entity_contexts(context, instance)
+    entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
     precision = get_precision_from_contexts(entity_contexts)
     points_coordinates = get_points(instance)
     return math.dist(points_coordinates[0], points_coordinates[-1]) < precision
 
-def get_points(inst, return_type = 'coord'):
+def get_points(inst, return_type='coord'):
     if inst.is_a().startswith('IfcCartesianPointList'):
         return inst.CoordList
     elif inst.is_a('IfcPolyline'):
@@ -72,19 +72,19 @@ def get_points(inst, return_type = 'coord'):
     else:
         raise NotImplementedError(f'get_points() not implemented on {inst.is_a}')
 
-def get_entity_contexts(ifc_context, ent):
-    if hasattr(ent, 'ContextOfItems'):
-        return ent.ContextOfItems
+def recurrently_get_entity_attr(ifc_context, ent, entity_to_look_for, attr_to_get):
+    if ent.is_a(entity_to_look_for):
+        return getattr(ent, attr_to_get)
     set_instances = []
     if len(ifc_context.model.get_inverse(ent)) == 0:
-        return None # inverse unattainable, context not found
+        return None  # inverse unattainable, context not found
     for rev_item in ifc_context.model.get_inverse(ent):
-        if hasattr(rev_item, 'ContextOfItems'):
-            set_instances.append(rev_item.ContextOfItems)
+        if rev_item.is_a(entity_to_look_for):
+            set_instances.append(getattr(rev_item, attr_to_get))
     if len(set_instances) > 0:
         return set_instances
     else:
-        entity_context = get_entity_contexts(ifc_context, rev_item)
+        entity_context = recurrently_get_entity_attr(ifc_context, rev_item, entity_to_look_for, attr_to_get)
         return entity_context
 
 def get_precision_from_contexts(entity_contexts, func_to_return=max, default_precision= 1e-05):
@@ -92,10 +92,10 @@ def get_precision_from_contexts(entity_contexts, func_to_return=max, default_pre
     if entity_contexts is None:
         return default_precision
     for entity_context in entity_contexts:
-        if hasattr(entity_context, 'Precision') and entity_context.Precision:
-            return entity_context.Precision
-        elif hasattr(entity_context, 'ParentContext'):
+        if entity_context.is_a('IfcGeometricRepresentationSubContext'):
             precision = get_precision_from_contexts([entity_context.ParentContext])
+        elif entity_context.is_a('IfcGeometricRepresentationContext') and entity_context.Precision:
+            return entity_context.Precision
         precisions.append(precision)
     return func_to_return(precisions)
 
@@ -293,9 +293,9 @@ def step_impl(context, field, values):
 def step_impl(context, attr, closed_or_open):
     assert closed_or_open in ('a closed', 'an open')
     should_be_closed = closed_or_open == 'a closed'
-    if attr == 'It': # if a pronoun is used instances are filtered based on previously established context
+    if attr == 'It':  # if a pronoun is used instances are filtered based on previously established context
         instances = context.instances
-    else: # if a specific entity is used instances are filtered based on the ifc model
+    else:  # if a specific entity is used instances are filtered based on the ifc model
         instances = map(operator.attrgetter(attr), context.instances)
 
     are_closed = []
@@ -371,13 +371,13 @@ def step_impl(context, clause):
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:
-            entity_contexts = get_entity_contexts(context, instance)
+            entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
             precision = get_precision_from_contexts(entity_contexts)
             points_coordinates = get_points(instance)
             comparison_nr = 1
             for i in itertools.combinations(points_coordinates, 2):
                 if math.dist(i[0], i[1]) < precision:
-                    if clause == 'including' or (clause == 'excluding' and comparison_nr != len(points_coordinates)-1):
+                    if clause == 'including' or (clause == 'excluding' and comparison_nr != len(points_coordinates) - 1):
                         # combinations() produces tuples in a sorted order, first and last item is compared with items 0 and n-1
                         errors.append(polyobject_structure_error(instance, points_coordinates, 'duplicate_points'))
                         break

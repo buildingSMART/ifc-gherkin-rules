@@ -70,20 +70,6 @@ def fmt(x):
             return "...".join((v[:25], v[-7:]))
         return v
 
-def get_abs_path(rel_path):
-    dir_name = os.path.dirname(__file__)
-    parent_path = Path(dir_name).parent
-    csv_path = do_try(lambda: glob.glob(os.path.join(parent_path, rel_path), recursive=True)[0])
-    return csv_path
-
-def get_csv(abs_path, return_type = 'list', newline = '', delimiter = ',', quotechar = '|'):
-    with open(abs_path, newline=newline) as csvfile:
-        if return_type == 'dict':
-            reader = csv.DictReader(csvfile)
-        elif return_type == 'list':
-            reader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
-        return [row for row in reader]
-
 @dataclass
 class edge_use_error:
     inst: ifcopenshell.entity_instance
@@ -437,13 +423,8 @@ def step_impl(context, representation_id):
     
     handle_errors(context, errors)
 
-@then('The values must be valid')
-def step_impl(context):
-    """
-        Function to check that the values in the context are valid.
-        Used for the following rules: 
-            - GEM004: Shape Representation Identifier must be valid
-    """
+@then('The values must be {constraint}')
+def step_impl(context, constraint):
     errors = []
     
     within_model = getattr(context, 'within_model', False)
@@ -455,11 +436,10 @@ def step_impl(context):
             continue
         attribute = getattr(context, 'attribute', None)
 
-        filename = f'{attribute}.csv'
-        csv_path = get_abs_path(f"resources/**/{filename}")
-        assert csv_path, f"{filename} not found in documentation"
-        valid_values = [row[0] for row in get_csv(csv_path)]
-        
+        dirname = os.path.dirname(__file__)
+        filename = Path(dirname).parent / f"resources/{constraint}_{attribute}.csv"
+        valid_values = [row[0] for row in csv.reader(open(filename))]
+
         errors.append([
             invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value)
             for iv, value in enumerate(values) 

@@ -11,6 +11,7 @@ And not, for example, an IfcMapConversion in one representation context and IfcR
       Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4x1"
         And All instances of IfcGeometricRepresentationContext [without considering subtypes]
         And Its Attribute HasCoordinateOperation
+        And Its values
 
        Then The values must be identical
     

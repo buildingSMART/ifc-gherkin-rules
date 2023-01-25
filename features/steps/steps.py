@@ -1,15 +1,18 @@
+import os
 import ast
 import json
 import typing
 import operator
 import functools
-import itertools
+import csv
 
 from collections import Counter
 from dataclasses import dataclass, field
+from pathlib import Path
 
 import ifcopenshell
 import pyparsing
+
 
 from behave import *
 
@@ -247,7 +250,7 @@ def map_state(values, fn):
 
 @given("An {entity_opt_stmt}")
 def step_impl(context, entity_opt_stmt):
-    #@todo use pyparsing and/or brackets 
+    #@todo use pyparsing and/or brackets, in non-rule focused sprint
     entity = entity_opt_stmt.split()[0]
 
     try:
@@ -256,7 +259,7 @@ def step_impl(context, entity_opt_stmt):
         context.instances = []
 
 @given("{the_or_all} instances of {entity_opt_stmt}")
-#@todo use pyparsing and/or brackets, e.g. to merge with statement above
+#@todo use pyparsing and/or brackets, e.g. to merge with statement above, in non-rule focused sprint
 def step_impl(context, the_or_all, entity_opt_stmt):
     entity = entity_opt_stmt.split()[0]
 
@@ -329,6 +332,27 @@ def step_impl(context, field, values):
  
     context.applicable = getattr(context, 'applicable', True) and applicable
 
+def get_attr_values(instance):
+    if instance == () or instance == None:
+        return ()
+    dirname = os.path.dirname(__file__)
+    instance = do_try(lambda: unpack_tuple(instance), None)
+    csv_filename = f'{instance.is_a().lower()}_attributes.csv'
+    attribute_filename = Path(dirname).parent /'resources' / csv_filename
+
+    reader = csv.reader(open(attribute_filename))
+    attr_incl_inherited = next(reader)
+    state_attributes = next(reader) # attributes of non-rooted instances not 
+
+    attributes = state_attributes if not instance.is_a("IfcRoot") else attr_incl_inherited
+
+    # @todo optional: convert to dict to get either more specific information in the error message or the ability to do more precise comparisons
+    return list(filter(None, list(map(lambda attr: getattr(instance, attr.strip(' '), None), attributes))))
+    
+@given('Its values')
+def step_impl(context):
+    context.instances = list(map(get_attr_values, context.instances))
+
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
     op = stmt_to_op(constraint)
@@ -358,7 +382,6 @@ def step_impl(context, entity, num, constraint, other_entity):
 
 
     handle_errors(context, errors)
-
 
 
 @then('Each {entity} {fragment} instance(s) of {other_entity}')
@@ -473,30 +496,6 @@ def step_impl(context, entity, other_entities):
     handle_errors(context, errors)
 
 
-"""Functions for error messages"""
-#@todo check which information should be in error message / error codes ? 
-def ifcopenshell_instance_type_to_string(v):
-    """ Converts ifcopenshell instance type to strings, if applicable
-    To be used in error messages, if the type of the entity_instance is preferred over the complete instance
-    """
-    return do_try(lambda: unpack_tuple(v).is_a(), v) # unpack if (ifcopenshell.entity_instance)
-
-def empty_tuple_to_string(v):
-    """ Converts empty tuples type to strings, if applicable
-        To be used for meaningful error messages
-    """
-    return 'None' if isinstance(v, tuple) and not v else v
-
-def map_many(v, fn, *args):
-    """ Maps multiple functions to a list
-    For example, for convert non-string values to string for more understandable error messages
-
-    e.g. strings = list(map_many(values, empty_tuple_to_string, ifcopenshell_instance_type_to_string))
-    converts '#23IfcRoof' ... & '()' to 'IfcRoof' and 'None' in error message
-    """
-    return map_many(map(fn, v), *args) if args else map(fn, v)
-""""""
-
 def unpack_tuple(tup):
     for item in tup:
         if isinstance(item, tuple):
@@ -504,62 +503,35 @@ def unpack_tuple(tup):
         else:
             return item
 
-def get_duplicate_values(values):
-    #rule: gem003
-    seen = set()
-    duplicates = [x for x in values if x in seen or seen.add(x)]
-    return duplicates
-
-
-def check_for_equality(value_1, value_2, consider_inheritance = False):
-    if consider_inheritance:
-        return do_try(lambda: value_1.is_a(value_2.is_a()), value_1 == value_2)
-    else:
-        return do_try(lambda: value_1.is_a() == value_2.is_a(), value_1 == value_2)
-
-def identical_values_in_sequence(value, values, consider_inheritance = False):
-    """ Check if a given value is identical to any of the values in given list, 
-        use when iterating over a list
-    """
-    assert isinstance(values, (list, tuple))
-    value_unp = unpack_tuple(value) #unpacks e.g. '(#23Wall..)' to '#23IfcWall..' 
-    first_value = unpack_tuple(values[0])
-
-    return check_for_equality(value_unp, first_value, consider_inheritance)
-    
 
 @then("The values must be {identical_or_unique}")
 def step_impl(context, identical_or_unique):
     errors = []
 
     if getattr(context, 'applicable', True):
-
         stack_tree = list(
             filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-
         instances = [context.instances] if getattr(
             context, 'within_model', False) else context.instances
-
         for i, values in enumerate(instances):
             if not values:
                 continue
             attribute = getattr(context, 'attribute', None)
-
-            duplicates = get_duplicate_values(values)
-            values_are_identical = all([identical_values_in_sequence(
-                value, values, consider_inheritance=True) for value in values])
-
-            if (identical_or_unique == 'identical' and not values_are_identical):
-                incorrect_values = values
+            if (identical_or_unique == 'identical' and not all([values[0] == i for i in values])):
+                incorrect_values = values # a more general approach of going through stack frames to return relevant information in error message?
                 incorrect_insts = context.instances
                 relating = stack_tree[-1]
-            elif (identical_or_unique == 'unique' and duplicates): #rule: gem003
+            elif identical_or_unique == 'unique':
+                seen = set()
+                duplicates = [x for x in values if x in seen or seen.add(x)]
+                if not duplicates:
+                    continue
                 inst_tree = [t[i] for t in stack_tree]
                 relating = inst_tree[-1]
                 false_instances = [inst_tree[1][i]
                                    for i, x in enumerate(values) if x in duplicates]
                 incorrect_values = duplicates
-                incorrect_insts = false_instances # instance where the duplicate value is found
+                incorrect_insts = false_instances  # instance where the duplicate value is found
             else:
                 continue
 

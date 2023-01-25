@@ -203,6 +203,44 @@ class instance_attribute_value_error:
         return f"The value {self.path[0]!r} on {self.path[1]} is not one of {', '.join(map(repr, self.allowed_values))}"
 
 
+@dataclass
+class instance_attribute_value_count_error:
+    paths: typing.Sequence[ifcopenshell.entity_instance]
+    allowed_values: typing.Sequence[typing.Any]
+    num_required: int
+
+    def __str__(self):
+        vs = "".join(f"\n * {p[0]!r} on {p[1]}" for p in self.paths)
+        return f"Not at least {self.num_required} instances of {', '.join(map(repr, self.allowed_values))} for values:{vs}"
+
+
+@dataclass
+class instance_attribute_existence_error:
+    path: typing.Sequence[ifcopenshell.entity_instance]
+
+    def __str__(self):
+        return f"The value on {self.path[1]} does not exist"
+
+
+@dataclass
+class instance_attribute_existence_count_error:
+    paths: typing.Sequence[ifcopenshell.entity_instance]
+    num_required: int
+
+    def __str__(self):
+        vs = "".join(f"\n * {p[1]}" for p in self.paths)
+        return f"Not at least {self.num_required} exist for instances:{vs}"
+
+
+@dataclass
+class missing_relationship_error:
+    inst: ifcopenshell.entity_instance
+    relationship: str
+
+    def __str__(self):
+        return f"Instance {fmt(self.inst)} has no relationship {self.relationship!r}"
+
+
 def is_a(s):
     return lambda inst: inst.is_a(s)
 
@@ -315,9 +353,9 @@ def step_impl(context, something, num):
 
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
-    value = ast.literal_eval(value)
+    value = list(map(ast.literal_eval, map(str.strip, value.split('or'))))
     context.instances = list(
-        filter(lambda inst: getattr(inst, attribute, True) == value, context.instances)
+        filter(lambda inst: getattr(inst, attribute, True) in value, context.instances)
     )
 
 def map_state(values, fn):
@@ -332,6 +370,40 @@ def step_impl(context, attribute):
     context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
     setattr(context, 'instances', context.instances)
     setattr(context, 'attribute', attribute)
+
+
+@given('Its value for property {prop}')
+def step_impl(context, prop : str):
+    pset_prop = prop.split('.', 1)
+    if len(pset_prop) == 1:
+        pset_prop = [None] + pset_prop
+    pset, prop = pset_prop
+    def get_property(inst):
+        if inst.is_a('IfcMaterialDefinition'):
+            raise NotImplementedError()
+        elif inst.is_a('IfcProfileDef'):
+            raise NotImplementedError()
+        elif inst.is_a('IfcObject'):
+            for r in inst.IsDefinedBy:
+                if r.is_a('IfcRelDefinesByProperties'):
+                    p = r.RelatingPropertyDefinition
+                    if p.is_a('IfcPropertySet') and pset is None or p.Name and pset.lower() == p.Name.lower():
+                        for pp in p.HasProperties:
+                            if pp.is_a('IfcPropertySingleValue') and pp.Name.lower() == prop.lower():
+                                return pp.NominalValue
+            for r in [rel for rel in getattr(inst, 'IsTypedBy', []) + inst.IsDefinedBy if rel.is_a('IfcRelDefinesByType')]:
+                return get_property(r.RelatingType)
+        elif inst.is_a('IfcTypeObject'):
+            for p in inst.HasPropertySets:
+                if p.is_a('IfcPropertySet') and pset is None or p.Name and pset.lower() == p.Name.lower():
+                    for pp in p.HasProperties:
+                        if pp.is_a('IfcPropertySingleValue') and pp.Name.lower() == prop.lower():
+                            return pp.NominalValue
+    context._push()
+    context.instances = map_state(context.instances, get_property)
+    setattr(context, 'instances', context.instances)
+    setattr(context, 'attribute', prop) #?
+
 
 @given('The element has {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
@@ -357,7 +429,7 @@ def step_impl(context, relationship_type, entity):
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
     context.instances = list(filter(lambda inst: do_try(lambda: getattr(getattr(inst,extr['attribute'])[0],extr['object_placement']).is_a(entity),False), context.instances))  
-    
+
     
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
@@ -373,6 +445,7 @@ def step_impl(context, field, values):
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 @given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
+@then('A relationship {relationship} exists {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
 @given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
 def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail=0):
     assert dir1 != dir2
@@ -385,28 +458,32 @@ def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail=0):
     related_attr_matrix = next(csv.DictReader(open(filename_related_attr_matrix)))
     relating_attr_matrix = next(csv.DictReader(open(filename_relating_attr_matrix)))
     
-    for rel in relationships:
-        attr_to_entity = relating_attr_matrix.get(rel.is_a())
-        attr_to_other = related_attr_matrix.get(rel.is_a())
+    for inst in context.instances:
+        for rel in relationships:
+            attr_to_entity = relating_attr_matrix.get(rel.is_a())
+            attr_to_other = related_attr_matrix.get(rel.is_a())
 
-        if dir1:
-            attr_to_entity, attr_to_other = attr_to_other, attr_to_entity
+            if dir1:
+                attr_to_entity, attr_to_other = attr_to_other, attr_to_entity
 
-        def make_aggregate(val):
-            if not isinstance(val, (list, tuple)):
-                val = [val]
-            return val
+            def make_aggregate(val):
+                if not isinstance(val, (list, tuple)):
+                    val = [val]
+                return val
 
-        to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
-        to_other = set(filter(lambda i: i.is_a(other_entity), make_aggregate(getattr(rel, attr_to_other))))
+            to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
+            to_other = set(filter(lambda i: i.is_a(other_entity), make_aggregate(getattr(rel, attr_to_other))))
 
-        if v := set(context.instances) & to_entity:
-            if tail:
-                instances.extend(to_other)
-            else:
-                instances.extend(v)
+            if v := {inst} & to_entity:
+                if tail:
+                    instances.extend(to_other)
+                else:
+                    instances.extend(v)
 
-    context.instances = instances
+    if context.step.keyword.lower() == 'then':
+        handle_errors(context, [missing_relationship_error(inst, relationship) for inst in context.instances if inst not in set(instances)])
+    else:
+        context.instances = instances
 
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
@@ -459,12 +536,17 @@ def convert_values(values, context):
             converted_values.append(value)
     return converted_values
 
-@then("The value must be {constraint}")
-@then("The values must be {constraint}")
-def step_impl(context, constraint):
+@then("The value must {constraint}")
+@then("The values must {constraint}")
+@then('At least "{num:d}" value must {constraint}')
+@then('At least "{num:d}" values must {constraint}')
+def step_impl(context, constraint, num=None):
     errors = []
 
     within_model = getattr(context, 'within_model', False)
+
+    if constraint.startswith('be '):
+        constraint = constraint[3:]
 
     if getattr(context, 'applicable', True):
 
@@ -488,14 +570,34 @@ def step_impl(context, constraint):
                 if (msg.values and msg.relating):
                     errors.append(msg)
 
+        elif constraint == 'exist':
+            if stack_tree:
+                num_valid = 0
+                for i in range(len(stack_tree[0])):
+                    path = [l[i] for l in stack_tree]
+                    if path[0] is None:
+                        if num is None:
+                            errors.append(instance_attribute_existence_error(path))
+                    else:
+                        num_valid += 1
+                if num is not None and num_valid < num:
+                    paths = [[l[i] for l in stack_tree] for i in range(len(stack_tree[0]))]
+                    errors.append(instance_attribute_existence_count_error(paths, num))
         else:
             values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
 
             if stack_tree:
+                num_valid = 0
                 for i in range(len(stack_tree[0])):
                     path = [l[i] for l in stack_tree]
                     if path[0] not in values:
-                        errors.append(instance_attribute_value_error(path, values))
+                        if num is None:
+                            errors.append(instance_attribute_value_error(path, values))
+                    else:
+                        num_valid += 1
+                if num is not None and num_valid < num:
+                    paths = [[l[i] for l in stack_tree] for i in range(len(stack_tree[0]))]
+                    errors.append(instance_attribute_value_count_error(paths, values, num))
 
     handle_errors(context, errors)
 

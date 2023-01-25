@@ -345,7 +345,6 @@ def get_attr_values(instance):
     state_attributes = next(reader) # attributes of non-rooted instances not 
 
     attributes = state_attributes if not instance.is_a("IfcRoot") else attr_incl_inherited
-
     # @todo optional: convert to dict to get either more specific information in the error message or the ability to do more precise comparisons
     return list(filter(None, list(map(lambda attr: getattr(instance, attr.strip(' '), None), attributes))))
     

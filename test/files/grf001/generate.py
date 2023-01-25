@@ -94,37 +94,124 @@ for ent_1, ent_2, variate in itertools.product(entities, entities, (0, 1)):
 
     file.write(f'{pass_or_fail}-{ent_1.lower()}-{ent_2.lower()}{different_values}.ifc')
 
-# count = 0
-# for i in range(2):
-#     count += 1
-#     file = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD1")
 
-#     WorldCoordinateSystem = file.by_type("IFCAXIS2PLACEMENT3D")[0]
-#     TrueNorth = file.by_type("IFCDirection")[-1]
+""""
 
-#     context_1 = file.by_type("IfcGeometricRepresentationContext")[0]
-#     TargetCRS = file.createIfcProjectedCrs(
-#         Name='EPSG:3857',  # plz 04177
-#         GeodeticDatum='WGS84',
-#         MapProjection='WSG',
-#         MapZone='3',  # GausKrueger
-#         MapUnit=file.by_type("IFCSIUNIT")[0]
-#     )
+IFCRIGIDOPERATION
 
-#     file.createIfcRigidOperation(
-#                     SourceCRS=context_1,
-#                     TargetCRS=TargetCRS,
-#                     FirstCoordinate=92.2
-#                 )
+"""
+
+count = 0
+for i in range(2):
+    count += 1
+    file = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD1")
+
+    WorldCoordinateSystem = file.by_type("IFCAXIS2PLACEMENT3D")[0]
+    TrueNorth = file.by_type("IFCDirection")[-1]
+
+    context_1 = file.by_type("IfcGeometricRepresentationContext")[0]
+    TargetCRS = file.createIfcProjectedCrs(
+        Name='EPSG:3857',  # plz 04177
+        GeodeticDatum='WGS84',
+        MapProjection='WSG',
+        MapZone='3',  # GausKrueger
+        MapUnit=file.by_type("IFCSIUNIT")[0]
+    )
+
+    file.createIfcRigidOperation(
+                    SourceCRS=context_1,
+                    TargetCRS=TargetCRS,
+                    FirstCoordinate=file.createIfcLengthMeasure(wrappedValue = 35010.),
+                    SecondCoordinate = file.createIfcLengthMeasure(wrappedValue = 1560.)
+                )
     
-#     file.createIfcRigidOpeation(
-#         SourceCRS = file.createIfcGeometricRepresentationContext(
-#                         ContextType='Model',
-#                         CoordinateSpaceDimension=3,
-#                         Precision=10 ** -5,
-#                         WorldCoordinateSystem=WorldCoordinateSystem,
-#                         TrueNorth=TrueNorth
-#                     ),
-#         TargetCRS = Target
-#     )
+    if count == 2:
+        FirstCoordinate = file.createIfcLengthMeasure(wrappedValue = 23684.)
+        SecondCoordinate = file.createIfcLengthMeasure(wrappedValue = 1564.)
+    else:
+        FirstCoordinate=file.createIfcLengthMeasure(wrappedValue = 35010.)
+        SecondCoordinate = file.createIfcLengthMeasure(wrappedValue = 1560.)
+
+    file.createIfcRigidOperation(
+        SourceCRS = file.createIfcGeometricRepresentationContext(
+                        ContextType='Model',
+                        CoordinateSpaceDimension=3,
+                        Precision=10 ** -5,
+                        WorldCoordinateSystem=WorldCoordinateSystem,
+                        TrueNorth=TrueNorth
+                    ),
+                    TargetCRS = TargetCRS,
+                    FirstCoordinate = FirstCoordinate,
+                    SecondCoordinate = SecondCoordinate
+    )
+
+    ok = count != 2
+    pass_or_fail = 'pass' if ok else 'fail'
+    different_values = '-non-identical' if not ok else ''
+    file.write(f'{pass_or_fail}-ifcrigidoperation-ifcrigidoperation{different_values}.ifc')
+
+""""
+
+IFCMAPCONVERSIONSCALED
+
+"""
+count = 0
+for i in range(2):
+    count += 1
+    file = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD1")
+
+    WorldCoordinateSystem = file.by_type("IFCAXIS2PLACEMENT3D")[0]
+    TrueNorth = file.by_type("IFCDirection")[-1]
+
+    context_1 = file.by_type("IfcGeometricRepresentationContext")[0]
+    TargetCRS = file.createIfcProjectedCrs(
+        Name='EPSG:3857',  # plz 04177
+        GeodeticDatum='WGS84',
+        MapProjection='WSG',
+        MapZone='3',  # GausKrueger
+        MapUnit=file.by_type("IFCSIUNIT")[0]
+    )
+
+    file.createIfcMapConversionScaled(
+                    SourceCRS=context_1,
+                    TargetCRS=TargetCRS,
+                    Northings=Northings,
+                    Eastings=Eastings,
+                    XAxisAbscissa=1,
+                    XAxisOrdinate=0,
+                    ScaleX = 1,
+                    ScaleY = 2,
+                    ScaleZ = 3
+                )
     
+    if count == 2:
+        ScaleX = 2
+        ScaleY = 3
+        ScaleZ = 1
+    else:
+        ScaleX = 1
+        ScaleY = 2
+        ScaleZ = 3
+
+    file.createIfcMapConversionScaled(
+        SourceCRS = file.createIfcGeometricRepresentationContext(
+                        ContextType='Model',
+                        CoordinateSpaceDimension=3,
+                        Precision=10 ** -5,
+                        WorldCoordinateSystem=WorldCoordinateSystem,
+                        TrueNorth=TrueNorth
+                    ),
+                    TargetCRS = TargetCRS,
+                    Northings=Northings,
+                    Eastings=Eastings,
+                    XAxisAbscissa=1,
+                    XAxisOrdinate=0,
+                    ScaleX = ScaleX,
+                    ScaleY = ScaleY,
+                    ScaleZ = ScaleZ
+    )
+
+    ok = count != 2
+    pass_or_fail = 'pass' if ok else 'fail'
+    different_values = '-non-identical' if not ok else ''
+    file.write(f'{pass_or_fail}-ifcmapconversionscaled-ifcmapconversionscaled{different_values}.ifc')

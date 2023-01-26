@@ -331,26 +331,14 @@ def step_impl(context, field, values):
         raise NotImplementedError(f'A file with "{field}" is not implemented')
  
     context.applicable = getattr(context, 'applicable', True) and applicable
-
-def get_attr_values(instance):
-    if instance == () or instance == None:
-        return ()
-    dirname = os.path.dirname(__file__)
-    instance = do_try(lambda: unpack_tuple(instance), None)
-    csv_filename = f'{instance.is_a().lower()}_attributes.csv'
-    attribute_filename = Path(dirname).parent /'resources' / csv_filename
-
-    reader = csv.reader(open(attribute_filename))
-    attr_incl_inherited = next(reader)
-    state_attributes = next(reader) # attributes of non-rooted instances not 
-
-    attributes = state_attributes if not instance.is_a("IfcRoot") else attr_incl_inherited
-    # @todo optional: convert to dict to get either more specific information in the error message or the ability to do more precise comparisons
-    return list(filter(None, list(map(lambda attr: getattr(instance, attr.strip(' '), None), attributes))))
     
 @given('Its values')
 def step_impl(context):
-    context.instances = list(map(get_attr_values, context.instances))
+    instances_unpacked = unpack_sequence_of_entities(
+        context.instances)  # '(#23IfcWall..)' to '#23IfcWall'
+    values = [inst.get_info(recursive=True, include_identifier=False, ignore='SourceCRS')
+              for inst in instances_unpacked]  # probably add more to 'ignore' in future
+    context.instances = values
 
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
@@ -493,6 +481,10 @@ def step_impl(context, entity, other_entities):
                 errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
     
     handle_errors(context, errors)
+
+def unpack_sequence_of_entities(instances):
+    # in case of [[inst1, inst2], [inst3, inst4]]
+    return [do_try(lambda: unpack_tuple(inst), None) for inst in instances]
 
 
 def unpack_tuple(tup):

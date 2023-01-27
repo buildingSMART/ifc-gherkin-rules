@@ -13,7 +13,7 @@ Feature: ALB002 - Alignment Layout
     
   Scenario: Agreement on attributes being nested within a decomposition relationship
 
-      Given a file with Schema Identifier "IFC4X3"
+      Given a file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1"
 
       Then Each IfcAlignmentHorizontal must nest only 1 instance(s) of IfcAlignment
        And Each IfcAlignmentVertical must nest only 1 instance(s) of IfcAlignment
@@ -21,7 +21,7 @@ Feature: ALB002 - Alignment Layout
   
   Scenario: Agreement of structure of alignments segments
 
-      Given a file with Schema Identifier "IFC4X3"
+      Given a file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1"
 
       Then Each IfcAlignmentHorizontal is nested by a list of only instance(s) of IfcAlignmentSegment
       Then Each IfcAlignmentVertical is nested by a list of only instance(s) of IfcAlignmentSegment

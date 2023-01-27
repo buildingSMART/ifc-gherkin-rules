@@ -2,16 +2,24 @@ import ast
 import json
 import typing
 import operator
-import functools
 import re
+import csv
+import os
+import functools
 
 from collections import Counter
 from dataclasses import dataclass, field
+from pathlib import Path
+from parse_type import TypeBuilder
 
 import ifcopenshell
 import pyparsing
 
 from behave import *
+
+
+register_type(from_to=TypeBuilder.make_enum({"from": 0, "to": 1 }))
+register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and following that": 1 }))
 
 
 def instance_converter(kv_pairs):
@@ -76,6 +84,15 @@ class edge_use_error:
     def __str__(self):
         return f"On instance {fmt(self.inst)} the edge {fmt(self.edge)} was referenced {fmt(self.count)} times"
 
+@dataclass
+class representation_value_error:
+    inst: ifcopenshell.entity_instance
+    duplicate_value: str
+    duplicate_representations: ifcopenshell.entity_instance
+
+    def __str__(self):
+        return f"Instance {fmt(self.inst)} has multiple representations for Identifier {', '.join(map(fmt, self.duplicate_value))} at instances {';'.join(map(fmt, self.duplicate_representations))}"
+
 
 @dataclass
 class instance_count_error:
@@ -87,6 +104,30 @@ class instance_count_error:
             return f"The following {len(self.insts)} instances of type {self.type_name} were encountered: {';'.join(map(fmt, self.insts))}"
         else:
             return f"No instances of type {self.type_name} were encountered"
+
+@dataclass 
+class value_error_msg:
+    related: ifcopenshell.entity_instance = field(default='None')
+    values: str = field(default='None')
+    attribute: str = field(default='None')
+    identical_or_unique: str = field(default='None')
+    relating: ifcopenshell.entity_instance = field(default='None')
+    include_relating: bool = field(default=False)
+
+
+    def __str__(self):
+        if not isinstance(self.related, list):
+            related = [self.related]
+        else:
+            related = self.related # don't modify self
+
+        relating_statement = f"on instance(s) {', '.join(map(fmt, self.relating))}" if self.include_relating else ''
+        return (
+            f"On instance(s) {';'.join(map(fmt, related))}, "
+            f"the following non-{self.identical_or_unique} value(s) for attribute {self.attribute} was/were found: "
+            f"{', '.join(map(fmt, self.values))} {relating_statement}"
+        )
+
 
 @dataclass
 class instance_structure_error:
@@ -136,6 +177,69 @@ class representation_type_error:
     
     def __str__(self):
         return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
+
+@dataclass
+class instance_placement_error:
+    entity: ifcopenshell.entity_instance
+    placement: str
+    container: ifcopenshell.entity_instance
+    relationship: str
+    container_obj_placement: ifcopenshell.entity_instance
+    entity_obj_placement: ifcopenshell.entity_instance
+
+    def __str__(self):
+        if self.placement:
+            return f"The placement of {fmt(self.entity)} is not defined by {fmt(self.placement)}, but with {fmt(self.entity.ObjectPlacement)}"
+        elif all([self.container, self.relationship, self.container_obj_placement, self.entity_obj_placement]):
+            return f"The entity {fmt(self.entity)} is contained in {fmt(self.container)} with the {fmt(self.relationship)} relationship. " \
+                   f"The container points to {fmt(self.container_obj_placement)}, but the entity to {fmt(self.entity_obj_placement)}"
+
+@dataclass
+class instance_attribute_value_error:
+    path: typing.Sequence[ifcopenshell.entity_instance]
+    allowed_values: typing.Sequence[typing.Any]
+
+    def __str__(self):
+        return f"The value {self.path[0]!r} on {self.path[1]} is not one of {', '.join(map(repr, self.allowed_values))}"
+
+
+@dataclass
+class instance_attribute_value_count_error:
+    paths: typing.Sequence[ifcopenshell.entity_instance]
+    allowed_values: typing.Sequence[typing.Any]
+    num_required: int
+
+    def __str__(self):
+        vs = "".join(f"\n * {p[0]!r} on {p[1]}" for p in self.paths)
+        return f"Not at least {self.num_required} instances of {', '.join(map(repr, self.allowed_values))} for values:{vs}"
+
+
+@dataclass
+class instance_attribute_existence_error:
+    path: typing.Sequence[ifcopenshell.entity_instance]
+
+    def __str__(self):
+        return f"The value on {self.path[1]} does not exist"
+
+
+@dataclass
+class instance_attribute_existence_count_error:
+    paths: typing.Sequence[ifcopenshell.entity_instance]
+    num_required: int
+
+    def __str__(self):
+        vs = "".join(f"\n * {p[1]}" for p in self.paths)
+        return f"Not at least {self.num_required} exist for instances:{vs}"
+
+
+@dataclass
+class missing_relationship_error:
+    inst: ifcopenshell.entity_instance
+    relationship: str
+
+    def __str__(self):
+        return f"Instance {fmt(self.inst)} has no relationship {self.relationship!r}"
+
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -189,6 +293,10 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 
     return sequence_type(inner())
+
+def do_try(fn, default=None):
+    try: return fn()
+    except: return default
 
 
 def do_try(fn, default=None):
@@ -245,10 +353,74 @@ def step_impl(context, something, num):
 
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
-    value = ast.literal_eval(value)
+    value = list(map(ast.literal_eval, map(str.strip, value.split('or'))))
     context.instances = list(
-        filter(lambda inst: getattr(inst, attribute, True) == value, context.instances)
+        filter(lambda inst: getattr(inst, attribute, True) in value, context.instances)
     )
+
+def map_state(values, fn):
+    if isinstance(values, (tuple, list)):
+        return type(values)(map_state(v, fn) for v in values)
+    else:
+        return fn(values)
+
+@given('Its attribute {attribute}')
+def step_impl(context, attribute):
+    context._push()
+    context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
+    setattr(context, 'instances', context.instances)
+    setattr(context, 'attribute', attribute)
+
+
+@given('Its value for property {prop}')
+def step_impl(context, prop : str):
+    pset_prop = prop.split('.', 1)
+    if len(pset_prop) == 1:
+        pset_prop = [None] + pset_prop
+    pset, prop = pset_prop
+    def get_property(inst):
+        if inst.is_a('IfcMaterialDefinition'):
+            raise NotImplementedError()
+        elif inst.is_a('IfcProfileDef'):
+            raise NotImplementedError()
+        elif inst.is_a('IfcObject'):
+            for r in inst.IsDefinedBy:
+                if r.is_a('IfcRelDefinesByProperties'):
+                    p = r.RelatingPropertyDefinition
+                    if p.is_a('IfcPropertySet') and pset is None or p.Name and pset.lower() == p.Name.lower():
+                        for pp in p.HasProperties:
+                            if pp.is_a('IfcPropertySingleValue') and pp.Name.lower() == prop.lower():
+                                return pp.NominalValue
+            for r in [rel for rel in getattr(inst, 'IsTypedBy', []) + inst.IsDefinedBy if rel.is_a('IfcRelDefinesByType')]:
+                return get_property(r.RelatingType)
+        elif inst.is_a('IfcTypeObject'):
+            for p in inst.HasPropertySets:
+                if p.is_a('IfcPropertySet') and pset is None or p.Name and pset.lower() == p.Name.lower():
+                    for pp in p.HasProperties:
+                        if pp.is_a('IfcPropertySingleValue') and pp.Name.lower() == prop.lower():
+                            return pp.NominalValue
+    context._push()
+    context.instances = map_state(context.instances, get_property)
+    setattr(context, 'instances', context.instances)
+    setattr(context, 'attribute', prop) #?
+
+
+@given('The element has {constraint} {num:d} instance(s) of {entity}')
+def step_impl(context, constraint, num, entity):
+    ent_attr = {'IfcShapeRepresentation':'Representations'}
+    assert entity in ent_attr
+    attr = ent_attr[entity]
+
+    stmt_to_op = {"at least": operator.ge, "more than": operator.gt}
+    assert constraint in stmt_to_op
+    op = stmt_to_op[constraint]
+
+    context.instances = list(
+        filter(
+            lambda i: op(len(getattr(i, attr,[])), num), context.instances
+        )
+    )
+
 
 @given("The element {relationship_type} an {entity}")
 def step_impl(context, relationship_type, entity):
@@ -257,7 +429,7 @@ def step_impl(context, relationship_type, entity):
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
     context.instances = list(filter(lambda inst: do_try(lambda: getattr(getattr(inst,extr['attribute'])[0],extr['object_placement']).is_a(entity),False), context.instances))  
-    
+
     
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
@@ -272,6 +444,47 @@ def step_impl(context, field, values):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
+@given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
+@then('A relationship {relationship} exists {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
+@given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
+def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail=0):
+    assert dir1 != dir2
+
+    relationships = context.model.by_type(relationship)
+    instances = []
+    dirname = os.path.dirname(__file__)
+    filename_related_attr_matrix = Path(dirname).parent /'resources' / 'related_entity_attributes.csv'
+    filename_relating_attr_matrix = Path(dirname).parent / 'resources' / 'relating_entity_attributes.csv'
+    related_attr_matrix = next(csv.DictReader(open(filename_related_attr_matrix)))
+    relating_attr_matrix = next(csv.DictReader(open(filename_relating_attr_matrix)))
+    
+    for inst in context.instances:
+        for rel in relationships:
+            attr_to_entity = relating_attr_matrix.get(rel.is_a())
+            attr_to_other = related_attr_matrix.get(rel.is_a())
+
+            if dir1:
+                attr_to_entity, attr_to_other = attr_to_other, attr_to_entity
+
+            def make_aggregate(val):
+                if not isinstance(val, (list, tuple)):
+                    val = [val]
+                return val
+
+            to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
+            to_other = set(filter(lambda i: i.is_a(other_entity), make_aggregate(getattr(rel, attr_to_other))))
+
+            if v := {inst} & to_entity:
+                if tail:
+                    instances.extend(to_other)
+                else:
+                    instances.extend(v)
+
+    if context.step.keyword.lower() == 'then':
+        handle_errors(context, [missing_relationship_error(inst, relationship) for inst in context.instances if inst not in set(instances)])
+    else:
+        context.instances = instances
+
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
     op = stmt_to_op(constraint)
@@ -282,6 +495,109 @@ def step_impl(context, constraint, num, entity):
         insts = context.model.by_type(entity)
         if not op(len(insts), num):
             errors.append(instance_count_error(insts, entity))
+
+    handle_errors(context, errors)
+
+def get_duplicates(values):
+    seen = set()
+    duplicates = [x for x in values if x in seen or seen.add(x)]
+    return duplicates
+
+def evaluate_identical_unique(msg, stack_tree, i, identical_or_unique, relating):
+    if (
+        identical_or_unique == 'identical' and
+        len(msg.values) > 1 and
+        not msg.duplicates
+    ):
+        return msg.values, relating, stack_tree[-1] # values, relating, related
+
+    elif(
+        identical_or_unique == 'unique' and
+        len(msg.duplicates)
+    ):  
+        inst_tree = [t[i] for t in stack_tree]
+        false_instances = [inst_tree[1][i] for i, x in enumerate(msg.values) if x in msg.duplicates]
+        return msg.duplicates, false_instances, inst_tree[-1] # values, relating, related
+
+    else: return None, None, None
+
+def convert_values(values, context):
+    """
+    Converts ifcopenshell instance type to strings to check for duplicates, if applicable
+    Perhaps also specify output type (entity instances/integers/strings etc) for further error analysis
+    """
+    converted_values = []
+    for value in values:
+        try:
+            converted_values.append(value[0].is_a())
+            setattr(context, 'include_relating_entities', False)
+        except (IndexError, AttributeError):
+            value = 'None' if value == () else value
+            converted_values.append(value)
+    return converted_values
+
+@then("The value must {constraint}")
+@then("The values must {constraint}")
+@then('At least "{num:d}" value must {constraint}')
+@then('At least "{num:d}" values must {constraint}')
+def step_impl(context, constraint, num=None):
+    errors = []
+
+    within_model = getattr(context, 'within_model', False)
+
+    if constraint.startswith('be '):
+        constraint = constraint[3:]
+
+    if getattr(context, 'applicable', True):
+
+        stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+        instances = [context.instances] if within_model else context.instances
+
+        if constraint in ('identical', 'unique'):
+
+            for i, values in enumerate(instances):
+                if not values:
+                    continue
+
+                msg = value_error_msg(identical_or_unique=constraint, attribute=getattr(context, 'attribute', 'None'))
+                msg.values = convert_values(values, context) #converts ifcopenshell instances to plain str, if applicable 
+                msg.include_relating = getattr(context, 'include_relating_entities', True)
+
+                msg.duplicates = get_duplicates(msg.values)
+                
+                msg.values, msg.relating, msg.related = evaluate_identical_unique(msg, stack_tree, i, constraint, relating = context.instances)
+
+                if (msg.values and msg.relating):
+                    errors.append(msg)
+
+        elif constraint == 'exist':
+            if stack_tree:
+                num_valid = 0
+                for i in range(len(stack_tree[0])):
+                    path = [l[i] for l in stack_tree]
+                    if path[0] is None:
+                        if num is None:
+                            errors.append(instance_attribute_existence_error(path))
+                    else:
+                        num_valid += 1
+                if num is not None and num_valid < num:
+                    paths = [[l[i] for l in stack_tree] for i in range(len(stack_tree[0]))]
+                    errors.append(instance_attribute_existence_count_error(paths, num))
+        else:
+            values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
+
+            if stack_tree:
+                num_valid = 0
+                for i in range(len(stack_tree[0])):
+                    path = [l[i] for l in stack_tree]
+                    if path[0] not in values:
+                        if num is None:
+                            errors.append(instance_attribute_value_error(path, values))
+                    else:
+                        num_valid += 1
+                if num is not None and num_valid < num:
+                    paths = [[l[i] for l in stack_tree] for i in range(len(stack_tree[0]))]
+                    errors.append(instance_attribute_value_count_error(paths, values, num))
 
     handle_errors(context, errors)
 
@@ -365,16 +681,61 @@ def step_impl(context, related, relating, other_entity, condition):
 
     handle_errors(context, errors)
 
+@then('The relative placement of that {entity} must be provided by an {other_entity} entity')
+def step_impl(context, entity, other_entity):
+    if getattr(context, 'applicable', True):
+        errors = []
+        for obj in context.instances:
+            if obj.ObjectPlacement is None:
+                errors.append(instance_placement_error(obj, other_entity, "", "", "", ""))
+                continue
+            if not obj.ObjectPlacement.is_a(other_entity):
+                errors.append(instance_placement_error(obj, other_entity, "", "", "", ""))
+        handle_errors(context, errors)
+
+
+@then('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
+def step_impl(context, entity, other_entity, relationship):
+    if getattr(context, 'applicable', True):
+        errors = []
+
+        stmt_to_op = {'IfcRelAggregates': 'Decomposes'}
+        assert relationship in stmt_to_op
+
+        for entity in context.instances:
+            entity_relation = getattr(entity, stmt_to_op[relationship])[0]
+            if relationship == 'IfcRelAggregates':
+                container = entity_relation.RelatingObject
+            elif relationship == 'IfcRelContainedInSpatialStructure':
+                pass  # TODO -> implement other relationships to have a general approach?
+            container_obj_placement = container.ObjectPlacement
+            entity_obj_placement = entity.ObjectPlacement
+            try:
+                entity_obj_placement_rel = entity_obj_placement.PlacementRelTo
+                is_correct = container_obj_placement == entity_obj_placement_rel
+            except AttributeError:
+                is_correct = False
+            try:
+                entity_obj_placement_rel = entity_obj_placement_rel
+            except UnboundLocalError:
+                entity_obj_placement_rel = "Not found"
+            if not is_correct:
+                errors.append(instance_placement_error(entity, '', container, relationship, container_obj_placement,
+                                                       entity_obj_placement_rel))
+        handle_errors(context, errors)
+
+
 @then ('The type of attribute {attribute} should be {expected_entity_type}')
 def step_impl(context, attribute, expected_entity_type):
 
     def _():
         for inst in context.instances:
             related_entity = getattr(inst, attribute, [])
-            if not related_entity.is_a(expected_entity_type):
+            if not related_entity or not related_entity.is_a(expected_entity_type):
                 yield attribute_type_error(inst, [related_entity], attribute, expected_entity_type)
 
     handle_errors(context, list(_()))
+
 
 @given('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, representation_id, representation_type):

@@ -723,16 +723,19 @@ def step_impl(context, entity, other_entity, relationship):
                 errors.append(instance_placement_error(entity, '', container, relationship, container_obj_placement,
                                                        entity_obj_placement_rel))
         handle_errors(context, errors)
+
+
 @then ('The type of attribute {attribute} should be {expected_entity_type}')
 def step_impl(context, attribute, expected_entity_type):
 
     def _():
         for inst in context.instances:
             related_entity = getattr(inst, attribute, [])
-            if not related_entity.is_a(expected_entity_type):
+            if not related_entity or not related_entity.is_a(expected_entity_type):
                 yield attribute_type_error(inst, [related_entity], attribute, expected_entity_type)
 
     handle_errors(context, list(_()))
+
 
 @given('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, representation_id, representation_type):

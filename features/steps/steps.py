@@ -2,19 +2,17 @@ import ast
 import json
 import typing
 import operator
-import re
 import csv
 import os
 import glob
 import functools
 import re
+import ifcopenshell
+import pyparsing
 
 from collections import Counter
 from pathlib import Path
 from dataclasses import dataclass, field
-
-import ifcopenshell
-import pyparsing
 
 from behave import *
 
@@ -227,11 +225,6 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 
     return sequence_type(inner())
-
-
-def do_try(fn, default=None):
-    try: return fn()
-    except: return default
 
 def condition(inst, representation_id, representation_type):
     def is_valid(inst, representation_id, representation_type):
@@ -476,9 +469,6 @@ def step_impl(context, entity, other_entities):
                 errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
 
     handle_errors(context, errors)
-
-    handle_errors(context, errors)
-
 
 @then('The relative placement of that {entity} must be provided by an {other_entity} entity')
 def step_impl(context, entity, other_entity):

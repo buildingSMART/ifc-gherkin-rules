@@ -151,16 +151,24 @@ class representation_type_error:
 
 
 @dataclass
-class polyobject_structure_error:
+class polyobject_point_reference_error:
     inst: ifcopenshell.entity_instance
     points: list
-    error_cause: str
 
     def __str__(self):
-        if self.error_cause == 'duplicate_points':
-            return f"On instance {fmt(self.inst)} some of the points {self.points} are duplicate"
-        elif self.error_cause == 'first_last_not_referenced':
-            return f"On instance {fmt(self.inst)} first point {self.points[0]} is the same as last point {self.points[-1]} but not by reference"
+        return f"On instance {fmt(self.inst)} first point {self.points[0]} is the same as last point {self.points[-1]}, but not by reference"
+
+@dataclass
+class polyobject_duplicate_points_error:
+    inst: ifcopenshell.entity_instance
+    duplicates: set
+
+    def __str__(self):
+        points_desc = ''
+        for duplicate in self.duplicates:
+            point_desc = f'point {str(duplicate[0])} and point {str(duplicate[1])}; '
+            points_desc = points_desc + point_desc
+        return f"On instance {fmt(self.inst)} there are duplicate points: {points_desc}"
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -375,13 +383,17 @@ def step_impl(context, clause):
             precision = get_precision_from_contexts(entity_contexts)
             points_coordinates = get_points(instance)
             comparison_nr = 1
+            duplicates = set()
             for i in itertools.combinations(points_coordinates, 2):
                 if math.dist(i[0], i[1]) < precision:
                     if clause == 'including' or (clause == 'excluding' and comparison_nr != len(points_coordinates) - 1):
                         # combinations() produces tuples in a sorted order, first and last item is compared with items 0 and n-1
-                        errors.append(polyobject_structure_error(instance, points_coordinates, 'duplicate_points'))
-                        break
+                        duplicates.add(i)
+                        if len(duplicates) > 2: # limit nr of reported duplicate points to 3 for error readability
+                            break
                 comparison_nr += 1
+            if duplicates:
+                errors.append(polyobject_duplicate_points_error(instance, duplicates))
         handle_errors(context, errors)
 
 
@@ -392,5 +404,5 @@ def step_impl(context):
         for instance in context.instances:
             points = get_points(instance, return_type='points')
             if points[0] != points[-1]:
-                errors.append(polyobject_structure_error(instance, points, 'first_last_not_referenced'))
+                errors.append(polyobject_point_reference_error(instance, points))
         handle_errors(context, errors)

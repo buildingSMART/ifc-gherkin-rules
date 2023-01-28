@@ -554,5 +554,3 @@ def step_impl(context, constraint, num=None):
                                 incorrect_insts, report_incorrect_insts))
 
     handle_errors(context, errors)
-
-

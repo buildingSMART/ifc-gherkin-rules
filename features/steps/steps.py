@@ -143,7 +143,7 @@ class representation_type_error:
 
 @dataclass 
 class duplicate_value_error:
-    insts: typing.Sequence[ifcopenshell.entity_instance]
+    inst: ifcopenshell.entity_instance
     incorrect_values: typing.Sequence[typing.Any] 
     attribute: str 
     incorrect_insts: typing.Sequence[ifcopenshell.entity_instance]
@@ -152,7 +152,7 @@ class duplicate_value_error:
     def __str__(self):
         incorrect_insts_statement = f"on instance(s) {', '.join(map(fmt, self.incorrect_insts))}" if not self.report_incorrect_insts else ''
         return (
-            f"On instance(s) {';'.join(map(fmt, self.insts))}, "
+            f"On instance {fmt(self.inst)} , "
             f"the following duplicate value(s) for attribute {self.attribute} was/were found: "
             f"{', '.join(map(fmt, self.incorrect_values))} {incorrect_insts_statement}"
         )
@@ -531,7 +531,7 @@ def step_impl(context, identical_or_unique):
                 if not duplicates:
                     continue
                 inst_tree = [t[i] for t in stack_tree]
-                insts = inst_tree[-1]
+                inst = inst_tree[-1]
                 false_instances = [inst_tree[1][i]
                                    for i, x in enumerate(values) if x in duplicates]
                 incorrect_values = duplicates
@@ -539,7 +539,7 @@ def step_impl(context, identical_or_unique):
                 # avoid mentioning ifcopenshell.entity_instance twice in error message
                 report_incorrect_insts = any(map_state(values, lambda v: do_try(
                     lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-                errors.append(duplicate_value_error(insts, incorrect_values, attribute,
+                errors.append(duplicate_value_error(inst, incorrect_values, attribute,
                              incorrect_insts, report_incorrect_insts))
 
     handle_errors(context, errors)

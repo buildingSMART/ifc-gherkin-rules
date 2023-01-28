@@ -2,13 +2,16 @@ import ast
 import json
 import typing
 import operator
+import functools
+import re
 import itertools
 import math
 
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import ifcopenshell
+import pyparsing
 
 from behave import *
 
@@ -35,6 +38,21 @@ def get_inst_attributes(dc):
         yield 'inst_guid', getattr(dc.inst, 'GlobalId', None)
         yield 'inst_type', dc.inst.is_a()
         yield 'inst_id', dc.inst.id()
+
+def stmt_to_op(statement):
+    statement = statement.replace('is', '').strip()
+    stmt_to_op = {
+        '': operator.eq, # a == b
+        "equal to": operator.eq, # a == b
+        "exactly": operator.eq, # a == b
+        "not": operator.ne, # a != b
+        "at least": operator.ge, # a >= b
+        "more than": operator.gt, # a > b
+        "at most": operator.le, # a <= b
+        "less than": operator.lt # a < b
+    }
+    assert statement in stmt_to_op
+    return stmt_to_op[statement]
 
 # @note dataclasses.asdict used deepcopy() which doesn't work on entity instance
 asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc), **dict(get_inst_attributes(dc)))
@@ -121,14 +139,35 @@ class instance_count_error:
         else:
             return f"No instances of type {self.type_name} were encountered"
 
-
 @dataclass
 class instance_structure_error:
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
+    relationship_type: str
+    optional_values: dict = field(default_factory=dict)
+
 
     def __str__(self):
-        return f"The instance {fmt(self.related)} is assigned to {fmt(self.relating)}"
+        pos_neg = 'is not' if self.optional_values.get('condition', '') == 'must' else 'is'
+        directness = self.optional_values.get('directness', '')
+
+        if len(self.relating):
+            return f"The instance {fmt(self.related)} {pos_neg} {directness} {self.relationship_type} (in) the following ({len(self.relating)}) instances: {';'.join(map(fmt, self.relating))}"
+        else:
+            return f"This instance {self.related} is not {self.relationship_type} anything"
+
+@dataclass
+class attribute_type_error:
+    inst: ifcopenshell.entity_instance
+    related: ifcopenshell.entity_instance
+    attribute: str
+    expected_entity_type: str
+
+    def __str__(self):
+        if len (self.related):
+            return f"The instance {self.inst} expected type '{self.expected_entity_type}' for the attribute {self.attribute}, but found {fmt(self.related)}  "
+        else:
+            return f"This instance {self.inst} has no value for attribute {self.attribute}"
 
 
 @dataclass
@@ -212,13 +251,12 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
                     fcoords = list(map(lambda i: coords[i - 1], loop))
                     shifted = fcoords[1:] + [fcoords[0]]
                     return map(edge_type, zip(fcoords, shifted))
-                
+
                 yield from emit(f.CoordIndex)
 
                 if f.is_a("IfcIndexedPolygonalFaceWithVoids"):
                     for inner in f.InnerCoordIndices:
                         yield from emit(inner)
-                    
         else:
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 
@@ -245,6 +283,7 @@ def instance_getter(i,representation_id, representation_type, negative=False):
         if condition(i, representation_id, representation_type):
             return i
 
+
 @given("An {entity}")
 def step_impl(context, entity):
     try:
@@ -259,7 +298,7 @@ def handle_errors(context, errors):
     )
 
 @then(
-    "Every {something} shall be referenced exactly {num:d} times by the loops of the face"
+    "Every {something} must be referenced exactly {num:d} times by the loops of the face"
 )
 def step_impl(context, something, num):
     assert something in ("edge", "oriented edge")
@@ -280,8 +319,17 @@ def step_impl(context, something, num):
 def step_impl(context, attribute, value):
     value = ast.literal_eval(value)
     context.instances = list(
-        filter(lambda inst: getattr(inst, attribute) == value, context.instances)
+        filter(lambda inst: getattr(inst, attribute, True) == value, context.instances)
     )
+
+@given("The element {relationship_type} an {entity}")
+def step_impl(context, relationship_type, entity):
+    reltype_to_extr = {'nests': {'attribute':'Nests','object_placement':'RelatingObject'},
+                      'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects'}}
+    assert relationship_type in reltype_to_extr
+    extr = reltype_to_extr[relationship_type]
+    context.instances = list(filter(lambda inst: do_try(lambda: getattr(getattr(inst,extr['attribute'])[0],extr['object_placement']).is_a(entity),False), context.instances))
+
 
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
@@ -295,7 +343,6 @@ def step_impl(context, field, values):
         raise NotImplementedError(f'A file with "{field}" is not implemented')
 
     context.applicable = getattr(context, 'applicable', True) and applicable
-
 
 @given('{attr} forms {closed_or_open} curve')
 def step_impl(context, attr, closed_or_open):
@@ -314,11 +361,9 @@ def step_impl(context, attr, closed_or_open):
         map(operator.itemgetter(0), filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, are_closed)))
     )
 
-@then('There shall be {constraint} {num:d} instance(s) of {entity}')
+@then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
-    stmt_to_op = {"at least": operator.ge, "at most": operator.le}
-    assert constraint in stmt_to_op
-    op = stmt_to_op[constraint]
+    op = stmt_to_op(constraint)
 
     errors = []
 
@@ -329,12 +374,71 @@ def step_impl(context, constraint, num, entity):
 
     handle_errors(context, errors)
 
+@then('Each {entity} must be nested by {constraint} {num:d} instance(s) of {other_entity}')
+def step_impl(context, entity, num, constraint, other_entity):
+    stmt_to_op = {'exactly': operator.eq, "at most": operator.le}
+    assert constraint in stmt_to_op
+    op = stmt_to_op[constraint]
 
-@then('The {related} shall be assigned to the {relating} if {other_entity} {condition} present')
+    errors = []
+
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
+            if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
+
+
+    handle_errors(context, errors)
+
+
+
+@then('Each {entity} {fragment} instance(s) of {other_entity}')
+def step_impl(context, entity, fragment, other_entity):
+    reltype_to_extr = {'must nest': {'attribute':'Nests','object_placement':'RelatingObject', 'error_log_txt':'nesting'},
+                    'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects', 'error_log_txt': 'nested by'}}
+    conditions = ['only 1', 'a list of only']
+
+    condition = functools.reduce(operator.or_, [pyparsing.CaselessKeyword(i) for i in conditions])('condition')
+    relationship_type = functools.reduce(operator.or_, [pyparsing.CaselessKeyword(i[0]) for i in reltype_to_extr.items()])('relationship_type')
+
+    grammar = relationship_type + condition #e.g. each entity 'is nested by(relationship_type)' 'a list of only (condition)' instance(s) of other entity
+    parse = grammar.parseString(fragment)
+
+    relationship_type = parse['relationship_type']
+    condition = parse['condition']
+    extr = reltype_to_extr[relationship_type]
+    error_log_txt = extr['error_log_txt']
+
+    errors = []
+
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            related_entities = list(map(lambda x: getattr(x, extr['object_placement'],[]), getattr(inst, extr['attribute'],[])))
+            if len(related_entities):
+                if isinstance(related_entities[0], tuple):
+                    related_entities = list(related_entities[0]) # if entity has only one IfcRelNests, convert to list
+                false_elements = list(filter(lambda x : not x.is_a(other_entity), related_entities))
+                correct_elements = list(filter(lambda x : x.is_a(other_entity), related_entities))
+
+                if condition == 'only 1' and len(correct_elements) > 1:
+                        errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}'))
+                if condition == 'a list of only':
+                    if len(getattr(inst, extr['attribute'],[])) > 1:
+                        errors.append(instance_structure_error(f'{error_log_txt} more than 1 list, including'))
+                    elif len(false_elements):
+                        errors.append(instance_structure_error(inst, false_elements, f'{error_log_txt} a list that includes'))
+                if condition == 'only' and len(false_elements):
+                    errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}'))
+
+
+    handle_errors(context, errors)
+
+
+@then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
-    stmt_to_op = {"is": operator.eq, "is not": operator.ne}
-    assert condition in stmt_to_op
-    pred = stmt_to_op[condition]
+    pred = stmt_to_op(condition)
+
     op = lambda n: not pred(n, 0)
 
     errors = []
@@ -346,10 +450,20 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        errors.append(instance_structure_error(inst, rel.RelatingObject))
+                        errors.append(instance_structure_error(inst, [rel.RelatingObject], 'assigned to'))
 
     handle_errors(context, errors)
 
+@then ('The type of attribute {attribute} should be {expected_entity_type}')
+def step_impl(context, attribute, expected_entity_type):
+
+    def _():
+        for inst in context.instances:
+            related_entity = getattr(inst, attribute, [])
+            if not related_entity.is_a(expected_entity_type):
+                yield attribute_type_error(inst, [related_entity], attribute, expected_entity_type)
+
+    handle_errors(context, list(_()))
 
 @given('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, representation_id, representation_type):
@@ -361,7 +475,7 @@ def step_impl(context, representation_id, representation_type):
     errors = [representation_type_error(error, representation_id, representation_type) for error in errors]
     handle_errors(context, errors)
 
-@then("There shall be one {representation_id} shape representation")
+@then("There must be one {representation_id} shape representation")
 def step_impl(context, representation_id):
     errors = []
     if context.instances:
@@ -371,6 +485,22 @@ def step_impl(context, representation_id):
                 if not present:
                     errors.append(representation_shape_error(inst, representation_id))
     
+    handle_errors(context, errors)
+
+@then('Each {entity} may be nested by only the following entities: {other_entities}')
+def step_impl(context, entity, other_entities):
+
+    allowed_entity_types = set(map(str.strip, other_entities.split(',')))
+
+    errors = []
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
+            nested_entity_types = set(i.is_a() for i in nested_entities)
+            if not nested_entity_types <= allowed_entity_types:
+                differences = list(nested_entity_types - allowed_entity_types)
+                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
+
     handle_errors(context, errors)
 
 @then("It must have no duplicate points {clause} first and last point")

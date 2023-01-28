@@ -250,6 +250,7 @@ def strip_split(stmt, strp = ' ', splt = ','):
     )
 
 def include_subtypes(stmt):
+    #todo replace by pyparsing?
     stmt = strip_split(stmt, strp = '[]', splt=' ')
     excluding_statements = {'without', 'not', 'excluding', 'no'}
     return not set(stmt).intersection(set(excluding_statements))
@@ -260,16 +261,27 @@ def map_state(values, fn):
     else:
         return fn(values)
 
+def rtrn_pyparse_obj(i):
+    if isinstance(i, (pyparsing.core.LineEnd, pyparsing.core.NotAny)):
+        return i
+    elif isinstance(i, str):
+        return pyparsing.CaselessKeyword(i)
 
 @given("An {entity_opt_stmt}")
 @given("All {insts} of {entity_opt_stmt}")
-#@todo use pyparsing and/or brackets, e.g. to merge with statement above, in non-rule focused sprint
 def step_impl(context, entity_opt_stmt, insts = False):
-    entity = entity_opt_stmt.split()[0]
     within_model = (insts == 'instances') # True for given statement containing {insts} 
 
+    entity2 = pyparsing.Word(pyparsing.alphas)('entity')
+    sub_stmts = ['with subtypes', 'without subtypes', pyparsing.LineEnd()]
+    incl_sub_stmt = functools.reduce(operator.or_, [rtrn_pyparse_obj(i) for i in sub_stmts])('include_subtypes')
+    grammar = entity2 + incl_sub_stmt
+    parse = grammar.parseString(entity_opt_stmt)
+    entity = parse['entity']
+    include_subtypes = do_try(lambda: not 'without' in parse['include_subtypes'], True)
+
     try:
-        context.instances = context.model.by_type(entity, include_subtypes = include_subtypes(entity_opt_stmt))
+        context.instances = context.model.by_type(entity, include_subtypes)
     except:
         context.instances = []
 

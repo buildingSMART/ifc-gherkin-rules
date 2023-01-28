@@ -260,24 +260,16 @@ def map_state(values, fn):
     else:
         return fn(values)
 
+
 @given("An {entity_opt_stmt}")
-def step_impl(context, entity_opt_stmt):
-    #@todo use pyparsing and/or brackets, in non-rule focused sprint
-    entity = entity_opt_stmt.split()[0]
-
-    try:
-        context.instances = context.model.by_type(entity, include_subtypes = include_subtypes(entity_opt_stmt))
-    except:
-        context.instances = []
-
-@given("{the_or_all} instances of {entity_opt_stmt}")
+@given("All {insts} of {entity_opt_stmt}")
 #@todo use pyparsing and/or brackets, e.g. to merge with statement above, in non-rule focused sprint
-def step_impl(context, the_or_all, entity_opt_stmt):
+def step_impl(context, entity_opt_stmt, insts = False):
     entity = entity_opt_stmt.split()[0]
+    within_model = (insts == 'instances') # True for given statement containing {insts} 
 
     try:
         context.instances = context.model.by_type(entity, include_subtypes = include_subtypes(entity_opt_stmt))
-        within_model = 'all' in the_or_all.lower()
     except:
         context.instances = []
 

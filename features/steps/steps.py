@@ -142,22 +142,34 @@ class representation_type_error:
         return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
 
 @dataclass 
-class identical_unique_error:
-    relating: typing.Sequence[ifcopenshell.entity_instance]
+class duplicate_value_error:
+    inst: ifcopenshell.entity_instance
     incorrect_values: typing.Sequence[typing.Any] 
     attribute: str 
-    identical_or_unique: str 
     incorrect_insts: typing.Sequence[ifcopenshell.entity_instance]
     report_incorrect_insts: bool = field(default=True)
 
     def __str__(self):
         incorrect_insts_statement = f"on instance(s) {', '.join(map(fmt, self.incorrect_insts))}" if not self.report_incorrect_insts else ''
         return (
-            f"On instance(s) {';'.join(map(fmt, self.relating))}, "
-            f"the following non-{self.identical_or_unique} value(s) for attribute {self.attribute} was/were found: "
+            f"On instance {fmt(self.inst)} , "
+            f"the following duplicate value(s) for attribute {self.attribute} was/were found: "
             f"{', '.join(map(fmt, self.incorrect_values))} {incorrect_insts_statement}"
         )
 
+@dataclass 
+class identical_values_error:
+    insts: typing.Sequence[ifcopenshell.entity_instance]
+    incorrect_values: typing.Sequence[typing.Any] 
+    attribute: str 
+
+    def __str__(self):
+        return (
+            f"On instance(s) {';'.join(map(fmt, self.insts))}, "
+            f"the following non-identical values for attribute {self.attribute} was/were found: "
+            f"{', '.join(map(fmt, self.incorrect_values))}"
+        )
+ 
 def is_a(s):
     return lambda inst: inst.is_a(s)
 
@@ -250,7 +262,7 @@ def map_state(values, fn):
 
 @given("An {entity_opt_stmt}")
 def step_impl(context, entity_opt_stmt):
-    #@todo use pyparsing and/or brackets 
+    #@todo use pyparsing and/or brackets, in non-rule focused sprint
     entity = entity_opt_stmt.split()[0]
 
     try:
@@ -259,7 +271,7 @@ def step_impl(context, entity_opt_stmt):
         context.instances = []
 
 @given("{the_or_all} instances of {entity_opt_stmt}")
-#@todo use pyparsing and/or brackets, e.g. to merge with statement above
+#@todo use pyparsing and/or brackets, e.g. to merge with statement above, in non-rule focused sprint
 def step_impl(context, the_or_all, entity_opt_stmt):
     entity = entity_opt_stmt.split()[0]
 
@@ -331,27 +343,15 @@ def step_impl(context, field, values):
         raise NotImplementedError(f'A file with "{field}" is not implemented')
  
     context.applicable = getattr(context, 'applicable', True) and applicable
-
-def get_attr_values(instance):
-    if instance == () or instance == None:
-        return ()
-    dirname = os.path.dirname(__file__)
-    instance = do_try(lambda: unpack_tuple(instance), None)
-    csv_filename = f'{instance.is_a().lower()}_attributes.csv'
-    attribute_filename = Path(dirname).parent /'resources' / csv_filename
-
-    reader_lst = [row for row in csv.reader(open(attribute_filename))]
-    attr_incl_inherited = reader_lst[0]
-    state_attributes = reader_lst[1] #@todo grf001 more elegant way of doing this?
-    attributes = state_attributes if not instance.is_a("IfcRoot") else attr_incl_inherited
-
-    # perhaps convert to dict to get more precise comparisons for other usecases
-    # ?recursive function if isinstance(value, ifcopenshell.entity_instance)? -> IfcRigidOperation
-    return list(filter(None, list(map(lambda attr: getattr(instance, attr.strip(' '), None), attributes))))
     
 @given('Its values')
 def step_impl(context):
-    context.instances = list(map(get_attr_values, context.instances))
+    context._push()
+    instances_unpacked = unpack_sequence_of_entities(
+        context.instances)  # '(#23IfcWall..)' to '#23IfcWall'
+    values = [do_try(lambda : inst.get_info(recursive=True, include_identifier=False, ignore='SourceCRS'), None)
+              for inst in instances_unpacked]  # probably add more to 'ignore' in future
+    context.instances = values
 
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
@@ -495,6 +495,10 @@ def step_impl(context, entity, other_entities):
     
     handle_errors(context, errors)
 
+def unpack_sequence_of_entities(instances):
+    # in case of [[inst1, inst2], [inst3, inst4]]
+    return [do_try(lambda: unpack_tuple(inst), None) for inst in instances]
+
 
 def unpack_tuple(tup):
     for item in tup:
@@ -518,28 +522,25 @@ def step_impl(context, identical_or_unique):
                 continue
             attribute = getattr(context, 'attribute', None)
             if (identical_or_unique == 'identical' and not all([values[0] == i for i in values])):
-                incorrect_values = values
-                incorrect_insts = context.instances
-                relating = stack_tree[-1]
-            elif identical_or_unique == 'unique':
+                incorrect_values = values # a more general approach of going through stack frames to return relevant information in error message?
+                incorrect_insts = stack_tree[-1]
+                errors.append(identical_values_error(incorrect_insts, incorrect_values, attribute,))
+            if identical_or_unique == 'unique':
                 seen = set()
                 duplicates = [x for x in values if x in seen or seen.add(x)]
                 if not duplicates:
                     continue
                 inst_tree = [t[i] for t in stack_tree]
-                relating = inst_tree[-1]
+                inst = inst_tree[-1]
                 false_instances = [inst_tree[1][i]
                                    for i, x in enumerate(values) if x in duplicates]
                 incorrect_values = duplicates
                 incorrect_insts = false_instances  # instance where the duplicate value is found
-            else:
-                continue
-
-            # don't mention ifcopenshell.entity_instance twice in error message
-            report_incorrect_insts = any(map_state(values, lambda v: do_try(
-                lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-            errors.append(identical_unique_error(relating, incorrect_values, attribute,
-                          identical_or_unique, incorrect_insts, report_incorrect_insts))
+                # avoid mentioning ifcopenshell.entity_instance twice in error message
+                report_incorrect_insts = any(map_state(values, lambda v: do_try(
+                    lambda: isinstance(v, ifcopenshell.entity_instance), False)))
+                errors.append(duplicate_value_error(inst, incorrect_values, attribute,
+                             incorrect_insts, report_incorrect_insts))
 
     handle_errors(context, errors)
 

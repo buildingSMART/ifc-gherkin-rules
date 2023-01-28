@@ -185,6 +185,7 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
                 if f.is_a("IfcIndexedPolygonalFaceWithVoids"):
                     for inner in f.InnerCoordIndices:
                         yield from emit(inner)
+
         else:
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 

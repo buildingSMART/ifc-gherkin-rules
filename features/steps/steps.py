@@ -423,27 +423,35 @@ def step_impl(context, representation_id):
     
     handle_errors(context, errors)
 
-@then('The values must be {constraint}')
-def step_impl(context, constraint):
+@then("The value must {constraint}")
+@then("The values must {constraint}")
+@then('At least "{num:d}" value must {constraint}')
+@then('At least "{num:d}" values must {constraint}')
+def step_impl(context, constraint, num=None):
     errors = []
     
     within_model = getattr(context, 'within_model', False)
-    stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-    instances = [context.instances] if within_model else context.instances
 
-    for i, values in enumerate(instances):
-        if not values:
-            continue
-        attribute = getattr(context, 'attribute', None)
+    if constraint.startswith('be '):
+        constraint = constraint[3:]
 
-        dirname = os.path.dirname(__file__)
-        filename = Path(dirname).parent / f"resources/{constraint}_{attribute}.csv"
-        valid_values = [row[0] for row in csv.reader(open(filename))]
+    if getattr(context, 'applicable', True):
+        stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+        instances = [context.instances] if within_model else context.instances
 
-        errors.append([
-            invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value)
-            for iv, value in enumerate(values) 
-            if not value in valid_values
-        ])
+        if constraint == 'valid':
+            for i, values in enumerate(instances):
+                if not values:
+                    continue
+                attribute = getattr(context, 'attribute', None)
 
-    handle_errors(context, list(itertools.chain(*errors)))
+                dirname = os.path.dirname(__file__)
+                filename = Path(dirname).parent / f"resources/{constraint}_{attribute}.csv"
+                valid_values = [row[0] for row in csv.reader(open(filename))]
+
+                for iv, value in enumerate(values):
+                    if not value in valid_values:
+                        errors.append(invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value))
+
+
+    handle_errors(context, errors)

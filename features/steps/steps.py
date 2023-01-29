@@ -69,7 +69,7 @@ def fmt(x):
         return v
 
 def is_closed(context, instance):
-    entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
+    entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems', set())
     precision = get_precision_from_contexts(entity_contexts)
     points_coordinates = get_points(instance)
     return math.dist(points_coordinates[0], points_coordinates[-1]) < precision
@@ -90,24 +90,20 @@ def get_points(inst, return_type='coord'):
     else:
         raise NotImplementedError(f'get_points() not implemented on {inst.is_a}')
 
-def recurrently_get_entity_attr(ifc_context, ent, entity_to_look_for, attr_to_get):
+def recurrently_get_entity_attr(ifc_context, ent, entity_to_look_for, attr_to_get, attr_found):
     if ent.is_a(entity_to_look_for):
         return getattr(ent, attr_to_get)
-    set_instances = []
-    if len(ifc_context.model.get_inverse(ent)) == 0:
-        return None  # inverse unattainable, context not found
-    for rev_item in ifc_context.model.get_inverse(ent):
-        if rev_item.is_a(entity_to_look_for):
-            set_instances.append(getattr(rev_item, attr_to_get))
-    if len(set_instances) > 0:
-        return set_instances
     else:
-        entity_context = recurrently_get_entity_attr(ifc_context, rev_item, entity_to_look_for, attr_to_get)
-        return entity_context
+        for inv_item in ifc_context.model.get_inverse(ent):
+            if inv_item.is_a(entity_to_look_for):
+                attr_found.add((getattr(inv_item, attr_to_get)))
+            else:
+                recurrently_get_entity_attr(ifc_context, inv_item, entity_to_look_for, attr_to_get, attr_found)
+    return attr_found
 
 def get_precision_from_contexts(entity_contexts, func_to_return=max, default_precision= 1e-05):
     precisions = []
-    if entity_contexts is None:
+    if not entity_contexts:
         return default_precision
     for entity_context in entity_contexts:
         if entity_context.is_a('IfcGeometricRepresentationSubContext'):
@@ -509,7 +505,7 @@ def step_impl(context, clause):
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:
-            entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
+            entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems', set())
             precision = get_precision_from_contexts(entity_contexts)
             points_coordinates = get_points(instance)
             comparison_nr = 1

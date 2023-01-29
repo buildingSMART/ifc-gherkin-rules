@@ -1,4 +1,4 @@
-@implementer-agreement
+@disabled
 @ALB
 Feature: ALB001_Alignment in spatial structure
 

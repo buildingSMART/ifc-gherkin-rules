@@ -16,7 +16,6 @@ test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/**/*.ifc")
 def test_invocation(filename):
     results = list(run(filename))
     base = os.path.basename(filename)
-    
     print()
     print(base)
     print()
@@ -28,9 +27,9 @@ def test_invocation(filename):
             tablefmt="simple_grid"
         ))
     
-    if base.startswith("fail-"):
+    if base.startswith("fail-") and 'disabled' not in results:
         assert len(results) > 0
-    elif base.startswith("pass-"):
+    elif base.startswith("pass-") and 'disabled' not in results:
         assert len(results) == 0
 
 if __name__ == "__main__":

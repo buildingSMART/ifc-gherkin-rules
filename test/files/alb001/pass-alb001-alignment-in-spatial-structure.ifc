@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION (('ViewDefinition[Alignment-basedReferenceView]'), '2;1');
-FILE_NAME ('fail-alb001-scenario01-no_contained_relation.ifc', '2022-11-16T10:37:00', (), (), '(before manual edit) ACCA_IFC.dll Version 500', 'ACCA usBIM.infra', $);
+FILE_NAME ('pass-alb001-alignment-layout.ifc', '2022-11-16T10:37:00', (), (), '(before manual edit) ACCA_IFC.dll Version 500', 'ACCA usBIM.infra', $);
 FILE_SCHEMA (('IFC4X3'));
 ENDSEC;
 DATA;
@@ -900,6 +900,7 @@ DATA;
 #893 = IFCSHAPEREPRESENTATION(#192, 'Axis', 'Segment', (#883));
 #894 = IFCPRODUCTDEFINITIONSHAPE($, $, (#895));
 #895 = IFCSHAPEREPRESENTATION(#192, 'Axis', 'Curve3D', (#722));
+#896 = IFCRELCONTAINEDINSPATIALSTRUCTURE('3Uu7sw3ALECPBWNPpz$fqn', #1, 'Container', 'Container to Contained', (#23, #426), #18);
 #897 = IFCRAILWAY('324l0OxyH6zxQAil7Ef4B_', #1, 'LO1336', 'Foligno', 'Localit\X2\00E0\X0\', #898, $, $, .ELEMENT., .USERDEFINED.);
 #898 = IFCLOCALPLACEMENT(#19, #901);
 #899 = IFCDIRECTION((0., 0., 1.));

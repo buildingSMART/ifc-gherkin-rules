@@ -59,13 +59,13 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
             print(f.read(), file=sys.stderr)
             exit(1)
         for item in log:
-            check_disabled = 'disabled' in item['tags']
-            if check_disabled:
-                yield 'disabled'
             feature_name = item['name']
             feature_file = item['location'].split(':')[0]
             shas = get_commits(cwd, feature_file)
             version = len(shas)
+            check_disabled = 'disabled' in item['tags']
+            if check_disabled:
+                yield f"{feature_name}/.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", "Rule disabled", "Rule disabled"
             item['status'] == 'passed'
             for el in item['elements']:
                 scenario_name = el['name']

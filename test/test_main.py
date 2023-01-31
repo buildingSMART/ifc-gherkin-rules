@@ -16,6 +16,8 @@ test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/**/*.ifc")
 def test_invocation(filename):
     results = list(run(filename))
     base = os.path.basename(filename)
+    if base.startswith("pass-"):
+        results = [result for result in results if result[4] != 'Rule disabled']
     print()
     print(base)
     print()
@@ -29,7 +31,7 @@ def test_invocation(filename):
     
     if base.startswith("fail-") and 'disabled' not in results:
         assert len(results) > 0
-    elif base.startswith("pass-") and 'disabled' not in results:
+    elif base.startswith("pass-"):
         assert len(results) == 0
 
 if __name__ == "__main__":

@@ -69,7 +69,7 @@ def fmt(x):
         return v
 
 def is_closed(context, instance):
-    entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems', set())
+    entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
     precision = get_precision_from_contexts(entity_contexts)
     points_coordinates = get_points(instance)
     return math.dist(points_coordinates[0], points_coordinates[-1]) < precision
@@ -90,11 +90,13 @@ def get_points(inst, return_type='coord'):
     else:
         raise NotImplementedError(f'get_points() not implemented on {inst.is_a}')
 
-def recurrently_get_entity_attr(ifc_context, ent, entity_to_look_for, attr_to_get, attr_found):
-    if ent.is_a(entity_to_look_for):
-        return getattr(ent, attr_to_get)
+def recurrently_get_entity_attr(ifc_context, inst, entity_to_look_for, attr_to_get, attr_found=None):
+    if attr_found is None:
+        attr_found = set()
+    if inst.is_a(entity_to_look_for):
+        return getattr(inst, attr_to_get)
     else:
-        for inv_item in ifc_context.model.get_inverse(ent):
+        for inv_item in ifc_context.model.get_inverse(inst):
             if inv_item.is_a(entity_to_look_for):
                 attr_found.add((getattr(inv_item, attr_to_get)))
             else:
@@ -505,7 +507,7 @@ def step_impl(context, clause):
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:
-            entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems', set())
+            entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
             precision = get_precision_from_contexts(entity_contexts)
             points_coordinates = get_points(instance)
             comparison_nr = 1

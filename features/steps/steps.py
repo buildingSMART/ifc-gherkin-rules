@@ -432,21 +432,26 @@ def step_impl(context, constraint, num=None):
     
     within_model = getattr(context, 'within_model', False)
 
-    if constraint.startswith('be '):
+    if constraint.startswith('be ') or constraint.startswith('in '):
         constraint = constraint[3:]
+
+    if constraint.startswith('in ') or constraint.startswith('in '):
+        constraint = constraint[3:]
+
 
     if getattr(context, 'applicable', True):
         stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
         instances = [context.instances] if within_model else context.instances
 
-        if constraint == 'valid':
+        if constraint[-5:] == ".csv'":
+            csv_name = constraint.strip("'")
             for i, values in enumerate(instances):
                 if not values:
                     continue
                 attribute = getattr(context, 'attribute', None)
 
                 dirname = os.path.dirname(__file__)
-                filename = Path(dirname).parent / f"resources/{constraint}_{attribute}.csv"
+                filename = Path(dirname).parent / f"resources/{csv_name}"
                 valid_values = [row[0] for row in csv.reader(open(filename))]
 
                 for iv, value in enumerate(values):

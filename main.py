@@ -35,7 +35,7 @@ def do_try(fn, default=None):
         traceback.print_exc()
         return default
 
-def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
+def run(filename, rule_code, instance_as_str=True, rule_type=RuleType.ALL):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -46,8 +46,7 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
         tag_filter.append(
             '--tags=' + ' and '.join(['@'+nm.lower().replace("_", "-") for nm, v in RuleType.__members__.items() if v in rule_type])
         )
-    
-    proc = subprocess.run([sys.executable, "-m", "behave", *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
+    proc = subprocess.run([sys.executable, "-m", "behave", "-i", rule_code, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
     with open(jsonfn) as f:
         try:
             log = json.load(f)

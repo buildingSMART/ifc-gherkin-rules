@@ -14,9 +14,9 @@ except ImportError:
 test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/**/*.ifc"), recursive=True)
 @pytest.mark.parametrize("filename", test_files)
 def test_invocation(filename):
+    results = list(run(filename))
     base = os.path.basename(filename)
-    rule_code = base.split('-')[1].strip().upper()
-    results = list(run(filename, rule_code))
+
     print()
     print(base)
     print()

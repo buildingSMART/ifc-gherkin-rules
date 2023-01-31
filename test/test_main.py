@@ -29,7 +29,7 @@ def test_invocation(filename):
             tablefmt="simple_grid"
         ))
     
-    if base.startswith("fail-") and 'disabled' not in results:
+    if base.startswith("fail-"):
         assert len(results) > 0
     elif base.startswith("pass-"):
         assert len(results) == 0

@@ -22,7 +22,6 @@ DATA;
 #15 = IFCCARTESIANPOINT((0., 0., 0.));
 #16 = IFCDIRECTION((0., 1.));
 #17 = IFCGEOMETRICREPRESENTATIONSUBCONTEXT('Body', 'Model', *, *, *, *, #13, $, .MODEL_VIEW., $);
-#18 = IFCSITE('0t95xT$EbBHQg68SrtwrBo', #1, 'Sito', 'One of the many sites that can be present in the file', $, #19, $, $, .ELEMENT., (0, 0, 0), (0, 0, 0), 0., $, $);
 #19 = IFCLOCALPLACEMENT($, #22);
 #20 = IFCDIRECTION((0., 0., 1.));
 #21 = IFCDIRECTION((1., 0., 0.));

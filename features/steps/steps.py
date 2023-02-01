@@ -4,6 +4,8 @@ import typing
 import operator
 import functools
 import re
+import itertools
+import math
 
 from collections import Counter
 from dataclasses import dataclass, field
@@ -66,6 +68,53 @@ def fmt(x):
             return "...".join((v[:25], v[-7:]))
         return v
 
+def is_closed(context, instance):
+    entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
+    precision = get_precision_from_contexts(entity_contexts)
+    points_coordinates = get_points(instance)
+    return math.dist(points_coordinates[0], points_coordinates[-1]) < precision
+
+def get_points(inst, return_type='coord'):
+    if inst.is_a().startswith('IfcCartesianPointList'):
+        return inst.CoordList
+    elif inst.is_a('IfcPolyline'):
+        if return_type == 'coord':
+            return [p.Coordinates for p in inst.Points]
+        elif return_type == 'points':
+            return inst.Points
+    elif inst.is_a('IfcPolyLoop'):
+        if return_type == 'coord':
+            return [p.Coordinates for p in inst.Polygon]
+        elif return_type == 'points':
+            return inst.Polygon
+    else:
+        raise NotImplementedError(f'get_points() not implemented on {inst.is_a}')
+
+def recurrently_get_entity_attr(ifc_context, inst, entity_to_look_for, attr_to_get, attr_found=None):
+    if attr_found is None:
+        attr_found = set()
+    if inst.is_a(entity_to_look_for):
+        return getattr(inst, attr_to_get)
+    else:
+        for inv_item in ifc_context.model.get_inverse(inst):
+            if inv_item.is_a(entity_to_look_for):
+                attr_found.add((getattr(inv_item, attr_to_get)))
+            else:
+                recurrently_get_entity_attr(ifc_context, inv_item, entity_to_look_for, attr_to_get, attr_found)
+    return attr_found
+
+def get_precision_from_contexts(entity_contexts, func_to_return=max, default_precision= 1e-05):
+    precisions = []
+    if not entity_contexts:
+        return default_precision
+    for entity_context in entity_contexts:
+        if entity_context.is_a('IfcGeometricRepresentationSubContext'):
+            precision = get_precision_from_contexts([entity_context.ParentContext])
+        elif entity_context.is_a('IfcGeometricRepresentationContext') and entity_context.Precision:
+            return entity_context.Precision
+        precisions.append(precision)
+    return func_to_return(precisions)
+
 
 @dataclass
 class edge_use_error:
@@ -123,7 +172,7 @@ class attribute_type_error:
 class representation_shape_error:
     inst: ifcopenshell.entity_instance
     representation_id: str
-
+    
     def __str__(self):
         return f"On instance {fmt(self.inst)} the instance should have one {self.representation_id} shape representation"
 
@@ -133,9 +182,30 @@ class representation_type_error:
     inst: ifcopenshell.entity_instance
     representation_id: str
     representation_type: str
-
+    
     def __str__(self):
         return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
+
+
+@dataclass
+class polyobject_point_reference_error:
+    inst: ifcopenshell.entity_instance
+    points: list
+
+    def __str__(self):
+        return f"On instance {fmt(self.inst)} first point {self.points[0]} is the same as last point {self.points[-1]}, but not by reference"
+
+@dataclass
+class polyobject_duplicate_points_error:
+    inst: ifcopenshell.entity_instance
+    duplicates: set
+
+    def __str__(self):
+        points_desc = ''
+        for duplicate in self.duplicates:
+            point_desc = f'point {str(duplicate[0])} and point {str(duplicate[1])}; '
+            points_desc = points_desc + point_desc
+        return f"On instance {fmt(self.inst)} there are duplicate points: {points_desc}"
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
@@ -185,7 +255,6 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
                 if f.is_a("IfcIndexedPolygonalFaceWithVoids"):
                     for inner in f.InnerCoordIndices:
                         yield from emit(inner)
-
         else:
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 
@@ -203,7 +272,7 @@ def condition(inst, representation_id, representation_type):
 
     if is_valid(inst,representation_id, representation_type):
         return any([repr.RepresentationIdentifier == representation_id and repr.RepresentationType in representation_type for repr in do_try(lambda: inst.Representation.Representations, [])])
-
+         
 def instance_getter(i,representation_id, representation_type, negative=False):
     if negative:
         if not condition(i, representation_id, representation_type):
@@ -272,6 +341,23 @@ def step_impl(context, field, values):
         raise NotImplementedError(f'A file with "{field}" is not implemented')
 
     context.applicable = getattr(context, 'applicable', True) and applicable
+
+@given('{attr} forms {closed_or_open} curve')
+def step_impl(context, attr, closed_or_open):
+    assert closed_or_open in ('a closed', 'an open')
+    should_be_closed = closed_or_open == 'a closed'
+    if attr == 'It':  # if a pronoun is used instances are filtered based on previously established context
+        instances = context.instances
+    else:  # if a specific entity is used instances are filtered based on the ifc model
+        instances = map(operator.attrgetter(attr), context.instances)
+
+    are_closed = []
+    for instance in instances:
+        are_closed.append(is_closed(context, instance))
+
+    context.instances = list(
+        map(operator.itemgetter(0), filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, are_closed)))
+    )
 
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
@@ -380,7 +466,7 @@ def step_impl(context, attribute, expected_entity_type):
 @given('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, representation_id, representation_type):
     context.instances =list(filter(None, list(map(lambda i: instance_getter(i, representation_id, representation_type), context.instances))))
-
+    
 @then('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, representation_id, representation_type):
     errors = list(filter(None, list(map(lambda i: instance_getter(i, representation_id, representation_type, 1), context.instances))))
@@ -396,7 +482,7 @@ def step_impl(context, representation_id):
                 present = representation_id in map(operator.attrgetter('RepresentationIdentifier'), inst.Representation.Representations)
                 if not present:
                     errors.append(representation_shape_error(inst, representation_id))
-
+    
     handle_errors(context, errors)
 
 @then('Each {entity} may be nested by only the following entities: {other_entities}')
@@ -414,6 +500,40 @@ def step_impl(context, entity, other_entities):
                 errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
 
     handle_errors(context, errors)
+
+@then("It must have no duplicate points {clause} first and last point")
+def step_impl(context, clause):
+    assert clause in ('including', 'excluding')
+    if getattr(context, 'applicable', True):
+        errors = []
+        for instance in context.instances:
+            entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
+            precision = get_precision_from_contexts(entity_contexts)
+            points_coordinates = get_points(instance)
+            comparison_nr = 1
+            duplicates = set()
+            for i in itertools.combinations(points_coordinates, 2):
+                if math.dist(i[0], i[1]) < precision:
+                    if clause == 'including' or (clause == 'excluding' and comparison_nr != len(points_coordinates) - 1):
+                        # combinations() produces tuples in a sorted order, first and last item is compared with items 0 and n-1
+                        duplicates.add(i)
+                        if len(duplicates) > 2: # limit nr of reported duplicate points to 3 for error readability
+                            break
+                comparison_nr += 1
+            if duplicates:
+                errors.append(polyobject_duplicate_points_error(instance, duplicates))
+        handle_errors(context, errors)
+
+
+@then("Its first and last point must be identical by reference")
+def step_impl(context):
+    if getattr(context, 'applicable', True):
+        errors = []
+        for instance in context.instances:
+            points = get_points(instance, return_type='points')
+            if points[0] != points[-1]:
+                errors.append(polyobject_point_reference_error(instance, points))
+        handle_errors(context, errors)
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
@@ -452,4 +572,3 @@ def step_impl(context, entity, condition, directness, other_entity):
                                                        optional_values={'condition': condition,'directness': directness}))
 
     handle_errors(context, errors)
-

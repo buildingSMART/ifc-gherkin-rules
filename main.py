@@ -54,8 +54,8 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
         rule_code = os.path.basename(filename).split('-')[1].strip().upper()
         if re.match(r'[A-Z]{3}[0-9]{3}', rule_code):
             feature_filter = ["-i", rule_code]
-    except:
-        pass
+    except Exception as e:
+        print(e)
 
     proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
     

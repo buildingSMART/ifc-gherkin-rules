@@ -1,9 +1,14 @@
 | File name                                         | Expected result | Error | Description                    |
 |---------------------------------------------------|-----------------|-------|--------------------------------|
-| pass-gem004-body-axis-as-identifiers.ifc | pass            |       | 'Body' and 'Axis' are valid values |
-| pass-gem004-geometriccurveset-as-identifiers.ifc | pass | | 'GeometricCurveSet' is a valid value for RepresentationIdentifier
-| pass-gem004-axis-as-identifiers.ifc | pass | | 'Axis' a valid value
-| fail-gem004-bodyy-as-identifiers.ifc | fail | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: Boddy      | 'Bodyy' is a typo and therefore not a valid value |
-| fail-gem004-validationplan-mappedelement-as-identifiers.ifc | fail | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: ValidationPlan, On instance #41=IfcShapeRepr ... the following invalid value for RepresentationIdentifier has been found: MappedElement      | Both 'ValidationPlan' and 'MappedElement' are not valid values |
-| fail-gem004-body-validationplan-as-identifiers.ifc | fail | On instance #41=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: ValidationPlan | In this case, 'Body' is valid but 'ValidationPlan' is not
-| fail-gem004-validationplan-as-identifiers.ifc | fail | On instance #41=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: ValidationPlan | 'ValidationPlan' is not a vaid value for RepresentationIdentifier
+| pass-gem004-scenario1-body-axis-as-identifiers.ifc | pass            |       | 'Body' and 'Axis' are valid values |
+| pass-gem004-scenario1-surface-as-identifiers.ifc | pass | | 'Surface' is a valid value for RepresentationIdentifier
+| pass-gem004-scenario1-axis-as-identifiers.ifc | pass | | 'Axis' a valid value
+| pass-gem004-scenario2-surface-as-identifiers.ifc | pass | | 'BoundingBox' is a valid value for RepresentationIdentifier
+| pass-gem004-scenario2-axis-as-identifiers.ifc | pass | | 'SweptSolid' is a valid value
+| fail-gem004-scenario1-bodyy-as-identifiers.ifc | fail | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: Boddy      | 'Bodyy' is a typo and therefore not a valid value |
+| fail-gem004-scenario1-validationplan-mappedelement-as-identifiers.ifc | fail | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: ValidationPlan, On instance #41=IfcShapeRepr ... the following invalid value for RepresentationIdentifier has been found: MappedElement      | Both 'ValidationPlan' and 'MappedElement' are not valid values |
+| fail-gem004-scenario1-body-validationplan-as-identifiers.ifc | fail | On instance #41=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: ValidationPlan | In this case, 'Body' is valid but 'ValidationPlan' is not
+| fail-gem004-scenario1-validationplan-as-identifiers.ifc | fail | On instance #41=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: ValidationPlan | 'ValidationPlan' is not a vaid value for RepresentationIdentifier
+| fail-gem004-scenario2-validationplan-axis-as-identifiers.ifc | fail | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationType has been found: ValidationPlan, On instance #41=IfcShapeRepr ... the following invalid value for RepresentationType has been found: Axis      | Both 'ValidationPlan' and 'Axis' are not valid values
+| fail-gem004-scenario2-sweptsolid-body-as-identifiers.ifc | fail | On instance #41=IfcShapeRepr .. the following invalid value for RepresentationType has been found: Body | In this case, 'SweptSolid' is valid but 'Body' is not
+| fail-gem004-scenario2-sweptsolidss-as-identifiers.ifc | fail | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationType has been found: SweptSolidss      | 'SweptSolidss' is a typo and therefore not a valid value |

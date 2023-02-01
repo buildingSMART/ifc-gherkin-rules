@@ -1,18 +1,24 @@
+import os
 import ast
 import json
 import typing
 import operator
 import functools
-import re
+import itertools
+import csv
 
 from collections import Counter
 from dataclasses import dataclass, field
+from pathlib import Path
+from parse_type import TypeBuilder
 
 import ifcopenshell
 import pyparsing
 
 from behave import *
 
+register_type(from_to=TypeBuilder.make_enum({"from": 0, "to": 1 }))
+register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and following that": 1, "and return to first": 2 }))
 
 def instance_converter(kv_pairs):
     def c(v):
@@ -76,6 +82,35 @@ class edge_use_error:
     def __str__(self):
         return f"On instance {fmt(self.inst)} the edge {fmt(self.edge)} was referenced {fmt(self.count)} times"
 
+@dataclass
+class invalid_value_error:
+    related: ifcopenshell.entity_instance
+    attribute: str
+    value: str
+
+    def __str__(self):
+        return f"On instance {fmt(self.related)} the following invalid value for {self.attribute} has been found: {self.value}"
+
+@dataclass
+class instance_attribute_value_error:
+    path: typing.Sequence[ifcopenshell.entity_instance]
+    allowed_values: typing.Sequence[typing.Any]
+    negative: bool = field(default=False)
+
+    def __str__(self):
+        is_or_is_not = 'is' if self.negative else 'is not' 
+        return f"The value {self.path[0]!r} on {self.path[1]} {is_or_is_not} one of {', '.join(map(repr, self.allowed_values))}"
+
+@dataclass
+class instance_attribute_value_count_error:
+    paths: typing.Sequence[ifcopenshell.entity_instance]
+    allowed_values: typing.Sequence[typing.Any]
+    num_required: int
+
+    def __str__(self):
+        vs = "".join(f"\n * {p[0]!r} on {p[1]}" for p in self.paths)
+        return f"Not at least {self.num_required} instances of {', '.join(map(repr, self.allowed_values))} for values:{vs}"
+
 
 @dataclass
 class instance_count_error:
@@ -118,6 +153,13 @@ class attribute_type_error:
         else:
             return f"This instance {self.inst} has no value for attribute {self.attribute}"
 
+@dataclass
+class missing_relationship_error:
+    inst: ifcopenshell.entity_instance
+    relationship: str
+
+    def __str__(self):
+        return f"Instance {fmt(self.inst)} has no relationship {self.relationship!r}"
 
 @dataclass
 class representation_shape_error:
@@ -242,6 +284,46 @@ def step_impl(context, something, num):
 
     handle_errors(context, list(_()))
 
+@given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
+@then('A relationship {relationship} exists {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
+@given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
+def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail=0):
+    assert dir1 != dir2
+
+    relationships = context.model.by_type(relationship)
+    instances = []
+    dirname = os.path.dirname(__file__)
+    filename_related_attr_matrix = Path(dirname).parent /'resources' / 'related_entity_attributes.csv'
+    filename_relating_attr_matrix = Path(dirname).parent / 'resources' / 'relating_entity_attributes.csv'
+    related_attr_matrix = next(csv.DictReader(open(filename_related_attr_matrix)))
+    relating_attr_matrix = next(csv.DictReader(open(filename_relating_attr_matrix)))
+    
+    for inst in context.instances:
+        for rel in relationships:
+            attr_to_entity = relating_attr_matrix.get(rel.is_a())
+            attr_to_other = related_attr_matrix.get(rel.is_a())
+
+            if dir1:
+                attr_to_entity, attr_to_other = attr_to_other, attr_to_entity
+
+            def make_aggregate(val):
+                if not isinstance(val, (list, tuple)):
+                    val = [val]
+                return val
+
+            to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
+            to_other = set(filter(lambda i: i.is_a(other_entity), make_aggregate(getattr(rel, attr_to_other))))
+
+            if v := {inst} & to_entity:
+                if tail:
+                    instances.extend(to_other)
+                else:
+                    instances.extend(v)
+
+    if context.step.keyword.lower() == 'then':
+        handle_errors(context, [missing_relationship_error(inst, relationship) for inst in context.instances if inst not in set(instances)])
+    else:
+        context.instances = instances
 
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
@@ -249,6 +331,37 @@ def step_impl(context, attribute, value):
     context.instances = list(
         filter(lambda inst: getattr(inst, attribute, True) == value, context.instances)
     )
+
+def map_state(values, fn):
+    if isinstance(values, (tuple, list)):
+        return type(values)(map_state(v, fn) for v in values)
+    else:
+        return fn(values)
+
+@given('Its attribute {attribute}')
+@given('Its attribute {attribute} {tail:maybe_and_following_that}')
+def step_impl(context, attribute, tail=0):
+    context._push()
+    if attribute == 'RepresentationIdentifier':
+        x = 'hi'
+
+    if tail == 1:
+        current_instances = context.instances
+        context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
+        context._push()
+        context.instances = current_instances
+    elif tail == 2:
+        context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
+        context._push()
+        stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+        if not any(context.instances):
+            context.instances = []
+            context.applicable = False
+        else:
+            context.instances = stack_tree[-1]
+    else:
+        context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
+
 
 @given("The element {relationship_type} an {entity}")
 def step_impl(context, relationship_type, entity):
@@ -412,4 +525,59 @@ def step_impl(context, entity, other_entities):
                 differences = list(nested_entity_types - allowed_entity_types)
                 errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
     
+    handle_errors(context, errors)
+
+@then("The value must {constraint}")
+@then("The values must {constraint}")
+@then('At least "{num:d}" value must {constraint}')
+@then('At least "{num:d}" values must {constraint}')
+def step_impl(context, constraint, num=None):
+    errors = []
+    
+    within_model = getattr(context, 'within_model', False)
+
+    negative = constraint.startswith('not') # to account for 'value must (or not) be one of 'X', 'Y'
+    #to account for order-dependency of removing characters from constraint
+    for startswith, length in itertools.chain.from_iterable(itertools.permutations([('not ', 4), ('be ', 3), ('in ', 3)])):
+        if constraint.startswith(startswith): #'in ' is from GEM004
+            constraint = constraint[length:]
+
+    if getattr(context, 'applicable', True):
+        stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+        instances = [context.instances] if within_model else context.instances
+
+        if constraint[-5:] == ".csv'":
+            csv_name = constraint.strip("'")
+            for i, values in enumerate(instances):
+                if not values:
+                    continue
+                attribute = getattr(context, 'attribute', None)
+
+                dirname = os.path.dirname(__file__)
+                filename = Path(dirname).parent / f"resources/{csv_name}"
+                valid_values = [row[0] for row in csv.reader(open(filename))]
+
+                for iv, value in enumerate(values):
+                    if not value in valid_values:
+                        errors.append(invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value))
+        
+        else:
+            values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
+
+            if stack_tree:
+                num_valid = 0
+                for i in range(len(stack_tree[0])):
+                    path = [l[i] for l in stack_tree]
+                    attr_value = path[0][0] if isinstance(path[0], tuple) else path[0]
+                    if (attr_value not in values and num is None and not negative):
+                        errors.append(instance_attribute_value_error(path, values))
+                    elif (attr_value in values and num is None and negative):
+                        errors.append(instance_attribute_value_error(path, values, negative))
+                    else:
+                        num_valid += 1
+                if num is not None and num_valid < num:
+                    paths = [[l[i] for l in stack_tree] for i in range(len(stack_tree[0]))]
+                    errors.append(instance_attribute_value_count_error(paths, values, num))
+
+
     handle_errors(context, errors)

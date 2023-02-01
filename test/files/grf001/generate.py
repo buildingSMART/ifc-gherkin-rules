@@ -213,5 +213,5 @@ for i in range(2):
 
     ok = count != 2
     pass_or_fail = 'pass' if ok else 'fail'
-    different_values = '-non-identical' if not ok else ''
+    different_values = '-grf001-non-identical' if not ok else ''
     file.write(f'{pass_or_fail}-ifcmapconversionscaled-ifcmapconversionscaled{different_values}.ifc')

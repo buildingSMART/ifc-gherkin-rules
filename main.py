@@ -1,6 +1,7 @@
 import json
 import operator
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -46,8 +47,20 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
         tag_filter.append(
             '--tags=' + ' and '.join(['@'+nm.lower().replace("_", "-") for nm, v in RuleType.__members__.items() if v in rule_type])
         )
-    rule_code = os.path.basename(filename).split('-')[1].strip().upper()
-    proc = subprocess.run([sys.executable, "-m", "behave", "-i", rule_code, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
+    else:
+        tag_filter.append('--tags=-disabled' )
+
+    # If this is a test file from the repository filter only the relevant scenarios
+    feature_filter = []
+    try:    
+        rule_code = os.path.basename(filename).split('-')[1].strip().upper()
+        if re.match(r'[A-Z]{3}[0-9]{3}', rule_code):
+            feature_filter = ["-i", rule_code]
+    except Exception as e:
+        print(e)
+
+    proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
+    
     with open(jsonfn) as f:
         try:
             log = json.load(f)
@@ -62,6 +75,9 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
             feature_file = item['location'].split(':')[0]
             shas = get_commits(cwd, feature_file)
             version = len(shas)
+            check_disabled = 'disabled' in item['tags']
+            if check_disabled:
+                yield f"{feature_name}/.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", "Rule disabled", "Rule disabled"
             item['status'] == 'passed'
             for el in item['elements']:
                 scenario_name = el['name']

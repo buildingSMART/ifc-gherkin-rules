@@ -384,12 +384,6 @@ def step_impl(context, entity_opt_stmt, insts = False):
 
     context.within_model = getattr(context, 'within_model', True) and within_model
 
-@given('Its attribute {attribute}')
-def step_impl(context, attribute):
-    context._push()
-    context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
-    setattr(context, 'attribute', attribute)
-
 
 def handle_errors(context, errors):
     error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
@@ -691,46 +685,6 @@ def unpack_tuple(tup):
         else:
             return item
 
-
-@then("The value must {constraint}")
-@then("The values must {constraint}")
-@then('At least "{num:d}" value must {constraint}')
-@then('At least "{num:d}" values must {constraint}')
-def step_impl(context, constraint, num=None):
-    errors = []
-
-    within_model = getattr(context, 'within_model', False)
-
-    if constraint.startswith('be '):
-        constraint = constraint[3:]
-
-    if getattr(context, 'applicable', True):
-        stack_tree = list(
-            filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-        instances = [context.instances] if within_model else context.instances
-
-        if constraint in ('identical', 'unique'):
-            for i, values in enumerate(instances):
-                if not values:
-                    continue
-                attribute = getattr(context, 'attribute', None)
-                if constraint == 'unique':
-                    seen = set()
-                    duplicates = [x for x in values if x in seen or seen.add(x)]
-                    if not duplicates:
-                        continue
-                    inst_tree = [t[i] for t in stack_tree]
-                    inst = inst_tree[-1]
-                    incorrect_insts = [inst_tree[1][i]
-                                    for i, x in enumerate(values) if x in duplicates]
-                    incorrect_values = duplicates
-                    # avoid mentioning ifcopenshell.entity_instance twice in error message
-                    report_incorrect_insts = any(map_state(values, lambda v: do_try(
-                        lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-                    errors.append(duplicate_value_error(inst, incorrect_values, attribute,
-                                incorrect_insts, report_incorrect_insts))
-
-    handle_errors(context, errors)
 
 @then('The relative placement of that {entity} must be provided by an {other_entity} entity')
 def step_impl(context, entity, other_entity):

@@ -1,22 +1,21 @@
+import os
 import ast
 import json
 import typing
 import operator
 import functools
-import itertools
 import csv
 import re
 import itertools
 import math
 
-import glob 
-import os
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
-import pyparsing
 
 import ifcopenshell
+import pyparsing
+
 
 from behave import *
 
@@ -144,6 +143,7 @@ class instance_count_error:
 
 @dataclass
 class instance_structure_error:
+    #@todo reverse order to relating -> nest-relationship -> related
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
     relationship_type: str
@@ -191,14 +191,34 @@ class representation_type_error:
     def __str__(self):
         return f"On instance {fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
 
-@dataclass
-class invalid_value_error:
-    related: ifcopenshell.entity_instance
-    attribute: str
-    value: str
+@dataclass 
+class duplicate_value_error:
+    inst: ifcopenshell.entity_instance
+    incorrect_values: typing.Sequence[typing.Any] 
+    attribute: str 
+    incorrect_insts: typing.Sequence[ifcopenshell.entity_instance]
+    report_incorrect_insts: bool = field(default=True)
 
     def __str__(self):
-        return f"On instance {fmt(self.related)} the following invalid value for {self.attribute} has been found: {self.value}"
+        incorrect_insts_statement = f"on instance(s) {', '.join(map(fmt, self.incorrect_insts))}" if not self.report_incorrect_insts else ''
+        return (
+            f"On instance {fmt(self.inst)} , "
+            f"the following duplicate value(s) for attribute {self.attribute} was/were found: "
+            f"{', '.join(map(fmt, self.incorrect_values))} {incorrect_insts_statement}"
+        )
+
+@dataclass 
+class identical_values_error:
+    insts: typing.Sequence[ifcopenshell.entity_instance]
+    incorrect_values: typing.Sequence[typing.Any] 
+    attribute: str 
+
+    def __str__(self):
+        return (
+            f"On instance(s) {';'.join(map(fmt, self.insts))}, "
+            f"the following non-identical values for attribute {self.attribute} was/were found: "
+            f"{', '.join(map(fmt, self.incorrect_values))}"
+        )
 
 @dataclass
 class polyobject_point_reference_error:
@@ -294,19 +314,16 @@ def instance_getter(i,representation_id, representation_type, negative=False):
         if condition(i, representation_id, representation_type):
             return i
 
-
-@given("An {entity}")
-def step_impl(context, entity):
-    try:
-        context.instances = context.model.by_type(entity)
-    except:
-        context.instances = []
-
-def handle_errors(context, errors):
-    error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
-    assert not errors, "Errors occured:\n{}".format(
-        "\n".join(map(error_formatter, errors))
+def strip_split(stmt, strp = ' ', splt = ','):
+    return list(
+        map(lambda s: s.strip(strp), stmt.lower().split(splt))
     )
+
+def include_subtypes(stmt):
+    #todo replace by pyparsing?
+    stmt = strip_split(stmt, strp = '[]', splt=' ')
+    excluding_statements = {'without', 'not', 'excluding', 'no'}
+    return not set(stmt).intersection(set(excluding_statements))
 
 def map_state(values, fn):
     if isinstance(values, (tuple, list)):
@@ -314,12 +331,44 @@ def map_state(values, fn):
     else:
         return fn(values)
 
+def rtrn_pyparse_obj(i):
+    if isinstance(i, (pyparsing.core.LineEnd, pyparsing.core.NotAny)):
+        return i
+    elif isinstance(i, str):
+        return pyparsing.CaselessKeyword(i)
+
+@given("An {entity_opt_stmt}")
+@given("All {insts} of {entity_opt_stmt}")
+def step_impl(context, entity_opt_stmt, insts = False):
+    within_model = (insts == 'instances') # True for given statement containing {insts} 
+
+    entity2 = pyparsing.Word(pyparsing.alphas)('entity')
+    sub_stmts = ['with subtypes', 'without subtypes', pyparsing.LineEnd()]
+    incl_sub_stmt = functools.reduce(operator.or_, [rtrn_pyparse_obj(i) for i in sub_stmts])('include_subtypes')
+    grammar = entity2 + incl_sub_stmt
+    parse = grammar.parseString(entity_opt_stmt)
+    entity = parse['entity']
+    include_subtypes = do_try(lambda: not 'without' in parse['include_subtypes'], True)
+
+    try:
+        context.instances = context.model.by_type(entity, include_subtypes)
+    except:
+        context.instances = []
+
+    context.within_model = getattr(context, 'within_model', True) and within_model
+
 @given('Its attribute {attribute}')
 def step_impl(context, attribute):
     context._push()
     context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
     setattr(context, 'attribute', attribute)
 
+
+def handle_errors(context, errors):
+    error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
+    assert not errors, "Errors occured:\n{}".format(
+        "\n".join(map(error_formatter, errors))
+    )
 
 @then(
     "Every {something} must be referenced exactly {num:d} times by the loops of the face"
@@ -357,7 +406,7 @@ def step_impl(context, relationship_type, entity):
 
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
-    values = list(map(str.lower, map(lambda s: s.strip('"'), values.split(' or '))))
+    values = strip_split(values, strp = '"', splt = ' or ')
     if field == "Model View Definition":
         conditional_lowercase = lambda s: s.lower() if s else None
         applicable = conditional_lowercase(get_mvd(context.model)) in values
@@ -365,8 +414,17 @@ def step_impl(context, field, values):
         applicable = context.model.schema.lower() in values
     else:
         raise NotImplementedError(f'A file with "{field}" is not implemented')
-
+ 
     context.applicable = getattr(context, 'applicable', True) and applicable
+    
+@given('Its values')
+def step_impl(context):
+    context._push()
+    instances_unpacked = unpack_sequence_of_entities(
+        context.instances)  # '(#23IfcWall..)' to '#23IfcWall'
+    values = [do_try(lambda : inst.get_info(recursive=True, include_identifier=False, ignore='SourceCRS'), None)
+              for inst in instances_unpacked]  # probably add more to 'ignore' in future
+    context.instances = values
 
 @given('{attr} forms {closed_or_open} curve')
 def step_impl(context, attr, closed_or_open):
@@ -416,7 +474,6 @@ def step_impl(context, entity, num, constraint, other_entity):
     handle_errors(context, errors)
 
 
-
 @then('Each {entity} {fragment} instance(s) of {other_entity}')
 def step_impl(context, entity, fragment, other_entity):
     reltype_to_extr = {'must nest': {'attribute':'Nests','object_placement':'RelatingObject', 'error_log_txt':'nesting'},
@@ -461,6 +518,7 @@ def step_impl(context, entity, fragment, other_entity):
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
+    #@todo reverse order to relating -> nest-relationship -> related
     pred = stmt_to_op(condition)
 
     op = lambda n: not pred(n, 0)
@@ -511,44 +569,6 @@ def step_impl(context, representation_id):
     
     handle_errors(context, errors)
 
-@then("The value must {constraint}")
-@then("The values must {constraint}")
-@then('At least "{num:d}" value must {constraint}')
-@then('At least "{num:d}" values must {constraint}')
-def step_impl(context, constraint, num=None):
-    errors = []
-    
-    within_model = getattr(context, 'within_model', False)
-
-    if constraint.startswith('be ') or constraint.startswith('in '):
-        constraint = constraint[3:]
-
-    if constraint.startswith('in ') or constraint.startswith('in '):
-        constraint = constraint[3:]
-
-
-    if getattr(context, 'applicable', True):
-        stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-        instances = [context.instances] if within_model else context.instances
-
-        if constraint[-5:] == ".csv'":
-            csv_name = constraint.strip("'")
-            for i, values in enumerate(instances):
-                if not values:
-                    continue
-                attribute = getattr(context, 'attribute', None)
-
-                dirname = os.path.dirname(__file__)
-                filename = Path(dirname).parent / f"resources/{csv_name}"
-                valid_values = [row[0] for row in csv.reader(open(filename))]
-
-                for iv, value in enumerate(values):
-                    if not value in valid_values:
-                        errors.append(invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value))
-
-
-    handle_errors(context, errors)
-
 @then('Each {entity} may be nested by only the following entities: {other_entities}')
 def step_impl(context, entity, other_entities):
 
@@ -564,6 +584,64 @@ def step_impl(context, entity, other_entities):
                 errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
 
     handle_errors(context, errors)
+
+
+def unpack_sequence_of_entities(instances):
+    # in case of [[inst1, inst2], [inst3, inst4]]
+    return [do_try(lambda: unpack_tuple(inst), None) for inst in instances]
+
+
+def unpack_tuple(tup):
+    for item in tup:
+        if isinstance(item, tuple):
+            unpack_tuple(item)
+        else:
+            return item
+
+@then("The value must {constraint}")
+@then("The values must {constraint}")
+@then('At least "{num:d}" value must {constraint}')
+@then('At least "{num:d}" values must {constraint}')
+def step_impl(context, constraint, num=None):
+    errors = []
+
+    within_model = getattr(context, 'within_model', False)
+
+    if constraint.startswith('be '):
+        constraint = constraint[3:]
+
+    if getattr(context, 'applicable', True):
+        stack_tree = list(
+            filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+        instances = [context.instances] if within_model else context.instances
+
+        if constraint in ('identical', 'unique'):
+            for i, values in enumerate(instances):
+                if not values:
+                    continue
+                attribute = getattr(context, 'attribute', None)
+                if (constraint == 'identical' and not all([values[0] == i for i in values])):
+                    incorrect_values = values # a more general approach of going through stack frames to return relevant information in error message?
+                    incorrect_insts = stack_tree[-1]
+                    errors.append(identical_values_error(incorrect_insts, incorrect_values, attribute,))
+                if constraint == 'unique':
+                    seen = set()
+                    duplicates = [x for x in values if x in seen or seen.add(x)]
+                    if not duplicates:
+                        continue
+                    inst_tree = [t[i] for t in stack_tree]
+                    inst = inst_tree[-1]
+                    incorrect_insts = [inst_tree[1][i]
+                                    for i, x in enumerate(values) if x in duplicates]
+                    incorrect_values = duplicates
+                    # avoid mentioning ifcopenshell.entity_instance twice in error message
+                    report_incorrect_insts = any(map_state(values, lambda v: do_try(
+                        lambda: isinstance(v, ifcopenshell.entity_instance), False)))
+                    errors.append(duplicate_value_error(inst, incorrect_values, attribute,
+                                incorrect_insts, report_incorrect_insts))
+
+    handle_errors(context, errors)
+
 
 @then("It must have no duplicate points {clause} first and last point")
 def step_impl(context, clause):

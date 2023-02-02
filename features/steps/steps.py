@@ -165,7 +165,6 @@ class instance_count_error:
 
 @dataclass
 class instance_structure_error:
-    #@todo reverse order to relating -> nest-relationship -> related
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
     relationship_type: str
@@ -454,12 +453,8 @@ def step_impl(context, field, values):
 @given('Its values excluding {excluding}')
 def step_impl(context, excluding=()):
     context._push()
-    instances_unpacked = unpack_sequence_of_entities(
-        context.instances)  # '(#23IfcWall..)' to '#23IfcWall'
-    values = [do_try(lambda : inst.get_info(recursive=True, include_identifier=False, ignore=excluding), None)
-              for inst in instances_unpacked]  # probably add more to 'ignore' in future
-    context.instances = values
-
+    context.instances = map_state(context.instances, lambda inst: do_try(
+        lambda: inst.get_info(recursive=True, include_identifier=False, ignore=excluding), None))
 
 
 @given('A relationship {relationship} from {entity} to {other_entity}')

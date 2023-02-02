@@ -381,7 +381,7 @@ def step_impl(context, entity_opt_stmt, insts = False):
         context.instances = context.model.by_type(entity, include_subtypes)
     except:
         context.instances = []
-
+    
     context.within_model = getattr(context, 'within_model', True) and within_model
 
 
@@ -643,6 +643,27 @@ def step_impl(context, constraint, num=None):
         stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
         instances = [context.instances] if within_model else context.instances
 
+        if constraint in ('identical', 'unique'):
+            for i, values in enumerate(instances):
+                if not values:
+                    continue
+                attribute = getattr(context, 'attribute', None)
+                if constraint == 'unique':
+                    seen = set()
+                    duplicates = [x for x in values if x in seen or seen.add(x)]
+                    if not duplicates:
+                        continue
+                    inst_tree = [t[i] for t in stack_tree]
+                    inst = inst_tree[-1]
+                    incorrect_insts = [inst_tree[1][i]
+                                    for i, x in enumerate(values) if x in duplicates]
+                    incorrect_values = duplicates
+                    # avoid mentioning ifcopenshell.entity_instance twice in error message
+                    report_incorrect_insts = any(map_state(values, lambda v: do_try(
+                        lambda: isinstance(v, ifcopenshell.entity_instance), False)))
+                    errors.append(duplicate_value_error(inst, incorrect_values, attribute,
+                                incorrect_insts, report_incorrect_insts))
+
         if constraint[-5:] == ".csv'":
             csv_name = constraint.strip("'")
             for i, values in enumerate(instances):
@@ -658,7 +679,7 @@ def step_impl(context, constraint, num=None):
                     if not value in valid_values:
                         errors.append(invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value))
 
-
+    
     handle_errors(context, errors)
 
 @then('Each {entity} may be nested by only the following entities: {other_entities}')

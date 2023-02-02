@@ -206,20 +206,7 @@ class duplicate_value_error:
             f"the following duplicate value(s) for attribute {self.attribute} was/were found: "
             f"{', '.join(map(fmt, self.incorrect_values))} {incorrect_insts_statement}"
         )
-
-@dataclass 
-class identical_values_error:
-    insts: typing.Sequence[ifcopenshell.entity_instance]
-    incorrect_values: typing.Sequence[typing.Any] 
-    attribute: str 
-
-    def __str__(self):
-        return (
-            f"On instance(s) {';'.join(map(fmt, self.insts))}, "
-            f"the following non-identical values for attribute {self.attribute} was/were found: "
-            f"{', '.join(map(fmt, self.incorrect_values))}"
-        )
- 
+        
 
 @dataclass
 class polyobject_point_reference_error:
@@ -418,14 +405,6 @@ def step_impl(context, field, values):
  
     context.applicable = getattr(context, 'applicable', True) and applicable
     
-@given('Its values')
-def step_impl(context):
-    context._push()
-    instances_unpacked = unpack_sequence_of_entities(
-        context.instances)  # '(#23IfcWall..)' to '#23IfcWall'
-    values = [do_try(lambda : inst.get_info(recursive=True, include_identifier=False, ignore='SourceCRS'), None)
-              for inst in instances_unpacked]  # probably add more to 'ignore' in future
-    context.instances = values
 
 @given('{attr} forms {closed_or_open} curve')
 def step_impl(context, attr, closed_or_open):
@@ -621,10 +600,6 @@ def step_impl(context, constraint, num=None):
                 if not values:
                     continue
                 attribute = getattr(context, 'attribute', None)
-                if (constraint == 'identical' and not all([values[0] == i for i in values])):
-                    incorrect_values = values # a more general approach of going through stack frames to return relevant information in error message?
-                    incorrect_insts = stack_tree[-1]
-                    errors.append(identical_values_error(incorrect_insts, incorrect_values, attribute,))
                 if constraint == 'unique':
                     seen = set()
                     duplicates = [x for x in values if x in seen or seen.add(x)]

@@ -59,7 +59,8 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
     except Exception as e:
         print(e)
 
-    proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
+    rule_code = os.path.basename(filename).split('-')[1].strip().upper()
+    proc = subprocess.run([sys.executable, "-m", "behave", "-i", rule_code, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
     
     with open(jsonfn) as f:
         try:

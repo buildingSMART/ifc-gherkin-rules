@@ -9,7 +9,6 @@ import functools
 import itertools
 import re
 import ifcopenshell
-import pyparsing
 import math
 
 from collections import Counter
@@ -18,6 +17,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from behave import *
+import pyparsing
 
 
 def instance_converter(kv_pairs):
@@ -395,12 +395,6 @@ def step_impl(context, entity_opt_stmt, insts = False):
 
     context.within_model = getattr(context, 'within_model', True) and within_model
 
-@given('Its attribute {attribute}')
-def step_impl(context, attribute):
-    context._push()
-    context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))
-    setattr(context, 'attribute', attribute)
-
 
 def handle_errors(context, errors):
     error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
@@ -646,43 +640,6 @@ def step_impl(context, representation_id):
     
     handle_errors(context, errors)
 
-@then("The value must {constraint}")
-@then("The values must {constraint}")
-@then('At least "{num:d}" value must {constraint}')
-@then('At least "{num:d}" values must {constraint}')
-def step_impl(context, constraint, num=None):
-    errors = []
-    
-    within_model = getattr(context, 'within_model', False)
-
-    if constraint.startswith('be ') or constraint.startswith('in '):
-        constraint = constraint[3:]
-
-    if constraint.startswith('in ') or constraint.startswith('in '):
-        constraint = constraint[3:]
-
-
-    if getattr(context, 'applicable', True):
-        stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-        instances = [context.instances] if within_model else context.instances
-
-        if constraint[-5:] == ".csv'":
-            csv_name = constraint.strip("'")
-            for i, values in enumerate(instances):
-                if not values:
-                    continue
-                attribute = getattr(context, 'attribute', None)
-
-                dirname = os.path.dirname(__file__)
-                filename = Path(dirname).parent / "resources" / csv_name
-                valid_values = [row[0] for row in csv.reader(open(filename))]
-
-                for iv, value in enumerate(values):
-                    if not value in valid_values:
-                        errors.append(invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value))
-
-
-    handle_errors(context, errors)
 
 @then('Each {entity} may be nested by only the following entities: {other_entities}')
 def step_impl(context, entity, other_entities):

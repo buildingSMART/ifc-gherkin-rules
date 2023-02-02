@@ -539,7 +539,7 @@ def step_impl(context, constraint, num=None):
                 attribute = getattr(context, 'attribute', None)
 
                 dirname = os.path.dirname(__file__)
-                filename = Path(dirname).parent / f"resources/{csv_name}"
+                filename = Path(dirname).parent / "resources" / csv_name
                 valid_values = [row[0] for row in csv.reader(open(filename))]
 
                 for iv, value in enumerate(values):

@@ -128,31 +128,31 @@ class edge_use_error:
 
 @dataclass
 class instance_count_error:
-    insts: ifcopenshell.entity_instance
+    insts: typing.Sequence[ifcopenshell.entity_instance]
     type_name: str
 
     def __str__(self):
-        if len(self.insts):
+        if self.insts:
             return f"The following {len(self.insts)} instances of type {self.type_name} were encountered: {';'.join(map(fmt, self.insts))}"
         else:
             return f"No instances of type {self.type_name} were encountered"
 
 @dataclass
 class instance_structure_error:
-    related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
+    related: typing.Sequence[ifcopenshell.entity_instance]
     relationship_type: str
-    optional_values: dict = field(default_factory=dict)
+    optional_values: typing.Dict = field(default_factory=dict)
 
 
     def __str__(self):
         pos_neg = 'is not' if self.optional_values.get('condition', '') == 'must' else 'is'
         directness = self.optional_values.get('directness', '')
 
-        if len(self.relating):
-            return f"The instance {fmt(self.related)} {pos_neg} {directness} {self.relationship_type} (in) the following ({len(self.relating)}) instances: {';'.join(map(fmt, self.relating))}"
+        if self.related:
+            return f"The instance {fmt(self.relating)} {pos_neg} {directness} {self.relationship_type} (in) the following ({len(self.related)}) instances: {';'.join(map(fmt, self.related))}"
         else:
-            return f"This instance {self.related} is not {self.relationship_type} anything"
+            return f"This instance {self.relating} is not {self.relationship_type} anything"
 
 @dataclass
 class attribute_type_error:
@@ -162,7 +162,7 @@ class attribute_type_error:
     expected_entity_type: str
 
     def __str__(self):
-        if len (self.related):
+        if self.related:
             return f"The instance {self.inst} expected type '{self.expected_entity_type}' for the attribute {self.attribute}, but found {fmt(self.related)}  "
         else:
             return f"This instance {self.inst} has no value for attribute {self.attribute}"
@@ -190,7 +190,7 @@ class representation_type_error:
 @dataclass
 class polyobject_point_reference_error:
     inst: ifcopenshell.entity_instance
-    points: list
+    points: typing.Sequence[ifcopenshell.entity_instance]
 
     def __str__(self):
         return f"On instance {fmt(self.inst)} first point {self.points[0]} is the same as last point {self.points[-1]}, but not by reference"
@@ -198,7 +198,7 @@ class polyobject_point_reference_error:
 @dataclass
 class polyobject_duplicate_points_error:
     inst: ifcopenshell.entity_instance
-    duplicates: set
+    duplicates: typing.Set[ifcopenshell.entity_instance]
 
     def __str__(self):
         points_desc = ''
@@ -413,7 +413,7 @@ def step_impl(context, entity, fragment, other_entity):
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             related_entities = list(map(lambda x: getattr(x, extr['object_placement'],[]), getattr(inst, extr['attribute'],[])))
-            if len(related_entities):
+            if related_entities:
                 if isinstance(related_entities[0], tuple):
                     related_entities = list(related_entities[0]) # if entity has only one IfcRelNests, convert to list
                 false_elements = list(filter(lambda x : not x.is_a(other_entity), related_entities))
@@ -423,10 +423,10 @@ def step_impl(context, entity, fragment, other_entity):
                         errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}'))
                 if condition == 'a list of only':
                     if len(getattr(inst, extr['attribute'],[])) > 1:
-                        errors.append(instance_structure_error(f'{error_log_txt} more than 1 list, including'))
-                    elif len(false_elements):
+                        errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt} more than 1 list, including'))
+                    elif false_elements:
                         errors.append(instance_structure_error(inst, false_elements, f'{error_log_txt} a list that includes'))
-                if condition == 'only' and len(false_elements):
+                if condition == 'only' and false_elements:
                     errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}'))
 
 

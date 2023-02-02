@@ -420,13 +420,13 @@ def step_impl(context, field, values):
 @given('Its values')
 @given('Its values excluding {excluding}')
 def step_impl(context, excluding=()):
-def step_impl(context):
     context._push()
     instances_unpacked = unpack_sequence_of_entities(
         context.instances)  # '(#23IfcWall..)' to '#23IfcWall'
-    values = [do_try(lambda : inst.get_info(recursive=True, include_identifier=False, ignore='SourceCRS'), None)
+    values = [do_try(lambda : inst.get_info(recursive=True, include_identifier=False, ignore=excluding), None)
               for inst in instances_unpacked]  # probably add more to 'ignore' in future
     context.instances = values
+
 
 @given('{attr} forms {closed_or_open} curve')
 def step_impl(context, attr, closed_or_open):

@@ -418,6 +418,8 @@ def step_impl(context, field, values):
     context.applicable = getattr(context, 'applicable', True) and applicable
     
 @given('Its values')
+@given('Its values excluding {excluding}')
+def step_impl(context, excluding=()):
 def step_impl(context):
     context._push()
     instances_unpacked = unpack_sequence_of_entities(

@@ -3,20 +3,24 @@ import ast
 import json
 import typing
 import operator
+import csv
+import os
+import glob
 import functools
 import csv
 import re
+import ifcopenshell
+import pyparsing
 import itertools
 import math
 
 from collections import Counter
+from pathlib import Path
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import ifcopenshell
 import pyparsing
-
-
 from behave import *
 
 
@@ -71,6 +75,24 @@ def fmt(x):
         if len(v) > 35:
             return "...".join((v[:25], v[-7:]))
         return v
+
+def do_try(fn, default=None):
+    try: return fn()
+    except: return default
+
+def get_abs_path(rel_path):
+    dir_name = os.path.dirname(__file__)
+    parent_path = Path(dir_name).parent
+    csv_path = do_try(lambda: glob.glob(os.path.join(parent_path, rel_path), recursive=True)[0])
+    return csv_path
+
+def get_csv(abs_path, return_type = 'list', newline = '', delimiter = ',', quotechar = '|'):
+    with open(abs_path, newline=newline) as csvfile:
+        if return_type == 'dict':
+            reader = csv.DictReader(csvfile)
+        elif return_type == 'list':
+            reader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
+        return [row for row in reader]
 
 def is_closed(context, instance):
     entity_contexts = recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
@@ -172,6 +194,22 @@ class attribute_type_error:
         else:
             return f"This instance {self.inst} has no value for attribute {self.attribute}"
 
+
+@dataclass
+class instance_placement_error:
+    entity: ifcopenshell.entity_instance
+    placement: str
+    container: ifcopenshell.entity_instance
+    relationship: str
+    container_obj_placement: ifcopenshell.entity_instance
+    entity_obj_placement: ifcopenshell.entity_instance
+
+    def __str__(self):
+        if self.placement:
+            return f"The placement of {fmt(self.entity)} is not defined by {fmt(self.placement)}, but with {fmt(self.entity.ObjectPlacement)}"
+        elif all([self.container, self.relationship, self.container_obj_placement, self.entity_obj_placement]):
+            return f"The entity {fmt(self.entity)} is contained in {fmt(self.container)} with the {fmt(self.relationship)} relationship. " \
+                   f"The container points to {fmt(self.container_obj_placement)}, but the entity to {fmt(self.entity_obj_placement)}"
 
 @dataclass
 class representation_shape_error:
@@ -292,11 +330,6 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
             raise NotImplementedError(f"get_edges({inst.is_a()})")
 
     return sequence_type(inner())
-
-
-def do_try(fn, default=None):
-    try: return fn()
-    except: return default
 
 def condition(inst, representation_id, representation_type):
     def is_valid(inst, representation_id, representation_type):
@@ -428,6 +461,33 @@ def step_impl(context, excluding=()):
     context.instances = values
 
 
+
+@given('A relationship {relationship} from {entity} to {other_entity}')
+def step_impl(context, entity, other_entity, relationship):
+    instances = []
+    relationships = context.model.by_type(relationship)
+
+    filename_related_attr_matrix = get_abs_path(f"resources/**/related_entity_attributes.csv")
+    filename_relating_attr_matrix = get_abs_path(f"resources/**/relating_entity_attributes.csv")
+    related_attr_matrix = get_csv(filename_related_attr_matrix, return_type='dict')[0]
+    relating_attr_matrix = get_csv(filename_relating_attr_matrix, return_type='dict')[0]
+    for rel in relationships:
+        regex = re.compile(r'([0-9]+=)([A-Za-z0-9]+)\(')
+        relationships_str = regex.search(str(rel)).group(2)
+        relationship_relating_attr = relating_attr_matrix.get(relationships_str)
+        relationship_related_attr = related_attr_matrix.get(relationships_str)
+        if getattr(rel, relationship_relating_attr).is_a(other_entity):
+            try: #check if the related attribute returns a tuple/list or just a single instance
+                iter(getattr(rel, relationship_related_attr))
+                related_objects = getattr(rel, relationship_related_attr)
+            except TypeError:
+                related_objects = tuple(getattr(rel, relationship_related_attr))
+            for obj in related_objects:
+                if obj.is_a(entity):
+                    instances.append(obj)
+    context.instances = instances
+
+
 @given('{attr} forms {closed_or_open} curve')
 def step_impl(context, attr, closed_or_open):
     assert closed_or_open in ('a closed', 'an open')
@@ -444,6 +504,7 @@ def step_impl(context, attr, closed_or_open):
     context.instances = list(
         map(operator.itemgetter(0), filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, are_closed)))
     )
+
 
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
@@ -644,6 +705,52 @@ def step_impl(context, constraint, num=None):
 
     handle_errors(context, errors)
 
+@then('The relative placement of that {entity} must be provided by an {other_entity} entity')
+def step_impl(context, entity, other_entity):
+    if getattr(context, 'applicable', True):
+        errors = []
+        for obj in context.instances:
+            if not do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
+                errors.append(instance_placement_error(obj, other_entity, "", "", "", ""))
+        handle_errors(context, errors)
+
+@then('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
+def step_impl(context, entity, other_entity, relationship):
+    if getattr(context, 'applicable', True):
+        errors = []
+        filename_related_attr_matrix = get_abs_path(f"resources/**/related_entity_attributes.csv")
+        filename_relating_attr_matrix = get_abs_path(f"resources/**/relating_entity_attributes.csv")
+        related_attr_matrix = get_csv(filename_related_attr_matrix, return_type='dict')[0]
+        relating_attr_matrix = get_csv(filename_relating_attr_matrix, return_type='dict')[0]
+
+        relationship_relating_attr = relating_attr_matrix.get(relationship)
+        relationship_related_attr = related_attr_matrix.get(relationship)
+        relationships = context.model.by_type(relationship)
+
+        for rel in relationships:
+            try:  # check if the related attribute returns a tuple/list or just a single instance
+                iter(getattr(rel, relationship_related_attr))
+                related_objects = getattr(rel, relationship_related_attr)
+            except TypeError:
+                related_objects = tuple(getattr(rel, relationship_related_attr))
+            for related_object in related_objects:
+                if related_object not in context.instances:
+                    continue
+                related_obj_placement = related_object.ObjectPlacement
+                entity_obj_placement_rel = related_obj_placement.PlacementRelTo
+                relating_object = getattr(rel, relationship_relating_attr)
+                relating_obj_placement = relating_object.ObjectPlacement
+                try:
+                    entity_obj_placement_rel = related_obj_placement.PlacementRelTo
+                    is_correct = relating_obj_placement == entity_obj_placement_rel
+                except AttributeError:
+                    is_correct = False
+                if not entity_obj_placement_rel:
+                    entity_obj_placement_rel = 'Not found'
+                if not is_correct:
+                    errors.append(instance_placement_error(related_object, '', relating_object, relationship, relating_obj_placement, entity_obj_placement_rel))
+        handle_errors(context, errors)
+
 
 @then("It must have no duplicate points {clause} first and last point")
 def step_impl(context, clause):
@@ -678,3 +785,41 @@ def step_impl(context):
             if points[0] != points[-1]:
                 errors.append(polyobject_point_reference_error(instance, points))
         handle_errors(context, errors)
+
+@then('Each {entity} {condition} be {directness} contained in {other_entity}')
+def step_impl(context, entity, condition, directness, other_entity):
+    stmt_to_op = ['must', 'must not']
+    assert condition in stmt_to_op
+
+    stmt_about_directness = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
+    assert directness in stmt_about_directness
+    required_directness = {directness} if directness not in ['directly or indirectly', 'indirectly or directly'] else {
+        'directly', 'indirectly'}
+
+    errors = []
+
+    if context.instances and getattr(context, 'applicable', True):
+        for ent in context.model.by_type(entity):
+            observed_directness = set()
+            if len(ent.ContainedInStructure) > 0:
+                containing_relation = ent.ContainedInStructure[0]
+                relating_spatial_element = containing_relation.RelatingStructure
+                is_directly_contained = relating_spatial_element.is_a(other_entity)
+                if is_directly_contained:
+                    observed_directness.update({'directly'})
+                while len(relating_spatial_element.Decomposes) > 0:
+                    decomposed_element = relating_spatial_element.Decomposes[0]
+                    relating_spatial_element = decomposed_element.RelatingObject
+                    is_indirectly_contained = relating_spatial_element.is_a(other_entity)
+                    if is_indirectly_contained:
+                        observed_directness.update({'indirectly'})
+                        break
+
+            common_directness = required_directness & observed_directness # values the required and observed situation have in common
+            directness_achieved = bool(common_directness) # if there's a common value -> relationship achieved
+            directness_expected = condition == 'must' # check if relationship is expected
+            if directness_achieved != directness_expected:
+                errors.append(instance_structure_error(ent, [other_entity], 'contained',
+                                                       optional_values={'condition': condition,'directness': directness}))
+
+    handle_errors(context, errors)

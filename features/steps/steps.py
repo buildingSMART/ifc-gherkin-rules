@@ -642,3 +642,41 @@ def step_impl(context):
             if points[0] != points[-1]:
                 errors.append(polyobject_point_reference_error(instance, points))
         handle_errors(context, errors)
+
+@then('Each {entity} {condition} be {directness} contained in {other_entity}')
+def step_impl(context, entity, condition, directness, other_entity):
+    stmt_to_op = ['must', 'must not']
+    assert condition in stmt_to_op
+
+    stmt_about_directness = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
+    assert directness in stmt_about_directness
+    required_directness = {directness} if directness not in ['directly or indirectly', 'indirectly or directly'] else {
+        'directly', 'indirectly'}
+
+    errors = []
+
+    if context.instances and getattr(context, 'applicable', True):
+        for ent in context.model.by_type(entity):
+            observed_directness = set()
+            if len(ent.ContainedInStructure) > 0:
+                containing_relation = ent.ContainedInStructure[0]
+                relating_spatial_element = containing_relation.RelatingStructure
+                is_directly_contained = relating_spatial_element.is_a(other_entity)
+                if is_directly_contained:
+                    observed_directness.update({'directly'})
+                while len(relating_spatial_element.Decomposes) > 0:
+                    decomposed_element = relating_spatial_element.Decomposes[0]
+                    relating_spatial_element = decomposed_element.RelatingObject
+                    is_indirectly_contained = relating_spatial_element.is_a(other_entity)
+                    if is_indirectly_contained:
+                        observed_directness.update({'indirectly'})
+                        break
+
+            common_directness = required_directness & observed_directness # values the required and observed situation have in common
+            directness_achieved = bool(common_directness) # if there's a common value -> relationship achieved
+            directness_expected = condition == 'must' # check if relationship is expected
+            if directness_achieved != directness_expected:
+                errors.append(instance_structure_error(ent, [other_entity], 'contained',
+                                                       optional_values={'condition': condition,'directness': directness}))
+
+    handle_errors(context, errors)

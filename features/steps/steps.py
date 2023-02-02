@@ -731,7 +731,6 @@ def step_impl(context, constraint, num=None):
                                 incorrect_insts, report_incorrect_insts))
 
     handle_errors(context, errors)
-=======
 
 @then('The relative placement of that {entity} must be provided by an {other_entity} entity')
 def step_impl(context, entity, other_entity):

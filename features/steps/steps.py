@@ -400,9 +400,6 @@ def step_impl(context, entity_opt_stmt, insts = False):
     context.within_model = getattr(context, 'within_model', True) and within_model
 
 
-    context.within_model = getattr(context, 'within_model', True) and within_model
-
-
 def handle_errors(context, errors):
     error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
     assert not errors, "Errors occured:\n{}".format(

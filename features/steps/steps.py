@@ -6,9 +6,9 @@ import operator
 import csv
 import glob
 import functools
+import itertools
 import re
 import ifcopenshell
-import itertools
 import math
 
 from collections import Counter
@@ -16,8 +16,8 @@ from pathlib import Path
 from dataclasses import dataclass, field
 import pyparsing
 
-
 from behave import *
+import pyparsing
 
 
 def instance_converter(kv_pairs):
@@ -241,6 +241,21 @@ class duplicate_value_error:
             f"the following duplicate value(s) for attribute {self.attribute} was/were found: "
             f"{', '.join(map(fmt, self.incorrect_values))} {incorrect_insts_statement}"
         )
+
+
+@dataclass 
+class identical_values_error:
+    insts: typing.Sequence[ifcopenshell.entity_instance]
+    incorrect_values: typing.Sequence[typing.Any] 
+    attribute: str 
+
+    def __str__(self):
+        return (
+            f"On instance(s) {';'.join(map(fmt, self.insts))}, "
+            f"the following non-identical values for attribute {self.attribute} was/were found: "
+            f"{', '.join(map(fmt, self.incorrect_values))}"
+        )
+
         
 @dataclass
 class invalid_value_error:
@@ -451,6 +466,12 @@ def step_impl(context, field, values):
  
     context.applicable = getattr(context, 'applicable', True) and applicable
     
+@given('Its values')
+@given('Its values excluding {excluding}')
+def step_impl(context, excluding=()):
+    context._push()
+    context.instances = map_state(context.instances, lambda inst: do_try(
+        lambda: inst.get_info(recursive=True, include_identifier=False, ignore=excluding), None))
 
 
 @given('A relationship {relationship} from {entity} to {other_entity}')
@@ -623,64 +644,6 @@ def step_impl(context, representation_id):
     
     handle_errors(context, errors)
 
-@then("The value must {constraint}")
-@then("The values must {constraint}")
-@then('At least "{num:d}" value must {constraint}')
-@then('At least "{num:d}" values must {constraint}')
-def step_impl(context, constraint, num=None):
-    errors = []
-    
-    within_model = getattr(context, 'within_model', False)
-
-    if constraint.startswith('be ') or constraint.startswith('in '):
-        constraint = constraint[3:]
-
-    if constraint.startswith('in ') or constraint.startswith('in '):
-        constraint = constraint[3:]
-
-
-    if getattr(context, 'applicable', True):
-        stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-        instances = [context.instances] if within_model else context.instances
-
-        if constraint in ('identical', 'unique'):
-            for i, values in enumerate(instances):
-                if not values:
-                    continue
-                attribute = getattr(context, 'attribute', None)
-                if constraint == 'unique':
-                    seen = set()
-                    duplicates = [x for x in values if x in seen or seen.add(x)]
-                    if not duplicates:
-                        continue
-                    inst_tree = [t[i] for t in stack_tree]
-                    inst = inst_tree[-1]
-                    incorrect_insts = [inst_tree[1][i]
-                                    for i, x in enumerate(values) if x in duplicates]
-                    incorrect_values = duplicates
-                    # avoid mentioning ifcopenshell.entity_instance twice in error message
-                    report_incorrect_insts = any(map_state(values, lambda v: do_try(
-                        lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-                    errors.append(duplicate_value_error(inst, incorrect_values, attribute,
-                                incorrect_insts, report_incorrect_insts))
-
-        if constraint[-5:] == ".csv'":
-            csv_name = constraint.strip("'")
-            for i, values in enumerate(instances):
-                if not values:
-                    continue
-                attribute = getattr(context, 'attribute', None)
-
-                dirname = os.path.dirname(__file__)
-                filename = Path(dirname).parent / "resources" / csv_name
-                valid_values = [row[0] for row in csv.reader(open(filename))]
-
-                for iv, value in enumerate(values):
-                    if not value in valid_values:
-                        errors.append(invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value))
-
-    
-    handle_errors(context, errors)
 
 @then('Each {entity} may be nested by only the following entities: {other_entities}')
 def step_impl(context, entity, other_entities):
@@ -699,12 +662,75 @@ def step_impl(context, entity, other_entities):
     handle_errors(context, errors)
 
 
+def unpack_sequence_of_entities(instances):
+    # in case of [[inst1, inst2], [inst3, inst4]]
+    return [do_try(lambda: unpack_tuple(inst), None) for inst in instances]
+
+
 def unpack_tuple(tup):
     for item in tup:
         if isinstance(item, tuple):
             unpack_tuple(item)
         else:
             return item
+
+
+@then("The value must {constraint}")
+@then("The values must {constraint}")
+@then('At least "{num:d}" value must {constraint}')
+@then('At least "{num:d}" values must {constraint}')
+def step_impl(context, constraint, num=None):
+    errors = []
+
+    within_model = getattr(context, 'within_model', False)
+
+    if constraint.startswith('be ') or constraint.startswith('in '):
+        constraint = constraint[3:]
+
+    if getattr(context, 'applicable', True):
+        stack_tree = list(
+            filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+        instances = [context.instances] if within_model else context.instances
+
+        if constraint in ('identical', 'unique'):
+            for i, values in enumerate(instances):
+                if not values:
+                    continue
+                attribute = getattr(context, 'attribute', None)
+                if (constraint == 'identical' and not all([values[0] == i for i in values])):
+                    incorrect_values = values # a more general approach of going through stack frames to return relevant information in error message?
+                    incorrect_insts = stack_tree[-1]
+                    errors.append(identical_values_error(incorrect_insts, incorrect_values, attribute,))
+                if constraint == 'unique':
+                    seen = set()
+                    duplicates = [x for x in values if x in seen or seen.add(x)]
+                    if not duplicates:
+                        continue
+                    inst_tree = [t[i] for t in stack_tree]
+                    inst = inst_tree[-1]
+                    incorrect_insts = [inst_tree[1][i]
+                                    for i, x in enumerate(values) if x in duplicates]
+                    incorrect_values = duplicates
+                    # avoid mentioning ifcopenshell.entity_instance twice in error message
+                    report_incorrect_insts = any(map_state(values, lambda v: do_try(
+                        lambda: isinstance(v, ifcopenshell.entity_instance), False)))
+                    errors.append(duplicate_value_error(inst, incorrect_values, attribute,
+                                incorrect_insts, report_incorrect_insts))
+        if constraint[-5:] == ".csv'":
+            csv_name = constraint.strip("'")
+            for i, values in enumerate(instances):
+                if not values:
+                    continue
+                attribute = getattr(context, 'attribute', None)
+
+                dirname = os.path.dirname(__file__)
+                filename = Path(dirname).parent / "resources" / csv_name
+                valid_values = [row[0] for row in csv.reader(open(filename))]
+
+                for iv, value in enumerate(values):
+                    if not value in valid_values:
+                        errors.append(invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value))
+    handle_errors(context, errors)
 
 
 @then('The relative placement of that {entity} must be provided by an {other_entity} entity')

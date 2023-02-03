@@ -14,7 +14,7 @@ import math
 from collections import Counter
 from pathlib import Path
 from dataclasses import dataclass, field
-from pathlib import Path
+import pyparsing
 
 from behave import *
 import pyparsing
@@ -161,6 +161,7 @@ class instance_count_error:
 
 @dataclass
 class instance_structure_error:
+    #@todo reverse order to relating -> nest-relationship -> related
     related: ifcopenshell.entity_instance
     relating: ifcopenshell.entity_instance
     relationship_type: str
@@ -241,6 +242,7 @@ class duplicate_value_error:
             f"{', '.join(map(fmt, self.incorrect_values))} {incorrect_insts_statement}"
         )
 
+
 @dataclass 
 class identical_values_error:
     insts: typing.Sequence[ifcopenshell.entity_instance]
@@ -254,6 +256,7 @@ class identical_values_error:
             f"{', '.join(map(fmt, self.incorrect_values))}"
         )
 
+        
 @dataclass
 class invalid_value_error:
     related: ifcopenshell.entity_instance
@@ -262,6 +265,7 @@ class invalid_value_error:
 
     def __str__(self):
         return f"On instance {fmt(self.related)} the following invalid value for {self.attribute} has been found: {self.value}"
+
 
 @dataclass
 class polyobject_point_reference_error:
@@ -392,6 +396,9 @@ def step_impl(context, entity_opt_stmt, insts = False):
         context.instances = context.model.by_type(entity, include_subtypes)
     except:
         context.instances = []
+    
+    context.within_model = getattr(context, 'within_model', True) and within_model
+
 
     context.within_model = getattr(context, 'within_model', True) and within_model
 
@@ -670,6 +677,7 @@ def unpack_tuple(tup):
         else:
             return item
 
+
 @then("The value must {constraint}")
 @then("The values must {constraint}")
 @then('At least "{num:d}" value must {constraint}')
@@ -711,8 +719,22 @@ def step_impl(context, constraint, num=None):
                         lambda: isinstance(v, ifcopenshell.entity_instance), False)))
                     errors.append(duplicate_value_error(inst, incorrect_values, attribute,
                                 incorrect_insts, report_incorrect_insts))
+        if constraint[-5:] == ".csv'":
+            csv_name = constraint.strip("'")
+            for i, values in enumerate(instances):
+                if not values:
+                    continue
+                attribute = getattr(context, 'attribute', None)
 
+                dirname = os.path.dirname(__file__)
+                filename = Path(dirname).parent / "resources" / csv_name
+                valid_values = [row[0] for row in csv.reader(open(filename))]
+
+                for iv, value in enumerate(values):
+                    if not value in valid_values:
+                        errors.append(invalid_value_error([t[i] for t in stack_tree][1][iv], attribute, value))
     handle_errors(context, errors)
+
 
 @then('The relative placement of that {entity} must be provided by an {other_entity} entity')
 def step_impl(context, entity, other_entity):

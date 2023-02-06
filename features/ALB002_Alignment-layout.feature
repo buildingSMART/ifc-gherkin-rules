@@ -16,7 +16,7 @@ from the layout components to their respective segments as well as from the segm
     
   Scenario: Agreement on attributes being nested within a decomposition relationship
 
-      Given a file with Schema Identifier "IFC4X3"
+      Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1"
 
       Then Each IfcAlignmentHorizontal must nest only 1 instance(s) of IfcAlignment
        And Each IfcAlignmentVertical must nest only 1 instance(s) of IfcAlignment
@@ -24,7 +24,7 @@ from the layout components to their respective segments as well as from the segm
   
   Scenario: Agreement of structure of alignments segments
 
-      Given a file with Schema Identifier "IFC4X3"
+      Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1"
 
       Then Each IfcAlignmentHorizontal is nested by a list of only instance(s) of IfcAlignmentSegment
       Then Each IfcAlignmentVertical is nested by a list of only instance(s) of IfcAlignmentSegment

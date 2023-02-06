@@ -26,7 +26,7 @@ def before_feature(context, feature):
     gherkin_feature_name = ' '.join(parse_description['gherkin_feature_name'])
 
     # still allow for typo between lowercase and uppercase?
-    assert(file_feature_name.lower() == gherkin_feature_name.lower(), 'filename and feature name are not the same, please check')
+    assert file_feature_name.lower() == gherkin_feature_name.lower(), 'filename and feature name are not the same, please check'
 
     context._stack = context._stack[-2:]
     

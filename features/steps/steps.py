@@ -17,8 +17,7 @@ from dataclasses import dataclass, field
 import pyparsing
 
 from behave import *
-import pyparsing
-from pyparsing import *
+from pyparsing import Word, alphas, ZeroOrMore, delimitedList, Group, oneOf, Literal, Or, nums, Optional, OneOrMore
 
 
 def instance_converter(kv_pairs):

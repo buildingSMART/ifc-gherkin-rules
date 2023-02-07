@@ -18,6 +18,7 @@ import pyparsing
 
 from behave import *
 import pyparsing
+from pyparsing import *
 
 
 def instance_converter(kv_pairs):
@@ -377,15 +378,15 @@ def rtrn_pyparse_obj(i):
     if isinstance(i, (pyparsing.core.LineEnd, pyparsing.core.NotAny)):
         return i
     elif isinstance(i, str):
-        return pyparsing.CaselessKeyword(i)
+        return CaselessKeyword(i)
 
 @given("An {entity_opt_stmt}")
 @given("All {insts} of {entity_opt_stmt}")
 def step_impl(context, entity_opt_stmt, insts = False):
     within_model = (insts == 'instances') # True for given statement containing {insts} 
 
-    entity2 = pyparsing.Word(pyparsing.alphas)('entity')
-    sub_stmts = ['with subtypes', 'without subtypes', pyparsing.LineEnd()]
+    entity2 = Word(alphas)('entity')
+    sub_stmts = ['with subtypes', 'without subtypes', LineEnd()]
     incl_sub_stmt = functools.reduce(operator.or_, [rtrn_pyparse_obj(i) for i in sub_stmts])('include_subtypes')
     grammar = entity2 + incl_sub_stmt
     parse = grammar.parseString(entity_opt_stmt)
@@ -531,64 +532,6 @@ def step_impl(context, constraint, num, entity):
 
     handle_errors(context, errors)
 
-@then('Each {entity} must be nested by {constraint} {num:d} instance(s) of {other_entity}')
-def step_impl(context, entity, num, constraint, other_entity):
-    stmt_to_op = {'exactly': operator.eq, "at most": operator.le}
-    assert constraint in stmt_to_op
-    op = stmt_to_op[constraint]
-
-    errors = []
-
-    if getattr(context, 'applicable', True):
-        for inst in context.model.by_type(entity):
-            nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
-            if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
-                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
-
-
-    handle_errors(context, errors)
-
-
-@then('Each {entity} {fragment} instance(s) of {other_entity}')
-def step_impl(context, entity, fragment, other_entity):
-    reltype_to_extr = {'must nest': {'attribute':'Nests','object_placement':'RelatingObject', 'error_log_txt':'nesting'},
-                    'is nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects', 'error_log_txt': 'nested by'}}
-    conditions = ['only 1', 'a list of only']
-
-    condition = functools.reduce(operator.or_, [pyparsing.CaselessKeyword(i) for i in conditions])('condition')
-    relationship_type = functools.reduce(operator.or_, [pyparsing.CaselessKeyword(i[0]) for i in reltype_to_extr.items()])('relationship_type')
-
-    grammar = relationship_type + condition #e.g. each entity 'is nested by(relationship_type)' 'a list of only (condition)' instance(s) of other entity
-    parse = grammar.parseString(fragment)
-
-    relationship_type = parse['relationship_type']
-    condition = parse['condition']
-    extr = reltype_to_extr[relationship_type]
-    error_log_txt = extr['error_log_txt']
-
-    errors = []
-
-    if getattr(context, 'applicable', True):
-        for inst in context.model.by_type(entity):
-            related_entities = list(map(lambda x: getattr(x, extr['object_placement'],[]), getattr(inst, extr['attribute'],[])))
-            if len(related_entities):
-                if isinstance(related_entities[0], tuple):
-                    related_entities = list(related_entities[0]) # if entity has only one IfcRelNests, convert to list
-                false_elements = list(filter(lambda x : not x.is_a(other_entity), related_entities))
-                correct_elements = list(filter(lambda x : x.is_a(other_entity), related_entities))
-
-                if condition == 'only 1' and len(correct_elements) > 1:
-                        errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}'))
-                if condition == 'a list of only':
-                    if len(getattr(inst, extr['attribute'],[])) > 1:
-                        errors.append(instance_structure_error(f'{error_log_txt} more than 1 list, including'))
-                    elif len(false_elements):
-                        errors.append(instance_structure_error(inst, false_elements, f'{error_log_txt} a list that includes'))
-                if condition == 'only' and len(false_elements):
-                    errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}'))
-
-
-    handle_errors(context, errors)
 
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
@@ -644,20 +587,188 @@ def step_impl(context, representation_id):
     
     handle_errors(context, errors)
 
+def conjugate_verb(word):
+    """
+    Alternatives:
+      -> Use nltk library (natural language processing). This is probably reliable, but perhaps a bit 'magical'?
+      -> Don't use conjugation and all and stick to manual lookup tables
+    """
+    irregular_verbs = {
+        'relating': ['relate', 'relates', 'related'],
+    }
+    if word in irregular_verbs.keys():
+        for base, conjugated in irregular_verbs.items():
+            if base == word:
+                yield from conjugated
+    elif word.endswith("ing"):
+        present_tense = word[:-3]
+        yield present_tense
+        yield present_tense + 's'
+        yield present_tense + 'ed'
 
-@then('Each {entity} may be nested by only the following entities: {other_entities}')
-def step_impl(context, entity, other_entities):
 
-    allowed_entity_types = set(map(str.strip, other_entities.split(',')))
+def conjugate_verbs(words):
+    """
+    Alternatives:
+      -> Use nltk library (natural language processing). This is probably reliable, but perhaps a bit 'magical'?
+      -> Don't use conjugation and all and stick to manual lookup tables
+    """
+    def _(word):
+        irregular_verbs = {
+            'relating': ['relate', 'relates', 'related'],
+        }
+        if word in irregular_verbs.keys():
+            for base, conjugated in irregular_verbs.items():
+                if base == word:
+                    yield from conjugated
+        elif word.endswith("ing"):
+            present_tense = word[:-3]
+            yield present_tense
+            yield present_tense + 's'
+            yield present_tense + 'ed'
+    for word in words:
+        yield from _(word)
 
+@then('Each "{entity}" {relationship_fragment} "{other_entity}"')
+@then('The "{entity}" {relationship_fragment} "{other_entity}"')
+def step_impl(context, entity, relationship_fragment, other_entity):
+    relationship_verbs = ['nesting', 'containing', 'assigning', 'relating']
+    
+    """
+    parse
+    """
+    # (a) parse entity
+    entity = entity.strip('')
+    grammar = Word(alphas)('entity') + \
+        ZeroOrMore(Word(alphas))('include_entity_subtypes')
+    parse = grammar.parseString(entity)
+    entity = parse.get('entity')
+
+    def contains_subtype(parse):
+        return " ".join(parse.get('include_entity_subtypes', True)) != 'without subtypes'
+
+    entity_instances = context.model.by_type(entity, include_subtypes = contains_subtype(parse))
+
+    # (b) parse other entity;  e.g. 'IfcWall without subtypes, IfcWall, IfcRoof' will also be parsed correctly
+    # other_entity = strip_split(other_entity, strp = '"', splt = ', ')
+    parse_other_entities = delimitedList(Group(grammar), delim=',').parseString(other_entity)
+    other_entities_subtypes = [
+        [elem['entity'], contains_subtype(elem)] for elem in parse_other_entities]
+    other_entity = other_entity.strip('"')
+
+    # (c) parse relationship_fragment
+    obligation_indicators = ['may', 'must', 'must not', 'is'] # conditional verb or other word? In (eng)dictionary: 'modal auxiliary verb'
+    is_obligated = Group(ZeroOrMore(oneOf(obligation_indicators))('is_obligated') +
+                                Optional("be"))('start')
+    relationship_type = Group(
+        Or(map(Literal, list(conjugate_verbs(relationship_verbs))))('relationship_type') +
+        Optional("by")('preposition_object') #e.g. useful for the difference between 'Nests' and 'nestedBy'
+    )('relationship_type')
+
+    integer = Word(nums)("integer").setParseAction(lambda t:int(t[0])) # when int found in parsed str, convert immediately to int
+    conditions = ['only the following', 'only 1', 'a list of only']
+    statement_aim = Optional(oneOf(conditions)('condition') | 
+                        Group(Group(Word(alphas) + Optional(Word(alphas)))('operator') + integer('int'))('operator_stmt') # e.g. 'at most 1 / exactly 2'
+                        )
+    directness = Optional(oneOf(['directly', 'indirect']))('directness')
+
+    grammar = is_obligated + relationship_type + statement_aim + directness + \
+        Group(OneOrMore(Word(alphas) | Word(nums)))('related')
+
+    parse = grammar.parseString(relationship_fragment)
+
+    # specifications of relationship between the two entities 
+    is_obligated = ' '.join(parse.get('start', {}).get('is_obligated'))
+    relationship_type = ' '.join(parse.get('relationship_type')) # nesting/relating/containing/...
+    directness = parse.get('directness', False) # 'if we decide to proceed with this approach : A is directly/indirectly contained in B'
+    operator_stmt = parse.get('operator_stmt', False) # 'at least 1', 'at most 2'
+    condition = parse.get('condition', False) # e.g. 'only 1', 'a list of', 'only the following' 
+    related = ' '.join(parse.get('related', False)) == 'to the' # in case of a non-specific message, just (e.g.) 'A is related to B'
+
+    """
+    error analysis
+    """
     errors = []
-    if getattr(context, 'applicable', True):
-        for inst in context.model.by_type(entity):
-            nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
-            nested_entity_types = set(i.is_a() for i in nested_entities)
-            if not nested_entity_types <= allowed_entity_types:
-                differences = list(nested_entity_types - allowed_entity_types)
-                errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
+
+    if condition in ['a list of only', 'only 1']:
+        reltype_to_extr = {'nest': {'attribute':'Nests','object_placement':'RelatingObject', 'error_log_txt':'nesting'},
+                    'nested by': {'attribute':'IsNestedBy','object_placement':'RelatedObjects', 'error_log_txt': 'nested by'}}
+        if getattr(context, 'applicable', True):
+            extr = reltype_to_extr[relationship_type]
+            error_log_txt = extr['error_log_txt']
+            for inst in entity_instances:
+                related_entities = list(map(lambda x: getattr(x, extr['object_placement'],[]), getattr(inst, extr['attribute'],[])))
+                if len(related_entities):
+                    if isinstance(related_entities[0], tuple):
+                        related_entities = list(related_entities[0]) # if entity has only one IfcRelNests, convert to list
+                    false_elements = list(filter(lambda x : not x.is_a(other_entity), related_entities))
+                    correct_elements = list(filter(lambda x : x.is_a(other_entity), related_entities))
+
+                    if condition == 'only 1' and len(correct_elements) > 1:
+                            errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}'))
+                    if condition == 'a list of only':
+                        if len(getattr(inst, extr['attribute'],[])) > 1:
+                            errors.append(instance_structure_error(f'{error_log_txt} more than 1 list, including'))
+                        elif len(false_elements):
+                            errors.append(instance_structure_error(inst, false_elements, f'{error_log_txt} a list that includes'))
+                    if condition == 'only' and len(false_elements):
+                        errors.append(instance_structure_error(inst, correct_elements, f'{error_log_txt}'))
+
+    if operator_stmt and relationship_type in ['nest', 'nested by']: # last check is not necessary now: just a sanity check for if we want to use operator_stmt somewhere else in the future
+        stmt_to_op = {'exactly': operator.eq, "at most": operator.le}
+        constraint = ' '.join(operator_stmt['operator'])
+        num = operator_stmt['int']
+        assert constraint in stmt_to_op
+        op = stmt_to_op[constraint]
+
+        if getattr(context, 'applicable', True):
+            for inst in entity_instances:
+                nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
+                if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
+                    errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
+
+    if condition == 'only the following':
+        allowed_entity_types = set(map(lambda s: s.strip('""'), other_entity.split(', ')))
+        if getattr(context, 'applicable', True):
+            for inst in entity_instances:
+                nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
+                nested_entity_types = set(i.is_a() for i in nested_entities)
+                if not nested_entity_types <= allowed_entity_types:
+                    differences = list(nested_entity_types - allowed_entity_types)
+                    errors.append(instance_structure_error(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
+
+    if directness:
+        stmt_to_op = ['must', 'must not']
+        assert is_obligated in stmt_to_op
+
+        stmt_about_directness = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
+        assert directness in stmt_about_directness
+        required_directness = {directness} if directness not in ['directly or indirectly', 'indirectly or directly'] else {
+            'directly', 'indirectly'}
+
+        if context.instances and getattr(context, 'applicable', True):
+            for ent in entity_instances:
+                observed_directness = set()
+                if len(ent.ContainedInStructure) > 0:
+                    containing_relation = ent.ContainedInStructure[0]
+                    relating_spatial_element = containing_relation.RelatingStructure
+                    is_directly_contained = relating_spatial_element.is_a(other_entity)
+                    if is_directly_contained:
+                        observed_directness.update({'directly'})
+                    while len(relating_spatial_element.Decomposes) > 0:
+                        decomposed_element = relating_spatial_element.Decomposes[0]
+                        relating_spatial_element = decomposed_element.RelatingObject
+                        is_indirectly_contained = relating_spatial_element.is_a(other_entity)
+                        if is_indirectly_contained:
+                            observed_directness.update({'indirectly'})
+                            break
+
+                common_directness = required_directness & observed_directness # values the required and observed situation have in common
+                directness_achieved = bool(common_directness) # if there's a common value -> relationship achieved
+                directness_expected = is_obligated == 'must' # check if relationship is expected
+                if directness_achieved != directness_expected:
+                    errors.append(instance_structure_error(ent, [other_entity], 'contained',
+                                                        optional_values={'condition': condition,'directness': directness}))    
 
     handle_errors(context, errors)
 
@@ -814,40 +925,40 @@ def step_impl(context):
                 errors.append(polyobject_point_reference_error(instance, points))
         handle_errors(context, errors)
 
-@then('Each {entity} {condition} be {directness} contained in {other_entity}')
-def step_impl(context, entity, condition, directness, other_entity):
-    stmt_to_op = ['must', 'must not']
-    assert condition in stmt_to_op
+# @then('Each {entity} {condition} be {directness} contained in {other_entity}')
+# def step_impl(context, entity, condition, directness, other_entity):
+#     stmt_to_op = ['must', 'must not']
+#     assert condition in stmt_to_op
 
-    stmt_about_directness = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
-    assert directness in stmt_about_directness
-    required_directness = {directness} if directness not in ['directly or indirectly', 'indirectly or directly'] else {
-        'directly', 'indirectly'}
+#     stmt_about_directness = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
+#     assert directness in stmt_about_directness
+#     required_directness = {directness} if directness not in ['directly or indirectly', 'indirectly or directly'] else {
+#         'directly', 'indirectly'}
 
-    errors = []
+#     errors = []
 
-    if context.instances and getattr(context, 'applicable', True):
-        for ent in context.model.by_type(entity):
-            observed_directness = set()
-            if len(ent.ContainedInStructure) > 0:
-                containing_relation = ent.ContainedInStructure[0]
-                relating_spatial_element = containing_relation.RelatingStructure
-                is_directly_contained = relating_spatial_element.is_a(other_entity)
-                if is_directly_contained:
-                    observed_directness.update({'directly'})
-                while len(relating_spatial_element.Decomposes) > 0:
-                    decomposed_element = relating_spatial_element.Decomposes[0]
-                    relating_spatial_element = decomposed_element.RelatingObject
-                    is_indirectly_contained = relating_spatial_element.is_a(other_entity)
-                    if is_indirectly_contained:
-                        observed_directness.update({'indirectly'})
-                        break
+#     if context.instances and getattr(context, 'applicable', True):
+#         for ent in context.model.by_type(entity):
+#             observed_directness = set()
+#             if len(ent.ContainedInStructure) > 0:
+#                 containing_relation = ent.ContainedInStructure[0]
+#                 relating_spatial_element = containing_relation.RelatingStructure
+#                 is_directly_contained = relating_spatial_element.is_a(other_entity)
+#                 if is_directly_contained:
+#                     observed_directness.update({'directly'})
+#                 while len(relating_spatial_element.Decomposes) > 0:
+#                     decomposed_element = relating_spatial_element.Decomposes[0]
+#                     relating_spatial_element = decomposed_element.RelatingObject
+#                     is_indirectly_contained = relating_spatial_element.is_a(other_entity)
+#                     if is_indirectly_contained:
+#                         observed_directness.update({'indirectly'})
+#                         break
 
-            common_directness = required_directness & observed_directness # values the required and observed situation have in common
-            directness_achieved = bool(common_directness) # if there's a common value -> relationship achieved
-            directness_expected = condition == 'must' # check if relationship is expected
-            if directness_achieved != directness_expected:
-                errors.append(instance_structure_error(ent, [other_entity], 'contained',
-                                                       optional_values={'condition': condition,'directness': directness}))
+#             common_directness = required_directness & observed_directness # values the required and observed situation have in common
+#             directness_achieved = bool(common_directness) # if there's a common value -> relationship achieved
+#             directness_expected = condition == 'must' # check if relationship is expected
+#             if directness_achieved != directness_expected:
+#                 errors.append(instance_structure_error(ent, [other_entity], 'contained',
+#                                                        optional_values={'condition': condition,'directness': directness}))
 
     handle_errors(context, errors)

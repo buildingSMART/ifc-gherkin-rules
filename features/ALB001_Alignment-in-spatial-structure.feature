@@ -7,4 +7,4 @@ The rule verifies, that each IfcAlignment is contained in an IfcSite.
 
       Given A file with Schema Identifier "IFC4X3"
       And An IfcAlignment
-      Then Each IfcAlignment must be directly contained in IfcSite
+      Then Each "IfcAlignment" must be contained directly in "IfcSite"

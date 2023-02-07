@@ -6,26 +6,26 @@ Feature: ALB002 - Alignment Layout
 
       Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1"
 
-      Then Each IfcAlignment must be nested by exactly 1 instance(s) of IfcAlignmentHorizontal
-       And Each IfcAlignment must be nested by at most 1 instance(s) of IfcAlignmentVertical
-       And Each IfcAlignment must be nested by at most 1 instance(s) of IfcAlignmentCant  
+      Then Each "IfcAlignment" must be nested by exactly 1 instance(s) of "IfcAlignmentHorizontal"
+       And Each "IfcAlignment" must be nested by at most 1 instance(s) of "IfcAlignmentVertical"
+       And Each "IfcAlignment" must be nested by at most 1 instance(s) of "IfcAlignmentCant"  
   
     
   Scenario: Agreement on attributes being nested within a decomposition relationship
 
       Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1"
 
-      Then Each IfcAlignmentHorizontal must nest only 1 instance(s) of IfcAlignment
-       And Each IfcAlignmentVertical must nest only 1 instance(s) of IfcAlignment
-       And Each IfcAlignmentCant must nest only 1 instance(s) of IfcAlignment
+      Then Each "IfcAlignmentHorizontal" must nest only 1 instance(s) of "IfcAlignment"
+       And Each "IfcAlignmentVertical" must nest only 1 instance(s) of "IfcAlignment"
+       And Each "IfcAlignmentCant" must nest only 1 instance(s) of "IfcAlignment"
   
   Scenario: Agreement of structure of alignments segments
 
       Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1"
 
-      Then Each IfcAlignmentHorizontal is nested by a list of only instance(s) of IfcAlignmentSegment
-      Then Each IfcAlignmentVertical is nested by a list of only instance(s) of IfcAlignmentSegment
-      Then Each IfcAlignmentCant is nested by a list of only instance(s) of IfcAlignmentSegment
+      Then Each "IfcAlignmentHorizontal" is nested by a list of only instance(s) of "IfcAlignmentSegment"
+      Then Each "IfcAlignmentVertical" is nested by a list of only instance(s) of "IfcAlignmentSegment"
+      Then Each "IfcAlignmentCant" is nested by a list of only instance(s) of "IfcAlignmentSegment"
 
 
   Scenario: Agreement of the segments of the horizontal alignment

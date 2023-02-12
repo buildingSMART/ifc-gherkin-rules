@@ -67,6 +67,7 @@ def step_impl(context, constraint, num=None):
                 for iv, value in enumerate(values):
                     if not value in valid_values:
                         errors.append(err.InvalidValueError([t[i] for t in stack_tree][1][iv], attribute, value))
+
     utils.handle_errors(context, errors)
 
 
@@ -77,6 +78,7 @@ def step_impl(context, entity, other_entity):
         for obj in context.instances:
             if not utils.do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
                 errors.append(err.InstancePlacementError(obj, other_entity, "", "", "", ""))
+
         utils.handle_errors(context, errors)
 
 
@@ -115,6 +117,7 @@ def step_impl(context, entity, other_entity, relationship):
                     entity_obj_placement_rel = 'Not found'
                 if not is_correct:
                     errors.append(err.InstancePlacementError(related_object, '', relating_object, relationship, relating_obj_placement, entity_obj_placement_rel))
+
         utils.handle_errors(context, errors)
 
 
@@ -139,6 +142,7 @@ def step_impl(context, clause):
                 comparison_nr += 1
             if duplicates:
                 errors.append(err.PolyobjectDuplicatePointsError(instance, duplicates))
+
         utils.handle_errors(context, errors)
 
 
@@ -150,6 +154,7 @@ def step_impl(context):
             points = utils.get_points(instance, return_type='points')
             if points[0] != points[-1]:
                 errors.append(err.PolyobjectPointReferenceError(instance, points))
+
         utils.handle_errors(context, errors)
 
 
@@ -195,6 +200,7 @@ def step_impl(context, entity, condition, directness, other_entity):
 def step_impl(context, representation_id, representation_type):
     errors = list(filter(None, list(map(lambda i: utils.instance_getter(i, representation_id, representation_type, 1), context.instances))))
     errors = [err.RepresentationTypeError(error, representation_id, representation_type) for error in errors]
+
     utils.handle_errors(context, errors)
 
 
@@ -282,6 +288,7 @@ def step_impl(context, entity, num, constraint, other_entity):
             nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
             if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
                 errors.append(err.InstanceStructureError(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
+
     utils.handle_errors(context, errors)
 
 

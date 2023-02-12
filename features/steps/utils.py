@@ -104,7 +104,6 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
                         yield from emit(inner)
         else:
             raise NotImplementedError(f"get_edges({inst.is_a()})")
-
     return sequence_type(inner())
 
 
@@ -174,7 +173,6 @@ def instance_converter(kv_pairs):
             return str(v)
         else:
             return v
-
     return {k: c(v) for k, v in kv_pairs}
 
 

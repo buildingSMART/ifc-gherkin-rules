@@ -11,7 +11,15 @@ except ImportError:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
     from main import run
 
+
 test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/**/*.ifc"), recursive=True)
+
+# test only for specific rule(s)
+DEVELOPMENT = os.environ.get('environment', 'production').lower() == 'development'
+if DEVELOPMENT:
+    test_rules = ['alb001', 'alb002'] # can also be modified to, for example, 'alb' if all the rules of a category should be tested
+    test_files = [test_file for test_file in test_files if any(x in test_file.lower() for x in test_rules)]
+
 @pytest.mark.parametrize("filename", test_files)
 def test_invocation(filename):
     results = list(run(filename))

@@ -17,7 +17,9 @@ from dataclasses import dataclass, field
 import pyparsing
 
 from behave import *
-from pyparsing import Word, alphas, ZeroOrMore, delimitedList, Group, oneOf, Literal, Or, nums, Optional, OneOrMore, LineEnd, CaselessKeyword
+from pyparsing import (alphas, CaselessKeyword, delimitedList, Group, Literal,
+                       nums, oneOf, Or, Optional, OneOrMore, LineEnd, Suppress,
+                       Word, ZeroOrMore)
 
 
 def instance_converter(kv_pairs):
@@ -586,26 +588,6 @@ def step_impl(context, representation_id):
     
     handle_errors(context, errors)
 
-def conjugate_verb(word):
-    """
-    Alternatives:
-      -> Use nltk library (natural language processing). This is probably reliable, but perhaps a bit 'magical'?
-      -> Don't use conjugation and all and stick to manual lookup tables
-    """
-    irregular_verbs = {
-        'relating': ['relate', 'relates', 'related'],
-    }
-    if word in irregular_verbs.keys():
-        for base, conjugated in irregular_verbs.items():
-            if base == word:
-                yield from conjugated
-    elif word.endswith("ing"):
-        present_tense = word[:-3]
-        yield present_tense
-        yield present_tense + 's'
-        yield present_tense + 'ed'
-
-
 def conjugate_verbs(words):
     """
     Alternatives:
@@ -656,33 +638,31 @@ def step_impl(context, entity, relationship_fragment, other_entity):
     other_entity = other_entity.strip('"')
 
     # (c) parse relationship_fragment
-    obligation_indicators = ['may', 'must', 'must not', 'is'] # conditional verb or other word? In (eng)dictionary: 'modal auxiliary verb'
-    is_obligated = Group(ZeroOrMore(oneOf(obligation_indicators))('is_obligated') +
-                                Optional("be"))('start')
+    is_obligated = oneOf(['may', 'must', 'must not', 'is'])('is_obligated')
+
     relationship_type = Group(
         Or(map(Literal, list(conjugate_verbs(relationship_verbs))))('relationship_type') +
-        Optional("by")('preposition_object') #e.g. useful for the difference between 'Nests' and 'nestedBy'
+        Optional("by") #e.g. useful for the difference between 'Nests' and 'nestedBy'
     )('relationship_type')
 
     integer = Word(nums)("integer").setParseAction(lambda t:int(t[0])) # when int found in parsed str, convert immediately to int
     conditions = ['only the following', 'only 1', 'a list of only']
-    statement_aim = Optional(oneOf(conditions)('condition') | 
+    condition_stmt = Optional(oneOf(conditions)('condition') | 
                         Group(Group(Word(alphas) + Optional(Word(alphas)))('operator') + integer('int'))('operator_stmt') # e.g. 'at most 1 / exactly 2'
                         )
     directness = Optional(oneOf(['directly', 'indirect']))('directness')
 
-    grammar = is_obligated + relationship_type + statement_aim + directness + \
-        Group(OneOrMore(Word(alphas) | Word(nums)))('related')
+    grammar = is_obligated +  Suppress(Optional("be")) + relationship_type + condition_stmt + directness + \
+        Suppress(Group(OneOrMore(Word(alphas) | Word(nums)))) # Suppress what is currently not used/debug purposes
 
     parse = grammar.parseString(relationship_fragment)
 
     # specifications of relationship between the two entities 
-    is_obligated = ' '.join(parse.get('start', {}).get('is_obligated'))
+    is_obligated = parse.get('is_obligated', False)
     relationship_type = ' '.join(parse.get('relationship_type')) # nesting/relating/containing/...
     directness = parse.get('directness', False) # 'if we decide to proceed with this approach : A is directly/indirectly contained in B'
     operator_stmt = parse.get('operator_stmt', False) # 'at least 1', 'at most 2'
     condition = parse.get('condition', False) # e.g. 'only 1', 'a list of', 'only the following' 
-    related = ' '.join(parse.get('related', False)) == 'to the' # in case of a non-specific message, just (e.g.) 'A is related to B'
 
     """
     error analysis

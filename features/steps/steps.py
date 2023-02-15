@@ -684,7 +684,8 @@ def step_impl(context, constraint, num=None):
 
     within_model = getattr(context, 'within_model', False)
 
-    if constraint.startswith('be ') or constraint.startswith('in '):
+    #to account for order-dependency of removing characters from constraint
+    while constraint.startswith('be ') or constraint.startswith('in '):
         constraint = constraint[3:]
 
     if getattr(context, 'applicable', True):

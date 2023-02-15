@@ -626,10 +626,11 @@ def step_impl(context, constraint, num=None):
     within_model = getattr(context, 'within_model', False)
 
     negative = constraint.startswith('not') # to account for 'value must (or not) be one of 'X', 'Y'
-    #to account for order-dependency of removing characters from constraint
-    for startswith, length in itertools.chain.from_iterable(itertools.permutations([('not ', 4), ('be ', 3), ('in ', 3)])):
-        if constraint.startswith(startswith): #'in ' is from GEM004
-            constraint = constraint[length:]
+    if negative:
+        constraint = constraint[4:]
+    
+    while constraint.startswith('be ') or constraint.startswith('in '):
+        constraint = constraint[3:]
 
     if getattr(context, 'applicable', True):
         stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))

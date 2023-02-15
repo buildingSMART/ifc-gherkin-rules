@@ -687,8 +687,6 @@ def step_impl(context, constraint, num=None):
     #to account for order-dependency of removing characters from constraint
     while constraint.startswith('be ') or constraint.startswith('in '):
         constraint = constraint[3:]
-        if constraint.startswith(startswith):
-            constraint = constraint[length:]
 
     if getattr(context, 'applicable', True):
         stack_tree = list(

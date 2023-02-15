@@ -1,7 +1,7 @@
 @informal-proposition
-@gem
+@GEM
 Feature: GEM004 - Constraints on representation identifiers
-The inherited attributes at shape representation, type and identifier,
+The rule verifies that the inherited attributes at shape representation, type and identifier,
 must be one of the values as noted in the documentation. 
 The valid values can be found in the csv files in the folder 'features/resources/{attribute}.csv'
 

@@ -1,6 +1,7 @@
 @implementer-agreement
 @ALB
 Feature: ALB002 - Alignment Layout
+The rule verifies the behavior of IfcAlignment and its segments, particularly in terms of nesting.
 
   Scenario: Agreement on nested attributes of IfcAlignment
 

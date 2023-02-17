@@ -7,11 +7,11 @@ import math
 import operator
 import os
 import pyparsing
-import utils
 
 from behave import *
 from collections import Counter
 from pathlib import Path
+from utils import geometry, ifc, misc, system
 
 
 @then("The value must {constraint}")
@@ -50,7 +50,7 @@ def step_impl(context, constraint, num=None):
                     incorrect_insts = [inst_tree[1][i] for i, x in enumerate(values) if x in duplicates]
                     incorrect_values = duplicates
                     # avoid mentioning ifcopenshell.entity_instance twice in error message
-                    report_incorrect_insts = any(utils.map_state(values, lambda v: utils.do_try(
+                    report_incorrect_insts = any(misc.map_state(values, lambda v: misc.do_try(
                         lambda: isinstance(v, ifcopenshell.entity_instance), False)))
                     errors.append(err.DuplicateValueError(inst, incorrect_values, attribute, incorrect_insts, report_incorrect_insts))
         if constraint[-5:] == ".csv'":
@@ -68,7 +68,7 @@ def step_impl(context, constraint, num=None):
                     if not value in valid_values:
                         errors.append(err.InvalidValueError([t[i] for t in stack_tree][1][iv], attribute, value))
 
-    utils.handle_errors(context, errors)
+    misc.handle_errors(context, errors)
 
 
 @then('The relative placement of that {entity} must be provided by an {other_entity} entity')
@@ -76,20 +76,20 @@ def step_impl(context, entity, other_entity):
     if getattr(context, 'applicable', True):
         errors = []
         for obj in context.instances:
-            if not utils.do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
+            if not misc.do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
                 errors.append(err.InstancePlacementError(obj, other_entity, "", "", "", ""))
 
-        utils.handle_errors(context, errors)
+        misc.handle_errors(context, errors)
 
 
 @then('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
 def step_impl(context, entity, other_entity, relationship):
     if getattr(context, 'applicable', True):
         errors = []
-        filename_related_attr_matrix = utils.get_abs_path(f"resources/**/related_entity_attributes.csv")
-        filename_relating_attr_matrix = utils.get_abs_path(f"resources/**/relating_entity_attributes.csv")
-        related_attr_matrix = utils.get_csv(filename_related_attr_matrix, return_type='dict')[0]
-        relating_attr_matrix = utils.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
+        filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
+        filename_relating_attr_matrix = system.get_abs_path(f"resources/**/relating_entity_attributes.csv")
+        related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
+        relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
 
         relationship_relating_attr = relating_attr_matrix.get(relationship)
         relationship_related_attr = related_attr_matrix.get(relationship)
@@ -118,7 +118,7 @@ def step_impl(context, entity, other_entity, relationship):
                 if not is_correct:
                     errors.append(err.InstancePlacementError(related_object, '', relating_object, relationship, relating_obj_placement, entity_obj_placement_rel))
 
-        utils.handle_errors(context, errors)
+        misc.handle_errors(context, errors)
 
 
 @then("It must have no duplicate points {clause} first and last point")
@@ -127,9 +127,9 @@ def step_impl(context, clause):
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:
-            entity_contexts = utils.recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
-            precision = utils.get_precision_from_contexts(entity_contexts)
-            points_coordinates = utils.get_points(instance)
+            entity_contexts = ifc.recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
+            precision = ifc.get_precision_from_contexts(entity_contexts)
+            points_coordinates = geometry.get_points(instance)
             comparison_nr = 1
             duplicates = set()
             for i in itertools.combinations(points_coordinates, 2):
@@ -143,7 +143,7 @@ def step_impl(context, clause):
             if duplicates:
                 errors.append(err.PolyobjectDuplicatePointsError(instance, duplicates))
 
-        utils.handle_errors(context, errors)
+        misc.handle_errors(context, errors)
 
 
 @then("Its first and last point must be identical by reference")
@@ -151,11 +151,11 @@ def step_impl(context):
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:
-            points = utils.get_points(instance, return_type='points')
+            points = geometry.get_points(instance, return_type='points')
             if points[0] != points[-1]:
                 errors.append(err.PolyobjectPointReferenceError(instance, points))
 
-        utils.handle_errors(context, errors)
+        misc.handle_errors(context, errors)
 
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
@@ -193,15 +193,15 @@ def step_impl(context, entity, condition, directness, other_entity):
             if directness_achieved != directness_expected:
                 errors.append(err.InstanceStructureError(ent, [other_entity], 'contained', optional_values={'condition': condition, 'directness': directness}))
 
-    utils.handle_errors(context, errors)
+    misc.handle_errors(context, errors)
 
 
 @then('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, representation_id, representation_type):
-    errors = list(filter(None, list(map(lambda i: utils.instance_getter(i, representation_id, representation_type, 1), context.instances))))
+    errors = list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type, 1), context.instances))))
     errors = [err.RepresentationTypeError(error, representation_id, representation_type) for error in errors]
 
-    utils.handle_errors(context, errors)
+    misc.handle_errors(context, errors)
 
 
 @then("There must be one {representation_id} shape representation")
@@ -214,7 +214,7 @@ def step_impl(context, representation_id):
                 if not present:
                     errors.append(err.RepresentationShapeError(inst, representation_id))
 
-    utils.handle_errors(context, errors)
+    misc.handle_errors(context, errors)
 
 
 @then('Each {entity} may be nested by only the following entities: {other_entities}')
@@ -230,7 +230,7 @@ def step_impl(context, entity, other_entities):
                 differences = list(nested_entity_types - allowed_entity_types)
                 errors.append(err.InstanceStructureError(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
 
-    utils.handle_errors(context, errors)
+    misc.handle_errors(context, errors)
 
 
 @then('The type of attribute {attribute} should be {expected_entity_type}')
@@ -242,7 +242,7 @@ def step_impl(context, attribute, expected_entity_type):
             if not related_entity.is_a(expected_entity_type):
                 yield err.AttributeTypeError(inst, [related_entity], attribute, expected_entity_type)
 
-    utils.handle_errors(context, list(_()))
+    misc.handle_errors(context, list(_()))
 
 
 @then("Every {something} must be referenced exactly {num:d} times by the loops of the face")
@@ -251,19 +251,19 @@ def step_impl(context, something, num):
 
     def _():
         for inst in context.instances:
-            edge_usage = utils.get_edges(
+            edge_usage = geometry.get_edges(
                 context.model, inst, Counter, oriented=something == "oriented edge"
             )
             invalid = {ed for ed, cnt in edge_usage.items() if cnt != num}
             for ed in invalid:
                 yield err.EdgeUseError(inst, ed, edge_usage[ed])
 
-    utils.handle_errors(context, list(_()))
+    misc.handle_errors(context, list(_()))
 
 
 @then('There must be {constraint} {num:d} instance(s) of {entity}')
 def step_impl(context, constraint, num, entity):
-    op = utils.stmt_to_op(constraint)
+    op = misc.stmt_to_op(constraint)
 
     errors = []
 
@@ -272,7 +272,7 @@ def step_impl(context, constraint, num, entity):
         if not op(len(insts), num):
             errors.append(err.InstanceCountError(insts, entity))
 
-    utils.handle_errors(context, errors)
+    misc.handle_errors(context, errors)
 
 
 @then('Each {entity} must be nested by {constraint} {num:d} instance(s) of {other_entity}')
@@ -289,7 +289,7 @@ def step_impl(context, entity, num, constraint, other_entity):
             if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
                 errors.append(err.InstanceStructureError(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
 
-    utils.handle_errors(context, errors)
+    misc.handle_errors(context, errors)
 
 
 @then('Each {entity} {fragment} instance(s) of {other_entity}')
@@ -330,13 +330,13 @@ def step_impl(context, entity, fragment, other_entity):
                 if condition == 'only' and len(false_elements):
                     errors.append(err.InstanceStructureError(inst, correct_elements, f'{error_log_txt}'))
 
-    utils.handle_errors(context, errors)
+    misc.handle_errors(context, errors)
 
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):
     # @todo reverse order to relating -> nest-relationship -> related
-    pred = utils.stmt_to_op(condition)
+    pred = misc.stmt_to_op(condition)
 
     op = lambda n: not pred(n, 0)
 
@@ -351,4 +351,4 @@ def step_impl(context, related, relating, other_entity, condition):
                     if not rel.RelatingObject.is_a(relating):
                         errors.append(err.InstanceStructureError(inst, [rel.RelatingObject], 'assigned to'))
 
-    utils.handle_errors(context, errors)
+    misc.handle_errors(context, errors)

@@ -1,0 +1,42 @@
+{
+  "geometry.py": [
+    "emit(loop)",
+    "get_edges(file, inst, sequence_type=frozenset, oriented=False)",
+    "get_points(inst, return_type='coord')",
+    "inner()",
+    "is_closed(context, instance)"
+  ],
+  "ifc.py": [
+    "condition(inst, representation_id, representation_type)",
+    "get_mvd(ifc_file)",
+    "get_precision_from_contexts(entity_contexts, func_to_return=max, default_precision=1e-05)",
+    "instance_getter(i, representation_id, representation_type, negative=False)",
+    "is_valid(inst, representation_id, representation_type)",
+    "recurrently_get_entity_attr(ifc_context, inst, entity_to_look_for, attr_to_get, attr_found=None)"
+  ],
+  "misc.py": [
+    "c(v)",
+    "do_try(fn, default=None)",
+    "fmt(x)",
+    "get_inst_attributes(dc)",
+    "handle_errors(context, errors)",
+    "include_subtypes(stmt)",
+    "instance_converter(kv_pairs)",
+    "is_a(s)",
+    "map_state(values, fn)",
+    "rtrn_pyparse_obj(i)",
+    "stmt_to_op(statement)",
+    "strip_split(stmt, strp=' ', splt=',')",
+    "unpack_sequence_of_entities(instances)",
+    "unpack_tuple(tup)"
+  ],
+  "system.py": [
+    "get_abs_path(rel_path)",
+    "get_csv(abs_path, return_type='list', newline='', delimiter=',', quotechar='|')"
+  ],
+  "_list_func.py": [
+    "if '' in line",
+    "line = line.replace('', '')"
+  ],
+  "__init__.py": []
+}

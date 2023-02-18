@@ -1,7 +1,10 @@
 @implementer-agreement
 @ALB
 Feature: ALB002 - Alignment Layout
-The rule verifies the behavior of IfcAlignment and its segments, particularly in terms of nesting.
+This rule verifies that (a) alignment has a nesting relationship with its layout components,
+(b) its layout components have a nesting relationship with alignment,
+(c) the layouts must have a nesting relationship with the alignment segments and,
+(d) each layout direction must be linked to their own respective segments through the attribute DesignParameters
 
   Scenario: Agreement on nested attributes of IfcAlignment
 

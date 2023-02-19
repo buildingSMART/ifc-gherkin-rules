@@ -1,7 +1,7 @@
 import errors as err
 
 from behave import *
-from utils import geometry, ifc, misc, system
+from utils import misc
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):

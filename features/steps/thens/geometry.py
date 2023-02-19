@@ -3,7 +3,7 @@ import itertools
 import math
 
 from behave import *
-from utils import geometry, ifc, misc, system
+from utils import geometry, ifc, misc
 
 @then("It must have no duplicate points {clause} first and last point")
 def step_impl(context, clause):

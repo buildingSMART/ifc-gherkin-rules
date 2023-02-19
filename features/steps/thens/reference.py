@@ -2,7 +2,7 @@ import errors as err
 
 from behave import *
 from collections import Counter
-from utils import geometry, ifc, misc, system
+from utils import geometry, misc
 
 @then("Every {something} must be referenced exactly {num:d} times by the loops of the face")
 def step_impl(context, something, num):

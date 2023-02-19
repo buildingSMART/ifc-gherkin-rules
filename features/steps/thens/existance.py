@@ -2,7 +2,7 @@ import errors as err
 import operator
 
 from behave import *
-from utils import geometry, ifc, misc, system
+from utils import misc
 
 @then("There must be one {representation_id} shape representation")
 def step_impl(context, representation_id):

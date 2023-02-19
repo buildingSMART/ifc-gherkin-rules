@@ -1,7 +1,7 @@
 import errors as err
 
 from behave import *
-from utils import geometry, ifc, misc, system
+from utils import ifc, misc, system
 
 @then('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
 def step_impl(context, entity, other_entity, relationship):

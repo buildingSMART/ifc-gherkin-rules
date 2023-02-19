@@ -4,7 +4,8 @@ import operator
 import pyparsing
 
 from behave import *
-from utils import geometry, ifc, misc, system
+from utils import ifc, misc
+
 
 @then('Each {entity} must be nested by {constraint} {num:d} instance(s) of {other_entity}')
 def step_impl(context, entity, num, constraint, other_entity):

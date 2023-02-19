@@ -2,7 +2,7 @@ import ast
 import operator
 
 from behave import *
-from utils import geometry, ifc, misc, system
+from utils import geometry, ifc, misc
 
 
 @given("{attribute} = {value}")

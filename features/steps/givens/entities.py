@@ -3,7 +3,7 @@ import operator
 import pyparsing
 
 from behave import *
-from utils import geometry, ifc, misc, system
+from utils import misc
 
 
 @given("An {entity_opt_stmt}")

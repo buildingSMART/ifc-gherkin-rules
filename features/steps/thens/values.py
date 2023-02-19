@@ -5,7 +5,8 @@ import os
 
 from behave import *
 from pathlib import Path
-from utils import geometry, ifc, misc, system
+from utils import ifc, misc
+
 
 @then("The value must {constraint}")
 @then("The values must {constraint}")

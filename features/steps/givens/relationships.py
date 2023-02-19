@@ -1,7 +1,7 @@
 import re
 
 from behave import *
-from utils import geometry, ifc, misc, system
+from utils import misc, system
 
 
 @given('A relationship {relationship} from {entity} to {other_entity}')

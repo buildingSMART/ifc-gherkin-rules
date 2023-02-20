@@ -6,6 +6,7 @@ Curve3D,3 dimensional curve(s)
 Surface,2 or 3 dimensional surface(s)
 Surface2D, 2 dimensional surface(s) (a region on ground view)
 Surface3D,3 dimensional surface(s)
+SectionedSurface, swept surface(s) created by sweeping open profiles along a directrix
 FillArea,2D region(s) represented as a filled area (hatching)
 Text,text defined as text literals
 AdvancedSurface,3 dimensional b-spline surface(s)
@@ -14,6 +15,7 @@ GeometricCurveSet,points, curves (2 or 3 dimensional)
 Annotation2D,points, curves (2 or 3 dimensional), hatches and text (2 dimensional)
 SurfaceModel,face based and shell based surface model(s), or tessellated surface model(s)
 Tessellation,tessellated surface representation(s) only
+Segment, partial geometry of curves that shall not be rendered sparately from the main curve
 SolidModel,including swept solid, Boolean results and Brep bodies; more specific types are:
 SweptSolid,swept area solids, by extrusion and revolution, excluding tapered sweeps
 AdvancedSweptSolid,swept area solids created by sweeping a profile along a directrix, and tapered sweeps

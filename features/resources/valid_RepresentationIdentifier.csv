@@ -10,4 +10,3 @@ Body,3D Body representation, e.g. as wireframe, surface, or solid model, of an e
 Body-Fallback,3D Body representation, e.g. as tessellation, or other surface, or boundary representation, added in addition to the solid model (potentially involving Boolean operations) of an element
 Clearance,3D clearance volume of the element. Such clearance region indicates space that should not intersect with the 'Body' representation of other elements, though may intersect with the 'Clearance' representation of other elements.
 Lighting,Representation of emitting light as a light source within a shape representation
-Segment, Partial Geometry of curves that must not be rendered seperately from the main curve

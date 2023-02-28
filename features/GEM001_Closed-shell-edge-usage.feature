@@ -1,6 +1,7 @@
 @informal-proposition
 @GEM
 Feature: GEM001 - Closed shell edge usage
+The rule verifies that closed shells and closed facesets edges are referenced correctly.
 
   Scenario: IfcClosedShell
 

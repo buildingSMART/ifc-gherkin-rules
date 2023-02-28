@@ -1,6 +1,7 @@
 @implementer-agreement
 @SPS
 Feature: SPS001 - Basic spatial structure for buildings
+The rule verifies that there's maximum one instance of IfcSite and at least one instance of IfcBuilding as part of the spatial structure.
 
   Scenario: Agreement141 - Agreement on having maximum of one instance of IfcSite
 

@@ -19,7 +19,9 @@ def step_impl(context, entity, num, constraint, other_entity):
         for inst in context.model.by_type(entity):
             nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
             if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
-                errors.append(err.InstanceStructureError(inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
+                errors.append(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
+            elif context.error_on_passed_rule:
+                errors.append(err.RuleSuccessInst(True, inst))
 
     misc.handle_errors(context, errors)
 
@@ -35,7 +37,9 @@ def step_impl(context, entity, other_entities):
             nested_entity_types = set(i.is_a() for i in nested_entities)
             if not nested_entity_types <= allowed_entity_types:
                 differences = list(nested_entity_types - allowed_entity_types)
-                errors.append(err.InstanceStructureError(inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
+                errors.append(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
+            elif context.error_on_passed_rule:
+                errors.append(err.RuleSuccessInst(True, inst))
 
     misc.handle_errors(context, errors)
 
@@ -61,6 +65,7 @@ def step_impl(context, entity, fragment, other_entity):
 
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
+            amount_of_errors = len(errors)
             related_entities = list(map(lambda x: getattr(x, extr['object_placement'], []), getattr(inst, extr['attribute'], [])))
             if len(related_entities):
                 if isinstance(related_entities[0], tuple):
@@ -69,13 +74,14 @@ def step_impl(context, entity, fragment, other_entity):
                 correct_elements = list(filter(lambda x: x.is_a(other_entity), related_entities))
 
                 if condition == 'only 1' and len(correct_elements) > 1:
-                    errors.append(err.InstanceStructureError(inst, correct_elements, f'{error_log_txt}'))
+                    errors.append(err.InstanceStructureError(False, inst, correct_elements, f'{error_log_txt}'))
                 if condition == 'a list of only':
                     if len(getattr(inst, extr['attribute'], [])) > 1:
-                        errors.append(err.InstanceStructureError(f'{error_log_txt} more than 1 list, including'))
+                        errors.append(err.InstanceStructureError(False, f'{error_log_txt} more than 1 list, including'))
                     elif len(false_elements):
-                        errors.append(err.InstanceStructureError(inst, false_elements, f'{error_log_txt} a list that includes'))
+                        errors.append(err.InstanceStructureError(False, inst, false_elements, f'{error_log_txt} a list that includes'))
                 if condition == 'only' and len(false_elements):
-                    errors.append(err.InstanceStructureError(inst, correct_elements, f'{error_log_txt}'))
-
+                    errors.append(err.InstanceStructureError(False, inst, correct_elements, f'{error_log_txt}'))
+            if len(errors) == amount_of_errors and context.error_on_passed_rule:
+                errors.append(err.RuleSuccessInst(True, inst))
     misc.handle_errors(context, errors)

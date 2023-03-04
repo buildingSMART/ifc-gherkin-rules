@@ -25,8 +25,9 @@ def step_impl(context, clause):
                             break
                 comparison_nr += 1
             if duplicates:
-                errors.append(err.PolyobjectDuplicatePointsError(instance, duplicates))
-
+                errors.append(err.PolyobjectDuplicatePointsError(False, instance, duplicates))
+            elif context.error_on_passed_rule:
+                errors.append(err.RuleSuccessInst(True, instance))
         misc.handle_errors(context, errors)
 
 

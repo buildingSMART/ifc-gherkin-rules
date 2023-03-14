@@ -73,3 +73,31 @@ def step_impl(context, attribute, expected_entity_type):
     misc.handle_errors(context, list(_()))
 
 
+@then('The type of attribute {attribute} must be {value}')
+def step_impl(context, attribute, value):
+    if getattr(context, 'applicable', True):
+        errors = []
+        for instance in context.instances:
+            if isinstance(instance, tuple):
+                instance = instance[0]
+            attribute_value = getattr(instance, attribute, 'Attribute not found')
+            if isinstance(attribute_value, str) or (not attribute_value[0].is_a(value)):
+                errors.append(err.AttributeTypeError(instance, attribute_value, attribute, value))
+
+        misc.handle_errors(context, errors)
+
+@then('The value of attribute {attribute} must be {value}')
+def step_impl(context, attribute, value):
+    if getattr(context, 'applicable', True):
+        errors = []
+        for instance in context.instances:
+            if isinstance(instance, tuple):
+                attribute_value = getattr(instance[0], attribute, 'Attribute not found')
+            else:
+                attribute_value = getattr(instance, attribute, 'Attribute not found')
+
+            if attribute_value != value:
+                errors.append(err.InvalidValueError(instance, attribute, attribute_value))
+
+        misc.handle_errors(context, errors)
+

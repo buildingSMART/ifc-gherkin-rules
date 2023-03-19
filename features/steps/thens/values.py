@@ -25,7 +25,6 @@ def step_impl(context, constraint, num=None):
         stack_tree = list(
             filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
         instances = [context.instances] if within_model else context.instances
-
         if constraint in ('identical', 'unique'):
             for i, values in enumerate(instances):
                 if not values:
@@ -62,5 +61,12 @@ def step_impl(context, constraint, num=None):
                 for iv, value in enumerate(values):
                     if not value in valid_values:
                         errors.append(err.InvalidValueError([t[i] for t in stack_tree][1][iv], attribute, value))
-
+        if constraint in ('exist',):
+            for inst, related_instance in zip(instances, stack_tree[1]):
+                while isinstance(inst, tuple):
+                    inst = inst[0]
+                if isinstance(inst, tuple) and not any(inst):
+                    errors.append(err.MissingValueError(related_instance))
+                elif not inst:
+                    errors.append(err.MissingValueError(related_instance))
     misc.handle_errors(context, errors)

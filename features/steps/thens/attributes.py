@@ -82,11 +82,9 @@ def step_impl(context, attribute, value):
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:
-            if isinstance(instance, tuple):
-                attribute_value = getattr(instance[0], attribute, 'Attribute not found')
-            else:
-                attribute_value = getattr(instance, attribute, 'Attribute not found')
-
+            while isinstance(instance, tuple):
+                instance = instance[0]
+            attribute_value = getattr(instance, attribute, 'Attribute not found')
             if attribute_value != value:
                 errors.append(err.InvalidValueError(instance, attribute, attribute_value))
 

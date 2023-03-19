@@ -7,7 +7,7 @@ ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
 FILE_NAME ('fail-ri14-scenario01-wrong-items-type.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Failure File Production', 'Python+IfcOpenShell', 'BC-002; Stationing on Alignment');
-FILE_SCHEMA(('IFC4x3'));
+FILE_SCHEMA(('IFC4X3_ADD1'));
 ENDSEC;
 DATA;
 #1=IFCPROJECT('1FNFy8AJeHwwz7wDZHIYIu',#3,'IFC Rail Referencedata - STN01','IFC-Referencefile for bSI Implementerforum testcase STN01',$,'Longname','Design',$,#9);

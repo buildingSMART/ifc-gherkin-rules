@@ -63,7 +63,7 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
             feature_filter = ["-i", rule_code]
     except Exception as e:
         print(e)
-    proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--tags=-run_through_pytest", "--define", f"input={os.path.abspath(filename)}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
+    proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", "error_on_passed_rule=yes", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
 
     with open(jsonfn) as f:
         try:

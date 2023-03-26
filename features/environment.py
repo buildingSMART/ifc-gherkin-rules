@@ -14,7 +14,10 @@ def before_feature(context, feature):
     # between features so we need to preserve only the bottom two stack
     # frames when beginning a new feature.
     context._stack = context._stack[-2:]
-    context.error_on_passed_rule = '--tags=-error_on_passed_rule' in sys.argv
+    if "error_on_passed_rule" in context.config.userdata:
+        context.error_on_passed_rule = context.config.userdata["error_on_passed_rule"] == 'yes'
+    else:
+        context.error_on_passed_rule = False
     context.model = read_model(context.config.userdata["input"])
     Scenario.continue_after_failed_step = True
 

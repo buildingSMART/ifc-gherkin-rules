@@ -12,9 +12,15 @@ except ImportError:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
     from main import run
 
-test_for_rules = any(re.match(r"^[a-zA-Z]{3}\d{3}$", arg) for arg in sys.argv[1:])
-test_files = [fn for fn in glob.glob(os.path.join(os.path.dirname(__file__), 
-                "files/**/*.ifc"), recursive=True) if len(sys.argv) < 2 or any(x in fn.lower() for x in sys.argv[1:]) or not test_for_rules]
+rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
+rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), sys.argv[1:]))
+
+test_files = []
+for code in rule_codes:
+    paths = glob.glob(os.path.join(os.path.dirname(__file__), "files/", code.lower(), "*.ifc"))
+    if not paths:
+        print(f"No IFC files were found for the following rule code: {code}. Please provide test files or verify the input.")
+    test_files.extend(paths)
 
 @pytest.mark.parametrize("filename", test_files)
 def test_invocation(filename):

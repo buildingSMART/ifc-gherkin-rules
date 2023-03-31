@@ -5,16 +5,6 @@ from behave.model import Scenario
 
 import check_conventions
 
-"""
-Checks whether conditions in documentations are met : https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/features
-
-- The file name is rule code_rule title
-- The rule code is made of 3 digits capital letters (taken from the list of Functional parts) + 3 digits number
-- The rule title shall have no space and shall use - as separator
-- The naming convention for the Feature in the is the following: rule code - rule title (the same used for the file name). For the rule title blank spaces must be used instead of -
-
-"""
-
 model_cache = {}
 def read_model(fn):
     if cached := model_cache.get(fn):

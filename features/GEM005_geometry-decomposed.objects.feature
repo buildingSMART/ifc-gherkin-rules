@@ -13,7 +13,7 @@ Feature: GEM005 - Constraints on representation identifiers
 """
   Background: Entity is part having own shape representation
 
-    Given An IfcBuildingElement
+    Given An IfcBuiltElement
       And A relationship IfcRelAggregates to IfcBuildingElement from IfcObject
       And Its attribute Representation 
       And Its attribute Representations 

@@ -325,12 +325,34 @@ def instance_getter(i,representation_id, representation_type, negative=False):
             return i
 
 
+def get_entity_instances(context, entity):
+    def search(num):
+        tup = next((t for t in renamed_entities if t[num] == entity), None)
+        if tup:
+            idx = 1 if num == 0 else 0
+            return tup[idx]
+    try:
+        return context.model.by_type(entity)
+    except:
+        # check if the entity's name differs across various IFC versions
+        dirname = os.path.dirname(__file__)
+        fn_related_attr_matrix = Path(
+            dirname).parent / 'resources' / 'renamed_entities.csv'
+        related_attr_matrix = next(
+            csv.DictReader(open(fn_related_attr_matrix)))
+        renamed_entities = list(related_attr_matrix.items())
+        renamed = next(filter(None, map(search, [0, 1])), None)
+        # context.model_by_type(None) returns empty list
+        try:
+            return context.model.by_type(renamed)
+        except:
+            return []
+
+
 @given("An {entity}")
 def step_impl(context, entity):
-    try:
-        context.instances = context.model.by_type(entity)
-    except:
-        context.instances = []
+    context.instances = get_entity_instances(context, entity)
+
 
 def handle_errors(context, errors):
     error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
@@ -413,9 +435,7 @@ def map_state(values, fn):
 @given('Its attribute {attribute} {tail:maybe_and_following_that}')
 def step_impl(context, attribute, tail=0):
     context._push()
-    if attribute == 'RepresentationIdentifier':
-        x = 'hi'
-
+    
     if tail == 1:
         current_instances = context.instances
         context.instances = map_state(context.instances, lambda i: getattr(i, attribute, None))

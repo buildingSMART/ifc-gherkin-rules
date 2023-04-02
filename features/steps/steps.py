@@ -324,6 +324,40 @@ def instance_getter(i,representation_id, representation_type, negative=False):
         if condition(i, representation_id, representation_type):
             return i
 
+def list_renamed_entities():
+    dirname = os.path.dirname(__file__)
+    fn_related_attr_matrix = Path(
+        dirname).parent / 'resources' / 'renamed_entities.csv'
+    related_attr_matrix = next(
+        csv.DictReader(open(fn_related_attr_matrix)))
+    return list(related_attr_matrix.items())
+
+
+@dataclass
+class IfcEntity:
+    entity : str
+    instances : typing.List = field(default_factory=lambda: [])
+    renamed_entities : typing.List = field(default_factory=lambda : list_renamed_entities())
+
+    def search(self, num):
+        tup = next((t for t in self.renamed_entities if t[num] == self.entity), None)
+        if tup:
+            idx = 1 if num == 0 else 0
+            return tup[idx]
+    
+    def alternative_name(self):
+        # If the entity is renamed, such as in the case of 'IfcBuildingElement' being changed to 'IfcBuiltElement'
+        return next(filter(None, map(self.search, [0, 1])), None)
+    
+    def get_entity_instances(self, context):
+        try:
+            return context.model.by_type(self.entity)
+        except:
+            try:
+                return context.model.by_type(self.alternative_name())
+            except:
+                return []
+
 
 def get_entity_instances(context, entity):
     def search(num):
@@ -351,7 +385,7 @@ def get_entity_instances(context, entity):
 
 @given("An {entity}")
 def step_impl(context, entity):
-    context.instances = get_entity_instances(context, entity)
+    context.instances = IfcEntity(entity).get_entity_instances(context)
 
 
 def handle_errors(context, errors):

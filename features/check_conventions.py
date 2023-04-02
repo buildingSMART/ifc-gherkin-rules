@@ -32,7 +32,7 @@ def parse_pattern():
 class NameValidator:
     source : str
     name : str
-    instances_list: typing.ClassVar[typing.Sequence[typing.Any]] = []
+    validated_items_list: typing.ClassVar[typing.Sequence[typing.Any]] = []
     documentation_statement : str = field(default=f'Further information can be found at {documentation_src}')
     parse_pattern : And = field(default_factory=parse_pattern)
 
@@ -43,7 +43,7 @@ class NameValidator:
         self.rule_title = self.parsed.rule_title
         self.seperators = get_separators(self.rule_title)
 
-        NameValidator.update_instances_list(self)
+        NameValidator.update_validated_items_list(self)
     
     def self_validation(self, valid_first_seperator, valid_seperator):
         code_pattern = re.compile(r'^[A-Z]{3}\d{3}$')
@@ -58,13 +58,8 @@ class NameValidator:
         assert not any(sym in self.seperators for sym in list(filter(lambda x: x != valid_seperator, ['-', '.', '_']))), f"The rule {self.code} title can only contain the symbol '{valid_seperator}' as the separator. \
         {self.documentation_statement}"
 
-        # after internal validating, remove seperator for the purpose of external validation
+        # after internal validating, remove seperator for the purpose of further validation
         self.rule_title = self.rule_title.replace(valid_seperator, '').lower()
-
-        # check for uniqueness
-        num_unique_instances = len(set(NameValidator.instances_list))
-        updated_unique_insts = NameValidator.update_instances_list(self)
-        assert len(set(updated_unique_insts)) == num_unique_instances, f'Either the code or title of {self.code} is not unique. Please verify. {self.documentation_statement}'
 
     def compatibility_check(self, other):
         assert self.code == other.code, f"Please ensure that the code used in the {self.name} matches the code used in the {other.name}. \
@@ -73,9 +68,10 @@ class NameValidator:
                                                       {self.documentation_statement}"
 
     @classmethod
-    def update_instances_list(cls, inst):
-        cls.instances_list.append(inst)
-        return cls.instances_list
+    def update_validated_items_list(cls, validated_item):
+        assert validated_item not in cls.validated_items_list, f'Either the code or title of {validated_item.code} is not unique. Please verify. {validated_item.documentation_statement}'
+        cls.validated_items_list.append(validated_item)
+        return cls.validated_items_list
     
     def __eq__(self, other):
         #'The rule code, and rule title, must be unique'

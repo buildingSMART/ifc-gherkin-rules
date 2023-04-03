@@ -347,7 +347,8 @@ class IfcEntity:
     
     def alternative_name(self):
         # If the entity is renamed, such as in the case of 'IfcBuildingElement' being changed to 'IfcBuiltElement'
-        return next(filter(None, map(self.search, [0, 1])), None)
+        self.alternative_name = next(filter(None, map(self.search, [0, 1])), None)
+        return self.alternative_name
     
     def get_entity_instances(self, context):
         try:
@@ -437,9 +438,13 @@ def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail=0):
                 if not isinstance(val, (list, tuple)):
                     val = [val]
                 return val
+            
+            def get_other(entity_type, attr_name):
+                return set(filter(lambda i: i.is_a(entity_type), make_aggregate(getattr(rel, attr_name))))
 
             to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
-            to_other = set(filter(lambda i: i.is_a(other_entity), make_aggregate(getattr(rel, attr_to_other))))
+            alternative_name = IfcEntity(other_entity).alternative_name()
+            to_other = next(filter(bool, map(lambda entity: get_other(entity, attr_to_other), [other_entity, alternative_name])), set())
 
             if v := {inst} & to_entity:
                 if tail:

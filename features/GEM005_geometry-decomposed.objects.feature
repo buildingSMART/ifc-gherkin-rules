@@ -14,14 +14,14 @@ Feature: GEM005 - Constraints on representation identifiers
   Background: Entity is part having own shape representation
 
     Given An IfcBuiltElement
-      And A relationship IfcRelAggregates to IfcBuildingElement from IfcObject
+      And A relationship IfcRelAggregates to IfcBuiltElement from IfcObject
       And Its attribute Representation 
       And Its attribute Representations 
       And Its attribute RepresentationIdentifier and return to first
 
   Scenario: Container must have no shape representation other than 'Body'
 
-      And A relationship IfcRelAggregates to IfcBuildingElement from IfcObject and following that
+      And A relationship IfcRelAggregates to IfcBuiltElement from IfcObject and following that
       And Its attribute Representation 
       And Its attribute Representations 
       And Its attribute RepresentationIdentifier 

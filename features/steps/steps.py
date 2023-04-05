@@ -21,7 +21,7 @@ import pyparsing
 from behave import *
 
 register_type(from_to=TypeBuilder.make_enum({"from": 0, "to": 1 }))
-register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and following that": 1, "and return to first": 2 }))
+register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and following that": 1}))
 
 def instance_converter(kv_pairs):
     def c(v):
@@ -160,6 +160,17 @@ class instance_attribute_value_count_error:
     def __str__(self):
         vs = "".join(f"\n * {p[0]!r} on {p[1]}" for p in self.paths)
         return f"Not at least {self.num_required} instances of {', '.join(map(repr, self.allowed_values))} for values:{vs}"
+    
+@dataclass
+class decomposed_element_error:
+    """"
+    @WIP, provide more information/merge with other class
+    challenges for retrieving data from stack frame since :
+    * number composed containers < decomposed parts (which belongs to which?)
+    * Reason of failure is somewhere 'digged' in the stack frame (e.g. no parts when representationIdentifier of container == 'Body')
+    """
+    def __str__(self):
+        return "Decomposed parts should not have their own shape representation if their container has 'Body' as its own shape representation."
 
 
 @dataclass
@@ -345,7 +356,7 @@ class IfcEntity:
             idx = 1 if num == 0 else 0
             return tup[idx]
     
-    def alternative_name(self):
+    def get_alternative_name(self):
         # If the entity is renamed, such as in the case of 'IfcBuildingElement' being changed to 'IfcBuiltElement'
         self.alternative_name = next(filter(None, map(self.search, [0, 1])), None)
         return self.alternative_name
@@ -355,33 +366,15 @@ class IfcEntity:
             return context.model.by_type(self.entity)
         except:
             try:
-                return context.model.by_type(self.alternative_name())
+                return context.model.by_type(self.get_alternative_name())
             except:
                 return []
-
-
-def get_entity_instances(context, entity):
-    def search(num):
-        tup = next((t for t in renamed_entities if t[num] == entity), None)
-        if tup:
-            idx = 1 if num == 0 else 0
-            return tup[idx]
-    try:
-        return context.model.by_type(entity)
-    except:
-        # check if the entity's name differs across various IFC versions
-        dirname = os.path.dirname(__file__)
-        fn_related_attr_matrix = Path(
-            dirname).parent / 'resources' / 'renamed_entities.csv'
-        related_attr_matrix = next(
-            csv.DictReader(open(fn_related_attr_matrix)))
-        renamed_entities = list(related_attr_matrix.items())
-        renamed = next(filter(None, map(search, [0, 1])), None)
-        # context.model_by_type(None) returns empty list
-        try:
-            return context.model.by_type(renamed)
-        except:
-            return []
+    
+    def is_entity_instance(self, entity):
+        '''
+        Checks whether input is a subtype of ifcopenshell_entity_instance or it's alternative name
+        '''
+        return any([entity.is_a(i) for i in [self.entity, self.get_alternative_name()]])
 
 
 @given("An {entity}")
@@ -443,7 +436,7 @@ def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail=0):
                 return set(filter(lambda i: i.is_a(entity_type), make_aggregate(getattr(rel, attr_name))))
 
             to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
-            alternative_name = IfcEntity(other_entity).alternative_name()
+            alternative_name = IfcEntity(other_entity).get_alternative_name()
             to_other = next(filter(bool, map(lambda entity: get_other(entity, attr_to_other), [other_entity, alternative_name])), set())
 
             if v := {inst} & to_entity:
@@ -456,6 +449,82 @@ def step_impl(context, relationship, dir1, entity, dir2, other_entity, tail=0):
         handle_errors(context, [missing_relationship_error(inst, relationship) for inst in context.instances if inst not in set(instances)])
     else:
         context.instances = instances
+
+    
+@given("The value is {value}")
+def step_impl(context, value):
+    """
+    Very similar to the then statement 'The values must X' 
+    Return options (current implementation is option '[X]'): 
+    * [X] Return context.instances = [(False),(True)] depending whether value == value -> Makes next 'return to' slightly less general
+    * Return complete stack frame -> Not in line with the structure of other given statements
+    * Return either last instance or arbitrary place in stack (if value == value) -> Requires another tail option and therefore extra complexity
+    """
+    context._push()
+    value = value.replace('"', '')
+    context.instances = map_state(context.instances, lambda i: i == value)
+
+@given("Return to {entity}")
+def step_impl(context, entity):
+    def filter_stack_tree(layer):
+        def check_inclusion_criteria(input):
+            """
+            Verifies if layer includes a boolean variable or instance of {entity}
+            """
+            is_bool = isinstance(input, bool)
+            correct_entity = False
+            if isinstance(input, ifcopenshell.entity_instance):
+                correct_entity = IfcEntity(entity).is_entity_instance(input)
+            context.include_layer = is_bool or correct_entity
+        layer = layer.get('instances')
+        map_state(layer, check_inclusion_criteria)
+        return layer if context.include_layer else None
+    
+    @dataclass
+    class ContinuingInstances:
+        """
+    Extracts `ifcopenshell.entity_instance` objects from a filtered stack tree.
+
+    Args:
+        filtered_stack_tree. Lists that represent the presence of
+            `ifcopenshell.entity_instance` objects, where the first list contains the objects 
+            and the second list (optional) contains boolean values
+
+        instances (List[ifcopenshell.entity_instance], optional): Additional `ifcopenshell.entity_instance`
+            objects to include in the output.
+
+    Returns:
+        List[ifcopenshell.entity_instance]: The `ifcopenshell.entity_instance` objects extracted from the
+        filtered stack tree, i n the order that they appear in the second list.
+        """
+        instances : typing.List = field(default_factory=lambda: [])
+
+        def check_applicability(self, i):
+            self.local_appl = i is True
+
+        def build(self, num):
+            """
+            Take into consideration the case in which order of bool-entity_instances are reversed
+            """
+            idx = 1 if num == 0 else 1
+            map_state(self.item_pair[num], self.check_applicability)
+            if self.local_appl:
+                self.instances.append(self.item_pair[idx])
+        
+        def collect_applicable_instances(self, filtered_stack_tree):
+            if len(filtered_stack_tree) == 2: 
+                self.pairs = list(zip(filtered_stack_tree[0], filtered_stack_tree[1]))       
+                for pair in self.pairs:
+                    self.item_pair = pair
+                    [self.build(i) for i in range(2)]
+            else:
+                self.instances = filtered_stack_tree[0]
+
+    stack_tree_filtered = list(filter(None, list(map(filter_stack_tree, context._stack))))
+    insts = ContinuingInstances()
+    insts.collect_applicable_instances(stack_tree_filtered)
+    context.instances = insts.instances
+
 
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
@@ -695,7 +764,12 @@ def step_impl(context, constraint, num=None):
         stack_tree = list(filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
         instances = [context.instances] if within_model else context.instances
 
-        if constraint[-5:] == ".csv'":
+        if constraint == 'None':
+            if any(context.instances):
+                errors.append(decomposed_element_error())
+                pass
+
+        elif constraint[-5:] == ".csv'":
             csv_name = constraint.strip("'")
             for i, values in enumerate(instances):
                 if not values:

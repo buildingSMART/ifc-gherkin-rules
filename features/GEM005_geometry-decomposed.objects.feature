@@ -19,8 +19,6 @@ Feature: GEM005 - Constraints on representation identifiers
       And The value is "Body"
       And return to IfcBuiltElement
       And A relationship IfcRelAggregates from IfcBuiltElement to IfcObject and following that
-      And Its attribute Representation
-      And Its attribute Representations 
-      And Its attribute RepresentationIdentifier
+      And Repeat steps 2,3,4
 
       Then the values must be None

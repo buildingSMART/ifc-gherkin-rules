@@ -404,6 +404,14 @@ def step_impl(context, something, num):
                 yield edge_use_error(inst, ed, edge_usage[ed])
 
     handle_errors(context, list(_()))
+    
+@given("Repeat steps {step_count}")
+def step_impl(context, step_count):
+    step_stack = list(filter(None, list(map(lambda layer: layer.get('step'), context._stack))))
+    step_stack.reverse()
+    step_count = list(step_count.split(','))
+    steps = ('\n').join([(' ').join(['Given',step_stack[int(n)-2].name + ' ']) for n in step_count])
+    context.execute_steps(steps)
 
 @given('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
 @then('A relationship {relationship} exists {dir1:from_to} {entity} {dir2:from_to} {other_entity}')

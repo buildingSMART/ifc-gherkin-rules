@@ -404,7 +404,8 @@ def step_impl(context, something, num):
                 yield edge_use_error(inst, ed, edge_usage[ed])
 
     handle_errors(context, list(_()))
-    
+
+@given("Repeat step {step_count}")
 @given("Repeat steps {step_count}")
 def step_impl(context, step_count):
     step_stack = list(filter(None, list(map(lambda layer: layer.get('step'), context._stack))))

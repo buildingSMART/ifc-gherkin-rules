@@ -1,12 +1,12 @@
 ISO-10303-21;
-/*  Testfile: BC-002-RI-14-B-fail.ifc */
-/*  Testcase: RI-14-B; Wrong representation type for IfcAlignmentCant */
-/*            IfcAlignmentCant with wrong representation RepresentationType should fail. Injected Defect: IfcShapeRepresentation.RepresentationType set to Curve2D instead of Curve3D */
-/*  Fails in bSI validation service (Gherkin featureset): xxxx1 */
-/*  IFC-Requirement: RI-14; Alignment cant shape representation in IFC */
+/*  Testfile: fail-ri007-scenario04-no-nominalvalue-attribute-of-ifcpropertysinglevalue-empty.ifc */
+/*  Testcase: RI-007; no NominalValue attribute of IfcPropertySingleValue */
+/*            IfcPropertySingleValue with wrong NominalValue attribute should fail. Injected Defect: IfcPropertySingleValue.Name has no value*/
+/*  Fails in bSI validation service (Gherkin featureset) */
+/*  IFC-Requirement: RI-007 - Stationing property */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('fail-ri007-scenario03-wrong-name-value.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Failure File Production', 'Python+IfcOpenShell', 'BC-002; Stationing on Alignment');
+FILE_NAME ('fail-ri007-scenario04-no-nominalvalue-attribute-of-ifcpropertysinglevalue-empty.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Failure File Production', 'Python+IfcOpenShell', 'BC-002; Stationing property');
 FILE_SCHEMA(('IFC4X3_ADD1'));
 ENDSEC;
 DATA;
@@ -545,7 +545,7 @@ DATA;
 #534=IFCAXIS2PLACEMENTLINEAR(#533,$,$);
 #535=IFCLINEARPLACEMENT(#529,#534,$);
 #536=IFCPROPERTYSET('0oZ3LNxBrDqehV0YvQKZJC',#3,'Pset_Stationing',$,(#537));
-#537=IFCPROPERTYSINGLEVALUE('Body',$,IFCLENGTHMEASURE(-153.1),$);
+#537=IFCPROPERTYSINGLEVALUE('Station',$,$,$);
 #538=IFCRELDEFINESBYPROPERTIES('0Wj6s_F0jCjPjoP2IZPMLa',#3,$,$,(#532),#536);
 #539=IFCBOUNDINGBOX(#540,4.E-1,4.E-1,4.E-1);
 #540=IFCCARTESIANPOINT((-2.E-1,-2.E-1,-2.E-1));

@@ -3,7 +3,7 @@ import operator
 import pyparsing
 
 from behave import *
-from utils import misc
+from utils import misc, ifc
 
 
 @given("An {entity_opt_stmt}")
@@ -19,9 +19,6 @@ def step_impl(context, entity_opt_stmt, insts=False):
     entity = parse['entity']
     include_subtypes = misc.do_try(lambda: not 'without' in parse['include_subtypes'], True)
 
-    try:
-        context.instances = context.model.by_type(entity, include_subtypes)
-    except:
-        context.instances = []
+    context.instances = ifc.IfcEntity(entity).get_entity_instances(context)
 
     context.within_model = getattr(context, 'within_model', True) and within_model

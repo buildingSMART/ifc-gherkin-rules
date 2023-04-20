@@ -20,3 +20,12 @@ def get_csv(abs_path, return_type='list', newline='', delimiter=',', quotechar='
         elif return_type == 'list':
             reader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
         return [row for row in reader]
+
+
+def list_renamed_entities():
+    dirname = os.path.dirname(__file__)
+    fn_related_attr_matrix = Path(
+        dirname).parent.parent / 'resources' / 'renamed_entities.csv'
+    related_attr_matrix = next(
+        csv.DictReader(open(fn_related_attr_matrix)))
+    return list(related_attr_matrix.items())

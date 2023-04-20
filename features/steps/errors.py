@@ -158,3 +158,13 @@ class RepresentationTypeError:
 
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
+
+@dataclass
+class decomposed_element_error:
+    """"
+    @gh : WIP
+    The reason for failure is buried deep in the stake frame
+    With the current implementation it is not so obvious how to determine which decomposed container belongs to which part. 
+    """
+    def __str__(self):
+        return "Decomposed parts should not have their own shape representation if their container has 'Body' as its own shape representation."

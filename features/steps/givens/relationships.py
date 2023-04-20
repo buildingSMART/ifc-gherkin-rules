@@ -1,33 +1,7 @@
 import re
 
 from behave import *
-from utils import misc, system
-
-
-@given('A relationship {relationship} from {entity} to {other_entity}')
-def step_impl(context, entity, other_entity, relationship):
-    instances = []
-    relationships = context.model.by_type(relationship)
-
-    filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
-    filename_relating_attr_matrix = system.get_abs_path(f"resources/**/relating_entity_attributes.csv")
-    related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
-    relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
-    for rel in relationships:
-        regex = re.compile(r'([0-9]+=)([A-Za-z0-9]+)\(')
-        relationships_str = regex.search(str(rel)).group(2)
-        relationship_relating_attr = relating_attr_matrix.get(relationships_str)
-        relationship_related_attr = related_attr_matrix.get(relationships_str)
-        if getattr(rel, relationship_relating_attr).is_a(other_entity):
-            try:  # check if the related attribute returns a tuple/list or just a single instance
-                iter(getattr(rel, relationship_related_attr))
-                related_objects = getattr(rel, relationship_related_attr)
-            except TypeError:
-                related_objects = tuple(getattr(rel, relationship_related_attr))
-            for obj in related_objects:
-                if obj.is_a(entity):
-                    instances.append(obj)
-    context.instances = instances
+from utils import misc
 
 
 @given("The element {relationship_type} an {entity}")

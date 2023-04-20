@@ -63,4 +63,9 @@ def step_impl(context, constraint, num=None):
                     if not value in valid_values:
                         errors.append(err.InvalidValueError([t[i] for t in stack_tree][1][iv], attribute, value))
 
+        if constraint == 'None':
+            if any(context.instances):
+                errors.append(err.decomposed_element_error())
+                pass
+
     misc.handle_errors(context, errors)

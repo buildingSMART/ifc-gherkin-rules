@@ -62,7 +62,7 @@ def step_impl(context, entity, fragment, other_entity):
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             related_entities = list(map(lambda x: getattr(x, extr['object_placement'], []), getattr(inst, extr['attribute'], [])))
-            if len(related_entities):
+            if related_entities:
                 if isinstance(related_entities[0], tuple):
                     related_entities = list(related_entities[0])  # if entity has only one IfcRelNests, convert to list
                 false_elements = list(filter(lambda x: not x.is_a(other_entity), related_entities))
@@ -72,10 +72,10 @@ def step_impl(context, entity, fragment, other_entity):
                     errors.append(err.InstanceStructureError(inst, correct_elements, f'{error_log_txt}'))
                 if condition == 'a list of only':
                     if len(getattr(inst, extr['attribute'], [])) > 1:
-                        errors.append(err.InstanceStructureError(f'{error_log_txt} more than 1 list, including'))
-                    elif len(false_elements):
+                        errors.append(err.InstanceStructureError(inst, correct_elements, f'{error_log_txt} more than 1 list, including'))
+                    elif false_elements:
                         errors.append(err.InstanceStructureError(inst, false_elements, f'{error_log_txt} a list that includes'))
-                if condition == 'only' and len(false_elements):
+                if condition == 'only' and false_elements:
                     errors.append(err.InstanceStructureError(inst, correct_elements, f'{error_log_txt}'))
 
     misc.handle_errors(context, errors)

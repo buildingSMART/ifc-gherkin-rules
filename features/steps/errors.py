@@ -64,11 +64,11 @@ class IdenticalValuesError:
 
 @dataclass
 class InstanceCountError:
-    insts: ifcopenshell.entity_instance
+    insts: typing.Sequence[ifcopenshell.entity_instance]
     type_name: str
 
     def __str__(self):
-        if len(self.insts):
+        if self.insts:
             return f"The following {len(self.insts)} instances of type {self.type_name} were encountered: {';'.join(map(misc.fmt, self.insts))}"
         else:
             return f"No instances of type {self.type_name} were encountered"
@@ -93,25 +93,24 @@ class InstancePlacementError:
 
 @dataclass
 class InstanceStructureError:
-    # @todo reverse order to relating -> nest-relationship -> related
-    related: ifcopenshell.entity_instance
     relating: Union[Sequence, ifcopenshell.entity_instance]
+    related: typing.Sequence[ifcopenshell.entity_instance]
     relationship_type: str
-    optional_values: dict = field(default_factory=dict)
+    optional_values: typing.Dict = field(default_factory=dict)
 
     def __str__(self):
         pos_neg = 'is not' if self.optional_values.get('condition', '') == 'must' else 'is'
         directness = self.optional_values.get('directness', '')
 
-        if len(self.relating):
-            return f"The instance {misc.fmt(self.related)} {pos_neg} {directness} {self.relationship_type} (in) the following ({len(self.relating)}) instances: {';'.join(map(misc.fmt, self.relating))}"
+        if self.related:
+            return f"The instance {misc.fmt(self.relating)} {pos_neg} {directness} {self.relationship_type} (in) the following ({len(self.related)}) instances: {';'.join(map(misc.fmt, self.related))}"
         else:
-            return f"This instance {self.related} is not {self.relationship_type} anything"
+            return f"This instance {self.relating} is not {self.relationship_type} anything"
 
 
 @dataclass
 class InvalidValueError:
-    related: ifcopenshell.entity_instance
+    related: Union[str, ifcopenshell.entity_instance]
     attribute: str
     value: str
 
@@ -121,8 +120,8 @@ class InvalidValueError:
 
 @dataclass
 class PolyobjectDuplicatePointsError:
-    inst: ifcopenshell.entity_instance
-    duplicates: set
+    inst: Union[str, ifcopenshell.entity_instance]
+    duplicates: typing.Set[ifcopenshell.entity_instance]
 
     def __str__(self):
         points_desc = ''
@@ -135,7 +134,7 @@ class PolyobjectDuplicatePointsError:
 @dataclass
 class PolyobjectPointReferenceError:
     inst: ifcopenshell.entity_instance
-    points: list
+    points: typing.Sequence[ifcopenshell.entity_instance]
 
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} first point {self.points[0]} is the same as last point {self.points[-1]}, but not by reference"

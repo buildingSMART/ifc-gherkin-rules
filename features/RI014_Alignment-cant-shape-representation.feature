@@ -1,6 +1,6 @@
 @implementer-agreement
 @RI
-Feature: RI14 - Alignment cant shape representation
+Feature: RI014 - Alignment cant shape representation
 The rule verifies, that each IfcAlignmentCant uses correct representation.
 
   Scenario: Agreement on each IfcAlignmentCant using correct representation

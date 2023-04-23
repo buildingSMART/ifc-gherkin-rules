@@ -66,12 +66,12 @@ def step_impl(context, attribute, expected_entity_type):
 
     def _():
         for inst in context.instances:
-            if isinstance(inst, tuple):
+            if isinstance(inst, (tuple, list)):
                 inst = inst[0]
             related_entity = getattr(inst, attribute, [])
-            if isinstance(related_entity, tuple):
+            if isinstance(related_entity, (tuple, list)):
                 related_entity = related_entity[0]
-            if isinstance(related_entity, list) or (not related_entity.is_a(expected_entity_type)):
+            if isinstance(related_entity, (tuple, list)) or (not related_entity.is_a(expected_entity_type)):
                 yield err.AttributeTypeError(inst, [related_entity], attribute, expected_entity_type)
 
     misc.handle_errors(context, list(_()))
@@ -82,7 +82,7 @@ def step_impl(context, attribute, value):
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:
-            while isinstance(instance, tuple):
+            while isinstance(instance, (tuple, list)):
                 instance = instance[0]
             attribute_value = getattr(instance, attribute, 'Attribute not found')
             if attribute_value != value:

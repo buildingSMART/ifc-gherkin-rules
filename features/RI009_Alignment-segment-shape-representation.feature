@@ -10,5 +10,5 @@ Scenario: Agreement on each IfcAlignmentSegment using correct representation
     And Its attribute Representation
     And Its attribute Representations
     Then The value of attribute RepresentationIdentifier must be Axis
-    # Then  The value of attribute RepresentationType must be Segment
-    Then  The type of attribute Items must be IfcCurveSegment
+    And The value of attribute RepresentationType must be Segment
+    And The type of attribute Items must be IfcCurveSegment

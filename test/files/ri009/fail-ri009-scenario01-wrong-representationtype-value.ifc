@@ -1,9 +1,11 @@
 ISO-10303-21;
-/*  Testfile: pass-ri009-alignment-segment-shape-representation.ifc */
-/*  IFC-Requirement: ri009; Alignment segment shape representation in IFC */
+/*  Testfile: fail-ri009-scenario01-wrong-representationtype-value.ifc */
+/*  Testcase: RI-009; Wrong representation type for IfcAlignmentSegment */
+/*            IfcAlignmentSegment with wrong representation type should fail. Injected Defect: IfcShapeRepresentation.RepresentationType set to Brep instead of Segment */
+/*  IFC-Requirement: RI-009; Alignment segment shape representation in IFC */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('pass-ri009-alignment-segment-shape-representation.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Pass File Production', 'Python+IfcOpenShell', 'BC-002');
+FILE_NAME ('fail-ri009-scenario01-wrong-representationtype-value.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Failure File Production', 'Python+IfcOpenShell');
 FILE_SCHEMA(('IFC4X3'));
 ENDSEC;
 DATA;
@@ -188,7 +190,7 @@ DATA;
 #180=IFCAXIS2PLACEMENT3D(#181,$,$);
 #181=IFCCARTESIANPOINT((0.,0.,0.));
 #182=IFCPRODUCTDEFINITIONSHAPE($,$,(#183));
-#183=IFCSHAPEREPRESENTATION(#17,'Axis','Segment',(#178));
+#183=IFCSHAPEREPRESENTATION(#17,'Axis','Brep',(#178));
 #184=IFCAXIS2PLACEMENT2D(#185,#186);
 #185=IFCCARTESIANPOINT((452270.188250964,4539403.94736217));
 #186=IFCDIRECTION((9.39398720315146E-1,3.42826551291272E-1));
@@ -523,7 +525,7 @@ DATA;
 #515=IFCAXIS2PLACEMENT3D(#516,$,$);
 #516=IFCCARTESIANPOINT((0.,0.,0.));
 #517=IFCPRODUCTDEFINITIONSHAPE($,$,(#518));
-#518=IFCSHAPEREPRESENTATION(#17,'Axis','Curve3D',(#383));
+#518=IFCSHAPEREPRESENTATION(#17,'Profile','Curve3D',(#383));
 #519=IFCLOCALPLACEMENT($,#520);
 #520=IFCAXIS2PLACEMENT3D(#521,$,$);
 #521=IFCCARTESIANPOINT((0.,0.,0.));

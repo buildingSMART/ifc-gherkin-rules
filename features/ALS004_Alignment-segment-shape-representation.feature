@@ -1,7 +1,7 @@
 @implementer-agreement
-@RI
-Feature: RI009 - Alignment segment shape representation
-The rule verifies, that each IfcAlignmentSegment uses correct representation.
+@ALS
+Feature: ALS004 - Alignment segment shape representation
+The rule verifies that each IfcAlignmentSegment uses correct representation.
 
 Scenario: Agreement on each IfcAlignmentSegment using correct representation
 

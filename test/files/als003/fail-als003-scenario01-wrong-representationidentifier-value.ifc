@@ -1,12 +1,12 @@
 ISO-10303-21;
-/*  Testfile: fail-ri014-scenario01-wrong-representationtype-value.ifc */
-/*  Testcase: RI-014; Wrong representation type for IfcAlignmentCant */
-/*            IfcAlignmentCant with wrong representation RepresentationType should fail. Injected Defect: IfcShapeRepresentation.RepresentationType set to Curve2D instead of Curve3D */
+/*  Testfile: fail-als003-scenario01-wrong-representationidentifier-value.ifc */
+/*  Testcase: ALS003; Wrong representation identifier for IfcAlignmentCant */
+/*            IfcAlignmentCant with wrong representation identifier should fail. Injected Defect: IfcShapeRepresentation.RepresentationIdentifier set to Profile instead of Axis */
 /*  Fails in bSI validation service (Gherkin featureset): xxxx1 */
-/*  IFC-Requirement: RI-014; Alignment cant shape representation in IFC */
+/*  IFC-Requirement: ALS003; Alignment cant shape representation in IFC */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('fail-ri014-scenario01-wrong-representationtype-value.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Failure File Production', 'Python+IfcOpenShell', 'BC-002; Stationing on Alignment');
+FILE_NAME ('fail-als003-scenario01-wrong-representationidentifier-value.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Failure File Production', 'Python+IfcOpenShell', 'BC-002; Stationing on Alignment');
 FILE_SCHEMA(('IFC4X3_ADD1'));
 ENDSEC;
 DATA;
@@ -526,7 +526,7 @@ DATA;
 #515=IFCAXIS2PLACEMENT3D(#516,$,$);
 #516=IFCCARTESIANPOINT((0.,0.,0.));
 #517=IFCPRODUCTDEFINITIONSHAPE($,$,(#518));
-#518=IFCSHAPEREPRESENTATION(#17,'Axis','Curve2D',(#383));
+#518=IFCSHAPEREPRESENTATION(#17,'Profile','Curve3D',(#383));
 #519=IFCLOCALPLACEMENT($,#520);
 #520=IFCAXIS2PLACEMENT3D(#521,$,$);
 #521=IFCCARTESIANPOINT((0.,0.,0.));

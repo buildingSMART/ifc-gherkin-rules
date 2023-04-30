@@ -118,6 +118,13 @@ class InvalidValueError:
     def __str__(self):
         return f"On instance {misc.fmt(self.related)} the following invalid value for {self.attribute} has been found: {self.value}"
 
+@dataclass
+class MissingValueError:
+    related: ifcopenshell.entity_instance
+
+    def __str__(self):
+        return f"On instance {misc.fmt(self.related)} the value doesn't exist"
+
 
 @dataclass
 class PolyobjectDuplicatePointsError:

@@ -37,18 +37,18 @@ This rule verifies that (a) alignment has a nesting relationship with its layout
       Given an IfcAlignmentSegment
         And The element nests an IfcAlignmentHorizontal
       
-       Then The type of attribute DesignParameters should be IfcAlignmentHorizontalSegment
+       Then The type of attribute DesignParameters must be IfcAlignmentHorizontalSegment
     
   Scenario: Agreement of the segments of the vertical alignment
       
       Given an IfcAlignmentSegment
         And The element nests an IfcAlignmentVertical
       
-       Then The type of attribute DesignParameters should be IfcAlignmentVerticalSegment
+       Then The type of attribute DesignParameters must be IfcAlignmentVerticalSegment
   
   Scenario: Agreement of the segments of the cant alignment
       
       Given an IfcAlignmentSegment
         And The element nests an IfcAlignmentCant
       
-       Then The type of attribute DesignParameters should be IfcAlignmentCantSegment
+       Then The type of attribute DesignParameters must be IfcAlignmentCantSegment

@@ -40,6 +40,24 @@ def step_impl(context, entity, condition, directness, other_entity):
 
     misc.handle_errors(context, errors)
 
+@then('Each {entity} {condition} be a part of {other_entities}')
+def step_impl(context, entity, condition, other_entities):
+    stmt_to_op = ['must', 'must not']
+    assert condition in stmt_to_op
+    expect_part = True if condition == 'must' else False
+
+    errors = []
+
+    if context.instances and getattr(context, 'applicable', True):
+        other_entities = other_entities.split(' or ')
+        for ent in context.model.by_type(entity):
+            aggregates_relation = ent.Decomposes[0] # TODO check if relation is 1:1
+            relating_object = aggregates_relation.RelatingObject
+            is_part = any(relating_object.is_a(other_entity) for other_entity in other_entities)
+            if is_part != expect_part:
+                errors.append(err.InstanceStructureError(ent, [other_entities], 'part of', optional_values={'condition': condition}))
+    misc.handle_errors(context, errors)
+
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):

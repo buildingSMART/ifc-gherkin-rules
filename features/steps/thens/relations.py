@@ -1,8 +1,7 @@
 import errors as err
 
 from behave import *
-from utils import misc
-
+from utils import misc, system
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
     stmt_to_op = ['must', 'must not']
@@ -40,22 +39,32 @@ def step_impl(context, entity, condition, directness, other_entity):
 
     misc.handle_errors(context, errors)
 
-@then('Each {entity} {condition} be a part of {other_entities}')
-def step_impl(context, entity, condition, other_entities):
-    stmt_to_op = ['must', 'must not']
-    assert condition in stmt_to_op
-    expect_part = True if condition == 'must' else False
+@then('Each {entity} must keep the spatial structure described in spatial_CompositionTable.csv')
+def step_impl(context, entity):
 
+    spatial_composition_tbl_path = system.get_abs_path(f"resources/spatial_CompositionTable.csv")
+    spatial_composition_tbl = system.get_csv(spatial_composition_tbl_path, return_type='dict')
+    agg_spatial_composition_tbl = {}
+    for d in spatial_composition_tbl:
+        applicable_entity = d["ApplicableEntity"]
+        relating_object = d["RelatingObject"]
+        if applicable_entity in agg_spatial_composition_tbl:
+            agg_spatial_composition_tbl[applicable_entity].append(relating_object)
+        else:
+            agg_spatial_composition_tbl[applicable_entity] = [relating_object]
     errors = []
 
     if context.instances and getattr(context, 'applicable', True):
-        other_entities = other_entities.split(' or ')
         for ent in context.model.by_type(entity):
-            aggregates_relation = ent.Decomposes[0] # TODO check if relation is 1:1
+            for applicable_entity in agg_spatial_composition_tbl.keys():
+                if ent.is_a(applicable_entity):
+                    break
+            aggregates_relation = ent.Decomposes[0]  # TODO check if relation is 1:1
             relating_object = aggregates_relation.RelatingObject
-            is_part = any(relating_object.is_a(other_entity) for other_entity in other_entities)
-            if is_part != expect_part:
-                errors.append(err.InstanceStructureError(ent, [other_entities], 'part of', optional_values={'condition': condition}))
+            expected_relating_objects = agg_spatial_composition_tbl[applicable_entity]
+            is_correct = any(relating_object.is_a(expected_relating_object) for expected_relating_object in expected_relating_objects)
+            if not is_correct:
+                errors.append(err.InstanceStructureError(ent, [expected_relating_objects], 'part of', optional_values={'condition': 'must'}))
     misc.handle_errors(context, errors)
 
 

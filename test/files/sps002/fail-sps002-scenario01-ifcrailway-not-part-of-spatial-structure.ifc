@@ -1,10 +1,13 @@
 ISO-10303-21;
-/*  Testfile: pass-als003-alignment-cant-shape-representation.ifc */
-/*  IFC-Requirement: als003; Alignment cant shape representation in IFC */
+/*  Testfile: fail-sps002-scenario01-ifcrailway-not-part-of-spatial-structure.ifc */
+/*  Testcase: SPS-002; IfcRailway not part of spatial structure */
+/*            IfcRailway not being part of IfcProject or IfcSite or another IfcFacility should fail. Injected Defect: IfcRailway IfcRelAggregates relationship deleted/
+/*  Fails in bSI validation service (Gherkin featureset) */
+/*  IFC-Requirement: SPS-002 - Correct spatial breakdown */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('pass-als003-alignment-cant-shape-representation.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Python+IfcOpenShell', 'BC-002; Stationing on Alignment');
-FILE_SCHEMA(('IFC4x3'));
+FILE_NAME ('fail-sps002-scenario01-ifcrailway-not-part-of-spatial-structure.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Failure File Production', 'Python+IfcOpenShell', 'BC-002; Correct spatial breakdown','');
+FILE_SCHEMA(('IFC4X3_ADD1'));
 ENDSEC;
 DATA;
 #1=IFCPROJECT('1FNFy8AJeHwwz7wDZHIYIu',#3,'IFC Rail Referencedata - STN01','IFC-Referencefile for bSI Implementerforum testcase STN01',$,'Longname','Design',$,#9);
@@ -23,7 +26,6 @@ DATA;
 #15=IFCRAILWAY('1FNFy9AJeHwuVmwDZHIYIu',#3,'optional Railway Name','optional Railway Description',$,#14,$,'Longname for Railway track geometry (alignment)',$,$);
 #16=IFCDIRECTION((0.,1.));
 #17=IFCGEOMETRICREPRESENTATIONCONTEXT($,'MODEL',3,1.E-5,#13,#16);
-#18=IFCRELAGGREGATES('1FNFyAAJeHwu6TwDZHIYIu',#3,'Documentation Container','',#1,(#15));
 #19=IFCRELCONTAINEDINSPATIALSTRUCTURE('03i4Q74lTCSfyjWY1SVWWM',#3,'IfcProducts contained in myIfcRailway','Container for IfcProject, collects relevant products',(#27),#15);
 #20=IFCSIUNIT(*,.PLANEANGLEUNIT.,$,.RADIAN.);
 #21=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);

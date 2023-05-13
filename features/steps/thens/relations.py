@@ -39,32 +39,43 @@ def step_impl(context, entity, condition, directness, other_entity):
 
     misc.handle_errors(context, errors)
 
-@then('Each {entity} must keep the spatial structure described in spatial_CompositionTable.csv')
-def step_impl(context, entity):
+@then('Each {entity} must be {relationship} {preposition} other {other_entity} as per {table}')
+def step_impl(context, entity, relationship, preposition, other_entity, table):
 
-    spatial_composition_tbl_path = system.get_abs_path(f"resources/spatial_CompositionTable.csv")
-    spatial_composition_tbl = system.get_csv(spatial_composition_tbl_path, return_type='dict')
-    agg_spatial_composition_tbl = {}
-    for d in spatial_composition_tbl:
-        applicable_entity = d["ApplicableEntity"]
-        relating_object = d["RelatingObject"]
-        if applicable_entity in agg_spatial_composition_tbl:
-            agg_spatial_composition_tbl[applicable_entity].append(relating_object)
+    stmt_to_op = {'aggregated': 'Decomposes'}
+    assert relationship in stmt_to_op
+
+    tbl_path = system.get_abs_path(f"resources/{table}")
+    tbl = system.get_csv(tbl_path, return_type='dict')
+
+    ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
+
+    aggregated_table = {}
+
+    for d in tbl:
+        applicable_entity = d[ent_tbl_header]
+        tbl_relationship_object = d[relationship_tbl_header]
+        if applicable_entity in aggregated_table:
+            aggregated_table[applicable_entity].append(tbl_relationship_object)
         else:
-            agg_spatial_composition_tbl[applicable_entity] = [relating_object]
+            aggregated_table[applicable_entity] = [tbl_relationship_object]
     errors = []
 
     if context.instances and getattr(context, 'applicable', True):
         for ent in context.model.by_type(entity):
-            for applicable_entity in agg_spatial_composition_tbl.keys():
+            for applicable_entity in aggregated_table.keys(): # check which applicable entity the currently processed entity is (inheritance), e.g IfcRailway -> IfcFacility
                 if ent.is_a(applicable_entity):
-                    break
-            aggregates_relation = ent.Decomposes[0]  # TODO check if relation is 1:1
-            relating_object = aggregates_relation.RelatingObject
-            expected_relating_objects = agg_spatial_composition_tbl[applicable_entity]
-            is_correct = any(relating_object.is_a(expected_relating_object) for expected_relating_object in expected_relating_objects)
+                    break # TODO - > is the hierarchy important?
+            expected_relationship_objects = aggregated_table[applicable_entity]
+            try:
+                relation = getattr(ent, stmt_to_op[relationship], True)[0]  # TODO check if relation is always 1:1 regardless of the relationship
+            except IndexError: # no relationship found for the entity
+                errors.append(err.InstanceStructureError(ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+                continue
+            relationship_object = getattr(relation, relationship_tbl_header, True)
+            is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
-                errors.append(err.InstanceStructureError(ent, [expected_relating_objects], 'part of', optional_values={'condition': 'must'}))
+                errors.append(err.InstanceStructureError(ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
     misc.handle_errors(context, errors)
 
 

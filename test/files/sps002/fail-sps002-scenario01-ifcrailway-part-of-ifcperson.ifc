@@ -1,10 +1,13 @@
 ISO-10303-21;
-/*  Testfile: pass-als003-alignment-cant-shape-representation.ifc */
-/*  IFC-Requirement: als003; Alignment cant shape representation in IFC */
+/*  Testfile: fail-sps002-scenario01-ifcrailway-part-of-ifcperson.ifc */
+/*  Testcase: SPS-002; IfcRailway part of IfcPerson */
+/*            IfcRailway not being part of IfcProject or IfcSite or another IfcFacility should fail. Injected Defect: IfcRailway IfcRelAggregates relationship directed to IfcPerson/
+/*  Fails in bSI validation service (Gherkin featureset) */
+/*  IFC-Requirement: SPS-002 - Correct spatial breakdown */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('pass-als003-alignment-cant-shape-representation.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Python+IfcOpenShell', 'BC-002; Stationing on Alignment');
-FILE_SCHEMA(('IFC4x3'));
+FILE_NAME ('fail-sps002-scenario01-ifcrailway-part-of-ifcperson.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Failure File Production', 'Python+IfcOpenShell', 'BC-002; Correct spatial breakdown','');
+FILE_SCHEMA(('IFC4X3_ADD1'));
 ENDSEC;
 DATA;
 #1=IFCPROJECT('1FNFy8AJeHwwz7wDZHIYIu',#3,'IFC Rail Referencedata - STN01','IFC-Referencefile for bSI Implementerforum testcase STN01',$,'Longname','Design',$,#9);

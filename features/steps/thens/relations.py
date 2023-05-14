@@ -68,14 +68,20 @@ def step_impl(context, entity, relationship, preposition, other_entity, table):
                     break # TODO - > is the hierarchy important?
             expected_relationship_objects = aggregated_table[applicable_entity]
             try:
-                relation = getattr(ent, stmt_to_op[relationship], True)[0]  # TODO check if relation is always 1:1 regardless of the relationship
+                relation = getattr(ent, stmt_to_op[relationship], True)[0]
             except IndexError: # no relationship found for the entity
                 errors.append(err.InstanceStructureError(ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
                 continue
-            relationship_object = getattr(relation, relationship_tbl_header, True)
-            is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
-            if not is_correct:
-                errors.append(err.InstanceStructureError(ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+            relationship_objects = getattr(relation, relationship_tbl_header, True)
+            if isinstance(relationship_objects, tuple):
+                for relationship_object in relationship_objects:
+                    is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
+                    if not is_correct:
+                        errors.append(err.InstanceStructureError(ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+            else:
+                is_correct = any(relationship_objects.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
+                if not is_correct:
+                    errors.append(err.InstanceStructureError(ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
     misc.handle_errors(context, errors)
 
 

@@ -14,9 +14,12 @@ def step_impl(context, something, num):
                 context.model, inst, Counter, oriented=something == "oriented edge"
             )
             invalid = {ed for ed, cnt in edge_usage.items() if cnt != num}
+            valid = {ed for ed, cnt in edge_usage.items() if cnt == num}
             for ed in invalid:
-                yield err.EdgeUseError(inst, ed, edge_usage[ed])
-
+                yield err.EdgeUseError(False, inst, ed, edge_usage[ed])
+            for ed in valid:
+                if context.error_on_passed_rule:
+                    yield err.RuleSuccessInst(True, inst)
     misc.handle_errors(context, list(_()))
 
 @then("Its first and last point must be identical by reference")
@@ -26,6 +29,8 @@ def step_impl(context):
         for instance in context.instances:
             points = geometry.get_points(instance, return_type='points')
             if points[0] != points[-1]:
-                errors.append(err.PolyobjectPointReferenceError(instance, points))
+                errors.append(err.PolyobjectPointReferenceError(False, instance, points))
+            elif context.error_on_passed_rule:
+                errors.append(err.RuleSuccessInst(True, instance))
 
         misc.handle_errors(context, errors)

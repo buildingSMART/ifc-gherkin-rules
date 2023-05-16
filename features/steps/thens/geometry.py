@@ -8,6 +8,7 @@ from utils import geometry, ifc, misc
 @then("It must have no duplicate points {clause} first and last point")
 def step_impl(context, clause):
     assert clause in ('including', 'excluding')
+    emitted_one_passing = False
     if getattr(context, 'applicable', True):
         errors = []
         for instance in context.instances:
@@ -26,8 +27,9 @@ def step_impl(context, clause):
                 comparison_nr += 1
             if duplicates:
                 errors.append(err.PolyobjectDuplicatePointsError(False, instance, duplicates))
-            elif context.error_on_passed_rule:
+            elif context.error_on_passed_rule and not emitted_one_passing:
                 errors.append(err.RuleSuccessInst(True, instance))
+                emitted_one_passing = True
         misc.handle_errors(context, errors)
 
 

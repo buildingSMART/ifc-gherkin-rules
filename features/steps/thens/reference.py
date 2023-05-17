@@ -7,10 +7,9 @@ from utils import geometry, misc
 @then("Every {something} must be referenced exactly {num:d} times by the loops of the face")
 def step_impl(context, something, num):
     assert something in ("edge", "oriented edge")
-    
-    emitted_one_passing = False
 
     def _():
+        emitted_one_passing = False
         for inst in context.instances:
             edge_usage = geometry.get_edges(
                 context.model, inst, Counter, oriented=something == "oriented edge"

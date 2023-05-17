@@ -39,8 +39,8 @@ def step_impl(context, entity, condition, directness, other_entity):
 
     misc.handle_errors(context, errors)
 
-@then('Each {entity} must be {relationship} {preposition} other {other_entity} as per {table}')
-def step_impl(context, entity, relationship, preposition, other_entity, table):
+@then('Each {entity} must be {relationship} as per {table}')
+def step_impl(context, entity, relationship, table):
 
     stmt_to_op = {'aggregated': 'Decomposes'}
     assert relationship in stmt_to_op

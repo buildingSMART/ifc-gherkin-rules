@@ -31,11 +31,11 @@ def get_remote(cwd):
 def get_commits(cwd, feature_file):
     return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
 
-
-def do_try(fn, default=None):
+def do_try(fn, default=None, msg=None):
     try:
         return fn()
     except:
+        if msg: print(msg)
         import traceback
         traceback.print_exc()
         return default

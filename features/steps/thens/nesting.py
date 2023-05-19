@@ -76,9 +76,9 @@ def step_impl(context, entity, fragment, other_entity):
                 if condition == 'only 1' and len(correct_elements) > 1:
                     errors.append(err.InstanceStructureError(False, inst, correct_elements, f'{error_log_txt}'))
                 if condition == 'a list of only':
-                    if len(getattr(inst, extr['attribute'], [])) > 1:
-                        errors.append(err.InstanceStructureError(False, f'{error_log_txt} more than 1 list, including'))
-                    elif len(false_elements):
+                    # if len(getattr(inst, extr['attribute'], [])) > 1:
+                    #     errors.append(err.InstanceStructureError(False, f'{error_log_txt} more than 1 list, including'))
+                    if len(false_elements):
                         errors.append(err.InstanceStructureError(False, inst, false_elements, f'{error_log_txt} a list that includes'))
                 if condition == 'only' and len(false_elements):
                     errors.append(err.InstanceStructureError(False, inst, correct_elements, f'{error_log_txt}'))

@@ -37,3 +37,17 @@ def step_impl(context, relationship_type, entity):
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
     context.instances = list(filter(lambda inst: misc.do_try(lambda: getattr(getattr(inst, extr['attribute'])[0], extr['object_placement']).is_a(entity), False), context.instances))
+
+
+@given('it is {first_last_or_neither} in relationship "{attr}"')
+def step_impl(context, first_last_or_neither, attr):
+    valid_preds = {"first": slice(0,1), "last": slice(-1,None), "neither first nor last": slice(1,-1)}
+
+    assert (first_last_or_neither[0], first_last_or_neither[-1]) == ('[', ']')
+    assert (slc := valid_preds.get(first_last_or_neither[1:-1]))
+
+    filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
+    related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
+
+    rel_to_related = lambda rel: getattr(rel, related_attr_matrix[rel.is_a()])
+    context.instances = [inst for inst in context.instances if inst in rel_to_related(getattr(inst, attr)[0])[slc]]

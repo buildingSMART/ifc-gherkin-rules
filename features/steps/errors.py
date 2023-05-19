@@ -176,3 +176,12 @@ class RepresentationTypeError(RuleState):
 
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
+
+
+@dataclass
+class TemplateValuationError:
+    inst: ifcopenshell.entity_instance
+    message : str
+
+    def __str__(self):
+        return f"On instance {misc.fmt(self.inst)} there is a template error. {self.message}"

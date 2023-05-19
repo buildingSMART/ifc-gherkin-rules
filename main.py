@@ -28,10 +28,11 @@ def get_remote(cwd):
 def get_commits(cwd, feature_file):
     return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
 
-def do_try(fn, default=None):
+def do_try(fn, default=None, msg=None):
     try:
         return fn()
     except:
+        if msg: print(msg)
         import traceback
         traceback.print_exc()
         return default
@@ -85,7 +86,7 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
                     step_name = step['name']
                     step_status = step.get('result', {}).get('status')
                     if step_status and step_status != 'passed':
-                        for occurence in do_try(lambda: list(map(json.loads, step['result']['error_message'][1:])), ()):
+                        for occurence in do_try(lambda: list(map(json.loads, step['result']['error_message'][1:])), (), step['result']['error_message'][1:]):
                             inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
                             yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, occurence["message"]
 

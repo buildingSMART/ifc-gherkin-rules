@@ -11,6 +11,7 @@ def step_impl(context, something, num):
     emitted_one_passing = False
 
     def _():
+        nonlocal emitted_one_passing
         for inst in context.instances:
             edge_usage = geometry.get_edges(
                 context.model, inst, Counter, oriented=something == "oriented edge"

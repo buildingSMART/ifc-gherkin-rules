@@ -12,8 +12,9 @@ def step_impl(context, representation_id):
             if inst.Representation:
                 present = representation_id in map(operator.attrgetter('RepresentationIdentifier'), inst.Representation.Representations)
                 if not present:
-                    errors.append(err.RepresentationShapeError(inst, representation_id))
-
+                    errors.append(err.RepresentationShapeError(False, inst, representation_id))
+                elif context.error_on_passed_rule:
+                    errors.append(err.RuleSuccessInst(True, inst))
     misc.handle_errors(context, errors)
 
 
@@ -26,6 +27,7 @@ def step_impl(context, constraint, num, entity):
     if getattr(context, 'applicable', True):
         insts = context.model.by_type(entity)
         if not op(len(insts), num):
-            errors.append(err.InstanceCountError(insts, entity))
-
+            errors.append(err.InstanceCountError(False, insts, entity))
+        elif context.error_on_passed_rule:
+            errors.append(err.RuleSuccessInsts(True, insts))
     misc.handle_errors(context, errors)

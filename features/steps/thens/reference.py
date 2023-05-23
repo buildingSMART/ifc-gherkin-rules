@@ -9,7 +9,7 @@ def step_impl(context, something, num):
     assert something in ("edge", "oriented edge")
 
     def _():
-        emitted_one_passing = False
+        nonlocal emitted_one_passing
         for inst in context.instances:
             edge_usage = geometry.get_edges(
                 context.model, inst, Counter, oriented=something == "oriented edge"

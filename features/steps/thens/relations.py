@@ -5,6 +5,7 @@ from utils import misc, system
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
+    context.run_via_pytest
     stmt_to_op = ['must', 'must not']
     assert condition in stmt_to_op
 
@@ -36,7 +37,9 @@ def step_impl(context, entity, condition, directness, other_entity):
             directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
             directness_expected = condition == 'must'  # check if relationship is expected
             if directness_achieved != directness_expected:
-                errors.append(err.InstanceStructureError(ent, [relating_spatial_element], 'contained', optional_values={'condition': condition, 'directness': directness}))
+                errors.append(err.InstanceStructureError(False, ent, [relating_spatial_element], 'contained', optional_values={'condition': condition, 'directness': directness}))
+            elif context.run_via_pytest:
+                errors.append(err.RuleSuccess(True, ent))
     misc.handle_errors(context, errors)
 
 @then('Each {entity} must be {relationship} {preposition} {other_entity} as per {table}')
@@ -101,6 +104,8 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        errors.append(err.InstanceStructureError(inst, [rel.RelatingObject], 'assigned to'))
+                        errors.append(err.InstanceStructureError(False, inst, [rel.RelatingObject], 'assigned to'))
+                    elif context.error_on_passed_rule:
+                        errors.append(err.RuleSuccessInst(True, inst))
 
     misc.handle_errors(context, errors)

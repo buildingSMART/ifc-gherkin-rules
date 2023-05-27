@@ -15,14 +15,33 @@ except ImportError:
 rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
 rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), sys.argv[1:]))
 
-test_files = []
-for code in rule_codes:
-    paths = glob.glob(os.path.join(os.path.dirname(__file__), "files/", code.lower(), "*.ifc"))
-    if not paths:
-        print(f"No IFC files were found for the following rule code: {code}. Please provide test files or verify the input.")
-    test_files.extend(paths)
+def get_test_files():
+    """
+    Option -> Example
+    Test files for a rule -> 'python3 test_main.py alb001'
+    Also applies for multiple rules -> 'python3 test_main.py alb001 alb002'
+    Test files for a single file -> 'python3 test_main.py <path>.ifc
+    Also applies for multiple files -> 'python3 test_main.py <path1>.ifc <path2>.ifc'
+    Codes and rules can also be combined -> 'python3 test_main.py alb001 <path>.ifc'
+    """
+    rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
+    rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), sys.argv[1:]))
 
-@pytest.mark.parametrize("filename", test_files)
+    test_files = []
+    for code in rule_codes:
+        paths = glob.glob(os.path.join(os.path.dirname(__file__), "files/", code.lower(), "*.ifc"))
+        if not paths:
+            print(f"No IFC files were found for the following rule code: {code}. Please provide test files or verify the input.")
+        test_files.extend(paths)
+
+    file_pattern =  r".*\.ifc(\')?$" #matches ".ifc" and "ifc'"
+    test_files.extend([s.strip("'") for s in sys.argv if re.match(file_pattern, s)])
+
+    if not test_files: # for example, with 'pytest -sv'
+        test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/**/*.ifc"), recursive=True)
+    return test_files
+
+@pytest.mark.parametrize("filename", get_test_files())
 def test_invocation(filename):
     results = list(run(filename))
     base = os.path.basename(filename)

@@ -8,25 +8,23 @@ from utils import ifc, misc
 
 
 @then('Each {entity} must be nested by {constraint} {num:d} instance(s) of {other_entity}')
+@err.handle_errors
 def step_impl(context, entity, num, constraint, other_entity):
     stmt_to_op = {'exactly': operator.eq, "at most": operator.le}
     assert constraint in stmt_to_op
     op = stmt_to_op[constraint]
 
-    errors = []
-
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
             if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
-                errors.append(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
+                yield(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
             elif context.error_on_passed_rule:
-                errors.append(err.RuleSuccessInst(True, inst))
-
-    misc.handle_errors(context, errors)
+                yield(err.RuleSuccessInst(True, inst))
 
 
 @then('Each {entity} may be nested by only the following entities: {other_entities}')
+@err.handle_errors
 def step_impl(context, entity, other_entities):
     allowed_entity_types = set(map(str.strip, other_entities.split(',')))
 
@@ -37,11 +35,9 @@ def step_impl(context, entity, other_entities):
             nested_entity_types = set(i.is_a() for i in nested_entities)
             if not nested_entity_types <= allowed_entity_types:
                 differences = list(nested_entity_types - allowed_entity_types)
-                errors.append(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
+                yield(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
             elif context.error_on_passed_rule:
-                errors.append(err.RuleSuccessInst(True, inst))
-
-    misc.handle_errors(context, errors)
+                yield(err.RuleSuccessInst(True, inst))
 
 
 @then('Each {entity} {fragment} instance(s) of {other_entity}')
@@ -84,4 +80,4 @@ def step_impl(context, entity, fragment, other_entity):
                     errors.append(err.InstanceStructureError(False, inst, correct_elements, f'{error_log_txt}'))
             if len(errors) == amount_of_errors and context.error_on_passed_rule:
                 errors.append(err.RuleSuccessInst(True, inst))
-    misc.handle_errors(context, errors)
+    err.generate_error_message(context, errors)

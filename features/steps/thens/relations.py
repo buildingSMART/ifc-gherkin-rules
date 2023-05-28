@@ -4,6 +4,7 @@ from behave import *
 from utils import misc
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
+@err.handle_errors
 def step_impl(context, entity, condition, directness, other_entity):
     context.run_via_pytest
     stmt_to_op = ['must', 'must not']
@@ -13,8 +14,6 @@ def step_impl(context, entity, condition, directness, other_entity):
     assert directness in stmt_about_directness
     required_directness = {directness} if directness not in ['directly or indirectly', 'indirectly or directly'] else {
         'directly', 'indirectly'}
-
-    errors = []
 
     if context.instances and getattr(context, 'applicable', True):
         for ent in context.model.by_type(entity):
@@ -37,21 +36,18 @@ def step_impl(context, entity, condition, directness, other_entity):
             directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
             directness_expected = condition == 'must'  # check if relationship is expected
             if directness_achieved != directness_expected:
-                errors.append(err.InstanceStructureError(False, ent, [other_entity], 'contained', optional_values={'condition': condition, 'directness': directness}))
+                yield(err.InstanceStructureError(False, ent, [other_entity], 'contained', optional_values={'condition': condition, 'directness': directness}))
             elif context.run_via_pytest:
-                errors.append(err.RuleSuccess(True, ent))
-
-    misc.handle_errors(context, errors)
+                yield(err.RuleSuccess(True, ent))
 
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
+@err.handle_errors
 def step_impl(context, related, relating, other_entity, condition):
     # @todo reverse order to relating -> nest-relationship -> related
     pred = misc.stmt_to_op(condition)
 
     op = lambda n: not pred(n, 0)
-
-    errors = []
 
     if getattr(context, 'applicable', True):
 
@@ -60,8 +56,6 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        errors.append(err.InstanceStructureError(False, inst, [rel.RelatingObject], 'assigned to'))
+                        yield(err.InstanceStructureError(False, inst, [rel.RelatingObject], 'assigned to'))
                     elif context.error_on_passed_rule:
-                        errors.append(err.RuleSuccessInst(True, inst))
-
-    misc.handle_errors(context, errors)
+                        yield(err.RuleSuccessInst(True, inst))

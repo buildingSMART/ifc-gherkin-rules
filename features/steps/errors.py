@@ -1,10 +1,22 @@
 import ifcopenshell
 import typing
+import json
 
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import Union
 from utils import geometry, ifc, misc, system
+
+def handle_errors(fn):
+    def inner(*args, **kwargs):
+        generate_error_message(*args, list(fn(*args, **kwargs))) # context is always *args[0]
+    return inner
+
+def generate_error_message(context, errors):
+    error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str
+    assert not errors, "Errors occured:\n{}".format(
+        "\n".join(map(error_formatter, errors))
+    )
 
 @dataclass
 class RuleState:

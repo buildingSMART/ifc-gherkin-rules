@@ -69,4 +69,4 @@ def step_impl(context, constraint, num=None):
                 if len(errors) == amount_of_errors and context.error_on_passed_rule:
                     errors.append(err.RuleSuccessInst(True, values))
 
-    misc.handle_errors(context, errors)
+    err.generate_error_message(context, errors)

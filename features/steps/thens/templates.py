@@ -47,7 +47,7 @@ def step_impl(context, grouping, key, value, value_2 = None):
                 values = set(d.get(key) for d in vs)
                 invalid = values - required
                 if invalid:
-                    errors.append(err.TemplateValuationError(inst, f"{' '.join(invalid)} do not match {' or '.join(required)}"))
+                    errors.append(err.TemplateValuationError(False, inst, f"{' '.join(invalid)} do not match {' or '.join(required)}"))
         
     misc.handle_errors(context, errors)        
 
@@ -62,7 +62,7 @@ def step_impl(context, values, key, num):
             if vs:
                 filtered = [v for d in vs if (v := d.get(key))]
                 if len(filtered) != num:
-                    errors.append(err.TemplateValuationError(inst, f"has {len(filtered)} values for {key}"))
+                    errors.append(err.TemplateValuationError(False, inst, f"has {len(filtered)} values for {key}"))
         
     misc.handle_errors(context, errors)
 
@@ -77,6 +77,6 @@ def step_impl(context, values, article, key, value):
             if vs:
                 filtered = [v for d in vs if (v := d.get(key))]
                 if value not in filtered:
-                    errors.append(err.TemplateValuationError(inst, f"{' '.join(filtered)} do not contain {value}"))
+                    errors.append(err.TemplateValuationError(False, inst, f"{' '.join(filtered)} do not contain {value}"))
 
     misc.handle_errors(context, errors)

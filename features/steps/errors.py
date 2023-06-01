@@ -179,7 +179,7 @@ class RepresentationTypeError(RuleState):
 
 
 @dataclass
-class TemplateValuationError:
+class TemplateValuationError(RuleState):
     inst: ifcopenshell.entity_instance
     message : str
 

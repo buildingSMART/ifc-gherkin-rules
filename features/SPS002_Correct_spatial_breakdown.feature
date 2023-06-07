@@ -6,6 +6,6 @@ The possible allowed breakdown can be found in the csv file in the folder 'featu
 
   Scenario: Agreement on each IfcSpatialElement being aggregated as per spatial composition table.
 
-      Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+      Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3" or "IFC4"
       And An IfcSpatialElement
       Then Each IfcSpatialElement must be aggregated as per spatial_CompositionTable.csv

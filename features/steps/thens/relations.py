@@ -63,12 +63,13 @@ def step_impl(context, entity, relationship, table):
         else:
             aggregated_table[applicable_entity] = [tbl_relationship_object]
     errors = []
-
     if context.instances and getattr(context, 'applicable', True):
         for ent in context.model.by_type(entity):
             for applicable_entity in aggregated_table.keys(): # check which applicable entity the currently processed entity is (inheritance), e.g IfcRailway -> IfcFacility
                 if ent.is_a(applicable_entity):
                     break # TODO - > is the hierarchy important?
+            else: # no applicable entity found
+                raise Exception(f'Entity {entity} was not found in the {table}')
             expected_relationship_objects = aggregated_table[applicable_entity]
             try:
                 relation = getattr(ent, stmt_to_op[relationship], True)[0]

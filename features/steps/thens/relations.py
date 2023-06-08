@@ -53,15 +53,8 @@ def step_impl(context, entity, relationship, table):
 
     ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
 
-    aggregated_table = {}
 
-    for d in tbl:
-        applicable_entity = d[ent_tbl_header]
-        tbl_relationship_object = d[relationship_tbl_header]
-        if applicable_entity in aggregated_table:
-            aggregated_table[applicable_entity].append(tbl_relationship_object)
-        else:
-            aggregated_table[applicable_entity] = [tbl_relationship_object]
+    aggregated_table = misc.make_aggregrated_dict(tbl, ent_tbl_header, relationship_tbl_header)
     errors = []
     if context.instances and getattr(context, 'applicable', True):
         for ent in context.model.by_type(entity):

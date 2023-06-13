@@ -1,7 +1,7 @@
 import errors as err
 
 from behave import *
-from utils import misc, system
+from utils import ifc, misc, system
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
     context.run_via_pytest
@@ -58,11 +58,13 @@ def step_impl(context, entity, relationship, table):
     errors = []
     if context.instances and getattr(context, 'applicable', True):
         for ent in context.model.by_type(entity):
+            applicable_entities = []
             for applicable_entity in aggregated_table.keys(): # check which applicable entity the currently processed entity is (inheritance), e.g IfcRailway -> IfcFacility
                 if ent.is_a(applicable_entity):
-                    break # TODO - > is the hierarchy important?
-            else: # no applicable entity found
+                    applicable_entities.append(applicable_entity)
+            if len(applicable_entities) == 0: # no applicable entity found
                 raise Exception(f'Entity {entity} was not found in the {table}')
+            applicable_entity = ifc.order_by_ifc_inheritance(applicable_entities, base_class_last = True)[0]
             expected_relationship_objects = aggregated_table[applicable_entity]
             try:
                 relation = getattr(ent, stmt_to_op[relationship], True)[0]

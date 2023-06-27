@@ -1,11 +1,10 @@
 import errors as err
 
 from behave import *
-from utils import misc, system
+from utils import ifc, misc, system
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
-    context.run_via_pytest
     stmt_to_op = ['must', 'must not']
     assert condition in stmt_to_op
 
@@ -38,12 +37,12 @@ def step_impl(context, entity, condition, directness, other_entity):
             directness_expected = condition == 'must'  # check if relationship is expected
             if directness_achieved != directness_expected:
                 errors.append(err.InstanceStructureError(False, ent, [relating_spatial_element], 'contained', optional_values={'condition': condition, 'directness': directness}))
-            elif context.run_via_pytest:
+            elif context.error_on_passed_rule:
                 errors.append(err.RuleSuccess(True, ent))
     misc.handle_errors(context, errors)
 
-@then('Each {entity} must be {relationship} {preposition} {other_entity} as per {table}')
-def step_impl(context, entity, relationship, preposition, other_entity, table):
+@then('Each {entity} must be {relationship} as per {table}')
+def step_impl(context, entity, relationship, table):
 
     stmt_to_op = {'aggregated': 'Decomposes'}
     assert relationship in stmt_to_op
@@ -53,24 +52,19 @@ def step_impl(context, entity, relationship, preposition, other_entity, table):
 
     ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
 
-    aggregated_table = {}
 
-    for d in tbl:
-        applicable_entity = d[ent_tbl_header]
-        tbl_relationship_object = d[relationship_tbl_header]
-        if applicable_entity in aggregated_table:
-            aggregated_table[applicable_entity].append(tbl_relationship_object)
-        else:
-            aggregated_table[applicable_entity] = [tbl_relationship_object]
+    aggregated_table = misc.make_aggregrated_dict(tbl, ent_tbl_header, relationship_tbl_header)
     errors = []
-
     if context.instances and getattr(context, 'applicable', True):
         for ent in context.model.by_type(entity):
+            applicable_entities = []
             for applicable_entity in aggregated_table.keys(): # check which applicable entity the currently processed entity is (inheritance), e.g IfcRailway -> IfcFacility
                 if ent.is_a(applicable_entity):
-                    break # TODO - > is the hierarchy important?
+                    applicable_entities.append(applicable_entity)
+            if len(applicable_entities) == 0: # no applicable entity found
+                raise Exception(f'Entity {entity} was not found in the {table}')
+            applicable_entity = ifc.order_by_ifc_inheritance(applicable_entities, base_class_last = True)[0]
             expected_relationship_objects = aggregated_table[applicable_entity]
-
             try:
                 relation = getattr(ent, stmt_to_op[relationship], True)[0]
             except IndexError: # no relationship found for the entity

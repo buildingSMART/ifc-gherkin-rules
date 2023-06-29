@@ -7,5 +7,5 @@ The rule verifies, that each IfcAlignment is contained in an IfcProject, but not
 
       Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
       And An IfcAlignment
-      Then Each IfcAlignment must be aggregated as per spatial_CompositionTable.csv
-      And Each IfcAlignment must not be directly or indirectly contained in IfcSpatialElement
+      Then Each IfcAlignment must be aggregated to IfcProject directly or indirectly
+      #And Each IfcAlignment must not be directly or indirectly contained in IfcSpatialElement

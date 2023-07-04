@@ -141,29 +141,29 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
                     if check_directness:
                         observed_directness.update({'directly'})
                     if decision == 'must not':
-                        errors.append(err.RelationshipError(False, ent, decision, observed_directness, relationship, preposition, other_entity))
+                        errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
                         break
-                while len(getattr(relating_element, other_entity_reference)) > 0:
-                    relation = getattr(relating_element, other_entity_reference)[0]
-                    relating_element = getattr(relation, other_entity_relation)
-                    relationship_reached = relating_element.is_a(other_entity)
-                    if relationship_reached:
-                        if check_directness:
-                            observed_directness.update({'indirectly'})
-                            break
-                        if decision == 'must not':
-                            errors.append(err.RelationshipError(False, ent, decision, observed_directness, relationship, preposition, other_entity))
-                            break
+                if hasattr(relating_element, other_entity_reference): # in case the relation points to a wrong instance
+                    while len(getattr(relating_element, other_entity_reference)) > 0:
+                        relation = getattr(relating_element, other_entity_reference)[0]
+                        relating_element = getattr(relation, other_entity_relation)
+                        relationship_reached = relating_element.is_a(other_entity)
+                        if relationship_reached:
+                            if check_directness:
+                                observed_directness.update({'indirectly'})
+                                break
+                            if decision == 'must not':
+                                errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
+                                break
 
             if check_directness:
                 common_directness = required_directness & observed_directness  # values the required and observed situation have in common
                 directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
                 directness_expected = decision == 'must'  # check if relationship is expected
                 if directness_achieved != directness_expected:
-                    errors.append(err.RelationshipError(False, ent, decision, observed_directness, relationship, preposition, other_entity))
+                    errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
                 elif context.error_on_passed_rule:
                     errors.append(err.RuleSuccessInsts(True, ent))
-            if decision == 'must not' and not relationship_reached:
+            if context.error_on_passed_rule and decision == 'must not' and not relationship_reached:
                 errors.append(err.RuleSuccessInsts(True, ent))
-
     misc.handle_errors(context, errors)

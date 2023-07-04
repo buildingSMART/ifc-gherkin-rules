@@ -1,10 +1,10 @@
 ISO-10303-21;
-/*  Testfile: pass-alb004-correct-alignment-behaviour.ifc */
-/*  IFC-Requirement: alb004; Correct spatial behaviour */
+/*  Testfile: fail-alb004-contained-in-spatial-entity.ifc */
+/*  IFC-Requirement: alb004; Incorrect spatial behaviour */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('pass-alb004-correct-alignment-behaviour.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Python+IfcOpenShell', 'BC-002; correct spatial behaviour','');
-FILE_SCHEMA(('IFC4X3'));
+FILE_NAME ('fail-alb004-contained-in-spatial-entity.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Python+IfcOpenShell', 'BC-002; incorrect spatial behaviour','');
+FILE_SCHEMA(('IFC4X3_ADD1'));
 ENDSEC;
 DATA;
 #1=IFCPROJECT('1FNFy8AJeHwwz7wDZHIYIu',#3,'IFC Rail Referencedata - STN01','IFC-Referencefile for bSI Implementerforum testcase STN01',$,'Longname','Design',$,#9);
@@ -24,6 +24,7 @@ DATA;
 #16=IFCDIRECTION((0.,1.));
 #17=IFCGEOMETRICREPRESENTATIONCONTEXT($,'MODEL',3,1.E-5,#13,#16);
 #18=IFCRELAGGREGATES('1FNFyAAJeHwu6TwDZHIYIu',#3,'Documentation Container','',#1,(#15));
+#19=IFCRELCONTAINEDINSPATIALSTRUCTURE('03i4Q74lTCSfyjWY1SVWWM',#3,'IfcProducts contained in myIfcRailway','Container for IfcProject, collects relevant products',(#27),#15);
 #20=IFCSIUNIT(*,.PLANEANGLEUNIT.,$,.RADIAN.);
 #21=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);
 #22=IFCSIUNIT(*,.LENGTHUNIT.,$,.METRE.);
@@ -819,8 +820,6 @@ DATA;
 #812=IFCRELAGGREGATES('3b8WfIcbvBF9$9POverB7c',$,$,$,#15,(#809));
 #813=IFCORGANIZATION('TS aIFC4Rail','aIFC4Rail Technical services support','Providing services for buildingSMART International / Railwayroom project "aIFC4Rail" (applying IFC 4.3 in the rail industry sector)',$,$);
 #814=IFCAPPLICATION(#813,'1.0','IfcRail TS support scripts','TS scripts');
-#815=IFCRELAGGREGATES('1FNFyAAJeHwu6TwDZHIYIu',#3,'Documentation Container','',#816,(#27));
-#816= IFCBUILDING('0Cd2Mw3cP09wW6qWHK8v2f',$,'IfcBuilding',$,$,#51,$,$,.ELEMENT.,$,$,#57);
-#817=IFCRELAGGREGATES('1FNFyAAJeHwu6TwDZHIYIu',#3,'Documentation Container','',#1,(#816));
+#815=IFCRELAGGREGATES('1FNFyAAJeHwu6TwDZHIYIu',#3,'Documentation Container','',#1,(#27));
 ENDSEC;
 END-ISO-10303-21;

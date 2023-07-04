@@ -1,9 +1,10 @@
 @implementer-agreement
 @ALB
 Feature: ALB004 - Alignment in spatial structure
-The rule verifies, that each IfcAlignment is contained in an IfcProject, but not contained in spatial structure.
+The rule verifies, that each IfcAlignment must be related to IfcProject using the IfcRelAggregates relationship - either directly or indirectly. The indirect case is when a child alignment is aggregated to a parent alignment.
+In this case, only the parent alignment shall be related to the project. Additionally instances of IfcAlignment must not be related to spatial entities using the IfcRelContainedInSpatialStructure relationship.
 
-  Scenario: Agreement on each IfcAlignment being contained in an IfcProject and not in spatial structure
+  Scenario: Agreement on each IfcAlignment being aggregated to IfcProject and not contained in IfcSpatialElement
 
       Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
       And An IfcAlignment

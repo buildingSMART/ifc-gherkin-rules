@@ -188,6 +188,9 @@ class RelationshipError(RuleState):
     other_entity: str
     def __str__(self):
 
-        decision = 'not' if self.decision == 'must' else ''
+        if self.decision == 'must':
+            decision_str = 'not'
+        elif self.decision == 'must not':
+            decision_str = ''
 
-        return f"The instance {self.entity} is {decision} {self.condition} {self.relationship} {self.preposition} {self.other_entity}"
+        return f"The instance {self.entity} is {decision_str} {self.condition} {self.relationship} {self.preposition} {self.other_entity}"

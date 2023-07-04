@@ -1,7 +1,7 @@
 import errors as err
 
 from behave import *
-from utils import ifc, misc, system
+from utils import misc, system
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
@@ -41,46 +41,6 @@ def step_impl(context, entity, condition, directness, other_entity):
                 errors.append(err.RuleSuccessInsts(True, ent))
     misc.handle_errors(context, errors)
 
-@then('Each {entity} must be {relationship} as per {table}')
-def step_impl(context, entity, relationship, table):
-
-    stmt_to_op = {'aggregated': 'Decomposes'}
-    assert relationship in stmt_to_op
-
-    tbl_path = system.get_abs_path(f"resources/{table}")
-    tbl = system.get_csv(tbl_path, return_type='dict')
-
-    ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
-
-
-    aggregated_table = misc.make_aggregrated_dict(tbl, ent_tbl_header, relationship_tbl_header)
-    errors = []
-    if context.instances and getattr(context, 'applicable', True):
-        for ent in context.model.by_type(entity):
-            applicable_entities = []
-            for applicable_entity in aggregated_table.keys(): # check which applicable entity the currently processed entity is (inheritance), e.g IfcRailway -> IfcFacility
-                if ent.is_a(applicable_entity):
-                    applicable_entities.append(applicable_entity)
-            if len(applicable_entities) == 0: # no applicable entity found
-                raise Exception(f'Entity {entity} was not found in the {table}')
-            applicable_entity = ifc.order_by_ifc_inheritance(applicable_entities, base_class_last = True)[0]
-            expected_relationship_objects = aggregated_table[applicable_entity]
-            try:
-                relation = getattr(ent, stmt_to_op[relationship], True)[0]
-            except IndexError: # no relationship found for the entity
-                errors.append(err.InstanceStructureError(ent, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
-                continue
-            relationship_objects = getattr(relation, relationship_tbl_header, True)
-            if isinstance(relationship_objects, tuple):
-                for relationship_object in relationship_objects:
-                    is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
-                    if not is_correct:
-                        errors.append(err.InstanceStructureError(ent, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
-            else:
-                is_correct = any(relationship_objects.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
-                if not is_correct:
-                    errors.append(err.InstanceStructureError(ent, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
-    misc.handle_errors(context, errors)
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 def step_impl(context, related, relating, other_entity, condition):

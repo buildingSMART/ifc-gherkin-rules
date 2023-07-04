@@ -40,6 +40,7 @@ def instance_getter(i, representation_id, representation_type, negative=False):
         if condition(i, representation_id, representation_type):
             return i
 
+
 def recurrently_get_entity_attr(ifc_context, inst, entity_to_look_for, attr_to_get, attr_found=None):
     if attr_found is None:
         attr_found = set()

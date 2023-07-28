@@ -81,6 +81,18 @@ class Naming(ConfiguredBaseModel):
                 message=f"expected separator {valid_first_separator} but instead found {value}"
             )
         return value, values
+    
+    @field_validator('separators')
+    def validate_separators(cls, value, values):
+        separators = value
+        valid_separators = values.data['valid_separators']
+        unvalid_separators = [separator for separator in separators if separator != valid_separators]
+        if any(unvalid_separators):
+            raise ProtocolError(
+                value = separators,
+                message = f"expected {valid_separators} but found the following unvalid seperators {unvalid_separators}"
+            )
+        return value, values
 
 
 class RuleCreationConventions(ConfiguredBaseModel):

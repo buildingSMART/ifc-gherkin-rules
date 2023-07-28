@@ -1,10 +1,12 @@
 import typing
 import os
 import argparse
+import re
 
-from pydantic import BaseModel, model_validator, field_validator, Field
+from pydantic import BaseModel, model_validator, field_validator, Field, conlist
 
-from .validation_helper import ValidatorHelper, ParsePattern
+from rule_creation_protocol.validation_helper import ValidatorHelper, ParsePattern
+# from .validation_helper import ValidatorHelper, ParsePattern
 from .duplicate_registry import Registry
 from .errors import ProtocolError
 from .utils import replace_substrings
@@ -102,6 +104,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
     dotfeature_file: Naming  # either user input or test file
     ifc_input: dict
     tags: list
+    description : conlist(str, min_length=1) # fails if no description is provided
 
     @field_validator('tags')
     def do_validate_tags(cls, value) -> dict:
@@ -118,6 +121,17 @@ class RuleCreationConventions(ConfiguredBaseModel):
     def validate_ifc_input(cls, value):
         pass
 
+    @field_validator('description')
+    def validate_description(cls, value):
+        """must include a description of the rule that start with "The rule verifies that..."""
+
+        cleaned_value = ' '.join(re.sub(r'[^\w\s]', '', value[0]).split()[:4]) # allow for comma's
+        if not cleaned_value.lower() == 'the rule verifies that':
+            raise ProtocolError(
+                value = value,
+                message = f"The description must start with 'The rule verifies that', it now starts with {value}"
+            )
+    
 
 def enforce(context=False, feature=False, testing=False) -> bool:
     """Main function to validate feature and tagging conventions.
@@ -145,7 +159,8 @@ def enforce(context=False, feature=False, testing=False) -> bool:
                 'name': os.path.basename(context.config.userdata["input"]),
                 'valid_separators': '-'
             },
-            'tags': feature.tags
+            'tags': feature.tags,
+            'description': feature.description
         }
 
     feature = RuleCreationConventions(**feature_obj)

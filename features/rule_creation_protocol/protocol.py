@@ -122,15 +122,16 @@ class RuleCreationConventions(ConfiguredBaseModel):
         pass
 
     @field_validator('description')
-    def validate_description(cls, value):
+    def validate_description(cls, value = list) -> list:
         """must include a description of the rule that start with "The rule verifies that..."""
-
-        cleaned_value = ' '.join(re.sub(r'[^\w\s]', '', value[0]).split()[:4]) # allow for comma's
-        if not cleaned_value.lower() == 'the rule verifies that':
+        first_sentence = value[0]
+        cleaned_value = ' '.join(re.sub(r'[^\w\s]', '', first_sentence).split()[:4]) # allow for comma's
+        if not cleaned_value.lower() in ['the rule verifies that', 'this rule verifies that']: # allow 'this'
             raise ProtocolError(
                 value = value,
                 message = f"The description must start with 'The rule verifies that', it now starts with {value}"
             )
+        return value
     
 
 def enforce(context=False, feature=False, testing=False) -> bool:

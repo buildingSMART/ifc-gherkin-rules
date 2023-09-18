@@ -25,7 +25,7 @@ def get_test_files():
     Codes and rules can also be combined -> 'python3 test_main.py alb001 <path>.ifc'
     """
     rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
-    rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), sys.argv[1:]))
+    rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), [a for a in sys.argv[1:] if not a.startswith('-')]))
 
     test_files = []
     for code in rule_codes:

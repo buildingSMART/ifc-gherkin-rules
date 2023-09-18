@@ -46,9 +46,9 @@ def get_test_files():
 def test_invocation(filename):
     results = list(run(filename))
     base = os.path.basename(filename)
-    if base.startswith("pass-"):
-        results = [result for result in results if result[4] != 'Rule disabled']
-        results = [result for result in results if 'Rule passed' not in result[4]]
+    # if base.startswith("pass-"):
+    results = [result for result in results if result[4] != 'Rule disabled']
+    results = [result for result in results if 'Rule passed' not in result[4]]
     print()
     print(base)
     print()
@@ -65,4 +65,4 @@ def test_invocation(filename):
         assert len(results) == 0
 
 if __name__ == "__main__":
-    pytest.main(["-s", "-x", __file__])
+    pytest.main(["-s", __file__])

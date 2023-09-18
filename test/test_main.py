@@ -24,8 +24,9 @@ def get_test_files():
     Also applies for multiple files -> 'python3 test_main.py <path1>.ifc <path2>.ifc'
     Codes and rules can also be combined -> 'python3 test_main.py alb001 <path>.ifc'
     """
+    args = [a for a in sys.argv[1:] if not a.startswith('-')]
     rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
-    rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), [a for a in sys.argv[1:] if not a.startswith('-')]))
+    rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), args))
 
     test_files = []
     for code in rule_codes:
@@ -35,9 +36,9 @@ def get_test_files():
         test_files.extend(paths)
 
     file_pattern =  r".*\.ifc(\')?$" #matches ".ifc" and "ifc'"
-    test_files.extend([s.strip("'") for s in sys.argv if re.match(file_pattern, s)])
+    test_files.extend([s.strip("'") for s in args if re.match(file_pattern, s)])
 
-    if not test_files: # for example, with 'pytest -sv'
+    if not args: # for example, with 'pytest -sv'
         test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/**/*.ifc"), recursive=True)
     return test_files
 

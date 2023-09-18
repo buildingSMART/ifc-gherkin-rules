@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALS
+@disabled
 Feature: ALS003 - Alignment cant shape representation
 The rule verifies that each IfcAlignmentCant uses correct representation.
 

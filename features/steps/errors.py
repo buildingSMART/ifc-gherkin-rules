@@ -129,12 +129,12 @@ class InstanceStructureError(RuleState):
 
 @dataclass
 class InvalidValueError(RuleState):
-    related: ifcopenshell.entity_instance
+    inst: ifcopenshell.entity_instance
     attribute: str
     value: str
 
     def __str__(self):
-        return f"On instance {misc.fmt(self.related)} the following invalid value for {self.attribute} has been found: {self.value}"
+        return f"On instance {misc.fmt(self.inst)} the following invalid value for {self.attribute} has been found: {self.value}"
 
 
 @dataclass

@@ -30,11 +30,12 @@ def step_impl(context, constraint, num=None):
             for i, values in enumerate(instances):
                 if not values:
                     continue
+                amount_of_errors = len(errors)
                 attribute = getattr(context, 'attribute', None)
                 if constraint == 'identical' and not all([values[0] == i for i in values]):
                     incorrect_values = values  # a more general approach of going through stack frames to return relevant information in error message?
                     incorrect_insts = stack_tree[-1]
-                    errors.append(err.IdenticalValuesError(incorrect_insts, incorrect_values, attribute,))
+                    errors.append(err.IdenticalValuesError(False, incorrect_insts, incorrect_values, attribute,))
                 if constraint == 'unique':
                     seen = set()
                     duplicates = [x for x in values if x in seen or seen.add(x)]
@@ -47,12 +48,15 @@ def step_impl(context, constraint, num=None):
                     # avoid mentioning ifcopenshell.entity_instance twice in error message
                     report_incorrect_insts = any(misc.map_state(values, lambda v: misc.do_try(
                         lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-                    errors.append(err.DuplicateValueError(inst, incorrect_values, attribute, incorrect_insts, report_incorrect_insts))
+                    errors.append(err.DuplicateValueError(False, inst, incorrect_values, attribute, incorrect_insts, report_incorrect_insts))
+                if len(errors) == amount_of_errors and context.error_on_passed_rule:
+                    errors.append(err.RuleSuccessInst(True, values))
         if constraint[-5:] == ".csv'":
             csv_name = constraint.strip("'")
             for i, values in enumerate(instances):
                 if not values:
                     continue
+                amount_of_errors = len(errors)
                 attribute = getattr(context, 'attribute', None)
 
                 dirname = os.path.dirname(__file__)
@@ -61,6 +65,8 @@ def step_impl(context, constraint, num=None):
 
                 for iv, value in enumerate(values):
                     if not value in valid_values:
-                        errors.append(err.InvalidValueError([t[i] for t in stack_tree][1][iv], attribute, value))
+                        errors.append(err.InvalidValueError(False, [t[i] for t in stack_tree][1][iv], attribute, value))
+                if len(errors) == amount_of_errors and context.error_on_passed_rule:
+                    errors.append(err.RuleSuccessInst(True, values))
 
     misc.handle_errors(context, errors)

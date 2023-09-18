@@ -37,7 +37,9 @@ def step_impl(context, entity, other_entity, relationship):
                 if not entity_obj_placement_rel:
                     entity_obj_placement_rel = 'Not found'
                 if not is_correct:
-                    errors.append(err.InstancePlacementError(related_object, '', relating_object, relationship, relating_obj_placement, entity_obj_placement_rel))
+                    errors.append(err.InstancePlacementError(False, related_object, '', relating_object, relationship, relating_obj_placement, entity_obj_placement_rel))
+                elif context.error_on_passed_rule:
+                    errors.append(err.RuleSuccess(True, relating_object))
 
         misc.handle_errors(context, errors)
 
@@ -45,8 +47,9 @@ def step_impl(context, entity, other_entity, relationship):
 @then('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, representation_id, representation_type):
     errors = list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type, 1), context.instances))))
-    errors = [err.RepresentationTypeError(error, representation_id, representation_type) for error in errors]
-
+    errors = [err.RepresentationTypeError(False, error, representation_id, representation_type) for error in errors]
+    if not errors and context.error_on_passed_rule:
+        errors.append(err.RuleSuccessInst(True, representation_id))
     misc.handle_errors(context, errors)
 
 
@@ -56,7 +59,9 @@ def step_impl(context, entity, other_entity):
         errors = []
         for obj in context.instances:
             if not misc.do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
-                errors.append(err.InstancePlacementError(obj, other_entity, "", "", "", ""))
+                errors.append(err.InstancePlacementError(False, obj, other_entity, "", "", "", ""))
+            elif context.error_on_passed_rule:
+                errors.append(err.RuleSuccessInst(True, obj))
 
         misc.handle_errors(context, errors)
 
@@ -66,13 +71,16 @@ def step_impl(context, attribute, expected_entity_type):
 
     def _():
         for inst in context.instances:
-            if isinstance(inst, (tuple, list)):
-                inst = inst[0]
-            related_entity = getattr(inst, attribute, [])
-            if isinstance(related_entity, (tuple, list)):
-                related_entity = related_entity[0]
-            if isinstance(related_entity, (tuple, list)) or (not related_entity.is_a(expected_entity_type)):
-                yield err.AttributeTypeError(inst, [related_entity], attribute, expected_entity_type)
+            related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
+            errors = []
+            def accumulate_errors(i):
+                if not i.is_a(expected_entity_type):
+                    errors.append(err.AttributeTypeError(False, i, [related_entity], attribute, expected_entity_type))
+            misc.map_state(related_entity, accumulate_errors)
+            if errors:
+                yield from errors
+            elif context.error_on_passed_rule:
+                yield err.RuleSuccessInst(True, related_entity)
 
     misc.handle_errors(context, list(_()))
 

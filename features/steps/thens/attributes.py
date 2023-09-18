@@ -75,7 +75,7 @@ def step_impl(context, attribute, expected_entity_type):
             errors = []
             def accumulate_errors(i):
                 if not i.is_a(expected_entity_type):
-                    errors.append(err.AttributeTypeError(False, i, [related_entity], attribute, expected_entity_type))
+                    misc.map_state(inst, lambda x: errors.append(err.AttributeTypeError(False, x, [i], attribute, expected_entity_type)))
             misc.map_state(related_entity, accumulate_errors)
             if errors:
                 yield from errors
@@ -94,6 +94,8 @@ def step_impl(context, attribute, value):
                 inst = inst[0]
             attribute_value = getattr(inst, attribute, 'Attribute not found')
             if attribute_value != value:
-                errors.append(err.InvalidValueError(inst, attribute, attribute_value))
+                errors.append(err.InvalidValueError(False, inst, attribute, attribute_value))
+            elif context.error_on_passed_rule:
+                errors.append(err.RuleSuccessInst(True, inst))
 
         misc.handle_errors(context, errors)

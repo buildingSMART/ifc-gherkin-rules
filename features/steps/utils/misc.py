@@ -16,9 +16,15 @@ asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc
 
 def get_inst_attributes(dc):
     if hasattr(dc, 'inst'):
-        yield 'inst_guid', getattr(dc.inst, 'GlobalId', None)
-        yield 'inst_type', dc.inst.is_a()
-        yield 'inst_id', dc.inst.id()
+        if isinstance(dc.inst, ifcopenshell.entity_instance):
+            yield 'inst_guid', getattr(dc.inst, 'GlobalId', None)
+            yield 'inst_type', dc.inst.is_a()
+            yield 'inst_id', dc.inst.id()
+        else:
+            # apparently mostly for the rule passed logs...
+            # @todo fix this
+            yield 'inst_guid', None
+            yield 'inst_type', type(dc.inst).__name__
 
 
 def fmt(x):

@@ -71,7 +71,7 @@ for validity, case in [
                 f.createIfcCartesianPoint((0.0, 20.0)),
             )
         )
-        poly[0] += (poly[0][-1],)
+        poly[0] += (poly[0][0],)
         building.Representation = f.createIfcProductDefinitionShape(
             Representations=[
                 f.createIfcShapeRepresentation(

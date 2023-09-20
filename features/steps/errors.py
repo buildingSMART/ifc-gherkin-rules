@@ -6,9 +6,27 @@ from dataclasses import dataclass, field
 from typing import Union
 from utils import geometry, ifc, misc, system
 
+@dataclass
+class RuleState:
+    rule_passed: bool
 
 @dataclass
-class AttributeTypeError:
+class RuleSuccessInsts(RuleState):
+    insts: ifcopenshell.entity_instance
+
+    def __str__(self):
+        return f"The instance {self.insts} has passed the step criteria"
+
+@dataclass
+class RuleSuccessInst(RuleState):
+    inst: ifcopenshell.entity_instance
+
+    def __str__(self):
+        return f"The instance {self.inst} has passed the step criteria"
+
+
+@dataclass
+class AttributeTypeError(RuleState):
     inst: ifcopenshell.entity_instance
     related: Union[Sequence, ifcopenshell.entity_instance]
     attribute: str
@@ -18,11 +36,11 @@ class AttributeTypeError:
         if len(self.related):
             return f"The instance {self.inst} expected type '{self.expected_entity_type}' for the attribute {self.attribute}, but found {misc.fmt(self.related)}  "
         else:
-            return f"This instance {self.inst} has no value for attribute {self.attribute}"
+            return f"The instance {self.inst} has no value for attribute {self.attribute}"
 
 
 @dataclass
-class DuplicateValueError:
+class DuplicateValueError(RuleState):
     inst: ifcopenshell.entity_instance
     incorrect_values: typing.Sequence[typing.Any]
     attribute: str
@@ -39,7 +57,7 @@ class DuplicateValueError:
 
 
 @dataclass
-class EdgeUseError:
+class EdgeUseError(RuleState):
     inst: ifcopenshell.entity_instance
     edge: typing.Any
     count: int
@@ -49,7 +67,7 @@ class EdgeUseError:
 
 
 @dataclass
-class IdenticalValuesError:
+class IdenticalValuesError(RuleState):
     insts: typing.Sequence[ifcopenshell.entity_instance]
     incorrect_values: typing.Sequence[typing.Any]
     attribute: str
@@ -63,7 +81,7 @@ class IdenticalValuesError:
 
 
 @dataclass
-class InstanceCountError:
+class InstanceCountError(RuleState):
     insts: ifcopenshell.entity_instance
     type_name: str
 
@@ -75,7 +93,7 @@ class InstanceCountError:
 
 
 @dataclass
-class InstancePlacementError:
+class InstancePlacementError(RuleState):
     entity: ifcopenshell.entity_instance
     placement: str
     container: Union[str, ifcopenshell.entity_instance]
@@ -92,7 +110,7 @@ class InstancePlacementError:
 
 
 @dataclass
-class InstanceStructureError:
+class InstanceStructureError(RuleState):
     # @todo reverse order to relating -> nest-relationship -> related
     related: ifcopenshell.entity_instance
     relating: Union[Sequence, ifcopenshell.entity_instance]
@@ -110,17 +128,17 @@ class InstanceStructureError:
 
 
 @dataclass
-class InvalidValueError:
-    related: ifcopenshell.entity_instance
+class InvalidValueError(RuleState):
+    inst: ifcopenshell.entity_instance
     attribute: str
     value: str
 
     def __str__(self):
-        return f"On instance {misc.fmt(self.related)} the following invalid value for {self.attribute} has been found: {self.value}"
+        return f"On instance {misc.fmt(self.inst)} the following invalid value for {self.attribute} has been found: {self.value}"
 
 
 @dataclass
-class PolyobjectDuplicatePointsError:
+class PolyobjectDuplicatePointsError(RuleState):
     inst: ifcopenshell.entity_instance
     duplicates: set
 
@@ -133,7 +151,7 @@ class PolyobjectDuplicatePointsError:
 
 
 @dataclass
-class PolyobjectPointReferenceError:
+class PolyobjectPointReferenceError(RuleState):
     inst: ifcopenshell.entity_instance
     points: list
 
@@ -142,7 +160,7 @@ class PolyobjectPointReferenceError:
 
 
 @dataclass
-class RepresentationShapeError:
+class RepresentationShapeError(RuleState):
     inst: ifcopenshell.entity_instance
     representation_id: str
 
@@ -151,7 +169,7 @@ class RepresentationShapeError:
 
 
 @dataclass
-class RepresentationTypeError:
+class RepresentationTypeError(RuleState):
     inst: ifcopenshell.entity_instance
     representation_id: str
     representation_type: str

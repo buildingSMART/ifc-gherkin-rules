@@ -76,7 +76,7 @@ def step_impl(context, attribute, expected_entity_type):
             related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
             errors = []
             def accumulate_errors(i):
-                if not any(i.is_a(x) for x in expected_entity_types):
+                if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
                     misc.map_state(inst, lambda x: errors.append(err.AttributeTypeError(False, x, [i], attribute, expected_entity_type)))
             misc.map_state(related_entity, accumulate_errors)
             if errors:

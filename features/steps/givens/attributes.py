@@ -16,7 +16,7 @@ def step_impl(context, attribute, value):
     else:
         value = ast.literal_eval(value)
     context.instances = list(
-        filter(lambda inst: pred(getattr(inst, attribute, True), value), context.instances)
+        filter(lambda inst: hasattr(inst, attribute) and pred(getattr(inst, attribute), value), context.instances)
     )
 
 

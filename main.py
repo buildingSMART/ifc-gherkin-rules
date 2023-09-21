@@ -41,7 +41,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
+def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_output=False):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -63,6 +63,12 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL):
             feature_filter = ["-i", rule_code]
     except Exception as e:
         print(e)
+
+    if with_console_output:
+        # Sometimes it's easier to see what happens exactly on the console output
+        print('>',*[sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", "error_on_passed_rule=yes"])
+        subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", "error_on_passed_rule=yes"], cwd=cwd)
+
     proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", "error_on_passed_rule=yes", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
 
     with open(jsonfn) as f:

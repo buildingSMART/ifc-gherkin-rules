@@ -10,6 +10,9 @@ from utils import geometry, ifc, misc, system
 class RuleState:
     rule_passed: bool
 
+
+# @todo why do we have RuleSuccessInst and -Insts with identical formatting
+
 @dataclass
 class RuleSuccessInsts(RuleState):
     insts: ifcopenshell.entity_instance
@@ -120,9 +123,11 @@ class InstanceStructureError(RuleState):
     def __str__(self):
         pos_neg = 'is not' if self.optional_values.get('condition', '') == 'must' else 'is'
         directness = self.optional_values.get('directness', '')
+        if directness:
+            directness += ' '
 
         if len(self.relating):
-            return f"The instance {misc.fmt(self.related)} {pos_neg} {directness} {self.relationship_type} (in) the following ({len(self.relating)}) instances: {';'.join(map(misc.fmt, self.relating))}"
+            return f"The instance {misc.fmt(self.related)} {pos_neg} {directness}{self.relationship_type} (in) the following ({len(self.relating)}) instances: {';'.join(map(misc.fmt, self.relating))}"
         else:
             return f"This instance {self.related} is not {self.relationship_type} anything"
 

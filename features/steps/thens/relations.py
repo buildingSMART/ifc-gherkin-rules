@@ -41,9 +41,8 @@ def step_impl(context, entity, condition, directness, other_entity):
 
     misc.handle_errors(context, errors)
 
-@then('Each {entity} must be {relationship} as per {table}')
-def step_impl(context, entity, relationship, table):
-
+@then('It must be {relationship} as per {table}')
+def step_impl(context, relationship, table):
     stmt_to_op = {'aggregated': 'Decomposes'}
     assert relationship in stmt_to_op
 
@@ -52,11 +51,10 @@ def step_impl(context, entity, relationship, table):
 
     ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
 
-
     aggregated_table = misc.make_aggregrated_dict(tbl, ent_tbl_header, relationship_tbl_header)
     errors = []
-    if context.instances and getattr(context, 'applicable', True):
-        for ent in context.model.by_type(entity):
+    if getattr(context, 'applicable', True):
+        for ent in context.instances:
             applicable_entities = []
             for applicable_entity in aggregated_table.keys(): # check which applicable entity the currently processed entity is (inheritance), e.g IfcRailway -> IfcFacility
                 if ent.is_a(applicable_entity):

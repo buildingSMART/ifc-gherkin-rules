@@ -2,6 +2,7 @@ import errors as err
 
 from behave import *
 from utils import ifc, misc, system
+
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
     stmt_to_op = ['must', 'must not']
@@ -30,14 +31,16 @@ def step_impl(context, entity, condition, directness, other_entity):
                     if is_indirectly_contained:
                         observed_directness.update({'indirectly'})
                         break
+            else:
+                 relating_spatial_element = None
 
             common_directness = required_directness & observed_directness  # values the required and observed situation have in common
             directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
             directness_expected = condition == 'must'  # check if relationship is expected
             if directness_achieved != directness_expected:
-                errors.append(err.InstanceStructureError(False, ent, [other_entity], 'contained', optional_values={'condition': condition, 'directness': directness}))
+                errors.append(err.InstanceStructureError(False, ent, [relating_spatial_element], 'contained', optional_values={'condition': condition, 'directness': directness}))
             elif context.error_on_passed_rule:
-                errors.append(err.RuleSuccess(True, ent))
+                errors.append(err.RuleSuccessInsts(True, ent))
 
     misc.handle_errors(context, errors)
 
@@ -108,4 +111,68 @@ def step_impl(context, related, relating, other_entity, condition):
                     elif context.error_on_passed_rule:
                         errors.append(err.RuleSuccessInst(True, inst))
 
+    misc.handle_errors(context, errors)
+
+
+@then('Each {entity} {decision} be {relationship} {preposition} {other_entity} {condition}')
+def step_impl(context, entity, decision, relationship, preposition, other_entity, condition):
+    acceptable_decisions = ['must', 'must not']
+    assert decision in acceptable_decisions
+
+    acceptable_relationships = {'aggregated': ['Decomposes', 'RelatingObject'], 'contained': ['ContainedInStructure', 'RelatingStructure']}
+    assert relationship in acceptable_relationships
+
+    acceptable_conditions = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
+    assert condition in acceptable_conditions
+
+    if 'directly' in condition:
+        required_directness = {condition} if condition not in ['directly or indirectly', 'indirectly or directly'] else {
+            'directly', 'indirectly'}
+        check_directness = True
+    else:
+        check_directness = False
+
+    errors = []
+
+    other_entity_reference = acceptable_relationships[relationship][0]  # eg Decomposes
+    other_entity_relation = acceptable_relationships[relationship][1]  # eg RelatingObject
+
+    if context.instances and getattr(context, 'applicable', True):
+        for ent in context.instances:
+            relationship_reached = False
+            if check_directness:
+                observed_directness = set()
+            if len(getattr(ent, other_entity_reference)) > 0:
+                relation = getattr(ent, other_entity_reference)[0]
+                relating_element = getattr(relation, other_entity_relation)
+                relationship_reached = relating_element.is_a(other_entity)
+                if relationship_reached:
+                    if check_directness:
+                        observed_directness.update({'directly'})
+                    if decision == 'must not':
+                        errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
+                        break
+                if hasattr(relating_element, other_entity_reference): # in case the relation points to a wrong instance
+                    while len(getattr(relating_element, other_entity_reference)) > 0:
+                        relation = getattr(relating_element, other_entity_reference)[0]
+                        relating_element = getattr(relation, other_entity_relation)
+                        relationship_reached = relating_element.is_a(other_entity)
+                        if relationship_reached:
+                            if check_directness:
+                                observed_directness.update({'indirectly'})
+                                break
+                            if decision == 'must not':
+                                errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
+                                break
+
+            if check_directness:
+                common_directness = required_directness & observed_directness  # values the required and observed situation have in common
+                directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
+                directness_expected = decision == 'must'  # check if relationship is expected
+                if directness_achieved != directness_expected:
+                    errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
+                elif context.error_on_passed_rule:
+                    errors.append(err.RuleSuccessInsts(True, ent))
+            if context.error_on_passed_rule and decision == 'must not' and not relationship_reached:
+                errors.append(err.RuleSuccessInsts(True, ent))
     misc.handle_errors(context, errors)

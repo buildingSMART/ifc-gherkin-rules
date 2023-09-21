@@ -181,3 +181,21 @@ class RepresentationTypeError(RuleState):
 
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
+
+
+@dataclass
+class RelationshipError(RuleState):
+    entity: ifcopenshell.entity_instance
+    decision: str
+    condition: str
+    relationship: str
+    preposition: str
+    other_entity: str
+    def __str__(self):
+
+        if self.decision == 'must':
+            decision_str = 'not'
+        elif self.decision == 'must not':
+            decision_str = ''
+
+        return f"The instance {self.entity} is {decision_str} {self.condition} {self.relationship} {self.preposition} {self.other_entity}"

@@ -19,7 +19,11 @@ def get_precision_from_contexts(entity_contexts, func_to_return=max, default_pre
             precision = get_precision_from_contexts([entity_context.ParentContext])
         elif entity_context.is_a('IfcGeometricRepresentationContext') and entity_context.Precision:
             return entity_context.Precision
+        else:
+            continue
         precisions.append(precision)
+    if not precisions:
+        return default_precision
     return func_to_return(precisions)
 
 

@@ -4,7 +4,6 @@ from behave import *
 from utils import ifc, misc, system
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
-    context.run_via_pytest
     stmt_to_op = ['must', 'must not']
     assert condition in stmt_to_op
 

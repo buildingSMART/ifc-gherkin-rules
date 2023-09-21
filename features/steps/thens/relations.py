@@ -60,7 +60,9 @@ def step_impl(context, relationship, table):
                 if ent.is_a(applicable_entity):
                     applicable_entities.append(applicable_entity)
             if len(applicable_entities) == 0: # no applicable entity found
-                raise Exception(f'Entity {entity} was not found in the {table}')
+                # @tfk. I think this simply means, no requirement imposed.
+                # raise Exception(f'Entity {entity} was not found in the {table}')
+                continue
             applicable_entity = ifc.order_by_ifc_inheritance(applicable_entities, base_class_last = True)[0]
             expected_relationship_objects = aggregated_table[applicable_entity]
             try:

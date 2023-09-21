@@ -88,7 +88,7 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
             check_disabled = 'disabled' in item['tags']
             if check_disabled:
                 yield f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled"
-            item['status'] == 'passed'
+
             try:
                 el_list = item['elements']
             except KeyError:

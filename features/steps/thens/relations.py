@@ -36,7 +36,7 @@ def step_impl(context, entity, condition, directness, other_entity):
             directness_expected = condition == 'must'  # check if relationship is expected
             if directness_achieved != directness_expected:
                 errors.append(err.InstanceStructureError(False, ent, [other_entity], 'contained', optional_values={'condition': condition, 'directness': directness}))
-            elif context.run_via_pytest:
+            elif context.error_on_passed_rule:
                 errors.append(err.RuleSuccess(True, ent))
 
     misc.handle_errors(context, errors)

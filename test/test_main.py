@@ -67,7 +67,7 @@ def handle_testfile_markdown(results, base):
     markdown_result_testfile = {
                     "File name" : base,
                     "Expected result" : "pass" if base.startswith("pass-") else "fail",
-                    "Error" : results[0][4] if results else " ",
+                    "Error" : [result[4] for result in results if not result[4] == 'Rule passed'][0] if results else " ",
                     "Description": " "
                 }
     

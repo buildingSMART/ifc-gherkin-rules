@@ -89,6 +89,11 @@ def step_impl(context, attribute, expected_entity_type):
 
 @then('The value of attribute {attribute} must be {value}')
 def step_impl(context, attribute, value):
+    # @todo the horror and inconsistency.. should we use
+    # ast here as well to differentiate between types?
+    if value == 'empty':
+        value = ()
+
     if getattr(context, 'applicable', True):
         errors = []
         for inst in context.instances:

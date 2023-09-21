@@ -5,6 +5,18 @@ import pyparsing
 
 
 def reverse_operands(fn):
+    """
+    Given a function `fn` that operates on two arguments, the returned function will
+    swap the order of these arguments before applying `fn`.
+
+    For instance, with the function operator.contains which expects argument in a specific order. 
+        contains_reversed = reverse_operands(operator.contains)
+        contains_reversed(3, [1, 2, 3, 4])  # True
+        operator.contains([1,2,3,4], 3) # True
+
+        However
+        operator.contains(3, [1,2,3,4]) # Raises a TypeError
+    """
     def inner(*args):
         return fn(*reversed(args))
     return inner

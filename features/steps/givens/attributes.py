@@ -10,7 +10,7 @@ def step_impl(context, attribute, value):
     pred = operator.eq
     try:
         value = ast.literal_eval(value)
-    except:
+    except ValueError: # Detected multiple values, for example "PredefinedType = 'POSITION' or 'STATION'"".
         value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
         pred = misc.reverse_operands(operator.contains)
     context.instances = list(

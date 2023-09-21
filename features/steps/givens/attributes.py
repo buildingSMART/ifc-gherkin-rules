@@ -7,9 +7,14 @@ from utils import geometry, ifc, misc
 
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
-    value = ast.literal_eval(value)
+    pred = operator.eq
+    try:
+        value = ast.literal_eval(value)
+    except:
+        value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
+        pred = misc.reverse_operands(operator.contains)
     context.instances = list(
-        filter(lambda inst: getattr(inst, attribute, True) == value, context.instances)
+        filter(lambda inst: pred(getattr(inst, attribute, True), value), context.instances)
     )
 
 

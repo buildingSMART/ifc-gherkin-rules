@@ -4,6 +4,12 @@ import operator
 import pyparsing
 
 
+def reverse_operands(fn):
+    def inner(*args):
+        return fn(*reversed(args))
+    return inner
+
+
 def do_try(fn, default=None):
     try:
         return fn()

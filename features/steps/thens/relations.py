@@ -119,7 +119,12 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
 
-    acceptable_relationships = {'aggregated': ['Decomposes', 'RelatingObject'], 'contained': ['ContainedInStructure', 'RelatingStructure']}
+    acceptable_relationships = {
+        'aggregated': ['Decomposes', 'RelatingObject'],
+        'contained': ['ContainedInStructure', 'RelatingStructure'],
+        'positioned': ['PositionedRelativeTo', 'RelatingPositioningElement']
+    }
+
     assert relationship in acceptable_relationships
 
     acceptable_conditions = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']

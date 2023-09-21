@@ -143,6 +143,18 @@ class InvalidValueError(RuleState):
 
 
 @dataclass
+class ValueCountError(RuleState):
+    paths: typing.Sequence[ifcopenshell.entity_instance]
+    allowed_values: typing.Sequence[typing.Any]
+    num_required: int
+
+    def __str__(self):
+        vs = "".join(f"\n * {p[0]!r} on {p[1]}" for p in self.paths)
+        return f"Not at least {self.num_required} instances of {', '.join(map(repr, self.allowed_values))} for values:{vs}"
+
+
+
+@dataclass
 class PolyobjectDuplicatePointsError(RuleState):
     inst: ifcopenshell.entity_instance
     duplicates: set

@@ -1,4 +1,8 @@
+import csv
+import os
 import re
+
+from pathlib import Path
 
 from behave import *
 from utils import misc, system
@@ -29,6 +33,39 @@ def step_impl(context, entity, other_entity, relationship):
                     instances.append(obj)
     context.instances = instances
 
+
+#@nb this is awaiting the merge of https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
+#now needs to be disambiguated from the above, can be removed when #37 is merged
+@given('There exists a relationship {relationship} from {entity} to {other_entity} and following that')
+def step_impl(context, relationship, entity, other_entity):
+
+    relationships = context.model.by_type(relationship)
+    instances = []
+    dirname = os.path.dirname(__file__)
+    filename_related_attr_matrix = Path(dirname).parent.parent / 'resources' / 'attribute_mapping' / 'related_entity_attributes.csv'
+    filename_relating_attr_matrix = Path(dirname).parent.parent / 'resources' / 'attribute_mapping' / 'relating_entity_attributes.csv'
+    related_attr_matrix = next(csv.DictReader(open(filename_related_attr_matrix)))
+    relating_attr_matrix = next(csv.DictReader(open(filename_relating_attr_matrix)))
+
+    for inst in context.instances:
+        for rel in relationships:
+            attr_to_entity = relating_attr_matrix.get(rel.is_a())
+            attr_to_other = related_attr_matrix.get(rel.is_a())
+
+            def make_aggregate(val):
+                if not isinstance(val, (list, tuple)):
+                    val = [val]
+                return val
+
+            to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
+            to_other = set(filter(lambda i: i.is_a(other_entity), make_aggregate(getattr(rel, attr_to_other))))
+
+            if v := {inst} & to_entity:
+                instances.extend(to_other)
+
+    context.instances = instances
+
+    
 
 @given("The element {relationship_type} an {entity}")
 def step_impl(context, relationship_type, entity):

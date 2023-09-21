@@ -2,6 +2,7 @@ import os
 import glob
 import sys
 import re
+import pandas as pd
 
 import pytest
 import tabulate
@@ -42,10 +43,48 @@ def get_test_files():
         test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/**/*.ifc"), recursive=True)
     return test_files
 
+def handle_testfile_markdown(results, base):
+    rule_code = re.search(r'(fail|pass)-([a-z]{3}[0-9]{3})-', base).group(2)
+    readme_path = os.path.join(os.path.dirname(
+        __file__), f'files/{rule_code}/README.md')
+    markdown_result_testfile = {
+                    "File name" : base,
+                    "Expected result" : "pass" if base.startswith("pass-") else "fail",
+                    "Error" : results[0][4] if results else " ",
+                    "Description": " "
+                }
+    
+    if os.path.exists(readme_path) and os.path.getsize(readme_path) > 0:
+        with open(readme_path, 'r+') as file:
+            content = file.read()
+            lines = [line.strip() for line in content.split("\n")]
+            headers = [header.strip()for header in lines[0].split("|") if header.strip()]
+
+            data = {header: [] for header in headers}
+            # Parse each line and populate the data lists
+            for line in lines[2:]:
+                values = [value.strip() if value.strip() != '' else ' ' for value in line.split("|")][1:]
+                for header, value in zip(headers, values):
+                    data[header].append(value)
+
+            df = pd.DataFrame(data)
+            if base not in df['File name'].values:
+                df.loc[len(df)] = markdown_result_testfile
+                file.seek(0)
+                file.write(df.to_markdown(index=False))
+    else:
+        with open(readme_path, 'w') as file:
+            file.write(pd.DataFrame([markdown_result_testfile]).to_markdown(index=False))
+
+
 @pytest.mark.parametrize("filename", get_test_files())
 def test_invocation(filename):
     results = list(run(filename))
     base = os.path.basename(filename)
+
+    if '--generate-markdown' in sys.argv:
+        handle_testfile_markdown(results, base)
+
     # if base.startswith("pass-"):
     results = [result for result in results if result[4] != 'Rule disabled']
     results = [result for result in results if 'Rule passed' not in result[4]]

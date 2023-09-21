@@ -44,6 +44,23 @@ def get_test_files():
     return test_files
 
 def handle_testfile_markdown(results, base):
+    """
+    Usage:
+    ------
+    To generate markdown files:
+        python3 test_main.py --generate-markdown
+
+    To combine markdown generation with testing for a specific rule code:
+        python3 test_main.py --generate-markdown grf001
+
+    Explanation:
+    ------------
+    The '--generate-markdown' flag tells the script to create markdown files based on the tests.
+
+    The 'grf001' in the second example represents a specific rule code. You can replace it with any valid rule code to test.
+
+    The markdown generation process will take into account the specified rule code, if provided.
+    """
     rule_code = re.search(r'(fail|pass)-([a-z]{3}[0-9]{3})-', base).group(2)
     readme_path = os.path.join(os.path.dirname(
         __file__), f'files/{rule_code}/README.md')

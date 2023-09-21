@@ -10,6 +10,9 @@ from utils import geometry, ifc, misc, system
 class RuleState:
     rule_passed: bool
 
+
+# @todo why do we have RuleSuccessInst and -Insts with identical formatting
+
 @dataclass
 class RuleSuccessInsts(RuleState):
     insts: ifcopenshell.entity_instance

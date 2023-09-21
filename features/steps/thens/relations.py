@@ -68,18 +68,23 @@ def step_impl(context, relationship, table):
             try:
                 relation = getattr(ent, stmt_to_op[relationship], True)[0]
             except IndexError: # no relationship found for the entity
-                errors.append(err.InstanceStructureError(ent, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+                errors.append(err.InstanceStructureError(False, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
                 continue
             relationship_objects = getattr(relation, relationship_tbl_header, True)
-            if isinstance(relationship_objects, tuple):
-                for relationship_object in relationship_objects:
-                    is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
-                    if not is_correct:
-                        errors.append(err.InstanceStructureError(ent, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
-            else:
-                is_correct = any(relationship_objects.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
+            if not isinstance(relationship_objects, tuple):
+                relationship_objects = (relationship_objects,)
+
+            all_correct = len(relationship_objects) > 0
+
+            for relationship_object in relationship_objects:
+                is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
                 if not is_correct:
-                    errors.append(err.InstanceStructureError(ent, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+                    all_correct = False
+                    errors.append(err.InstanceStructureError(False, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+
+            if all_correct:
+                errors.append(err.RuleSuccessInsts(True, ent))
+
     misc.handle_errors(context, errors)
 
 

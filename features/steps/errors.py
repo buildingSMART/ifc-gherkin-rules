@@ -10,6 +10,9 @@ from utils import geometry, ifc, misc, system
 class RuleState:
     rule_passed: bool
 
+
+# @todo why do we have RuleSuccessInst and -Insts with identical formatting
+
 @dataclass
 class RuleSuccessInsts(RuleState):
     insts: ifcopenshell.entity_instance
@@ -36,7 +39,7 @@ class AttributeTypeError(RuleState):
         if len(self.related):
             return f"The instance {self.inst} expected type '{self.expected_entity_type}' for the attribute {self.attribute}, but found {misc.fmt(self.related)}  "
         else:
-            return f"This instance {self.inst} has no value for attribute {self.attribute}"
+            return f"The instance {self.inst} has no value for attribute {self.attribute}"
 
 
 @dataclass
@@ -120,21 +123,23 @@ class InstanceStructureError(RuleState):
     def __str__(self):
         pos_neg = 'is not' if self.optional_values.get('condition', '') == 'must' else 'is'
         directness = self.optional_values.get('directness', '')
+        if directness:
+            directness += ' '
 
         if len(self.relating):
-            return f"The instance {misc.fmt(self.related)} {pos_neg} {directness} {self.relationship_type} (in) the following ({len(self.relating)}) instances: {';'.join(map(misc.fmt, self.relating))}"
+            return f"The instance {misc.fmt(self.related)} {pos_neg} {directness}{self.relationship_type} (in) the following ({len(self.relating)}) instances: {';'.join(map(misc.fmt, self.relating))}"
         else:
             return f"This instance {self.related} is not {self.relationship_type} anything"
 
 
 @dataclass
 class InvalidValueError(RuleState):
-    related: ifcopenshell.entity_instance
+    inst: ifcopenshell.entity_instance
     attribute: str
     value: str
 
     def __str__(self):
-        return f"On instance {misc.fmt(self.related)} the following invalid value for {self.attribute} has been found: {self.value}"
+        return f"On instance {misc.fmt(self.inst)} the following invalid value for {self.attribute} has been found: {self.value}"
 
 
 @dataclass

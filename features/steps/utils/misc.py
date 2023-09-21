@@ -16,9 +16,15 @@ asdict = lambda dc: dict(instance_converter(dc.__dict__.items()), message=str(dc
 
 def get_inst_attributes(dc):
     if hasattr(dc, 'inst'):
-        yield 'inst_guid', getattr(dc.inst, 'GlobalId', None)
-        yield 'inst_type', dc.inst.is_a()
-        yield 'inst_id', dc.inst.id()
+        if isinstance(dc.inst, ifcopenshell.entity_instance):
+            yield 'inst_guid', getattr(dc.inst, 'GlobalId', None)
+            yield 'inst_type', dc.inst.is_a()
+            yield 'inst_id', dc.inst.id()
+        else:
+            # apparently mostly for the rule passed logs...
+            # @todo fix this
+            yield 'inst_guid', None
+            yield 'inst_type', type(dc.inst).__name__
 
 
 def fmt(x):
@@ -58,6 +64,17 @@ def instance_converter(kv_pairs):
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
+
+def make_aggregrated_dict(table, ent_tbl_header, relationship_tbl_header):
+    aggregated_table = {}
+    for d in table:
+        applicable_entity = d[ent_tbl_header]
+        tbl_relationship_object = d[relationship_tbl_header]
+        if applicable_entity in aggregated_table:
+            aggregated_table[applicable_entity].append(tbl_relationship_object)
+        else:
+            aggregated_table[applicable_entity] = [tbl_relationship_object]
+    return aggregated_table
 
 
 def map_state(values, fn):

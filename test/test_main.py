@@ -64,10 +64,17 @@ def handle_testfile_markdown(results, base):
     rule_code = re.search(r'(fail|pass)-([a-z]{3}[0-9]{3})-', base).group(2)
     readme_path = os.path.join(os.path.dirname(
         __file__), f'files/{rule_code}/README.md')
+    
+    def errors_to_markdown(errors):
+        markdown_errors = ','.join([error[4] for error in errors if not error[4] == "Rule passed"])
+        markdown_errors = markdown_errors.replace('(', '').replace(')', '') # avoid default markdown handling of '(' and ')' symbols
+        return markdown_errors
+
+    
     markdown_result_testfile = {
                     "File name" : base,
                     "Expected result" : "pass" if base.startswith("pass-") else "fail",
-                    "Error" : "Rules passed" if base.startswith("pass-") else [result[4] for result in results if not result[4] == 'Rule passed'],
+                    "Error" : "Rules passed" if base.startswith("pass-") else errors_to_markdown(results),
                     "Description": " "
                 }
     
@@ -87,6 +94,7 @@ def handle_testfile_markdown(results, base):
             df = pd.DataFrame(data)
             if base not in df['File name'].values:
                 df.loc[len(df)] = markdown_result_testfile
+                df = df.sort_values(by='Expected result', ascending=False)
                 file.seek(0)
                 file.write(df.to_markdown(index=False))
     else:

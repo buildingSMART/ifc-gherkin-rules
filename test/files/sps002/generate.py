@@ -6,6 +6,7 @@ for validity, elem in [
     ("pass", 'IfcBuilding'),
     ("pass", 'IfcSite'),
     ("pass", 'IfcAlignment'),
+    ("pass", None),
     ("fail", "IfcBeam")
 ]:
 
@@ -14,15 +15,16 @@ for validity, elem in [
     owner = f.by_type("IfcOwnerHistory")[0]
     owner.ChangeAction = "ADDED"
 
-    el = f.create_entity(
-        elem,
-        ifcopenshell.guid.new(),
-        owner
-    )
+    if elem:
+        el = f.create_entity(
+            elem,
+            ifcopenshell.guid.new(),
+            owner
+        )
 
-    f.createIfcRelAggregates(
-        ifcopenshell.guid.new(), owner, RelatingObject=proj, RelatedObjects=[el]
-    )
+        f.createIfcRelAggregates(
+            ifcopenshell.guid.new(), owner, RelatingObject=proj, RelatedObjects=[el]
+        )
 
     failing_scenario = ""
     if validity == "fail":

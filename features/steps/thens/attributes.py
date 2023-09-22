@@ -1,3 +1,4 @@
+import operator
 import errors as err
 
 from behave import *
@@ -91,8 +92,12 @@ def step_impl(context, attribute, expected_entity_type):
 def step_impl(context, attribute, value):
     # @todo the horror and inconsistency.. should we use
     # ast here as well to differentiate between types?
+    pred = operator.eq
     if value == 'empty':
         value = ()
+    elif value == 'not empty':
+        value = ()
+        pred = operator.ne
 
     if getattr(context, 'applicable', True):
         errors = []
@@ -100,7 +105,7 @@ def step_impl(context, attribute, value):
             if isinstance(inst, (tuple, list)):
                 inst = inst[0]
             attribute_value = getattr(inst, attribute, 'Attribute not found')
-            if attribute_value != value:
+            if not pred(attribute_value, value):
                 errors.append(err.InvalidValueError(False, inst, attribute, attribute_value))
             elif context.error_on_passed_rule:
                 errors.append(err.RuleSuccessInst(True, inst))

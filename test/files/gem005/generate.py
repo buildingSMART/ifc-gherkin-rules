@@ -49,14 +49,14 @@ for validity, case in [
                                 f.createIfcAxis2Placement2D(
                                     f.createIfcCartesianPoint((0.0, 0.0))
                                 ),
-                                20000.0,
-                                20000.0,
+                                20.0,
+                                20.0,
                             ),
                             f.createIfcAxis2Placement3D(
                                 f.createIfcCartesianPoint((0.0, 0.0, 0.0))
                             ),
                             f.createIfcDirection((0.0, 0.0, 1.0)),
-                            20000.0,
+                            20.0,
                         )
                     ],
                 )

@@ -65,6 +65,17 @@ def instance_converter(kv_pairs):
 def is_a(s):
     return lambda inst: inst.is_a(s)
 
+def make_aggregrated_dict(table, ent_tbl_header, relationship_tbl_header):
+    aggregated_table = {}
+    for d in table:
+        applicable_entity = d[ent_tbl_header]
+        tbl_relationship_object = d[relationship_tbl_header]
+        if applicable_entity in aggregated_table:
+            aggregated_table[applicable_entity].append(tbl_relationship_object)
+        else:
+            aggregated_table[applicable_entity] = [tbl_relationship_object]
+    return aggregated_table
+
 
 def map_state(values, fn):
     if isinstance(values, (tuple, list)):

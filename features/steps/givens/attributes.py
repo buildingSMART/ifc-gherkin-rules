@@ -7,12 +7,16 @@ from utils import geometry, ifc, misc
 
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
+    pred = operator.eq
     if value == 'empty':
         value = ()
+    elif value == 'not empty':
+        value = ()
+        pred = operator.ne
     else:
         value = ast.literal_eval(value)
     context.instances = list(
-        filter(lambda inst: getattr(inst, attribute, True) == value, context.instances)
+        filter(lambda inst: pred(getattr(inst, attribute, True), value), context.instances)
     )
 
 

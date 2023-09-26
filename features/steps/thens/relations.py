@@ -4,7 +4,7 @@ from behave import *
 from utils import ifc, misc, system
 
 from parse_type import TypeBuilder
-register_type(aggregated_or_contained=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained")))))
+register_type(aggregated_or_contained_or_positioned=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained", "positioned")))))
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
@@ -118,7 +118,7 @@ def step_impl(context, related, relating, other_entity, condition):
 
 
 
-@then('Each {entity} {decision} be {relationship:aggregated_or_contained} {preposition} {other_entity} {condition}')
+@then('Each {entity} {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
 def step_impl(context, entity, decision, relationship, preposition, other_entity, condition):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions

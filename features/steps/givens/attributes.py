@@ -8,13 +8,20 @@ from utils import geometry, ifc, misc
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
     pred = operator.eq
-    try:
-        value = ast.literal_eval(value)
-    except ValueError: # Detected multiple values, for example "PredefinedType = 'POSITION' or 'STATION'"".
-        value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
-        pred = misc.reverse_operands(operator.contains)
+    if value == 'empty':
+        value = ()
+    elif value == 'not empty':
+        value = ()
+        pred = operator.ne
+    else:
+        try:
+            value = ast.literal_eval(value)
+        except ValueError:
+            # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
+            value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
+            pred = misc.reverse_operands(operator.contains)
     context.instances = list(
-        filter(lambda inst: pred(getattr(inst, attribute, True), value), context.instances)
+        filter(lambda inst: hasattr(inst, attribute) and pred(getattr(inst, attribute), value), context.instances)
     )
 
 

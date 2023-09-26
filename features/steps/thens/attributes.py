@@ -69,12 +69,14 @@ def step_impl(context, entity, other_entity):
 @then('The type of attribute {attribute} must be {expected_entity_type}')
 def step_impl(context, attribute, expected_entity_type):
 
+    expected_entity_types = tuple(map(str.strip, expected_entity_type.split(' or ')))
+
     def _():
         for inst in context.instances:
             related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
             errors = []
             def accumulate_errors(i):
-                if not i.is_a(expected_entity_type):
+                if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
                     misc.map_state(inst, lambda x: errors.append(err.AttributeTypeError(False, x, [i], attribute, expected_entity_type)))
             misc.map_state(related_entity, accumulate_errors)
             if errors:
@@ -87,6 +89,11 @@ def step_impl(context, attribute, expected_entity_type):
 
 @then('The value of attribute {attribute} must be {value}')
 def step_impl(context, attribute, value):
+    # @todo the horror and inconsistency.. should we use
+    # ast here as well to differentiate between types?
+    if value == 'empty':
+        value = ()
+
     if getattr(context, 'applicable', True):
         errors = []
         for inst in context.instances:

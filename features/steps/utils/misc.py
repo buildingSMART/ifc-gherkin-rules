@@ -4,6 +4,24 @@ import operator
 import pyparsing
 
 
+def reverse_operands(fn):
+    """
+    Given a function `fn` that operates on two arguments, the returned function will
+    swap the order of these arguments before applying `fn`.
+
+    For instance, with the function operator.contains which expects argument in a specific order. 
+        contains_reversed = reverse_operands(operator.contains)
+        contains_reversed(3, [1, 2, 3, 4])  # True
+        operator.contains([1,2,3,4], 3) # True
+
+        However
+        operator.contains(3, [1,2,3,4]) # Raises a TypeError
+    """
+    def inner(*args):
+        return fn(*reversed(args))
+    return inner
+
+
 def do_try(fn, default=None):
     try:
         return fn()
@@ -64,6 +82,17 @@ def instance_converter(kv_pairs):
 
 def is_a(s):
     return lambda inst: inst.is_a(s)
+
+def make_aggregrated_dict(table, ent_tbl_header, relationship_tbl_header):
+    aggregated_table = {}
+    for d in table:
+        applicable_entity = d[ent_tbl_header]
+        tbl_relationship_object = d[relationship_tbl_header]
+        if applicable_entity in aggregated_table:
+            aggregated_table[applicable_entity].append(tbl_relationship_object)
+        else:
+            aggregated_table[applicable_entity] = [tbl_relationship_object]
+    return aggregated_table
 
 
 def map_state(values, fn):

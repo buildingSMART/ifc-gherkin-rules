@@ -14,7 +14,12 @@ def step_impl(context, attribute, value):
         value = ()
         pred = operator.ne
     else:
-        value = ast.literal_eval(value)
+        try:
+            value = ast.literal_eval(value)
+        except ValueError:
+            # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
+            value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
+            pred = misc.reverse_operands(operator.contains)
     context.instances = list(
         filter(lambda inst: hasattr(inst, attribute) and pred(getattr(inst, attribute), value), context.instances)
     )

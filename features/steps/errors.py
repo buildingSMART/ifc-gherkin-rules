@@ -185,7 +185,7 @@ class RepresentationTypeError(RuleState):
 
 @dataclass
 class RelationshipError(RuleState):
-    entity: ifcopenshell.entity_instance
+    inst: ifcopenshell.entity_instance
     decision: str
     condition: str
     relationship: str
@@ -198,4 +198,11 @@ class RelationshipError(RuleState):
         elif self.decision == 'must not':
             decision_str = ''
 
-        return f"The instance {self.entity} is {decision_str} {self.condition} {self.relationship} {self.preposition} {self.other_entity}"
+        return f"The instance {misc.fmt(self.inst)} is {decision_str} {self.condition} {self.relationship} {self.preposition} {self.other_entity}"
+
+@dataclass
+class CyclicGroupError(RuleState):
+    inst: ifcopenshell.entity_instance
+
+    def __str__(self):
+        return f"Cyclic group definition of {misc.fmt(self.inst)}"

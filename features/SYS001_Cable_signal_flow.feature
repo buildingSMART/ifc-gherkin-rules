@@ -1,5 +1,5 @@
 @implementer-agreement
-@ALB
+@SYS
 Feature: SYS001 - Cable signal flow
 IfcCableSegment must define 2 distribution ports, 1 as a SOURCE, one as a SINK
 

@@ -66,8 +66,8 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
 
     if with_console_output:
         # Sometimes it's easier to see what happens exactly on the console output
-        print('>',*[sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", "error_on_passed_rule=yes"])
-        subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", "error_on_passed_rule=yes"], cwd=cwd)
+        print('>',*[sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"])
+        subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"], cwd=cwd)
 
     proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", "error_on_passed_rule=yes", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
 

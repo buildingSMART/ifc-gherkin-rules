@@ -6,6 +6,6 @@ The rule verifies, that each IfcAlignment is contained in an IfcSite.
 
   Scenario: Agreement on each IfcAlignment being contained in an IfcSite
 
-      Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3_ADD2"
+      Given A file with Schema Identifier "IFC4X3_ADD2"
       And An IfcAlignment
       Then Each IfcAlignment must be directly contained in IfcSite

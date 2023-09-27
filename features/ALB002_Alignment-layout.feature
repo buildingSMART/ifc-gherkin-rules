@@ -8,7 +8,7 @@ This rule verifies that (a) alignment has a nesting relationship with its layout
 
   Scenario: Agreement on nested attributes of IfcAlignment
 
-      Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3_ADD2"
+      Given A file with Schema Identifier "IFC4X3_ADD2"
 
       Then Each IfcAlignment must be nested by exactly 1 instance(s) of IfcAlignmentHorizontal
        And Each IfcAlignment must be nested by at most 1 instance(s) of IfcAlignmentVertical
@@ -17,7 +17,7 @@ This rule verifies that (a) alignment has a nesting relationship with its layout
     
   Scenario: Agreement on attributes being nested within a decomposition relationship
 
-      Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3_ADD2"
+      Given A file with Schema Identifier "IFC4X3_ADD2"
 
       Then Each IfcAlignmentHorizontal must nest only 1 instance(s) of IfcAlignment
        And Each IfcAlignmentVertical must nest only 1 instance(s) of IfcAlignment
@@ -25,7 +25,7 @@ This rule verifies that (a) alignment has a nesting relationship with its layout
   
   Scenario: Agreement of structure of alignments segments
 
-      Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3_ADD2"
+      Given A file with Schema Identifier "IFC4X3_ADD2"
 
       Then Each IfcAlignmentHorizontal is nested by a list of only instance(s) of IfcAlignmentSegment
       Then Each IfcAlignmentVertical is nested by a list of only instance(s) of IfcAlignmentSegment

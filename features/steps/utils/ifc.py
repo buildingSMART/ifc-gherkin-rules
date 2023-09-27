@@ -46,7 +46,7 @@ def instance_getter(i, representation_id, representation_type, negative=False):
 
 def order_by_ifc_inheritance(instances, base_class_last):
     import ifcopenshell
-    ifc = ifcopenshell.file(schema='IFC4X3')
+    ifc = ifcopenshell.file(schema="IFC4X3_ADD2")
     inheritance_nr = {}
     for instance in instances:
         ifc_instance = ifc.create_entity(instance)

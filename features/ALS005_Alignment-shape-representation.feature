@@ -5,7 +5,7 @@ The rule verifies that each IfcAlignment uses correct representation.
 
   Scenario: Agreement on each IfcAlignment using correct representation
 
-      Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+      Given A file with Schema Identifier "IFC4X3_ADD2"
       And An IfcAlignment
       And Its attribute Representation
       And Its attribute Representations

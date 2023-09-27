@@ -6,7 +6,7 @@ In this case, only the parent alignment shall be related to the project. Additio
 
   Scenario: Agreement on each IfcAlignment being aggregated to IfcProject and not contained in IfcSpatialElement
 
-      Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3_ADD2"
+      Given A file with Schema Identifier "IFC4X3_ADD2"
       And An IfcAlignment
       Then Each IfcAlignment must be aggregated to IfcProject directly or indirectly
       Then Each IfcAlignment must not be contained in IfcSpatialElement directly or indirectly

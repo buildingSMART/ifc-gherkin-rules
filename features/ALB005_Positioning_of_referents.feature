@@ -5,7 +5,7 @@ IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPo
 
   Scenario: Agreement on each IfcAlignment being aggregated to IfcProject and not contained in IfcSpatialElement
 
-      Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+      Given A file with Schema Identifier "IFC4X3_ADD2"
       And An IfcReferent
       And PredefinedType = 'POSITION' or 'STATION'
       Then Each IfcReferent must be positioned to IfcAlignment directly

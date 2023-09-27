@@ -139,7 +139,7 @@ And A file with Model View Definition "CoordinationView" or "ReferenceView"
 <details><summary>wrong</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given a file with Schema Identifier "IFC4X3_ADD2"
 
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
@@ -149,7 +149,7 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>right</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given a file with Schema Identifier "IFC4X3_ADD2"
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
 And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
@@ -161,7 +161,7 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>wrong</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given a file with Schema Identifier "IFC4X3_ADD2"
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And  Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
 And  Each IfcAlignmentCant must be nested only by 1 IfcAlignment
@@ -170,7 +170,7 @@ And  Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>right</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given a file with Schema Identifier "IFC4X3_ADD2"
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
 And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
@@ -182,7 +182,7 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>wrong</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3",
+Given a file with Schema Identifier "IFC4X3_ADD2",
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment;
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment;
 And Each IfcAlignmentCant must be nested only by 1 IfcAlignment.
@@ -191,7 +191,7 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment.
 <details><summary>right</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given a file with Schema Identifier "IFC4X3_ADD2"
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
 And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
@@ -203,13 +203,13 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>wrong</summary>
 
 ```
-Given a file with Schema Identifier "IFC4x3",
+Given a file with Schema Identifier "IFC4X3_ADD2",
 ```
 </details>
 <details><summary>right</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given a file with Schema Identifier "IFC4X3_ADD2"
 ```
 </details>
 

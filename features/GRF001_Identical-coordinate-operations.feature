@@ -5,7 +5,7 @@ IfcMapConversion in one representation context and IfcRigidOperation in another.
 
   Scenario: IfcGeometricRepresentationContext
 
-      Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3_ADD2"
+      Given A file with Schema Identifier "IFC4X3_ADD2"
         And All instances of IfcGeometricRepresentationContext without subtypes
         And Its Attribute HasCoordinateOperation
         And Its values excluding SourceCRS

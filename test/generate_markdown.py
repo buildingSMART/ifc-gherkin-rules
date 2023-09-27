@@ -44,7 +44,7 @@ def generate():
                         "File name" : base,
                         "Expected result" : "pass" if base.startswith("pass-") else "fail",
                         "Error" : "Rules passed" if base.startswith("pass-") else errors_to_markdown(results),
-                        "Description": " "
+                        "Description": " NA / Automatically generated markdown "
                     }
         
         if os.path.exists(readme_path) and os.path.getsize(readme_path) > 0:

@@ -3,6 +3,9 @@ import errors as err
 from behave import *
 from utils import ifc, misc, system
 
+from parse_type import TypeBuilder
+register_type(aggregated_or_contained_or_positioned=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained", "positioned")))))
+
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
 def step_impl(context, entity, condition, directness, other_entity):
     stmt_to_op = ['must', 'must not']
@@ -114,12 +117,18 @@ def step_impl(context, related, relating, other_entity, condition):
     misc.handle_errors(context, errors)
 
 
-@then('Each {entity} {decision} be {relationship} {preposition} {other_entity} {condition}')
+
+@then('Each {entity} {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
 def step_impl(context, entity, decision, relationship, preposition, other_entity, condition):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
 
-    acceptable_relationships = {'aggregated': ['Decomposes', 'RelatingObject'], 'contained': ['ContainedInStructure', 'RelatingStructure']}
+    acceptable_relationships = {
+        'aggregated': ['Decomposes', 'RelatingObject'],
+        'contained': ['ContainedInStructure', 'RelatingStructure'],
+        'positioned': ['PositionedRelativeTo', 'RelatingPositioningElement']
+    }
+
     assert relationship in acceptable_relationships
 
     acceptable_conditions = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
@@ -175,4 +184,26 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
                     errors.append(err.RuleSuccessInsts(True, ent))
             if context.error_on_passed_rule and decision == 'must not' and not relationship_reached:
                 errors.append(err.RuleSuccessInsts(True, ent))
+    misc.handle_errors(context, errors)
+
+@then('Each {entity} must not be referenced by itself directly or indirectly')
+def step_impl(context, entity):
+    relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
+    inv, ent, attr = relationship[entity]
+    
+    errors = []
+
+    def get_memberships(inst):
+        for rel in filter(misc.is_a(ent), getattr(inst, inv, [])):
+            container = getattr(rel, attr)
+            yield container
+            yield from get_memberships(container)
+
+    if getattr(context, 'applicable', True):
+        for inst in context.model.by_type(entity):
+            if inst in get_memberships(inst):
+                errors.append(err.CyclicGroupError(False, inst))
+            elif context.error_on_passed_rule:
+                errors.append(err.RuleSuccessInsts(True, inst))
+    
     misc.handle_errors(context, errors)

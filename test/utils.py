@@ -4,7 +4,7 @@ import re
 import sys
 
 
-def collect_test_files():
+def collect_test_files(top_order_string = False, insert_args = False):
     """
     Option -> Example
     Test files for a rule -> 'python3 test_main.py alb001'
@@ -13,8 +13,9 @@ def collect_test_files():
     Also applies for multiple files -> 'python3 test_main.py <path1>.ifc <path2>.ifc'
     Codes and rules can also be combined -> 'python3 test_main.py alb001 <path>.ifc'
     """
-    #todo @gh check for removed testfiles in documentation
-    args = [a for a in sys.argv[1:] if not a.startswith('-')]
+    
+    args = insert_args or [a for a in sys.argv[1:] if not a.startswith('-')]
+
     rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
     rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), args))
 
@@ -30,4 +31,9 @@ def collect_test_files():
 
     if not args: # for example, with 'pytest -sv'
         test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/**/*.ifc"), recursive=True)
+
+    # Sort the file_paths list to ensure 'pass' entries come before 'fail' entries.
+    # This ordering is essential for the automated generation of markdown files.
+    if top_order_string:
+        test_files = sorted(test_files, key=lambda x: top_order_string not in x)
     return test_files

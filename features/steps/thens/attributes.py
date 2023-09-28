@@ -1,3 +1,4 @@
+import operator
 import errors as err
 
 from behave import *
@@ -66,17 +67,47 @@ def step_impl(context, entity, other_entity):
         misc.handle_errors(context, errors)
 
 
-@then('The type of attribute {attribute} should be {expected_entity_type}')
+@then('The type of attribute {attribute} must be {expected_entity_type}')
 def step_impl(context, attribute, expected_entity_type):
+
+    expected_entity_types = tuple(map(str.strip, expected_entity_type.split(' or ')))
 
     def _():
         for inst in context.instances:
-            related_entity = getattr(inst, attribute, [])
-            if not related_entity.is_a(expected_entity_type):
-                yield err.AttributeTypeError(False, inst, [related_entity], attribute, expected_entity_type)
+            related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
+            errors = []
+            def accumulate_errors(i):
+                if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
+                    misc.map_state(inst, lambda x: errors.append(err.AttributeTypeError(False, x, [i], attribute, expected_entity_type)))
+            misc.map_state(related_entity, accumulate_errors)
+            if errors:
+                yield from errors
             elif context.error_on_passed_rule:
                 yield err.RuleSuccessInst(True, related_entity)
 
     misc.handle_errors(context, list(_()))
 
 
+@then('The value of attribute {attribute} must be {value}')
+def step_impl(context, attribute, value):
+    # @todo the horror and inconsistency.. should we use
+    # ast here as well to differentiate between types?
+    pred = operator.eq
+    if value == 'empty':
+        value = ()
+    elif value == 'not empty':
+        value = ()
+        pred = operator.ne
+
+    if getattr(context, 'applicable', True):
+        errors = []
+        for inst in context.instances:
+            if isinstance(inst, (tuple, list)):
+                inst = inst[0]
+            attribute_value = getattr(inst, attribute, 'Attribute not found')
+            if not pred(attribute_value, value):
+                errors.append(err.InvalidValueError(False, inst, attribute, attribute_value))
+            elif context.error_on_passed_rule:
+                errors.append(err.RuleSuccessInst(True, inst))
+
+        misc.handle_errors(context, errors)

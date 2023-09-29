@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="ryle-creation-instructions">Ryle creation instructions</h1>
+<p>This comprehensive guide will walk you through the entire process, ensuring you have all the tools necessary to effectivly create and implement a new rule.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#worfklow">Workflow</a></li>
+<li><a href="#1-branch-creation">Branch Creation</a></li>
+<li><a href="#2-rule-development">Rule Development</a>
+<ul>
+<li><a href="#21-write-feature-files-gherkin-rules-for-ifc">Feature Files (gherkin rules) for IFC</a></li>
+<li><a href="#22-write-python-steps">Python Steps</a></li>
+<li><a href="#23-write-unit-test-files">Unit Test Files</a></li>
+</ul>
+</li>
+<li><a href="#4-assign-a-reviewer-to-the-pull-request">Assign a Reviewer to the Pull Request</a></li>
+<li><a href="#5-review-the-pull-request">Review the Pull Request</a></li>
+</ul>
+<h2 id="workflow">Workflow</h2>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB;
+
+    %% Class Definitions
+    classDef defaultStyle fill:#F5090D,stroke:#333,stroke-width:2px, color:white;
+    classDef highlight fill:#90EE90,stroke:#333,stroke-width:2px, color:black;
+    classDef blue fill:#004964,stroke:#333,stroke-width:2px, color:white;
+    classDef purple fill:#952DCE,stroke:#333,stroke-width:2px, color:white;
+    classDef legend fill:#D3D3D3,stroke:#333,stroke-width:2px, color:black;
+
+    %% Legend
+    L((Legend)) --> G[(General Steps)]
+    L --> B1[(Technical/Non-Rule Improvements)]
+    L --> P[(New Rule Creation)]
+    L --> H[(Finished)]
+
+    class L legend
+    class G defaultStyle
+    class B1 blue
+    class P purple
+    class H highlight
+</div></code></pre>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB;
+
+%% Class Definitions
+classDef defaultStyle fill:#F5090D,stroke:#333,stroke-width:2px, color:white;
+classDef highlight fill:#90EE90,stroke:#333,stroke-width:2px, color:black;
+classDef blue fill:#004964,stroke:#333,stroke-width:2px, color:white;
+classDef purple fill:#952DCE,stroke:#333,stroke-width:2px, color:white;
+classDef title fill:#FFFFFF,stroke:#FFFFFF, color:black;
+
+%% Title
+title["<b>Workflow Process</b>"]
+title -.-> A
+
+%% Main Workflow Diagram
+subgraph "<b>Steps 1 & 2</b>"
+direction TB
+A[Create a new branch] --> B[Start developing]
+end
+
+subgraph "<b>Step 3</b>"
+direction TB
+B --> Q{Determine PR type}
+Q -->|Rule-related| P1[Create rule-related PR]
+Q -->|Technical| P2[Create technical PR]
+end
+
+subgraph "<b>Steps 4 & 5</b>"
+direction TB
+P1 --> C1[Assign rule-related reviewer] --> D[Review]
+P2 --> C2[Assign member of Validation Team] --> D
+end
+
+subgraph "<b>Step 6</b>"
+direction TB
+D -- " " --> X{New technical aspect in review?}
+X -->|Yes| Y[Create new technical PR] --> C2
+D -- " " --> E[Incorporate feedback]
+X -->|No| E
+E --> D
+end
+
+subgraph "<b>Step 7</b>"
+direction TB
+E --> F[Approve and merge]
+end
+
+%% Class Assignments
+class A,B,D,Q,X,E defaultStyle
+class F highlight
+class P2,C2,Y blue
+class P1,C1 purple
+class title title
+
+</div></code></pre>
+<p>The process of rule creation can be compartmentalized into seven distinct phases, meant to be tackled in sequential order. However, it's important to note the following caveat. When the proposed enhancements don't directly pertain to the rule under development, please create a 'non-rule' or 'technical' pull request.</p>
+<p>The rationale behind this is twofold. First, it allows for pull requests to be at a managable size. Second, it accelerates the rule implementation process by decoupling rule development from unrelated improvements. This seperation can be initiated either at the outset of creating a new branch or during the review phase where a reviewer may opt to split the pull requests
+branch</p>
+<p>The approval or improvement suggestion of the pull request will be then based exclusively on the primary objective of the pull request. In the case of rule-related requests, the criteria would center on whether the rule is correctly formulated and whether the gathered data accurately mirrors this formulation.</p>
+<p>On the other hand, the evaluation of a technical or non-rule pull request could be more varied, allthough it is often based on its integration level with the existing codebase and whether optimal or reusable design patterns or tools have been employed.This approach both maintains code cinstensy but also improves efficiency and reusability in the long run.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Step</th>
+<th>Responsible</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Create a new branch</td>
+<td>bSI Validation Service team</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Start developing  <strong>following instructions below</strong></td>
+<td>rule developer</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Create a pull request</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Assign a reviewer to the pull request</td>
+<td>rule developer</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Review the pull request</td>
+<td>bSI Validation Service team</td>
+</tr>
+<tr>
+<td>6</td>
+<td>(Optional) Fix the rule according to feedback</td>
+<td>rule developer</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Approve and merge</td>
+<td>bSI Validation Service team</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-create-a-new-branch">1. Create a new branch</h2>
+<p>In the buildingSMART <a href="https://github.com/buildingSMART/ifc-gherkin-rules">GitHub repository containing all rules</a>, create the branch that will be used to develop the new rule.</p>
+<ul>
+<li>Give the branch a meaningful name</li>
+<li>Add 1 rule per branch, to facilitate review (1 rule = 1 <code>.feature</code> file)</li>
+<li>Add technical improvements / code restructure / small commits into new pull request(s)</li>
+</ul>
+<h2 id="2-rule-development">2. Rule development</h2>
+<p>A rule is considered complete when it has:</p>
+<ul>
+<li>a Gherkin <a href="#21-write-feature-files-gherkin-rules-for-ifc"><strong>feature file</strong></a></li>
+<li>corresponding python implementation (aka, <a href="#22-write-python-steps"><strong>python steps</strong></a>)</li>
+<li>a set of <a href="#23-write-unit-test-files"><strong>unit test files</strong></a></li>
+</ul>
+<p>The following provds a concise summary of all the checks, procedures and hints;  for example, the use of correct naming, extentioins and folders. This has grown into a substantial list over time. To streamline this process, certain elements are checked automatically; these are highlighted in green.</p>
+<p>There are also elements, designated in blue, that either require a manual check or are optional. Lastly, some components demand manual verification because an automated check has not yet been implemented. Contributions to automate these manual checks are encouraged and would be a good example of a 'non-rule' pull-request.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB;
+
+    %% Class Definitions
+    classDef green fill:#90EE90,stroke:#333,stroke-width:2px, color:black;
+    classDef red fill:#F5090D,stroke:#333,stroke-width:2px, color:white;
+    classDef blue fill:#004964,stroke:#333,stroke-width:2px, color:white;
+    classDef legend fill:#D3D3D3,stroke:#333,stroke-width:2px, color:black;
+
+    %% Legend
+    L((Legend)) --> A[(Automatically Checked)]
+    L --> B[(Not Checked Automatically Yet)]
+    L --> C[(Manually Checked or Optional)]
+
+    class L legend
+    class A green
+    class B red
+    class C blue
+
+</div></code></pre>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB
+    classDef green fill:#90EE90,stroke:#333,stroke-width:2px, color:black;
+    classDef red fill:#F5090D,stroke:#333,stroke-width:2px, color:white;
+    classDef blue fill:#004964,stroke:#333,stroke-width:2px, color:white;
+    subgraph Gherkin
+        subgraph Naming Convention
+            A[Rule Code to Title]:::red
+            B[Code: 3 Letters + 3 Digits]:::green
+            C[Valid Functional Part]:::green
+            D[Unique Code and Title]:::green
+            E[Correct Separators]:::green
+        end
+        subgraph Feature Content
+            F[Start with Tag]:::green
+            G[Exactly 1 Feature]:::green
+            H[Correct Naming Convention]:::green
+            I[Correct Separators]:::green
+        end
+        subgraph Syntax
+            J[No Spaces Between Steps]:::red
+            K[No Extra Blank Spaces]:::red
+            L[No Punctuation at End]:::red
+            M[Case-Sensitive Parameters]:::red
+        end
+    end
+    subgraph Python
+        subgraph General
+            BB[.py format]:::blue
+            BC[Use correct subfolder]:::blue
+            BCA[Documentation]:::blue
+        end
+        subgraph Parametisation
+            BD[Reuse existing code]:::blue
+            BE[Optimisation for future]:::blue
+        end
+        subgraph Correct Keywords
+            BF[Given]:::red
+            BG[Then]:::red
+            BH[And]:::red
+            BI[*]:::red
+        end
+        subgraph Other
+            BJ[Careful with IfcOpenShell API]:::blue
+            BK[Check debug documentation]:::blue
+            BAA[Use modularity]:::blue
+            BAB[Run local versions]:::blue
+        end
+    end
+    subgraph Tests
+        subgraph Subfolder
+            CA[Test/files]:::red
+            CB[Subfolder using rule code]:::red
+            CH[Include all .ifc unit tests]:::blue
+            CI[README.md file]:::red
+            CJ[Optional: script to generate test files]:::blue
+        end
+        subgraph Naming convention
+            direction RL
+            CG[.ifc]:::red
+            CF[Short informative description]:::red
+            CE[Rule scenario : Optional]:::blue
+            CD[Rule code]:::red
+            CC[Expected result]:::red
+        end
+        subgraph Numbers
+            direction RL
+            CZ[At least 1 pass file]:::red
+            CX[At least 3 fail files]:::red
+            CR[Fail files must cover all scenarios]:::red
+        end
+        CG --- CF
+        CF --- CE
+        CE --- CD
+        CD --- CC
+        CZ[Correct Folder]
+        CX[Three 'fail' Files]
+    end
+    Gherkin === Python
+    Python === Tests
+</div></code></pre>
+<h3 id="21-gherkin">2.1) Gherkin</h3>
+<p>A feature file is a file, written using Gherkin syntax, describing the rule behavior.
+In the branch just created, add a Gherkin feature file following these instructions.</p>
+<p><strong>File format</strong>: <code>.feature</code></p>
+<p><strong>Location</strong>: https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/features</p>
+<hr>
+<h4 id="naming-convention-for-feature-files">Naming convention for feature files</h4>
+<hr>
+<ul>
+<li>The file name is 'rule code -&gt; rule title'</li>
+<li>The rule code is made of 3 digits capital letters (taken from the list of <a href="./Functional-parts.md">Functional parts</a>) + 3 digits number</li>
+<li>The rule code, and rule title, must be unique</li>
+<li>The rule title shall have no space and shall use <code>-</code> as separator</li>
+</ul>
+<details><summary>wrong</summary>
+<pre class="hljs"><code><div>SPS001 - Basic-spatial-structure-for-buildings.feature
+SPS001_Basic spatial structure for buildings.feature
+SPS001 - Basic spatial structure for buildings.feature
+</div></code></pre>
+</details>
+<details><summary>right</summary>
+<pre class="hljs"><code><div>SPS001_Basic-spatial-structure-for-buildings.feature
+</div></code></pre>
+</details>
+<hr>
+<h4 id="content-of-feature-files">Content of .feature files</h4>
+<hr>
+<ul>
+<li>must start with a tag to the functional part. See <a href="./Functional-parts.md">Functional parts</a></li>
+<li>must include exactly 1 Feature</li>
+<li>the naming convention for the Feature is the following: rule code - rule title (the same used for the file name). For the rule title blank spaces must be used instead of <code>-</code></li>
+</ul>
+<details><summary>wrong</summary>
+<pre class="hljs"><code><div>Feature: ALB001_Alignment Layout
+
+Given ...
+Then ...
+</div></code></pre>
+<pre class="hljs"><code><div>@ALB
+Feature: ALB001_Alignment-Layout
+
+Given ...
+Then ...
+</div></code></pre>
+<pre class="hljs"><code><div>@ALB
+Feature: ALB001 - Alignment-Layout
+
+Given ...
+Then ...
+</div></code></pre>
+</details>
+<details><summary>right</summary>
+<pre class="hljs"><code><div>@ALB
+Feature: ALB001 - Alignment Layout
+
+Given ...
+Then ...
+</div></code></pre>
+</details>
+<ul>
+<li>must include <strong>a description of the rule</strong> that start with &quot;The rule verifies that...&quot;</li>
+</ul>
+<details><summary>examples</summary>
+<pre class="hljs"><code><div>@implementer-agreement
+@ALB
+Feature: ALB003 - Allowed entities nested in Alignment
+The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts) or with Referents (e.g., mileage markers). And not with any other entity.
+
+  Scenario: Agreement on nested elements of IfcAlignment
+  Given ...
+  Then ...
+</div></code></pre>
+</details>
+<ul>
+<li>Mandatory Given(s): If the rule in the feature file applies only to specific IFC version(s) and/or View Definition(s), then the feature file (or each of its Scenarios, if it has more than one) must start with Given steps specifying the applicability of the following steps</li>
+</ul>
+<details><summary>examples</summary>
+<pre class="hljs"><code><div>Given A file with Schema Identifier &quot;IFC2X3&quot;
+And A file with Model View Definition &quot;CoordinationView&quot;
+</div></code></pre>
+<pre class="hljs"><code><div>Given A file with Schema Identifier &quot;IFC2X3&quot; or &quot;IFC4&quot;
+And A file with Model View Definition &quot;CoordinationView&quot; or &quot;ReferenceView&quot;
+</div></code></pre>
+</details>
+<ul>
+<li>Optional content:
+<code>.feature</code> files:</li>
+<li>can include 1 or more Scenarios</li>
+<li>Scenario titles have no constraints</li>
+</ul>
+<hr>
+<h4 id="syntax">Syntax</h4>
+<hr>
+<ul>
+<li>No spaces in between steps</li>
+</ul>
+<details><summary>wrong</summary>
+<pre class="hljs"><code><div>Given a file with Schema Identifier &quot;IFC4X3&quot;
+
+Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
+And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
+And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
+</div></code></pre>
+</details>
+<details><summary>right</summary>
+<pre class="hljs"><code><div>Given a file with Schema Identifier &quot;IFC4X3&quot;
+Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
+And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
+And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
+</div></code></pre>
+</details>
+<ul>
+<li>Watch out for extra blank spaces</li>
+</ul>
+<details><summary>wrong</summary>
+<pre class="hljs"><code><div>Given a file with Schema Identifier &quot;IFC4X3&quot;
+Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
+And  Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
+And  Each IfcAlignmentCant must be nested only by 1 IfcAlignment
+</div></code></pre>
+</details>
+<details><summary>right</summary>
+<pre class="hljs"><code><div>Given a file with Schema Identifier &quot;IFC4X3&quot;
+Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
+And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
+And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
+</div></code></pre>
+</details>
+<ul>
+<li>Do not use punctuation at the end of the steps</li>
+</ul>
+<details><summary>wrong</summary>
+<pre class="hljs"><code><div>Given a file with Schema Identifier &quot;IFC4X3&quot;,
+Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment;
+And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment;
+And Each IfcAlignmentCant must be nested only by 1 IfcAlignment.
+</div></code></pre>
+</details>
+<details><summary>right</summary>
+<pre class="hljs"><code><div>Given a file with Schema Identifier &quot;IFC4X3&quot;
+Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
+And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
+And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
+</div></code></pre>
+</details>
+<ul>
+<li>Be careful when typing parameters. They are case sensitive!</li>
+</ul>
+<details><summary>wrong</summary>
+<pre class="hljs"><code><div>Given a file with Schema Identifier &quot;IFC4x3&quot;,
+</div></code></pre>
+</details>
+<details><summary>right</summary>
+<pre class="hljs"><code><div>Given a file with Schema Identifier &quot;IFC4X3&quot;
+</div></code></pre>
+</details>
+<ul>
+<li>Must vs Shall:
+Use <strong>must</strong>, not <strong>shall</strong> to impose requirements.
+&quot;Shall&quot; is ambiguous, also in the legal field the community is moving to a strong preference for “must” as the clearest way to express a requirement or obligation.</li>
+</ul>
+<details><summary>wrong</summary>
+<pre class="hljs"><code><div>Given A file with Schema Identifier &quot;IFC2X3&quot;
+And A file with Model View Definition &quot;CoordinationView&quot;
+Then There must be exactly 1 IfcSite element(s)
+</div></code></pre>
+</details>
+<details><summary>right</summary>
+<pre class="hljs"><code><div>Given A file with Schema Identifier &quot;IFC2X3&quot;
+And A file with Model View Definition &quot;CoordinationView&quot;
+Then There must be exactly 1 IfcSite element(s)
+</div></code></pre>
+</details>
+<ul>
+<li>Correct verbs for IFC relationships:
+when a rule requires a specific IFC relationship to exist, refer to the table below for the right verb to be used.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>IFC relationship</th>
+<th>Verb for rules</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IfcRelAggregates</td>
+<td>aggregate, aggregates</td>
+<td>Then IfcSite must aggregate IfcBuilding</td>
+</tr>
+<tr>
+<td>IfcRelNests</td>
+<td>nest, nests</td>
+<td>Then Each IfcAlignmentVertical nests a list of IfcAlignmentSegment</td>
+</tr>
+<tr>
+<td>...</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-python-implementation">2.2) Python implementation</h3>
+<hr>
+<h4 id="general">General</h4>
+<hr>
+<p>The Python steps serve as a practical execution of the Gherkin grammar that we've defined in the feature files. To modify or add Python implementation of steps, simply navigate to the same branch where your Gherkin rules are housed. Then, proceed according to the following guidelines..</p>
+<ul>
+<li>
+<p><strong>File format</strong>: <code>.py</code></p>
+</li>
+<li>
+<p>Use correct subfolder: <strong>Location</strong>: https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/features/steps .</p>
+</li>
+</ul>
+<p>The Python code is organized into distinct subfolders, each acting as seperate packages. These include 'given', 'then', 'utils', and 'errors'. The 'given' and 'then' packages represent the Python implementation of Gherkin steps, while 'utils' houses helper functions. The 'errors' package is, as the name implies, dedicated to handling errors.</p>
+<p>These packages are further divided into different modules. For example, 'then' houses modules like 'nesting(.py), values and relationships. It is recommended to utilize the appropriate modules when adding or modifying code. However, the procedure for segmenting code into seperate packages isn't always clear. Some may argue tha the current structure isn't optimal or that(for example), 'nesting' is a subtype of 'relationships.</p>
+<p>Of course, feel free to add improvements on the structure. This would again be a good example of 'non-rule' pull requests</p>
+<ul>
+<li>Documentation</li>
+</ul>
+<p>For every new function, please include some docstrings. These should comprise one or two sentences capturing your current understanding of the function. What seems clear today may not be as understandable tomorrow, or to someone else.</p>
+<hr>
+<h4 id="parametisation">Parametisation</h4>
+<hr>
+<p>For the moment, all python steps are contained in <a href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/main/features/steps/steps.py">steps.py</a>. Therefore, <strong>you should not create a new python file, just expand the existing one.</strong></p>
+<hr>
+<h4 id="steps-parametrisation">Steps parametrisation</h4>
+<hr>
+<p>When creating a new step, think about parametrisation and optimisation of the step for future uses.</p>
+<ul>
+<li>Reuse existing code: Before creating a new step, check if something similar already exist.</li>
+<li>Try to optimize code for future use. Try to reuse existing steps.</li>
+</ul>
+<hr>
+<h4 id="correct-keywords">Correct Keywords</h4>
+<hr>
+<p>The &quot;when&quot; keyword must not be used.
+Allowed keywords :</p>
+<ul>
+<li><code>Given</code></li>
+<li><code>Then</code></li>
+<li><code>And </code></li>
+<li><code>*</code></li>
+</ul>
+<hr>
+<h4 id="other">Other</h4>
+<hr>
+<ul>
+<li>Try not to use existing IfcOpenShells API</li>
+<li>Check debug documentation</li>
+</ul>
+<p>A good method for debugging is using Visual Studio Code, though the following should work fine with other editors. An effective method is to execute Behave while passing one the 'fail' files as an argument. This technique allows for setting breakpoints within the code, thereby helping identifying and rectifying issues efficiently. Below is a suggested format for the launch file, which needs to be modified with the local path.</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-comment">// Use IntelliSense to learn about possible attributes.</span>
+    <span class="hljs-comment">// Hover to view descriptions of existing attributes.</span>
+    <span class="hljs-comment">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span>
+    <span class="hljs-attr">"version"</span>: <span class="hljs-string">"0.2.0"</span>,
+    <span class="hljs-attr">"configurations"</span>: [
+        {
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Python: module"</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"python"</span>,
+            <span class="hljs-attr">"request"</span>: <span class="hljs-string">"launch"</span>,
+            <span class="hljs-attr">"module"</span>: <span class="hljs-string">"behave"</span>,
+            <span class="hljs-attr">"justMyCode"</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">"args"</span>: [<span class="hljs-string">"-D"</span>,<span class="hljs-string">"input='/home/geert/Documents/validation_service/buildingSMART/gherkin/alb002/ifc-gherkin-rules/test/files/alb002/fail-alb002-scenario02-two_alignments.ifc'"</span>]
+        }
+    ]
+}
+</div></code></pre>
+<hr>
+<ul>
+<li>Modularity.</li>
+</ul>
+<hr>
+<p>To avoid merge conflicts, it is optimal to design your code to be as loosely coupled or modular as possible. This approach makes code maintainance and understanding easier, as each module functions independently and has a specific role ('seperation of concerns'). It simplifies debugging, testing and reduces potential mege conflicts, as each module can be examined without affecting others. Additionaly, this also makes it easier to split pull requests into smaller, more managable chuncks.</p>
+<hr>
+<ul>
+<li>Run local versions</li>
+</ul>
+<hr>
+<p>The 'sandbox' functionality enables you to run local versions of the validation service. With each pull request, a sandbox link is automatically generated, allowing you to preview the functionality.</p>
+<p>Alternatively, if there are updates required in the validation service, you can opt to run the service locally. Here are the steps to do so (with the validation_service repository):</p>
+<ul>
+<li>When on linux, on ui/package.json, modify 'scripts'</li>
+</ul>
+<pre class="hljs"><code><div>  <span class="hljs-string">"scripts"</span>: {
+    <span class="hljs-attr">"start"</span>: <span class="hljs-string">"set NODE_ENV=development &amp;&amp; react-scripts start"</span>,
+    <span class="hljs-attr">"build"</span>: <span class="hljs-string">"react-scripts build"</span>,
+    <span class="hljs-attr">"test"</span>: <span class="hljs-string">"react-scripts test"</span>,
+    <span class="hljs-attr">"eject"</span>: <span class="hljs-string">"react-scripts eject"</span>,
+    <span class="hljs-attr">"api"</span>: <span class="hljs-string">"cd ../application &amp;&amp; run_no_debug.bat"</span>
+  },
+</div></code></pre>
+<ul>
+<li>Create a local environment (for instance, with conda or venv) with the relevant packages. These packages. The most recent version can be found in application/dockerfile.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">RUN</span><span class="bash"> /pypy3.8-v7.3.7-linux64/bin/python3 -m pip install --upgrade pip</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> /pypy3.8-v7.3.7-linux64/bin/python3 -m pip install lark-parser==0.12.0</span>
+
+<span class="hljs-keyword">RUN</span><span class="bash"> python3 -m pip install --upgrade pip</span>
+
+
+<span class="hljs-keyword">RUN</span><span class="bash"> python3 -m pip install <span class="hljs-string">'flask&gt;=2.3'</span> flask-cors numpy gunicorn rq redis SQLAlchemy==1.4.31 psycopg2 psycopg2cffi sqlalchemy-utils Flask-BasicAuth flasgger requests pyparsing XlsxWriter requests_oauthlib Authlib requests argparse behave pytest orjson --upgrade</span>
+</div></code></pre>
+<ul>
+<li>Set environment with <code>export environment=development</code></li>
+<li>In the ui folder, run <code>npm install</code></li>
+<li>Update the submodule <code>git submodule init &amp;&amp; git submodule update</code></li>
+<li>Run the local environment : <code>npm install</code>
+Note that the gherkin repository is one of these submodules. The flask works as a backend API for reactJS frontend. The gherkin repository is a part of this API.</li>
+</ul>
+<h3 id="23-write-unit-test-files">2.3) Write unit test files</h3>
+<p>Unit test files are atomic IFC files, created to develop a rule and test its behavior.
+In the same branch used for the Gherkin rules, and python steps, create unit test files following these instructions. <strong>IMPORTANT</strong>: every rule developed must have a set of unit test files.</p>
+<hr>
+<h4 id="subfolder">Subfolder</h4>
+<hr>
+<ul>
+<li><strong>File format</strong>: <code>.ifc</code></li>
+<li><strong>Location</strong>: https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/test/files</li>
+<li>In the 'test/files' directory, make a new subdirectory named after the rule code you're working with (for instance, 'ALB001') and add the set of files for unit tests for that rule in this subfolder.</li>
+<li>Add a README markdown file with a summary of the unit tests, their expected behavior and the tested scope. Using the <a href="#table-template-for-unit-test-files">template table</a> below</li>
+<li>An option is to generate IFC files for unit tests automatically with (for instance) IfcOpenShell.</li>
+</ul>
+<hr>
+<h4 id="naming-convention-for-unit-test-files-files">Naming convention for unit test files files</h4>
+<hr>
+<p>Unit test files must follow this naming convention</p>
+<p><code>Expected result</code>-<code>rule code</code>-<code>rule scenario</code>-<code>short_informative_description</code>.ifc</p>
+<p>Or in case where a rule has no scenarios
+<code>Expected result</code>-<code>rule code</code>-<code>short_informative_description</code>.ifc</p>
+<details><summary>Examples</summary>
+<pre class="hljs"><code><div>pass-alb001-short_informative_description.ifc
+fail-alb001-scenario01-short_informative_description.ifc
+fail-alb001-short_informative_description.ifc
+</div></code></pre>
+</details>
+<hr>
+<h4 id="numbers">Numbers</h4>
+<hr>
+<ul>
+<li>Each rule developed must have a set of unit test files</li>
+<li>There must be at least one 'pass' file and two 'fail' files for testing.</li>
+<li>Files must cover all scnearios of a rule</li>
+</ul>
+<hr>
+<h4 id="table-template-for-unit-test-files">Table template for unit test files</h4>
+<hr>
+<p>Example table describing unit test expected results</p>
+<table>
+<thead>
+<tr>
+<th>File name</th>
+<th>Expected result</th>
+<th>Error log</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pass-alb002-alignment-layout</td>
+<td>success</td>
+<td>n.a.</td>
+<td></td>
+</tr>
+<tr>
+<td>fail-alb002-scenario01-nested_attributes_IfcAlignment</td>
+<td>fail</td>
+<td>The instance IfcAlignment is nesting two instances of IfcAlignmentHorizontal ...</td>
+<td>Error is descriptive or exactly the error in pytest? If exactly, multiple row...</td>
+</tr>
+<tr>
+<td>fail-alb002-scenario02-two_alignments</td>
+<td>fail</td>
+<td>The following 2 instances were encountered: IfcAlignment #23, IfcAlignment #906</td>
+<td>For IfcAlignmentHorizontal, IfcAlignmentVertical and IfcAlignmentCant</td>
+</tr>
+<tr>
+<td>fail-alb002-scenario03-layout</td>
+<td>fail</td>
+<td>The instance #906=IfcAlignment is nesting #907=IfcWall</td>
+<td>Includes errors for scenario 2</td>
+</tr>
+<tr>
+<td>fail-alb002-scenario04-alignment_segments</td>
+<td>fail</td>
+<td>The instance (s) #28=IfcAlignmentHorizontal is assigned to #906=IfcWall</td>
+<td>@todo IfcAlignmentVertical, IfcAlignmentCant. As well as empty list/typo's?</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-assign-a-reviewer-to-the-pull-request">4. Assign a reviewer to the pull request</h2>
+<h3 id="assigning-a-reviewer">Assigning a reviewer</h3>
+<p>Once the development is complete, a reviewer should be assigned to the pull request. The criteria for rule-based pull requests are stricter. For non-rule or technical pull requests, any member of the Validation Service Team can be assigned to review and merge the pull request.</p>
+<h3 id="handling-pull-requests">Handling Pull Requests</h3>
+<p>Pull requests can be split into multiple smaller ones. Developers are encouraged to apply principles such as 'Loose Coupling' and 'Modularity' to avoid conflicts with other code or open pull requests.</p>
+<h3 id="developer-responsibilities">Developer Responsibilities</h3>
+<p>The developer is responsible for managing their own pull request. This includes:</p>
+<ul>
+<li>Assigning a reviewer</li>
+<li>Agreeing on a review deadline</li>
+<li>Opening issues</li>
+<li>Resolving any merge conflicts</li>
+<li>Incorporating feedback to improve the code</li>
+</ul>
+<h3 id="reviewer-responsibilities">Reviewer Responsibilities</h3>
+<p>The reviewer, on the other hand, is tasked with providing timely and constructive feedback.</p>
+<h3 id="technical-or-non-rule-related-follow-up-pull-requests">Technical or non-rule related 'follow up' pull requests</h3>
+<p>The responsibility for any technical or non-rule related pull requests that stem from the reviewed pull request falls to either the reviewer or the developer. Unless otherwise specified, the individual who opens the new pull request assumes the same responsibilities as the developer involved in the original pull request.</p>
+<h3 id="oversight-by-the-validation-team">Oversight by the Validation Team</h3>
+<p>A member of the Validation Team (GH?) oversees the entire repository. Their duties include moderating issues, ensuring minimal overlap between pull requests, and establishing review priorities to ensure the most beneficial sequence of pull requests being reviewed.</p>
+<h2 id="5-review-the-pull-request">5. Review the pull request</h2>
+<p>Keep the review process as focused as possible. If a pull request pertains to a rule, the reviewer should primarily scrutinize the quality of that rule. If associated but non-critical parts of the code could be enhanced, it should not be a sufficient reason to withhold merging the pull request. However, if addressing such an issue proves problematic or significantly beneficial, a new 'non-rule' or technical pull request should be created. Examples of such scenarios from the past include:</p>
+<ul>
+<li>Using 'pyparsing' for custom parsing (technical)</li>
+<li>Adding features to test specific code (non-rule)</li>
+<li>Reorganizing files into seperate packages and modules.</li>
+</ul>
+<h2 id="6-optional-fix-the-rule-according-to-feedback-from-reviewer">6. (Optional) Fix the rule according to feedback from reviewer</h2>
+<p>After the review process, there might be feedback and suggestions from the reviewers to improve the rule or fix any issues. It could also be that additional pull requests are opened.</p>
+<ul>
+<li>If you have questions, ask the reviewer for clarification.</li>
+<li>Update the rule as suggested.</li>
+<li>If a new technical or non-rule related pull request is opened, check the responsibility for tracking and timely reviews for that pull request. By default, the individual who opened the pull request claims responsibility.</li>
+<li>Update the pull request with a comment detailing the changes made in response to the feedback.</li>
+<li>Request another review from the same reviewer or a different one if needed.</li>
+</ul>
+<h2 id="7-approve-and-merge-the-pull-request">7. Approve and merge the pull request</h2>
+<p>Once everything has been approved and tested, delete the branch. Lastly, celebrate the implementation of the new rule or improvements that have been made <img class="emoji" alt="smiley" src="data:image/png;base64,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" /></p>
+
+</body>
+</html>

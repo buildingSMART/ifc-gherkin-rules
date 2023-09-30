@@ -8,9 +8,11 @@ import tabulate
 
 try:
     from ..main import run
+    from ..test.rule_creation_protocol import protocol
 except ImportError:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
     from main import run
+    from test.rule_creation_protocol import protocol
 
 rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
 rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), sys.argv[1:]))
@@ -42,13 +44,25 @@ def get_test_files():
         test_files = glob.glob(os.path.join(os.path.dirname(__file__), "files/**/*.ifc"), recursive=True)
     return test_files
 
+
+
 @pytest.mark.parametrize("filename", get_test_files())
-def test_invocation(filename):
-    results = list(run(filename))
+def test_invocation(request, filename):
+
+    def step_attrs_to_file(*attrs): 
+        def get_nested_item(d, keys):
+            for key in keys:
+                d = d.get(key, {})
+            return d
+        return list({get_nested_item(item, attrs) for item in behave_results})[0]
+
+    behave_results = list(run(filename))
     base = os.path.basename(filename)
-    # if base.startswith("pass-"):
-    results = [result for result in results if result[4] != 'Rule disabled']
-    results = [result for result in results if 'Rule passed' not in result[4]]
+    results = [
+        result['display_testresult']
+        for result in behave_results
+        if result['display_testresult'][4] != 'Rule disabled' and 'Rule passed' not in result['display_testresult'][4]
+    ]
     print()
     print(base)
     print()
@@ -59,6 +73,19 @@ def test_invocation(filename):
             maxcolwidths=[30] * len(results[0]),
             tablefmt="simple_grid"
         ))
+
+    if '--validate-dev' in sys.argv or request.config.getoption("--validate-dev"):
+        try:
+            protocol.enforce(convention_attrs={
+                'ifc_filename' : base,
+                'feature_name' : step_attrs_to_file('convention_check_attrs', 'feature_name'),
+                'feature_file' : step_attrs_to_file('convention_check_attrs', 'feature_file'),
+                'description' :step_attrs_to_file('convention_check_attrs', 'description'),
+                'tags': [item['convention_check_attrs']['tags'] for item in behave_results][0]
+            })
+        except IndexError:
+            pass #@todo check for 'pass' testfiles that don't have any results. For instance 'pass-alb005-IfcReferent-NOTDEFINED_with_position.ifc'
+
     if base.startswith("fail-"):
         assert len(results) > 0
     elif base.startswith("pass-"):

@@ -1,6 +1,5 @@
 import ifcopenshell
 from behave.model import Scenario
-from rule_creation_protocol import protocol
 
 model_cache = {}
 def read_model(fn):

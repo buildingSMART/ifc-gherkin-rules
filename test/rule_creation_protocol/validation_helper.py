@@ -1,7 +1,15 @@
+import os
+import sys
+
 import re
 from pyparsing import Word, alphas, nums, Group, OneOrMore
-from steps.utils import system
 from .utils import replace_substrings
+
+try:
+    from ...features.steps.utils import system
+except ImportError:
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '...'))
+    from features.steps.utils import system
 
 class ValidatorHelper():
     """
@@ -84,7 +92,10 @@ class ParsePattern():
 
         self.feature_name_pattern = self.rule_code + \
             self.special_character + self.rule_title
-        self.feature_name_parsed = self.feature_name_pattern.parseString(name)
+        try:
+            self.feature_name_parsed = self.feature_name_pattern.parseString(name)
+        except:
+            pass
         try:
             return {
                 'rule_code': {

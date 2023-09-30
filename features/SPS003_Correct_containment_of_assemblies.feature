@@ -1,7 +1,7 @@
 @implementer-agreement
 @SPS
 Feature: SPS003 - Correct containment of assemblies
-IfcElement that are aggregated in another IfcElement must not be contained using IfcRelContainedInSpatialStructure.
+The rule verifies that IfcElement that are aggregated in another IfcElement must not be contained using IfcRelContainedInSpatialStructure.
 
   Scenario: Agreement on aggregated elements not being contained
 

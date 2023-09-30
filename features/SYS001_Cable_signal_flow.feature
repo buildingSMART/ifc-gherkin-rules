@@ -1,7 +1,7 @@
 @implementer-agreement
 @SYS
 Feature: SYS001 - Cable signal flow
-IfcCableSegment must define 2 distribution ports, 1 as a SOURCE, one as a SINK
+The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a SOURCE, one as a SINK
 
   Scenario: Agreement on IfcCableSegment having ports
 

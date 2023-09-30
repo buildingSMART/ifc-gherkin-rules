@@ -1,19 +1,24 @@
 import typing
-import os
-import argparse
-import re
-
 from pydantic import BaseModel, model_validator, field_validator, Field, conlist
 
-from rule_creation_protocol.validation_helper import ValidatorHelper, ParsePattern
-# from .validation_helper import ValidatorHelper, ParsePattern
+from .validation_helper import ValidatorHelper, ParsePattern
 from .duplicate_registry import Registry
 from .errors import ProtocolError
 from .utils import replace_substrings
 from .config import ConfiguredBaseModel
 
+from functools import wraps
+
 documentation_src = 'https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/features'
 
+def handle_protocol_error(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except ProtocolError as e:
+            print(e.message)  # You can change this to logging or any other error handling method
+    return wrapper
 
 class Naming(ConfiguredBaseModel):
     """Parse and validate feature naming conventions.
@@ -104,7 +109,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
     dotfeature_file: Naming  # either user input or test file
     ifc_input: dict
     tags: list
-    description : conlist(str, min_length=1) # fails if no description is provided
+    description : str
 
     @field_validator('tags')
     def do_validate_tags(cls, value) -> dict:
@@ -123,10 +128,8 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
     @field_validator('description')
     def validate_description(cls, value = list) -> list:
-        """must include a description of the rule that start with "The rule verifies that..."""
-        first_sentence = value[0]
-        cleaned_value = ' '.join(re.sub(r'[^\w\s]', '', first_sentence).split()[:4]) # allow for comma's
-        if not cleaned_value.lower() in ['the rule verifies that', 'this rule verifies that']: # allow 'this'
+        """must include a description of the rule that start with "The rule verifies that..."""# allow for comma's
+        if not any(value.startswith(f"{prefix} rule verifies{optional_comma} that") for prefix in ("This", "The") for optional_comma in ("", ",")):
             raise ProtocolError(
                 value = value,
                 message = f"The description must start with 'The rule verifies that', it now starts with {value}"
@@ -134,39 +137,35 @@ class RuleCreationConventions(ConfiguredBaseModel):
         return value
     
 
-def enforce(context=False, feature=False, testing=False) -> bool:
+def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
     """Main function to validate feature and tagging conventions.
 
     This function creates and validates a `RuleCreationConventions` instance based on the provided parameters. 
     It can work in a testing mode when a testing dictionary is provided.
     """
-    if testing:
-        feature_obj = testing
-    else:
-        feature_obj = {
-            'feature': {
-                'name': feature.name,  # e.g. 'ALB001 - Alignment in spatial structure
-                'valid_first_separator': '-',
-                'valid_separators': ' '
-            },
-            'dotfeature_file': {
-                # e.g. 'ALB001_Alignment-in-spatial-structure.feature'
-                'name': os.path.basename(context.feature.filename),
-                'valid_first_separator': '_',
-                'valid_separators': '-'
-            },
-            'ifc_input': {
-                # if testfile : 'fail-alb001-scenario01-contained_relation_not_directed_to_ifcsite.ifc'
-                'name': os.path.basename(context.config.userdata["input"]),
-                'valid_separators': '-'
-            },
-            'tags': feature.tags,
-            'description': feature.description
+    attrs = convention_attrs or testing_attrs
+
+    feature_obj = {
+        'feature': {
+            'name': attrs['feature_name'],  # e.g. 'ALB001 - Alignment in spatial structure
+            'valid_first_separator': '-',
+            'valid_separators': ' '
+        },
+        'dotfeature_file': {
+            # e.g. 'ALB001_Alignment-in-spatial-structure.feature'
+            'name': attrs['feature_file'],
+            'valid_first_separator': '_',
+            'valid_separators': '-'
+        },
+        'ifc_input': {
+            # if testfile : 'fail-alb001-scenario01-contained_relation_not_directed_to_ifcsite.ifc'
+            'name': attrs['ifc_filename'],
+            'valid_separators': '-'
+        },
+        'tags': attrs['tags'],
+        'description': attrs['description']
         }
-
-    feature = RuleCreationConventions(**feature_obj)
-
-    return True
+    RuleCreationConventions(**feature_obj)
 
 
 if __name__ == "__main__":

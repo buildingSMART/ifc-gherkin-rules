@@ -83,11 +83,21 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
         for item in log:
             feature_name = item['name']
             feature_file = item['location'].split(':')[0]
+            description = '\n'.join(item.get('description', []))
             shas = get_commits(cwd, feature_file)
             version = len(shas)
-            check_disabled = 'disabled' in item['tags']
+            tags = item['tags']
+            convention_check_attrs = {
+                            'feature_name' : feature_name,
+                            'feature_file' : os.path.basename(feature_file),
+                            'description' : description,
+                            'tags': tags
+                        }
+            
+            check_disabled = 'disabled' in tags
             if check_disabled:
-                yield f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled"
+                yield {'display_testresult': [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled"],
+                        'convention_check_attrs': convention_check_attrs}
 
             try:
                 el_list = item['elements']
@@ -107,12 +117,15 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
                             results = []
                         passed = [result for result in results if result['rule_passed']]
                         failed = [result for result in results if not result['rule_passed']]
+
                         for occurence in failed:
                             inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, occurence["message"]
+                            yield {'display_testresult': [f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, occurence["message"]],
+                                   'convention_check_attrs': convention_check_attrs}
                         for occurence in passed:
                             inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, "Rule passed"
+                            yield {'display_testresult' : [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, "Rule passed"],
+                                   'convention_check_attrs' : convention_check_attrs}
 
     os.close(fd)
     os.unlink(jsonfn)

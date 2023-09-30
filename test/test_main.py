@@ -48,7 +48,7 @@ def test_invocation(filename):
     base = os.path.basename(filename)
     # if base.startswith("pass-"):
     results = [result for result in gherkin_results if result[4] != 'Rule disabled']
-    results = [result for result in results if 'Rule passed' not in results[4]]
+    results = [result for result in results if 'Rule passed' not in result[4]]
     print()
     print(base)
     print()

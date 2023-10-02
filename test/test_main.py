@@ -15,6 +15,23 @@ except ImportError:
 rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
 rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), sys.argv[1:]))
 
+    
+def exclude_disabled_rules(filepath):
+    tags = []
+    
+    with open(filepath, 'r') as file:
+        for line in file:
+            stripped_line = line.strip()  # Remove any leading or trailing whitespace
+            if stripped_line.startswith("@"):
+                tags_on_line = stripped_line.split()
+                tags.extend(tags_on_line)
+    return '@disabled' in tags
+
+def rule_disabled(code: str) -> bool:
+    feature_paths = glob.glob(os.path.join(os.path.dirname(__file__), "../features/**/*.feature"), recursive=True)
+    return next((exclude_disabled_rules(path) for path in feature_paths if os.path.basename(path).lower().startswith(code)), False)
+
+
 def get_test_files():
     """
     Option -> Example
@@ -33,6 +50,9 @@ def get_test_files():
         paths = glob.glob(os.path.join(os.path.dirname(__file__), "files/", code.lower(), "*.ifc"))
         if not paths:
             print(f"No IFC files were found for the following rule code: {code}. Please provide test files or verify the input.")
+        elif rule_disabled(code):
+            print(f"The rule identified by code '{code}' is currently marked as 'disabled'. Any associated test files will not be taken into consideration")
+            continue
         test_files.extend(paths)
 
     file_pattern =  r".*\.ifc(\')?$" #matches ".ifc" and "ifc'"

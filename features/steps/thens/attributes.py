@@ -59,7 +59,7 @@ def step_impl(context, entity, other_entity):
     if getattr(context, 'applicable', True):
         for obj in context.instances:
             if not misc.do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
-                yield(err.InstancePlacementError(False, obj, other_entity, "", "", "", ""))ls
+                yield(err.InstancePlacementError(False, obj, other_entity, "", "", "", ""))
             elif context.error_on_passed_rule:
                 yield(err.RuleSuccessInst(True, obj))
 

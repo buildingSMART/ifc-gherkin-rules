@@ -51,7 +51,8 @@ def step_impl(context, constraint, num=None):
                     errors.append(err.DuplicateValueError(False, inst, incorrect_values, attribute, incorrect_insts, report_incorrect_insts))
                 if len(errors) == amount_of_errors and context.error_on_passed_rule:
                     errors.append(err.RuleSuccessInst(True, values))
-        if constraint[-5:] == ".csv'":
+        elif constraint[-5:] == ".csv'":
+
             csv_name = constraint.strip("'")
             for i, values in enumerate(instances):
                 if not values:
@@ -67,6 +68,20 @@ def step_impl(context, constraint, num=None):
                     if not value in valid_values:
                         errors.append(err.InvalidValueError(False, [t[i] for t in stack_tree][1][iv], attribute, value))
                 if len(errors) == amount_of_errors and context.error_on_passed_rule:
+                    errors.append(err.RuleSuccessInst(True, values))
+        elif num is not None:
+            values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
+
+            if stack_tree:
+                num_valid = 0
+                for i in range(len(stack_tree[0])):
+                    path = [l[i] for l in stack_tree]
+                    if path[0] in values:
+                        num_valid += 1
+                if num is not None and num_valid < num:
+                    paths = [[l[i] for l in stack_tree] for i in range(len(stack_tree[0]))]
+                    errors.append(err.ValueCountError(False, paths, values, num))
+                elif context.error_on_passed_rule:
                     errors.append(err.RuleSuccessInst(True, values))
 
     err.generate_error_message(context, errors)

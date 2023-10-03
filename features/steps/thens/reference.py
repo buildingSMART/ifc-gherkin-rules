@@ -8,7 +8,6 @@ from utils import geometry, misc
 @err.handle_errors
 def step_impl(context, something, num):
     assert something in ("edge", "oriented edge")
-    
     emitted_one_passing = False
 
     for inst in context.instances:

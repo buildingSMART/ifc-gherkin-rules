@@ -1,0 +1,6 @@
+| File name                                                       | Expected result   | Error                                                                                                                    | Description   |
+|:----------------------------------------------------------------|:------------------|:-------------------------------------------------------------------------------------------------------------------------|:--------------|
+| pass-alb005-IfcReferent-POSITION_with_position.ifc              | pass              | Rule passed                                                                                                              |               |
+| fail-alb005-IfcReferent-scenario01-STATION_without_position.ifc | fail              | The instance #27=IfcReferent('0zPglKt794HeTPG40K3Oxg',#5,$,$,$,$,$,.STATION.) is not directly positioned to IfcAlignment |               |
+| pass-alb005-IfcReferent-no_predefined_type_with_position.ifc    | pass              |                                                                                                                          |               |
+| pass-alb005-IfcReferent-NOTDEFINED_with_position.ifc            | pass              |                                                                                                                          |               |

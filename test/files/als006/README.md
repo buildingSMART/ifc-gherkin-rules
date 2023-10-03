@@ -1,0 +1,6 @@
+| File name | Expected result | Error | Description |
+|-------|---------|--------|-------|
+| pass-als006-sectioned-solid-horizontal.ifc| success |    | |
+| fail-als006-sectioned-solid-horizontal-wrong-identifier.ifc| fail | On instance #200001=IfcShapeRepresenta...,(#54)) the following invalid value for RepresentationIdentifier has been found: Footprint| The value of attribute Representation must be Axis, but is Footprint instead  |
+| fail-als006-sectioned-solid-horizontal-wrong-item.ifc| fail |The instance #20001=IfcShapeRepresentation(#1001, 'Axis', 'Curve2D',(#79)) expected type 'IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline' for the attribute Items, but found #79=IfcGradientCurve((#8..#54,$) | On entity #20001=IfcShapeRepresentation(#1001, 'Axis', 'Curve2D',(#79)). The type of attribute Items must be IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline, but found IfcGradientCurve instead |
+| fail-als006-sectioned-solid-horizontal-wrong-type.ifc| fail | On instance #20001=IfcShapeRepresenta...,(#54)) the following invalid value for RepresentationType has been found: Curve3D |The value of attribute RepresentationType must be Curve2D, but found Curve3D instead |

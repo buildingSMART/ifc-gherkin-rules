@@ -7,18 +7,7 @@ from .errors import ProtocolError
 from .utils import replace_substrings
 from .config import ConfiguredBaseModel
 
-from functools import wraps
-
 documentation_src = 'https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/features'
-
-def handle_protocol_error(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except ProtocolError as e:
-            print(e.message)  # You can change this to logging or any other error handling method
-    return wrapper
 
 class Naming(ConfiguredBaseModel):
     """Parse and validate feature naming conventions.
@@ -124,6 +113,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
     
     @field_validator('ifc_input')
     def validate_ifc_input(cls, value):
+        #@todo implement
         pass
 
     @field_validator('description')

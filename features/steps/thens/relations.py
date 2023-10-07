@@ -154,7 +154,9 @@ def step_impl(context, table):
                 continue
 
             try:
-                relation = inst.PropertyDefinitionOf[0]
+                relation = inst.PropertyDefinitionOf[0]  # IFC2x3
+            except AttributeError:
+                relation = inst.DefinesOccurrence[0]  # IFC4x3
             except IndexError:  # IfcPropertySet not assigned, rule not further checked
                 continue
 

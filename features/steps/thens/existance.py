@@ -29,5 +29,5 @@ def step_impl(context, constraint, num, entity):
         if not op(len(insts), num):
             errors.append(err.InstanceCountError(False, insts, entity))
         elif context.error_on_passed_rule:
-            errors.append(err.RuleSuccessInsts(True, insts))
+            errors.append(err.RuleSuccessInst(True, insts))
     misc.handle_errors(context, errors)

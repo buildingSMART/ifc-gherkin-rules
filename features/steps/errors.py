@@ -11,15 +11,6 @@ class RuleState:
     rule_passed: bool
 
 
-# @todo why do we have RuleSuccessInst and -Insts with identical formatting
-
-@dataclass
-class RuleSuccessInsts(RuleState):
-    insts: ifcopenshell.entity_instance
-
-    def __str__(self):
-        return f"The instance {self.insts} has passed the step criteria"
-
 @dataclass
 class RuleSuccessInst(RuleState):
     inst: ifcopenshell.entity_instance
@@ -141,6 +132,15 @@ class InvalidValueError(RuleState):
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} the following invalid value for {self.attribute} has been found: {self.value}"
 
+@dataclass
+class InvalidPropertySetDefinition(RuleState):
+    inst: ifcopenshell.entity_instance
+    object: ifcopenshell.entity_instance
+    name: str
+    types: list
+
+    def __str__(self):
+        return f"The instance {misc.fmt(self.inst)} with Name attribute {self.name} is assigned to {misc.fmt(self.object)}. It must be assigned to one of the following types instead: {self.types}"
 
 @dataclass
 class ValueCountError(RuleState):

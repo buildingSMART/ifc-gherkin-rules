@@ -43,7 +43,7 @@ def step_impl(context, entity, condition, directness, other_entity):
             if directness_achieved != directness_expected:
                 errors.append(err.InstanceStructureError(False, ent, [relating_spatial_element], 'contained', optional_values={'condition': condition, 'directness': directness}))
             elif context.error_on_passed_rule:
-                errors.append(err.RuleSuccessInsts(True, ent))
+                errors.append(err.RuleSuccessInst(True, ent))
 
     misc.handle_errors(context, errors)
 
@@ -105,7 +105,7 @@ def step_impl(context, relationship, table):
                     checked.add(ent)
 
     for ent in checked - invalid:
-        errors.append(err.RuleSuccessInsts(True, ent))
+        errors.append(err.RuleSuccessInst(True, ent))
 
     misc.handle_errors(context, errors)
 
@@ -132,6 +132,42 @@ def step_impl(context, related, relating, other_entity, condition):
 
     misc.handle_errors(context, errors)
 
+
+@then('The IfcPropertySet must be assigned according to the property set definitions table {table}')
+def step_impl(context, table):
+    if getattr(context, 'applicable', True):
+        errors = []
+        tbl_path = system.get_abs_path(f"resources/property_set_definitions/{table}")
+        tbl = system.get_csv(tbl_path, return_type='dict')
+
+        property_set_definitons = {d['Name']: d['ApplicableClasses'] for d in tbl}
+        property_set_definitons = {key: value.split(';') for key, value in property_set_definitons.items()}
+
+        for inst in context.instances:
+            if isinstance(inst, (tuple, list)):
+                inst = inst[0]
+
+            name = getattr(inst, 'Name', 'Attribute not found')
+
+            if name not in property_set_definitons.keys():
+                errors.append(err.InvalidValueError(False, inst, 'Name', name))  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall
+                continue
+
+            try:
+                relation = inst.PropertyDefinitionOf[0]
+            except IndexError:  # IfcPropertySet not assigned, rule not further checked
+                continue
+
+            related_objects = relation.RelatedObjects
+
+            for obj in related_objects:
+                correct = [obj.is_a(expected_object) for expected_object in property_set_definitons[name]]
+                if not any(correct):
+                    errors.append(err.InvalidPropertySetDefinition(False, inst, obj, name, property_set_definitons[name]))
+                elif context.error_on_passed_rule:
+                    errors.append(err.RuleSuccessInst(True, inst))
+
+        misc.handle_errors(context, errors)
 
 
 @then('Each {entity} {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
@@ -197,9 +233,9 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
                 if directness_achieved != directness_expected:
                     errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
                 elif context.error_on_passed_rule:
-                    errors.append(err.RuleSuccessInsts(True, ent))
+                    errors.append(err.RuleSuccessInst(True, ent))
             if context.error_on_passed_rule and decision == 'must not' and not relationship_reached:
-                errors.append(err.RuleSuccessInsts(True, ent))
+                errors.append(err.RuleSuccessInst(True, ent))
     misc.handle_errors(context, errors)
 
 @then('Each {entity} must not be referenced by itself directly or indirectly')
@@ -220,6 +256,5 @@ def step_impl(context, entity):
             if inst in get_memberships(inst):
                 errors.append(err.CyclicGroupError(False, inst))
             elif context.error_on_passed_rule:
-                errors.append(err.RuleSuccessInsts(True, inst))
-    
+                errors.append(err.RuleSuccessInst(True, inst))
     misc.handle_errors(context, errors)

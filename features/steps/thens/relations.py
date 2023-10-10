@@ -67,9 +67,9 @@ def step_impl(context, relationship, table):
 
         ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
         aggregated_table = misc.make_aggregrated_dict(tbl, ent_tbl_header, relationship_tbl_header)
-        
+
         relationship_tbl_header = get_attr(relationship_tbl_header)
-        
+
         if getattr(context, 'applicable', True):
             for ent in context.instances:
                 applicable_entities = []
@@ -133,6 +133,7 @@ def step_impl(context, related, relating, other_entity, condition):
     misc.handle_errors(context, errors)
 
 
+@then('The IfcPropertySet Name attribute value must use predefined values according to the {table} table')
 @then('The IfcPropertySet must be assigned according to the property set definitions table {table}')
 def step_impl(context, table):
     if getattr(context, 'applicable', True):
@@ -140,8 +141,12 @@ def step_impl(context, table):
         tbl_path = system.get_abs_path(f"resources/property_set_definitions/{table}")
         tbl = system.get_csv(tbl_path, return_type='dict')
 
-        property_set_definitons = {d['Name']: d['ApplicableClasses'] for d in tbl}
-        property_set_definitons = {key: value.split(';') for key, value in property_set_definitons.items()}
+        property_set_definitons = {}
+        for d in tbl:
+            if property_set_definitons.get(d['Name']):
+                property_set_definitons[d['Name']] = property_set_definitons[d['Name']] + [d['ApplicableClasses']]
+            else:
+                property_set_definitons[d['Name']] = [d['ApplicableClasses']]
 
         for inst in context.instances:
             if isinstance(inst, (tuple, list)):
@@ -149,25 +154,23 @@ def step_impl(context, table):
 
             name = getattr(inst, 'Name', 'Attribute not found')
 
-            if name not in property_set_definitons.keys():
-                errors.append(err.InvalidValueError(False, inst, 'Name', name))  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall
-                continue
+            if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:
+                if name not in property_set_definitons.keys():
+                    errors.append(err.InvalidValueError(False, inst, 'Name', name))  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall
+                    continue
 
-            try:
-                relation = inst.PropertyDefinitionOf[0]  # IFC2x3
-            except AttributeError:
-                relation = inst.DefinesOccurrence[0]  # IFC4x3
-            except IndexError:  # IfcPropertySet not assigned, rule not further checked
-                continue
+            elif 'IfcPropertySet must be assigned according to the property set definitions table' in context.step.name:
+                relation = ifc.get_relation(inst, ['PropertyDefinitionOf', 'DefinesOccurrence'])
+                if relation is None:
+                    continue
 
-            related_objects = relation.RelatedObjects
-
-            for obj in related_objects:
-                correct = [obj.is_a(expected_object) for expected_object in property_set_definitons[name]]
-                if not any(correct):
-                    errors.append(err.InvalidPropertySetDefinition(False, inst, obj, name, property_set_definitons[name]))
-                elif context.error_on_passed_rule:
-                    errors.append(err.RuleSuccessInst(True, inst))
+                related_objects = relation.RelatedObjects
+                for obj in related_objects:
+                    correct = [obj.is_a(expected_object) for expected_object in property_set_definitons[name]]
+                    if not any(correct):
+                        errors.append(err.InvalidPropertySetDefinition(False, inst, obj, name, property_set_definitons[name]))
+                    elif context.error_on_passed_rule:
+                        errors.append(err.RuleSuccessInst(True, inst))
 
         misc.handle_errors(context, errors)
 
@@ -244,7 +247,7 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
 def step_impl(context, entity):
     relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
     inv, ent, attr = relationship[entity]
-    
+
     errors = []
 
     def get_memberships(inst):

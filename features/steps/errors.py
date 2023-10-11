@@ -140,7 +140,10 @@ class InvalidPropertySetDefinition(RuleState):
     types: list
 
     def __str__(self):
-        return f"The instance {misc.fmt(self.inst)} with Name attribute {self.name} is assigned to {misc.fmt(self.object)}. It must be assigned to one of the following types instead: {self.types}"
+        if self.types:
+            return f"The instance {misc.fmt(self.inst)} with Name attribute {self.name} is assigned to {misc.fmt(self.object)}. It must be assigned to one of the following types instead: {self.types}"
+        else:
+            return f"The instance {misc.fmt(self.inst)} has an inappropriate Name attribute {self.name} value. Pset_ prefix is reserved for standardised values only."
 
 @dataclass
 class ValueCountError(RuleState):

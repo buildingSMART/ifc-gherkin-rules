@@ -166,9 +166,9 @@ def step_impl(context, table):
 
                 related_objects = relation.RelatedObjects
                 for obj in related_objects:
-                    correct = [obj.is_a(expected_object) for expected_object in property_set_definitons[name]]
+                    correct = [obj.is_a(expected_object) for expected_object in property_set_definitons.get(name, [])]
                     if not any(correct):
-                        errors.append(err.InvalidPropertySetDefinition(False, inst, obj, name, property_set_definitons[name]))
+                        errors.append(err.InvalidPropertySetDefinition(False, inst, obj, name, property_set_definitons.get(name)))
                     elif context.error_on_passed_rule:
                         errors.append(err.RuleSuccessInst(True, inst))
 

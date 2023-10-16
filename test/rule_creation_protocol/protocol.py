@@ -165,10 +165,10 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
         normalized_path = os.path.normpath(value)
         """Check if test file is located in the ifc-gherkin-rules\\test\\files directory"""
-        if 'ifc-gherkin-rules\\test\\files\\' not in normalized_path:
+        if ('ifc-gherkin-rules\\test\\files\\' not in normalized_path) or ('ifc-gherkin-rules/test/files/' not in normalized_path):
             raise ProtocolError(
                 value=value,
-                message="The test files are to be placed in the ifc-gherkin-rules\\test\\files\ directory"
+                message="The test files are to be placed in the ifc-gherkin-rules/test/files/ directory"
             )
 
         """Check if path rule folder is using the valid rule directory name"""

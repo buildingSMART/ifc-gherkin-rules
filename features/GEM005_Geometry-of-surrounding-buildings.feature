@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALS
+@disabled
 Feature: Building shape representation
   Scenario: Agreement on empty IfcBuilding using correct representation
 

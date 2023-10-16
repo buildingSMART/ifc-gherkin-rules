@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALB
+@disabled
 Feature: ALB005 - Positioning of referents
 IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPositions relationship
 

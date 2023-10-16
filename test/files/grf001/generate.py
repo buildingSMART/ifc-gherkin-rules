@@ -11,7 +11,7 @@ for ent_1, ent_2, variate in itertools.product(entities, entities, (0, 1)):
         continue
     print(ent_1, ent_2, variate)
 
-    file = ifcopenshell.template.create(schema_identifier="'IFC4X3'_ADD2")
+    file = ifcopenshell.template.create(schema_identifier="'IFC4X3_ADD2")
 
     WorldCoordinateSystem = file.by_type("IFCAXIS2PLACEMENT3D")[0]
     TrueNorth = file.by_type("IFCDirection")[-1]
@@ -104,7 +104,7 @@ IFCRIGIDOPERATION
 count = 0
 for i in range(2):
     count += 1
-    file = ifcopenshell.template.create(schema_identifier="'IFC4X3'_ADD2")
+    file = ifcopenshell.template.create(schema_identifier="'IFC4X3_ADD2")
 
     WorldCoordinateSystem = file.by_type("IFCAXIS2PLACEMENT3D")[0]
     TrueNorth = file.by_type("IFCDirection")[-1]
@@ -158,7 +158,7 @@ IFCMAPCONVERSIONSCALED
 count = 0
 for i in range(2):
     count += 1
-    file = ifcopenshell.template.create(schema_identifier="'IFC4X3'_ADD2")
+    file = ifcopenshell.template.create(schema_identifier="'IFC4X3_ADD2")
 
     WorldCoordinateSystem = file.by_type("IFCAXIS2PLACEMENT3D")[0]
     TrueNorth = file.by_type("IFCDirection")[-1]

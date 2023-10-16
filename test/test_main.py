@@ -81,7 +81,10 @@ def test_invocation(request, filename):
                 'feature_name' : step_attrs_to_file('convention_check_attrs', 'feature_name'),
                 'feature_file' : step_attrs_to_file('convention_check_attrs', 'feature_file'),
                 'description' :step_attrs_to_file('convention_check_attrs', 'description'),
-                'tags': [item['convention_check_attrs']['tags'] for item in behave_results][0]
+                'tags': [item['convention_check_attrs']['tags'] for item in behave_results][0],
+                'location': step_attrs_to_file('convention_check_attrs', 'location'),
+                'steps': behave_results[0]['convention_check_attrs']['steps'],
+                'filename': filename,
             })
         except IndexError:
             pass #@todo check for 'pass' testfiles that don't have any results. For instance 'pass-alb005-IfcReferent-NOTDEFINED_with_position.ifc'

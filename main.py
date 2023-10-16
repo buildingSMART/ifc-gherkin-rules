@@ -87,28 +87,28 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
             shas = get_commits(cwd, feature_file)
             version = len(shas)
             tags = item['tags']
+            feature_location = item['location']
             convention_check_attrs = {
                             'feature_name' : feature_name,
                             'feature_file' : os.path.basename(feature_file),
                             'description' : description,
-                            'tags': tags
+                            'tags': tags,
+                            'location': feature_location,
+                            'steps': [],
                         }
-            
-            check_disabled = 'disabled' in tags
-            if check_disabled:
-                yield {'display_testresult': [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled"],
-                        'convention_check_attrs': convention_check_attrs}
 
             try:
                 el_list = item['elements']
             except KeyError:
                 el_list = []
+            check_disabled = 'disabled' in tags
             for el in el_list:
                 scenario_name = el['name']
                 for step in el['steps']:
+                    convention_check_attrs['steps'].append(step)
                     step_name = step['name']
                     step_status = step.get('result', {}).get('status')
-                    if step_status and step['step_type'] == 'then':
+                    if step_status and step['step_type'] == 'then' and not check_disabled:
                         try:
                             results = list(map(json.loads, step['result']['error_message'][1:]))
                         except KeyError:  # THEN not checked
@@ -126,6 +126,9 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
                             inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
                             yield {'display_testresult' : [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, "Rule passed"],
                                    'convention_check_attrs' : convention_check_attrs}
+            if check_disabled:
+                yield {'display_testresult': [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled"],
+                        'convention_check_attrs': convention_check_attrs}
 
     os.close(fd)
     os.unlink(jsonfn)

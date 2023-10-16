@@ -133,8 +133,8 @@ graph TB
         end
         subgraph Syntax
             J[No Spaces Between Steps]:::red
-            K[No Extra Blank Spaces]:::red
-            L[No Punctuation at End]:::red
+            K[No Extra Blank Spaces]:::green
+            L[No Punctuation at End]:::green
             M[Case-Sensitive Parameters]:::red
         end
     end
@@ -149,9 +149,9 @@ graph TB
             BE[Optimisation for future]:::blue
         end
         subgraph Correct Keywords
-            BF[Given]:::red
-            BG[Then]:::red
-            BH[And]:::red
+            BF[Given]:::green
+            BG[Then]:::green
+            BH[And]:::green
             BI[*]:::red
         end
         subgraph Other
@@ -163,19 +163,19 @@ graph TB
     end
     subgraph Tests
         subgraph Subfolder
-            CA[Test/files]:::red
-            CB[Subfolder using rule code]:::red
+            CA[Test/files]:::green
+            CB[Subfolder using rule code]:::green
             CH[Include all .ifc unit tests]:::blue
             CI[README.md file]:::red
             CJ[Optional: script to generate test files]:::blue
         end
         subgraph Naming convention
             direction RL
-            CG[.ifc]:::red
-            CF[Short informative description]:::red
-            CE[Rule scenario : Optional]:::blue
-            CD[Rule code]:::red
-            CC[Expected result]:::red
+            CG[.ifc]:::green
+            CF[Short informative description]:::green
+            CE[Rule scenario : Optional]:::green
+            CD[Rule code]:::green
+            CC[Expected result]:::green
         end
         subgraph Numbers
             direction RL

@@ -12,6 +12,7 @@ from utils import ifc, misc
 @then("The values must {constraint}")
 @then('At least "{num:d}" value must {constraint}')
 @then('At least "{num:d}" values must {constraint}')
+@err.handle_errors
 def step_impl(context, constraint, num=None):
     errors = []
 
@@ -35,7 +36,7 @@ def step_impl(context, constraint, num=None):
                 if constraint == 'identical' and not all([values[0] == i for i in values]):
                     incorrect_values = values  # a more general approach of going through stack frames to return relevant information in error message?
                     incorrect_insts = stack_tree[-1]
-                    errors.append(err.IdenticalValuesError(False, incorrect_insts, incorrect_values, attribute,))
+                    yield(err.IdenticalValuesError(False, incorrect_insts, incorrect_values, attribute,))
                 if constraint == 'unique':
                     seen = set()
                     duplicates = [x for x in values if x in seen or seen.add(x)]
@@ -48,9 +49,9 @@ def step_impl(context, constraint, num=None):
                     # avoid mentioning ifcopenshell.entity_instance twice in error message
                     report_incorrect_insts = any(misc.map_state(values, lambda v: misc.do_try(
                         lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-                    errors.append(err.DuplicateValueError(False, inst, incorrect_values, attribute, incorrect_insts, report_incorrect_insts))
+                    yield(err.DuplicateValueError(False, inst, incorrect_values, attribute, incorrect_insts, report_incorrect_insts))
                 if len(errors) == amount_of_errors and context.error_on_passed_rule:
-                    errors.append(err.RuleSuccessInst(True, values))
+                    yield(err.RuleSuccessInst(True, values))
         elif constraint[-5:] == ".csv'":
 
             csv_name = constraint.strip("'")
@@ -66,9 +67,9 @@ def step_impl(context, constraint, num=None):
 
                 for iv, value in enumerate(values):
                     if not value in valid_values:
-                        errors.append(err.InvalidValueError(False, [t[i] for t in stack_tree][1][iv], attribute, value))
+                        yield(err.InvalidValueError(False, [t[i] for t in stack_tree][1][iv], attribute, value))
                 if len(errors) == amount_of_errors and context.error_on_passed_rule:
-                    errors.append(err.RuleSuccessInst(True, values))
+                    yield(err.RuleSuccessInst(True, values))
         elif num is not None:
             values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
 
@@ -80,8 +81,6 @@ def step_impl(context, constraint, num=None):
                         num_valid += 1
                 if num is not None and num_valid < num:
                     paths = [[l[i] for l in stack_tree] for i in range(len(stack_tree[0]))]
-                    errors.append(err.ValueCountError(False, paths, values, num))
+                    yield(err.ValueCountError(False, paths, values, num))
                 elif context.error_on_passed_rule:
-                    errors.append(err.RuleSuccessInst(True, values))
-
-    misc.handle_errors(context, errors)
+                    yield(err.RuleSuccessInst(True, values))

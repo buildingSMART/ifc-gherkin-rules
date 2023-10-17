@@ -9,6 +9,5 @@ IfcMapConversion in one representation context and IfcRigidOperation in another.
         And All instances of IfcGeometricRepresentationContext without subtypes
         And Its Attribute HasCoordinateOperation
         And Its values excluding SourceCRS
-
        Then The values must be identical
     

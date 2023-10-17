@@ -140,7 +140,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
             )
 
         """Check that no punctuation at the end of the step"""
-        if any(d['name'].endswith(tuple(r"""!#$%&'()*+,-./:;<=>?@[\]^_`{|}~""")) for d in value):
+        if any(d['name'].endswith(tuple(r"""!#$%&()*+,-./:;<=>?@[\]^_`{|}~""")) for d in value):
             raise ProtocolError(
                 value=value,
                 message=f"The feature steps must not end with punctuation. Now the steps end with {[d['name'][-1] for d in value]}."
@@ -165,10 +165,10 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
         normalized_path = os.path.normpath(value)
         """Check if test file is located in the ifc-gherkin-rules\\test\\files directory"""
-        if ('ifc-gherkin-rules\\test\\files\\' not in normalized_path) or ('ifc-gherkin-rules/test/files/' not in normalized_path):
+        if not (('ifc-gherkin-rules\\test\\files\\' in normalized_path) or ('ifc-gherkin-rules/test/files/' in normalized_path)):
             raise ProtocolError(
                 value=value,
-                message="The test files are to be placed in the ifc-gherkin-rules/test/files/ directory"
+                message=f"The test files are to be placed in the ifc-gherkin-rules/test/files/ directory. Currently it's placed: {normalized_path}"
             )
 
         """Check if path rule folder is using the valid rule directory name"""

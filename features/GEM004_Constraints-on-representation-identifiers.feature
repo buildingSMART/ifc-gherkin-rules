@@ -11,7 +11,6 @@ The valid values can be found in the csv files in the folder 'features/resources
         And Its attribute Representation
         And Its attribute Representations
         And Its attribute RepresentationIdentifier
-
         Then The values must be in 'valid_RepresentationIdentifier.csv'
   
   Scenario: Shape Representation Type must be valid
@@ -20,6 +19,5 @@ The valid values can be found in the csv files in the folder 'features/resources
         And Its attribute Representation
         And Its attribute Representations
         And Its attribute RepresentationType
-
         Then The values must be in 'valid_RepresentationType.csv'
 

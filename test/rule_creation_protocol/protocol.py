@@ -103,6 +103,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
     description: str
     steps: list
     filename: str
+    readme: str
 
     @field_validator('tags')
     def do_validate_tags(cls, value) -> dict:
@@ -230,6 +231,17 @@ class RuleCreationConventions(ConfiguredBaseModel):
                 message=f"The expected test file extension is .ifc, found: {extension} instead"
             )
 
+    @field_validator('readme')
+    def validate_readme_presence(cls, value):
+        """Check if readme file is located in test file directory"""
+        normalized_path = os.path.normpath(value)
+        test_file_directory = os.path.dirname(normalized_path)
+        readme_path = os.path.join(test_file_directory, 'readme.md')
+        if not os.path.exists(readme_path):
+            raise ProtocolError(
+                value=value,
+                message=f"README.ME file not found in the test file directory: {readme_path}"
+            )
 
 def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
     """Main function to validate feature and tagging conventions.
@@ -260,7 +272,8 @@ def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
         'description': attrs['description'],
         'steps': attrs['steps'],
         'filename': attrs['filename'], # e.g. ifc-gherkin-rules\test\files\alb002\pass-alb002-generated_file.ifc
-        }
+        'readme': attrs['filename'],  # e.g. ifc-gherkin-rules\test\files\alb002\pass-alb002-generated_file.ifc
+    }
 
     RuleCreationConventions(**feature_obj)
 

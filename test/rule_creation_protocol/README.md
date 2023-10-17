@@ -166,7 +166,7 @@ graph TB
             CA[Test/files]:::green
             CB[Subfolder using rule code]:::green
             CH[Include all .ifc unit tests]:::blue
-            CI[README.md file]:::red
+            CI[README.md file]:::green
             CJ[Optional: script to generate test files]:::blue
         end
         subgraph Naming convention

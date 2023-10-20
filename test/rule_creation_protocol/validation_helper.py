@@ -72,7 +72,7 @@ class ParsePattern():
         self.special_character = Word("-_.", exact=1)('special_character')
         # self.rule_title = OneOrMore(Word(
         #     alphas + '-. '))('rule_title').setParseAction(lambda i: i[0].replace('.feature', ''))
-        self.rule_title = OneOrMore(Word(alphas + '-. '))('rule_title').setParseAction(lambda i: replace_substrings(i[0]))
+        self.rule_title = OneOrMore(Word(alphas + '-._ '))('rule_title').setParseAction(lambda i: replace_substrings(i[0]))
 
 
     def parse_feature_name(self, name) -> dict:

@@ -1,6 +1,6 @@
 @implementer-agreement
 @GRP
-Feature: GRP001 - Acyclic groups and systems
+Feature: GRP001 - Acyclic groups
 The rule verifies that all the IfcGroups are acyclic.
 
   Scenario: Agreement on IfcGroup (and hence systems) being acyclic

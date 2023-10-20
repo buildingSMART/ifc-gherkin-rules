@@ -58,6 +58,8 @@ class Naming(ConfiguredBaseModel):
                     - In between each single words, there must a separator"
             )
         values.update(cls.get_parsed_value_fields(parsed_name))
+        # Rule code - Rule title to check for uniqueness
+        Registry.register_combination(f"{values['rule_code']['functional_part']}{values['rule_code']['number']}", re.sub('[-_.]', ' ', values['rule_title'])) 
         return values
 
     @field_validator('rule_code')

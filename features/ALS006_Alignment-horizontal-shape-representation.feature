@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALS
-Feature: ALS006 - Horizontal alignment shape representation
+Feature: ALS006 - Alignment horizontal shape representation
 The rule verifies that the values of IfcAlignmentHorizontal are represented correctly with a 2D curve and either an IfcCompositeCurve, IfcIndexedPolycurve or IfcPolyline.
 https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcAlignmentVertical.htm
 

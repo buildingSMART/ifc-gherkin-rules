@@ -56,14 +56,6 @@ def fmt(x):
             return "...".join((v[:25], v[-7:]))
         return v
 
-
-def handle_errors(context, errors):
-    error_formatter = (lambda dc: json.dumps(asdict(dc), default=tuple)) if context.config.format == ["json"] else str
-    assert not errors, "Errors occured:\n{}".format(
-        "\n".join(map(error_formatter, errors))
-    )
-
-
 def include_subtypes(stmt):
     # todo replace by pyparsing?
     stmt = strip_split(stmt, strp='[]', splt=' ')

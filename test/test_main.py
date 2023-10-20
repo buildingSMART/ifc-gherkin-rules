@@ -52,9 +52,9 @@ def get_test_files():
         paths = glob.glob(os.path.join(os.path.dirname(__file__), "files/", code.lower(), "*.ifc"))
         if not paths:
             print(f"No IFC files were found for the following rule code: {code}. Please provide test files or verify the input.")
-        elif rule_disabled(code):
-            print(f"The rule identified by code '{code}' is currently marked as 'disabled'. Any associated test files will not be taken into consideration")
-            continue
+        # elif rule_disabled(code):
+        #     print(f"The rule identified by code '{code}' is currently marked as 'disabled'. Any associated test files will not be taken into consideration")
+        #     continue
         test_files.extend(paths)
 
     file_pattern =  r".*\.ifc(\')?$" #matches ".ifc" and "ifc'"

@@ -96,8 +96,8 @@ class Naming(ConfiguredBaseModel):
 class RuleCreationConventions(ConfiguredBaseModel):
     """Validate feature conventions
     """
-    feature: Naming  # feature as in .feature file
-    dotfeature_file: Naming  # either user input or test file
+    feature: Naming  #  # e.g. 'ALB001 - Alignment in spatial structure
+    feature_filename: Naming  # e.g. 'ALB001_Alignment-in-spatial-structure.feature'
     ifc_input: dict
     tags: list
     description: str
@@ -257,9 +257,9 @@ def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
             'valid_first_separator': '-',
             'valid_separators': ' '
         },
-        'dotfeature_file': {
+        'feature_filename': {
             # e.g. 'ALB001_Alignment-in-spatial-structure.feature'
-            'name': attrs['feature_file'],
+            'name': attrs['feature_filename'],
             'valid_first_separator': '_',
             'valid_separators': '-'
         },
@@ -287,7 +287,7 @@ if __name__ == "__main__":
                 "valid_first_separator": '-',
                 'valid_separators': ' '
             },
-            'dotfeature_file': {
+            'feature_filename': {
                 'name': 'ALB001_Alignment-in-spatial-structure.feature',
                 "valid_first_separator": '_',
                 'valid_separators': '-'

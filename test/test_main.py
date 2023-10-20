@@ -79,7 +79,7 @@ def test_invocation(request, filename):
             protocol.enforce(convention_attrs={
                 'ifc_filename' : base,
                 'feature_name' : step_attrs_to_file('convention_check_attrs', 'feature_name'),
-                'feature_file' : step_attrs_to_file('convention_check_attrs', 'feature_file'),
+                'feature_filename' : step_attrs_to_file('convention_check_attrs', 'feature_filename'),
                 'description' :step_attrs_to_file('convention_check_attrs', 'description'),
                 'tags': [item['convention_check_attrs']['tags'] for item in behave_results][0],
                 'location': step_attrs_to_file('convention_check_attrs', 'location'),

@@ -28,8 +28,8 @@ def get_remote(cwd):
 
 
 @functools.lru_cache(maxsize=16)
-def get_commits(cwd, feature_file):
-    return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
+def get_commits(cwd, feature_filename):
+    return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_filename], cwd=cwd).decode('ascii').split('\n')
 
 
 def do_try(fn, default=None):
@@ -82,15 +82,15 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
             exit(1)
         for item in log:
             feature_name = item['name']
-            feature_file = item['location'].split(':')[0]
+            feature_filename = item['location'].split(':')[0]
             description = '\n'.join(item.get('description', []))
-            shas = get_commits(cwd, feature_file)
+            shas = get_commits(cwd, feature_filename)
             version = len(shas)
             tags = item['tags']
             feature_location = item['location']
             convention_check_attrs = {
                             'feature_name' : feature_name,
-                            'feature_file' : os.path.basename(feature_file),
+                            'feature_filename' : os.path.basename(feature_filename),
                             'description' : description,
                             'tags': tags,
                             'location': feature_location,
@@ -120,14 +120,14 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
 
                         for occurence in failed:
                             inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield {'display_testresult': [f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, occurence["message"]],
+                            yield {'display_testresult': [f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_filename}", f"{step_name}", inst, occurence["message"]],
                                    'convention_check_attrs': convention_check_attrs}
                         for occurence in passed:
                             inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield {'display_testresult' : [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, "Rule passed"],
+                            yield {'display_testresult' : [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_filename}", f"{step_name}", inst, "Rule passed"],
                                    'convention_check_attrs' : convention_check_attrs}
             if check_disabled:
-                yield {'display_testresult': [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled"],
+                yield {'display_testresult': [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_filename}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled"],
                         'convention_check_attrs': convention_check_attrs}
 
     os.close(fd)

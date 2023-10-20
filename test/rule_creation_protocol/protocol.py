@@ -9,7 +9,12 @@ from .errors import ProtocolError
 from .utils import replace_substrings
 from .config import ConfiguredBaseModel
 
+from typing import Any, Optional
+
 documentation_src = 'https://github.com/buildingSMART/ifc-gherkin-rules/tree/main/features'
+
+def parsed_field(default: Any = ..., *, default_factory: Optional[Any] = None, **extra) -> Any:
+    return Field(default, default_factory=default_factory, json_schema_extra={"parsed_value": True, **extra})
 
 class Naming(ConfiguredBaseModel):
     """Parse and validate feature naming conventions.
@@ -22,10 +27,10 @@ class Naming(ConfiguredBaseModel):
     valid_separators: str
 
     # Parsed values from naming
-    rule_code: typing.Optional[dict] = Field(default_factory=dict, parsed_value=True)
-    first_separator: str = Field(" ", parsed_value=True)
-    rule_title: str = Field(" ", parsed_value=True)
-    separators: typing.Optional[list] = Field(default_factory=list, parsed_value=True)
+    rule_code: typing.Optional[dict] = parsed_field(default_factory=dict)
+    first_separator: str = parsed_field(" ")
+    rule_title: str = parsed_field(" ")
+    separators: list = parsed_field(default_factory=list)
 
     @classmethod
     def get_parsed_value_fields(cls, parsed_name) -> dict:

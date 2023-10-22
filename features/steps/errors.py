@@ -145,6 +145,21 @@ class InvalidPropertySetDefinition(RuleState):
         else:
             return f"The instance {misc.fmt(self.inst)} has an inappropriate Name attribute {self.name} value. Pset_ prefix is reserved for standardised values only."
 
+
+@dataclass
+class InvalidPropertyDefinition(RuleState):
+    inst: ifcopenshell.entity_instance
+    property: ifcopenshell.entity_instance
+    accepted_values: list = None
+    accepted_type: str = None
+
+    def __str__(self):
+        if self.accepted_values:
+            return f"The instance {misc.fmt(self.inst)} has an associated property {misc.fmt(self.property)} with Name attribute equal to: '{misc.fmt(self.property.Name)}'. Expected values for {misc.fmt(self.inst.Name)} are {self.accepted_values}"
+        elif self.accepted_type:
+            return f"The instance {misc.fmt(self.inst)} has an associated property {misc.fmt(self.property)}. Expected type of this property is: {misc.fmt(self.accepted_type)}"
+
+
 @dataclass
 class ValueCountError(RuleState):
     paths: typing.Sequence[ifcopenshell.entity_instance]

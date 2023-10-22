@@ -135,29 +135,63 @@ def step_impl(context, related, relating, other_entity, condition):
 
 @then('The IfcPropertySet Name attribute value must use predefined values according to the {table} table')
 @then('The IfcPropertySet must be assigned according to the property set definitions table {table}')
+@then('Each associated IfcProperty must be named according to the property set definitions table {table}')
+@then('Each associated IfcProperty must be of type according to the property set definitions table {table}')
 def step_impl(context, table):
     if getattr(context, 'applicable', True):
+        import json
         errors = []
         tbl_path = system.get_abs_path(f"resources/property_set_definitions/{table}")
         tbl = system.get_csv(tbl_path, return_type='dict')
-
         property_set_definitons = {}
         for d in tbl:
-            if property_set_definitons.get(d['Name']):
-                property_set_definitons[d['Name']] = property_set_definitons[d['Name']] + [d['ApplicableClasses']]
-            else:
-                property_set_definitons[d['Name']] = [d['ApplicableClasses']]
+            property_set_definitons[d['property_set_name']] = d
 
         for inst in context.instances:
             if isinstance(inst, (tuple, list)):
                 inst = inst[0]
 
+            def establish_accepted_pset_values(name, property_set_definitons):
+                def make_obj(s):
+                    if s:
+                        return json.loads(s.replace("'", '"'))
+                    else:
+                        return None
+
+                try:
+                    property_set_attr = property_set_definitons[name]
+                except KeyError:  # Pset_ not found in template
+                    property_set_attr = None
+                    return property_set_attr
+
+                accepted_values = {}
+
+                accepted_values['property_names'] = []
+                accepted_values['property_types'] = []
+
+                for property_def in make_obj(property_set_attr['property_definitions']):
+                    accepted_values['property_names'].append(property_def['property_name'])
+                    accepted_values['property_types'].append(property_def['property_type'])
+
+                accepted_values['applicable_entities'] = make_obj(property_set_attr['applicable_entities'])
+
+                try:
+                    accepted_values['applicable_type_value'] = make_obj(property_set_attr['applicable_type_value'])
+                except json.decoder.JSONDecodeError:  # TODO -> maybe that's ok, just leaving a string
+                    accepted_values['applicable_type_value'] = property_set_attr['applicable_type_value']
+
+                return accepted_values
+
             name = getattr(inst, 'Name', 'Attribute not found')
+
+            accepted_values = establish_accepted_pset_values(name, property_set_definitons)
 
             if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:
                 if name not in property_set_definitons.keys():
                     errors.append(err.InvalidValueError(False, inst, 'Name', name))  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall
-                    continue
+
+            elif accepted_values is None:  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall (no need for further Pset_ checks)
+                continue
 
             elif 'IfcPropertySet must be assigned according to the property set definitions table' in context.step.name:
                 relation = ifc.get_relation(inst, ['PropertyDefinitionOf', 'DefinesOccurrence'])
@@ -166,9 +200,39 @@ def step_impl(context, table):
 
                 related_objects = relation.RelatedObjects
                 for obj in related_objects:
-                    correct = [obj.is_a(expected_object) for expected_object in property_set_definitons.get(name, [])]
+
+                    correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
                     if not any(correct):
-                        errors.append(err.InvalidPropertySetDefinition(False, inst, obj, name, property_set_definitons.get(name)))
+                        errors.append(err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_entities']))
+                    elif context.error_on_passed_rule:
+                        errors.append(err.RuleSuccessInst(True, inst))
+
+            elif 'Each associated IfcProperty must be named according to the property set definitions table' in context.step.name:
+                properties = inst.HasProperties
+
+                for property in properties:
+                    if property.Name not in accepted_values['property_names']:
+                        errors.append(err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_values=accepted_values['property_names']))
+
+                if context.error_on_passed_rule and all([property.Name in accepted_values['property_names'] for property in properties]):
+                    errors.append(err.RuleSuccessInst(True, inst))
+
+            elif 'Each associated IfcProperty must be of type according to the property set definitions table' in context.step.name:
+
+                accepted_property_name_type_map = {}
+                for accepted_property_name, accepted_property_type in zip(accepted_values['property_names'], accepted_values['property_types']):
+                    accepted_property_name_type_map[accepted_property_name] = accepted_property_type
+
+                properties = inst.HasProperties
+                for property in properties:
+
+                    try:
+                        accepted_property_type = accepted_property_name_type_map[property.Name]
+                    except KeyError:  # Custom property name, not matching the Pset_ expected property. Error found in previous step, no need to check more.
+                        break
+
+                    if not property.is_a(accepted_property_type):
+                        errors.append(err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_type=accepted_property_type))
                     elif context.error_on_passed_rule:
                         errors.append(err.RuleSuccessInst(True, inst))
 

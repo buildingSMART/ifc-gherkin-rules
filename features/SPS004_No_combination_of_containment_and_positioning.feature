@@ -1,5 +1,6 @@
 @implementer-agreement
 @SPS
+@disabled
 Feature: SPS004 - No combination of containment and positioning
 Each IfcProduct can either be contained in one and only one IfcSpatialStructureElement, or contained in one and only one IfcLinearPositioningElement, but not both.
 

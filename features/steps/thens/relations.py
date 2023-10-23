@@ -7,6 +7,7 @@ from parse_type import TypeBuilder
 register_type(aggregated_or_contained_or_positioned=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained", "positioned")))))
 
 @then('Each {entity} {condition} be {directness} contained in {other_entity}')
+@err.handle_errors
 def step_impl(context, entity, condition, directness, other_entity):
     stmt_to_op = ['must', 'must not']
     assert condition in stmt_to_op
@@ -41,60 +42,75 @@ def step_impl(context, entity, condition, directness, other_entity):
             directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
             directness_expected = condition == 'must'  # check if relationship is expected
             if directness_achieved != directness_expected:
-                errors.append(err.InstanceStructureError(False, ent, [relating_spatial_element], 'contained', optional_values={'condition': condition, 'directness': directness}))
+                yield(err.InstanceStructureError(False, ent, [relating_spatial_element], 'contained', optional_values={'condition': condition, 'directness': directness}))
             elif context.error_on_passed_rule:
-                errors.append(err.RuleSuccessInsts(True, ent))
-
-    misc.handle_errors(context, errors)
-
+                yield(err.RuleSuccessInsts(True, ent))
+                
 @then('It must be {relationship} as per {table}')
+@err.handle_errors
 def step_impl(context, relationship, table):
-    stmt_to_op = {'aggregated': 'Decomposes'}
-    assert relationship in stmt_to_op
+    stmt_to_op_forward = {'aggregated': 'Decomposes'}
+    stmt_to_op_reversed = {'aggregated': 'IsDecomposedBy'}
+    assert relationship in stmt_to_op_forward
 
     tbl_path = system.get_abs_path(f"resources/{table}")
-    tbl = system.get_csv(tbl_path, return_type='dict')
+    tbl_forward = system.get_csv(tbl_path, return_type='dict')
+    tbl_reversed = [dict(zip(d.keys(), reversed(d.values()))) for d in tbl_forward]
 
-    ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
+    opposites = {'RelatingObject': 'RelatedObjects'}
 
-    aggregated_table = misc.make_aggregrated_dict(tbl, ent_tbl_header, relationship_tbl_header)
     errors = []
-    if getattr(context, 'applicable', True):
-        for ent in context.instances:
-            applicable_entities = []
-            for applicable_entity in aggregated_table.keys(): # check which applicable entity the currently processed entity is (inheritance), e.g IfcRailway -> IfcFacility
-                if ent.is_a(applicable_entity):
-                    applicable_entities.append(applicable_entity)
-            if len(applicable_entities) == 0: # no applicable entity found
-                # @tfk. I think this simply means, no requirement imposed.
-                # raise Exception(f'Entity {entity} was not found in the {table}')
-                continue
-            applicable_entity = ifc.order_by_ifc_inheritance(applicable_entities, base_class_last = True)[0]
-            expected_relationship_objects = aggregated_table[applicable_entity]
-            try:
-                relation = getattr(ent, stmt_to_op[relationship], True)[0]
-            except IndexError: # no relationship found for the entity
-                errors.append(err.InstanceStructureError(False, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
-                continue
-            relationship_objects = getattr(relation, relationship_tbl_header, True)
-            if not isinstance(relationship_objects, tuple):
-                relationship_objects = (relationship_objects,)
 
-            all_correct = len(relationship_objects) > 0
+    checked, invalid = set(), set()
 
-            for relationship_object in relationship_objects:
-                is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
-                if not is_correct:
-                    all_correct = False
-                    errors.append(err.InstanceStructureError(False, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+    for is_required, stmt_to_op, tbl, get_attr in ((True, stmt_to_op_forward, tbl_forward, lambda x: x), (False, stmt_to_op_reversed, tbl_reversed, opposites.__getitem__)):
 
-            if all_correct:
-                errors.append(err.RuleSuccessInsts(True, ent))
+        ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
+        aggregated_table = misc.make_aggregrated_dict(tbl, ent_tbl_header, relationship_tbl_header)
+        
+        relationship_tbl_header = get_attr(relationship_tbl_header)
+        
+        if getattr(context, 'applicable', True):
+            for ent in context.instances:
+                applicable_entities = []
+                for applicable_entity in aggregated_table.keys(): # check which applicable entity the currently processed entity is (inheritance), e.g IfcRailway -> IfcFacility
+                    if ent.is_a(applicable_entity):
+                        applicable_entities.append(applicable_entity)
+                if len(applicable_entities) == 0: # no applicable entity found
+                    # @tfk. I think this simply means, no requirement imposed.
+                    # raise Exception(f'Entity {entity} was not found in the {table}')
+                    continue
+                applicable_entity = ifc.order_by_ifc_inheritance(applicable_entities, base_class_last = True)[0]
+                expected_relationship_objects = aggregated_table[applicable_entity]
+                try:
+                    relation = getattr(ent, stmt_to_op[relationship], True)[0]
+                except IndexError: # no relationship found for the entity
+                    if is_required:
+                        yield(err.InstanceStructureError(False, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+                    continue
+                relationship_objects = getattr(relation, relationship_tbl_header, True)
+                if not isinstance(relationship_objects, tuple):
+                    relationship_objects = (relationship_objects,)
 
-    misc.handle_errors(context, errors)
+                all_correct = len(relationship_objects) > 0
+
+                for relationship_object in relationship_objects:
+                    is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
+                    if not is_correct:
+                        all_correct = False
+                        yield(err.InstanceStructureError(False, ent, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+                        invalid.add(ent)
+
+                if all_correct:
+                    checked.add(ent)
+
+    for ent in checked - invalid:
+        yield(err.RuleSuccessInsts(True, ent))
+
 
 
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
+@err.handle_errors
 def step_impl(context, related, relating, other_entity, condition):
     # @todo reverse order to relating -> nest-relationship -> related
     pred = misc.stmt_to_op(condition)
@@ -110,15 +126,14 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        errors.append(err.InstanceStructureError(False, inst, [rel.RelatingObject], 'assigned to'))
+                        yield(err.InstanceStructureError(False, inst, [rel.RelatingObject], 'assigned to'))
                     elif context.error_on_passed_rule:
-                        errors.append(err.RuleSuccessInst(True, inst))
-
-    misc.handle_errors(context, errors)
+                        yield(err.RuleSuccessInst(True, inst))
 
 
 
 @then('Each {entity} {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
+@err.handle_errors
 def step_impl(context, entity, decision, relationship, preposition, other_entity, condition):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
@@ -159,7 +174,7 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
                     if check_directness:
                         observed_directness.update({'directly'})
                     if decision == 'must not':
-                        errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
+                        yield(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
                         break
                 if hasattr(relating_element, other_entity_reference): # in case the relation points to a wrong instance
                     while len(getattr(relating_element, other_entity_reference)) > 0:
@@ -171,7 +186,7 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
                                 observed_directness.update({'indirectly'})
                                 break
                             if decision == 'must not':
-                                errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
+                                yield(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
                                 break
 
             if check_directness:
@@ -179,20 +194,18 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
                 directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
                 directness_expected = decision == 'must'  # check if relationship is expected
                 if directness_achieved != directness_expected:
-                    errors.append(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
+                    yield(err.RelationshipError(False, ent, decision, condition, relationship, preposition, other_entity))
                 elif context.error_on_passed_rule:
-                    errors.append(err.RuleSuccessInsts(True, ent))
+                    yield(err.RuleSuccessInsts(True, ent))
             if context.error_on_passed_rule and decision == 'must not' and not relationship_reached:
-                errors.append(err.RuleSuccessInsts(True, ent))
-    misc.handle_errors(context, errors)
+                yield(err.RuleSuccessInsts(True, ent))
 
 @then('Each {entity} must not be referenced by itself directly or indirectly')
+@err.handle_errors
 def step_impl(context, entity):
     relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
     inv, ent, attr = relationship[entity]
     
-    errors = []
-
     def get_memberships(inst):
         for rel in filter(misc.is_a(ent), getattr(inst, inv, [])):
             container = getattr(rel, attr)
@@ -202,8 +215,6 @@ def step_impl(context, entity):
     if getattr(context, 'applicable', True):
         for inst in context.model.by_type(entity):
             if inst in get_memberships(inst):
-                errors.append(err.CyclicGroupError(False, inst))
+                yield(err.CyclicGroupError(False, inst))
             elif context.error_on_passed_rule:
-                errors.append(err.RuleSuccessInsts(True, inst))
-    
-    misc.handle_errors(context, errors)
+                yield(err.RuleSuccessInsts(True, inst))

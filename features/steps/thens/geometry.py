@@ -5,12 +5,13 @@ import math
 from behave import *
 from utils import geometry, ifc, misc
 
+
 @then("It must have no duplicate points {clause} first and last point")
+@err.handle_errors
 def step_impl(context, clause):
     assert clause in ('including', 'excluding')
     emitted_one_passing = False
     if getattr(context, 'applicable', True):
-        errors = []
         for instance in context.instances:
             entity_contexts = ifc.recurrently_get_entity_attr(context, instance, 'IfcRepresentation', 'ContextOfItems')
             precision = ifc.get_precision_from_contexts(entity_contexts)
@@ -26,10 +27,9 @@ def step_impl(context, clause):
                             break
                 comparison_nr += 1
             if duplicates:
-                errors.append(err.PolyobjectDuplicatePointsError(False, instance, duplicates))
+                yield(err.PolyobjectDuplicatePointsError(False, instance, duplicates))
             elif context.error_on_passed_rule and not emitted_one_passing:
-                errors.append(err.RuleSuccessInst(True, instance))
+                yield(err.RuleSuccessInst(True, instance))
                 emitted_one_passing = True
-        misc.handle_errors(context, errors)
 
 

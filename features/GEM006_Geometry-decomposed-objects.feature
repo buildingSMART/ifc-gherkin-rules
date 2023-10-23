@@ -1,7 +1,7 @@
 @informal-proposition
 @gem
 Feature: GEM006 - Geometry decomposed objects
-This rule verfies that the following statements regarding shape representations in aggregated physical element are ensured:
+This rule verifies that the following statements regarding shape representations in aggregated physical element are ensured:
 
     1) If a building element serves as a container and its parts have their own shape representations, 
     the container should not have a shape representation "Body".

@@ -9,6 +9,6 @@ with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the contai
 
       Given A file with Schema Identifier "IFC2X3"
       And An IfcElement
-      And A relationship IfcRelAggregates from IfcElement to IfcElement
+      And A relationship IfcRelAggregates to IfcElement from IfcElement
       Then The relative placement of that IfcElement must be provided by an IfcLocalPlacement entity
       And The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship

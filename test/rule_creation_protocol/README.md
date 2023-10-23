@@ -119,7 +119,7 @@ graph TB
     classDef blue fill:#004964,stroke:#333,stroke-width:2px, color:white;
     subgraph Gherkin
         subgraph Naming Convention
-            A[Rule Code to Title]:::red
+            A[Correct Pattern]:::green
             B[Code: 3 Letters + 3 Digits]:::green
             C[Valid Functional Part]:::green
             D[Unique Code and Title]:::green
@@ -132,7 +132,7 @@ graph TB
             I[Correct Separators]:::green
         end
         subgraph Syntax
-            J[No Spaces Between Steps]:::red
+            J[No Spaces Between Steps]:::green
             K[No Extra Blank Spaces]:::green
             L[No Punctuation at End]:::green
             M[Case-Sensitive Parameters]:::red
@@ -142,7 +142,7 @@ graph TB
         subgraph General
             BB[.py format]:::blue
             BC[Use correct subfolder]:::blue
-            BCA[Documentation]:::blue
+            BCA[Documentation]:::green
         end
         subgraph Parametisation
             BD[Reuse existing code]:::blue
@@ -165,7 +165,7 @@ graph TB
         subgraph Subfolder
             CA[Test/files]:::green
             CB[Subfolder using rule code]:::green
-            CH[Include all .ifc unit tests]:::blue
+            CH[Include all .ifc unit tests]:::green
             CI[README.md file]:::green
             CJ[Optional: script to generate test files]:::blue
         end
@@ -179,9 +179,9 @@ graph TB
         end
         subgraph Numbers
             direction RL
-            CZ[At least 1 pass file]:::red
-            CX[At least 3 fail files]:::red
-            CR[Fail files must cover all scenarios]:::red
+            CZ[At least 1 pass file]:::green
+            CX[At least 3 fail files]:::blue
+            CR[Fail files must cover all scenarios]:::blue
         end
         CG --- CF
         CF --- CE

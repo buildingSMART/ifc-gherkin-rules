@@ -62,7 +62,7 @@ def generate(file_desc_list = False, testfile_filter = False):
     Usage:
     ------
     Combine with a rule_code: 
-        python3 generate_markdown.py alb002
+        python3 generate_markdown.py sys001
 
     To combine markdown generation with custom descriptions:
         python3 generate_markdown.py alb002 --file-desc 'testfile1.ifc' 'this is a sample file' --file-desc 'testfile2.ifc' 'this is another sample file'

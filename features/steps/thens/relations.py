@@ -101,7 +101,7 @@ def step_impl(context, relationship, table):
                     checked.add(ent)
 
     for ent in checked - invalid:
-        yield(err.RuleSuccessInsts(True, ent))
+        yield(err.RuleSuccessInst(True, ent))
 
 
 

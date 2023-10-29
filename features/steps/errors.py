@@ -147,10 +147,19 @@ class InvalidValueError(RuleState):
 class InvalidPropertySetDefinition(RuleState):
     inst: ifcopenshell.entity_instance
     object: ifcopenshell.entity_instance
-    name: str
-    types: list
+    name: str = None
+    types: list = None
+    template_type_enum: str = None
+
+    # https://standards.buildingsmart.org/IFC/RELEASE/IFC4_1/FINAL/HTML/schema/ifckernel/lexical/ifcpropertysettemplatetypeenum.htm
+    ifc_property_set_template_type_enum = {"PSET_TYPEDRIVENONLY": "The property sets defined by this IfcPropertySetTemplate can only be assigned to subtypes of IfcTypeObject.",
+                                           "PSET_TYPEDRIVENOVERRIDE": "The property sets defined by this IfcPropertySetTemplate can be assigned to subtypes of IfcTypeObject and can be overridden by a property set with same name at subtypes of IfcObject.",
+                                           "PSET_OCCURRENCEDRIVEN": "The property sets defined by this IfcPropertySetTemplate can only be assigned to subtypes of IfcObject.",
+                                           "PSET_PERFORMANCEDRIVEN": "The property sets defined by this IfcPropertySetTemplate can only be assigned to IfcPerformanceHistory."}
 
     def __str__(self):
+        if self.template_type_enum:
+            return f"The instance {misc.fmt(self.inst)} with Name attribute {self.name} is assigned to {misc.fmt(self.object)}. {self.name} is {self.template_type_enum}. {self.ifc_property_set_template_type_enum.get(self.template_type_enum)}"
         if self.types:
             return f"The instance {misc.fmt(self.inst)} with Name attribute {self.name} is assigned to {misc.fmt(self.object)}. It must be assigned to one of the following types instead: {self.types}"
         else:

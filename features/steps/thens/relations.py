@@ -165,9 +165,9 @@ def step_impl(context, table):
             accepted_values['applicable_entities'] = make_obj(property_set_attr['applicable_entities'])
 
             try:
-                accepted_values['applicable_type_value'] = make_obj(property_set_attr.get('applicable_type_value', '')).split(',')
+                accepted_values['applicable_type_values'] = make_obj(property_set_attr.get('applicable_type_value', '')).split(',')
             except json.decoder.JSONDecodeError:
-                accepted_values['applicable_type_value'] = property_set_attr.get('applicable_type_value', '').split(',')
+                accepted_values['applicable_type_values'] = property_set_attr.get('applicable_type_value', '').split(',')
 
             return accepted_values
 
@@ -187,31 +187,36 @@ def step_impl(context, table):
                 continue
 
             elif 'IfcPropertySet must be assigned according to the property set definitions table' in context.step.name:
-                relation = ifc.get_relation(inst, ['PropertyDefinitionOf', 'DefinesOccurrence'])
-                if relation is None:
-                    continue
-                related_objects = relation.RelatedObjects
-                for obj in related_objects:
+                try:
+                    relations = inst.PropertyDefinitionOf  # IFC2x3
+                except AttributeError:
+                    relations = inst.DefinesOccurrence # IFC4x3
+                except IndexError:  # IfcPropertySet not assigned to IfcObjects
+                    relations = []
 
-                    assigned_to_type = obj.is_a('IfcTypeObject')
+                for relation in relations:
+                    related_objects = relation.RelatedObjects
+                    for obj in related_objects:
 
-                    if assigned_to_type and accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN', 'PSET_PERFORMANCEDRIVEN']:
-                        yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
-                    elif not assigned_to_type and accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
-                        yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
+                        if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
+                            yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
 
-                    if assigned_to_type:
-                        correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_type_value']]
-                        if not any(correct):
-                            yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_type_value']))
-                        elif context.error_on_passed_rule:
-                            yield (err.RuleSuccessInst(True, inst))
-                    else:
                         correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
                         if not any(correct):
                             yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_entities']))
                         elif context.error_on_passed_rule:
                             yield (err.RuleSuccessInst(True, inst))
+
+                related_objects = inst.DefinesType
+                for obj in related_objects:
+                    if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN', 'PSET_PERFORMANCEDRIVEN']:
+                        yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
+
+                    correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_type_values']]
+                    if not any(correct):
+                        yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_type_values']))
+                    elif context.error_on_passed_rule:
+                        yield (err.RuleSuccessInst(True, inst))
 
             elif 'Each associated IfcProperty must be named according to the property set definitions table' in context.step.name:
                 properties = inst.HasProperties
@@ -241,7 +246,6 @@ def step_impl(context, table):
                         yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_type=accepted_property_type))
                     elif context.error_on_passed_rule:
                         yield (err.RuleSuccessInst(True, inst))
-
 
 
 @then('Each {entity} {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')

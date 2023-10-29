@@ -130,6 +130,7 @@ def step_impl(context, related, relating, other_entity, condition):
 @then('The IfcPropertySet must be assigned according to the property set definitions table {table}')
 @then('Each associated IfcProperty must be named according to the property set definitions table {table}')
 @then('Each associated IfcProperty must be of type according to the property set definitions table {table}')
+@then('Each associated IfcProperty value must be of data type according to the property set definitions table {table}')
 @err.handle_errors
 def step_impl(context, table):
     if getattr(context, 'applicable', True):
@@ -157,10 +158,12 @@ def step_impl(context, table):
 
             accepted_values['property_names'] = []
             accepted_values['property_types'] = []
+            accepted_values['data_types'] = []
 
             for property_def in make_obj(property_set_attr['property_definitions']):
                 accepted_values['property_names'].append(property_def['property_name'])
                 accepted_values['property_types'].append(property_def['property_type'])
+                accepted_values['data_types'].append(property_def['data_type'])
 
             accepted_values['applicable_entities'] = make_obj(property_set_attr['applicable_entities'])
 
@@ -177,76 +180,103 @@ def step_impl(context, table):
 
             name = getattr(inst, 'Name', 'Attribute not found')
 
-            accepted_values = establish_accepted_pset_values(name, property_set_definitons)
 
             if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:
                 if name not in property_set_definitons.keys():
                     yield (err.InvalidValueError(False, inst, 'Name', name))  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall
 
-            elif accepted_values is None:  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall (no need for further Pset_ checks)
-                continue
+            accepted_values = establish_accepted_pset_values(name, property_set_definitons)
 
-            elif 'IfcPropertySet must be assigned according to the property set definitions table' in context.step.name:
-                try:
-                    relations = inst.PropertyDefinitionOf  # IFC2x3
-                except AttributeError:
-                    relations = inst.DefinesOccurrence # IFC4x3
-                except IndexError:  # IfcPropertySet not assigned to IfcObjects
-                    relations = []
+            if accepted_values:  # If not it's a custom Pset_ prefixed attribute, e.g. Pset_Mywall (no need for further Pset_ checks),
 
-                for relation in relations:
-                    related_objects = relation.RelatedObjects
+                if 'IfcPropertySet must be assigned according to the property set definitions table' in context.step.name:
+                    try:
+                        relations = inst.PropertyDefinitionOf  # IFC2x3
+                    except AttributeError:
+                        relations = inst.DefinesOccurrence # IFC4x3
+                    except IndexError:  # IfcPropertySet not assigned to IfcObjects
+                        relations = []
+
+                    for relation in relations:
+                        related_objects = relation.RelatedObjects
+                        for obj in related_objects:
+
+                            if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
+                                yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
+
+                            correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
+                            if not any(correct):
+                                yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_entities']))
+                            elif context.error_on_passed_rule:
+                                yield (err.RuleSuccessInst(True, inst))
+
+                    related_objects = inst.DefinesType
                     for obj in related_objects:
-
-                        if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
+                        if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN', 'PSET_PERFORMANCEDRIVEN']:
                             yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
 
-                        correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
+                        correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_type_values']]
                         if not any(correct):
-                            yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_entities']))
+                            yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_type_values']))
                         elif context.error_on_passed_rule:
                             yield (err.RuleSuccessInst(True, inst))
 
-                related_objects = inst.DefinesType
-                for obj in related_objects:
-                    if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN', 'PSET_PERFORMANCEDRIVEN']:
-                        yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
+                if 'Each associated IfcProperty must be named according to the property set definitions table' in context.step.name:
+                    properties = inst.HasProperties
 
-                    correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_type_values']]
-                    if not any(correct):
-                        yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_type_values']))
-                    elif context.error_on_passed_rule:
+                    for property in properties:
+                        if property.Name not in accepted_values['property_names']:
+                            yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_values=accepted_values['property_names']))
+
+                    if context.error_on_passed_rule and all([property.Name in accepted_values['property_names'] for property in properties]):
                         yield (err.RuleSuccessInst(True, inst))
 
-            elif 'Each associated IfcProperty must be named according to the property set definitions table' in context.step.name:
-                properties = inst.HasProperties
 
-                for property in properties:
-                    if property.Name not in accepted_values['property_names']:
-                        yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_values=accepted_values['property_names']))
+                if 'Each associated IfcProperty must be of type according to the property set definitions table' in context.step.name:
+                    accepted_property_name_type_map = {}
+                    for accepted_property_name, accepted_property_type in zip(accepted_values['property_names'], accepted_values['property_types']):
+                        accepted_property_name_type_map[accepted_property_name] = accepted_property_type
 
-                if context.error_on_passed_rule and all([property.Name in accepted_values['property_names'] for property in properties]):
-                    yield (err.RuleSuccessInst(True, inst))
+                    properties = inst.HasProperties
+                    for property in properties:
 
-            elif 'Each associated IfcProperty must be of type according to the property set definitions table' in context.step.name:
+                        try:
+                            accepted_property_type = accepted_property_name_type_map[property.Name]
+                        except KeyError:  # Custom property name, not matching the Pset_ expected property. Error found in previous step, no need to check more.
+                            break
 
-                accepted_property_name_type_map = {}
-                for accepted_property_name, accepted_property_type in zip(accepted_values['property_names'], accepted_values['property_types']):
-                    accepted_property_name_type_map[accepted_property_name] = accepted_property_type
+                        if not property.is_a(accepted_property_type):
+                            yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_type=accepted_property_type))
+                        elif context.error_on_passed_rule:
+                            yield (err.RuleSuccessInst(True, inst))
 
-                properties = inst.HasProperties
-                for property in properties:
+                if 'Each associated IfcProperty value must be of data type according to the property set definitions table' in context.step.name:
+                    accepted_property_name_datatype_map = {}
+                    for accepted_property_name, accepted_data_type in zip(accepted_values['property_names'], accepted_values['data_types']):
+                        accepted_property_name_datatype_map[accepted_property_name] = accepted_data_type
 
-                    try:
-                        accepted_property_type = accepted_property_name_type_map[property.Name]
-                    except KeyError:  # Custom property name, not matching the Pset_ expected property. Error found in previous step, no need to check more.
-                        break
+                    properties = inst.HasProperties
+                    for property in properties:
+                        try:
+                            accepted_data_type = accepted_property_name_datatype_map[property.Name]
+                        except KeyError:  # Custom property name, not matching the Pset_ expected property. Error found in previous step, no need to check more.
+                            break
 
-                    if not property.is_a(accepted_property_type):
-                        yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_type=accepted_property_type))
-                    elif context.error_on_passed_rule:
-                        yield (err.RuleSuccessInst(True, inst))
+                        if property.is_a('IfcPropertySingleValue'):
+                            values = property.NominalValue
+                            if not values.is_a(accepted_data_type['instance']):
+                                yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_data_type_value=accepted_data_type['instance'], value=values))
 
+                        elif property.is_a('IfcPropertyEnumeratedValue'):
+                            values = property.EnumerationValues
+                            for value in values:
+                                if not value.wrappedValue in accepted_data_type['values']:
+                                    yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_data_type_value=accepted_data_type['values'], value=value.wrappedValue))
+                        else:
+                            continue
+
+                        if not values:
+                            yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_data_type=accepted_data_type, value=values))
 
 @then('Each {entity} {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
 @err.handle_errors

@@ -172,12 +172,16 @@ class InvalidPropertyDefinition(RuleState):
     property: ifcopenshell.entity_instance
     accepted_values: list = None
     accepted_type: str = None
+    accepted_data_type_value: str = None
+    value: str = None
 
     def __str__(self):
         if self.accepted_values:
             return f"The instance {misc.fmt(self.inst)} has an associated property {misc.fmt(self.property)} with Name attribute equal to: '{misc.fmt(self.property.Name)}'. Expected values for {misc.fmt(self.inst.Name)} are {self.accepted_values}"
         elif self.accepted_type:
             return f"The instance {misc.fmt(self.inst)} has an associated property {misc.fmt(self.property)}. Expected type of this property is: {misc.fmt(self.accepted_type)}"
+        elif self.accepted_data_type_value:
+            return f"The instance {misc.fmt(self.inst)} has an associated value {misc.fmt(self.property)} with Name attribute equal to: '{misc.fmt(self.property.Name)}'. Expected data type of this value is {self.accepted_data_type_value}, but {misc.fmt(self.value)} was found."
 
 
 @dataclass

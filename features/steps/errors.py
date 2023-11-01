@@ -147,10 +147,9 @@ class InvalidValueError(RuleState):
 class InvalidPropertySetDefinition(RuleState):
     inst: ifcopenshell.entity_instance
     object: ifcopenshell.entity_instance
-    name: str = None
-    types: list = None
-    template_type_enum: str = None
-
+    name: typing.Optional[str] = None
+    types: typing.Optional[typing.List] = None
+    template_type_enum: typing.Optional[str] = None
     # https://standards.buildingsmart.org/IFC/RELEASE/IFC4_1/FINAL/HTML/schema/ifckernel/lexical/ifcpropertysettemplatetypeenum.htm
     ifc_property_set_template_type_enum = {"PSET_TYPEDRIVENONLY": "The property sets defined by this IfcPropertySetTemplate can only be assigned to subtypes of IfcTypeObject.",
                                            "PSET_TYPEDRIVENOVERRIDE": "The property sets defined by this IfcPropertySetTemplate can be assigned to subtypes of IfcTypeObject and can be overridden by a property set with same name at subtypes of IfcObject.",

@@ -169,10 +169,10 @@ class InvalidPropertySetDefinition(RuleState):
 class InvalidPropertyDefinition(RuleState):
     inst: ifcopenshell.entity_instance
     property: ifcopenshell.entity_instance
-    accepted_values: list = None
-    accepted_type: str = None
-    accepted_data_type_value: str = None
-    value: str = None
+    accepted_values: typing.Optional[typing.List] = None
+    accepted_type: typing.Optional[str] = None
+    accepted_data_type_value: typing.Optional[str] = None
+    value: typing.Optional[str] = None
 
     def __str__(self):
         if self.accepted_values:

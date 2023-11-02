@@ -13,7 +13,9 @@ if response.status_code == 200:
             information_about_feature = {}
             file_content = requests.get(item["download_url"]).text
 
-            information_about_feature["name"] = item["name"]
+            information_about_feature["code"] = item["name"][0:6]
+            information_about_feature["name"] = item["name"][7:].replace('.feature', '')
+
 
             match = re.search(r"Feature: (.+?)\n\s*Scenario:", file_content, re.DOTALL)
 
@@ -32,7 +34,7 @@ if response.status_code == 200:
             for tag in tags:
                 information_about_feature[tag[1:]] = tag in at_lines
 
-            rule_tag = [item for item in at_lines if item not in tags]
+            rule_tag = [item for item in at_lines if (item not in tags and len(item)==4)]
             information_about_feature["rule_tag"] = rule_tag[0].upper()[1:]
 
             information_about_features.append(information_about_feature)

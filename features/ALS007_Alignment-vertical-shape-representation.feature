@@ -1,8 +1,7 @@
 @implementer-agreement
 @ALS
 Feature: ALS007 - Alignment vertical shape representation
-The rule verifies that IfcAlignmentVertical is represented correctly with a 3D curve and attributes named IfcGradientCurve.
-https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcAlignmentHorizontal.htm
+The rule verifies that IfcAlignmentVertical is represented correctly with representation type Curve3D and representation item IfcGradientCurve.
 
   Scenario: Agreement on each IfcAlignmentVertical using correct representation
 

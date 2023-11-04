@@ -167,10 +167,7 @@ def step_impl(context, table):
 
             accepted_values['applicable_entities'] = make_obj(property_set_attr['applicable_entities'])
 
-            try:
-                accepted_values['applicable_type_values'] = make_obj(property_set_attr.get('applicable_type_value', '')).split(',')
-            except json.decoder.JSONDecodeError:
-                accepted_values['applicable_type_values'] = property_set_attr.get('applicable_type_value', '').split(',')
+            accepted_values['applicable_type_values'] = property_set_attr.get('applicable_type_value', '').split(',')
 
             return accepted_values
 
@@ -191,9 +188,10 @@ def step_impl(context, table):
 
                 if 'IfcPropertySet must be assigned according to the property set definitions table' in context.step.name:
                     try:
-                        relations = inst.PropertyDefinitionOf  # IFC2x3
-                    except AttributeError:
-                        relations = inst.DefinesOccurrence # IFC4x3
+                        relations = inst.PropertyDefinitionOf  # IFC2x3 https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifckernel/lexical/ifcpropertysetdefinition.htm
+                    except AttributeError: # IFC4-CHANGE Inverse attribute renamed from PropertyDefinitionOf with upward compatibility for file-based exchange.
+                        # https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcPropertySet.htm
+                        relations = inst.DefinesOccurrence
                     except IndexError:  # IfcPropertySet not assigned to IfcObjects
                         relations = []
 

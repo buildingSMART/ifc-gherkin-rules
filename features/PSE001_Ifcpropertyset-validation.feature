@@ -29,7 +29,7 @@ The rule verifies that each IfcPropertySet starting with Pset_ is defined correc
 
     Scenario: Agreement on each IfcPropertySet correctly defining an applicable entity.
 
-      Given A file with Schema Identifier "IFC4X3_ADD2_ADD2"
+      Given A file with Schema Identifier "IFC4X3_ADD2"
       And An IfcPropertySet
       And Its attribute Name starts with Pset_
       Then The IfcPropertySet Name attribute value must use predefined values according to the IFC4X3_ADD2_definitions.csv table

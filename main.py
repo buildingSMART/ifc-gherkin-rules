@@ -8,6 +8,10 @@ import tempfile
 import functools
 from enum import Flag, auto
 
+from typing import Type, TypeVar, Union
+from validation_results import ValidationResult, Scenario, Feature
+from test.protocol.config import ConfiguredBaseModel
+
 
 class RuleType(Flag):
     INFORMAL_PROPOSITION = auto()
@@ -41,7 +45,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_output=False):
+def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_output=False, ci_cd=False):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -80,33 +84,32 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
             print(proc.stderr.decode('utf-8'), file=sys.stderr)
             print(f.read(), file=sys.stderr)
             exit(1)
-        for item in log:
-            feature_name = item['name']
-            feature_filename = item['location'].split(':')[0]
-            description = '\n'.join(item.get('description', []))
-            shas = get_commits(cwd, feature_filename)
-            version = len(shas)
-            tags = item['tags']
-            feature_location = item['location']
-            convention_check_attrs = {
-                            'feature_name' : feature_name,
-                            'feature_filename' : os.path.basename(feature_filename),
-                            'description' : description,
-                            'tags': tags,
-                            'location': feature_location,
-                            'steps': [],
-                        }
 
+
+        for item in log:
+            feature_filename = item['location'].split(':')[0]
+            shas = get_commits(cwd, feature_filename)
+            f = {
+                'name' : item['name'],
+                'description' : '\n'.join(item.get('description', [])), 
+                'filename' : item['location'].split(':')[0],
+                'location' : item['location'],
+                'github_source_location' : f"{remote}/blob/{shas[0]}/{feature_filename}",
+                'version' : len(shas),
+                'tags' : item['tags'] 
+            }
+            feature = Feature(**f) if not ci_cd else Feature.model_construct(**f)
             try:
                 el_list = item['elements']
             except KeyError:
                 el_list = []
-            check_disabled = 'disabled' in tags
+            check_disabled = 'disabled' in feature.tags
             for el in el_list:
-                scenario_name = el['name']
+                s = {'name': el['name'], 'feature': feature}
+                scenario = Scenario(**s) if not ci_cd else Scenario.model_construct(**s)
                 for step in el['steps']:
-                    convention_check_attrs['steps'].append(step)
-                    step_name = step['name']
+                    scenario.steps.append(step)
+                    scenario.latest_step = step['name']
                     step_status = step.get('result', {}).get('status')
                     if step_status and step['step_type'] == 'then' and not check_disabled:
                         try:
@@ -119,16 +122,37 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
                         failed = [result for result in results if not result['rule_passed']]
 
                         for occurence in failed:
-                            inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield {'display_testresult': [f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_filename}", f"{step_name}", inst, occurence["message"]],
-                                   'convention_check_attrs': convention_check_attrs}
+                            v = {
+                                "passed_failed": "failed",
+                                "message": occurence["message"],
+                                "feature": feature,
+                                "scenario": scenario,
+                                "ifc_filepath": filename,
+                                "inst": occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None),
+                            }
+                            yield ValidationResult(**v) if not ci_cd else ValidationResult.model_construct(**v)
                         for occurence in passed:
-                            inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield {'display_testresult' : [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_filename}", f"{step_name}", inst, "Rule passed"],
-                                   'convention_check_attrs' : convention_check_attrs}
+                            v = {
+                                "passed_failed": "passed",
+                                "message": "Rule passed",
+                                "feature": feature,
+                                "scenario": scenario,
+                                "ifc_filepath": filename,
+                                "inst": occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
+                            }
+                            try:
+                                yield ValidationResult(**v) if not ci_cd else ValidationResult.model_construct(**v)
+                            except:
+                                pass
+                # feature.scenario_list.append(scenario)
             if check_disabled:
-                yield {'display_testresult': [f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_filename}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled"],
-                        'convention_check_attrs': convention_check_attrs}
+                v = {
+                    'disabled' : True,
+                    'message': 'Rule disabled',
+                    'feature': feature,
+                    'ifc_filepath': filename
+                }
+                yield ValidationResult(**v) if not ci_cd else ValidationResult.model_construct(**v)
 
     os.close(fd)
     os.unlink(jsonfn)

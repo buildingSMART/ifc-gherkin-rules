@@ -11,7 +11,7 @@ except ImportError:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '...'))
     from features.steps.utils import system
 
-class ValidatorHelper():
+class ParseValidator():
     """
     Perform various types of validations.
     Provides methods for performing various validation tasks such as validating functional parts and rule codes, and checking tags.

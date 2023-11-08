@@ -74,11 +74,13 @@ class DuplicateValueError(RuleState):
 class EdgeUseError(RuleState):
     inst: ifcopenshell.entity_instance
     edge: typing.Any
-    count: int
+    count: typing.Optional[int] = None
 
     def __str__(self):
-        return f"On instance {misc.fmt(self.inst)} the edge {misc.fmt(self.edge)} was referenced {misc.fmt(self.count)} times"
-
+        if self.count:
+            return f"On instance {misc.fmt(self.inst)} the edge {misc.fmt(self.edge)} was referenced {misc.fmt(self.count)} times"
+        elif True:
+            return f"Instance {misc.fmt(self.inst)} edge {self.edge} is not unique"
 
 @dataclass
 class IdenticalValuesError(RuleState):

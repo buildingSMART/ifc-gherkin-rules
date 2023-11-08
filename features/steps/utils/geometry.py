@@ -13,11 +13,21 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
             deps = file.traverse(inst)
             loops = filter(is_a("IfcPolyLoop"), deps)
             for lp in loops:
+                #print('lp', lp)
                 coords = list(map(operator.attrgetter("Coordinates"), lp.Polygon))
+                #print('coords', coords)
                 shifted = coords[1:] + [coords[0]]
                 yield from map(edge_type, zip(coords, shifted))
+            #print('deps', deps)
+            for dep in deps:
+                if dep.is_a("IfcOrientedEdge"):
+
+                    print('123dep', dep)
+
             edges = filter(is_a("IfcOrientedEdge"), deps)
+            #print('edges', edges)
             for ed in edges:
+                print('ed', ed)
                 # @todo take into account edge geometry
                 # edge_geom = ed[2].EdgeGeometry.get_info(recursive=True, include_identifier=False)
                 coords = [
@@ -31,12 +41,14 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
                     coords.reverse()
                 yield edge_type(coords)
         elif inst.is_a("IfcTriangulatedFaceSet"):
+            print("JT1")
             # @nb to decide: should we return index pairs, or coordinate pairs here?
             coords = inst.Coordinates.CoordList
             for idx in inst.CoordIndex:
                 for ij in zip(range(3), ((x + 1) % 3 for x in range(3))):
                     yield edge_type(coords[idx[x] - 1] for x in ij)
         elif inst.is_a("IfcPolygonalFaceSet"):
+            print("JT2")
             coords = inst.Coordinates.CoordList
             for f in inst.Faces:
                 def emit(loop):

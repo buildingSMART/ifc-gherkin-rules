@@ -17,7 +17,7 @@ def step_impl(context, something, num):
         invalid = {ed for ed, cnt in edge_usage.items() if cnt != num}
         valid = {ed for ed, cnt in edge_usage.items() if cnt == num}
         for ed in invalid:
-            yield err.EdgeUseError(False, inst, ed, edge_usage[ed])
+            yield err.EdgeUseError(False, inst, ed, count=edge_usage[ed])
         for ed in valid:
             if context.error_on_passed_rule and not emitted_one_passing:
                 yield err.RuleSuccessInst(True, inst)

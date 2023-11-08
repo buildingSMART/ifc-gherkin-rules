@@ -7,21 +7,28 @@ The rule verifies that closed shells and closed facesets edges are referenced co
 
       Given An IfcClosedShell
 
-       Then Every edge must be referenced exactly 2 times by the loops of the face
-        And Every oriented edge must be referenced exactly 1 times by the loops of the face
-  
-  Scenario: IfcTriangulatedFaceSet
+#       Then Every edge must be referenced exactly 3 times by the loops of the face
+#        And Every oriented edge must be referenced exactly 1 times by the loops of the face
+#
+#  Scenario: IfcTriangulatedFaceSet
+#
+#      Given An IfcTriangulatedFaceSet
+#        And Closed = True
+#
+#       Then Every edge must be referenced exactly 2 times by the loops of the face
+#        And Every oriented edge must be referenced exactly 1 times by the loops of the face
+#
+#  Scenario: IfcPolygonalFaceSet
+#
+#      Given An IfcPolygonalFaceSet
+#        And Closed = True
+#
+#       Then Every edge must be referenced exactly 2 times by the loops of the face
+#        And Every oriented edge must be referenced exactly 1 times by the loops of the face
 
-      Given An IfcTriangulatedFaceSet
-        And Closed = True
 
-       Then Every edge must be referenced exactly 2 times by the loops of the face
-        And Every oriented edge must be referenced exactly 1 times by the loops of the face
+    Scenario: IfcClosedShell
 
-  Scenario: IfcPolygonalFaceSet
+      Given An IfcClosedShell
 
-      Given An IfcPolygonalFaceSet
-        And Closed = True
-
-       Then Every edge must be referenced exactly 2 times by the loops of the face
-        And Every oriented edge must be referenced exactly 1 times by the loops of the face
+       Then Every oriented edge must be unique

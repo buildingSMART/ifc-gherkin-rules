@@ -79,6 +79,15 @@ class EdgeUseError(RuleState):
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} the edge {misc.fmt(self.edge)} was referenced {misc.fmt(self.count)} times"
 
+@dataclass
+class DecomposedElementError(RuleState):
+    """
+    The reason for failure is buried deep in the stake frame
+    With the current implementation it is not so obvious how to determine which decomposed container belongs to which part. 
+    """
+    def __str__(self):
+        return "Decomposed parts should not have their own shape representation if their container has 'Body' as its own shape representation."
+
 
 @dataclass
 class IdenticalValuesError(RuleState):

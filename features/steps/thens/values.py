@@ -70,6 +70,8 @@ def step_impl(context, constraint, num=None):
                         yield(err.InvalidValueError(False, [t[i] for t in stack_tree][1][iv], attribute, value))
                 if len(errors) == amount_of_errors and context.error_on_passed_rule:
                     yield(err.RuleSuccessInst(True, values))
+        elif constraint == 'None' and any(instances): #GEM006
+            yield(err.DecomposedElementError(False))
         elif num is not None:
             values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
 

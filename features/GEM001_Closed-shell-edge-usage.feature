@@ -31,4 +31,7 @@ The rule verifies that closed shells and closed facesets edges are referenced co
 
       Given An IfcClosedShell
 
-       Then Every oriented edge must be unique
+       #Then Every oriented edge must be unique
+       Then Every edge must be referenced maximally by 2 faces
+
+

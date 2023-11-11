@@ -43,6 +43,7 @@ def step_impl(context):
             for inst in context.instances:
                 edge_usage = geometry.get_edges(context.model, inst, sequence_type = list, oriented = True)
                 if len(edge_usage) != len(set(edge_usage)):
+                    print(edge_usage)
                     duplicated_edges = [k for k, v in Counter(edge_usage).items() if v > 1]
                     for duplicated_edge in duplicated_edges:
                         yield (err.EdgeUseError(False, instance, duplicated_edge))

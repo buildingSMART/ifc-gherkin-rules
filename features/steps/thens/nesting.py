@@ -32,6 +32,9 @@ def step_impl(context, entity, other_entities):
         for inst in context.model.by_type(entity):
             nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
             nested_entity_types = set(i.is_a() for i in nested_entities)
+            check_result = nested_entity_types
+            context.instance_expected_results.append(other_entities)
+            context.instance_observed_results.append(check_result)
             if not nested_entity_types <= allowed_entity_types:
                 differences = list(nested_entity_types - allowed_entity_types)
                 yield(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))

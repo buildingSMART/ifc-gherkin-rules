@@ -1,6 +1,8 @@
 import ifcopenshell
 import sys
 from behave.model import Scenario
+import os
+from datetime import datetime
 
 model_cache = {}
 def read_model(fn):
@@ -25,42 +27,27 @@ def before_feature(context, feature):
 
 def before_step(context, step):
     context.step = step
-    context.instance_expected_results = []
-    context.instance_observed_results = []
 
 def after_step(context, step):
     if step.step_type == 'then':
-        # print(dir(step))
-        # print(help(step))
-        # print(step.error_message)
-        # print(step.filename)
-        # print(context.feature)
-        # print(help(context.feature))
-        # print(context.feature.name)
-        # print(context.feature.description)
 
-        print(dir(step))
-        #print(step.exception)
-        print(step.filename)
-
-        file = ''
-        validated_on = ''
+        file = os.path.basename(context.config.userdata['input'])
+        validated_on = datetime.now() #TODO -> database time probably makes more sense
         reference = context.feature.name
         step_col = step.name
         description = context.feature.description
-        severity = step.status
-        code = ''
+        severity = step.status # TODO -> we can map it to Scotts EWIP codes
+        code = context.code
+        entity = context.inst
         expected = context.instance_expected_results
         observed = context.instance_observed_results
-        query = f'INSERT INTO rule_results VALUES("{file}", "{validated_on}", "{reference}", "{step_col}", "{description}", "{severity}", "{code}", "{expected}", "{observed}")'
-        print(query)
-        context.cur.execute('Delete from rule_results') # TODO -> just to keep the db readable
+
+        query = f'INSERT INTO rule_results VALUES("{file}", "{validated_on}", "{reference}", "{step_col}", "{description}", "{severity}", "{code}", "{entity}", "{expected}", "{observed}")'
+        #context.cur.execute('Delete from rule_results') # TODO -> just to keep the db readable
         context.cur.execute(query) # TODO -> PoC, SQLAlchemy? + injection unsafe
-
         context.con.commit()
+        assert expected == observed, f"Expected: {expected}. Observed: {observed}"
 def before_all(context):
-
-
 
     import sqlite3
     con = sqlite3.connect("poc.db")
@@ -80,6 +67,7 @@ def before_all(context):
                     "description"	TEXT,
                     "severity"	TEXT,
                     "code"	TEXT,
+                    "entity"	TEXT,
                     "expected"	TEXT,
                     "observed"	TEXT
                 );"""

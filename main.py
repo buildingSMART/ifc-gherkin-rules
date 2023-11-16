@@ -8,6 +8,7 @@ import tempfile
 import functools
 from enum import Flag, auto
 
+from validation_outcome import ValidationOutcome, Scenario, Feature
 
 class RuleType(Flag):
     INFORMAL_PROPOSITION = auto()
@@ -28,8 +29,8 @@ def get_remote(cwd):
 
 
 @functools.lru_cache(maxsize=16)
-def get_commits(cwd, feature_file):
-    return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
+def get_commits(cwd, feature_filename):
+    return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_filename], cwd=cwd).decode('ascii').split('\n')
 
 
 def do_try(fn, default=None):
@@ -41,7 +42,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_output=False):
+def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_output=False, ci_cd=False):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -81,24 +82,31 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
             print(f.read(), file=sys.stderr)
             exit(1)
         for item in log:
-            feature_name = item['name']
-            feature_file = item['location'].split(':')[0]
-            shas = get_commits(cwd, feature_file)
-            version = len(shas)
-            check_disabled = 'disabled' in item['tags']
-            if check_disabled:
-                yield f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled"
-
+            feature_filename = item['location'].split(':')[0]
+            shas = get_commits(cwd, feature_filename)
+            f = {
+                'name' : item['name'],
+                'description' : '\n'.join(item.get('description', [])), 
+                'filename' : item['location'].split(':')[0],
+                'location' : item['location'],
+                'github_source_location' : f"{remote}/blob/{shas[0]}/{feature_filename}",
+                'version' : len(shas),
+                'tags' : item['tags'] 
+            }
+            feature = Feature(**f) if not ci_cd else Feature.model_construct(**f)
             try:
                 el_list = item['elements']
             except KeyError:
                 el_list = []
+            check_disabled = 'disabled' in feature.tags
             for el in el_list:
-                scenario_name = el['name']
+                s = {'name': el['name'], 'feature': feature}
+                scenario = Scenario(**s) if not ci_cd else Scenario.model_construct(**s)
                 for step in el['steps']:
-                    step_name = step['name']
+                    scenario.steps.append(step)
+                    scenario.latest_step = step['name']
                     step_status = step.get('result', {}).get('status')
-                    if step_status and step['step_type'] == 'then':
+                    if step_status and step['step_type'] == 'then' and not check_disabled:
                         try:
                             results = list(map(json.loads, step['result']['error_message'][1:]))
                         except KeyError:  # THEN not checked
@@ -108,11 +116,37 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
                         passed = [result for result in results if result['rule_passed']]
                         failed = [result for result in results if not result['rule_passed']]
                         for occurence in failed:
-                            inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, occurence["message"]
+                            v = {
+                                "severity": "failed",
+                                "message": occurence["message"],
+                                "feature": feature,
+                                "scenario": scenario,
+                                "ifc_filepath": filename,
+                                "inst": occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None),
+                            }
+                            yield ValidationOutcome(**v) if not ci_cd else ValidationOutcome.model_construct(**v)
                         for occurence in passed:
-                            inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, "Rule passed"
+                            v = {
+                                "severity": "passed", # do we register 'passed' for best practices/warnings?
+                                "message": "Rule passed",
+                                "feature": feature,
+                                "scenario": scenario,
+                                "ifc_filepath": filename,
+                                "inst": occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
+                            }
+                            try:
+                                yield ValidationOutcome(**v) if not ci_cd else ValidationOutcome.model_construct(**v)
+                            except:
+                                pass
+            if check_disabled:
+                v = {
+                    'disabled' : True,
+                    'message': 'Rule disabled',
+                    'feature': feature,
+                    'ifc_filepath': filename
+                }
+                yield ValidationOutcome(**v) if not ci_cd else ValidationOutcome.model_construct(**v)
+
 
     os.close(fd)
     os.unlink(jsonfn)

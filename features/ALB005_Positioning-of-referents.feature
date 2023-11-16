@@ -2,7 +2,7 @@
 @ALB
 @disabled
 Feature: ALB005 - Positioning of referents
-IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPositions relationship
+The rule verifies that IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPositions relationship
 
   Scenario: Agreement on each IfcAlignment being aggregated to IfcProject and not contained in IfcSpatialElement
 

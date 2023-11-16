@@ -9,5 +9,4 @@ The rule verifies that Shape Representation identifier is unique within the prod
         And Its attribute Representation
         And Its attribute Representations
         And Its attribute RepresentationIdentifier
-
         Then The values must be unique

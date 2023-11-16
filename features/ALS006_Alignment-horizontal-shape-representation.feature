@@ -1,6 +1,8 @@
 @implementer-agreement
 @ALS
-Feature: ALS006 - Horizontal alignment shape representation
+Feature: ALS006 - Alignment horizontal shape representation
+The rule verifies that IfcAlignmentHorizontal is represented correctly with representation type Curve2D and representation item either IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline.
+
   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation
 
       Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"

@@ -2,7 +2,7 @@
 @SPS
 @disabled
 Feature: SPS006 - Elements referenced in Spatial structures
-If IfcElements are positioned wrt IfcPositioning elements, then they must be also referenced (instead of contained) into a IfcSpatialStructure element
+The rule verifies that if an IfcElement is positioned in relation to an IfcPositioningElement, then it must be also referenced (instead of contained) into a IfcSpatialStructureElement
 
   Scenario: Agreement on elements being positioned to be referenced
 

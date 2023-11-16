@@ -1,5 +1,4 @@
 import ifcopenshell
-import sys
 from behave.model import Scenario
 
 model_cache = {}
@@ -14,6 +13,10 @@ def before_feature(context, feature):
     # between features so we need to preserve only the bottom two stack
     # frames when beginning a new feature.
     context._stack = context._stack[-2:]
+
+    #@todo incorporate into gherkin error handling
+    # assert protocol.enforce(context, feature), 'failed'
+
     if "error_on_passed_rule" in context.config.userdata:
         context.error_on_passed_rule = context.config.userdata["error_on_passed_rule"] == 'yes'
     else:

@@ -1,8 +1,9 @@
 import ast
 import operator
+import itertools
 
 from behave import *
-from utils import geometry, ifc, misc
+from utils import geometry, ifc, misc, system
 
 
 @given("{attribute} = {value}")
@@ -45,12 +46,19 @@ def step_impl(context, attr, closed_or_open):
 
 @given('A file with {field} "{values}"')
 def step_impl(context, field, values):
+    valid_schema_identifiers = system.get_csv(system.get_abs_path(f"resources/**/ifc_Schema_Identifiers.csv"), return_type='dict')[0]
+
     values = misc.strip_split(values, strp='"', splt=' or ')
     if field == "Model View Definition":
         conditional_lowercase = lambda s: s.lower() if s else None
         applicable = conditional_lowercase(ifc.get_mvd(context.model)) in values
     elif field == "Schema Identifier":
         applicable = context.model.schema.lower() in values
+    elif field == "Schema Version":
+        valid_schema_identifiers = system.get_csv(system.get_abs_path(f"resources/**/ifc_Schema_Identifiers.csv"), return_type='list')
+        valid_schema_identifiers = {row[0]: row[1:] for row in valid_schema_identifiers if row} # return dict with version as key
+        valid_schema_identifiers = {k.lower(): [v.lower() for v in values] for k, values in valid_schema_identifiers.items()}
+        applicable = context.model.schema.lower() in list(itertools.chain.from_iterable(valid_schema_identifiers.get(v, []) for v in values))
     else:
         raise NotImplementedError(f'A file with "{field}" is not implemented')
 

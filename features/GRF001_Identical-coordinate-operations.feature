@@ -4,7 +4,7 @@ The rule verifies that the same coordinate system is used within an IFC model an
 
   Scenario: IfcGeometricRepresentationContext
 
-      Given A file with Schema Identifier "IFC4X3" or "IFC4X3_TC1" or "IFC4X3_ADD1"
+      Given A file with Schema Version "IFC4"
         And All instances of IfcGeometricRepresentationContext without subtypes
         And Its Attribute HasCoordinateOperation
         And Its values excluding SourceCRS

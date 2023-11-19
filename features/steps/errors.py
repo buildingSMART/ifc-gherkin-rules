@@ -229,3 +229,11 @@ class CyclicGroupError(RuleState):
 
     def __str__(self):
         return f"Cyclic group definition of {misc.fmt(self.inst)}"
+
+@dataclass
+class IncorrectSchemaError(RuleState):
+    model_schema: str
+    current_schema: str
+
+    def __str__(self):
+        return f"The file's schema identifier {self.model_schema} does not match the expected current schema identifier {self.current_schema}. Please update the file to the latest IFC schema standards."

@@ -109,3 +109,11 @@ def step_impl(context, attribute, value):
                 yield(err.InvalidValueError(False, inst, attribute, attribute_value))
             elif context.error_on_passed_rule:
                 yield(err.RuleSuccessInst(True, inst))
+
+
+@then('The Schema Identifier must be {current_schema}')
+@err.handle_errors
+def step_impl(context, current_schema):
+    model_schema = context.model.schema.lower()
+    if not context.model.schema.lower() == current_schema:
+        yield err.IncorrectSchemaError(False, model_schema, current_schema)

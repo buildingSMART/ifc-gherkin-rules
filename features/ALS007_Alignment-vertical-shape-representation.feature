@@ -5,7 +5,7 @@ The rule verifies that IfcAlignmentVertical is represented correctly with repres
 
   Scenario: Agreement on each IfcAlignmentVertical using correct representation
 
-      Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+      Given A file with Schema Version "IFC4"
       And An IfcAlignmentVertical
       And Its attribute Representation
       And Its attribute Representations

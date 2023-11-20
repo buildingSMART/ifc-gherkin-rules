@@ -6,7 +6,7 @@ The rule verifies that an IfcBuilding has a correct representation
 
   Scenario: Agreement on empty IfcBuilding using correct representation
 
-      And An IfcBuilding
+      Given An IfcBuilding
       And ContainsElements = empty
       And IsDecomposedBy = empty
       And Its attribute Representation

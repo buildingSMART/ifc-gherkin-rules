@@ -236,4 +236,4 @@ class IncorrectSchemaError(RuleState):
     expected_result: list
 
     def __str__(self):
-        return f"The file's schema identifier {self.observed_result} does not match the any of the expected current schema identifiers :  {', '.join(map(repr, self.expected_result))}."
+        return f"The file's schema identifier {self.observed_result} does not match any of the expected current schema identifiers :  {', '.join(map(repr, self.expected_result))}."

@@ -5,7 +5,7 @@ The rule verifies that each IfcAlignmentSegment uses correct representation.
 
 Scenario: Agreement on each IfcAlignmentSegment using correct representation
 
-    Given A file with Schema Version "IFC4"
+    Given A model with Schema "IFC4.3"
     And An IfcAlignmentSegment
     And Its attribute Representation
     And Its attribute Representations

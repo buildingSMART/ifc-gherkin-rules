@@ -6,7 +6,6 @@ The rule verifies that an IfcBuilding has a correct representation
 
   Scenario: Agreement on empty IfcBuilding using correct representation
 
-      Given A file with Schema Version "IFC2" or "IFC4"
       And An IfcBuilding
       And ContainsElements = empty
       And IsDecomposedBy = empty

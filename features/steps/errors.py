@@ -232,8 +232,8 @@ class CyclicGroupError(RuleState):
 
 @dataclass
 class IncorrectSchemaError(RuleState):
-    model_schema: str
-    current_schema: str
+    observed_result: str
+    expected_result: list
 
     def __str__(self):
-        return f"The file's schema identifier {self.model_schema} does not match the expected current schema identifier {self.current_schema}. Please update the file to the latest IFC schema standards."
+        return f"The file's schema identifier {self.observed_result} does not match the any of the expected current schema identifiers :  {', '.join(map(repr, self.expected_result))}."

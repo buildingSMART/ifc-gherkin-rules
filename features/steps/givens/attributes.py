@@ -4,7 +4,9 @@ import itertools
 
 from behave import *
 from utils import geometry, ifc, misc, system
+from parse_type import TypeBuilder
 
+register_type(file_or_model=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("file", "model")))))
 
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
@@ -44,21 +46,17 @@ def step_impl(context, attr, closed_or_open):
     )
 
 
-@given('A file with {field} "{values}"')
-def step_impl(context, field, values):
-    valid_schema_identifiers = system.get_csv(system.get_abs_path(f"resources/**/ifc_Schema_Identifiers.csv"), return_type='dict')[0]
-
+@given('A {file_or_model} with {field} "{values}"')
+def step_impl(context, file_or_model, field, values):
     values = misc.strip_split(values, strp='"', splt=' or ')
+    values = ['ifc4x3' if i.lower() == 'ifc4.3' else i for i in values] # change to IFC4X3 to check in IfcOpenShell
     if field == "Model View Definition":
         conditional_lowercase = lambda s: s.lower() if s else None
         applicable = conditional_lowercase(ifc.get_mvd(context.model)) in values
     elif field == "Schema Identifier":
+        applicable = context.model.schema_identifer.lower() in values
+    elif field == "Schema":
         applicable = context.model.schema.lower() in values
-    elif field == "Schema Version":
-        valid_schema_identifiers = system.get_csv(system.get_abs_path(f"resources/**/ifc_Schema_Identifiers.csv"), return_type='list')
-        valid_schema_identifiers = {row[0]: row[1:] for row in valid_schema_identifiers if row} # return dict with version as key
-        valid_schema_identifiers = {k.lower(): [v.lower() for v in values] for k, values in valid_schema_identifiers.items()}
-        applicable = context.model.schema.lower() in list(itertools.chain.from_iterable(valid_schema_identifiers.get(v, []) for v in values))
     else:
         raise NotImplementedError(f'A file with "{field}" is not implemented')
 

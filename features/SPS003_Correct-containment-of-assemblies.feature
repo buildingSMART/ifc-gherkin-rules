@@ -5,7 +5,6 @@ The rule verifies that IfcElement that are aggregated in another IfcElement must
 
   Scenario: Agreement on aggregated elements not being contained
 
-      Given A file with Schema Version "IFC4" or "IFC2"
       And An IfcElement
       And Decomposes = not empty
       Then The value of attribute ContainedInStructure must be empty

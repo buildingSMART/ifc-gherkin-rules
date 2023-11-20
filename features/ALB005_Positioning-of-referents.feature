@@ -6,7 +6,7 @@ The rule verifies that IfcReferents (typed POSITION or STATION) linked to IfcAli
 
   Scenario: Agreement on each IfcAlignment being aggregated to IfcProject and not contained in IfcSpatialElement
 
-      Given A file with Schema Version "IFC4"
+      Given A model with Schema "IFC4.3"
       And An IfcReferent
       And PredefinedType = 'POSITION' or 'STATION'
       Then Each IfcReferent must be positioned to IfcAlignment directly

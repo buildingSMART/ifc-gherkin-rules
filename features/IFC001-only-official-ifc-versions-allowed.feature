@@ -1,4 +1,5 @@
 @implementer-agreement
+@critical
 @IFC
 Feature: IFC101 - Only Official IFC versions allowed
 This rule verifies that the IFC model conforms to one of the official versions released by buildingSMART.

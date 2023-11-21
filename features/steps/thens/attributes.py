@@ -115,16 +115,18 @@ def step_impl(context, attribute, value):
                 yield(err.RuleSuccessInst(True, inst))
 
 
-@then('The {field} of the {model_or_field} must be "{values}"')
+@then('The {field} of the {file_or_model} must be "{values}"')
 @err.handle_errors
-def step_impl(context, field, model_or_field, values):
+def step_impl(context, field, file_or_model, values):
     values = misc.strip_split(values, strp='"', splt=' or ')
-    model_schema = context.model.schema_identifier.lower()
-    if field == "Schema Identifier":
-        s = context.model.schema_identifier
-        if not s.lower() in values:
-            yield err.IncorrectSchemaError(False, s, values)
-    elif field == "Schema" and not context.model.schema in values:
-        s = context.model.schema
-        if not s.lower() in values:
-            yield err.IncorrectSchemaError(False, s, values)
+    for inst in context.instances:
+        if field == "Schema Identifier":
+            s = context.model.schema_identifier
+            if not s.lower() in values:
+                yield err.IncorrectSchemaError(False, s, values)
+        elif field == "Schema" and not context.model.schema in values:
+            s = context.model.schema
+            if not s.lower() in values:
+                yield err.IncorrectSchemaError(False, s, values)
+        else:
+            yield(err.RuleSuccessInst(True, inst))

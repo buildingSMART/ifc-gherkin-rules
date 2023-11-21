@@ -26,14 +26,14 @@ def generate_error_message(context, errors):
 
 @dataclass
 class RuleSuccessInsts(RuleState):
-    insts: ifcopenshell.entity_instance
+    insts: Union[ifcopenshell.entity_instance, ifcopenshell.file]
 
     def __str__(self):
         return f"The instance {self.insts} has passed the step criteria"
 
 @dataclass
 class RuleSuccessInst(RuleState):
-    inst: ifcopenshell.entity_instance
+    inst: Union[ifcopenshell.entity_instance, ifcopenshell.file]
 
     def __str__(self):
         return f"The instance {self.inst} has passed the step criteria"

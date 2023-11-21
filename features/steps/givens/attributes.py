@@ -73,3 +73,8 @@ def step_impl(context, attribute):
 @given('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, representation_id, representation_type):
     context.instances = list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type), context.instances))))
+
+
+@given("An IFC model")
+def step_impl(context):
+    context.instances = context.model

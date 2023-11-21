@@ -1,6 +1,6 @@
 @implementer-agreement
 @IFC
-Feature: CRI - Official Schema Identifier
+Feature: IFC101 - Only Official IFC versions allowed
 This rule verifies that the IFC model conforms to one of the official versions released by buildingSMART.
 Specifically, IFC2x3 TC1 (version 2.3.0.1), IFC4 ADD2 TC1 (version 4.0.2.1), or IFC4.3 ADD2 (version 4.3.2.0).
 

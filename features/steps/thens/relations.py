@@ -5,46 +5,6 @@ from utils import ifc, misc, system
 
 from parse_type import TypeBuilder
 register_type(aggregated_or_contained_or_positioned=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained", "positioned")))))
-
-@then('Each {entity} {condition} be {directness} contained in {other_entity}')
-@err.handle_errors
-def step_impl(context, entity, condition, directness, other_entity):
-    stmt_to_op = ['must', 'must not']
-    assert condition in stmt_to_op
-
-    stmt_about_directness = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
-    assert directness in stmt_about_directness
-    required_directness = {directness} if directness not in ['directly or indirectly', 'indirectly or directly'] else {
-        'directly', 'indirectly'}
-
-    errors = []
-
-    if context.instances and getattr(context, 'applicable', True):
-        for ent in context.model.by_type(entity):
-            observed_directness = set()
-            if len(ent.ContainedInStructure) > 0:
-                containing_relation = ent.ContainedInStructure[0]
-                relating_spatial_element = containing_relation.RelatingStructure
-                is_directly_contained = relating_spatial_element.is_a(other_entity)
-                if is_directly_contained:
-                    observed_directness.update({'directly'})
-                while len(relating_spatial_element.Decomposes) > 0:
-                    decomposed_element = relating_spatial_element.Decomposes[0]
-                    relating_spatial_element = decomposed_element.RelatingObject
-                    is_indirectly_contained = relating_spatial_element.is_a(other_entity)
-                    if is_indirectly_contained:
-                        observed_directness.update({'indirectly'})
-                        break
-            else:
-                 relating_spatial_element = None
-
-            common_directness = required_directness & observed_directness  # values the required and observed situation have in common
-            directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
-            directness_expected = condition == 'must'  # check if relationship is expected
-            if directness_achieved != directness_expected:
-                yield(err.InstanceStructureError(False, ent, [relating_spatial_element], 'contained', optional_values={'condition': condition, 'directness': directness}))
-            elif context.error_on_passed_rule:
-                yield(err.RuleSuccessInsts(True, ent))
                 
 @then('It must be {relationship} as per {table}')
 @err.handle_errors
@@ -132,9 +92,9 @@ def step_impl(context, related, relating, other_entity, condition):
 
 
 
-@then('Each {entity} {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
+@then('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
 @err.handle_errors
-def step_impl(context, entity, decision, relationship, preposition, other_entity, condition):
+def step_impl(context, decision, relationship, preposition, other_entity, condition):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
 
@@ -200,11 +160,10 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
             if context.error_on_passed_rule and decision == 'must not' and not relationship_reached:
                 yield(err.RuleSuccessInsts(True, ent))
 
-@then('Each {entity} must not be referenced by itself directly or indirectly')
+@then('It must not be referenced by itself directly or indirectly')
 @err.handle_errors
-def step_impl(context, entity):
+def step_impl(context):
     relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
-    inv, ent, attr = relationship[entity]
     
     def get_memberships(inst):
         for rel in filter(misc.is_a(ent), getattr(inst, inv, [])):
@@ -213,7 +172,8 @@ def step_impl(context, entity):
             yield from get_memberships(container)
 
     if getattr(context, 'applicable', True):
-        for inst in context.model.by_type(entity):
+        for inst in context.instances:
+            inv, ent, attr = relationship[inst.is_a()]
             if inst in get_memberships(inst):
                 yield(err.CyclicGroupError(False, inst))
             elif context.error_on_passed_rule:

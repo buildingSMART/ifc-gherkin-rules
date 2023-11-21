@@ -8,6 +8,7 @@ or with Referents (e.g., mileage markers). And not with any other entity.
   Scenario: Agreement on nested elements of IfcAlignment
 
       Given A model with Schema "IFC4.3"
-       Then Each IfcAlignment may be nested by only the following entities: IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent
+      And An IfcAlignment
+       Then It must be nested by only the following entities: IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent
   
     

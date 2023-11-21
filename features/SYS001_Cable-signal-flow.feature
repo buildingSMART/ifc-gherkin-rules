@@ -7,7 +7,8 @@ The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a 
   Scenario: Agreement on IfcCableSegment having ports
 
     Given A model with Schema "IFC4.3"
-    Then Each IfcCableSegment must be nested by exactly 2 instance(s) of IfcDistributionPort
+    And An IfcCableSegment
+    Then It must be nested by exactly 2 instance(s) of IfcDistributionPort
 
   Scenario: Agreement on port directions
 

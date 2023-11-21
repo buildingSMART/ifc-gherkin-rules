@@ -5,10 +5,11 @@ The rule verifies that IfcAlignmentHorizontal is represented correctly with repr
 
   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation
 
-      Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
-      And An IfcAlignmentHorizontal
-      And Its attribute Representation
-      And Its attribute Representations
-      Then The value of attribute RepresentationIdentifier must be Axis
-      And  The value of attribute RepresentationType must be Curve2D
-      And  The type of attribute Items must be IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline
+    Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+    Given An IfcAlignmentHorizontal
+    Given Its attribute Representation
+    Given Its attribute Representations
+    
+    Then The value of attribute RepresentationIdentifier must be Axis
+    Then  The value of attribute RepresentationType must be Curve2D
+    Then  The type of attribute Items must be IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline

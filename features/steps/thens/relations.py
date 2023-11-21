@@ -1,4 +1,5 @@
 import errors as err
+from validation_handling import validate_step
 
 from behave import *
 from utils import ifc, misc, system
@@ -109,6 +110,7 @@ def step_impl(context, relationship, table):
 
 
 
+
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
 @err.handle_errors
 def step_impl(context, related, relating, other_entity, condition):
@@ -200,9 +202,9 @@ def step_impl(context, entity, decision, relationship, preposition, other_entity
             if context.error_on_passed_rule and decision == 'must not' and not relationship_reached:
                 yield(err.RuleSuccessInsts(True, ent))
 
-@then('Each {entity} must not be referenced by itself directly or indirectly')
-@err.handle_errors
-def step_impl(context, entity):
+
+@validate_step('Each {entity} must not be referenced by itself directly or indirectly')
+def step_impl(context, inst, entity):
     relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
     inv, ent, attr = relationship[entity]
     
@@ -212,9 +214,5 @@ def step_impl(context, entity):
             yield container
             yield from get_memberships(container)
 
-    if getattr(context, 'applicable', True):
-        for inst in context.model.by_type(entity):
-            if inst in get_memberships(inst):
-                yield(err.CyclicGroupError(False, inst))
-            elif context.error_on_passed_rule:
-                yield(err.RuleSuccessInsts(True, inst))
+    if inst in get_memberships(inst):
+        yield(err.CyclicGroupError(False, inst))

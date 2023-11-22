@@ -1,9 +1,12 @@
 import ast
 import operator
+import itertools
 
 from behave import *
-from utils import geometry, ifc, misc
+from utils import geometry, ifc, misc, system
+from parse_type import TypeBuilder
 
+register_type(file_or_model=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("file", "model")))))
 
 @given("{attribute} = {value}")
 def step_impl(context, attribute, value):
@@ -43,13 +46,16 @@ def step_impl(context, attr, closed_or_open):
     )
 
 
-@given('A file with {field} "{values}"')
-def step_impl(context, field, values):
+@given('A {file_or_model} with {field} "{values}"')
+def step_impl(context, file_or_model, field, values):
     values = misc.strip_split(values, strp='"', splt=' or ')
+    values = ['ifc4x3' if i.lower() == 'ifc4.3' else i for i in values] # change to IFC4X3 to check in IfcOpenShell
     if field == "Model View Definition":
         conditional_lowercase = lambda s: s.lower() if s else None
         applicable = conditional_lowercase(ifc.get_mvd(context.model)) in values
     elif field == "Schema Identifier":
+        applicable = context.model.schema_identifer.lower() in values
+    elif field == "Schema":
         applicable = context.model.schema.lower() in values
     else:
         raise NotImplementedError(f'A file with "{field}" is not implemented')
@@ -67,3 +73,8 @@ def step_impl(context, attribute):
 @given('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, representation_id, representation_type):
     context.instances = list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type), context.instances))))
+
+
+@given("An IFC model")
+def step_impl(context):
+    context.instances = context.model

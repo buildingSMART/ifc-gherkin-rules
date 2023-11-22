@@ -5,7 +5,7 @@ The rule verifies that IfcAlignmentHorizontal is represented correctly with repr
 
   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation
 
-      Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+      Given A model with Schema "IFC4.3"
       And An IfcAlignmentHorizontal
       And Its attribute Representation
       And Its attribute Representations

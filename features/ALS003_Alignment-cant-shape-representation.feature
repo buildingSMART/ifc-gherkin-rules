@@ -6,7 +6,7 @@ The rule verifies that IfcAlignmentCant is represented correctly with representa
 
   Scenario: Agreement on each IfcAlignmentCant using correct representation
 
-      Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+      Given A model with Schema "IFC4.3"
       Given An IfcAlignmentCant
       Given Its attribute Representation
       Given Its attribute Representations

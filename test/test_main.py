@@ -45,6 +45,7 @@ def get_test_files():
     rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
     rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), args))
 
+
     test_files = []
     for code in rule_codes:
         paths = glob.glob(os.path.join(os.path.dirname(__file__), "files/", code.lower(), "*.ifc"))

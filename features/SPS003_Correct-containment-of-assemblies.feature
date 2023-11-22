@@ -5,7 +5,6 @@ The rule verifies that IfcElement that are aggregated in another IfcElement must
 
   Scenario: Agreement on aggregated elements not being contained
 
-    Given A file with Schema Identifier "IFC2x3" or "IFC4" or "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
     Given An IfcElement
     Given Decomposes = not empty
     

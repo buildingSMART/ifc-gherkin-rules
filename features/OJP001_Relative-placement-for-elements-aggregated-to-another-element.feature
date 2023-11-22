@@ -7,7 +7,7 @@ with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the contai
 
   Scenario: Agreement on the relative placement of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
 
-    Given A file with Schema Identifier "IFC2X3"
+    Given A file with Schema "IFC2X3"
     Given An IfcElement
     Given A relationship IfcRelAggregates from IfcElement to IfcElement
     

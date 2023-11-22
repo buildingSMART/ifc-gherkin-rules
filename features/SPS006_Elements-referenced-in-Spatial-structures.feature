@@ -6,7 +6,7 @@ The rule verifies that if an IfcElement is positioned in relation to an IfcPosit
 
   Scenario: Agreement on elements being positioned to be referenced
 
-    Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+    Given A model with Schema "IFC4.3"
     Given An IfcElement
     Given PositionedRelativeTo = not empty
     

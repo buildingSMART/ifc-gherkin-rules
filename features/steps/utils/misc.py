@@ -24,7 +24,8 @@ def reverse_operands(fn):
 
 def do_try(fn, default=None):
     try:
-        return fn()
+        result = fn()
+        return result if result else default
     except:
         return default
 

@@ -20,3 +20,10 @@ def get_csv(abs_path, return_type='list', newline='', delimiter=',', quotechar='
         elif return_type == 'list':
             reader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
         return [row for row in reader]
+
+def load_attribute_matrix(table, base_folder = "resources/**/"):
+    filename = get_abs_path(f"{base_folder}{table}")
+    # filename = f"{base_path}{table}"
+
+    attr_matrix = get_csv(filename, return_type='dict')[0]
+    return attr_matrix

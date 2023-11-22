@@ -5,17 +5,18 @@ The rule verifies that shape representations adhere to the permissible values ou
 
   Scenario: Shape Representation Identifier must be valid
 
-      Given An IfcProduct
-        And Its attribute Representation
-        And Its attribute Representations
-        And Its attribute RepresentationIdentifier
-        Then The values must be in 'valid_RepresentationIdentifier.csv'
+    Given An IfcProduct
+    Given Its attribute Representation
+    Given Its attribute Representations
+    Given Its attribute RepresentationIdentifier
+
+    Then The values must be in 'valid_RepresentationIdentifier.csv'
   
   Scenario: Shape Representation Type must be valid
 
-      Given An IfcProduct
-        And Its attribute Representation
-        And Its attribute Representations
-        And Its attribute RepresentationType
-        Then The values must be in 'valid_RepresentationType.csv'
-
+    Given An IfcProduct
+    Given Its attribute Representation
+    Given Its attribute Representations
+    Given Its attribute RepresentationType
+    
+    Then The values must be in 'valid_RepresentationType.csv'

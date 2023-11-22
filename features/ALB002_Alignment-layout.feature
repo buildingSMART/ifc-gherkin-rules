@@ -1,3 +1,5 @@
+@implementer-agreement
+@ALB
 Feature: ALB002 - Alignment Layout Verification
   This feature ensures correct nesting relationships within alignment layout components and their attributes in alignment with specific schema identifiers.
 

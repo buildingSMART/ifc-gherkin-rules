@@ -57,29 +57,21 @@ def step_impl(context, inst, entity, other_entity):
         yield(err.InstancePlacementError(False, inst, other_entity, "", "", "", ""))
 
 
-@then('The type of attribute {attribute} must be {expected_entity_type}')
-@err.handle_errors
-def step_impl(context, attribute, expected_entity_type):
+@validate_step('The type of attribute {attribute} must be {expected_entity_type}')
+def step_impl(context, inst, attribute, expected_entity_type):
 
     expected_entity_types = tuple(map(str.strip, expected_entity_type.split(' or ')))
+    related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
+    errors = []
+    def accumulate_errors(i):
+        if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
+            misc.map_state(inst, lambda x: errors.append(err.AttributeTypeError(False, x, [i], attribute, expected_entity_type)))
+    misc.map_state(related_entity, accumulate_errors)
+    if errors:
+        yield from errors
 
-    for inst in context.instances:
-        related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
-        errors = []
-        def accumulate_errors(i):
-            if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
-                misc.map_state(inst, lambda x: errors.append(err.AttributeTypeError(False, x, [i], attribute, expected_entity_type)))
-        misc.map_state(related_entity, accumulate_errors)
-        if errors:
-            yield from errors
-        elif context.error_on_passed_rule:
-            yield err.RuleSuccessInst(True, related_entity)
-
-
-
-@then('The value of attribute {attribute} must be {value}')
-@err.handle_errors
-def step_impl(context, attribute, value):
+@validate_step('The value of attribute {attribute} must be {value}')
+def step_impl(context, inst, attribute, value):
     # @todo the horror and inconsistency.. should we use
     # ast here as well to differentiate between types?
     pred = operator.eq
@@ -89,13 +81,8 @@ def step_impl(context, attribute, value):
         value = ()
         pred = operator.ne
 
-    if getattr(context, 'applicable', True):
-        errors = []
-        for inst in context.instances:
-            if isinstance(inst, (tuple, list)):
-                inst = inst[0]
-            attribute_value = getattr(inst, attribute, 'Attribute not found')
-            if not pred(attribute_value, value):
-                yield(err.InvalidValueError(False, inst, attribute, attribute_value))
-            elif context.error_on_passed_rule:
-                yield(err.RuleSuccessInst(True, inst))
+    if isinstance(inst, (tuple, list)):
+        inst = inst[0]
+    attribute_value = getattr(inst, attribute, 'Attribute not found')
+    if not pred(attribute_value, value):
+        yield(err.InvalidValueError(False, inst, attribute, attribute_value))

@@ -3,6 +3,7 @@ import errors as err
 
 from behave import *
 from utils import ifc, misc, system
+from validation_handling import validate_step
 
 @then('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
 @err.handle_errors
@@ -44,27 +45,16 @@ def step_impl(context, entity, other_entity, relationship):
                     yield(err.RuleSuccess(True, relating_object))
 
 
-
-@then('The {representation_id} shape representation has RepresentationType "{representation_type}"')
-@err.handle_errors
-def step_impl(context, representation_id, representation_type):
-    errors = list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type, 1), context.instances))))
-    for error in errors:
-        yield(err.RepresentationTypeError(False, error, representation_id, representation_type))
-    if not errors and context.error_on_passed_rule:
-        yield(err.RuleSuccessInst(True, representation_id))
+@validate_step('The {representation_id} shape representation has RepresentationType "{representation_type}"')
+def step_impl(context, inst, representation_id, representation_type):
+    if ifc.instance_getter(inst, representation_id, representation_type, 1):
+        yield(err.RepresentationTypeError(False, inst, representation_id, representation_type))
 
 
-@then('The relative placement of that {entity} must be provided by an {other_entity} entity')
-@err.handle_errors
-def step_impl(context, entity, other_entity):
-    if getattr(context, 'applicable', True):
-        errors = []
-        for obj in context.instances:
-            if not misc.do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
-                yield(err.InstancePlacementError(False, obj, other_entity, "", "", "", ""))
-            elif context.error_on_passed_rule:
-                yield(err.RuleSuccessInst(True, obj))
+@validate_step('The relative placement of that {entity} must be provided by an {other_entity} entity')
+def step_impl(context, inst, entity, other_entity):
+    if not misc.do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
+        yield(err.InstancePlacementError(False, obj, other_entity, "", "", "", ""))
 
 
 @then('The type of attribute {attribute} must be {expected_entity_type}')

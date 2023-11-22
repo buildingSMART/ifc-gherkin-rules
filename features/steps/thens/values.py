@@ -14,7 +14,6 @@ from utils import ifc, misc
 @then('At least "{num:d}" values must {constraint}')
 @err.handle_errors
 def step_impl(context, constraint, num=None):
-    errors = []
 
     within_model = getattr(context, 'within_model', False)
 

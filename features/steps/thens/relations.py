@@ -19,9 +19,6 @@ def step_impl(context, relationship, table):
     tbl_reversed = [dict(zip(d.keys(), reversed(d.values()))) for d in tbl_forward]
 
     opposites = {'RelatingObject': 'RelatedObjects'}
-
-    errors = []
-
     checked, invalid = set(), set()
 
     for is_required, stmt_to_op, tbl, get_attr in ((True, stmt_to_op_forward, tbl_forward, lambda x: x), (False, stmt_to_op_reversed, tbl_reversed, opposites.__getitem__)):
@@ -78,8 +75,6 @@ def step_impl(context, related, relating, other_entity, condition):
 
     op = lambda n: not pred(n, 0)
 
-    errors = []
-
     if getattr(context, 'applicable', True):
 
         if op(len(context.model.by_type(other_entity))):
@@ -117,7 +112,6 @@ def step_impl(context, decision, relationship, preposition, other_entity, condit
     else:
         check_directness = False
 
-    errors = []
 
     other_entity_reference = acceptable_relationships[relationship][0]  # eg Decomposes
     other_entity_relation = acceptable_relationships[relationship][1]  # eg RelatingObject

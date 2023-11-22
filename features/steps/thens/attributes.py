@@ -53,8 +53,8 @@ def step_impl(context, inst, representation_id, representation_type):
 
 @validate_step('The relative placement of that {entity} must be provided by an {other_entity} entity')
 def step_impl(context, inst, entity, other_entity):
-    if not misc.do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
-        yield(err.InstancePlacementError(False, obj, other_entity, "", "", "", ""))
+    if not misc.do_try(lambda: inst.ObjectPlacement.is_a(other_entity), False):
+        yield(err.InstancePlacementError(False, inst, other_entity, "", "", "", ""))
 
 
 @then('The type of attribute {attribute} must be {expected_entity_type}')

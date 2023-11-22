@@ -5,6 +5,7 @@ from sqlalchemy.orm import mapped_column
 from datetime import datetime
 import enum
 from sqlalchemy import Enum
+import os
 
 
 class ValidationOutcomeCode(enum.Enum):
@@ -72,10 +73,19 @@ class ValidationResult(Base):
                f"severity={self.severity!r}, code={self.code!r}, " \
                f"expected={self.expected!r}, observed={self.observed!r})"
 
+def define_rule_outcome(error_list):
+    if error_list: # TODO -> this will be more complex
+        return ValidationOutcome(3)
+    else:
+        ValidationOutcome(0)
 
 def add_validation_results(context):
     with Session(engine) as session:
-        validation_result = ValidationResult(file='a.ifc', validated_on=datetime.now())
+        validation_result = ValidationResult(file=os.path.basename(context.config.userdata['input']),
+                                             validated_on=datetime.now(),
+                                             reference=context.feature.name.split(" ")[0],
+                                             scenario=context.scenario.name,
+                                             severity=define_rule_outcome(context.errors))
         session.add(validation_result)
         session.commit()
 

@@ -4,7 +4,7 @@ from utils import misc
 import errors as err
 from functools import wraps
 from behave import step
-
+# from validation_results import ValidationResult, add_validation_results
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str
     assert not errors, "Errors occured:\n{}".format(
@@ -33,5 +33,7 @@ def execute_step(fn):
                     errors.append(error)
                 elif getattr(context, 'error_on_passed_rule', False):
                     errors.append(err.RuleSuccessInst(True, inst))
+            # context.errors = errors
+            # add_validation_results(context) # TODO -> JT will work on that, didn't have much time today
             generate_error_message(context, errors)
     return inner

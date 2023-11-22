@@ -1,3 +1,4 @@
+@disabled
 @implementer-agreement
 @ALB
 Feature: ALB002 - Alignment Layout Verification

@@ -31,6 +31,7 @@ class ValidationOutcomeCode(enum.Enum):
     E00140 = "Deprecation Error"
     W00010 = "Alignment contains business logic only"
     W00020 = "Alignment contains geometry only"
+    W00030 = "Warning"
 
 
 class ValidationOutcome(enum.Enum):
@@ -73,19 +74,34 @@ class ValidationResult(Base):
                f"severity={self.severity!r}, code={self.code!r}, " \
                f"expected={self.expected!r}, observed={self.observed!r})"
 
-def define_rule_outcome(error_list):
-    if error_list: # TODO -> this will be more complex
+def define_rule_outcome(context):
+    if not context.applicable:
+        return ValidationOutcome(1)
+    elif context.errors: # TODO -> this will be more complex
         return ValidationOutcome(3)
     else:
         ValidationOutcome(0)
 
+def define_outcome_code(context, rule_outcome):
+    if rule_outcome == ValidationOutcome(0):
+        return ValidationOutcomeCode("Passed")
+    elif rule_outcome == ValidationOutcome(1):
+        return ValidationOutcomeCode("Not applicable")
+    elif rule_outcome == ValidationOutcome(2):
+        return ValidationOutcomeCode("Warning")
+    elif rule_outcome == ValidationOutcome(3):
+        return context.errors[0].code # TODO -> not sure if always 0 index
+
 def add_validation_results(context):
     with Session(engine) as session:
+        rule_outcome = define_rule_outcome(context)
+        outcome_code = define_outcome_code(context, rule_outcome)
         validation_result = ValidationResult(file=os.path.basename(context.config.userdata['input']),
                                              validated_on=datetime.now(),
                                              reference=context.feature.name.split(" ")[0],
                                              scenario=context.scenario.name,
-                                             severity=define_rule_outcome(context.errors))
+                                             severity=rule_outcome,
+                                             code=outcome_code,)
         session.add(validation_result)
         session.commit()
 

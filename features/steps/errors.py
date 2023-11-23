@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from typing import Union
 from utils import misc
 import json
+from validation_results import ValidationOutcomeCode
 
 @dataclass
 class RuleState:
@@ -130,6 +131,7 @@ class InstanceStructureError(RuleState):
     relating: Union[Sequence, ifcopenshell.entity_instance]
     relationship_type: str
     optional_values: dict = field(default_factory=dict)
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Relationship Error")
 
     def __str__(self):
         pos_neg = 'is not' if self.optional_values.get('condition', '') == 'must' else 'is'

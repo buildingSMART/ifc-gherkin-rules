@@ -13,14 +13,12 @@ def step_impl(context, inst, representation_id):
             yield(err.RepresentationShapeError(False, inst, representation_id))
 
 
-@then('There must be {constraint} {num:d} instance(s) of {entity}')
-@err.handle_errors
-def step_impl(context, constraint, num, entity):
+@validate_step('There must be {constraint} {num:d} instance(s) of {entity}')
+def step_impl(context, inst, constraint, num, entity):
     op = misc.stmt_to_op(constraint)
 
     if getattr(context, 'applicable', True):
-        insts = context.model.by_type(entity)
-        if not op(len(insts), num):
-            yield(err.InstanceCountError(False, insts, entity))
+        if not op(len(inst), num):
+            yield(err.InstanceCountError(False, inst, entity))
         elif context.error_on_passed_rule:
-            yield(err.RuleSuccessInsts(True, insts))
+            yield(err.RuleSuccessInsts(True, inst))

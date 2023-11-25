@@ -46,6 +46,7 @@ class AttributeTypeError(RuleState):
     related: Union[Sequence, ifcopenshell.entity_instance]
     attribute: str
     expected_entity_type: str
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Type Error ")
 
     def __str__(self):
         if len(self.related):
@@ -61,6 +62,7 @@ class DuplicateValueError(RuleState):
     attribute: str
     incorrect_insts: typing.Sequence[ifcopenshell.entity_instance]
     report_incorrect_insts: bool = field(default=True)
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Duplicate Error")
 
     def __str__(self):
         incorrect_insts_statement = f"on instance(s) {', '.join(map(misc.fmt, self.incorrect_insts))}" if not self.report_incorrect_insts else ''
@@ -76,6 +78,7 @@ class EdgeUseError(RuleState):
     inst: ifcopenshell.entity_instance
     edge: typing.Any
     count: int
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Geometry Error")
 
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} the edge {misc.fmt(self.edge)} was referenced {misc.fmt(self.count)} times"
@@ -86,6 +89,7 @@ class IdenticalValuesError(RuleState):
     insts: typing.Sequence[ifcopenshell.entity_instance]
     incorrect_values: typing.Sequence[typing.Any]
     attribute: str
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Value Error")
 
     def __str__(self):
         return (
@@ -99,6 +103,7 @@ class IdenticalValuesError(RuleState):
 class InstanceCountError(RuleState):
     insts: ifcopenshell.entity_instance
     type_name: str
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Quantity Error")
 
     def __str__(self):
         if len(self.insts):
@@ -115,6 +120,7 @@ class InstancePlacementError(RuleState):
     relationship: str
     container_obj_placement: Union[str, ifcopenshell.entity_instance]
     entity_obj_placement: Union[str, ifcopenshell.entity_instance]
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Placement Error")
 
     def __str__(self):
         if self.placement:
@@ -150,6 +156,7 @@ class InvalidValueError(RuleState):
     inst: ifcopenshell.entity_instance
     attribute: str
     value: str
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Value Error")
 
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} the following invalid value for {self.attribute} has been found: {self.value}"
@@ -160,6 +167,7 @@ class ValueCountError(RuleState):
     paths: typing.Sequence[ifcopenshell.entity_instance]
     allowed_values: typing.Sequence[typing.Any]
     num_required: int
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Quantity Error")
 
     def __str__(self):
         vs = "".join(f"\n * {p[0]!r} on {p[1]}" for p in self.paths)
@@ -171,6 +179,7 @@ class ValueCountError(RuleState):
 class PolyobjectDuplicatePointsError(RuleState):
     inst: ifcopenshell.entity_instance
     duplicates: set
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Geometry Error")
 
     def __str__(self):
         points_desc = ''
@@ -184,6 +193,7 @@ class PolyobjectDuplicatePointsError(RuleState):
 class PolyobjectPointReferenceError(RuleState):
     inst: ifcopenshell.entity_instance
     points: list
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Reference error")
 
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} first point {self.points[0]} is the same as last point {self.points[-1]}, but not by reference"
@@ -193,9 +203,10 @@ class PolyobjectPointReferenceError(RuleState):
 class RepresentationShapeError(RuleState):
     inst: ifcopenshell.entity_instance
     representation_id: str
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Cardinality Error")
 
     def __str__(self):
-        return f"On instance {misc.fmt(self.inst)} the instance should have one {self.representation_id} shape representation"
+        return f"On instance {misc.fmt(self.inst)} the instance must have one {self.representation_id} shape representation"
 
 
 @dataclass
@@ -203,6 +214,7 @@ class RepresentationTypeError(RuleState):
     inst: ifcopenshell.entity_instance
     representation_id: str
     representation_type: str
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Type Error")
 
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} the {self.representation_id} shape representation does not have {self.representation_type} as RepresentationType"
@@ -216,6 +228,8 @@ class RelationshipError(RuleState):
     relationship: str
     preposition: str
     other_entity: str
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Relationship Error")
+
     def __str__(self):
 
         if self.decision == 'must':
@@ -228,6 +242,7 @@ class RelationshipError(RuleState):
 @dataclass
 class CyclicGroupError(RuleState):
     inst: ifcopenshell.entity_instance
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Reference error")
 
     def __str__(self):
         return f"Cyclic group definition of {misc.fmt(self.inst)}"

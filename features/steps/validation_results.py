@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Integer, String, Sequence, DateTime
+from sqlalchemy import create_engine, Integer, String, Sequence, DateTime, Identity
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import mapped_column
@@ -58,11 +58,11 @@ class Base(DeclarativeBase):
 
 class ValidationResult(Base):
     __tablename__ = 'gherkin_validation_results'
-
-    file = mapped_column(String, nullable=False, primary_key=True)  # "tests/als004/fail-als004-segment-rep-item-type.ifc"
-    validated_on = mapped_column(DateTime, nullable=False, primary_key=True)  # datetime.datetime(2023, 11, 21, 23, 47, 21, 418006)
+    id = mapped_column(Integer, index=True, unique=True, autoincrement=True, primary_key=True)
+    file = mapped_column(String, nullable=False)  # "tests/als004/fail-als004-segment-rep-item-type.ifc"
+    validated_on = mapped_column(DateTime, nullable=False)  # datetime.datetime(2023, 11, 21, 23, 47, 21, 418006)
     reference = mapped_column(String, nullable=True)  # ALS004
-    scenario = mapped_column(String, nullable=True)  # Agreement on nested elements of IfcAlignment
+    step = mapped_column(String, nullable=True)  # Every edge must be referenced exactly 2 times by the loops of the face # TODO -> scenario based? A bit harder to implement.
     severity = mapped_column(Enum(ValidationOutcome), nullable=True)  # ERROR = 3
     code = mapped_column(Enum(ValidationOutcomeCode), nullable=True)  # E00100 = "Relationship Error"
     expected = mapped_column(String(6), nullable=True)  # 3
@@ -80,7 +80,7 @@ def define_rule_outcome(context):
     elif context.errors: # TODO -> this will be more complex
         return ValidationOutcome(3)
     else:
-        ValidationOutcome(0)
+        return ValidationOutcome(0)
 
 def define_outcome_code(context, rule_outcome):
     if rule_outcome == ValidationOutcome(0):
@@ -99,7 +99,7 @@ def add_validation_results(context):
         validation_result = ValidationResult(file=os.path.basename(context.config.userdata['input']),
                                              validated_on=datetime.now(),
                                              reference=context.feature.name.split(" ")[0],
-                                             scenario=context.scenario.name,
+                                             step=context.step.name,
                                              severity=rule_outcome,
                                              code=outcome_code,)
         session.add(validation_result)

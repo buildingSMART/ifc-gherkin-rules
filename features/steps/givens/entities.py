@@ -27,4 +27,6 @@ def step_impl(context, entity_opt_stmt, insts=False):
     context.within_model = getattr(context, 'within_model', True) and within_model
     if context.instances:
         context.applicable = getattr(context, 'applicable', True)
+    else:
+        context.applicable = getattr(context, 'applicable', False)
 

@@ -46,7 +46,7 @@ class AttributeTypeError(RuleState):
     related: Union[Sequence, ifcopenshell.entity_instance]
     attribute: str
     expected_entity_type: str
-    code: ValidationOutcomeCode = ValidationOutcomeCode("Type Error ")
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Type Error")
 
     def __str__(self):
         if len(self.related):
@@ -193,7 +193,7 @@ class PolyobjectDuplicatePointsError(RuleState):
 class PolyobjectPointReferenceError(RuleState):
     inst: ifcopenshell.entity_instance
     points: list
-    code: ValidationOutcomeCode = ValidationOutcomeCode("Reference error")
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Reference Error")
 
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} first point {self.points[0]} is the same as last point {self.points[-1]}, but not by reference"
@@ -242,7 +242,7 @@ class RelationshipError(RuleState):
 @dataclass
 class CyclicGroupError(RuleState):
     inst: ifcopenshell.entity_instance
-    code: ValidationOutcomeCode = ValidationOutcomeCode("Reference error")
+    code: ValidationOutcomeCode = ValidationOutcomeCode("Reference Error")
 
     def __str__(self):
         return f"Cyclic group definition of {misc.fmt(self.inst)}"

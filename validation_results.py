@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Integer, String, Sequence, DateTime, Identity
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Session, mapped_column, sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 from datetime import datetime
@@ -60,8 +60,8 @@ else:
     engine = create_engine(f"postgresql://postgres:{password}@{host}:5432/bimsurfer2")
 
 Session = sessionmaker(bind=engine)
-Base = declarative_base()
-
+class Base(DeclarativeBase):
+    pass
 
 class ValidationResult(Base):
     __tablename__ = 'gherkin_validation_results'

@@ -1,6 +1,5 @@
-from sqlalchemy import create_engine, Integer, String, Sequence, DateTime, Identity
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import Session, mapped_column, sessionmaker
+from sqlalchemy import create_engine, Integer, String, Column, DateTime, ForeignKey
+from sqlalchemy.orm import Session, mapped_column, sessionmaker, relationship, DeclarativeBase
 from sqlalchemy_utils import database_exists, create_database
 from datetime import datetime
 import enum
@@ -63,6 +62,46 @@ Session = sessionmaker(bind=engine)
 class Base(DeclarativeBase):
     pass
 
+class Feature(Base):
+    __tablename__ = 'features'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False) # as in Feature : 'ABC001 - Test Alignment Rule'
+    description = Column(String) # 'This rule verifies that alignment is correct'
+    filename = Column(String) # ABC001_Test-alignment-rule
+    location = Column(String) # location in repository
+    github_source_location = Column(String)
+    version = Column(Integer)
+    _tags = Column('tags', String)
+
+    @property # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python 
+    def tags(self):
+        return self._tags.split(',') if self._tags else []
+    
+    @tags.setter
+    def tags(self, tags_list):
+        self._tags = ','.join(tags_list)
+
+    # Other fields as necessary
+    scenarios = relationship("Scenario", back_populates="feature")
+
+class Scenario(Base):
+    __tablename__ = 'scenarios'
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    feature_id = Column(Integer, ForeignKey('features.id'))
+    feature = relationship("Feature", back_populates="scenarios")
+    # Other fields as necessary
+    validation_results = relationship("ValidationResult", back_populates="scenario")
+    _steps = Column('steps'), String
+
+    @property # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python 
+    def steps(self):
+        return self._steps.split(',') if self._steps else []
+    
+    @steps.setter
+    def steps(self, steps_list):
+        self._steps = ','.join(steps_list)
+
 class ValidationResult(Base):
     __tablename__ = 'gherkin_validation_results'
     id = mapped_column(Integer, index=True, unique=True, autoincrement=True, primary_key=True)
@@ -74,6 +113,9 @@ class ValidationResult(Base):
     code = mapped_column(Enum(ValidationOutcomeCode), nullable=True)  # E00100 = "Relationship Error"
     expected = mapped_column(String(6), nullable=True)  # 3
     observed = mapped_column(String(6), nullable=True)  # 2
+
+    feature = relationship("Feature")
+    scenario = relationship("Scenario")
 
     def __repr__(self) -> str:
         return f"ValidationResult(id={self.file!r}, validated_on={self.validated_on!r}, " \
@@ -98,8 +140,6 @@ def define_outcome_code(context, rule_outcome):
         return ValidationOutcomeCode("Warning")
     elif rule_outcome == ValidationOutcome(3):
         return context.errors[0].code # TODO -> not sure if always 0 index
-
-# def define_outcome_code(context, rule_outcome)
 
 def add_validation_results(context):
     with Session() as session:

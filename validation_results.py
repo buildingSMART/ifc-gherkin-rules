@@ -1,12 +1,14 @@
 from sqlalchemy import create_engine, Integer, String, Sequence, DateTime, Identity
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import Session, mapped_column, sessionmaker
+from sqlalchemy_utils import database_exists, create_database
 from datetime import datetime
 import enum
 from sqlalchemy import Enum
 import os
 
+DEVELOPMENT = os.environ.get('environment', 'production').lower() == 'development'
+NO_POSTGRES = os.environ.get('NO_POSTGRES', '0').lower() in {'1', 'true'}
 
 class ValidationOutcomeCode(enum.Enum):
     """
@@ -49,11 +51,16 @@ class ValidationOutcome(enum.Enum):
     ERROR = 3
 
 
-engine = create_engine('sqlite:///poc.db', echo=True)  # TODO -> adapt to production solution
+if DEVELOPMENT or NO_POSTGRES:
+    file_path = os.path.join(os.path.dirname(__file__), "ifc-gherkin.db") 
+    engine = create_engine(f'sqlite:///{file_path}', connect_args={'check_same_thread': False, 'timeout': 100})
+else:
+    host = os.environ.get('POSTGRES_HOST', 'localhost')
+    password = os.environ['POSTGRES_PASSWORD']
+    engine = create_engine(f"postgresql://postgres:{password}@{host}:5432/bimsurfer2")
 
-
-class Base(DeclarativeBase):
-    pass
+Session = sessionmaker(bind=engine)
+Base = declarative_base()
 
 
 class ValidationResult(Base):
@@ -92,8 +99,10 @@ def define_outcome_code(context, rule_outcome):
     elif rule_outcome == ValidationOutcome(3):
         return context.errors[0].code # TODO -> not sure if always 0 index
 
+# def define_outcome_code(context, rule_outcome)
+
 def add_validation_results(context):
-    with Session(engine) as session:
+    with Session() as session:
         rule_outcome = define_rule_outcome(context)
         outcome_code = define_outcome_code(context, rule_outcome)
         validation_result = ValidationResult(file=os.path.basename(context.config.userdata['input']),
@@ -105,6 +114,10 @@ def add_validation_results(context):
         session.add(validation_result)
         session.commit()
 
+def initialize():
+    if not database_exists(engine.url):
+        create_database(engine.url)
+    Base.metadata.create_all(engine)
 
 if __name__ == '__main__':
-    Base.metadata.create_all(engine)
+    initialize()

@@ -6,6 +6,19 @@ import enum
 from sqlalchemy import Enum
 import os
 
+import functools
+import subprocess
+
+@functools.lru_cache(maxsize=16)
+def get_remote(cwd):
+    return subprocess.check_output(['git', 'remote', 'get-url', 'origin'], cwd=cwd).decode('ascii').split('\n')[0]
+
+
+@functools.lru_cache(maxsize=16)
+def get_commits(cwd, feature_file):
+    return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
+
+
 DEVELOPMENT = os.environ.get('environment', 'production').lower() == 'development'
 NO_POSTGRES = os.environ.get('NO_POSTGRES', '0').lower() in {'1', 'true'}
 
@@ -59,6 +72,7 @@ else:
     engine = create_engine(f"postgresql://postgres:{password}@{host}:5432/bimsurfer2")
 
 Session = sessionmaker(bind=engine)
+
 class Base(DeclarativeBase):
     pass
 
@@ -84,13 +98,30 @@ class Feature(Base):
     # Other fields as necessary
     scenarios = relationship("Scenario", back_populates="feature")
 
+    def add_feature(context, name, description=None, filename=None, location=None, github_source_location=None, version=None, tags=None):
+        cwd = os.path.dirname(__file__)
+        remote = get_remote(cwd)
+        shas = get_commits(cwd, context.feature.filename)
+
+        with Session() as session:
+            new_feature = Feature(
+                name=context,
+                description=context.feature.description[0],
+                filename=context.feature.filename,
+                github_source_location=f"{remote}/blob/{shas[0]}/{context.feature.filename}",
+                version=len(shas),
+                _tags=','.join(context.tags) if context.tags else None
+            )
+            session.add(new_feature)
+            session.commit()
+            return new_feature
+
 class Scenario(Base):
     __tablename__ = 'scenarios'
     id = Column(Integer, primary_key=True)
     name = Column(String)
     feature_id = Column(Integer, ForeignKey('features.id'))
     feature = relationship("Feature", back_populates="scenarios")
-    # Other fields as necessary
     validation_results = relationship("ValidationResult", back_populates="scenario")
     _steps = Column('steps'), String
 
@@ -101,6 +132,19 @@ class Scenario(Base):
     @steps.setter
     def steps(self, steps_list):
         self._steps = ','.join(steps_list)
+
+
+    def add_scenario(context):
+        with Session() as session:
+            feature = session.query(Feature).filter_by(name=context.scenario.feature.name).first() #todo make search more explicit
+            new_scenario = Scenario(
+                name=context.scenario.name,
+                feature_id=feature.id,
+                _steps=','.join([step.name for step in context.scenario.steps])
+            )
+            session.add(new_scenario)
+            session.commit()
+            return new_scenario
 
 class ValidationResult(Base):
     __tablename__ = 'gherkin_validation_results'
@@ -113,6 +157,7 @@ class ValidationResult(Base):
     code = mapped_column(Enum(ValidationOutcomeCode), nullable=True)  # E00100 = "Relationship Error"
     expected = mapped_column(String(6), nullable=True)  # 3
     observed = mapped_column(String(6), nullable=True)  # 2
+    ifc_filepath = Column(String)
 
     feature = relationship("Feature")
     scenario = relationship("Scenario")
@@ -143,14 +188,23 @@ def define_outcome_code(context, rule_outcome):
 
 def add_validation_results(context):
     with Session() as session:
+        feature = session.query(Feature).filter_by(name=context.scenario.name).first()
+        scenario = session.query(Scenario).filter_by(name=context.feature.name).first()
+
+        if not feature or not scenario:
+            raise ValueError("Feature or Scenario not found")
+        
         rule_outcome = define_rule_outcome(context)
         outcome_code = define_outcome_code(context, rule_outcome)
         validation_result = ValidationResult(file=os.path.basename(context.config.userdata['input']),
                                              validated_on=datetime.now(),
                                              reference=context.feature.name.split(" ")[0],
                                              step=context.step.name,
+                                             ifc_filepath = context.config.userdata.get('input'),
                                              severity=rule_outcome,
-                                             code=outcome_code,)
+                                             code=outcome_code,
+                                             feature_id=feature.id,
+                                             scenario_id=scenario.id)
         session.add(validation_result)
         session.commit()
 

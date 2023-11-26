@@ -43,6 +43,8 @@ class ValidationOutcomeCode(enum.Enum):
     E00120 = "Reference Error"
     E00130 = "Resource Error"
     E00140 = "Deprecation Error"
+    E00150 = "Shape Representation Error"
+    E00160 = "Instance Structure Error"
     W00010 = "Alignment contains business logic only"
     W00020 = "Alignment contains geometry only"
     W00030 = "Warning"
@@ -184,7 +186,11 @@ def define_outcome_code(context, rule_outcome):
     elif rule_outcome == ValidationOutcome(2):
         return ValidationOutcomeCode("Warning")
     elif rule_outcome == ValidationOutcome(3):
-        return context.errors[0].code # TODO -> not sure if always 0 index
+        validation_keys_set = {code.name for code in ValidationOutcomeCode}
+        try:
+            return next((tag for tag in context.scenario.tags), next((tag for tag in validation_keys_set if tag in context.tags)))
+        except StopIteration:
+            raise AssertionError(f'Outcome code not included in tags of .feature file: {context.feature.filename}') 
 
 def add_validation_results(context):
     with Session() as session:

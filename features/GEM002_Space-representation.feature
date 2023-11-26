@@ -1,5 +1,6 @@
 @informal-proposition
 @GEM
+@E00150
 Feature: GEM002 - Space representation
 The rule verifies that all IfcSpaces have a correct Body shape representation.
 

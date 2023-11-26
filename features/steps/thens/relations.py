@@ -70,8 +70,6 @@ def step_impl(context, related, relating, other_entity, condition):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
                         yield(err.InstanceStructureError(False, inst, [rel.RelatingObject], 'assigned to'))
-                    elif context.error_on_passed_rule:
-                        yield(err.RuleSuccessInst(True, inst))
 
 
 

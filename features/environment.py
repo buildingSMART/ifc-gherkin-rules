@@ -17,10 +17,6 @@ def before_feature(context, feature):
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
 
-    if "error_on_passed_rule" in context.config.userdata:
-        context.error_on_passed_rule = context.config.userdata["error_on_passed_rule"] == 'yes'
-    else:
-        context.error_on_passed_rule = False
     context.model = read_model(context.config.userdata["input"])
     Scenario.continue_after_failed_step = True
 

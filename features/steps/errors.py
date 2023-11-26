@@ -28,23 +28,6 @@ def generate_error_message(context, errors):
         "\n".join(map(error_formatter, errors))
     )
 
-# @todo why do we have RuleSuccessInst and -Insts with identical formatting
-
-@dataclass
-class RuleSuccessInsts(RuleState):
-    insts: ifcopenshell.entity_instance
-
-    def __str__(self):
-        return f"The instance {self.insts} has passed the step criteria"
-
-@dataclass
-class RuleSuccessInst(RuleState):
-    inst: ifcopenshell.entity_instance
-
-    def __str__(self):
-        return f"The instance {self.inst} has passed the step criteria"
-
-
 @dataclass
 class AttributeTypeError(RuleState):
     inst: ifcopenshell.entity_instance

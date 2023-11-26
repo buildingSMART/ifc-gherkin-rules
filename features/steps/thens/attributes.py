@@ -19,7 +19,6 @@ def step_impl(context, inst, entity, other_entity, relationship):
             if related_object != inst:
                 continue
             related_obj_placement = related_object.ObjectPlacement
-            entity_obj_placement_rel = related_obj_placement.PlacementRelTo
             relating_object = getattr(rel, relationship_relating_attr)
 
             relating_obj_placement = relating_object.ObjectPlacement

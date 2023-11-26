@@ -20,5 +20,3 @@ def step_impl(context, inst, constraint, num, entity):
     if getattr(context, 'applicable', True):
         if not op(len(inst), num):
             yield(err.InstanceCountError(False, inst, entity))
-        elif context.error_on_passed_rule:
-            yield(err.RuleSuccessInsts(True, inst))

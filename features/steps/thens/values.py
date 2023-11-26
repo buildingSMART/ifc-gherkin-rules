@@ -50,8 +50,7 @@ def step_impl(context, constraint, num=None):
                     report_incorrect_insts = any(misc.map_state(values, lambda v: misc.do_try(
                         lambda: isinstance(v, ifcopenshell.entity_instance), False)))
                     yield(err.DuplicateValueError(False, inst, incorrect_values, attribute, incorrect_insts, report_incorrect_insts))
-                if len(errors) == amount_of_errors and context.error_on_passed_rule:
-                    yield(err.RuleSuccessInst(True, values))
+
         elif constraint[-5:] == ".csv'":
 
             csv_name = constraint.strip("'")
@@ -68,8 +67,7 @@ def step_impl(context, constraint, num=None):
                 for iv, value in enumerate(values):
                     if not value in valid_values:
                         yield(err.InvalidValueError(False, [t[i] for t in stack_tree][1][iv], attribute, value))
-                if len(errors) == amount_of_errors and context.error_on_passed_rule:
-                    yield(err.RuleSuccessInst(True, values))
+
         elif num is not None:
             values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
 
@@ -82,5 +80,3 @@ def step_impl(context, constraint, num=None):
                 if num is not None and num_valid < num:
                     paths = [[l[i] for l in stack_tree] for i in range(len(stack_tree[0]))]
                     yield(err.ValueCountError(False, paths, values, num))
-                elif context.error_on_passed_rule:
-                    yield(err.RuleSuccessInst(True, values))

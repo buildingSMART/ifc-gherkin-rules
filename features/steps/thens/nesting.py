@@ -4,7 +4,6 @@ import operator
 import pyparsing
 
 from behave import *
-from utils import ifc, misc
 from validation_handling import validate_step
 
 from parse_type import TypeBuilder

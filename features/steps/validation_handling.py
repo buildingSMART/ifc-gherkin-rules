@@ -33,8 +33,6 @@ def execute_step(fn):
                 error = next(fn(context, inst, **kwargs), None)
                 if error:
                     errors.append(error)
-                elif getattr(context, 'error_on_passed_rule', False):
-                    errors.append(err.RuleSuccessInst(True, inst))
             context.errors = errors
             add_validation_results(context)
             generate_error_message(context, errors)

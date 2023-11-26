@@ -1,3 +1,5 @@
 __pycache__ 
 /.vscode
 /.conda
+poc.db
+ifc-gherkin.db

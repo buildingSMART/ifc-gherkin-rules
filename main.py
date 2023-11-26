@@ -8,6 +8,8 @@ import tempfile
 import functools
 from enum import Flag, auto
 
+import validation_results
+
 
 class RuleType(Flag):
     INFORMAL_PROPOSITION = auto()
@@ -64,11 +66,16 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
     except Exception as e:
         print(e)
 
+    validation_results.initialize()
+
     if with_console_output:
         # Sometimes it's easier to see what happens exactly on the console output
         print('>',*[sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"])
         subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"], cwd=cwd)
 
+
+
+    #todo @gh restructure; all data is already captured in the database
     proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", "error_on_passed_rule=yes", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
 
     with open(jsonfn) as f:

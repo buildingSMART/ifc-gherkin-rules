@@ -5,7 +5,6 @@ from datetime import datetime
 import enum
 from sqlalchemy import Enum
 import os
-
 import functools
 import subprocess
 
@@ -66,7 +65,7 @@ class ValidationOutcome(enum.Enum):
 
 
 if DEVELOPMENT or NO_POSTGRES:
-    file_path = os.path.join(os.path.dirname(__file__), "ifc-gherkin.db") 
+    file_path = os.path.join(os.path.dirname(__file__), "ifc-gherkin.db")
     engine = create_engine(f'sqlite:///{file_path}', connect_args={'check_same_thread': False, 'timeout': 100})
 else:
     host = os.environ.get('POSTGRES_HOST', 'localhost')
@@ -89,10 +88,10 @@ class Feature(Base):
     version = Column(Integer)
     _tags = Column('tags', String)
 
-    @property # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python 
+    @property # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python
     def tags(self):
         return self._tags.split(',') if self._tags else []
-    
+
     @tags.setter
     def tags(self, tags_list):
         self._tags = ','.join(tags_list)
@@ -124,13 +123,13 @@ class Scenario(Base):
     name = Column(String)
     feature_id = Column(Integer, ForeignKey('features.id'))
     feature = relationship("Feature", back_populates="scenarios")
-    validation_results = relationship("ValidationResult", back_populates="scenario")
+    validation_results = relationship("ValidationResult", back_populates="scenario", primaryjoin="Scenario.id == ValidationResult.scenario_id")
     _steps = Column('steps'), String
 
-    @property # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python 
+    @property # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python
     def steps(self):
         return self._steps.split(',') if self._steps else []
-    
+
     @steps.setter
     def steps(self, steps_list):
         self._steps = ','.join(steps_list)
@@ -161,7 +160,9 @@ class ValidationResult(Base):
     observed = mapped_column(String(6), nullable=True)  # 2
     ifc_filepath = Column(String)
 
+    feature_id = Column(Integer, ForeignKey('features.id'))
     feature = relationship("Feature")
+    scenario_id = Column(Integer, ForeignKey('scenarios.id'))
     scenario = relationship("Scenario")
 
     def __repr__(self) -> str:
@@ -190,16 +191,16 @@ def define_outcome_code(context, rule_outcome):
         try:
             return next((tag for tag in context.scenario.tags), next((tag for tag in validation_keys_set if tag in context.tags)))
         except StopIteration:
-            raise AssertionError(f'Outcome code not included in tags of .feature file: {context.feature.filename}') 
+            raise AssertionError(f'Outcome code not included in tags of .feature file: {context.feature.filename}')
 
 def add_validation_results(context):
     with Session() as session:
-        feature = session.query(Feature).filter_by(name=context.scenario.name).first()
-        scenario = session.query(Scenario).filter_by(name=context.feature.name).first()
+        feature = session.query(Feature).filter_by(name=context.feature.name).first()
+        scenario = session.query(Scenario).filter_by(name=context.scenario.name).first()
 
-        if not feature or not scenario:
-            raise ValueError("Feature or Scenario not found")
-        
+        # if not feature or not scenario: # TODO -> tables are empty for now
+        #     raise ValueError("Feature or Scenario not found")
+
         rule_outcome = define_rule_outcome(context)
         outcome_code = define_outcome_code(context, rule_outcome)
         validation_result = ValidationResult(file=os.path.basename(context.config.userdata['input']),
@@ -209,8 +210,8 @@ def add_validation_results(context):
                                              ifc_filepath = context.config.userdata.get('input'),
                                              severity=rule_outcome,
                                              code=outcome_code,
-                                             feature_id=feature.id,
-                                             scenario_id=scenario.id)
+                                             feature_id=getattr(feature, "id", None),
+                                             scenario_id=getattr(scenario, "id", None))
         session.add(validation_result)
         session.commit()
 

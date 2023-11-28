@@ -1,3 +1,5 @@
+#TODO -> too "scared" to delete the file yet :)
+
 import ifcopenshell
 import typing
 

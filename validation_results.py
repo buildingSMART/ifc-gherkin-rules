@@ -150,13 +150,14 @@ class Scenario(Base):
 class ValidationResult(Base):
     __tablename__ = 'gherkin_validation_results'
     id = mapped_column(Integer, index=True, unique=True, autoincrement=True, primary_key=True)
+    check_execution_id = mapped_column(Integer, nullable=True) # id connecting to CheckExecution table
     file = mapped_column(String, nullable=False)  # "tests/als004/fail-als004-segment-rep-item-type.ifc"
     validated_on = mapped_column(DateTime, nullable=False)  # datetime.datetime(2023, 11, 21, 23, 47, 21, 418006)
     reference = mapped_column(String, nullable=True)  # ALS004
     step = mapped_column(String, nullable=True)  # Every edge must be referenced exactly 2 times by the loops of the face # TODO -> scenario based? A bit harder to implement.
     severity = mapped_column(Enum(ValidationOutcome), nullable=True)  # ERROR = 3
     code = mapped_column(Enum(ValidationOutcomeCode), nullable=True)  # E00100 = "Relationship Error"
-    feature_version = mapped_column(Integer)
+    feature_version = mapped_column(Integer) # 1
     expected = mapped_column(String(6), nullable=True)  # 3
     observed = mapped_column(String(6), nullable=True)  # 2
     ifc_filepath = Column(String)
@@ -207,7 +208,8 @@ def add_validation_results(context):
 
         rule_outcome = define_rule_outcome(context)
         outcome_code = define_outcome_code(context, rule_outcome)
-        validation_result = ValidationResult(file=os.path.basename(context.config.userdata['input']),
+        validation_result = ValidationResult(check_execution_id = None,
+                                             file=os.path.basename(context.config.userdata['input']),
                                              validated_on=datetime.now(),
                                              reference=context.feature.name.split(" ")[0],
                                              step=context.step.name,

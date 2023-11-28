@@ -1,10 +1,20 @@
 
 import json
 from utils import misc
-import errors as err
 from functools import wraps
 from behave import step
-from validation_results import ValidationResult, add_validation_results
+from validation_results import add_validation_results
+from behave.runner import Context
+from dataclasses import dataclass
+
+@dataclass
+class StepOutcome():
+    context: Context # TODO -> decide if needed. Depends on the desired returned message.
+    expected_value: str
+    observed_value: str
+    def __str__(self):
+        return f"The expected value is: {self.expected_value}. The observed value is {self.observed_value}."
+
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str
     assert not errors, "Errors occured:\n{}".format(

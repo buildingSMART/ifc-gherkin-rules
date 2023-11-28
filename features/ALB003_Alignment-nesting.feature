@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALB
+@version1
 @E00100
 Feature: ALB003 - Alignment Nesting
 The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts)

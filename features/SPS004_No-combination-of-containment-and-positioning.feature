@@ -1,5 +1,6 @@
 @implementer-agreement
 @SPS
+@version1
 @disabled
 @E00040
 Feature: SPS004 - No combination of containment and positioning

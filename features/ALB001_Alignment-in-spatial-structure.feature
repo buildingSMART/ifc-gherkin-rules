@@ -1,6 +1,7 @@
 @disabled
 @implementer-agreement
 @ALB
+@version1
 @E00100
 Feature: ALB001 - Alignment in spatial structure
 The rule verifies that each IfcAlignment is contained in an IfcSite.

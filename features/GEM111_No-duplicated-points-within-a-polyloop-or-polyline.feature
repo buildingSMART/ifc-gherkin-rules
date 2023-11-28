@@ -1,5 +1,6 @@
 @implementer-agreement
 @GEM
+@version1
 Feature: GEM111 - No duplicated points within a polyloop or polyline
 The rule verifies, that all the polyloops and polylines will have no duplicate points, unless it's the first and last point of a closed polyline.
 In that case, it must be identical by reference (referencing the same instance), not just having the same coordinates.

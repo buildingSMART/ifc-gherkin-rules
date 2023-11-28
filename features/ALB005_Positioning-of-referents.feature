@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALB
+@version1
 @disabled
 @E00100
 Feature: ALB005 - Positioning of referents

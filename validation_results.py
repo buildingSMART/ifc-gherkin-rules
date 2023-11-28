@@ -156,6 +156,7 @@ class ValidationResult(Base):
     step = mapped_column(String, nullable=True)  # Every edge must be referenced exactly 2 times by the loops of the face # TODO -> scenario based? A bit harder to implement.
     severity = mapped_column(Enum(ValidationOutcome), nullable=True)  # ERROR = 3
     code = mapped_column(Enum(ValidationOutcomeCode), nullable=True)  # E00100 = "Relationship Error"
+    feature_version = mapped_column(Integer)
     expected = mapped_column(String(6), nullable=True)  # 3
     observed = mapped_column(String(6), nullable=True)  # 2
     ifc_filepath = Column(String)
@@ -192,6 +193,9 @@ def define_outcome_code(context, rule_outcome):
             return next((tag for tag in context.scenario.tags), next((tag for tag in validation_keys_set if tag in context.tags)))
         except StopIteration:
             raise AssertionError(f'Outcome code not included in tags of .feature file: {context.feature.filename}')
+def define_feature_version(context):
+    version = next((tag for tag in context.tags if "version" in tag)) # e.g. version1
+    return int(version.replace("version",""))
 
 def add_validation_results(context):
     with Session() as session:
@@ -210,6 +214,7 @@ def add_validation_results(context):
                                              ifc_filepath = context.config.userdata.get('input'),
                                              severity=rule_outcome,
                                              code=outcome_code,
+                                             feature_version=define_feature_version(context),
                                              feature_id=getattr(feature, "id", None),
                                              scenario_id=getattr(scenario, "id", None))
         session.add(validation_result)

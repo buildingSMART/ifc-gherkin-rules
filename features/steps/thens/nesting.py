@@ -4,7 +4,7 @@ import operator
 import pyparsing
 
 from behave import *
-from validation_handling import validate_step
+from validation_handling import validate_step, StepOutcome
 
 from parse_type import TypeBuilder
 register_type(nested_sentences=TypeBuilder.make_enum(
@@ -21,8 +21,9 @@ def step_impl(context, inst, num, constraint, other_entity):
     op = stmt_to_op[constraint]
 
     nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
-    if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
-        yield(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
+    amount_found = len([1 for i in nested_entities if i.is_a(other_entity)])
+    if not op(amount_found, num):
+        yield StepOutcome(context, num, amount_found)
 
 
 @validate_step('It must be nested by only the following entities: {other_entities}')
@@ -32,8 +33,7 @@ def step_impl(context, inst, other_entities):
     nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
     nested_entity_types = set(i.is_a() for i in nested_entities)
     if not nested_entity_types <= allowed_entity_types:
-        differences = list(nested_entity_types - allowed_entity_types)
-        yield(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
+        yield StepOutcome(context, allowed_entity_types, nested_entity_types)
 
 
 
@@ -63,11 +63,11 @@ def step_impl(context, inst, fragment, other_entity):
         correct_elements = list(filter(lambda x: x.is_a(other_entity), related_entities))
 
         if condition == 'only 1' and len(correct_elements) > 1:
-            yield(err.InstanceStructureError(False, inst, correct_elements, f'{error_log_txt}'))
+            yield StepOutcome(context, 1, len(correct_elements))
         if condition == 'a list of only':
             if len(getattr(inst, extr['attribute'], [])) > 1:
-                yield(err.InstanceStructureError(False, inst, f'{error_log_txt} more than 1 list, including', 'nesting'))
+                yield StepOutcome(context, other_entity, false_elements)
             elif len(false_elements):
-                yield(err.InstanceStructureError(False, inst, false_elements, f'{error_log_txt} a list that includes'))
+                yield StepOutcome(context, other_entity, false_elements)
         if condition == 'only' and len(false_elements):
-            yield(err.InstanceStructureError(False, inst, correct_elements, f'{error_log_txt}'))
+            yield StepOutcome(context, correct_elements, false_elements)

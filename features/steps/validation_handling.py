@@ -3,6 +3,11 @@ import json
 from utils import misc
 from functools import wraps
 from behave import step
+import sys
+import os
+from pathlib import Path
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(str(Path(current_script_dir).parent.parent))
 from validation_results import add_validation_results
 from behave.runner import Context
 from dataclasses import dataclass
@@ -17,6 +22,12 @@ class StepOutcome():
             return f"The expected value is: {self.expected_value}. The observed value is {self.observed_value}."
         if self.expected_value:
             return f"The expected value is: {self.expected_value}."
+
+def handle_errors(fn):
+    def inner(*args, **kwargs):
+        generate_error_message(*args, list(fn(*args, **kwargs))) # context is always *args[0]
+    return inner
+
 
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str

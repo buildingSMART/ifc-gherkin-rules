@@ -4,7 +4,7 @@ import math
 
 from behave import *
 from utils import geometry, ifc, misc
-from validation_handling import validate_step
+from validation_handling import validate_step, StepOutcome
 
 
 @validate_step("It must have no duplicate points {clause} first and last point")
@@ -24,5 +24,5 @@ def step_impl(context, inst, clause):
                     break
         comparison_nr += 1
     if duplicates:
-        yield(err.PolyobjectDuplicatePointsError(False, inst, duplicates))
+        yield StepOutcome(context, "No duplicates", "Duplicates found")
 

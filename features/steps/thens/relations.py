@@ -1,5 +1,4 @@
-import errors as err
-from validation_handling import validate_step
+from validation_handling import validate_step, StepOutcome, handle_errors
 
 from behave import *
 from utils import ifc, misc, system
@@ -40,7 +39,7 @@ def step_impl(context, inst, relationship, table):
             relation = getattr(inst, stmt_to_op[relationship], True)[0]
         except IndexError: # no relationship found for the entity
             if is_required:
-                yield(err.InstanceStructureError(False, inst, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+                yield StepOutcome(context, expected_relationship_objects, None)
             continue
         relationship_objects = getattr(relation, relationship_tbl_header, True)
         if not isinstance(relationship_objects, tuple):
@@ -50,12 +49,12 @@ def step_impl(context, inst, relationship, table):
         for relationship_object in relationship_objects:
             is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
-                yield(err.InstanceStructureError(False, inst, [expected_relationship_objects], 'related to', optional_values={'condition': 'must'}))
+                yield StepOutcome(context, expected_relationship_objects, relationship_objects)
 
 
 #TODO -> add validate step (not trivial here)
 @then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
-@err.handle_errors
+@handle_errors
 def step_impl(context, related, relating, other_entity, condition):
     # @todo reverse order to relating -> nest-relationship -> related
     pred = misc.stmt_to_op(condition)
@@ -69,7 +68,7 @@ def step_impl(context, related, relating, other_entity, condition):
             for inst in context.model.by_type(related):
                 for rel in getattr(inst, 'Decomposes', []):
                     if not rel.RelatingObject.is_a(relating):
-                        yield(err.InstanceStructureError(False, inst, [rel.RelatingObject], 'assigned to'))
+                        yield StepOutcome(context, relating, rel.RelatingObject)
 
 
 
@@ -111,7 +110,7 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
             if check_directness:
                 observed_directness.update({'directly'})
             if decision == 'must not':
-                yield(err.RelationshipError(False, inst, decision, condition, relationship, preposition, other_entity))
+                yield StepOutcome(context, f"{decision} be {condition} {relationship}", f"{condition} {relationship}")
         if hasattr(relating_element, other_entity_reference): # in case the relation points to a wrong instance
             while len(getattr(relating_element, other_entity_reference)) > 0:
                 relation = getattr(relating_element, other_entity_reference)[0]
@@ -122,7 +121,7 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
                         observed_directness.update({'indirectly'})
                         break
                     if decision == 'must not':
-                        yield(err.RelationshipError(False, inst, decision, condition, relationship, preposition, other_entity))
+                        yield StepOutcome(context, f"{decision} be {condition} {relationship}", f"{condition} {relationship}")
                         break
 
     if check_directness:
@@ -130,7 +129,7 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
         directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
         directness_expected = decision == 'must'  # check if relationship is expected
         if directness_achieved != directness_expected:
-            yield(err.RelationshipError(False, inst, decision, condition, relationship, preposition, other_entity))
+            yield StepOutcome(context, f"{decision} be {condition} {relationship}", f"{common_directness} {relationship}")
 
 @validate_step('It must not be referenced by itself directly or indirectly')
 def step_impl(context, inst):
@@ -144,4 +143,4 @@ def step_impl(context, inst):
 
     inv, ent, attr = relationship[inst.is_a()]
     if inst in get_memberships(inst):
-        yield(err.CyclicGroupError(False, inst))
+        yield StepOutcome(context, False, True)

@@ -98,8 +98,9 @@ class Feature(Base):
 
     # Other fields as necessary
     scenarios = relationship("Scenario", back_populates="feature")
+    validation_results = relationship("ValidationResult", backref="feature")
 
-    def add_feature(context, name, description=None, filename=None, location=None, github_source_location=None, version=None, tags=None):
+    def add_feature(self, context):
         cwd = os.path.dirname(__file__)
         remote = get_remote(cwd)
         shas = get_commits(cwd, context.feature.filename)
@@ -124,7 +125,7 @@ class Scenario(Base):
     feature_id = Column(Integer, ForeignKey('features.id'))
     feature = relationship("Feature", back_populates="scenarios")
     validation_results = relationship("ValidationResult", back_populates="scenario", primaryjoin="Scenario.id == ValidationResult.scenario_id")
-    _steps = Column('steps'), String
+    _steps = Column('steps', String)
 
     @property # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python
     def steps(self):
@@ -135,7 +136,7 @@ class Scenario(Base):
         self._steps = ','.join(steps_list)
 
 
-    def add_scenario(context):
+    def add_scenario(self, context):
         with Session() as session:
             feature = session.query(Feature).filter_by(name=context.scenario.feature.name).first() #todo make search more explicit
             new_scenario = Scenario(
@@ -165,7 +166,7 @@ class ValidationResult(Base):
     feature_id = Column(Integer, ForeignKey('features.id'))
     feature = relationship("Feature")
     scenario_id = Column(Integer, ForeignKey('scenarios.id'))
-    scenario = relationship("Scenario")
+    scenario = relationship("Scenario", back_populates="validation_results")
 
     def __repr__(self) -> str:
         return f"ValidationResult(id={self.file!r}, validated_on={self.validated_on!r}, " \
@@ -175,25 +176,26 @@ class ValidationResult(Base):
 
 def define_rule_outcome(context):
     if not context.applicable:
-        return ValidationOutcome(1)
+        return ValidationOutcome.NA
     elif context.errors: # TODO -> this will be more complex
-        return ValidationOutcome(3)
+        return ValidationOutcome.ERROR
     else:
-        return ValidationOutcome(0)
+        return ValidationOutcome.PASS
 
 def define_outcome_code(context, rule_outcome):
-    if rule_outcome == ValidationOutcome(0):
-        return ValidationOutcomeCode("Passed")
-    elif rule_outcome == ValidationOutcome(1):
-        return ValidationOutcomeCode("Not applicable")
-    elif rule_outcome == ValidationOutcome(2):
-        return ValidationOutcomeCode("Warning")
-    elif rule_outcome == ValidationOutcome(3):
+    if rule_outcome == ValidationOutcome.PASS:
+        return ValidationOutcomeCode.P00010
+    elif rule_outcome == ValidationOutcome.NA:
+        return ValidationOutcomeCode.N00010
+    elif rule_outcome == ValidationOutcome.WARNING:
+        return ValidationOutcomeCode.W00030
+    elif rule_outcome == ValidationOutcome.ERROR:
         validation_keys_set = {code.name for code in ValidationOutcomeCode}
         try:
             return next((tag for tag in context.scenario.tags), next((tag for tag in validation_keys_set if tag in context.tags)))
         except StopIteration:
             raise AssertionError(f'Outcome code not included in tags of .feature file: {context.feature.filename}')
+        
 def define_feature_version(context):
     version = next((tag for tag in context.tags if "version" in tag)) # e.g. version1
     return int(version.replace("version",""))

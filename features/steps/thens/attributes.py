@@ -1,9 +1,8 @@
 import operator
-import errors as err
 
 from behave import *
 from utils import ifc, misc, system
-from validation_handling import validate_step
+from validation_handling import validate_step, StepOutcome
 
 
 @validate_step('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
@@ -24,19 +23,19 @@ def step_impl(context, inst, entity, other_entity, relationship):
             relating_obj_placement = relating_object.ObjectPlacement
             entity_obj_placement_rel = misc.do_try(lambda: related_obj_placement.PlacementRelTo, 'Not found')
             if relating_obj_placement != entity_obj_placement_rel:
-                yield(err.InstancePlacementError(False, related_object, '', relating_object, relationship, relating_obj_placement, entity_obj_placement_rel))
+                yield StepOutcome(context, relating_obj_placement, entity_obj_placement_rel)
 
 
 @validate_step('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, inst, representation_id, representation_type):
     if ifc.instance_getter(inst, representation_id, representation_type, 1):
-        yield(err.RepresentationTypeError(False, inst, representation_id, representation_type))
+        yield StepOutcome(context, representation_type)
 
 
 @validate_step('The relative placement of that {entity} must be provided by an {other_entity} entity')
 def step_impl(context, inst, entity, other_entity):
     if not misc.do_try(lambda: inst.ObjectPlacement.is_a(other_entity), False):
-        yield(err.InstancePlacementError(False, inst, other_entity, "", "", "", ""))
+        yield StepOutcome(context, other_entity, inst.ObjectPlacement)
 
 
 @validate_step('The type of attribute {attribute} must be {expected_entity_type}')
@@ -47,7 +46,7 @@ def step_impl(context, inst, attribute, expected_entity_type):
     errors = []
     def accumulate_errors(i):
         if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
-            misc.map_state(inst, lambda x: errors.append(err.AttributeTypeError(False, x, [i], attribute, expected_entity_type)))
+            misc.map_state(inst, lambda x: errors.append(StepOutcome(context, expected_entity_type, i)))
     misc.map_state(related_entity, accumulate_errors)
     if errors:
         yield from errors
@@ -67,4 +66,4 @@ def step_impl(context, inst, attribute, value):
         inst = inst[0]
     attribute_value = getattr(inst, attribute, 'Attribute not found')
     if not pred(attribute_value, value):
-        yield(err.InvalidValueError(False, inst, attribute, attribute_value))
+        yield StepOutcome(context, value, attribute_value)

@@ -10,10 +10,13 @@ from dataclasses import dataclass
 @dataclass
 class StepOutcome():
     context: Context # TODO -> decide if needed. Depends on the desired returned message.
-    expected_value: str
-    observed_value: str
+    expected_value: str  = None
+    observed_value: str = None
     def __str__(self):
-        return f"The expected value is: {self.expected_value}. The observed value is {self.observed_value}."
+        if self.expected_value and self.observed_value:
+            return f"The expected value is: {self.expected_value}. The observed value is {self.observed_value}."
+        if self.expected_value:
+            return f"The expected value is: {self.expected_value}."
 
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str

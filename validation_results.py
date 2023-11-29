@@ -158,8 +158,8 @@ class ValidationResult(Base):
     severity = mapped_column(Enum(ValidationOutcome), nullable=True)  # ERROR = 3
     code = mapped_column(Enum(ValidationOutcomeCode), nullable=True)  # E00100 = "Relationship Error"
     feature_version = mapped_column(Integer) # 1
-    expected = mapped_column(String(6), nullable=True)  # 3
-    observed = mapped_column(String(6), nullable=True)  # 2
+    expected = mapped_column(String, nullable=True)
+    observed = mapped_column(String, nullable=True)
     ifc_filepath = Column(String)
 
     feature_id = Column(Integer, ForeignKey('features.id'))
@@ -198,6 +198,18 @@ def define_feature_version(context):
     version = next((tag for tag in context.tags if "version" in tag)) # e.g. version1
     return int(version.replace("version",""))
 
+def define_expected_value(context):
+    try:
+        return str(context.errors[0].expected_value)
+    except IndexError: # Passed Rule
+        return None
+
+def define_observed_value(context):
+    try:
+        return str(context.errors[0].observed_value)
+    except IndexError: # Passed Rule
+        return None
+
 def add_validation_results(context):
     with Session() as session:
         feature = session.query(Feature).filter_by(name=context.feature.name).first()
@@ -217,6 +229,8 @@ def add_validation_results(context):
                                              severity=rule_outcome,
                                              code=outcome_code,
                                              feature_version=define_feature_version(context),
+                                             expected = define_expected_value(context),
+                                             observed = define_observed_value(context),
                                              feature_id=getattr(feature, "id", None),
                                              scenario_id=getattr(scenario, "id", None))
         session.add(validation_result)

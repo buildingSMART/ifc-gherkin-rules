@@ -13,7 +13,6 @@ The rule verifies that each IfcAlignment uses correct representation.
       And Its attribute Representations
       Then The value of attribute RepresentationIdentifier must be Axis
       And  The value of attribute RepresentationType must be Curve3D
-      And  The type of attribute Items must be IfcGradientCurve or IfcSegmentedReferenceCurve or IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline or IfcOffsetCurveByDistance
 
     @E00010
     Scenario: Agreement on each IfcAlignment using correct representation - Type

@@ -4,7 +4,7 @@ ALB002,Alignment-layout,"This rule verifies that (a) alignment has a nesting rel
 ALB003,Alignment-directions,"The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts)or with Referents (e.g., mileage markers). And not with any other entity.",False,True,False,ALB
 ALB004,Alignment-in-spatial-structure,"The rule verifies, that each IfcAlignment must be related to IfcProject using the IfcRelAggregates relationship - either directly or indirectly. The indirect case is when a child alignment is aggregated to a parent alignment.In this case, only the parent alignment shall be related to the project. Additionally instances of IfcAlignment must not be related to spatial entities using the IfcRelContainedInSpatialStructure relationship.",False,True,False,ALB
 ALB005,Positioning_of_referents,IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPositions relationship,True,True,False,ALB
-ALS003,Alignment-cant-shape-representation,The rule verifies that each IfcAlignmentCant uses correct representation.,True,True,False,ALS
+ALS008,Alignment-cant-shape-representation,The rule verifies that each IfcAlignmentCant uses correct representation.,True,True,False,ALS
 ALS004,Alignment-segment-shape-representation,The rule verifies that each IfcAlignmentSegment uses correct representation.,False,True,False,ALS
 ALS005,Alignment-shape-representation,The rule verifies that each IfcAlignment uses correct representation.,False,True,False,ALS
 ALS006,Alignment-horizontal-shape-representation,,False,True,False,ALS

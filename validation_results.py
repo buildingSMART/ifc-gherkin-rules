@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Integer, String, Column, DateTime, ForeignKey
+from sqlalchemy import create_engine, Integer, String, Column, DateTime, ForeignKey, JSON
 from sqlalchemy.orm import Session, mapped_column, sessionmaker, relationship, DeclarativeBase
 from sqlalchemy_utils import database_exists, create_database
 from datetime import datetime
@@ -7,6 +7,8 @@ from sqlalchemy import Enum
 import os
 import functools
 import subprocess
+import json
+
 
 @functools.lru_cache(maxsize=16)
 def get_remote(cwd):
@@ -20,6 +22,7 @@ def get_commits(cwd, feature_file):
 
 DEVELOPMENT = os.environ.get('environment', 'production').lower() == 'development'
 NO_POSTGRES = os.environ.get('NO_POSTGRES', '0').lower() in {'1', 'true'}
+
 
 class ValidationOutcomeCode(enum.Enum):
     """
@@ -74,21 +77,23 @@ else:
 
 Session = sessionmaker(bind=engine)
 
+
 class Base(DeclarativeBase):
     pass
+
 
 class Feature(Base):
     __tablename__ = 'features'
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False) # as in Feature : 'ABC001 - Test Alignment Rule'
-    description = Column(String) # 'This rule verifies that alignment is correct'
-    filename = Column(String) # ABC001_Test-alignment-rule
-    location = Column(String) # location in repository
+    name = Column(String, nullable=False)  # as in Feature : 'ABC001 - Test Alignment Rule'
+    description = Column(String)  # 'This rule verifies that alignment is correct'
+    filename = Column(String)  # ABC001_Test-alignment-rule
+    location = Column(String)  # location in repository
     github_source_location = Column(String)
     version = Column(Integer)
     _tags = Column('tags', String)
 
-    @property # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python
+    @property  # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python
     def tags(self):
         return self._tags.split(',') if self._tags else []
 
@@ -98,7 +103,8 @@ class Feature(Base):
 
     # Other fields as necessary
     scenarios = relationship("Scenario", back_populates="feature")
-    validation_results = relationship("ValidationResult", backref="feature")
+
+    # validation_results = relationship("ValidationResult", backref="feature") # got sqlalchemy.exc.InvalidRequestError with this - commenting for now
 
     def add_feature(self, context):
         cwd = os.path.dirname(__file__)
@@ -118,6 +124,7 @@ class Feature(Base):
             session.commit()
             return new_feature
 
+
 class Scenario(Base):
     __tablename__ = 'scenarios'
     id = Column(Integer, primary_key=True)
@@ -125,9 +132,9 @@ class Scenario(Base):
     feature_id = Column(Integer, ForeignKey('features.id'))
     feature = relationship("Feature", back_populates="scenarios")
     validation_results = relationship("ValidationResult", back_populates="scenario", primaryjoin="Scenario.id == ValidationResult.scenario_id")
-    _steps = Column('steps', String)
+    _steps = Column(name='steps', type_=String)
 
-    @property # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python
+    @property  # in case JSON is not supported, e.g. with SQLite, convert to list for use in Python
     def steps(self):
         return self._steps.split(',') if self._steps else []
 
@@ -135,10 +142,9 @@ class Scenario(Base):
     def steps(self, steps_list):
         self._steps = ','.join(steps_list)
 
-
     def add_scenario(self, context):
         with Session() as session:
-            feature = session.query(Feature).filter_by(name=context.scenario.feature.name).first() #todo make search more explicit
+            feature = session.query(Feature).filter_by(name=context.scenario.feature.name).first()  # todo make search more explicit
             new_scenario = Scenario(
                 name=context.scenario.name,
                 feature_id=feature.id,
@@ -148,24 +154,23 @@ class Scenario(Base):
             session.commit()
             return new_scenario
 
+
 class ValidationResult(Base):
     __tablename__ = 'gherkin_validation_results'
     id = mapped_column(Integer, index=True, unique=True, autoincrement=True, primary_key=True)
-    check_execution_id = mapped_column(Integer, nullable=True) # id connecting to CheckExecution table
-    file = mapped_column(String, nullable=False)  # "tests/als004/fail-als004-segment-rep-item-type.ifc"
-    validated_on = mapped_column(DateTime, nullable=False)  # datetime.datetime(2023, 11, 21, 23, 47, 21, 418006)
-    reference = mapped_column(String, nullable=True)  # ALS004
-    step = mapped_column(String, nullable=True)  # Every edge must be referenced exactly 2 times by the loops of the face # TODO -> scenario based? A bit harder to implement.
-    severity = mapped_column(Enum(ValidationOutcome), nullable=True)  # ERROR = 3
     code = mapped_column(Enum(ValidationOutcomeCode), nullable=True)  # E00100 = "Relationship Error"
-    feature_version = mapped_column(Integer) # 1
-    expected = mapped_column(String, nullable=True)
-    observed = mapped_column(String, nullable=True)
-    ifc_filepath = Column(String)
+    data = mapped_column(JSON, nullable=True)
+    feature = mapped_column(String, nullable=True)  # ALS004
+    feature_version = mapped_column(Integer)  # 1
+    severity = mapped_column(Enum(ValidationOutcome), nullable=True)  # ERROR = 3
+
+    check_execution_id = mapped_column(Integer, nullable=True)  # id connecting to CheckExecution table
+    step = mapped_column(String, nullable=True)  # Every edge must be referenced exactly 2 times by the loops of the face # TODO -> scenario based? A bit harder to implement.
 
     feature_id = Column(Integer, ForeignKey('features.id'))
-    feature = relationship("Feature")
     scenario_id = Column(Integer, ForeignKey('scenarios.id'))
+
+    # feature = relationship("Feature") # TODO -> perhaps a different name for this?
     scenario = relationship("Scenario", back_populates="validation_results")
 
     def __repr__(self) -> str:
@@ -174,13 +179,15 @@ class ValidationResult(Base):
                f"severity={self.severity!r}, code={self.code!r}, " \
                f"expected={self.expected!r}, observed={self.observed!r})"
 
+
 def define_rule_outcome(context):
     if not context.applicable:
         return ValidationOutcome.NA
-    elif context.errors: # TODO -> this will be more complex
+    elif context.errors:  # TODO -> this will be more complex
         return ValidationOutcome.ERROR
     else:
         return ValidationOutcome.PASS
+
 
 def define_outcome_code(context, rule_outcome):
     if rule_outcome == ValidationOutcome.PASS:
@@ -195,22 +202,42 @@ def define_outcome_code(context, rule_outcome):
             return next((tag for tag in context.scenario.tags), next((tag for tag in validation_keys_set if tag in context.tags)))
         except StopIteration:
             raise AssertionError(f'Outcome code not included in tags of .feature file: {context.feature.filename}')
-        
+
+
+def json_serial(obj):
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    raise TypeError("Type %s not serializable" % type(obj))
+
+
 def define_feature_version(context):
-    version = next((tag for tag in context.tags if "version" in tag)) # e.g. version1
-    return int(version.replace("version",""))
+    version = next((tag for tag in context.tags if "version" in tag))  # e.g. version1
+    return int(version.replace("version", ""))
+
 
 def define_expected_value(context):
     try:
         return str(context.errors[0].expected_value)
-    except IndexError: # Passed Rule
+    except IndexError:  # Passed Rule
         return None
+
 
 def define_observed_value(context):
     try:
         return str(context.errors[0].observed_value)
-    except IndexError: # Passed Rule
+    except IndexError:  # Passed Rule
         return None
+
+
+def define_data(context):
+    data = {"file": os.path.basename(context.config.userdata['input']),
+            "ifc_filepath": context.config.userdata.get('input'),
+            "validated_on": str(datetime.now()),
+            "expected_value": define_expected_value(context),
+            "observed_value": define_observed_value(context), }
+
+    return data
+
 
 def add_validation_results(context):
     with Session() as session:
@@ -222,26 +249,25 @@ def add_validation_results(context):
 
         rule_outcome = define_rule_outcome(context)
         outcome_code = define_outcome_code(context, rule_outcome)
-        validation_result = ValidationResult(check_execution_id = None,
-                                             file=os.path.basename(context.config.userdata['input']),
-                                             validated_on=datetime.now(),
-                                             reference=context.feature.name.split(" ")[0],
-                                             step=context.step.name,
-                                             ifc_filepath = context.config.userdata.get('input'),
-                                             severity=rule_outcome,
-                                             code=outcome_code,
+        validation_result = ValidationResult(code=outcome_code,
+                                             data=define_data(context),
+                                             feature=context.feature.name.split(" ")[0],
                                              feature_version=define_feature_version(context),
-                                             expected = define_expected_value(context),
-                                             observed = define_observed_value(context),
+                                             severity=rule_outcome,
+
+                                             check_execution_id=None,
+                                             step=context.step.name,
                                              feature_id=getattr(feature, "id", None),
                                              scenario_id=getattr(scenario, "id", None))
         session.add(validation_result)
         session.commit()
 
+
 def initialize():
     if not database_exists(engine.url):
         create_database(engine.url)
     Base.metadata.create_all(engine)
+
 
 if __name__ == '__main__':
     initialize()

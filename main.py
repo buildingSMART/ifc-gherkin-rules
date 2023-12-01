@@ -43,7 +43,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_output=False):
+def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_output=False, github_ci_test=False):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -75,8 +75,8 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
 
 
 
-    #todo @gh restructure; all data is already captured in the database
-    proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", "error_on_passed_rule=yes", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
+    #github-ci-test can be accessed from the context.config.userdata dictionary : "context.config.userdata['github-ci-test']"
+    proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", f"ci_cd={github_ci_test}", "-f", "json", "-o", jsonfn], cwd=cwd, capture_output=True)
 
     with open(jsonfn) as f:
         try:

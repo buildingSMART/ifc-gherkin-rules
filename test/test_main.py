@@ -64,7 +64,7 @@ def get_test_files():
 
 @pytest.mark.parametrize("filename", get_test_files())
 def test_invocation(filename):
-    gherkin_results = list(run(filename))
+    gherkin_results = list(run(filename, github_ci_test=True))
     base = os.path.basename(filename)
     # if base.startswith("pass-"):
     results = [result for result in gherkin_results if result[4] != 'Rule disabled']

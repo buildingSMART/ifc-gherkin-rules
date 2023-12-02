@@ -48,6 +48,7 @@ def execute_step(fn):
         if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
             pass #WIP Note: Check for past 'Given' statements to 
         elif step_type.lower() == 'then':
+            github_ci_test = context.config.userdata.get('github-ci-test')
             if not getattr(context, 'applicable', True):
                 context.errors = []
                 add_validation_results(context)

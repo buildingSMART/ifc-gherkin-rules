@@ -1,3 +1,5 @@
+import datetime
+
 def define_feature_version(context):
     version = next((tag for tag in context.tags if "version" in tag))  # e.g. version1
     return int(version.replace("version", ""))

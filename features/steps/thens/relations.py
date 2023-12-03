@@ -110,7 +110,10 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
             if check_directness:
                 observed_directness.update({'directly'})
             if decision == 'must not':
-                yield StepOutcome(context, f"{decision} be {condition} {relationship}", f"{condition} {relationship}")
+                yield StepOutcome(context, 
+                    observed_value = f"{decision} be {condition} {relationship}",
+                    expected_value = f"{common_directness} {relationship}", 
+                    relating = other_entity)
         if hasattr(relating_element, other_entity_reference): # in case the relation points to a wrong instance
             while len(getattr(relating_element, other_entity_reference)) > 0:
                 relation = getattr(relating_element, other_entity_reference)[0]
@@ -121,7 +124,10 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
                         observed_directness.update({'indirectly'})
                         break
                     if decision == 'must not':
-                        yield StepOutcome(context, f"{decision} be {condition} {relationship}", f"{condition} {relationship}")
+                        yield StepOutcome(context, 
+                            observed_value = f"{decision} be {condition} {relationship}",
+                            expected_value = f"{common_directness} {relationship}", 
+                            relating = other_entity)
                         break
 
     if check_directness:
@@ -129,7 +135,10 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
         directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
         directness_expected = decision == 'must'  # check if relationship is expected
         if directness_achieved != directness_expected:
-            yield StepOutcome(context, f"{decision} be {condition} {relationship}", f"{common_directness} {relationship}")
+            yield StepOutcome(context = context, 
+                            observed_value = f"{decision} be {condition} {relationship}",
+                            expected_value = f"{common_directness} {relationship}", 
+                            relating = other_entity)
 
 @validate_step('It must not be referenced by itself directly or indirectly')
 def step_impl(context, inst):

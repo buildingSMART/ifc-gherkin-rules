@@ -50,6 +50,7 @@ class ValidationOutcomeCode(enum.Enum):
     W00010 = "Alignment contains business logic only"
     W00020 = "Alignment contains geometry only"
     W00030 = "Warning"
+    N00040 = "Executed"
 
 
 class OutcomeSeverity(enum.Enum):
@@ -65,6 +66,7 @@ class OutcomeSeverity(enum.Enum):
     NA = 1
     WARNING = 2
     ERROR = 3
+    EXECUTED = 4
 
 
 if DEVELOPMENT or NO_POSTGRES:
@@ -101,6 +103,12 @@ class ValidationOutcome(Base):
 
     check_execution_id = Column(Integer, ForeignKey('check_executions.id'))
 
+    def save_to_db(self):
+        with Session() as session:
+            session.add(self)
+            session.commit()
+
+
     # def __repr__(self) -> str:
     #     return f"ValidationResult(id={self.file!r}, validated_on={self.validated_on!r}, " \
     #            f"reference={self.reference!r}, scenario={self.scenario!r}, " \
@@ -113,7 +121,7 @@ def define_rule_outcome(context):
         return OutcomeSeverity.NA
     elif context.errors:  # TODO -> this will be more complex
         return OutcomeSeverity.ERROR
-    else:
+    else:   
         return OutcomeSeverity.PASS
 
 
@@ -142,21 +150,21 @@ def define_data(context):
     return data
 
 
-def add_validation_results(context):
-    with Session() as session:
+# def add_validation_results(context):
+#     with Session() as session:
 
-        rule_outcome = define_rule_outcome(context)
-        outcome_code = define_outcome_code(context, rule_outcome)
-        validation_result = ValidationOutcome(code=outcome_code,
-                                             data=define_data(context),
-                                             feature=context.feature.name.split(" ")[0],
-                                             feature_version=define_feature_version(context),
-                                             severity=rule_outcome,
+#         rule_outcome = define_rule_outcome(context)
+#         outcome_code = define_outcome_code(context, rule_outcome)
+#         validation_result = ValidationOutcome(code=outcome_code,
+#                                              data=define_data(context),
+#                                              feature=context.feature.name.split(" ")[0],
+#                                              feature_version=define_feature_version(context),
+#                                              severity=rule_outcome,
 
-                                             check_execution_id=None,
-                                             step=context.step.name)
-        session.add(validation_result)
-        session.commit()
+#                                              check_execution_id=None,
+#                                              step=context.step.name)
+#         session.add(validation_result)
+#         session.commit()
 
 
 def initialize():

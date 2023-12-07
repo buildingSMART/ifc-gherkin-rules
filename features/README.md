@@ -244,7 +244,17 @@ When a rule requires a specific IFC relationship to exist, refer to the table be
 | ...                    |                       |
 
 
+#### Reference for schema versioning
+```
+Given any IFC file
+Then the schema identifier must be IFC2X3 or IFC4 or IFC4X3_ADD2 
+```
 
+| Version | Name          | Schema id   | Common jargon |
+|---------|---------------|-------------|---------------|
+| 4.3.2.0 | IFC4.3 ADD2   | IFC4X3_ADD2 | IFC4.3        |
+| 4.0.2.1 | IFC4 ADD2 TC1 | IFC4        | IFC4          |
+| 2.3.0.1 | IFC2x3 TC1    | IFC2X3      | IFC2x3        |
 
 
 

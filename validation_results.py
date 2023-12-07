@@ -53,6 +53,23 @@ class ValidationOutcomeCode(enum.Enum):
     W00030 = "WARNING"
     N00040 = "EXECUTED"
 
+    def determine_severity(self):
+        match self.name[:2]: 
+            case 'EX':
+                return OutcomeSeverity.EXECUTED
+            case _:
+                match self.name[0]:
+                    case 'P':
+                        return OutcomeSeverity.PASS
+                    case 'N':
+                        return OutcomeSeverity.NA
+                    case 'W':
+                        return OutcomeSeverity.WARNING
+                    case 'E':
+                        return OutcomeSeverity.ERROR
+                    case _:
+                        raise ValueError(f"Outcome code {self.name} not recognized")
+
 
 class OutcomeSeverity(enum.Enum):
     """

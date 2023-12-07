@@ -13,40 +13,52 @@ from validation_results import *
 from behave.runner import Context
 from dataclasses import dataclass, asdict, field
 import random
-from pydantic import BaseModel, validator, model_validator, field_validator, root_validator
+from pydantic import BaseModel, model_validator, field_validator, Field
 from typing import Any, Optional, List
+from typing_extensions import Annotated
 
 class StepOutcome(BaseModel):
-    inst: ifcopenshell.entity_instance
+    inst: ifcopenshell.entity_instance = None
     context : Context
     warning : bool = False
     expected: Any = None
     observed: Any = None
-    outcome_code: Optional[str] = None
+    outcome_code: Annotated[str, Field(validate_default=True)] = 'N00010' 
 
+    @field_validator('outcome_code')
+    @classmethod
+    def valid_outcome_code(cls, outcome_code : str, values):
+        """
+        Function to validate and/or determine the outcome code of a step implementation.
+        In case the outcome code is not specified in the step implementation, the outcome code of respectively the scenario and feature is used.
+        The outcome code must be included in the tags of the .feature file.
+        The severity of the outcome code must be either ERROR or WARNING.
 
-    @field_validator('outcome_code', mode='after')
-    def valid_outcome_code(cls, value, values):
+        For a scenario in the .feature file with multiple tags, 
+        the topmost tag is utilized by default, except when overridden by user input. 
+        For instance, given the tags:
+        @E00001
+        @E00002
+        Scenario: X
+
+        @E00001 is used by default, unless the user specifies @E00002 in the step implementation.
+        """
         valid_outcome_codes = {code.name for code in ValidationOutcomeCode}
-        current_feature_tags = [tag for tag in values.data.get('context').feature.tags + values.data.get('context').scenario.tags if tag in valid_outcome_codes]
-        if value is not None:
-            if value in current_feature_tags:
-                raise ValueError(f'Outcome code not included in tags of .feature file')
-        return next((tag for tag in values.data.get('context').scenario.tags), next((tag for tag in valid_outcome_codes if tag in values.data.get('context').tags)))
+
+        current_rule_tags = [tag for tag in values.data.get('context').feature.tags + values.data.get('context').scenario.tags if tag in valid_outcome_codes]
+        default = cls.model_fields['outcome_code'].default
+        if outcome_code == default:
+            outcome_code = next((tag for tag in values.data.get('context').scenario.tags), next((tag for tag in valid_outcome_codes if tag in values.data.get('context').tags)))
+        else:
+            # should an implementer be allowed to use a custom outcome code (i.e. not mentioned in the .feature file)?
+            assert outcome_code in current_rule_tags, 'Outcome code not included in tags of .feature file' 
+        assert getattr(ValidationOutcomeCode, outcome_code).determine_severity().name in ["ERROR", "WARNING"], "Outcome code at step implementation must be either ERROR or WARNING"
+        return outcome_code
 
 
-    # @root_validator(skip_on_failure=False)
-    # def convert_ifc_entities(cls, values):
-    #     for key, value in values.items():
-    #         if isinstance(value, ifcopenshell.entity_instance):
-    #             values[key] = value.to_string()
-    #         elif isinstance(value, List) and all(isinstance(item, ifcopenshell.entity_instance) for item in value):
-    #             values[key] = [item.to_string() for item in value]
-    #     return values
-    
-    @field_validator('warning', mode='after')
-    def validate_warning(cls, value, values):
-        pass
+    # @field_validator('warning', mode='after')
+    # def validate_warning(cls, value, values):
+    #     pass
         # if values.get('warning'):
         #     return True
         

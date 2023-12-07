@@ -124,10 +124,12 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
                         observed_directness.update({'indirectly'})
                         break
                     if decision == 'must not':
-                        yield StepOutcome(context, 
+                        outcome = StepOutcome(context, 
                             observed_value = f"{decision} be {condition} {relationship}",
                             expected_value = f"{common_directness} {relationship}", 
-                            relating = other_entity)
+                            relating = other_entity, 
+                            outcome_code='E00020')
+                        yield outcome
                         break
 
     if check_directness:
@@ -136,9 +138,8 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
         directness_expected = decision == 'must'  # check if relationship is expected
         if directness_achieved != directness_expected:
             yield StepOutcome(context = context, warning=True,
-                            observed_value = f"{decision} be {condition} {relationship}",
-                            expected_value = f"{common_directness} {relationship}", 
-                            relating = other_entity)
+                            observed = f"{decision} be {condition} {relationship}",
+                            expected = f"{common_directness} {relationship}")
 
 @validate_step('It must not be referenced by itself directly or indirectly')
 def step_impl(context, inst):

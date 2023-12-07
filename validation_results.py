@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, Integer, String, Column, DateTime, ForeignKey, JSON, Boolean
 from sqlalchemy.orm import Session, mapped_column, sessionmaker, relationship, DeclarativeBase
 from sqlalchemy_utils import database_exists, create_database
+from sqlalchemy.inspection import inspect
 from datetime import datetime
 import enum
 from sqlalchemy import Enum
@@ -28,29 +29,29 @@ class ValidationOutcomeCode(enum.Enum):
     """
     Based on Scotts models.py
     """
-    P00010 = "Passed"
-    N00010 = "Not applicable"
-    E00001 = "Syntax Error"
-    E00010 = "Type Error"
-    E00020 = "Value Error"
-    E00030 = "Geometry Error"
-    E00040 = "Cardinality Error"
-    E00050 = "Duplicate Error"
-    E00060 = "Placement Error"
-    E00070 = "Units Error"
-    E00080 = "Quantity Error"
-    E00090 = "Enumerated Value Error"
-    E00100 = "Relationship Error"
-    E00110 = "Naming Error"
-    E00120 = "Reference Error"
-    E00130 = "Resource Error"
-    E00140 = "Deprecation Error"
-    E00150 = "Shape Representation Error"
-    E00160 = "Instance Structure Error"
-    W00010 = "Alignment contains business logic only"
-    W00020 = "Alignment contains geometry only"
-    W00030 = "Warning"
-    N00040 = "Executed"
+    P00010 = "PASSED"
+    N00010 = "NOT_APPLICABLE"
+    E00001 = "SYNTAX_ERROR"
+    E00010 = "TYPE_ERROR"
+    E00020 = "VALUE_ERROR"
+    E00030 = "GEOMETRY_ERROR"
+    E00040 = "CARDINALITY_ERROR"
+    E00050 = "DUPLICATE_ERROR"
+    E00060 = "PLACEMENT_ERROR"
+    E00070 = "UNITS_ERROR"
+    E00080 = "QUANTITY_ERROR"
+    E00090 = "ENUMERATED_VALUE_ERROR"
+    E00100 = "RELATIONSHIP_ERROR"
+    E00110 = "NAMING_ERROR"
+    E00120 = "REFERENCE_ERROR"
+    E00130 = "RESOURCE_ERROR"
+    E00140 = "DEPRECATION_ERROR"
+    E00150 = "SHAPE_REPRESENTATION_ERROR"
+    E00160 = "INSTANCE_STRUCTURE_ERROR"
+    W00010 = "ALIGNMENT_CONTAINS_BUSINESS_LOGIC_ONLY"
+    W00020 = "ALIGNMENT_CONTAINS_GEOMETRY_ONLY"
+    W00030 = "WARNING"
+    N00040 = "EXECUTED"
 
 
 class OutcomeSeverity(enum.Enum):
@@ -79,9 +80,47 @@ else:
 
 Session = sessionmaker(bind=engine)
 
+class Serializable(object):
+    def serialize(self, full=False):
+        # Transforms data from dataclasses to a dict,
+        # storing primary key of references and handling date format
+        d = {}
+        for attribute in inspect(self).attrs.keys():
+            if isinstance(getattr(self, attribute), (list, tuple)):
+                if full:
+                    d[attribute] = [element.serialize(full) for element in getattr(self, attribute)]
+                else:
+                    d[attribute] = [element.id for element in getattr(self, attribute)]
+            elif isinstance(getattr(self, attribute), datetime.datetime):
+                d[attribute] = getattr(self, attribute).strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                d[attribute] = getattr(self, attribute)
+        return d
 
 class Base(DeclarativeBase):
     pass
+
+class IfcInstance(Base, Serializable):
+    __tablename__ = 'ifc_instances'
+
+    id = Column(Integer, primary_key=True)
+
+    # @todo there should be the instance numeric id in here as well, in case of
+    # non-rooted instances.
+
+    global_id = Column(String)
+    # file = Column(Integer, ForeignKey('models.id')) # leave this out for now, not directly related to gherkin
+    ifc_type = Column(String)
+    # bsdd_results = relationship("bsdd_result")# leave this out for now, not directly related to gherkin
+    # syntax_results = relationship("bsdd_result")# leave this out for now, not directly related to gherkin
+    validation_outcomes = relationship("ValidationOutcome", back_populates="instance")
+
+
+    def __init__(self, global_id, ifc_type, file):
+        self.global_id = global_id
+        self.ifc_type = ifc_type
+        # self.file = file # leave out for now
+
 
 class CheckExecution(Base):
     __tablename__ = 'check_executions'
@@ -90,25 +129,29 @@ class CheckExecution(Base):
     end_time = Column(DateTime)
     success = Column(Boolean)
 
-    validation_outcomes = relationship("ValidationOutcome", backref="check_execution")
 
 class ValidationOutcome(Base):
     __tablename__ = 'gherkin_validation_results'
-    id = mapped_column(Integer, index=True, unique=True, autoincrement=True, primary_key=True)
-    code = mapped_column(Enum(ValidationOutcomeCode), nullable=True)  # E00100 = "Relationship Error"
-    data = mapped_column(JSON, nullable=True)
-    feature = mapped_column(String, nullable=True)  # ALS004
-    feature_version = mapped_column(Integer)  # 1
+
+    id = Column(Integer, primary_key=True)
+
+    outcome_code = Column(Enum(ValidationOutcomeCode), nullable=True)  
+    observed = Column(JSON, nullable=True)
+    expected = Column(JSON, nullable=True)
+    feature = Column(String, nullable=True)  # ALS004
+    feature_version = Column(Integer)  # 1
     severity = Column(Enum(OutcomeSeverity), nullable=True)  # ERROR = 3
 
+
+    #todo q is there a unidirectional relationship to CheckExecution ??
     check_execution_id = Column(Integer, ForeignKey('check_executions.id'))
+    check_execution = relationship("CheckExecution")
 
-    def save_to_db(self):
-        with Session() as session:
-            session.add(self)
-            session.commit()
+    #todo q is there a unidirectional one-to-many relationship to IfcInstance ?? -> One instance can have multiple validation outcomes
+    instance = relationship("IfcInstance", back_populates="validation_outcomes") # Relationship to IfcInstance
+    ifc_instance_id = Column(Integer, ForeignKey('ifc_instances.id')) # Reference to IfcInstance, one-to-many   
 
-
+    # @todo move to StepOutcome
     # def __repr__(self) -> str:
     #     return f"ValidationResult(id={self.file!r}, validated_on={self.validated_on!r}, " \
     #            f"reference={self.reference!r}, scenario={self.scenario!r}, " \
@@ -116,6 +159,7 @@ class ValidationOutcome(Base):
     #            f"expected={self.expected!r}, observed={self.observed!r})"
 
 
+#todo q still needed?
 def define_rule_outcome(context):
     if not context.applicable:
         return OutcomeSeverity.NA
@@ -124,7 +168,7 @@ def define_rule_outcome(context):
     else:   
         return OutcomeSeverity.PASS
 
-
+#todo q still needed?
 def define_outcome_code(context, rule_outcome):
     if rule_outcome == OutcomeSeverity.PASS:
         return ValidationOutcomeCode.P00010
@@ -139,7 +183,7 @@ def define_outcome_code(context, rule_outcome):
         except StopIteration:
             raise AssertionError(f'Outcome code not included in tags of .feature file: {context.feature.filename}')
 
-
+#todo q still needed?
 def define_data(context):
     data = {"file": os.path.basename(context.config.userdata['input']),
             "ifc_filepath": context.config.userdata.get('input'),
@@ -148,24 +192,6 @@ def define_data(context):
             "observed_value": define_observed_value(context), }
 
     return data
-
-
-# def add_validation_results(context):
-#     with Session() as session:
-
-#         rule_outcome = define_rule_outcome(context)
-#         outcome_code = define_outcome_code(context, rule_outcome)
-#         validation_result = ValidationOutcome(code=outcome_code,
-#                                              data=define_data(context),
-#                                              feature=context.feature.name.split(" ")[0],
-#                                              feature_version=define_feature_version(context),
-#                                              severity=rule_outcome,
-
-#                                              check_execution_id=None,
-#                                              step=context.step.name)
-#         session.add(validation_result)
-#         session.commit()
-
 
 def initialize():
     if not database_exists(engine.url):

@@ -135,7 +135,7 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
         directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
         directness_expected = decision == 'must'  # check if relationship is expected
         if directness_achieved != directness_expected:
-            yield StepOutcome(context = context, 
+            yield StepOutcome(context = context, warning=True,
                             observed_value = f"{decision} be {condition} {relationship}",
                             expected_value = f"{common_directness} {relationship}", 
                             relating = other_entity)

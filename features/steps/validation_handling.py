@@ -20,10 +20,11 @@ from typing_extensions import Annotated
 class StepOutcome(BaseModel):
     inst: ifcopenshell.entity_instance = None
     context : Context
-    warning : bool = False
     expected: Any = None
     observed: Any = None
     outcome_code: Annotated[str, Field(validate_default=True)] = 'N00010' 
+    severity : Annotated[OutcomeSeverity, Field(validate_default=True)] = OutcomeSeverity.ERROR # severity must be validated after outcome_coxd
+
 
     @field_validator('outcome_code')
     @classmethod
@@ -45,15 +46,38 @@ class StepOutcome(BaseModel):
         """
         valid_outcome_codes = {code.name for code in ValidationOutcomeCode}
 
-        current_rule_tags = [tag for tag in values.data.get('context').feature.tags + values.data.get('context').scenario.tags if tag in valid_outcome_codes]
+        context = values.data.get('context')
+        feature_tags = context.feature.tags
+        scenario_tags = context.scenario.tags
+
+        # current_rule_tags = [tag for tag in values.data.get('context').feature.tags + values.data.get('context').scenario.tags if tag in valid_outcome_codes]
+        current_rule_tags = [tag for tag in feature_tags + scenario_tags if tag in valid_outcome_codes]
+
         default = cls.model_fields['outcome_code'].default
         if outcome_code == default:
-            outcome_code = next((tag for tag in values.data.get('context').scenario.tags), next((tag for tag in valid_outcome_codes if tag in values.data.get('context').tags)))
+            outcome_code = next((tag for tag in scenario_tags), next((tag for tag in valid_outcome_codes if tag in feature_tags)))
         else:
             # should an implementer be allowed to use a custom outcome code (i.e. not mentioned in the .feature file)?
             assert outcome_code in current_rule_tags, 'Outcome code not included in tags of .feature file' 
         assert getattr(ValidationOutcomeCode, outcome_code).determine_severity().name in ["ERROR", "WARNING"], "Outcome code at step implementation must be either ERROR or WARNING"
         return outcome_code
+    
+    @field_validator('severity')
+    @classmethod
+    def valid_severity(cls, severity : OutcomeSeverity, values):
+        """
+        Validates and determines the severity of a step implementation in a Pydantic model. 
+        In Pydantic, field validation follows the order in which fields are defined in the model. 
+        Therefore, the 'severity' field will be validated after the 'outcome_code' field.
+
+        To set the severity to 'WARNING', the 'outcome_code' must correspond to a code beginning with 'W'. 
+        Conversely, to set the severity to 'ERROR', the 'outcome_code' should start with 'E'. 
+        For example:
+
+        - @W00001 leads to Severity 'WARNING'
+        - @E00001 leads to Severity 'ERROR'
+        """
+        return getattr(ValidationOutcome, values.data.get('outcome_code')).determine_severity().name
 
 
     # @field_validator('warning', mode='after')

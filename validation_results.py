@@ -50,7 +50,7 @@ class ValidationOutcomeCode(enum.Enum):
     E00160 = "INSTANCE_STRUCTURE_ERROR"
     W00010 = "ALIGNMENT_CONTAINS_BUSINESS_LOGIC_ONLY"
     W00020 = "ALIGNMENT_CONTAINS_GEOMETRY_ONLY"
-    W00030 = "WARNING"
+    W00030 = "WARNING" # @todo q : couple this to Error? e.g. E00010 = VALUE_ERROR with Severity = ERROR, W00030 = VALUE_ERROR with Severity = WARNING?
     N00040 = "EXECUTED"
 
     def determine_severity(self):

@@ -51,25 +51,22 @@ class ValidationOutcomeCode(enum.Enum):
     W00010 = "ALIGNMENT_CONTAINS_BUSINESS_LOGIC_ONLY"
     W00020 = "ALIGNMENT_CONTAINS_GEOMETRY_ONLY"
     W00030 = "WARNING" # @todo q : couple this to Error? e.g. E00010 = VALUE_ERROR with Severity = ERROR, W00030 = VALUE_ERROR with Severity = WARNING?
-    N00040 = "EXECUTED"
+    X00040 = "EXECUTED"
 
     def determine_severity(self):
-        match self.name[:2]: 
-            case 'EX':
+        match self.name[0]: 
+            case 'X':
                 return OutcomeSeverity.EXECUTED
+            case 'P':
+                return OutcomeSeverity.PASS
+            case 'N':
+                return OutcomeSeverity.NA
+            case 'W':
+                return OutcomeSeverity.WARNING
+            case 'E':
+                return OutcomeSeverity.ERROR
             case _:
-                match self.name[0]:
-                    case 'P':
-                        return OutcomeSeverity.PASS
-                    case 'N':
-                        return OutcomeSeverity.NA
-                    case 'W':
-                        return OutcomeSeverity.WARNING
-                    case 'E':
-                        return OutcomeSeverity.ERROR
-                    case _:
-                        raise ValueError(f"Outcome code {self.name} not recognized")
-
+                raise ValueError(f"Outcome code {self.name} not recognized")
 
 class OutcomeSeverity(enum.Enum):
     """

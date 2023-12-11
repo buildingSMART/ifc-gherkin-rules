@@ -25,6 +25,8 @@ class StepOutcome(BaseModel):
     outcome_code: Annotated[str, Field(validate_default=True)] = 'N00010' 
     severity : Annotated[OutcomeSeverity, Field(validate_default=True)] = OutcomeSeverity.ERROR # severity must be validated after outcome_coxd
 
+    def __str__(cls):
+        return(f"Step finished with a/an {cls.severity} {cls.outcome_code}. Expected value: {cls.expected}. Obverved value: {cls.observed}")
 
     @field_validator('outcome_code')
     @classmethod
@@ -77,7 +79,7 @@ class StepOutcome(BaseModel):
         - @W00001 leads to Severity 'WARNING'
         - @E00001 leads to Severity 'ERROR'
         """
-        return getattr(ValidationOutcome, values.data.get('outcome_code')).determine_severity().name
+        return getattr(ValidationOutcomeCode, values.data.get('outcome_code')).determine_severity().name
 
 
     # @field_validator('warning', mode='after')
@@ -149,25 +151,31 @@ def execute_step(fn):
 
                 for inst in instances:
                     error = next(fn(context, inst, **kwargs), None)
-                    error.inst = inst.to_string()
                     if error:
+                        try:
+                            error.inst = inst.to_string()
+                        except AttributeError:  # AttributeError: 'entity_instance' object has no attribute 'to_string'
+                            error.inst = str(inst)
+
                         validation_outcome = ValidationOutcome(
-                            code=getattr(ValidationOutcomeCode, error.outcome_code),
-                            data = error.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True),
+                            outcome_code=getattr(ValidationOutcomeCode, error.outcome_code),
+                            observed = error.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
+                            expected = error.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
                             feature=context.feature.name,
-                            severity = getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
                             feature_version=misc.define_feature_version(context),
+                            severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
                             check_execution_id=random.randint(1, 1000) #Placeholder number for check_execution_id
                         )
                         gherkin_outcomes.append(error)
+
                     elif getattr(context, 'error_on_passed_rule', False):
                         validation_outcome = ValidationOutcome(
-                            code=ValidationOutcomeCode.P00010,  # "Rule passed"
-                            data={"step" , context.step.name, 
-                                "inst", inst}, 
-                            feature=context.feature.name,  # 
+                            outcome_code=ValidationOutcomeCode.P00010,  # "Rule passed"
+                            observed={"step" , context.step.name,  "inst", inst}, #TODO (parse it correctly)
+                            expected={"step", context.step.name, "inst", inst},
+                            feature=context.feature.name,  #
+                            feature_version=misc.define_feature_version(context),  #
                             severity=OutcomeSeverity.PASS, 
-                            feature_version=misc.define_feature_version(context),  # 
                             check_execution_id=random.randint(1, 1000)  # Placeholder random number for check_execution_id
                             )
                         generate_error_message(context, [validation_outcome])

@@ -23,7 +23,7 @@ def step_impl(context, inst, num, constraint, other_entity):
     nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
     amount_found = len([1 for i in nested_entities if i.is_a(other_entity)])
     if not op(amount_found, num):
-        yield StepOutcome(context, num, amount_found)
+        yield StepOutcome(inst=inst, context=context, expected=num, observed=amount_found)
 
 
 @validate_step('It must be nested by only the following entities: {other_entities}')
@@ -33,7 +33,7 @@ def step_impl(context, inst, other_entities):
     nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
     nested_entity_types = set(i.is_a() for i in nested_entities)
     if not nested_entity_types <= allowed_entity_types:
-        yield StepOutcome(context, allowed_entity_types, nested_entity_types)
+        yield StepOutcome(inst=inst, context=context, expected=allowed_entity_types, observed=nested_entity_types)
 
 
 
@@ -63,11 +63,11 @@ def step_impl(context, inst, fragment, other_entity):
         correct_elements = list(filter(lambda x: x.is_a(other_entity), related_entities))
 
         if condition == 'only 1' and len(correct_elements) > 1:
-            yield StepOutcome(context, 1, len(correct_elements))
+            yield StepOutcome(inst=inst, context=context, expected=1, observed=len(correct_elements))
         if condition == 'a list of only':
             if len(getattr(inst, extr['attribute'], [])) > 1:
-                yield StepOutcome(context, other_entity, false_elements)
+                yield StepOutcome(inst=inst, context=context, expected=other_entity, observed=false_elements)
             elif len(false_elements):
-                yield StepOutcome(context, other_entity, false_elements)
+                yield StepOutcome(inst=inst, context=context, expected=other_entity, observed=false_elements)
         if condition == 'only' and len(false_elements):
-            yield StepOutcome(context, correct_elements, false_elements)
+            yield StepOutcome(inst=inst, context=context, expected=correct_elements, observed=false_elements)

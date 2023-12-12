@@ -6,7 +6,7 @@ import os
 from behave import *
 from pathlib import Path
 
-from validation_handling import validate_step, StepOutcome, handle_errors
+from validation_handling import validate_step, StepResult, handle_errors
 
 @then("The value must {constraint}")
 @then("The values must {constraint}")
@@ -32,13 +32,13 @@ def step_impl(context, constraint, num=None):
                 if not values:
                     continue
                 if constraint == 'identical' and not all([values[0] == i for i in values]):
-                    yield StepOutcome(context, constraint, f"Not {constraint}")
+                    yield StepResult(context, expected = constraint, observed = f"Not {constraint}")
                 if constraint == 'unique':
                     seen = set()
                     duplicates = [x for x in values if x in seen or seen.add(x)]
                     if not duplicates:
                         continue
-                    yield StepOutcome(context, constraint, f"Not {constraint}")
+                    yield StepResult(context = context, expected = constraint, observed = f"Not {constraint}")
 
         elif constraint[-5:] == ".csv'":
 
@@ -53,7 +53,7 @@ def step_impl(context, constraint, num=None):
 
                 for iv, value in enumerate(values):
                     if not value in valid_values:
-                        yield StepOutcome(context, constraint, f"Not {constraint}")
+                        yield StepResult(context = context, expected = constraint, observed = f"Not {constraint}")
 
         elif num is not None:
             values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
@@ -65,4 +65,4 @@ def step_impl(context, constraint, num=None):
                     if path[0] in values:
                         num_valid += 1
                 if num is not None and num_valid < num:
-                    yield StepOutcome(context, constraint, f"Not {constraint}")
+                    yield StepResult(context = context, expected = constraint, observed = f"Not {constraint}")

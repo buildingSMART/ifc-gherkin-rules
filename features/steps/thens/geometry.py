@@ -4,7 +4,7 @@ import math
 
 from behave import *
 from utils import geometry, ifc, misc
-from validation_handling import validate_step, StepOutcome
+from validation_handling import validate_step, StepResult
 
 
 @validate_step("It must have no duplicate points {clause} first and last point")
@@ -24,5 +24,5 @@ def step_impl(context, inst, clause):
                     break
         comparison_nr += 1
     if duplicates:
-        yield StepOutcome(inst=inst, context=context, expected="No duplicates", observed="Duplicates found")
+        yield StepResult(xpected="No duplicates", observed="Duplicates found")
 

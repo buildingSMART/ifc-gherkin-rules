@@ -14,15 +14,32 @@ from behave.runner import Context
 from dataclasses import dataclass, asdict, field
 import random
 from pydantic import BaseModel, model_validator, field_validator, Field
-from typing import Any, Optional, List
+from typing import Any, Union
 from typing_extensions import Annotated
 
+class StepResult:
+    def __init__(self, observed, expected, outcome_code=None, warning=None):
+        self.observed = observed
+        self.expected = expected
+        if outcome_code is not None:
+            self.outcome_code = outcome_code
+        if warning is not None:
+            self.warning = warning
+
+    def as_dict(self):
+        """Return a dictionary representation.
+        Outcome_code and warning are optional fields to check manual input of a developer
+        (e.g. adding a warning to a rule or selecting an outcome_code).
+        so they are only included if they are not None."""
+        return {k: v for k, v in self.__dict__.items() if v is not None}
+
 class StepOutcome(BaseModel):
-    inst: ifcopenshell.entity_instance = None
+    inst: Union[ifcopenshell.entity_instance, str] = None
     context : Context
     expected: Any = None
     observed: Any = None
-    outcome_code: Annotated[str, Field(validate_default=True)] = 'N00010' 
+    message: Any = None
+    outcome_code: Annotated[str, Field(validate_default=True, max_length=6)] = 'N00010' 
     severity : Annotated[OutcomeSeverity, Field(validate_default=True)] = OutcomeSeverity.ERROR # severity must be validated after outcome_coxd
 
     def __str__(cls):
@@ -80,6 +97,12 @@ class StepOutcome(BaseModel):
         - @E00001 leads to Severity 'ERROR'
         """
         return getattr(ValidationOutcomeCode, values.data.get('outcome_code')).determine_severity().name
+    
+    # @field_validator('inst')
+
+    @model_validator(mode='after')
+    def compute_message(cls, values):
+        pass
 
 
     # @field_validator('warning', mode='after')
@@ -125,6 +148,15 @@ def extract_instance_data(inst):
     global_id = inst.GlobalId
     return inst.GlobalId, inst.is_a()
 
+def get_optional_fields(result, fields):
+    """
+    Extracts optional fields from a result object.
+
+    :param result: The result object to extract fields from.
+    :param fields: A list of field names to check in the result object.
+    :return: A dictionary with the fields found in the result object.
+    """
+    return {field: getattr(result, field) for field in fields if hasattr(result, field)}
 
 def execute_step(fn):
     @wraps(fn)
@@ -150,25 +182,31 @@ def execute_step(fn):
                     gherkin_outcomes.append(validation_outcome)
 
                 for inst in instances:
-                    error = next(fn(context, inst, **kwargs), None)
-                    if error:
+                    step_results = list(fn(context, inst, **kwargs))
+                    for result in step_results:
                         try:
-                            error.inst = inst.to_string()
+                            inst = inst.to_string()
                         except AttributeError:  # AttributeError: 'entity_instance' object has no attribute 'to_string'
-                            error.inst = str(inst)
+                            inst = str(inst)
+                        step_outcome_data = {
+                            "context": context, # create simple dict with expected/observed values to be used in StepOutcome 
+                            "inst": inst,
+                        }
+
+                        step_outcome = StepOutcome(inst = inst, context=context, **result.as_dict())
 
                         validation_outcome = ValidationOutcome(
-                            outcome_code=getattr(ValidationOutcomeCode, error.outcome_code),
-                            observed = error.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
-                            expected = error.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
+                            outcome_code=getattr(ValidationOutcomeCode, step_outcome.outcome_code),
+                            observed = step_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
+                            expected = step_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
                             feature=context.feature.name,
                             feature_version=misc.define_feature_version(context),
                             severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
                             check_execution_id=random.randint(1, 1000) #Placeholder number for check_execution_id
                         )
-                        gherkin_outcomes.append(error)
+                        gherkin_outcomes.append(step_outcome)
 
-                    elif getattr(context, 'error_on_passed_rule', False):
+                    if not step_results and getattr(context, 'error_on_passed_rule', False):
                         validation_outcome = ValidationOutcome(
                             outcome_code=ValidationOutcomeCode.P00010,  # "Rule passed"
                             observed={"step" , context.step.name,  "inst", inst}, #TODO (parse it correctly)

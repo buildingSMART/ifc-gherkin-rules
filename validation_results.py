@@ -163,15 +163,9 @@ class ValidationOutcome(Base):
 
     #todo q is there a unidirectional one-to-many relationship to IfcInstance ?? -> One instance can have multiple validation outcomes
     instance = relationship("IfcInstance", back_populates="validation_outcomes") # Relationship to IfcInstance
-    ifc_instance_id = Column(Integer, ForeignKey('ifc_instances.id')) # Reference to IfcInstance, one-to-many   
-
-    # @todo move to StepOutcome
-    # def __repr__(self) -> str:
-    #     return f"ValidationResult(id={self.file!r}, validated_on={self.validated_on!r}, " \
-    #            f"reference={self.reference!r}, scenario={self.scenario!r}, " \
-    #            f"severity={self.severity!r}, code={self.code!r}, " \
-    #            f"expected={self.expected!r}, observed={self.observed!r})"
-
+    ifc_instance_id = Column(Integer, ForeignKey('ifc_instances.id')) # Reference to IfcInstance, one-to-many
+    def __str__(self):
+        return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Obverved value: {self.observed}")
 
 #todo q still needed?
 def define_rule_outcome(context):

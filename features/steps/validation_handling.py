@@ -76,7 +76,13 @@ class StepOutcome(BaseModel):
 
         default = cls.model_fields['outcome_code'].default
         if outcome_code == default:
-            outcome_code = next((tag for tag in scenario_tags), next((tag for tag in valid_outcome_codes if tag in feature_tags)))
+            if scenario_tags:
+                outcome_code = scenario_tags[0]
+            elif valid_outcome_codes:
+                for tag in valid_outcome_codes:
+                    if tag in feature_tags:
+                        outcome_code = tag
+                        break
         else:
             # should an implementer be allowed to use a custom outcome code (i.e. not mentioned in the .feature file)?
             assert outcome_code in current_rule_tags, 'Outcome code not included in tags of .feature file' 

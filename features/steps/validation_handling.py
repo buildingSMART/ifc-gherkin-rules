@@ -176,20 +176,21 @@ def execute_step(fn):
         elif step_type.lower() == 'then':
             gherkin_outcomes = []
             if not getattr(context, 'applicable', True):
-                validation_outcome = ValidationOutcome(
-                    outcome_code=ValidationOutcomeCode.N00010,  # "NOT_APPLICABLE", Given statement with schema/mvd check failed
-                    observed=None,
-                    expected=None,
-                    feature=context.feature.name,
-                    feature_version=misc.define_feature_version(context),
-                    severity=OutcomeSeverity.NA,
-                    check_execution_id=check_execution_id
-                )
-                gherkin_outcomes.append(validation_outcome)
+                if not context.config.userdata.get('github-ci-test'):
+                    validation_outcome = ValidationOutcome(
+                        outcome_code=ValidationOutcomeCode.N00010,  # "NOT_APPLICABLE", Given statement with schema/mvd check failed
+                        observed=None,
+                        expected=None,
+                        feature=context.feature.name,
+                        feature_version=misc.define_feature_version(context),
+                        severity=OutcomeSeverity.NA,
+                        check_execution_id=check_execution_id
+                    )
+                    gherkin_outcomes.append(validation_outcome)
             else:
                 instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
-                if not instances: # functional part should be colored in gray ; rule is applicable, but not activated
+                if not context.config.userdata.get('github-ci-test'): # coloring gray or red is not relevant when running pytest or behave from command line
                     validation_outcome = ValidationOutcome(
                         outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning
                         observed=None,
@@ -208,39 +209,45 @@ def execute_step(fn):
                             inst = inst.to_string()
                         except AttributeError:  # AttributeError: 'entity_instance' object has no attribute 'to_string'
                             inst = str(inst)
-                        step_outcome_data = {
-                            "context": context, # create simple dict with expected/observed values to be used in StepOutcome 
-                            "inst": inst,
-                        }
 
-                        step_outcome = StepOutcome(inst = inst, context=context, **result.as_dict())
+                        validation_outcome = StepOutcome(inst = inst, context=context, **result.as_dict())
 
-                        validation_outcome = ValidationOutcome(
-                            outcome_code=getattr(ValidationOutcomeCode, step_outcome.outcome_code),
-                            observed = step_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
-                            expected = step_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
-                            feature=context.feature.name,
-                            feature_version=misc.define_feature_version(context),
-                            severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
-                            check_execution_id=check_execution_id
-                        )
-                        gherkin_outcomes.append(validation_outcome)
-                        generate_error_message(context, [validation_outcome])
-
-                    if not step_results:
-                        validation_outcome = ValidationOutcome(
-                            outcome_code=ValidationOutcomeCode.P00010,  # "Rule passed"
-                            observed={"step" , context.step.name,  "inst", inst}, #TODO (parse it correctly)
-                            expected={"step", context.step.name, "inst", inst},
-                            feature=context.feature.name,  #
-                            feature_version=misc.define_feature_version(context),
-                            severity=OutcomeSeverity.PASS, 
-                            check_execution_id=check_execution_id
+                        if not context.config.userdata.get('github-ci-test'):
+                            validation_outcome = ValidationOutcome(
+                                outcome_code=getattr(ValidationOutcomeCode, validation_outcome.outcome_code),
+                                observed = validation_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
+                                expected = validation_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
+                                feature=context.feature.name,
+                                feature_version=misc.define_feature_version(context),
+                                severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
+                                check_execution_id=check_execution_id
                             )
                         gherkin_outcomes.append(validation_outcome)
 
-                if context.config.userdata.get('github-ci-test'):
-                    for outcome in gherkin_outcomes:
-                        outcome.save_to_db()
+                    if not step_results:
+                        validation_outcome = StepOutcome(inst = inst, 
+                                              context=context,
+                                                expected=None, 
+                                                observed=None) # expected / observed equal on passed rule?
+                        
+                        if not context.config.userdata.get('github-ci-test'):
+                            validation_outcome = ValidationOutcome(
+                                outcome_code=ValidationOutcomeCode.P00010,  # "Rule passed"
+                                observed={"step" , context.step.name,  "inst", inst}, #TODO (parse it correctly)
+                                expected={"step", context.step.name, "inst", inst},
+                                feature=context.feature.name,  #
+                                feature_version=misc.define_feature_version(context),
+                                severity=OutcomeSeverity.PASS, 
+                                check_execution_id=check_execution_id
+                                )
+                        gherkin_outcomes.append(validation_outcome)
+
+            if context.config.userdata.get('github-ci-test'):
+                generate_error_message(context, gherkin_outcomes)
+            else:
+                for outcome in gherkin_outcomes:
+                    context.validation_outcomes.append(outcome)
+                
+
     return inner
 

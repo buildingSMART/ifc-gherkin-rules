@@ -22,8 +22,8 @@ def get_commits(cwd, feature_file):
     return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
 
 
-DEVELOPMENT = os.environ.get('environment', 'production').lower() == 'development'
-NO_POSTGRES = os.environ.get('NO_POSTGRES', '0').lower() in {'1', 'true'}
+DEVELOPMENT = os.environ.get('environment', 'development').lower() == 'development'
+NO_POSTGRES = os.environ.get('NO_POSTGRES', '1').lower() in {'1', 'true'}
 
 class ValidationOutcomeCode(enum.Enum):
     """

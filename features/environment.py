@@ -22,3 +22,4 @@ def before_feature(context, feature):
 
 def before_step(context, step):
     context.step = step
+    context.gherkin_outcomes = []

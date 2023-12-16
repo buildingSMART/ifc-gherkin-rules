@@ -107,19 +107,14 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
                     step_status = step.get('result', {}).get('status')
                     if step_status and step['step_type'] == 'then':
                         try:
-                            results = list(map(json.loads, step['result']['error_message'][1:]))
+                            results = step['result']['error_message']
                         except KeyError:  # THEN not checked
                             results = []
                         except json.decoder.JSONDecodeError:  # THEN not checked
                             results = []
-                        passed = [result for result in results if result['rule_passed']]
-                        failed = [result for result in results if not result['rule_passed']]
-                        for occurence in failed:
-                            inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, occurence["message"]
-                        for occurence in passed:
-                            inst = occurence.get("inst") if instance_as_str else ((occurence["inst_id"], occurence["inst_type"]) if "inst_id" in occurence else None)
-                            yield f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, "Rule passed"
+                        if results:
+                            inst = "TO FILL" # TODO
+                            yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, results
 
     os.close(fd)
     os.unlink(jsonfn)

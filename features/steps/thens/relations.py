@@ -106,6 +106,7 @@ def step_impl(context,inst, decision, relationship, preposition, other_entity, c
         relation = getattr(inst, other_entity_reference)[0]
         relating_element = getattr(relation, other_entity_relation)
         relationship_reached = relating_element.is_a(other_entity)
+        common_directness = required_directness & observed_directness  # values the required and observed situation have in common
         if relationship_reached:
             if check_directness:
                 observed_directness.update({'directly'})

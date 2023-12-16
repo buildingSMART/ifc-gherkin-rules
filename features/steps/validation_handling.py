@@ -20,6 +20,13 @@ check_execution_id = random.randint(1, 1000)  # Placeholder number for check_exe
 
 class StepResult:
     def __init__(self, observed, expected, outcome_code=None, warning=None):
+        """
+        Represents the outcome of a step in a test.
+        To be used in step_impl function and further processed in the StepOutcome class with information from the context and instance.
+
+        The `outcome_code` and `warning` are optional and allow developers to manually 
+        specify additional details in the step implementation if needed.
+        """
         self.observed = observed
         self.expected = expected
         if outcome_code is not None:

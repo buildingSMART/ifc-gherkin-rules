@@ -38,7 +38,7 @@ def step_impl(context, constraint, num=None):
                     duplicates = [x for x in values if x in seen or seen.add(x)]
                     if not duplicates:
                         continue
-                    yield StepResult(context = context, expected = constraint, observed = f"Not {constraint}")
+                    yield StepResult(expected = constraint, observed = f"Not {constraint}")
 
         elif constraint[-5:] == ".csv'":
 

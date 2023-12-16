@@ -19,8 +19,7 @@ def step_impl(context, inst, constraint, num, entity):
 
     if getattr(context, 'applicable', True):
 
-        if not isinstance(inst,list):
-            inst = [inst]
+        instances_in_model = context.model.by_type(inst.get_info()["type"])
 
-        if not op(len(inst), num):
-            yield StepResult(expected=num, observed=len(inst))
+        if not op(len(instances_in_model), num):
+            yield StepResult(expected=num, observed=len(instances_in_model))

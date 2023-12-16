@@ -15,7 +15,7 @@ The rule verifies that IfcAlignmentVertical is represented correctly with repres
   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation - Value
 
     Then The value of attribute RepresentationIdentifier must be Axis
-    Then The value of attribute RepresentationType must be Curve2D
+    Then The value of attribute RepresentationType must be Curve3D
 
 
   @E00010

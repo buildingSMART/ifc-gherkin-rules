@@ -44,7 +44,7 @@ class StepOutcome(BaseModel):
     severity : Annotated[OutcomeSeverity, Field(validate_default=True)] = OutcomeSeverity.ERROR # severity must be validated after outcome_coxd
 
     def __str__(cls):
-        return(f"Step finished with a/an {cls.severity} {cls.outcome_code}. Expected value: {cls.expected}. Obverved value: {cls.observed}")
+        return(f"Step finished with a/an {cls.severity} {cls.outcome_code}. Expected value: {cls.expected}. Observed value: {cls.observed}")
 
     @field_validator('outcome_code')
     @classmethod
@@ -139,7 +139,7 @@ def handle_errors(fn):
 
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str
-    assert not errors, "Errors occured"  #TODO
+    assert not errors, "Errors occured:\n{}".format([str(error) for error in errors])
 
 def validate_step(step_text):
     def wrapped_step(func):
@@ -209,8 +209,8 @@ def execute_step(fn):
                             outcome_code=getattr(ValidationOutcomeCode, validation_outcome.outcome_code),
                             # observed = validation_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
                             # expected = validation_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
-                            observed='',  # TODO (parse it correctly)
-                            expected='',  # TODO (parse it correctly)
+                            observed=validation_outcome.model_dump(include=('observed'))["observed"],  # TODO (parse it correctly)
+                            expected=validation_outcome.model_dump(include=('expected'))["expected"],  # TODO (parse it correctly)
                             feature=context.feature.name,
                             feature_version=misc.define_feature_version(context),
                             severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
@@ -219,6 +219,10 @@ def execute_step(fn):
                         context.gherkin_outcomes.append(validation_outcome)
 
                     if not step_results:
+
+                        if isinstance(inst, (tuple, list)): # TODO -> this is quite dirty temp solution. Done because @given('Its attribute {attribute}') return a tuple, not an instance
+                            inst = inst[0]
+
                         StepOutcome(inst=inst,
                                     context=context,
                                     expected=None,

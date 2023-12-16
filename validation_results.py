@@ -165,7 +165,7 @@ class ValidationOutcome(Base):
     instance = relationship("IfcInstance", back_populates="validation_outcomes") # Relationship to IfcInstance
     ifc_instance_id = Column(Integer, ForeignKey('ifc_instances.id')) # Reference to IfcInstance, one-to-many
     def __str__(self):
-        return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Obverved value: {self.observed}")
+        return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}")
 
 #todo q still needed?
 def define_rule_outcome(context):

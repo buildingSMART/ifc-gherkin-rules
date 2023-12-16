@@ -18,5 +18,9 @@ def step_impl(context, inst, constraint, num, entity):
     op = misc.stmt_to_op(constraint)
 
     if getattr(context, 'applicable', True):
+
+        if not isinstance(inst,list):
+            inst = [inst]
+
         if not op(len(inst), num):
             yield StepResult(expected=num, observed=len(inst))

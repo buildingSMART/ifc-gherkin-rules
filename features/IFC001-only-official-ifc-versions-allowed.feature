@@ -1,6 +1,8 @@
 @implementer-agreement
 @critical
 @IFC
+@version1
+@W00030
 Feature: IFC101 - Only Official IFC versions allowed
 
 This rule verifies that the IFC model has a schema identifier corresponding to any of the official versions released by buildingSMART.

@@ -67,3 +67,15 @@ def step_impl(context, inst, attribute, value):
     attribute_value = getattr(inst, attribute, 'Attribute not found')
     if not pred(attribute_value, value):
         yield StepResult(expected=value, observed=attribute_value)
+
+@validate_step('The {field} of the {file_or_model} must be "{values}"')
+def step_impl(context, inst, field, file_or_model, values):
+    values = misc.strip_split(values, strp='"', splt=' or ')
+    if field == "Schema Identifier":
+        s = context.model.schema_identifier
+        if not s.lower() in values:
+            yield StepResult(expected=values, observed=s)
+    elif field == "Schema" and not context.model.schema in values:
+        s = context.model.schema
+        if not s.lower() in values:
+            yield StepResult(expected=values, observed=s)

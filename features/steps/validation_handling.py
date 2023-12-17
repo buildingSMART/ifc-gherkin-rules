@@ -169,6 +169,22 @@ def get_optional_fields(result, fields):
     """
     return {field: getattr(result, field) for field in fields if hasattr(result, field)}
 
+def get_stack_tree(context):
+    """Returns the stack tree of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
+    return list(
+        filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+
+def check_layer_for_entity_instance(i, stack_tree):
+    for layer in stack_tree:
+        if len(layer) > i and layer[i] and isinstance(layer[i], ifcopenshell.entity_instance):
+            return layer[i]
+    return None
+
+def get_activation_instances(context):
+    """Returns the activation instances of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
+    stack_tree = get_stack_tree(context)
+    return [check_layer_for_entity_instance(i, stack_tree) for i in range(len(stack_tree[0]))]
+
 def execute_step(fn):
     @wraps(fn)
     #@todo gh break function down into smaller functions
@@ -189,7 +205,16 @@ def execute_step(fn):
                 )
                 context.gherkin_outcomes.append(validation_outcome)
             else:
+                # Note the distinction between 'instances' and 'activation_instances' in the context. Activation is retrieved from 'An IfcEntity' given statement.
+                # instances = getattr(context, 'activation_instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
                 instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
+
+                #exclude empty list from instances or no stack_tree; e.g. in case of SPS001
+                try:
+                    activation_instances = get_activation_instances(context) if instances and get_stack_tree(context) else instances
+                except TypeError: #e.g. with IFC001
+                    activation_instances = instances
+
 
                 validation_outcome = ValidationOutcome(
                     outcome_code=ValidationOutcomeCode.X00040,  # "Executed", but not no error/pass/warning
@@ -202,7 +227,8 @@ def execute_step(fn):
                 )
                 context.gherkin_outcomes.append(validation_outcome)
 
-                for inst in instances:
+                for i, inst in enumerate(instances):
+                    activation_inst = inst if activation_instances==instances else activation_instances[i]
                     step_results = list(fn(context, inst, **kwargs))
                     for result in step_results:
                         try:
@@ -210,7 +236,7 @@ def execute_step(fn):
                         except AttributeError:  # AttributeError: 'entity_instance' object has no attribute 'to_string'
                             inst = str(inst)
 
-                        validation_outcome = StepOutcome(inst=inst, context=context, **result.as_dict())
+                        validation_outcome = StepOutcome(inst=activation_inst, context=context, **result.as_dict())
 
                         validation_outcome = ValidationOutcome(
                             outcome_code=getattr(ValidationOutcomeCode, validation_outcome.outcome_code),
@@ -230,7 +256,7 @@ def execute_step(fn):
                         if isinstance(inst, (tuple, list)): # TODO -> this is quite dirty temp solution. Done because @given('Its attribute {attribute}') return a tuple, not an instance
                             inst = inst[0]
 
-                        StepOutcome(inst=inst,
+                        StepOutcome(inst=activation_inst,
                                     context=context,
                                     expected=None,
                                     observed=None)  # expected / observed equal on passed rule?
@@ -247,7 +273,7 @@ def execute_step(fn):
                             check_execution_id=check_execution_id
                         )
                     context.gherkin_outcomes.append(validation_outcome)
-
-            generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity == OutcomeSeverity.ERROR])
+            
+                generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity == OutcomeSeverity.ERROR])
 
     return inner

@@ -5,7 +5,7 @@ Feature: ALS004 - Alignment segment shape representation
 The rule verifies that each IfcAlignmentSegment uses correct representation.
 
     Background:
-        Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+        Given A model with Schema "IFC4.3"
         Given An IfcAlignmentSegment
         Given Its attribute Representation
         Given Its attribute Representations

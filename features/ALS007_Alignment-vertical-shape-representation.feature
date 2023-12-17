@@ -5,11 +5,11 @@ Feature: ALS007 - Alignment vertical shape representation
 The rule verifies that IfcAlignmentVertical is represented correctly with representation type Curve3D and representation item IfcGradientCurve.
 
   Background:
-    Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+    Given A model with Schema "IFC4.3"
     Given An IfcAlignmentVertical
     Given Its attribute Representation
     Given Its attribute Representations
-    
+
 
   @E00020
   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation - Value

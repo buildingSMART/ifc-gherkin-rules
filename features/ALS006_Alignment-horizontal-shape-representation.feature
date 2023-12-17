@@ -5,7 +5,7 @@ Feature: ALS006 - Alignment horizontal shape representation
 The rule verifies that IfcAlignmentHorizontal is represented correctly with representation type Curve2D and representation item either IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline.
 
   Background:
-    Given A file with Schema Identifier "IFC4X3_TC1" or "IFC4X3_ADD1" or "IFC4X3"
+    Given A model with Schema "IFC4.3"
     Given An IfcAlignmentHorizontal
     Given Its attribute Representation
     Given Its attribute Representations

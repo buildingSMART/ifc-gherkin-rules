@@ -167,9 +167,6 @@ class ValidationOutcome(Base):
 
 
 def flush_results_to_db(results):
-    host = os.environ.get('POSTGRES_HOST', 'localhost')
-    password = os.environ['POSTGRES_PASSWORD']
-    engine = create_engine(f"postgresql://postgres:{password}@{host}:5432/bimsurfer2")
     with Session(engine) as session:
         for result in results:
             session.add(result)

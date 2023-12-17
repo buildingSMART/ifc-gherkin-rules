@@ -30,5 +30,5 @@ def before_step(context, step):
     context.step = step
 
 def after_feature(context, feature):
-    if (not DEVELOPMENT) and (not NO_POSTGRES): # TODO a bit awkward, but keeping the previous namings
+    if (not DEVELOPMENT) and (not NO_POSTGRES) and (context.config.userdata.get('execution_mode') != 'testing'): # TODO a bit awkward, but keeping the previous namings
         flush_results_to_db(context.gherkin_outcomes)

@@ -9,7 +9,6 @@ import os
 import functools
 import subprocess
 
-from utils import *
 
 
 @functools.lru_cache(maxsize=16)
@@ -92,7 +91,6 @@ else:
     password = os.environ['POSTGRES_PASSWORD']
     engine = create_engine(f"postgresql://postgres:{password}@{host}:5432/bimsurfer2")
 
-Session = sessionmaker(bind=engine)
 
 class Serializable(object):
     def serialize(self, full=False):
@@ -167,39 +165,16 @@ class ValidationOutcome(Base):
     def __str__(self):
         return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}")
 
-#todo q still needed?
-def define_rule_outcome(context):
-    if not context.applicable:
-        return OutcomeSeverity.NA
-    elif context.errors:  # TODO -> this will be more complex
-        return OutcomeSeverity.ERROR
-    else:   
-        return OutcomeSeverity.PASS
 
-#todo q still needed?
-def define_outcome_code(context, rule_outcome):
-    if rule_outcome == OutcomeSeverity.PASS:
-        return ValidationOutcomeCode.P00010
-    elif rule_outcome == OutcomeSeverity.NA:
-        return ValidationOutcomeCode.N00010
-    elif rule_outcome == OutcomeSeverity.WARNING:
-        return ValidationOutcomeCode.W00030
-    elif rule_outcome == OutcomeSeverity.ERROR:
-        validation_keys_set = {code.name for code in ValidationOutcomeCode}
-        try:
-            return next((tag for tag in context.scenario.tags), next((tag for tag in validation_keys_set if tag in context.tags)))
-        except StopIteration:
-            raise AssertionError(f'Outcome code not included in tags of .feature file: {context.feature.filename}')
+def flush_results_to_db(results):
+    host = os.environ.get('POSTGRES_HOST', 'localhost')
+    password = os.environ['POSTGRES_PASSWORD']
+    engine = create_engine(f"postgresql://postgres:{password}@{host}:5432/bimsurfer2")
+    with Session(engine) as session:
+        for result in results:
+            session.add(result)
+        session.commit()
 
-#todo q still needed?
-def define_data(context):
-    data = {"file": os.path.basename(context.config.userdata['input']),
-            "ifc_filepath": context.config.userdata.get('input'),
-            "validated_on": str(datetime.now()),
-            "expected_value": define_expected_value(context),
-            "observed_value": define_observed_value(context), }
-
-    return data
 
 def initialize():
     if not database_exists(engine.url):

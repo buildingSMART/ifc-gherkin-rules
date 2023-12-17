@@ -1,5 +1,10 @@
+import os
 import ifcopenshell
 from behave.model import Scenario
+from validation_results import flush_results_to_db
+
+DEVELOPMENT = os.environ.get('environment', 'development').lower() == 'development'
+NO_POSTGRES = os.environ.get('NO_POSTGRES', '1').lower() in {'1', 'true'}
 
 model_cache = {}
 def read_model(fn):
@@ -19,7 +24,11 @@ def before_feature(context, feature):
 
     context.model = read_model(context.config.userdata["input"])
     Scenario.continue_after_failed_step = True
+    context.gherkin_outcomes = []
 
 def before_step(context, step):
     context.step = step
-    context.gherkin_outcomes = []
+
+def after_feature(context, feature):
+    if (not DEVELOPMENT) and (not NO_POSTGRES): # TODO a bit awkward, but keeping the previous namings
+        flush_results_to_db(context.gherkin_outcomes)

@@ -12,8 +12,9 @@ from enum import Flag, auto
 class RuleType(Flag):
     INFORMAL_PROPOSITION = auto()
     IMPLEMENTER_AGREEMENT = auto()
-    ALL = INFORMAL_PROPOSITION | IMPLEMENTER_AGREEMENT
-
+    BLOCKING = auto()
+    ALL = INFORMAL_PROPOSITION | IMPLEMENTER_AGREEMENT | BLOCKING
+    
     @staticmethod
     def from_argv(argv):
         try:
@@ -49,9 +50,9 @@ def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_out
 
     tag_filter = []
     if rule_type != RuleType.ALL:
-        tag_filter.append(
+        tag_filter = [
             '--tags=' + ' and '.join(['@' + nm.lower().replace("_", "-") for nm, v in RuleType.__members__.items() if v in rule_type])
-        )
+        ]
     else:
         tag_filter.append('--tags=-disabled')
 

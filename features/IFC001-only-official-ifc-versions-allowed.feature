@@ -1,5 +1,4 @@
-@implementer-agreement
-@critical
+@blocking
 @IFC
 Feature: IFC101 - Only Official IFC versions allowed
 

@@ -228,7 +228,7 @@ def execute_step(fn):
 
                 for i, inst in enumerate(instances):
                     activation_inst = inst if activation_instances==instances else activation_instances[i]
-                    step_results = list(fn(context, inst, **kwargs))
+                    step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
                     for result in step_results:
                         try:
                             inst = inst.to_string()

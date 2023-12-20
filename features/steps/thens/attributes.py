@@ -26,12 +26,6 @@ def step_impl(context, inst, entity, other_entity, relationship):
                 yield StepResult(expected=relating_obj_placement, observed=entity_obj_placement_rel)
 
 
-@validate_step('The {representation_id} shape representation has RepresentationType "{representation_type}"')
-def step_impl(context, inst, representation_id, representation_type):
-    if ifc.instance_getter(inst, representation_id, representation_type, 1):
-        yield StepResult(expected=representation_type, observed=None)
-
-
 @validate_step('The relative placement of that {entity} must be provided by an {other_entity} entity')
 def step_impl(context, inst, entity, other_entity):
     if not misc.do_try(lambda: inst.ObjectPlacement.is_a(other_entity), False):

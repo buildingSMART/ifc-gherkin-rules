@@ -45,34 +45,24 @@ def step_impl(context, inst, csv_file):
     return []
 
 
-@then('At least "{num:d}" value must {constraint}')
-@then('At least "{num:d}" values must {constraint}')
-@handle_errors
-def step_impl(context, constraint, num=None):
-    errors = []
+@validate_step('At least "{num:d}" value must {constraint}')
+@validate_step('At least "{num:d}" values must {constraint}')
+def step_impl(context, inst, constraint, num):
+    stack_tree = list(
+        filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
 
-    within_model = getattr(context, 'within_model', False)
+    if num is not None:
+        values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
 
-    #to account for order-dependency of removing characters from constraint
-    while constraint.startswith('be ') or constraint.startswith('in '):
-        constraint = constraint[3:]
+        if stack_tree:
+            num_valid = 0
+            for i in range(len(stack_tree[0])):
+                path = [l[i] for l in stack_tree]
+                if path[0] in values:
+                    num_valid += 1
+            if num is not None and num_valid < num:
+                yield StepResult(context = context, expected = constraint, observed = f"Not {constraint}")
 
-    if getattr(context, 'applicable', True):
-        stack_tree = list(
-            filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-        instances = [context.instances] if within_model else context.instances
-
-        if num is not None:
-            values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
-
-            if stack_tree:
-                num_valid = 0
-                for i in range(len(stack_tree[0])):
-                    path = [l[i] for l in stack_tree]
-                    if path[0] in values:
-                        num_valid += 1
-                if num is not None and num_valid < num:
-                    yield StepResult(context = context, expected = constraint, observed = f"Not {constraint}")
 
 @then("The value must {constraint:unique_or_identical}")
 @then("The values must {constraint:unique_or_identical}")

@@ -73,7 +73,7 @@ def step_impl(context, related, relating, other_entity, condition):
 
 
 @validate_step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
-def step_impl(context,inst, decision, relationship, preposition, other_entity, condition):
+def step_impl(context, inst, decision, relationship, preposition, other_entity, condition, *args):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
 

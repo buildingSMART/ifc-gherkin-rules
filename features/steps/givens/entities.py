@@ -5,9 +5,11 @@ import pyparsing
 from behave import *
 from utils import misc
 
+from validation_handling import validate_step
 
-@given("An {entity_opt_stmt}")
-@given("All {insts} of {entity_opt_stmt}")
+
+@validate_step("An {entity_opt_stmt}")
+@validate_step("All {insts} of {entity_opt_stmt}")
 def step_impl(context, entity_opt_stmt, insts=False):
     within_model = (insts == 'instances')  # True for given statement containing {insts}
 

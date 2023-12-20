@@ -5,10 +5,11 @@ import itertools
 from behave import *
 from utils import geometry, ifc, misc, system
 from parse_type import TypeBuilder
+from validation_handling import validate_step
 
 register_type(file_or_model=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("file", "model")))))
 
-@given("{attribute} = {value}")
+@validate_step("{attribute} = {value}")
 def step_impl(context, attribute, value):
     pred = operator.eq
     if value == 'empty':
@@ -28,7 +29,7 @@ def step_impl(context, attribute, value):
     )
 
 
-@given('{attr} forms {closed_or_open} curve')
+@validate_step('{attr} forms {closed_or_open} curve')
 def step_impl(context, attr, closed_or_open):
     assert closed_or_open in ('a closed', 'an open')
     should_be_closed = closed_or_open == 'a closed'
@@ -46,7 +47,7 @@ def step_impl(context, attr, closed_or_open):
     )
 
 
-@given('A {file_or_model} with {field} "{values}"')
+@validate_step('A {file_or_model} with {field} "{values}"')
 def step_impl(context, file_or_model, field, values):
     values = misc.strip_split(values, strp='"', splt=' or ')
     values = ['ifc4x3' if i.lower() == 'ifc4.3' else i for i in values] # change to IFC4X3 to check in IfcOpenShell
@@ -63,7 +64,7 @@ def step_impl(context, file_or_model, field, values):
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 
-@given('Its attribute {attribute}')
+@validate_step('Its attribute {attribute}')
 def step_impl(context, attribute):
     context._push()
     context.instances = misc.map_state(context.instances, lambda i: getattr(i, attribute, None))
@@ -75,6 +76,6 @@ def step_impl(context, representation_id, representation_type):
     context.instances = list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type), context.instances))))
 
 
-@given("An IFC model")
+@validate_step("An IFC model")
 def step_impl(context):
     context.instances = context.model

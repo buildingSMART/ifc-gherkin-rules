@@ -26,7 +26,7 @@ def find_top_layer_values_for_instance(context, instance):
             index = layer.index(instance)
             return top_layer[index] if index < len(top_layer) else None
 
-    return None  # Return None if the instance is not found
+    return None
 
 
 @validate_step("The value must be in '{csv_file}.csv'")

@@ -24,5 +24,5 @@ def step_impl(context, inst, clause):
                     break
         comparison_nr += 1
     if duplicates:
-        yield StepResult(xpected="No duplicates", observed="Duplicates found")
+        yield StepResult(expected="No duplicates", observed="Duplicates found")
 

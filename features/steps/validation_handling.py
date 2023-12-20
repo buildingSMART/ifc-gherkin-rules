@@ -192,7 +192,10 @@ def execute_step(fn):
     def inner(context, **kwargs):
         step_type = context.step.step_type
         if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
-            next(fn(context, **kwargs), None)
+            try:
+                next(fn(context, **kwargs), None)
+            except TypeError:
+                pass
         elif step_type.lower() == 'then':
             if not getattr(context, 'applicable', True):
                 validation_outcome = ValidationOutcome(

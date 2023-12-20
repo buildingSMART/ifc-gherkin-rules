@@ -10,23 +10,7 @@ from validation_handling import validate_step, StepResult, handle_errors
 
 from parse_type import TypeBuilder
 register_type(unique_or_identical=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("be unique", "be identical"))))) # todo @gh remove 'be' from enum values
-
-def get_stack_tree(context):
-    """Returns the stack tree of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
-    return list(
-        filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-
-def find_top_layer_values_for_instance(context, instance):
-    """Returns the values of the top layer of the stack tree for the given (activation) instance"""
-    stack_tree = get_stack_tree(context)
-    top_layer = stack_tree[0]
-
-    for layer in stack_tree[1:]:
-        if instance in layer:
-            index = layer.index(instance)
-            return top_layer[index] if index < len(top_layer) else None
-
-    return None
+register_type(value_or_type=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("value", "type"))))) # todo @gh remove 'be' from enum values
 
 
 @validate_step("The value must be in '{csv_file}.csv'")
@@ -61,10 +45,10 @@ def step_impl(context, inst, constraint, num):
                 if path[0] in values:
                     num_valid += 1
             if num is not None and num_valid < num:
-                yield StepResult(context = context, expected = constraint, observed = f"Not {constraint}")
+                yield StepResult(expected = constraint, observed = f"Not {constraint}")
 
 
-@then("The value must {constraint:unique_or_identical}")
+@then("The {value} must {constraint:unique_or_identical}")
 @then("The values must {constraint:unique_or_identical}")
 @handle_errors
 def step_impl(context, constraint, num=None):
@@ -93,3 +77,32 @@ def step_impl(context, constraint, num=None):
                     if not duplicates:
                         continue
                     yield StepResult(context, constraint, f"Not {constraint}")
+
+
+def recursive_unpack_value(item):
+    """Unpacks a tuple recursively, returning the first non-empty item
+    For instance, (,'Body') will return 'Axis'
+    and (((IfcEntityInstance.)),) will return IfcEntityInstance
+
+    Note that it will only work for a single value. E.g. not values for statements like 
+    "The values must be X"
+    as ('Axis', 'Body') will return 'Axis' 
+    """
+    if isinstance(item, tuple):
+        if len(item) == 0:
+            return None
+        elif len(item) == 1 or not item[0]:
+            return recursive_unpack_value(item[1]) if len(item) > 1 else recursive_unpack_value(item[0])
+        else:
+            return item[0]
+    return item
+
+
+@validate_step('The {i:value_or_type} must be "{value}"')
+def step_impl(context, inst, i, value):
+    inst = recursive_unpack_value(inst)
+    if isinstance(inst, ifcopenshell.entity_instance):
+        inst = inst.is_a() # another option would be to let this depend on 'type'. E.g. if i is 'type', then always check for entity_instance
+
+    if inst != value:
+        yield StepResult(expected = value, observed=inst)

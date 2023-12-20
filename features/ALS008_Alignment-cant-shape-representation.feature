@@ -13,11 +13,19 @@ Background:
   @E00020
   Scenario: Agreement on each IfcAlignmentCant using correct representation - Value
 
-    Then The value of attribute RepresentationIdentifier must be Axis
-    Then The value of attribute RepresentationType must be Curve3D
+      Given Its attribute RepresentationIdentifier
+      Then The value must be "Axis"
+
+  
+  @E00020
+  Scenario: Agreement on each IfcAlignmentCant using correct representation - Type
+
+      Given Its attribute RepresentationType 
+      Then The value must be "Curve3D"
 
 
   @E00010
-  Scenario: Agreement on each IfcAlignmentCant using correct representation - Type
+  Scenario: Agreement on each IfcAlignmentCant using correct representation items - Type
 
-    Then  The type of attribute Items must be IfcSegmentedReferenceCurve
+      Given Its attribute Items
+      Then  The type must be "IfcSegmentedReferenceCurve"

@@ -148,11 +148,6 @@ def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str
     assert not errors, "Errors occured:\n{}".format([str(error) for error in errors])
 
-def validate_step(step_text):
-    def wrapped_step(func):
-        return step(step_text)(execute_step(func))
-
-    return wrapped_step
 
 
 def extract_instance_data(inst):
@@ -185,6 +180,12 @@ def get_activation_instances(context):
     stack_tree = get_stack_tree(context)
     return [check_layer_for_entity_instance(i, stack_tree) for i in range(len(stack_tree[0]))]
 
+def validate_step(step_text):
+    def wrapped_step(func):
+        return step(step_text)(execute_step(func))
+
+    return wrapped_step
+
 def execute_step(fn):
     @wraps(fn)
     #@todo gh break function down into smaller functions
@@ -205,8 +206,6 @@ def execute_step(fn):
                 )
                 context.gherkin_outcomes.append(validation_outcome)
             else:
-                # Note the distinction between 'instances' and 'activation_instances' in the context. Activation is retrieved from 'An IfcEntity' given statement.
-                # instances = getattr(context, 'activation_instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
                 instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
                 #exclude empty list from instances or no stack_tree; e.g. in case of SPS001

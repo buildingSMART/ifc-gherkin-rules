@@ -90,27 +90,27 @@ class StepOutcome(BaseModel):
                         break
         else:
             # should an implementer be allowed to use a custom outcome code (i.e. not mentioned in the .feature file)?
-            assert outcome_code in current_rule_tags, 'Outcome code not included in tags of .feature file' 
+            assert outcome_code in current_rule_tags, 'Outcome code not included in tags of .feature file'
         assert getattr(ValidationOutcomeCode, outcome_code).determine_severity().name in ["ERROR", "WARNING"], "Outcome code at step implementation must be either ERROR or WARNING"
         return outcome_code
-    
+
     @field_validator('severity')
     @classmethod
     def valid_severity(cls, severity : OutcomeSeverity, values):
         """
-        Validates and determines the severity of a step implementation in a Pydantic model. 
-        In Pydantic, field validation follows the order in which fields are defined in the model. 
+        Validates and determines the severity of a step implementation in a Pydantic model.
+        In Pydantic, field validation follows the order in which fields are defined in the model.
         Therefore, the 'severity' field will be validated after the 'outcome_code' field.
 
-        To set the severity to 'WARNING', the 'outcome_code' must correspond to a code beginning with 'W'. 
-        Conversely, to set the severity to 'ERROR', the 'outcome_code' should start with 'E'. 
+        To set the severity to 'WARNING', the 'outcome_code' must correspond to a code beginning with 'W'.
+        Conversely, to set the severity to 'ERROR', the 'outcome_code' should start with 'E'.
         For example:
 
         - @W00001 leads to Severity 'WARNING'
         - @E00001 leads to Severity 'ERROR'
         """
         return getattr(ValidationOutcomeCode, values.data.get('outcome_code')).determine_severity().name
-    
+
     # @field_validator('inst')
 
 
@@ -119,7 +119,7 @@ class StepOutcome(BaseModel):
     #     pass
         # if values.get('warning'):
         #     return True
-        
+
         # has_warning_tag = lambda tags: any(tag.lower() == 'warning' for tag in tags)
 
         # if has_warning_tag(values.get('context').scenario.tags) or \
@@ -127,7 +127,7 @@ class StepOutcome(BaseModel):
         #     return True
 
         # return False
-    
+
 
     class Config:
         arbitrary_types_allowed = True
@@ -171,10 +171,13 @@ def check_layer_for_entity_instance(i, stack_tree):
             return layer[i]
     return None
 
-def get_activation_instances(context):
+def get_activation_instances(context, instances):
     """Returns the activation instances of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
     stack_tree = get_stack_tree(context)
-    return [check_layer_for_entity_instance(i, stack_tree) for i in range(len(stack_tree[0]))]
+    if isinstance(stack_tree[0], list):
+        return [check_layer_for_entity_instance(i, stack_tree) for i in range(len(stack_tree[0]))]
+    else:  # e.g. with IFC001, where stack is ifcopenshell.file.file
+        return instances
 
 def validate_step(step_text):
     def wrapped_step(func):
@@ -209,7 +212,7 @@ def execute_step(fn):
 
                 #exclude empty list from instances or no stack_tree; e.g. in case of SPS001
                 try:
-                    activation_instances = get_activation_instances(context) if instances and get_stack_tree(context) else instances
+                    activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
                 except TypeError: #e.g. with IFC001
                     activation_instances = instances
 
@@ -269,7 +272,7 @@ def execute_step(fn):
                             check_execution_id=check_execution_id
                         )
                     context.gherkin_outcomes.append(validation_outcome)
-            
+
                 generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity >= OutcomeSeverity.WARNING])
 
     return inner

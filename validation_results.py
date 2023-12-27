@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Integer, String, Column, DateTime, Foreign
 from sqlalchemy.orm import Session, mapped_column, sessionmaker, relationship, DeclarativeBase
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.inspection import inspect
+from functools import total_ordering
 from datetime import datetime
 import enum
 from sqlalchemy import Enum
@@ -66,7 +67,7 @@ class ValidationOutcomeCode(enum.Enum):
                 return OutcomeSeverity.ERROR
             case _:
                 raise ValueError(f"Outcome code {self.name} not recognized")
-
+@total_ordering
 class OutcomeSeverity(enum.Enum):
     """
     Based on Scotts models.py
@@ -81,6 +82,12 @@ class OutcomeSeverity(enum.Enum):
     PASS = 2
     WARNING = 3
     ERROR = 4
+
+    def __ge__(self, other):
+        if isinstance(other, OutcomeSeverity):
+            return self.value >= other.value
+
+        raise TypeError(f"Unsupported operand type(s) for >=: '{type(self)}' and '{type(other)}'")
 
 
 if DEVELOPMENT or NO_POSTGRES:

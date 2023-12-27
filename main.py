@@ -6,7 +6,7 @@ import subprocess
 import sys
 import tempfile
 import functools
-from enum import Flag, auto
+from enum import Flag, auto, Enum
 
 import validation_results
 
@@ -22,6 +22,10 @@ class RuleType(Flag):
             return functools.reduce(operator.or_, (v for nm, v in RuleType.__members__.items() if "--" + nm.lower().replace("_", "-") in argv))
         except:
             return RuleType.ALL
+
+class ExecutionMode(Enum):
+    TESTING = 0
+    PRODUCTION = 1
 
 
 @functools.lru_cache(maxsize=16)
@@ -43,7 +47,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_output=False, execution_mode = 'production'):
+def run(filename, instance_as_str=True, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 

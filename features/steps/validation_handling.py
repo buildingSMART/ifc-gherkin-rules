@@ -46,7 +46,6 @@ class StepOutcome(BaseModel):
     context: Context
     expected: Any = None
     observed: Any = None
-    message: Any = None
     outcome_code: Annotated[str, Field(validate_default=True, max_length=6)] = 'N00010'
     severity : Annotated[OutcomeSeverity, Field(validate_default=True)] = OutcomeSeverity.ERROR # severity must be validated after outcome_coxd
 
@@ -114,9 +113,6 @@ class StepOutcome(BaseModel):
     
     # @field_validator('inst')
 
-    @model_validator(mode='after')
-    def compute_message(cls, values):
-        pass
 
     # @field_validator('warning', mode='after')
     # def validate_warning(cls, value, values):
@@ -265,10 +261,8 @@ def execute_step(fn):
 
                         validation_outcome = ValidationOutcome(
                             outcome_code=ValidationOutcomeCode.P00010,  # "Rule passed"
-                            # observed = validation_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
-                            # expected = validation_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
-                            observed='',  # TODO (parse it correctly)
-                            expected='',  # TODO (parse it correctly)
+                            observed=None,
+                            expected=None,
                             feature=context.feature.name,  #
                             feature_version=misc.define_feature_version(context),
                             severity=OutcomeSeverity.PASS,
@@ -276,6 +270,6 @@ def execute_step(fn):
                         )
                     context.gherkin_outcomes.append(validation_outcome)
             
-                generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity == OutcomeSeverity.ERROR])
+                generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity >= OutcomeSeverity.WARNING])
 
     return inner

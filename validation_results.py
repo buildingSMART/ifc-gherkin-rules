@@ -76,11 +76,11 @@ class OutcomeSeverity(enum.Enum):
     WARNING - validation was performed, with a warning.
     ERROR - a validation requirement is not met
     """
-    PASS = 0
+    EXECUTED = 0
     NA = 1
-    WARNING = 2
-    ERROR = 3
-    EXECUTED = 4
+    PASS = 2
+    WARNING = 3
+    ERROR = 4
 
 
 if DEVELOPMENT or NO_POSTGRES:
@@ -152,7 +152,7 @@ class ValidationOutcome(Base):
     expected = Column(JSON, nullable=True)
     feature = Column(String, nullable=True)  # ALS004
     feature_version = Column(Integer)  # 1
-    severity = Column(Enum(OutcomeSeverity), nullable=True)  # ERROR = 3
+    severity = Column(Enum(OutcomeSeverity), nullable=True)  # ERROR = 4
 
 
     #todo q is there a unidirectional relationship to CheckExecution ??

@@ -1,4 +1,3 @@
-import errors as err
 import itertools
 import math
 

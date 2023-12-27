@@ -1,5 +1,4 @@
 import csv
-import errors as err
 import ifcopenshell
 import os
 

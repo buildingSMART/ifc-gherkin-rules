@@ -1,4 +1,3 @@
-import errors as err
 import functools
 import operator
 import pyparsing
@@ -33,7 +32,7 @@ def step_impl(context, inst, other_entities):
     nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
     nested_entity_types = set(i.is_a() for i in nested_entities)
     if not nested_entity_types <= allowed_entity_types:
-        yield StepResult(expected=allowed_entity_types, observed=nested_entity_types)
+        yield StepResult(expected=str(allowed_entity_types), observed=str(nested_entity_types))
 
 
 

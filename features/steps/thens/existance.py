@@ -1,4 +1,3 @@
-import errors as err
 import operator
 
 from behave import *

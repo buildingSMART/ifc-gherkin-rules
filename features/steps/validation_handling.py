@@ -210,12 +210,7 @@ def execute_step(fn):
             else:
                 instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
-                #exclude empty list from instances or no stack_tree; e.g. in case of SPS001
-                try:
-                    activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
-                except TypeError: #e.g. with IFC001
-                    activation_instances = instances
-
+                activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
 
                 validation_outcome = ValidationOutcome(
                     outcome_code=ValidationOutcomeCode.X00040,  # "Executed", but not no error/pass/warning
@@ -232,19 +227,13 @@ def execute_step(fn):
                     activation_inst = inst if activation_instances==instances else activation_instances[i]
                     step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
                     for result in step_results:
-                        try:
-                            inst = inst.to_string()
-                        except AttributeError:  # AttributeError: 'entity_instance' object has no attribute 'to_string'
-                            inst = str(inst)
 
-                        validation_outcome = StepOutcome(inst=activation_inst, context=context, **result.as_dict())
+                        instance_step_outcome = StepOutcome(inst=activation_inst, context=context, **result.as_dict())
 
                         validation_outcome = ValidationOutcome(
-                            outcome_code=getattr(ValidationOutcomeCode, validation_outcome.outcome_code),
-                            # observed = validation_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
-                            # expected = validation_outcome.model_dump_json(exclude=('context', 'outcome_code'), exclude_none=True), #TODO (parse it correctly)
-                            observed=validation_outcome.model_dump(include=('observed'))["observed"],  # TODO (parse it correctly)
-                            expected=validation_outcome.model_dump(include=('expected'))["expected"],  # TODO (parse it correctly)
+                            outcome_code=getattr(ValidationOutcomeCode, instance_step_outcome.outcome_code),
+                            observed=instance_step_outcome.model_dump(include=('observed'))["observed"],  # TODO (parse it correctly)
+                            expected=instance_step_outcome.model_dump(include=('expected'))["expected"],  # TODO (parse it correctly)
                             feature=context.feature.name,
                             feature_version=misc.define_feature_version(context),
                             severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
@@ -266,7 +255,7 @@ def execute_step(fn):
                             outcome_code=ValidationOutcomeCode.P00010,  # "Rule passed"
                             observed=None,
                             expected=None,
-                            feature=context.feature.name,  #
+                            feature=context.feature.name,
                             feature_version=misc.define_feature_version(context),
                             severity=OutcomeSeverity.PASS,
                             check_execution_id=check_execution_id

@@ -152,4 +152,4 @@ def step_impl(context, inst):
 
     inv, ent, attr = relationship[inst.is_a()]
     if inst in get_memberships(inst):
-        yield StepResult(observed='False', expected='True') #@todo add expected value
+        yield StepResult(observed=False, expected=True)

@@ -243,9 +243,6 @@ def execute_step(fn):
 
                     if not step_results:
 
-                        if isinstance(inst, (tuple, list)): # TODO -> this is quite dirty temp solution. Done because @given('Its attribute {attribute}') return a tuple, not an instance
-                            inst = inst[0]
-
                         StepOutcome(inst=activation_inst,
                                     context=context,
                                     expected=None,

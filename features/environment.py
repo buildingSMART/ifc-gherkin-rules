@@ -1,9 +1,7 @@
 import os
-import logging
 import ifcopenshell
 from behave.model import Scenario
 from validation_results import flush_results_to_db, OutcomeSeverity
-from main import ExecutionMode
 
 DEVELOPMENT = os.environ.get('environment', 'development').lower() == 'development'
 NO_POSTGRES = os.environ.get('NO_POSTGRES', '1').lower() in {'1', 'true'}
@@ -32,5 +30,8 @@ def before_step(context, step):
     context.step = step
 
 def after_feature(context, feature):
-    if (not DEVELOPMENT) and (not NO_POSTGRES) and (context.config.userdata.get('execution_mode') != ExecutionMode.TESTING): # TODO a bit awkward, but keeping the previous namings
+    execution_mode = context.config.userdata.get('execution_mode')
+    if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION':
         flush_results_to_db(context.gherkin_outcomes)
+    else: # invoked via console
+        pass

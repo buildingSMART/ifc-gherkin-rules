@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Integer, String, Column, DateTime, ForeignKey, JSON, Boolean
-from sqlalchemy.orm import Session, mapped_column, sessionmaker, relationship, DeclarativeBase
+from sqlalchemy.orm import Session, relationship, DeclarativeBase
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.inspection import inspect
 from functools import total_ordering
@@ -7,19 +7,6 @@ from datetime import datetime
 import enum
 from sqlalchemy import Enum
 import os
-import functools
-import subprocess
-
-
-
-@functools.lru_cache(maxsize=16)
-def get_remote(cwd):
-    return subprocess.check_output(['git', 'remote', 'get-url', 'origin'], cwd=cwd).decode('ascii').split('\n')[0]
-
-
-@functools.lru_cache(maxsize=16)
-def get_commits(cwd, feature_file):
-    return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
 
 
 DEVELOPMENT = os.environ.get('environment', 'development').lower() == 'development'
@@ -54,7 +41,7 @@ class ValidationOutcomeCode(enum.Enum):
     X00040 = "EXECUTED"
 
     def determine_severity(self):
-        match self.name[0]: 
+        match self.name[0]:
             case 'X':
                 return OutcomeSeverity.EXECUTED
             case 'P':
@@ -67,6 +54,7 @@ class ValidationOutcomeCode(enum.Enum):
                 return OutcomeSeverity.ERROR
             case _:
                 raise ValueError(f"Outcome code {self.name} not recognized")
+
 @total_ordering
 class OutcomeSeverity(enum.Enum):
     """
@@ -154,7 +142,7 @@ class ValidationOutcome(Base):
 
     id = Column(Integer, primary_key=True)
 
-    outcome_code = Column(Enum(ValidationOutcomeCode), nullable=True)  
+    outcome_code = Column(Enum(ValidationOutcomeCode), nullable=True)
     observed = Column(JSON, nullable=True)
     expected = Column(JSON, nullable=True)
     feature = Column(String, nullable=True)  # ALS004
@@ -174,6 +162,9 @@ class ValidationOutcome(Base):
 
 
 def flush_results_to_db(results):
+    host = os.environ.get('POSTGRES_HOST', 'localhost')
+    password = os.environ['POSTGRES_PASSWORD']
+    engine = create_engine(f"postgresql://postgres:{password}@{host}:5432/bimsurfer2")
     with Session(engine) as session:
         for result in results:
             session.add(result)

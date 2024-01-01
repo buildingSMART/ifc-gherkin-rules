@@ -8,11 +8,16 @@ import os
 from pathlib import Path
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
-from validation_results import *
+
+# sys.path.append(r"PATH TO VALIDATE DB") # TODO -> add the path if necessary
+try:
+    from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
+except (ModuleNotFoundError, ImportError):
+    from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
+
 from behave.runner import Context
-from dataclasses import dataclass, asdict, field
 import random
-from pydantic import BaseModel, model_validator, field_validator, Field
+from pydantic import BaseModel, field_validator, Field
 from typing import Any, Union
 from typing_extensions import Annotated
 

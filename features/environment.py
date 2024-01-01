@@ -1,10 +1,5 @@
-import os
 import ifcopenshell
 from behave.model import Scenario
-from validation_results import flush_results_to_db, OutcomeSeverity
-
-DEVELOPMENT = os.environ.get('environment', 'development').lower() == 'development'
-NO_POSTGRES = os.environ.get('NO_POSTGRES', '1').lower() in {'1', 'true'}
 
 model_cache = {}
 def read_model(fn):
@@ -31,7 +26,13 @@ def before_step(context, step):
 
 def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
-    if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION':
+    if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
+        # sys.path.append(r"PATH TO VALIDATE DB") # TODO -> add the path if necessary
+        try:
+            from validation_results import flush_results_to_db
+        except (ModuleNotFoundError, ImportError):
+            def flush_results_to_db(*args, **kwargs):
+                pass
         flush_results_to_db(context.gherkin_outcomes)
     else: # invoked via console
         pass

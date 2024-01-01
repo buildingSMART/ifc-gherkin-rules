@@ -8,9 +8,6 @@ import tempfile
 import functools
 from enum import Flag, auto, Enum
 
-import validation_results
-
-
 class RuleType(Flag):
     INFORMAL_PROPOSITION = auto()
     IMPLEMENTER_AGREEMENT = auto()
@@ -69,8 +66,6 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
             feature_filter = ["-i", rule_code]
     except Exception as e:
         print(e)
-
-    validation_results.initialize()
 
     if with_console_output:
         # Sometimes it's easier to see what happens exactly on the console output

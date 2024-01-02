@@ -120,7 +120,7 @@ class IfcInstance(Base, Serializable):
     ifc_type = Column(String)
     # bsdd_results = relationship("bsdd_result")# leave this out for now, not directly related to gherkin
     # syntax_results = relationship("bsdd_result")# leave this out for now, not directly related to gherkin
-    validation_outcomes = relationship("ValidationOutcome", back_populates="instance")
+    # validation_outcomes = relationship("ValidationOutcome")
 
 
     def __init__(self, global_id, ifc_type, file):
@@ -129,12 +129,6 @@ class IfcInstance(Base, Serializable):
         # self.file = file # leave out for now
 
 
-class CheckExecution(Base):
-    __tablename__ = 'check_executions'
-    id = Column(Integer, index=True, unique=True, autoincrement=True, primary_key=True)
-    start_time = Column(DateTime)
-    end_time = Column(DateTime)
-    success = Column(Boolean)
 
 
 class ValidationOutcome(Base):
@@ -151,20 +145,15 @@ class ValidationOutcome(Base):
 
 
     #todo q is there a unidirectional relationship to CheckExecution ??
-    check_execution_id = Column(Integer, ForeignKey('check_executions.id'))
-    check_execution = relationship("CheckExecution")
+    check_execution_id = Column(Integer)
 
     #todo q is there a unidirectional one-to-many relationship to IfcInstance ?? -> One instance can have multiple validation outcomes
-    instance = relationship("IfcInstance", back_populates="validation_outcomes") # Relationship to IfcInstance
-    ifc_instance_id = Column(Integer, ForeignKey('ifc_instances.id')) # Reference to IfcInstance, one-to-many
+    ifc_instance_id = Column(Integer) # Reference to IfcInstance, one-to-many
     def __str__(self):
         return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}")
 
 
 def flush_results_to_db(results):
-    host = os.environ.get('POSTGRES_HOST', 'localhost')
-    password = os.environ['POSTGRES_PASSWORD']
-    engine = create_engine(f"postgresql://postgres:{password}@{host}:5432/bimsurfer2")
     with Session(engine) as session:
         for result in results:
             session.add(result)

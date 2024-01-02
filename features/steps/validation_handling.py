@@ -242,6 +242,7 @@ def execute_step(fn):
                             feature=context.feature.name,
                             feature_version=misc.define_feature_version(context),
                             severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
+                            ifc_instance_id = inst.id(),
                             check_execution_id=check_execution_id
                         )
                         context.gherkin_outcomes.append(validation_outcome)
@@ -260,6 +261,7 @@ def execute_step(fn):
                             feature=context.feature.name,
                             feature_version=misc.define_feature_version(context),
                             severity=OutcomeSeverity.PASS,
+                            ifc_instance_id=inst.id(),
                             check_execution_id=check_execution_id
                         )
                     context.gherkin_outcomes.append(validation_outcome)

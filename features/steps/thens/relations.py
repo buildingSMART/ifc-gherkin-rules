@@ -51,25 +51,16 @@ def step_impl(context, inst, relationship, table):
             if not is_correct:
                 yield StepResult(expected=expected_relationship_objects, observed=relationship_objects)
 
+def get_stack_tree(context):
+    """Returns the stack tree of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
+    return list(
+        filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
 
-#TODO -> add validate step (not trivial here)
-@then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
-@handle_errors
-def step_impl(context, related, relating, other_entity, condition):
-    # @todo reverse order to relating -> nest-relationship -> related
-    pred = misc.stmt_to_op(condition)
-
-    op = lambda n: not pred(n, 0)
-
-    if getattr(context, 'applicable', True):
-
-        if op(len(context.model.by_type(other_entity))):
-
-            for inst in context.model.by_type(related):
-                for rel in getattr(inst, 'Decomposes', []):
-                    if not rel.RelatingObject.is_a(relating):
-                        yield StepResult(expected=relating, observed=rel.RelatingObject)
-
+@validate_step('It must be assigned to the {relating}')
+def step_impl(context, inst, relating):
+    for rel in getattr(inst, 'Decomposes', []):
+        if not rel.RelatingObject.is_a(relating):
+            yield StepResult(expected=relating, observed=rel.RelatingObject.is_a())
 
 
 @validate_step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')

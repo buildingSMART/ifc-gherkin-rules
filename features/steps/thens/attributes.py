@@ -21,7 +21,7 @@ def step_impl(context, inst, entity, other_entity, relationship):
             relating_object = getattr(rel, relationship_relating_attr)
 
             relating_obj_placement = relating_object.ObjectPlacement
-            entity_obj_placement_rel = misc.do_try(lambda: related_obj_placement.PlacementRelTo, 'Not found')
+            entity_obj_placement_rel = getattr(related_obj_placement, "PlacementRelTo", None)
             if relating_obj_placement != entity_obj_placement_rel:
                 yield StepResult(expected=relating_obj_placement, observed=entity_obj_placement_rel)
 

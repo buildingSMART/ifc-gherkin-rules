@@ -30,5 +30,9 @@ def step_impl(context, entity_opt_stmt, insts=False):
     if context.instances:
         context.applicable = getattr(context, 'applicable', True)
     else:
-        context.applicable = getattr(context, 'applicable', False)
+        context.applicable = False
 
+@validate_step("No {entity}")
+def step_impl(context, entity):
+    if context.model.by_type(entity):
+        context.applicable = False

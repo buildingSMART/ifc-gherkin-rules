@@ -109,8 +109,12 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                             except json.decoder.JSONDecodeError:  # THEN not checked
                                 results = []
                             if results:
-                                inst = "TO FILL" # TODO
-                                yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", inst, results
+                                match = re.search(r'(ifc_instance_id: \d+)', str(results))
+                                if match:
+                                    instance_id = match.group(1)
+                                else:
+                                    instance_id = "Instance not found"
+                                yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", instance_id, results
 
     os.close(fd)
     os.unlink(jsonfn)

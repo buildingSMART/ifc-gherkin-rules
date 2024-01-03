@@ -150,7 +150,7 @@ class ValidationOutcome(Base):
     #todo q is there a unidirectional one-to-many relationship to IfcInstance ?? -> One instance can have multiple validation outcomes
     ifc_instance_id = Column(Integer) # Reference to IfcInstance, one-to-many
     def __str__(self):
-        return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}")
+        return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}. ifc_instance_id: {self.ifc_instance_id}")
 
 
 def flush_results_to_db(results):

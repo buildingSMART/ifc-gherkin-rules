@@ -64,13 +64,13 @@ def step_impl(context, inst, constraint, num=None):
             if not values:
                 continue
             if constraint == 'identical' and not all([values[0] == i for i in values]):
-                yield StepResult(context, constraint, f"Not {constraint}")
+                yield StepResult(constraint, f"Not {constraint}")
             if constraint == 'unique':
                 seen = set()
                 duplicates = [x for x in values if x in seen or seen.add(x)]
                 if not duplicates:
                     continue
-                yield StepResult(context, constraint, f"Not {constraint}")
+                yield StepResult(constraint, f"Not {constraint}")
 
 
 def recursive_unpack_value(item):

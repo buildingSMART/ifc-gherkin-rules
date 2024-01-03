@@ -3,14 +3,12 @@ import os
 import re
 
 from pathlib import Path
-
-from behave import *
 from utils import misc, system
 
-from validation_handling import validate_step
+from validation_handling import gherkin_ifc
 
 
-@validate_step('A relationship {relationship} from {entity} to {other_entity}')
+@gherkin_ifc.step('A relationship {relationship} from {entity} to {other_entity}')
 def step_impl(context, entity, other_entity, relationship):
     instances = []
     relationships = context.model.by_type(relationship)
@@ -38,7 +36,7 @@ def step_impl(context, entity, other_entity, relationship):
 
 #@nb this is awaiting the merge of https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
 #now needs to be disambiguated from the above, can be removed when #37 is merged
-@validate_step('There exists a relationship {relationship} from {entity} to {other_entity} and following that')
+@gherkin_ifc.step('There exists a relationship {relationship} from {entity} to {other_entity} and following that')
 def step_impl(context, relationship, entity, other_entity):
 
     relationships = context.model.by_type(relationship)
@@ -69,7 +67,7 @@ def step_impl(context, relationship, entity, other_entity):
 
     
 
-@validate_step("The element {relationship_type} an {entity}")
+@gherkin_ifc.step("The element {relationship_type} an {entity}")
 def step_impl(context, relationship_type, entity):
     reltype_to_extr = {'nests': {'attribute': 'Nests', 'object_placement': 'RelatingObject'},
                        'is nested by': {'attribute': 'IsNestedBy', 'object_placement': 'RelatedObjects'}}

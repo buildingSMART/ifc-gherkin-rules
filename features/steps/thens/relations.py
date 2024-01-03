@@ -1,12 +1,13 @@
-from validation_handling import validate_step, StepResult, handle_errors, StepResult
+from validation_handling import gherkin_ifc, StepResult
 
-from behave import *
 from utils import ifc, misc, system
 
 from parse_type import TypeBuilder
+from behave import register_type
+
 register_type(aggregated_or_contained_or_positioned=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained", "positioned")))))
 
-@validate_step('It must be {relationship} as per {table}')
+@gherkin_ifc.step('It must be {relationship} as per {table}')
 def step_impl(context, inst, relationship, table):
     stmt_to_op_forward = {'aggregated': 'Decomposes'}
     stmt_to_op_reversed = {'aggregated': 'IsDecomposedBy'}
@@ -56,14 +57,14 @@ def get_stack_tree(context):
     return list(
         filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
 
-@validate_step('It must be assigned to the {relating}')
+@gherkin_ifc.step('It must be assigned to the {relating}')
 def step_impl(context, inst, relating):
     for rel in getattr(inst, 'Decomposes', []):
         if not rel.RelatingObject.is_a(relating):
             yield StepResult(expected=relating, observed=rel.RelatingObject.is_a())
 
 
-@validate_step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
+@gherkin_ifc.step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
 def step_impl(context, inst, decision, relationship, preposition, other_entity, condition, *args):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
@@ -131,7 +132,7 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
                             observed = f"{decision} be {condition} {relationship}",
                             expected = f"{common_directness} {relationship}")
 
-@validate_step('It must not be referenced by itself directly or indirectly')
+@gherkin_ifc.step('It must not be referenced by itself directly or indirectly')
 def step_impl(context, inst):
     relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
 

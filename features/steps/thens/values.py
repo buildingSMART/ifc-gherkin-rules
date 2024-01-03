@@ -2,18 +2,18 @@ import csv
 import ifcopenshell
 import os
 
-from behave import *
+from behave import register_type
 from pathlib import Path
 
-from validation_handling import validate_step, StepResult, handle_errors
+from validation_handling import gherkin_ifc, StepResult, handle_errors
 
 from parse_type import TypeBuilder
 register_type(unique_or_identical=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("be unique", "be identical"))))) # todo @gh remove 'be' from enum values
 register_type(value_or_type=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("value", "type"))))) # todo @gh remove 'be' from enum values
 
 
-@validate_step("The value must be in '{csv_file}.csv'")
-@validate_step("The values must be in '{csv_file}.csv'")
+@gherkin_ifc.step("The value must be in '{csv_file}.csv'")
+@gherkin_ifc.step("The values must be in '{csv_file}.csv'")
 def step_impl(context, inst, csv_file):
     if not inst:
         return []
@@ -28,8 +28,8 @@ def step_impl(context, inst, csv_file):
     return []
 
 
-@validate_step('At least "{num:d}" value must {constraint}')
-@validate_step('At least "{num:d}" values must {constraint}')
+@gherkin_ifc.step('At least "{num:d}" value must {constraint}')
+@gherkin_ifc.step('At least "{num:d}" values must {constraint}')
 def step_impl(context, inst, constraint, num):
     stack_tree = list(
         filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
@@ -47,8 +47,8 @@ def step_impl(context, inst, constraint, num):
                 yield StepResult(expected = constraint, observed = f"Not {constraint}")
 
 
-@validate_step("The {value} must {constraint:unique_or_identical}")
-@validate_step("The values must {constraint:unique_or_identical}")
+@gherkin_ifc.step("The {value} must {constraint:unique_or_identical}")
+@gherkin_ifc.step("The values must {constraint:unique_or_identical}")
 def step_impl(context, inst, constraint, num=None):
 
     within_model = getattr(context, 'within_model', False)
@@ -92,7 +92,7 @@ def recursive_unpack_value(item):
     return item
 
 
-@validate_step('The {i:value_or_type} must be "{value}"')
+@gherkin_ifc.step('The {i:value_or_type} must be "{value}"')
 def step_impl(context, inst, i, value):
     inst = recursive_unpack_value(inst)
     if isinstance(inst, ifcopenshell.entity_instance):

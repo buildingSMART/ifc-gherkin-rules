@@ -184,11 +184,12 @@ def get_activation_instances(context, instances):
     else:  # e.g. with IFC001, where stack is ifcopenshell.file.file
         return instances
 
-def validate_step(step_text):
-    def wrapped_step(func):
-        return step(step_text)(execute_step(func))
+class gherkin_ifc():
+    def step(step_text):
+        def wrapped_step(func):
+            return step(step_text)(execute_step(func))
 
-    return wrapped_step
+        return wrapped_step
 
 def execute_step(fn):
     @wraps(fn)

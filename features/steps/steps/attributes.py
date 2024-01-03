@@ -1,9 +1,7 @@
-from validation_handling import validate_step, StepResult
+from validation_handling import gherkin_ifc, StepResult
 from utils import ifc
-from behave import *
 
-
-@validate_step('The {representation_id} shape representation has RepresentationType "{representation_type}"')
+@gherkin_ifc.step('The {representation_id} shape representation has RepresentationType "{representation_type}"')
 def step_impl(context, **kwargs):
     inst = kwargs.get('inst', None)
     representation_id = kwargs.get('representation_id', None)

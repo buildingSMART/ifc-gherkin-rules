@@ -47,11 +47,9 @@ def step_impl(context, inst, constraint, num):
                 yield StepResult(expected = constraint, observed = f"Not {constraint}")
 
 
-@then("The {value} must {constraint:unique_or_identical}")
-@then("The values must {constraint:unique_or_identical}")
-@handle_errors
-def step_impl(context, constraint, num=None):
-    errors = []
+@validate_step("The {value} must {constraint:unique_or_identical}")
+@validate_step("The values must {constraint:unique_or_identical}")
+def step_impl(context, inst, constraint, num=None):
 
     within_model = getattr(context, 'within_model', False)
 
@@ -59,23 +57,20 @@ def step_impl(context, constraint, num=None):
     while constraint.startswith('be ') or constraint.startswith('in '):
         constraint = constraint[3:]
 
-    if getattr(context, 'applicable', True):
-        stack_tree = list(
-            filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-        instances = [context.instances] if within_model else context.instances
+    instances = [context.instances] if within_model else context.instances
 
-        if constraint in ('identical', 'unique'):
-            for i, values in enumerate(instances):
-                if not values:
+    if constraint in ('identical', 'unique'):
+        for i, values in enumerate(instances):
+            if not values:
+                continue
+            if constraint == 'identical' and not all([values[0] == i for i in values]):
+                yield StepResult(context, constraint, f"Not {constraint}")
+            if constraint == 'unique':
+                seen = set()
+                duplicates = [x for x in values if x in seen or seen.add(x)]
+                if not duplicates:
                     continue
-                if constraint == 'identical' and not all([values[0] == i for i in values]):
-                    yield StepResult(context, constraint, f"Not {constraint}")
-                if constraint == 'unique':
-                    seen = set()
-                    duplicates = [x for x in values if x in seen or seen.add(x)]
-                    if not duplicates:
-                        continue
-                    yield StepResult(context, constraint, f"Not {constraint}")
+                yield StepResult(context, constraint, f"Not {constraint}")
 
 
 def recursive_unpack_value(item):

@@ -11,7 +11,7 @@ def step_impl(context, inst, representation_id):
         present = representation_id in map(operator.attrgetter('RepresentationIdentifier'),
                                            inst.Representation.Representations)
         if not present:
-            yield StepResult(expected="One", observed=None)
+            yield StepResult(expected=1, observed=None)
 
 
 @validate_step('There must be {constraint} {num:d} instance(s) of {entity}')

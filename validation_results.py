@@ -143,11 +143,8 @@ class ValidationOutcome(Base):
     feature_version = Column(Integer)  # 1
     severity = Column(Enum(OutcomeSeverity), nullable=True)  # ERROR = 4
 
-
-    #todo q is there a unidirectional relationship to CheckExecution ??
     check_execution_id = Column(Integer)
 
-    #todo q is there a unidirectional one-to-many relationship to IfcInstance ?? -> One instance can have multiple validation outcomes
     ifc_instance_id = Column(Integer) # Reference to IfcInstance, one-to-many
     def __str__(self):
         return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}. ifc_instance_id: {self.ifc_instance_id}")

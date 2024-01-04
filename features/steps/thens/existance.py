@@ -22,3 +22,10 @@ def step_impl(context, inst, constraint, num, entity):
 
         if not op(len(instances_in_model), num):
             yield StepResult(expected=num, observed=len(instances_in_model))
+
+
+@validate_step('There must be one representation item')
+def step_impl(context, inst):
+
+    count = len(inst.Representation.Items)
+    yield StepResult(expected=142, observed=count)

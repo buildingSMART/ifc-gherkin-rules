@@ -52,11 +52,6 @@ def step_impl(context, inst, relationship, table):
             if not is_correct:
                 yield StepResult(expected=expected_relationship_objects, observed=relationship_objects)
 
-def get_stack_tree(context):
-    """Returns the stack tree of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
-    return list(
-        filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-
 @gherkin_ifc.step('It must be assigned to the {relating}')
 def step_impl(context, inst, relating):
     for rel in getattr(inst, 'Decomposes', []):

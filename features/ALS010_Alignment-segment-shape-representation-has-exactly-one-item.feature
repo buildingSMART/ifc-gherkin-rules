@@ -13,11 +13,11 @@ Background:
   Scenario: Agreement on each IfcAlignmentSegment using correct representation - Type
 
       Given Its attribute RepresentationType
-      Then The value must be "placeholder_invalid"
+      Then The value must be "Segment"
 
 
   @E00040
   Scenario: Agreement on each IfcAlignmentSegment having correct number of representation items
 
       Given Its attribute Items
-      Then There must be one representation item
+      Then There must be 1 representation item(s)

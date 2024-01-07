@@ -261,7 +261,7 @@ def execute_step(fn):
                             feature=context.feature.name,
                             feature_version=misc.define_feature_version(context),
                             severity=OutcomeSeverity.PASS,
-                            ifc_instance_id=activation_inst.id(),
+                            ifc_instance_id=None,
                             check_execution_id=check_execution_id
                         )
                     context.gherkin_outcomes.add(validation_outcome)

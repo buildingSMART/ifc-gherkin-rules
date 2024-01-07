@@ -103,5 +103,5 @@ def step_impl(context, inst, i, value):
     if isinstance(inst, ifcopenshell.entity_instance):
         inst = inst.is_a() # another option would be to let this depend on 'type'. E.g. if i is 'type', then always check for entity_instance
 
-    if inst != value:
-        yield StepResult(expected = value, observed=inst)
+    if (inst != value) and (inst is not None):
+        yield StepResult(expected=value, observed=inst)

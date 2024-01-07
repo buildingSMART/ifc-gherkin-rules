@@ -19,7 +19,7 @@ def before_feature(context, feature):
 
     context.model = read_model(context.config.userdata["input"])
     Scenario.continue_after_failed_step = True
-    context.gherkin_outcomes = []
+    context.gherkin_outcomes = set()
 
 def before_step(context, step):
     context.step = step

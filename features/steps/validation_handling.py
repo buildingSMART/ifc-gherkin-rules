@@ -212,7 +212,7 @@ def execute_step(fn):
                     severity=OutcomeSeverity.NA,
                     check_execution_id=check_execution_id
                 )
-                context.gherkin_outcomes.append(validation_outcome)
+                context.gherkin_outcomes.add(validation_outcome)
             else:
                 instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
@@ -227,7 +227,7 @@ def execute_step(fn):
                     severity=OutcomeSeverity.EXECUTED,
                     check_execution_id=check_execution_id
                 )
-                context.gherkin_outcomes.append(validation_outcome)
+                context.gherkin_outcomes.add(validation_outcome)
 
                 for i, inst in enumerate(instances):
                     activation_inst = inst if activation_instances==instances else activation_instances[i]
@@ -246,7 +246,7 @@ def execute_step(fn):
                             ifc_instance_id = activation_inst.id(),
                             check_execution_id=check_execution_id
                         )
-                        context.gherkin_outcomes.append(validation_outcome)
+                        context.gherkin_outcomes.add(validation_outcome)
 
                     if not step_results:
 
@@ -264,7 +264,7 @@ def execute_step(fn):
                             ifc_instance_id=activation_inst.id(),
                             check_execution_id=check_execution_id
                         )
-                    context.gherkin_outcomes.append(validation_outcome)
+                    context.gherkin_outcomes.add(validation_outcome)
 
                 generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity >= OutcomeSeverity.WARNING])
 

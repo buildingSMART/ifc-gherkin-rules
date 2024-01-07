@@ -149,6 +149,21 @@ class ValidationOutcome(Base):
     def __str__(self):
         return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}. ifc_instance_id: {self.ifc_instance_id}")
 
+    def __hash__(self):
+        return hash((self.ifc_instance_id, self.check_execution_id, self.severity, self.feature_version, self.feature, self.observed, self.expected, self.outcome_code))
+
+    def __eq__(self, other):
+        if isinstance(other, ValidationOutcome):
+            return (self.ifc_instance_id == other.ifc_instance_id and
+                    self.check_execution_id == other.check_execution_id and
+                    self.severity == other.severity and
+                    self.feature_version == other.feature_version and
+                    self.feature == other.feature and
+                    self.observed == other.observed and
+                    self.expected == other.expected and
+                    self.outcome_code == other.outcome_code)
+        return False
+
 
 def flush_results_to_db(results):
     with Session(engine) as session:

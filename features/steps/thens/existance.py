@@ -28,10 +28,8 @@ def step_impl(context, inst, constraint, num, entity):
 
 @validate_step('There must be {num:d} representation item(s)')
 def step_impl(context, inst, num):
-    # inst is a list that always has one item but that item may contain multiple tuples
-    # therefore check both the list and the tuple in the first item of the list to confirm that both
-    # contain the specified number of objects
-    length = len(inst)
-    count = len(inst[0])
-    if (length != num) or (count != num):
-        yield StepResult(expected=num, observed=count)
+    if inst is not None:
+        for v in inst:
+            observed = len(v)
+            if observed != num:
+                yield StepResult(expected=num, observed=observed)

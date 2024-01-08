@@ -19,17 +19,19 @@ def step_impl(context, entity_opt_stmt, insts=False):
     parse = grammar.parseString(entity_opt_stmt)
     entity = parse['entity']
     include_subtypes = misc.do_try(lambda: not 'without' in parse['include_subtypes'], True)
-
+    
     try:
-        context.instances = context.model.by_type(entity, include_subtypes)
+        instances = context.model.by_type(entity, include_subtypes)
     except:
-        context.instances = []
+        instances = []
 
     context.within_model = getattr(context, 'within_model', True) and within_model
-    if context.instances:
+    if instances:
         context.applicable = getattr(context, 'applicable', True)
     else:
         context.applicable = False
+    
+    yield instances
 
 @gherkin_ifc.step("No {entity}")
 def step_impl(context, entity):

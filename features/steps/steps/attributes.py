@@ -8,7 +8,7 @@ def step_impl(context, **kwargs):
     representation_type = kwargs.get('representation_type', None)
 
     if context.step.step_type == "given":
-        context.instances = list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type), context.instances))))
+        yield list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type), context.instances))))
     else:
         if ifc.instance_getter(inst, representation_id, representation_type, 1):
             yield StepResult(expected=representation_type, observed=None)

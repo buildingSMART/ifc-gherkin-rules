@@ -23,7 +23,7 @@ def step_impl(context, attribute, value):
             # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
             value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
             pred = misc.reverse_operands(operator.contains)
-    context.instances = list(
+    yield list(
         filter(lambda inst: hasattr(inst, attribute) and pred(getattr(inst, attribute), value), context.instances)
     )
 
@@ -41,7 +41,7 @@ def step_impl(context, attr, closed_or_open):
     for instance in instances:
         are_closed.append(geometry.is_closed(context, instance))
 
-    context.instances = list(
+    yield list(
         map(operator.itemgetter(0), filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, are_closed)))
     )
 
@@ -66,10 +66,10 @@ def step_impl(context, file_or_model, field, values):
 @gherkin_ifc.step('Its attribute {attribute}')
 def step_impl(context, attribute):
     context._push()
-    context.instances = misc.map_state(context.instances, lambda i: getattr(i, attribute, None))
+    yield misc.map_state(context.instances, lambda i: getattr(i, attribute, None))
     setattr(context, 'attribute', attribute)
 
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):
-    context.instances = context.model
+    yield context.model

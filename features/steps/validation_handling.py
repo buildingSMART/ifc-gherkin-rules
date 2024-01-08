@@ -191,16 +191,34 @@ class gherkin_ifc():
 
         return wrapped_step
 
+def flatten_list_of_lists(lst):
+    result = []
+    for item in lst:
+        if isinstance(item, list):
+            result.extend(flatten_list_of_lists(item))
+        else:
+            result.append(item)
+    return result
+
 def execute_step(fn):
     @wraps(fn)
     #@todo gh break function down into smaller functions
     def inner(context, **kwargs):
         step_type = context.step.step_type
         if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
-            try:
-                next(fn(context, **kwargs), None)
-            except TypeError:
+            name = context.step.name
+            if 'IfcRoot' in name:
                 pass
+            gen = fn(context, **kwargs)
+            if gen is None:
+                pass
+            else:
+                insts = list(gen)
+                context.instances = flatten_list_of_lists(insts)
+            # try:
+            #     next(fn(context, **kwargs), None)
+            # except TypeError:
+            #     pass
         elif step_type.lower() == 'then':
             if not getattr(context, 'applicable', True):
                 validation_outcome = ValidationOutcome(
@@ -230,11 +248,16 @@ def execute_step(fn):
                 context.gherkin_outcomes.add(validation_outcome)
 
                 for i, inst in enumerate(instances):
-                    activation_inst = inst if activation_instances==instances else activation_instances[i]
+                    activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
+                    if isinstance(activation_inst, ifcopenshell.file):
+                        activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
+                        activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
                     step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
                     for result in step_results:
-
-                        instance_step_outcome = StepOutcome(inst=activation_inst, context=context, **result.as_dict())
+                        try:
+                            instance_step_outcome = StepOutcome(inst=activation_inst, context=context, **result.as_dict())
+                        except:
+                            pass
 
                         validation_outcome = ValidationOutcome(
                             outcome_code=getattr(ValidationOutcomeCode, instance_step_outcome.outcome_code),

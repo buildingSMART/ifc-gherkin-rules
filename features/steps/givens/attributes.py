@@ -31,7 +31,7 @@ def step_impl(context, attribute, condition, prefix):
 
     if condition == 'starts':
         context.instances = list(
-            filter(lambda inst: hasattr(inst, attribute) and str(getattr(inst, attribute)).startswith(prefix), context.instances)
+            filter(lambda inst: hasattr(inst, attribute) and str(getattr(inst, attribute, '')).startswith(prefix), context.instances)
         )
     elif condition == 'does not start':
         context.instances = list(

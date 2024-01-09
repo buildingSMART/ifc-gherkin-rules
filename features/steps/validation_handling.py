@@ -177,7 +177,25 @@ def check_layer_for_entity_instance(i, stack_tree):
     return None
 
 def get_activation_instances(context, instances):
-    """Returns the activation instances of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
+    """Returns the activation instances of the current context. To be used for 'attribute stacking', e.g. in GEM004
+    In many case, context.instances are actual ifcopenshell.entity_instance objects, but in some cases they are not. For example in the following scenario:
+    Given An IfcProduct
+    Given Its attribute Representation
+    Given its attribute Representations
+    Given Its Attribute RepresentationIdentifier
+
+    We calculate a stack tree, which is done by the function get_stack_tree(context). The stack tree is a list of lists, where each list represents a layer of the stack.
+    In the example above, this would look something like this:
+    [(None), ('Value', 'Axis')]
+    [(IfcShapeRepr, IfcShapeRepr), (IfcShapeRepr, IfcShapeRepr)]
+    [IfcProductDefintionShape, IfcProductDefinitionShape]
+    [IfcRoof, IfcSlab]
+
+    Note that each layer is formatted in the same way as the previous layer. This is done by the misc.map_state function.
+
+    The activation_instance is then the first instance in the stack tree that is an actual ifcopenshell.entity_instance object. 
+    In this case, this would be IfcProductDefinitionShape.
+    """
     stack_tree = get_stack_tree(context)
     if isinstance(stack_tree[0], list):
         return [check_layer_for_entity_instance(i, stack_tree) for i in range(len(stack_tree[0]))]
@@ -185,6 +203,7 @@ def get_activation_instances(context, instances):
         return instances
 
 class gherkin_ifc():
+
     def step(step_text):
         def wrapped_step(func):
             return step(step_text)(execute_step(func))
@@ -234,6 +253,8 @@ def execute_step(fn):
             else:
                 instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
+                # if 'instances' are not actual ifcopenshell.entity_instance objects, but e.g. tuple of string values then get the actual instances from the stack tree
+                # see for more info docstring of get_activation_instances
                 activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
 
                 validation_outcome = ValidationOutcome(

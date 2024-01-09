@@ -28,6 +28,19 @@ def step_impl(context, attribute, value):
     )
 
 
+@given("Its attribute {attribute} {condition} with {prefix}")
+def step_impl(context, attribute, condition, prefix):
+    assert condition in ('starts', 'does not start')
+
+    if condition == 'starts':
+        context.instances = list(
+            filter(lambda inst: hasattr(inst, attribute) and str(getattr(inst, attribute, '')).startswith(prefix), context.instances)
+        )
+    elif condition == 'does not start':
+        context.instances = list(
+            filter(lambda inst: hasattr(inst, attribute) and not str(getattr(inst, attribute)).startswith(prefix), context.instances)
+        )
+
 @given('{attr} forms {closed_or_open} curve')
 def step_impl(context, attr, closed_or_open):
     assert closed_or_open in ('a closed', 'an open')

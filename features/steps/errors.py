@@ -152,6 +152,45 @@ class InvalidValueError(RuleState):
     def __str__(self):
         return f"On instance {misc.fmt(self.inst)} the following invalid value for {self.attribute} has been found: {self.value}"
 
+@dataclass
+class InvalidPropertySetDefinition(RuleState):
+    inst: ifcopenshell.entity_instance
+    object: ifcopenshell.entity_instance
+    name: typing.Optional[str] = None
+    types: typing.Optional[typing.List] = None
+    template_type_enum: typing.Optional[str] = None
+    # https://standards.buildingsmart.org/IFC/RELEASE/IFC4_1/FINAL/HTML/schema/ifckernel/lexical/ifcpropertysettemplatetypeenum.htm
+    ifc_property_set_template_type_enum = {"PSET_TYPEDRIVENONLY": "The property sets defined by this IfcPropertySetTemplate can only be assigned to subtypes of IfcTypeObject.",
+                                           "PSET_TYPEDRIVENOVERRIDE": "The property sets defined by this IfcPropertySetTemplate can be assigned to subtypes of IfcTypeObject and can be overridden by a property set with same name at subtypes of IfcObject.",
+                                           "PSET_OCCURRENCEDRIVEN": "The property sets defined by this IfcPropertySetTemplate can only be assigned to subtypes of IfcObject.",
+                                           "PSET_PERFORMANCEDRIVEN": "The property sets defined by this IfcPropertySetTemplate can only be assigned to IfcPerformanceHistory."}
+
+    def __str__(self):
+        if self.template_type_enum:
+            return f"The instance {misc.fmt(self.inst)} with Name attribute {self.name} is assigned to {misc.fmt(self.object)}. {self.name} is {self.template_type_enum}. {self.ifc_property_set_template_type_enum.get(self.template_type_enum)}"
+        if self.types:
+            return f"The instance {misc.fmt(self.inst)} with Name attribute {self.name} is assigned to {misc.fmt(self.object)}. It must be assigned to one of the following types instead: {self.types}"
+        else:
+            return f"The instance {misc.fmt(self.inst)} has an inappropriate Name attribute {self.name} value. Pset_ prefix is reserved for standardised values only."
+
+
+@dataclass
+class InvalidPropertyDefinition(RuleState):
+    inst: ifcopenshell.entity_instance
+    property: ifcopenshell.entity_instance
+    accepted_values: typing.Optional[typing.List] = None
+    accepted_type: typing.Optional[str] = None
+    accepted_data_type_value: typing.Optional[str] = None
+    value: typing.Optional[str] = None
+
+    def __str__(self):
+        if self.accepted_values:
+            return f"The instance {misc.fmt(self.inst)} has an associated property {misc.fmt(self.property)} with Name attribute equal to: '{misc.fmt(self.property.Name)}'. Expected values for {misc.fmt(self.inst.Name)} are {self.accepted_values}"
+        elif self.accepted_type:
+            return f"The instance {misc.fmt(self.inst)} has an associated property {misc.fmt(self.property)}. Expected type of this property is: {misc.fmt(self.accepted_type)}"
+        elif self.accepted_data_type_value:
+            return f"The instance {misc.fmt(self.inst)} has an associated value {misc.fmt(self.property)} with Name attribute equal to: '{misc.fmt(self.property.Name)}'. Expected data type of this value is {self.accepted_data_type_value}, but {misc.fmt(self.value)} was found."
+
 
 @dataclass
 class ValueCountError(RuleState):

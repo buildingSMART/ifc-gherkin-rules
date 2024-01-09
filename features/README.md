@@ -120,11 +120,11 @@ If the rule in the feature file applies only to specific IFC version(s) and/or V
 <details><summary>examples</summary>
 
 ```
-Given A file with Schema Identifier "IFC2X3"
+Given A model with Schema Identifier "IFC2X3"
 And A file with Model View Definition "CoordinationView"
 ```
 ```
-Given A file with Schema Identifier "IFC2X3" or "IFC4"
+Given A model with Schema Identifier "IFC2X3" or "IFC4"
 And A file with Model View Definition "CoordinationView" or "ReferenceView"
 ```
 </details>
@@ -139,7 +139,7 @@ And A file with Model View Definition "CoordinationView" or "ReferenceView"
 <details><summary>wrong</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given A model with Schema Identifier "IFC4X3"
 
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
@@ -149,7 +149,7 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>right</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given A model with Schema Identifier "IFC4X3"
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
 And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
@@ -161,7 +161,7 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>wrong</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given A model with Schema Identifier "IFC4X3"
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And  Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
 And  Each IfcAlignmentCant must be nested only by 1 IfcAlignment
@@ -170,7 +170,7 @@ And  Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>right</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given A model with Schema Identifier "IFC4X3"
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
 And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
@@ -182,7 +182,7 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>wrong</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3",
+Given A model with Schema Identifier "IFC4X3",
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment;
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment;
 And Each IfcAlignmentCant must be nested only by 1 IfcAlignment.
@@ -191,7 +191,7 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment.
 <details><summary>right</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given A model with Schema Identifier "IFC4X3"
 Then Each IfcAlignmentHorizontal must be nested only by 1 IfcAlignment
 And Each IfcAlignmentVertical must be nested only by 1 IfcAlignment
 And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
@@ -203,13 +203,13 @@ And Each IfcAlignmentCant must be nested only by 1 IfcAlignment
 <details><summary>wrong</summary>
 
 ```
-Given a file with Schema Identifier "IFC4x3",
+Given A model with Schema Identifier "IFC4x3",
 ```
 </details>
 <details><summary>right</summary>
 
 ```
-Given a file with Schema Identifier "IFC4X3"
+Given A model with Schema Identifier "IFC4X3"
 ```
 </details>
 
@@ -220,7 +220,7 @@ Use **must**, not **shall** to impose requirements.
 <details><summary>wrong</summary>
 
 ```
-Given A file with Schema Identifier "IFC2X3"
+Given A model with Schema Identifier "IFC2X3"
 And A file with Model View Definition "CoordinationView"
 Then There must be exactly 1 IfcSite element(s)
 ```
@@ -228,7 +228,7 @@ Then There must be exactly 1 IfcSite element(s)
 <details><summary>right</summary>
 
 ```
-Given A file with Schema Identifier "IFC2X3"
+Given A model with Schema Identifier "IFC2X3"
 And A file with Model View Definition "CoordinationView"
 Then There must be exactly 1 IfcSite element(s)
 ```
@@ -244,7 +244,17 @@ When a rule requires a specific IFC relationship to exist, refer to the table be
 | ...                    |                       |
 
 
+#### Reference for schema versioning
+```
+Given any IFC file
+Then the schema identifier must be IFC2X3 or IFC4 or IFC4X3_ADD2 
+```
 
+| Version | Name          | Schema id   | Common jargon |
+|---------|---------------|-------------|---------------|
+| 4.3.2.0 | IFC4.3 ADD2   | IFC4X3_ADD2 | IFC4.3        |
+| 4.0.2.1 | IFC4 ADD2 TC1 | IFC4        | IFC4          |
+| 2.3.0.1 | IFC2x3 TC1    | IFC2X3      | IFC2x3        |
 
 
 

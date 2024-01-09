@@ -1,0 +1,26 @@
+code,name,rule_description,disabled,implementer-agreement,informal-proposition,rule_tag
+ALB001,Alignment-in-spatial-structure,"The rule verifies, that each IfcAlignment is contained in an IfcSite.",True,True,False,ALB
+ALB002,Alignment-layout,"This rule verifies that (a) alignment has a nesting relationship with its layout components,(b) its layout components have a nesting relationship with alignment,(c) the layouts must have a nesting relationship with the alignment segments and,(d) each layout direction must be linked to their own respective segments through the attribute DesignParameters",False,True,False,ALB
+ALB003,Alignment-directions,"The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts)or with Referents (e.g., mileage markers). And not with any other entity.",False,True,False,ALB
+ALB004,Alignment-in-spatial-structure,"The rule verifies, that each IfcAlignment must be related to IfcProject using the IfcRelAggregates relationship - either directly or indirectly. The indirect case is when a child alignment is aggregated to a parent alignment.In this case, only the parent alignment shall be related to the project. Additionally instances of IfcAlignment must not be related to spatial entities using the IfcRelContainedInSpatialStructure relationship.",False,True,False,ALB
+ALB005,Positioning_of_referents,IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPositions relationship,True,True,False,ALB
+ALS008,Alignment-cant-shape-representation,The rule verifies that each IfcAlignmentCant uses correct representation.,True,True,False,ALS
+ALS004,Alignment-segment-shape-representation,The rule verifies that each IfcAlignmentSegment uses correct representation.,False,True,False,ALS
+ALS005,Alignment-shape-representation,The rule verifies that each IfcAlignment uses correct representation.,False,True,False,ALS
+ALS006,Alignment-horizontal-shape-representation,,False,True,False,ALS
+ALS007,Alignment-vertical-shape-representation,,False,True,False,ALS
+GEM001,Closed-shell-edge-usage,The rule verifies that closed shells and closed facesets edges are referenced correctly.,False,False,True,GEM
+GEM002,Space-representation,The rule verifies that all IfcSpaces have a correct Body shape representation.,False,False,True,GEM
+GEM003,Unique-representation-identifier,The rule verifies that Shape Representation identifier is unique within the product representation of an IfcProduct element.,False,False,True,GEM
+GEM004,Constraints-on-representation-identifiers,"The rule verifies that the inherited attributes at shape representation, type and identifier,must be one of the values as noted in the documentation. The valid values can be found in the csv files in the folder 'features/resources/{attribute}.csv'",False,False,True,GEM
+GEM005,Geometry-of-surrounding-buildings,,True,True,False,ALS
+GEM111,No-duplicated-points-within-a-polyloop-or-polyline,"The rule verifies, that all the polyloops and polylines will have no duplicate points, unless it's the first and last point of a closed polyline.In that case, it must be identical by reference (referencing the same instance), not just having the same coordinates.",False,True,False,GEM
+GRF001,Identical-coordinate-operations,"The rule verifies that the same coordinate system is used within an IFC model and not, for example, anIfcMapConversion in one representation context and IfcRigidOperation in another.",False,False,False,GRF
+GRP001,Acyclic_groups,The rule verifies that all the IfcGroups are acyclic.,False,True,False,GRP
+OJP001,Relative-placement-for-elements-aggregated-to-another-element,"The rule verifies that if an IfcElement is a part of another IfcElement (the container) through the relationshipIfcRelAggregates, then the relative placement of that IfcElement shall be provided by an IfcLocalPlacementwith an PlacementRelTo attribute pointing to the IfcLocalPlacement of the container element.",False,True,False,OJP
+SPS001,Basic-spatial-structure-for-buildings,The rule verifies that there's maximum one instance of IfcSite and at least one instance of IfcBuilding as part of the spatial structure.,False,True,False,SPS
+SPS002,Correct_spatial_breakdown,The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial_CompositionTable.csv',False,True,False,SPS
+SPS003,Correct_containment_of_assemblies,IfcElement that are aggregated in another IfcElement must not be contained using IfcRelContainedInSpatialStructure.,False,True,False,SPS
+SPS004,No_combination_of_containment_and_positioning,"Each IfcProduct can either be contained in one and only one IfcSpatialStructureElement, or contained in one and only one IfcLinearPositioningElement, but not both.",True,True,False,SPS
+SPS006,Elements_referenced_in_Spatial_structures,"If IfcElements are positioned wrt IfcPositioning elements, then they must be also referenced (instead of contained) into a IfcSpatialStructure element",True,True,False,SPS
+SYS001,Cable_signal_flow,"IfcCableSegment must define 2 distribution ports, 1 as a SOURCE, one as a SINK",True,True,False,SYS

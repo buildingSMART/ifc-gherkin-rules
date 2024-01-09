@@ -4,6 +4,10 @@ import errors as err
 from behave import *
 from utils import ifc, misc, system
 
+from parse_type import TypeBuilder
+
+register_type(file_or_model=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("file", "model")))))
+
 @then('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
 @err.handle_errors
 def step_impl(context, entity, other_entity, relationship):
@@ -109,3 +113,20 @@ def step_impl(context, attribute, value):
                 yield(err.InvalidValueError(False, inst, attribute, attribute_value))
             elif context.error_on_passed_rule:
                 yield(err.RuleSuccessInst(True, inst))
+
+
+@then('The {field} of the {file_or_model} must be "{values}"')
+@err.handle_errors
+def step_impl(context, field, file_or_model, values):
+    values = misc.strip_split(values, strp='"', splt=' or ')
+    for inst in context.instances:
+        if field == "Schema Identifier":
+            s = context.model.schema_identifier
+            if not s.lower() in values:
+                yield err.IncorrectSchemaError(False, s, values)
+        elif field == "Schema" and not context.model.schema in values:
+            s = context.model.schema
+            if not s.lower() in values:
+                yield err.IncorrectSchemaError(False, s, values)
+        else:
+            yield(err.RuleSuccessInst(True, inst))

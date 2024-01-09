@@ -22,9 +22,18 @@ def generate_error_message(context, errors):
         "\n".join(map(error_formatter, errors))
     )
 
+# @todo why do we have RuleSuccessInst and -Insts with identical formatting
+
+@dataclass
+class RuleSuccessInsts(RuleState):
+    insts: Union[ifcopenshell.entity_instance, ifcopenshell.file]
+
+    def __str__(self):
+        return f"The instance {self.insts} has passed the step criteria"
+
 @dataclass
 class RuleSuccessInst(RuleState):
-    inst: ifcopenshell.entity_instance
+    inst: Union[ifcopenshell.entity_instance, ifcopenshell.file]
 
     def __str__(self):
         return f"The instance {self.inst} has passed the step criteria"
@@ -259,3 +268,11 @@ class CyclicGroupError(RuleState):
 
     def __str__(self):
         return f"Cyclic group definition of {misc.fmt(self.inst)}"
+
+@dataclass
+class IncorrectSchemaError(RuleState):
+    observed_result: str
+    expected_result: list
+
+    def __str__(self):
+        return f"The file's schema identifier {self.observed_result} does not match any of the expected current schema identifiers :  {', '.join(map(repr, self.expected_result))}."

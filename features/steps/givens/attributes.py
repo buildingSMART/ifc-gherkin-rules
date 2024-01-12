@@ -9,6 +9,7 @@ from validation_handling import validate_step
 
 register_type(file_or_model=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("file", "model")))))
 
+
 @validate_step("{attribute} = {value}")
 def step_impl(context, attribute, value):
     pred = operator.eq
@@ -43,14 +44,15 @@ def step_impl(context, attr, closed_or_open):
         are_closed.append(geometry.is_closed(context, instance))
 
     context.instances = list(
-        map(operator.itemgetter(0), filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, are_closed)))
+        map(operator.itemgetter(0),
+            filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, are_closed)))
     )
 
 
 @validate_step('A {file_or_model} with {field} "{values}"')
 def step_impl(context, file_or_model, field, values):
     values = misc.strip_split(values, strp='"', splt=' or ')
-    values = ['ifc4x3' if i.lower() == 'ifc4.3' else i for i in values] # change to IFC4X3 to check in IfcOpenShell
+    values = ['ifc4x3' if i.lower() == 'ifc4.3' else i for i in values]  # change to IFC4X3 to check in IfcOpenShell
     if field == "Model View Definition":
         conditional_lowercase = lambda s: s.lower() if s else None
         applicable = conditional_lowercase(ifc.get_mvd(context.model)) in values
@@ -69,6 +71,19 @@ def step_impl(context, attribute):
     context._push()
     context.instances = misc.map_state(context.instances, lambda i: getattr(i, attribute, None))
     setattr(context, 'attribute', attribute)
+
+
+@validate_step('Its final segment')
+def step_impl(context):
+    context._push()
+    context.instances = list()
+    for curves in context._stack[1]["instances"]:
+        for curve in curves:
+            for segments in curve:
+                context.instances.append(segments[-1])
+                setattr(context, 'applicable', True)
+
+    setattr(context, 'attribute', "last_segment")
 
 
 @validate_step("An IFC model")

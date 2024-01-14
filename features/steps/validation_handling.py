@@ -220,6 +220,8 @@ def flatten_list_of_lists(lst):
     return result
 
 def execute_step(fn):
+    while hasattr(fn, '__wrapped__'):
+        fn = fn.__wrapped__
     @wraps(fn)
     #@todo gh break function down into smaller functions
     def inner(context, **kwargs):
@@ -271,7 +273,6 @@ def execute_step(fn):
                 for i, inst in enumerate(instances):
                     activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
                     if isinstance(activation_inst, ifcopenshell.file):
-                        activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
                         activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
                     step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
                     for result in step_results:

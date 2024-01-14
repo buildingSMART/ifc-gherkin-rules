@@ -80,11 +80,20 @@ def step_impl(context, inst, field, file_or_model, values):
             yield StepResult(expected=values, observed=s)
 
 
-@validate_step('The {length_attribute} of the final segment must be 0')
-def step_impl(context, inst, length_attribute):
-    if (length_attribute == "SegmentLength") or (length_attribute == "Length"):
-        length = getattr(inst, length_attribute, )
-        length_value = length.wrappedValue
-        if abs(length_value) > geometry.GEOM_TOLERANCE:
-            yield StepResult(expected=0.0, observed=length_value)
+@validate_step('The {length_attribute} of the final {segment_type} must be 0')
+def step_impl(context, inst, length_attribute, segment_type):
+    business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]
 
+    if segment_type == "segment":
+        # processing an ALS rule
+        length = getattr(inst, length_attribute, None)
+        len_ = abs(length.wrappedValue)
+        if len_ > geometry.GEOM_TOLERANCE:
+            yield StepResult(expected=0.0, observed=len_)
+
+    elif segment_type.upper() in business_logic_types:
+        # processing an ALB rule
+        param = getattr(inst, "DesignParameters", None)
+        len_ = abs(getattr(param, length_attribute))
+        if len_ > geometry.GEOM_TOLERANCE:
+            yield StepResult(expected=0.0, observed=len_)

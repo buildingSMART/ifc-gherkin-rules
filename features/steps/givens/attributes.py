@@ -73,15 +73,23 @@ def step_impl(context, attribute):
     setattr(context, 'attribute', attribute)
 
 
-@validate_step('Its final segment')
-def step_impl(context):
+@validate_step('Its final {segment_type}')
+def step_impl(context, segment_type):
     context._push()
     context.instances = list()
-    for curves in context._stack[1]["instances"]:
-        for curve in curves:
-            for segments in curve:
-                context.instances.append(segments[-1])
-                setattr(context, 'applicable', True)
+    business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]
+    if segment_type.upper() == "SEGMENT":
+        # processing an ALS rule
+        for curves in context._stack[1]["instances"]:
+            for curve in curves:
+                for segments in curve:
+                    last_seg = segments[-1]
+                    context.instances.append(last_seg)
+                    setattr(context, 'applicable', True)
+    elif segment_type.upper() in business_logic_types:
+        # processing an ALB rule
+        context.instances.append(context._stack[1]["instances"][-1])
+        setattr(context, 'applicable', True)
 
     setattr(context, 'attribute', "last_segment")
 

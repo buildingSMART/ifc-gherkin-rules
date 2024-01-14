@@ -5,7 +5,7 @@ import os
 from behave import register_type
 from pathlib import Path
 
-from validation_handling import gherkin_ifc, StepResult, handle_errors
+from validation_handling import gherkin_ifc, StepResult
 
 from parse_type import TypeBuilder
 register_type(unique_or_identical=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("be unique", "be identical"))))) # todo @gh remove 'be' from enum values

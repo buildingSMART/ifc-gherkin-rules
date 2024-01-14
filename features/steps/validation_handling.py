@@ -139,21 +139,11 @@ class StepOutcome(BaseModel):
         extra = "allow"
 
 
-def handle_errors(fn):
-    def inner(*args, **kwargs):
-        generate_error_message(*args, list(fn(*args, **kwargs))) # context is always *args[0]
-    return inner
-
-
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str
     assert not errors, "Errors occured:\n{}".format([str(error) for error in errors])
 
 
-
-def extract_instance_data(inst):
-    global_id = inst.GlobalId
-    return inst.GlobalId, inst.is_a()
 
 def get_optional_fields(result, fields):
     """
@@ -220,16 +210,13 @@ def flatten_list_of_lists(lst):
     return result
 
 def execute_step(fn):
-    while hasattr(fn, '__wrapped__'):
+    while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
         fn = fn.__wrapped__
     @wraps(fn)
     #@todo gh break function down into smaller functions
     def inner(context, **kwargs):
         step_type = context.step.step_type
         if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
-            name = context.step.name
-            if 'IfcRoot' in name:
-                pass
             gen = fn(context, **kwargs)
             if gen is None:
                 pass

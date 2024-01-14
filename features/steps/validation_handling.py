@@ -220,6 +220,8 @@ def flatten_list_of_lists(lst):
     return result
 
 def execute_step(fn):
+    while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
+        fn = fn.__wrapped__
     @wraps(fn)
     #@todo gh break function down into smaller functions
     def inner(context, **kwargs):

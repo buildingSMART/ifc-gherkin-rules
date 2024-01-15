@@ -3,14 +3,12 @@ import os
 import re
 
 from pathlib import Path
-
-from behave import *
 from utils import misc, system
 
-from validation_handling import validate_step
+from validation_handling import gherkin_ifc
 
 
-@validate_step('A relationship {relationship} from {entity} to {other_entity}')
+@gherkin_ifc.step('A relationship {relationship} from {entity} to {other_entity}')
 def step_impl(context, entity, other_entity, relationship):
     instances = []
     relationships = context.model.by_type(relationship)
@@ -33,12 +31,12 @@ def step_impl(context, entity, other_entity, relationship):
             for obj in related_objects:
                 if obj.is_a(entity):
                     instances.append(obj)
-    context.instances = instances
+    yield instances
 
 
 #@nb this is awaiting the merge of https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
 #now needs to be disambiguated from the above, can be removed when #37 is merged
-@validate_step('There exists a relationship {relationship} from {entity} to {other_entity} and following that')
+@gherkin_ifc.step('There exists a relationship {relationship} from {entity} to {other_entity} and following that')
 def step_impl(context, relationship, entity, other_entity):
 
     relationships = context.model.by_type(relationship)
@@ -65,14 +63,14 @@ def step_impl(context, relationship, entity, other_entity):
             if v := {inst} & to_entity:
                 instances.extend(to_other)
 
-    context.instances = instances
+    yield instances
 
     
 
-@validate_step("The element {relationship_type} an {entity}")
+@gherkin_ifc.step("The element {relationship_type} an {entity}")
 def step_impl(context, relationship_type, entity):
     reltype_to_extr = {'nests': {'attribute': 'Nests', 'object_placement': 'RelatingObject'},
                        'is nested by': {'attribute': 'IsNestedBy', 'object_placement': 'RelatedObjects'}}
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
-    context.instances = list(filter(lambda inst: misc.do_try(lambda: getattr(getattr(inst, extr['attribute'])[0], extr['object_placement']).is_a(entity), False), context.instances))
+    yield list(filter(lambda inst: misc.do_try(lambda: getattr(getattr(inst, extr['attribute'])[0], extr['object_placement']).is_a(entity), False), context.instances))

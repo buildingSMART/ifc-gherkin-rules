@@ -8,11 +8,16 @@ import os
 from pathlib import Path
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
-from validation_results import *
+
+# sys.path.append(r"PATH TO VALIDATE DB") # TODO -> add the path if necessary
+try:
+    from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
+except (ModuleNotFoundError, ImportError):
+    from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
+
 from behave.runner import Context
-from dataclasses import dataclass, asdict, field
 import random
-from pydantic import BaseModel, model_validator, field_validator, Field
+from pydantic import BaseModel, field_validator, Field
 from typing import Any, Union
 from typing_extensions import Annotated
 
@@ -134,21 +139,11 @@ class StepOutcome(BaseModel):
         extra = "allow"
 
 
-def handle_errors(fn):
-    def inner(*args, **kwargs):
-        generate_error_message(*args, list(fn(*args, **kwargs))) # context is always *args[0]
-    return inner
-
-
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str
     assert not errors, "Errors occured:\n{}".format([str(error) for error in errors])
 
 
-
-def extract_instance_data(inst):
-    global_id = inst.GlobalId
-    return inst.GlobalId, inst.is_a()
 
 def get_optional_fields(result, fields):
     """
@@ -172,29 +167,66 @@ def check_layer_for_entity_instance(i, stack_tree):
     return None
 
 def get_activation_instances(context, instances):
-    """Returns the activation instances of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
+    """Returns the activation instances of the current context. To be used for 'attribute stacking', e.g. in GEM004
+    In many case, context.instances are actual ifcopenshell.entity_instance objects, but in some cases they are not. For example in the following scenario:
+    Given An IfcProduct
+    Given Its attribute Representation
+    Given its attribute Representations
+    Given Its Attribute RepresentationIdentifier
+
+    We calculate a stack tree, which is done by the function get_stack_tree(context). The stack tree is a list of lists, where each list represents a layer of the stack.
+    In the example above, this would look something like this:
+    [(None), ('Value', 'Axis')]
+    [(IfcShapeRepr, IfcShapeRepr), (IfcShapeRepr, IfcShapeRepr)]
+    [IfcProductDefintionShape, IfcProductDefinitionShape]
+    [IfcRoof, IfcSlab]
+
+    Note that each layer is formatted in the same way as the previous layer. This is done by the misc.map_state function.
+
+    The activation_instance is then the first instance in the stack tree that is an actual ifcopenshell.entity_instance object. 
+    In this case, this would be IfcProductDefinitionShape.
+    """
     stack_tree = get_stack_tree(context)
     if isinstance(stack_tree[0], list):
         return [check_layer_for_entity_instance(i, stack_tree) for i in range(len(stack_tree[0]))]
     else:  # e.g. with IFC001, where stack is ifcopenshell.file.file
         return instances
 
-def validate_step(step_text):
-    def wrapped_step(func):
-        return step(step_text)(execute_step(func))
+class gherkin_ifc():
 
-    return wrapped_step
+    def step(step_text):
+        def wrapped_step(func):
+            return step(step_text)(execute_step(func))
+
+        return wrapped_step
+
+def flatten_list_of_lists(lst):
+    result = []
+    for item in lst:
+        if isinstance(item, list):
+            result.extend(flatten_list_of_lists(item))
+        else:
+            result.append(item)
+    return result
 
 def execute_step(fn):
+    while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
+        fn = fn.__wrapped__
     @wraps(fn)
     #@todo gh break function down into smaller functions
     def inner(context, **kwargs):
         step_type = context.step.step_type
         if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
-            try:
-                next(fn(context, **kwargs), None)
-            except TypeError:
+            gen = fn(context, **kwargs)
+            if gen is None:
                 pass
+            else:
+                insts = list(gen)
+                context.instances = flatten_list_of_lists(insts)
+            # try:
+            #     next(fn(context, **kwargs), None)
+            # except TypeError:
+            #     pass
         elif step_type.lower() == 'then':
             if not getattr(context, 'applicable', True):
                 validation_outcome = ValidationOutcome(
@@ -206,10 +238,12 @@ def execute_step(fn):
                     severity=OutcomeSeverity.NA,
                     check_execution_id=check_execution_id
                 )
-                context.gherkin_outcomes.append(validation_outcome)
+                context.gherkin_outcomes.add(validation_outcome)
             else:
                 instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
+                # if 'instances' are not actual ifcopenshell.entity_instance objects, but e.g. tuple of string values then get the actual instances from the stack tree
+                # see for more info docstring of get_activation_instances
                 activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
 
                 validation_outcome = ValidationOutcome(
@@ -221,14 +255,19 @@ def execute_step(fn):
                     severity=OutcomeSeverity.EXECUTED,
                     check_execution_id=check_execution_id
                 )
-                context.gherkin_outcomes.append(validation_outcome)
+                context.gherkin_outcomes.add(validation_outcome)
 
                 for i, inst in enumerate(instances):
-                    activation_inst = inst if activation_instances==instances else activation_instances[i]
+                    activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
+                    if isinstance(activation_inst, ifcopenshell.file):
+                        activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
+                        activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
                     step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
                     for result in step_results:
-
-                        instance_step_outcome = StepOutcome(inst=activation_inst, context=context, **result.as_dict())
+                        try:
+                            instance_step_outcome = StepOutcome(inst=activation_inst, context=context, **result.as_dict())
+                        except:
+                            pass
 
                         validation_outcome = ValidationOutcome(
                             outcome_code=getattr(ValidationOutcomeCode, instance_step_outcome.outcome_code),
@@ -237,20 +276,17 @@ def execute_step(fn):
                             feature=context.feature.name,
                             feature_version=misc.define_feature_version(context),
                             severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
+                            ifc_instance_id = activation_inst.id(),
                             check_execution_id=check_execution_id
                         )
-                        context.gherkin_outcomes.append(validation_outcome)
+                        context.gherkin_outcomes.add(validation_outcome)
 
                     if not step_results:
-
-                        if isinstance(inst, (tuple, list)): # TODO -> this is quite dirty temp solution. Done because @given('Its attribute {attribute}') return a tuple, not an instance
-                            inst = inst[0]
 
                         StepOutcome(inst=activation_inst,
                                     context=context,
                                     expected=None,
                                     observed=None)  # expected / observed equal on passed rule?
-
                         validation_outcome = ValidationOutcome(
                             outcome_code=ValidationOutcomeCode.P00010,  # "Rule passed"
                             observed=None,
@@ -258,9 +294,10 @@ def execute_step(fn):
                             feature=context.feature.name,
                             feature_version=misc.define_feature_version(context),
                             severity=OutcomeSeverity.PASS,
+                            ifc_instance_id=None,
                             check_execution_id=check_execution_id
                         )
-                    context.gherkin_outcomes.append(validation_outcome)
+                    context.gherkin_outcomes.add(validation_outcome)
 
                 generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity >= OutcomeSeverity.WARNING])
 

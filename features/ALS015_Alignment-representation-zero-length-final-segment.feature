@@ -14,10 +14,10 @@ Background: Validating final segment of alignment geometry (representation).
   Given Its final segment
 
 @E00020
-Scenario:
+Scenario: Validating that the final alignment geometry segment is of length 0.0.
   Then The SegmentLength of the final segment must be 0
 
 @E00020
-  Scenario:
+  Scenario: Validating that the final alignment geometry segment is discontinuous.
     Given Its attribute Transition
     Then The value must be "DISCONTINUOUS"

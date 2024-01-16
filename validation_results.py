@@ -7,6 +7,7 @@ from datetime import datetime
 import enum
 from sqlalchemy import Enum
 import os
+import ifcopenshell
 
 
 DEVELOPMENT = os.environ.get('environment', 'development').lower() == 'development'
@@ -146,6 +147,8 @@ class ValidationOutcome(Base):
     check_execution_id = Column(Integer)
 
     ifc_instance_id = Column(Integer) # Reference to IfcInstance, one-to-many
+    inst = None
+
     def __str__(self):
         return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}. ifc_instance_id: {self.ifc_instance_id}")
 
@@ -163,6 +166,7 @@ class ValidationOutcome(Base):
                     self.expected == other.expected and
                     self.outcome_code == other.outcome_code)
         return False
+
 
 
 def flush_results_to_db(results):

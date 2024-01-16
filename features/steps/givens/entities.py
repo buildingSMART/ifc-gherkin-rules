@@ -4,7 +4,9 @@ import pyparsing
 
 from utils import misc
 
-from validation_handling import gherkin_ifc
+from validation_handling import gherkin_ifc, StepOutcome
+
+from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("An {entity_opt_stmt}")
@@ -31,7 +33,9 @@ def step_impl(context, entity_opt_stmt, insts=False):
     else:
         context.applicable = False
     
-    yield instances
+    # yield instances
+    for inst in instances:
+        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS)
 
 @gherkin_ifc.step("No {entity}")
 def step_impl(context, entity):

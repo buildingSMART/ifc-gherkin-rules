@@ -13,10 +13,7 @@ current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
 
 # sys.path.append(r"PATH TO VALIDATE DB") # TODO -> add the path if necessary
-try:
-    from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
-except (ModuleNotFoundError, ImportError):
-    from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
+from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
 
 from behave.runner import Context
 import random
@@ -233,9 +230,6 @@ def execute_step(fn):
     def inner(context, **kwargs):
         step_type = context.step.step_type
         if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
-            name = context.step.name
-            if 'Body shape representation has RepresentationType' in name:
-                pass
             if not 'inst' in inspect.getargs(fn.__code__).args:
                 gen = fn(context, **kwargs)
                 if gen: # in case only applicability is set to True or False, nothing is yielded
@@ -244,7 +238,7 @@ def execute_step(fn):
             else:
                 context._push()
                 if is_list_of_tuples_or_none(context.instances): # in case of stacking multiple attribute values for a single entity instance, e.g. in ALS004
-                    context.instances = [fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)]
+                    context.instances =  flatten_list_of_lists([fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)])
                 else:
                     context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASS, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs) for inst in context.instances))))
                 pass
@@ -283,7 +277,6 @@ def execute_step(fn):
                 for i, inst in enumerate(instances):
                     activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
                     if isinstance(activation_inst, ifcopenshell.file):
-                        activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
                         activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
                     step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
                     for result in step_results:

@@ -22,6 +22,9 @@ def before_feature(context, feature):
     Scenario.continue_after_failed_step = False
     context.gherkin_outcomes = set()
 
+def before_scenario(context, scenario):
+    context.applicable = True
+
 def before_step(context, step):
     context.step = step
 

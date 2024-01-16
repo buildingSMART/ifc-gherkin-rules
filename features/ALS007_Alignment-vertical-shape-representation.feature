@@ -18,14 +18,14 @@ The rule verifies that IfcAlignmentVertical is represented correctly with repres
   @E00020
   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
 
-      Given Its attribute RepresentationIdentifier
-      Then The value must be "Axis"
+      Given Its attributes RepresentationIdentifier for each
+      Then All values must be "Axis"
 
 
   @E00020
   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
 
-      Given Its attribute RepresentationType
-      Then The value must be "Curve3D"
+      Given Its attributes RepresentationType for each
+      Then All values must be "Curve3D"
 
 

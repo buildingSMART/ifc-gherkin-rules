@@ -8,8 +8,10 @@ from pathlib import Path
 from validation_handling import gherkin_ifc, StepResult
 
 from parse_type import TypeBuilder
+from utils import misc
 register_type(unique_or_identical=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("be unique", "be identical"))))) # todo @gh remove 'be' from enum values
 register_type(value_or_type=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("value", "type"))))) # todo @gh remove 'be' from enum values
+register_type(values_or_types=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("values", "types"))))) # todo @gh remove 'be' from enum values
 
 
 @gherkin_ifc.step("The value must be in '{csv_file}.csv'")
@@ -97,5 +99,18 @@ def step_impl(context, inst, i, value):
     if isinstance(inst, ifcopenshell.entity_instance):
         inst = inst.is_a() # another option would be to let this depend on 'type'. E.g. if i is 'type', then always check for entity_instance
 
-    if (inst != value) and (inst is not None):
-        yield StepResult(expected=value, observed=inst)
+    if inst != value:
+        yield StepResult(expected = value, observed=inst)
+
+
+@gherkin_ifc.step('All {i:values_or_types} must be "{value}"')
+def step_impl(context, inst, i, value):
+    number_of_unique_values = len(set(inst))
+    if number_of_unique_values > 1: # if there are more than 1 values, the 'All' predicament is impossible to fulfill
+        yield StepResult(expected = value, observed=f"{number_of_unique_values} unique values")
+    else:
+        inst = recursive_unpack_value(inst)
+        if isinstance(inst, ifcopenshell.entity_instance):
+            inst = misc.do_try(lambda: inst.is_a(), inst)
+        if inst != value:
+            yield StepResult(expected = value, observed=inst)

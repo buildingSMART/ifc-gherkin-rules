@@ -6,6 +6,9 @@ from behave import step
 import sys
 import os
 from pathlib import Path
+import inspect
+import itertools
+from operator import attrgetter
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
 
@@ -56,6 +59,12 @@ class StepOutcome(BaseModel):
 
     def __str__(cls):
         return(f"Step finished with a/an {cls.severity} {cls.outcome_code}. Expected value: {cls.expected}. Observed value: {cls.observed}")
+    
+    @field_validator('expected')
+    def format_expected(cls, v):
+        if isinstance(v, list):
+            return json.dumps({'OneOf': v})
+        return v
 
     @field_validator('outcome_code')
     @classmethod
@@ -209,6 +218,13 @@ def flatten_list_of_lists(lst):
             result.append(item)
     return result
 
+def handle_nested(instance):
+    if isinstance(instance, tuple):
+        return 
+    
+def is_list_of_tuples_or_none(var):
+    return isinstance(var, list) and all(item is None or isinstance(item, tuple) for item in var)
+
 def execute_step(fn):
     while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
         fn = fn.__wrapped__
@@ -217,16 +233,23 @@ def execute_step(fn):
     def inner(context, **kwargs):
         step_type = context.step.step_type
         if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
-            gen = fn(context, **kwargs)
-            if gen is None:
+            name = context.step.name
+            if 'Body shape representation has RepresentationType' in name:
                 pass
+            if not 'inst' in inspect.getargs(fn.__code__).args:
+                gen = fn(context, **kwargs)
+                if gen: # in case only applicability is set to True or False, nothing is yielded
+                    insts = list(gen)
+                    context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASS, insts)))
             else:
-                insts = list(gen)
-                context.instances = flatten_list_of_lists(insts)
-            # try:
-            #     next(fn(context, **kwargs), None)
-            # except TypeError:
-            #     pass
+                context._push()
+                if is_list_of_tuples_or_none(context.instances): # in case of stacking multiple attribute values for a single entity instance, e.g. in ALS004
+                    context.instances = [fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)]
+                else:
+                    context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASS, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs) for inst in context.instances))))
+                pass
+
+
         elif step_type.lower() == 'then':
             if not getattr(context, 'applicable', True):
                 validation_outcome = ValidationOutcome(

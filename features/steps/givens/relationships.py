@@ -7,6 +7,8 @@ from utils import misc, system
 
 from validation_handling import gherkin_ifc
 
+from . import ValidationOutcome, OutcomeSeverity
+
 
 @gherkin_ifc.step('A relationship {relationship} from {entity} to {other_entity}')
 def step_impl(context, entity, other_entity, relationship):
@@ -31,7 +33,8 @@ def step_impl(context, entity, other_entity, relationship):
             for obj in related_objects:
                 if obj.is_a(entity):
                     instances.append(obj)
-    yield instances
+    for inst in instances:
+        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS)
 
 
 #@nb this is awaiting the merge of https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
@@ -63,14 +66,17 @@ def step_impl(context, relationship, entity, other_entity):
             if v := {inst} & to_entity:
                 instances.extend(to_other)
 
-    yield instances
+    for inst in instances:
+        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS)
 
     
 
 @gherkin_ifc.step("The element {relationship_type} an {entity}")
-def step_impl(context, relationship_type, entity):
+def step_impl(context, inst, relationship_type, entity):
     reltype_to_extr = {'nests': {'attribute': 'Nests', 'object_placement': 'RelatingObject'},
                        'is nested by': {'attribute': 'IsNestedBy', 'object_placement': 'RelatedObjects'}}
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
-    yield list(filter(lambda inst: misc.do_try(lambda: getattr(getattr(inst, extr['attribute'])[0], extr['object_placement']).is_a(entity), False), context.instances))
+    if getattr(getattr(inst, extr['attribute'])[0], extr['object_placement']).is_a(entity):
+        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS)
+

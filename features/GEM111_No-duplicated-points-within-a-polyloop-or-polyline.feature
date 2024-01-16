@@ -1,5 +1,6 @@
 @implementer-agreement
 @GEM
+@disabled # TODO gh decorator work
 @version1
 Feature: GEM111 - No duplicated points within a polyloop or polyline
 The rule verifies, that all the polyloops and polylines will have no duplicate points, unless it's the first and last point of a closed polyline.

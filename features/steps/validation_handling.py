@@ -244,7 +244,9 @@ def execute_step(fn):
             else:
                 context._push()
                 if is_list_of_tuples_or_none(context.instances): # in case of stacking multiple attribute values for a single entity instance, e.g. in ALS004
-                    context.instances = [fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)]
+                    context.instances =  flatten_list_of_lists([fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)])
+                    if 'final' in context.step.name.lower():
+                        pass
                 else:
                     context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASS, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs) for inst in context.instances))))
                 pass

@@ -79,20 +79,13 @@ def step_impl(context, inst, attribute, tail="single"):
 def step_impl(context, inst, attribute, tail="single"):
     if not inst:
         return None
+    if isinstance(inst, tuple):
+        return misc.map_state(inst, lambda i: getattr(i, attribute, None))
     return tuple(getattr(item, attribute, None) for item in inst)
   
 @gherkin_ifc.step('Its final segment')
-def step_impl(context):
-    context._push()
-    context.instances = list()
-    for curves in context._stack[1]["instances"]:
-        for curve in curves:
-            for segments in curve:
-                context.instances.append(segments[-1])
-                setattr(context, 'applicable', True)
-
-    setattr(context, 'attribute', "last_segment")
-
+def step_impl(context, inst):
+    return [segments[-1] for curve in inst for segments in curve]
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):

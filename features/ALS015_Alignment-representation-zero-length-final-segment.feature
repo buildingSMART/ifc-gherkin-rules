@@ -9,9 +9,9 @@ Background: Validating final segment of alignment geometry (representation).
   Given An IfcAlignment
   Given Its attribute Representation
   Given Its attribute Representations
-  Given Its attribute Items
-  Given Its attribute Segments
-  Given Its final segment
+  Given Its attributes Items for each
+  Given Its attributes Segments for each
+  Given Its final segment 
 
 @E00020
 Scenario: Validating that the final alignment geometry segment is of length 0.0.

@@ -81,7 +81,7 @@ def step_impl(context, inst, attribute, tail="single"):
         return None
     return tuple(getattr(item, attribute, None) for item in inst)
   
-@validate_step('Its final segment')
+@gherkin_ifc.step('Its final segment')
 def step_impl(context):
     context._push()
     context.instances = list()
@@ -94,6 +94,6 @@ def step_impl(context):
     setattr(context, 'attribute', "last_segment")
 
 
-@validate_step("An IFC model")
+@gherkin_ifc.step("An IFC model")
 def step_impl(context):
     yield ValidationOutcome(inst = context.model, severity=OutcomeSeverity.PASS)

@@ -31,26 +31,16 @@ def step_impl(context, inst, attribute, value):
 
 
 @gherkin_ifc.step('{attr} forms {closed_or_open} curve')
-def step_impl(context, attr, closed_or_open):
-    """"
-    Todo @gh decorator owrk
-    """
+def step_impl(context, inst, attr, closed_or_open):
     assert closed_or_open in ('a closed', 'an open')
     should_be_closed = closed_or_open == 'a closed'
     if attr == 'It':  # if a pronoun is used instances are filtered based on previously established context
-        instances = context.instances
+        pass 
     else:  # if a specific entity is used instances are filtered based on the ifc model
-        instances = map(operator.attrgetter(attr), context.instances)
+        inst = getattr(inst, attr, None)
 
-    are_closed = []
-    for instance in instances:
-        are_closed.append(geometry.is_closed(context, instance))
-
-    # yield list(
-    #     map(operator.itemgetter(0), filter(lambda pair: pair[1] == should_be_closed, zip(context.instances, are_closed)))
-    # )
-    for inst in instances:
-        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS)
+    if geometry.is_closed(context, inst) == should_be_closed:
+        yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASS)
 
 
 @gherkin_ifc.step('A {file_or_model} with {field} "{values}"')

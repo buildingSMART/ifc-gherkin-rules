@@ -74,6 +74,16 @@ def step_impl(context, file_or_model, field, values):
 def step_impl(context, inst, attribute, tail="single"):
     yield ValidationOutcome(inst=getattr(inst, attribute, None), severity = OutcomeSeverity.PASS)
 
+@gherkin_ifc.step("Its {attribute} attribute {condition} with {prefix}")
+def step_impl(context, inst, attribute, condition, prefix):
+    assert condition in ('starts', 'does not start')
+    if condition == 'starts':
+        if hasattr(inst, attribute) and str(getattr(inst, attribute, '')).startswith(prefix):
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASS)
+    elif condition == 'does not start':
+        if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')).startswith(prefix):
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASS)
+
 @gherkin_ifc.step("Its attributes {attribute} for each")
 def step_impl(context, inst, attribute, tail="single"):
     if not inst:

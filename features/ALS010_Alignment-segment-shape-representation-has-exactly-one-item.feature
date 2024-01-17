@@ -12,12 +12,12 @@ Background:
   @E00020
   Scenario: Agreement on each IfcAlignmentSegment using correct representation - Type
 
-      Given Its attribute RepresentationType
-      Then The value must be "Segment"
+      Given Its attributes RepresentationType for each
+      Then All values must be "Segment"
 
 
   @E00040
   Scenario: Agreement on each IfcAlignmentSegment having correct number of representation items
 
-      Given Its attribute Items
+      Given Its attributes Items for each
       Then There must be 1 representation item(s)

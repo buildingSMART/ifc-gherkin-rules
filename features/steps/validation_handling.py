@@ -13,10 +13,7 @@ current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
 
 # sys.path.append(r"PATH TO VALIDATE DB") # TODO -> add the path if necessary
-try:
-    from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
-except (ModuleNotFoundError, ImportError):
-    from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
+from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
 
 from behave.runner import Context
 import random
@@ -233,9 +230,6 @@ def execute_step(fn):
     def inner(context, **kwargs):
         step_type = context.step.step_type
         if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
-            name = context.step.name
-            if 'Body shape representation has RepresentationType' in name:
-                pass
             if not 'inst' in inspect.getargs(fn.__code__).args:
                 gen = fn(context, **kwargs)
                 if gen: # in case only applicability is set to True or False, nothing is yielded

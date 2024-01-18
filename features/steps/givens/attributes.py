@@ -10,6 +10,7 @@ from . import ValidationOutcome, OutcomeSeverity
 register_type(file_or_model=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("file", "model")))))
 register_type(plural_or_single=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("plural", "single")))))
 
+
 @gherkin_ifc.step("{attribute} = {value}")
 def step_impl(context, inst, attribute, value):
     pred = operator.eq
@@ -46,7 +47,7 @@ def step_impl(context, inst, attr, closed_or_open):
 @gherkin_ifc.step('A {file_or_model} with {field} "{values}"')
 def step_impl(context, file_or_model, field, values):
     values = misc.strip_split(values, strp='"', splt=' or ')
-    values = ['ifc4x3' if i.lower() == 'ifc4.3' else i for i in values] # change to IFC4X3 to check in IfcOpenShell
+    values = ['ifc4x3' if i.lower() == 'ifc4.3' else i for i in values]  # change to IFC4X3 to check in IfcOpenShell
     if field == "Model View Definition":
         conditional_lowercase = lambda s: s.lower() if s else None
         applicable = conditional_lowercase(ifc.get_mvd(context.model)) in values
@@ -68,7 +69,13 @@ def step_impl(context, inst, attribute, tail="single"):
 def step_impl(context, inst, attribute, tail="single"):
     if not inst:
         return None
+    if isinstance(inst, tuple):
+        return misc.map_state(inst, lambda i: getattr(i, attribute, None))
     return tuple(getattr(item, attribute, None) for item in inst)
+  
+@gherkin_ifc.step('Its final segment')
+def step_impl(context, inst):
+    return [segments[-1] for curve in inst for segments in curve]
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):

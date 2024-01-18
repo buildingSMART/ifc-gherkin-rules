@@ -222,6 +222,17 @@ def handle_nested(instance):
 def is_list_of_tuples_or_none(var):
     return isinstance(var, list) and all(item is None or isinstance(item, tuple) for item in var)
 
+def select_final_instance(instances):
+    """"
+    The 'its final' predicament seems to be a statement that can be applied to either 
+    1) stacked attributes . In this case, the list of tuples have to be handled, or some solution to be discussed.
+     
+    2) The result from the initial list of applicable instances itself. 
+    The latter is used here, and results in a simple selection of the last instance in the list. 
+    Converted back to a list, as it is required for context.instances to be a list (#todo probably better solve this with Pydantic type checking)
+    """
+    return [instances[-1]]
+
 def execute_step(fn):
     while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
         fn = fn.__wrapped__
@@ -230,7 +241,8 @@ def execute_step(fn):
     def inner(context, **kwargs):
         step_type = context.step.step_type
         if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
-            if not 'inst' in inspect.getargs(fn.__code__).args:
+            fn_args = inspect.getargs(fn.__code__).args
+            if not 'inst' in fn_args:
                 gen = fn(context, **kwargs)
                 if gen: # in case only applicability is set to True or False, nothing is yielded
                     insts = list(gen)
@@ -241,7 +253,8 @@ def execute_step(fn):
                     context.instances =  flatten_list_of_lists([fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)])
                 else:
                     context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASS, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs) for inst in context.instances))))
-                pass
+                    if 'its final' in context.step.name.lower() and 'segment_type' in fn_args:
+                        context.instances = select_final_instance(context.instances)
 
 
         elif step_type.lower() == 'then':

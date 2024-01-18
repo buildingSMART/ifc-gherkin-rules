@@ -88,17 +88,15 @@ def step_impl(context, inst):
     return [segments[-1] for curve in inst for segments in curve]
 
 
-@gherkin_ifc.step('Its final "{segment_type}"')
-def step_impl(context, segment_type):
-    context._push()
-    context.instances = list()
+@gherkin_ifc.step('Its final {segment_type}')
+def step_impl(context, inst, segment_type):
     business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]
-    if segment_type.upper() in business_logic_types:
+    if segment_type == "segment":
+        return [segments[-1] for curve in inst for segments in curve]
+    
+    if segment_type.upper() in business_logic_types and inst:
         # processing an ALB rule
-        context.instances.append(context._stack[1]["instances"][-1])
-        setattr(context, 'applicable', True)
-
-    setattr(context, 'attribute', "last_segment")
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASS)
 
 
 @gherkin_ifc.step("An IFC model")

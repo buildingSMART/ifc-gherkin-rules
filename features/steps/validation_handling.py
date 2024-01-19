@@ -5,6 +5,7 @@ import ifcopenshell
 from behave import step
 import sys
 import os
+import ast
 from pathlib import Path
 import inspect
 import itertools
@@ -260,17 +261,13 @@ def handle_then(context, fn, **kwargs):
         activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
         if isinstance(activation_inst, ifcopenshell.file):
             activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
-        step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
+        step_results = list(filter(lambda x: x.severity == OutcomeSeverity.ERROR, list(fn(context, inst=inst, **kwargs))))
         for result in step_results:
-            try:
-                instance_step_outcome = StepOutcome(inst=activation_inst, context=context, **result.as_dict())
-            except:
-                pass
 
             validation_outcome = ValidationOutcome(
-                outcome_code=getattr(ValidationOutcomeCode, instance_step_outcome.outcome_code),
-                observed=instance_step_outcome.model_dump(include=('observed'))["observed"],  # TODO (parse it correctly)
-                expected=instance_step_outcome.model_dump(include=('expected'))["expected"],  # TODO (parse it correctly)
+                outcome_code=get_outcome_code(result, context),
+                observed=json_serialize(result.observed),  # TODO (parse it correctly)
+                expected=json_serialize(result.expected),  # TODO (parse it correctly)
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
@@ -349,3 +346,43 @@ def execute_step(fn):
                 handle_then(context, fn, **kwargs)
 
     return inner
+
+
+def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) -> str:
+    """
+    Determines the outcome code for a step result. 
+    Check for : 
+    -> optional attributes in ValidationOutcome, 
+    -> variables set in tags from feature_file
+    """
+    if hasattr(validation_outcome, 'outcome_code') and validation_outcome.outcome_code:
+        return validation_outcome.outcome_code
+    
+    valid_outcome_codes = {code.name for code in ValidationOutcomeCode}
+    feature_tags = context.feature.tags
+    scenario_tags = context.scenario.tags
+
+    for tag in scenario_tags:
+        if tag in valid_outcome_codes:
+            return getattr(ValidationOutcomeCode, tag)
+    for tag in valid_outcome_codes:
+        if tag in feature_tags:
+            return getattr(ValidationOutcomeCode, tag)
+    return ValidationOutcomeCode.N00010  # Default outcome code if none is found
+
+def json_serialize(data: Any) -> str:
+    if isinstance(data, str):
+        try:
+            data = ast.literal_eval(data)
+        except (ValueError, SyntaxError):
+            pass
+
+    match data:
+        case list() | set():
+            return json.dumps({"OneOf": list(data)})
+        case dict():
+            return json.dumps(data)
+        case bool() | None | int() | float() | str():
+            return json.dumps(data)
+        case _:
+            return str(data)

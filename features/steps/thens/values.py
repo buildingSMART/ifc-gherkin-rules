@@ -5,7 +5,9 @@ import os
 from behave import register_type
 from pathlib import Path
 
-from validation_handling import gherkin_ifc, StepResult
+from validation_handling import gherkin_ifc
+
+from . import ValidationOutcome, OutcomeSeverity
 
 from parse_type import TypeBuilder
 from utils import misc
@@ -25,7 +27,7 @@ def step_impl(context, inst, csv_file):
     valid_values = [row[0] for row in csv.reader(open(filename))]
     invalid_values = [value for value in inst if value not in valid_values]
     for value in invalid_values:
-        yield StepResult(expected = f"Value in {csv_file}.csv", observed = value)
+        yield ValidationOutcome(inst=inst, expected = f"Value in {csv_file}.csv", observed = value, severity=OutcomeSeverity.ERROR)
 
     return []
 
@@ -45,7 +47,7 @@ def step_impl(context, inst, constraint, num):
             if path[0] in values:
                 num_valid += 1
         if num_valid < num:
-            yield StepResult(expected = constraint, observed = f"Not {constraint}")
+            yield ValidationOutcome(inst=inst, expected = constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("The {value} must {constraint:unique_or_identical}")
@@ -65,13 +67,13 @@ def step_impl(context, inst, constraint, num=None):
             if not values:
                 continue
             if constraint == 'identical' and not all([values[0] == i for i in values]):
-                yield StepResult(constraint, f"Not {constraint}")
+                yield ValidationOutcome(inst=inst, expected = constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
             if constraint == 'unique':
                 seen = set()
                 duplicates = [x for x in values if x in seen or seen.add(x)]
                 if not duplicates:
                     continue
-                yield StepResult(constraint, f"Not {constraint}")
+                yield ValidationOutcome(inst=inst, expected = constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
 
 
 def recursive_unpack_value(item):
@@ -100,17 +102,17 @@ def step_impl(context, inst, i, value):
         inst = inst.is_a() # another option would be to let this depend on 'type'. E.g. if i is 'type', then always check for entity_instance
 
     if inst != value:
-        yield StepResult(expected = value, observed=inst)
+        yield ValidationOutcome(inst=inst, expected = value, observed=inst, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('All {i:values_or_types} must be "{value}"')
 def step_impl(context, inst, i, value):
     number_of_unique_values = len(set(inst))
     if number_of_unique_values > 1: # if there are more than 1 values, the 'All' predicament is impossible to fulfill
-        yield StepResult(expected = value, observed=f"{number_of_unique_values} unique values")
+        yield ValidationOutcome(inst=inst, expected = value, observed=f"{number_of_unique_values} unique values", severity=OutcomeSeverity.ERROR)
     else:
         inst = recursive_unpack_value(inst)
         if isinstance(inst, ifcopenshell.entity_instance):
             inst = misc.do_try(lambda: inst.is_a(), inst)
         if inst != value:
-            yield StepResult(expected = value, observed=inst)
+            yield ValidationOutcome(inst=inst, expected = value, observed=inst, severity=OutcomeSeverity.ERROR)

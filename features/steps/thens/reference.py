@@ -1,10 +1,10 @@
-from behave import *
 from collections import Counter
 from utils import geometry, misc
-from validation_handling import validate_step, StepResult
+from validation_handling import gherkin_ifc
 
+from . import ValidationOutcome, OutcomeSeverity
 
-@validate_step("Every {something} must be referenced exactly {num:d} times by the loops of the face")
+@gherkin_ifc.step("Every {something} must be referenced exactly {num:d} times by the loops of the face")
 def step_impl(context, inst, something, num):
     assert something in ("edge", "oriented edge")
     edge_usage = geometry.get_edges(
@@ -12,12 +12,13 @@ def step_impl(context, inst, something, num):
         )
     invalid = {ed for ed, cnt in edge_usage.items() if cnt != num}
     if invalid:
-        yield StepResult(expected = num, observed= edge_usage[list(invalid)[0]])
+        yield ValidationOutcome(inst=inst, expected = num, observed= edge_usage[list(invalid)[0]], severity=OutcomeSeverity.ERROR)
 
 
-@validate_step("Its first and last point must be identical by reference")
+@gherkin_ifc.step("Its first and last point must be identical by reference")
 def step_impl(context, inst):
     points = geometry.get_points(inst, return_type='points')
     if points[0] != points[-1]:
-        yield StepResult(expected = "identical", observed= "not identical")
+        yield ValidationOutcome(inst=inst, expected = "identical", observed= "not identical", severity=OutcomeSeverity.ERROR)
+
 

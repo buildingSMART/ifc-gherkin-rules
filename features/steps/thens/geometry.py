@@ -1,12 +1,12 @@
 import itertools
 import math
 
-from behave import *
 from utils import geometry, ifc, misc
-from validation_handling import validate_step, StepResult
+from validation_handling import gherkin_ifc
 
+from . import ValidationOutcome, OutcomeSeverity
 
-@validate_step("It must have no duplicate points {clause} first and last point")
+@gherkin_ifc.step("It must have no duplicate points {clause} first and last point")
 def step_impl(context, inst, clause):
     assert clause in ('including', 'excluding')
     entity_contexts = ifc.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
@@ -23,5 +23,5 @@ def step_impl(context, inst, clause):
                     break
         comparison_nr += 1
     if duplicates:
-        yield StepResult(expected="No duplicates", observed="Duplicates found")
+        yield ValidationOutcome(inst=inst, expected="No duplicates", observed=duplicates, severity=OutcomeSeverity.ERROR)
 

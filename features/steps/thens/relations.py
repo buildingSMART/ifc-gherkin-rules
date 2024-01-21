@@ -1,12 +1,16 @@
-from validation_handling import validate_step, StepResult, handle_errors, StepResult
+from validation_handling import gherkin_ifc
+import json
 
-from behave import *
 from utils import ifc, misc, system
 
 from parse_type import TypeBuilder
+from behave import register_type
+
+from . import ValidationOutcome, OutcomeSeverity
+
 register_type(aggregated_or_contained_or_positioned=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained", "positioned")))))
 
-@validate_step('It must be {relationship} as per {table}')
+@gherkin_ifc.step('It must be {relationship} as per {table}')
 def step_impl(context, inst, relationship, table):
     stmt_to_op_forward = {'aggregated': 'Decomposes'}
     stmt_to_op_reversed = {'aggregated': 'IsDecomposedBy'}
@@ -39,7 +43,7 @@ def step_impl(context, inst, relationship, table):
             relation = getattr(inst, stmt_to_op[relationship], True)[0]
         except IndexError: # no relationship found for the entity
             if is_required:
-                yield StepResult(expected = expected_relationship_objects, observed= None)
+                yield ValidationOutcome(inst=inst, expected = expected_relationship_objects, observed= None, severity=OutcomeSeverity.ERROR)
             continue
         relationship_objects = getattr(relation, relationship_tbl_header, True)
         if not isinstance(relationship_objects, tuple):
@@ -49,30 +53,17 @@ def step_impl(context, inst, relationship, table):
         for relationship_object in relationship_objects:
             is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
-                yield StepResult(expected=expected_relationship_objects, observed=relationship_objects)
+                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed=relationship_objects, severity=OutcomeSeverity.ERROR)
 
-
-#TODO -> add validate step (not trivial here)
-@then('The {related} must be assigned to the {relating} if {other_entity} {condition} present')
-@handle_errors
-def step_impl(context, related, relating, other_entity, condition):
-    # @todo reverse order to relating -> nest-relationship -> related
-    pred = misc.stmt_to_op(condition)
-
-    op = lambda n: not pred(n, 0)
-
-    if getattr(context, 'applicable', True):
-
-        if op(len(context.model.by_type(other_entity))):
-
-            for inst in context.model.by_type(related):
-                for rel in getattr(inst, 'Decomposes', []):
-                    if not rel.RelatingObject.is_a(relating):
-                        yield StepResult(expected=relating, observed=rel.RelatingObject)
+@gherkin_ifc.step('It must be assigned to the {relating}')
+def step_impl(context, inst, relating):
+    for rel in getattr(inst, 'Decomposes', []):
+        if not rel.RelatingObject.is_a(relating):
+            yield ValidationOutcome(inst=inst, expected=relating, observed=rel.RelatingObject.is_a(), severity=OutcomeSeverity.ERROR)
 
 
 
-@validate_step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
+@gherkin_ifc.step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
 def step_impl(context, inst, decision, relationship, preposition, other_entity, condition, *args):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
@@ -111,10 +102,10 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
             if check_directness:
                 observed_directness.update({'directly'})
             if decision == 'must not':
-                yield StepResult(
+                yield ValidationOutcome(inst=inst, 
                     observed = f"{decision} be {condition} {relationship}",
-                    expected = f"{common_directness} {relationship}", )
-                
+                    expected = f"{common_directness} {relationship}", severity=OutcomeSeverity.ERROR)
+
         if hasattr(relating_element, other_entity_reference): # in case the relation points to a wrong instance
             while len(getattr(relating_element, other_entity_reference)) > 0:
                 relation = getattr(relating_element, other_entity_reference)[0]
@@ -125,9 +116,10 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
                         observed_directness.update({'indirectly'})
                         break
                     if decision == 'must not':
-                        outcome = StepResult(
+                        outcome = ValidationOutcome(inst=inst,
                             observed = f"{decision} be {condition} {relationship}",
-                            expected = f"{common_directness} {relationship}")
+                            expected = f"{common_directness} {relationship}", 
+                            severity=OutcomeSeverity.ERROR)
                         yield outcome
                         break
 
@@ -136,11 +128,12 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
         directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
         directness_expected = decision == 'must'  # check if relationship is expected
         if directness_achieved != directness_expected:
-            yield StepResult(
+            yield ValidationOutcome( inst=inst,
                             observed = f"{decision} be {condition} {relationship}",
-                            expected = f"{common_directness} {relationship}")
+                            expected = f"{common_directness} {relationship}", 
+                            severity=OutcomeSeverity.ERROR)
 
-@validate_step('It must not be referenced by itself directly or indirectly')
+@gherkin_ifc.step('It must not be referenced by itself directly or indirectly')
 def step_impl(context, inst):
     relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
 
@@ -152,4 +145,152 @@ def step_impl(context, inst):
 
     inv, ent, attr = relationship[inst.is_a()]
     if inst in get_memberships(inst):
-        yield StepResult(observed=False, expected=True)
+        yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step('The IfcPropertySet Name attribute value must use predefined values according to the {table} table')
+@gherkin_ifc.step('The IfcPropertySet must be assigned according to the property set definitions table {table}')
+@gherkin_ifc.step('Each associated IfcProperty must be named according to the property set definitions table {table}')
+@gherkin_ifc.step('Each associated IfcProperty must be of type according to the property set definitions table {table}')
+@gherkin_ifc.step('Each associated IfcProperty value must be of data type according to the property set definitions table {table}')
+def step_impl(context, inst, table):
+
+    tbl_path = system.get_abs_path(f"resources/property_set_definitions/{table}")
+    tbl = system.get_csv(tbl_path, return_type='dict')
+    property_set_definitons = {}
+    for d in tbl:
+        property_set_definitons[d['property_set_name']] = d
+
+    def establish_accepted_pset_values(name, property_set_definitons):
+        def make_obj(s):
+            if s:
+                return json.loads(s.replace("'", '"'))
+            else:
+                return ''
+
+        try:
+            property_set_attr = property_set_definitons[name]
+        except KeyError:  # Pset_ not found in template
+            property_set_attr = ''
+            return property_set_attr
+
+        accepted_values = {}
+        accepted_values['template_type'] = property_set_attr.get('template_type', '')
+
+        accepted_values['property_names'] = []
+        accepted_values['property_types'] = []
+        accepted_values['data_types'] = []
+
+        for property_def in make_obj(property_set_attr['property_definitions']):
+            accepted_values['property_names'].append(property_def['property_name'])
+            accepted_values['property_types'].append(property_def['property_type'])
+            accepted_values['data_types'].append(property_def['data_type'])
+
+        accepted_values['applicable_entities'] = make_obj(property_set_attr['applicable_entities'])
+
+        accepted_values['applicable_type_values'] = property_set_attr.get('applicable_type_value', '').split(',')
+
+        return accepted_values
+
+    name = getattr(inst, 'Name', 'Attribute not found')
+
+
+    if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:
+        print(name)
+        # print(property_set_definitons.keys())
+        if name not in property_set_definitons.keys():
+            # yield (err.InvalidValueError(False, inst, 'Name', name))  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall
+            yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+
+    accepted_values = establish_accepted_pset_values(name, property_set_definitons)
+
+    if accepted_values:  # If not it's a custom Pset_ prefixed attribute, e.g. Pset_Mywall (no need for further Pset_ checks),
+
+        if 'IfcPropertySet must be assigned according to the property set definitions table' in context.step.name:
+            try:
+                relations = inst.PropertyDefinitionOf  # IFC2x3 https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifckernel/lexical/ifcpropertysetdefinition.htm
+            except AttributeError: # IFC4-CHANGE Inverse attribute renamed from PropertyDefinitionOf with upward compatibility for file-based exchange.
+                # https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcPropertySet.htm
+                relations = inst.DefinesOccurrence
+            except IndexError:  # IfcPropertySet not assigned to IfcObjects
+                relations = []
+
+            for relation in relations:
+                related_objects = relation.RelatedObjects
+                for obj in related_objects:
+
+                    if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
+                        # yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
+                        yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+
+                    correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
+                    if not any(correct):
+                        # yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_entities']))
+                        yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+
+
+            related_objects = inst.DefinesType
+            for obj in related_objects:
+                if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN', 'PSET_PERFORMANCEDRIVEN']:
+                    # yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
+                    yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+
+                correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_type_values']]
+                if not any(correct):
+                    # yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_type_values']))
+                    yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+
+        if 'Each associated IfcProperty must be named according to the property set definitions table' in context.step.name:
+            properties = inst.HasProperties
+
+            for property in properties:
+                if property.Name not in accepted_values['property_names']:
+                    # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_values=accepted_values['property_names']))
+                    yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+
+        if 'Each associated IfcProperty must be of type according to the property set definitions table' in context.step.name:
+            accepted_property_name_type_map = {}
+            for accepted_property_name, accepted_property_type in zip(accepted_values['property_names'], accepted_values['property_types']):
+                accepted_property_name_type_map[accepted_property_name] = accepted_property_type
+
+            properties = inst.HasProperties
+            for property in properties:
+
+                try:
+                    accepted_property_type = accepted_property_name_type_map[property.Name]
+                except KeyError:  # Custom property name, not matching the Pset_ expected property. Error found in previous step, no need to check more.
+                    break
+
+                if not property.is_a(accepted_property_type):
+                    # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_type=accepted_property_type))
+                    yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+
+        if 'Each associated IfcProperty value must be of data type according to the property set definitions table' in context.step.name:
+            accepted_property_name_datatype_map = {}
+            for accepted_property_name, accepted_data_type in zip(accepted_values['property_names'], accepted_values['data_types']):
+                accepted_property_name_datatype_map[accepted_property_name] = accepted_data_type
+
+            properties = inst.HasProperties
+            for property in properties:
+                try:
+                    accepted_data_type = accepted_property_name_datatype_map[property.Name]
+                except KeyError:  # Custom property name, not matching the Pset_ expected property. Error found in previous step, no need to check more.
+                    break
+
+                if property.is_a('IfcPropertySingleValue'):
+                    values = property.NominalValue
+                    if not values.is_a(accepted_data_type['instance']):
+                        # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_data_type_value=accepted_data_type['instance'], value=values))
+                        yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+
+                elif property.is_a('IfcPropertyEnumeratedValue'):
+                    values = property.EnumerationValues
+                    for value in values:
+                        if not value.wrappedValue in accepted_data_type['values']:
+                            # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_data_type_value=accepted_data_type['values'], value=value.wrappedValue))
+                            yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)
+                else:
+                    continue
+
+                if not values:
+                    # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_data_type=accepted_data_type, value=values))
+                    yield ValidationOutcome(inst=inst, observed=False, expected=True, severity=OutcomeSeverity.ERROR)

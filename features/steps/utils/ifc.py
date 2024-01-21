@@ -26,6 +26,12 @@ def get_precision_from_contexts(entity_contexts, func_to_return=max, default_pre
         return default_precision
     return func_to_return(precisions)
 
+def get_relation(instance, attrs : list):
+    relations = (
+        getattr(instance, attr, [None])[0]
+        for attr in attrs
+    )
+    return next((rel for rel in relations if rel is not None), None) # always len == 1
 
 def get_mvd(ifc_file):
     try:

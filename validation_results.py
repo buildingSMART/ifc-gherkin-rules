@@ -1,25 +1,13 @@
 from sqlalchemy import create_engine, Integer, String, Column, DateTime, ForeignKey, JSON, Boolean
-from sqlalchemy.orm import Session, mapped_column, sessionmaker, relationship, DeclarativeBase
+from sqlalchemy.orm import Session, relationship, DeclarativeBase
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.inspection import inspect
 from functools import total_ordering
 from datetime import datetime
 import enum
 from sqlalchemy import Enum
+from typing import Any
 import os
-import functools
-import subprocess
-
-
-
-@functools.lru_cache(maxsize=16)
-def get_remote(cwd):
-    return subprocess.check_output(['git', 'remote', 'get-url', 'origin'], cwd=cwd).decode('ascii').split('\n')[0]
-
-
-@functools.lru_cache(maxsize=16)
-def get_commits(cwd, feature_file):
-    return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
 
 
 DEVELOPMENT = os.environ.get('environment', 'development').lower() == 'development'
@@ -54,7 +42,7 @@ class ValidationOutcomeCode(enum.Enum):
     X00040 = "EXECUTED"
 
     def determine_severity(self):
-        match self.name[0]: 
+        match self.name[0]:
             case 'X':
                 return OutcomeSeverity.EXECUTED
             case 'P':
@@ -67,6 +55,7 @@ class ValidationOutcomeCode(enum.Enum):
                 return OutcomeSeverity.ERROR
             case _:
                 raise ValueError(f"Outcome code {self.name} not recognized")
+
 @total_ordering
 class OutcomeSeverity(enum.Enum):
     """
@@ -132,7 +121,7 @@ class IfcInstance(Base, Serializable):
     ifc_type = Column(String)
     # bsdd_results = relationship("bsdd_result")# leave this out for now, not directly related to gherkin
     # syntax_results = relationship("bsdd_result")# leave this out for now, not directly related to gherkin
-    validation_outcomes = relationship("ValidationOutcome", back_populates="instance")
+    # validation_outcomes = relationship("ValidationOutcome")
 
 
     def __init__(self, global_id, ifc_type, file):
@@ -141,36 +130,52 @@ class IfcInstance(Base, Serializable):
         # self.file = file # leave out for now
 
 
-class CheckExecution(Base):
-    __tablename__ = 'check_executions'
-    id = Column(Integer, index=True, unique=True, autoincrement=True, primary_key=True)
-    start_time = Column(DateTime)
-    end_time = Column(DateTime)
-    success = Column(Boolean)
+class Mixin:
+    def __init__(self, warning: bool = False, outcome_code: str = None, inst: Any = None, **kwargs):
+        if outcome_code and not (len(outcome_code) == 6 and outcome_code[0].isalpha() and outcome_code[1:].isdigit()):
+            raise ValueError("outcome_code must be a string of 6 characters: one letter followed by five numbers.")
+
+        self.warning = warning
+        self.outcome_code = outcome_code
+        self.inst = inst
+        super().__init__(**kwargs)
 
 
-class ValidationOutcome(Base):
+class ValidationOutcome(Base, Mixin):
     __tablename__ = 'gherkin_validation_results'
 
     id = Column(Integer, primary_key=True)
 
-    outcome_code = Column(Enum(ValidationOutcomeCode), nullable=True)  
+    outcome_code = Column(Enum(ValidationOutcomeCode), nullable=True)
     observed = Column(JSON, nullable=True)
     expected = Column(JSON, nullable=True)
     feature = Column(String, nullable=True)  # ALS004
     feature_version = Column(Integer)  # 1
     severity = Column(Enum(OutcomeSeverity), nullable=True)  # ERROR = 4
 
+    check_execution_id = Column(Integer)
 
-    #todo q is there a unidirectional relationship to CheckExecution ??
-    check_execution_id = Column(Integer, ForeignKey('check_executions.id'))
-    check_execution = relationship("CheckExecution")
+    ifc_instance_id = Column(Integer) # Reference to IfcInstance, one-to-many
+    inst = None
 
-    #todo q is there a unidirectional one-to-many relationship to IfcInstance ?? -> One instance can have multiple validation outcomes
-    instance = relationship("IfcInstance", back_populates="validation_outcomes") # Relationship to IfcInstance
-    ifc_instance_id = Column(Integer, ForeignKey('ifc_instances.id')) # Reference to IfcInstance, one-to-many
     def __str__(self):
-        return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}")
+        return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}. ifc_instance_id: {self.ifc_instance_id}")
+
+    def __hash__(self):
+        return hash((self.ifc_instance_id, self.check_execution_id, self.severity, self.feature_version, self.feature, self.observed, self.expected, self.outcome_code))
+
+    def __eq__(self, other):
+        if isinstance(other, ValidationOutcome):
+            return (self.ifc_instance_id == other.ifc_instance_id and
+                    self.check_execution_id == other.check_execution_id and
+                    self.severity == other.severity and
+                    self.feature_version == other.feature_version and
+                    self.feature == other.feature and
+                    self.observed == other.observed and
+                    self.expected == other.expected and
+                    self.outcome_code == other.outcome_code)
+        return False
+
 
 
 def flush_results_to_db(results):

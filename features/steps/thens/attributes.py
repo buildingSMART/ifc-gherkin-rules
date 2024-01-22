@@ -6,8 +6,8 @@ from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
-
 @gherkin_ifc.step('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
+>>>>>>>>> Temporary merge branch 2
 def step_impl(context, inst, entity, other_entity, relationship):
     related_attr_matrix, relating_attr_matrix = system.load_attribute_matrix(
         "related_entity_attributes.csv"), system.load_attribute_matrix("relating_entity_attributes.csv")
@@ -81,6 +81,8 @@ def step_impl(context, inst, field, file_or_model, values):
             yield ValidationOutcome(inst=inst, expected=values, observed=s, severity=OutcomeSeverity.ERROR)
 
 
+@gherkin_ifc.step('The {length_attribute} of the final {segment_type} must be 0')
+def step_impl(context, inst, length_attribute, segment_type):
 @gherkin_ifc.step('The {length_attribute} of the final {segment_type} must be 0')
 def step_impl(context, inst, segment_type, length_attribute):
     business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]

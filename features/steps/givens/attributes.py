@@ -83,9 +83,16 @@ def step_impl(context, inst, attribute, tail="single"):
         return misc.map_state(inst, lambda i: getattr(i, attribute, None))
     return tuple(getattr(item, attribute, None) for item in inst)
 
-@gherkin_ifc.step('Its final segment')
-def step_impl(context, inst):
-    return [segments[-1] for curve in inst for segments in curve]
+
+@gherkin_ifc.step('Its final {segment_type}')
+def step_impl(context, segment_type, inst):
+    business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]
+    match segment_type:
+        case "segment":
+            yield [segments[-1] for curve in inst for segments in curve]
+        case "IfcAlignmentSegment":
+            yield ValidationOutcome(inst=context.instances[-1], severity=OutcomeSeverity.PASS)
+
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):

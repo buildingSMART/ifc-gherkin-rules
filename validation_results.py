@@ -130,8 +130,6 @@ class IfcInstance(Base, Serializable):
         # self.file = file # leave out for now
 
 
-
-
 class ValidationOutcome(Base):
     __tablename__ = 'gherkin_validation_results'
 
@@ -169,18 +167,50 @@ class ValidationOutcome(Base):
 
 
 
-def flush_results_to_db(results):
-    with Session(engine) as session:
-        for result in results:
-            session.add(result)
-        session.commit()
 
 
-def initialize():
-    if not database_exists(engine.url):
-        create_database(engine.url)
-    Base.metadata.create_all(engine)
+import os
 
+import django
+from django.core.management import call_command
 
-if __name__ == '__main__':
-    initialize()
+# monkey patch the name, because we don't have an `apps` folder
+import ifc_validation_models.apps
+ifc_validation_models.apps.IfcValidationModelsConfig.name = 'ifc_validation_models'
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'ifc_validation_models.independent_worker_settings'
+
+# Setup, initialize db and perform migration
+django.setup()
+call_command(
+    'migrate', interactive=False,
+)
+
+import datetime
+import ifc_validation_models.models as database
+from django.contrib.auth.models import User
+
+# Create a mandatory user and assign to context
+user = User.objects.filter(username='JT').first()
+
+if not user:
+    user = User.objects.create(username='JT',
+                                     email='JT',
+                                     password='something funky')
+database.set_user_context(user)
+
+from ifc_validation_models.models import IfcValidationOutcome
+# # Interact with the datamodel
+# model = database.IfcModel.objects.create(
+#     size=1,
+#     uploaded_by = user
+# )
+#
+# instance = database.IfcModelInstance.objects.create(
+#     stepfile_id=1,
+#     model = model
+# )
+#
+#
+# validation_request = database.IfcValidationRequest.objects.create(created=datetime.datetime.now())
+# validation_task = database.IfcValidationTask.objects.create(request_id=1)

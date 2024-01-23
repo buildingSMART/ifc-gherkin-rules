@@ -84,12 +84,22 @@ def step_impl(context, inst, attribute, tail="single"):
     return tuple(getattr(item, attribute, None) for item in inst)
 
 
-@gherkin_ifc.step('Its final {segment_type}')
-def step_impl(context, segment_type, inst):
-    if segment_type == "segment":
-        yield [segments[-1] for curve in inst for segments in curve]
-    elif segment_type == "IfcAlignmentSegment":
-        yield ValidationOutcome(inst=context.instances[-1], severity=OutcomeSeverity.PASS)
+@gherkin_ifc.step('Its final segment')
+def step_impl(context, inst):
+    """
+    Implement ALS015
+    This is a separate function from ALB015 because ALS015 needs to return an entity_instance.
+    """
+    return [segments[-1] for curve in inst for segments in curve]
+
+
+@gherkin_ifc.step('Its final IfcAlignmentSegment')
+def step_impl(context, inst):
+    """
+    Implement ALB015
+    This is a separate function from ALS015 because ALB015 needs to yield a ValidationOutcome.
+    """
+    yield ValidationOutcome(inst=context.instances[-1], severity=OutcomeSeverity.PASS)
 
 
 @gherkin_ifc.step("An IFC model")

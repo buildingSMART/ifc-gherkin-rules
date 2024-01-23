@@ -193,6 +193,11 @@ print(parent_directory)
 # Add the parent directory to the Python path
 sys.path.append(parent_directory)
 
+from pathlib import Path
+
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
+print(str(Path(current_script_dir).parent.parent))
+sys.path.append(str(Path(current_script_dir).parent.parent))
 # Now you can perform your imports
 # from ifc_validation_models import your_module_or_variable
 

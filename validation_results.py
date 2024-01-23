@@ -175,6 +175,31 @@ import django
 from django.core.management import call_command
 
 # monkey patch the name, because we don't have an `apps` folder
+
+
+
+# validation_results.py
+
+import sys
+import os
+
+# Get the absolute path of the directory containing this script
+current_script_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Get the absolute path of the parent directory (which contains ifc_validation_models)
+parent_directory = os.path.abspath(os.path.join(current_script_directory, '..'))
+print(parent_directory)
+
+# Add the parent directory to the Python path
+sys.path.append(parent_directory)
+
+# Now you can perform your imports
+# from ifc_validation_models import your_module_or_variable
+
+# Rest of your code
+
+
+
 import ifc_validation_models.apps
 ifc_validation_models.apps.IfcValidationModelsConfig.name = 'ifc_validation_models'
 

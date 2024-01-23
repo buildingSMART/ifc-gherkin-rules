@@ -6,7 +6,7 @@ from utils import misc
 
 from validation_handling import gherkin_ifc, StepOutcome
 
-from . import ValidationOutcome, OutcomeSeverity
+from . import IfcValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("An {entity_opt_stmt}")
@@ -35,7 +35,7 @@ def step_impl(context, entity_opt_stmt, insts=False):
 
     # yield instances
     for inst in instances:
-        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS)
+        yield IfcValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("No {entity}")
 def step_impl(context, entity):

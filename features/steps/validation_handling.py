@@ -16,7 +16,9 @@ sys.path.append(str(Path(current_script_dir).parent.parent))
 from validation_results import OutcomeSeverity, ValidationOutcomeCode, database
 from validation_results import IfcValidationOutcome as ValidationOutcome
 
-OutcomeSeverity = ValidationOutcome.OutcomeSeverity
+# OutcomeSeverity = ValidationOutcome.OutcomeSeverity
+
+from validation_results import OutcomeSeverity
 
 from behave.runner import Context
 import random
@@ -225,12 +227,11 @@ def handle_given(context, fn, **kwargs):
     3) Filter the set of IfcAlignment based on a value ('Given attribute == X' -> [IfcAlignm, None, IfcAlignm])
     4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
     """
-
     if not 'inst' in inspect.getargs(fn.__code__).args:
         gen = fn(context, **kwargs)
         if gen: # (2) Set initial set of instances
             insts = list(gen)
-            context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
+            context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASS, insts)))
         else:
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
@@ -238,7 +239,7 @@ def handle_given(context, fn, **kwargs):
         if is_list_of_tuples_or_none(context.instances): # in case of stacking multiple attribute values for a single entity instance, e.g. in ALS004
             context.instances =  flatten_list_of_lists([fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)])
         else: # (3) & (4) filter or set instances based on an attribute/criteirum
-            context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs)
+            context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASS, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs)
                                                                                                                                                         for inst in context.instances))))
 
 def handle_then(context, fn, **kwargs):

@@ -190,8 +190,6 @@ def step_impl(context, inst, table):
 
 
     if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:
-        print(name)
-        # print(property_set_definitons.keys())
         if name not in property_set_definitons.keys():
             # yield (err.InvalidValueError(False, inst, 'Name', name))  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall
             yield StepResult(observed=False, expected=True)

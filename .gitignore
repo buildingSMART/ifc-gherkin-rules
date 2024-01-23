@@ -3,3 +3,4 @@ __pycache__
 /.conda
 /.idea
 ifc-gherkin.db
+worker_db.sqlite3

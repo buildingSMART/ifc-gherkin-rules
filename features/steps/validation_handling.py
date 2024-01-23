@@ -12,11 +12,10 @@ from operator import attrgetter
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
 
-# sys.path.append(r"PATH TO VALIDATE DB") # TODO -> add the path if necessary
-from validation_results import OutcomeSeverity, ValidationOutcomeCode, database
-from validation_results import IfcValidationOutcome as ValidationOutcome
+from validation_results import ValidationOutcomeCode
+from validation_results import IfcValidationOutcome
 
-OutcomeSeverity = ValidationOutcome.OutcomeSeverity
+OutcomeSeverity = IfcValidationOutcome.OutcomeSeverity
 
 
 from behave.runner import Context
@@ -248,7 +247,7 @@ def handle_then(context, fn, **kwargs):
     # see for more info docstring of get_activation_instances
     activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
 
-    validation_outcome = database.IfcValidationOutcome(
+    validation_outcome = IfcValidationOutcome(
         code=ValidationOutcomeCode.X00040,  # "Executed", but not no error/pass/warning
         observed=None,
         expected=None,
@@ -273,7 +272,7 @@ def handle_then(context, fn, **kwargs):
             except:
                 pass
 
-            validation_outcome = database.IfcValidationOutcome(
+            validation_outcome = IfcValidationOutcome(
                 code=getattr(ValidationOutcomeCode, instance_step_outcome.outcome_code),
                 observed=instance_step_outcome.model_dump(include=('observed'))["observed"],  # TODO (parse it correctly)
                 expected=instance_step_outcome.model_dump(include=('expected'))["expected"],  # TODO (parse it correctly)
@@ -294,7 +293,7 @@ def handle_then(context, fn, **kwargs):
                         context=context,
                         expected=None,
                         observed=None)  # expected / observed equal on passed rule?
-            validation_outcome = database.IfcValidationOutcome(
+            validation_outcome = IfcValidationOutcome(
                 code=ValidationOutcomeCode.P00010,  # "Rule passed"
                 observed=None,
                 expected=None,
@@ -340,7 +339,7 @@ def execute_step(fn):
         Data is circulated using the 'behave-context' and is ultimately stored in the database, as 'ValidationOutcome' corresponds to a database column.
         """
         if not getattr(context, 'applicable', True):
-            validation_outcome = database.IfcValidationOutcome(
+            validation_outcome = IfcValidationOutcome(
                 code=ValidationOutcomeCode.N00010,  # "NOT_APPLICABLE", Given statement with schema/mvd check failed
                 observed=None,
                 expected=None,

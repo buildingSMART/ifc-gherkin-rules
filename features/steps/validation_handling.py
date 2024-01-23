@@ -325,6 +325,7 @@ def execute_step(fn):
 
         Data is circulated using the 'behave-context' and is ultimately stored in the database, as 'ValidationOutcome' corresponds to a database column.
         """
+
         if not getattr(context, 'applicable', True):
             validation_outcome = ValidationOutcome(
                 outcome_code=ValidationOutcomeCode.N00010,  # "NOT_APPLICABLE", Given statement with schema/mvd check failed

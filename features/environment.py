@@ -1,6 +1,8 @@
 import ifcopenshell
 from behave.model import Scenario
 from collections import Counter
+import os
+from rule_creation_protocol import protocol
 
 model_cache = {}
 def read_model(fn):
@@ -21,6 +23,22 @@ def before_feature(context, feature):
     context.model = read_model(context.config.userdata["input"])
     Scenario.continue_after_failed_step = False
     context.gherkin_outcomes = set()
+
+    execution_mode = context.config.userdata.get('execution_mode')
+    if execution_mode and execution_mode == 'ExecutionMode.TESTING':
+        ifc_filename_incl_path = context.config.userdata.get('input')
+        convention_attrs = {
+            'ifc_filename' : os.path.basename(context.config.userdata.get('input')),
+            'feature_name': context.feature.name,
+            'feature_filename' : os.path.basename(context.feature.filename),
+            'description': '\n'.join(context.feature.description),
+            'tags': context.tags, 
+            'location': context.feature.location.filename, 
+            'steps': [{'keyword': step.keyword, 'name': step.name} for scenario in context.feature.scenarios for step in scenario.steps],
+            'filename' : ifc_filename_incl_path # filename that comes directly from 'main.py'
+            }
+        protocol.enforce(convention_attrs)
+        pass
 
 def before_scenario(context, scenario):
     context.applicable = True

@@ -108,7 +108,7 @@ def step_impl(context, inst, i, value):
 @gherkin_ifc.step('All {i:values_or_types} must be "{value}"')
 def step_impl(context, inst, i, value):
     number_of_unique_values = len(set(inst))
-    if number_of_unique_values > 1:  # if there are more than 1 values, the 'All' predicate is impossible to fulfill
+    if number_of_unique_values > 1: # if there are more than 1 values, the 'All' predicament is impossible to fulfill
         yield ValidationOutcome(inst=inst, expected = value, observed=f"{number_of_unique_values} unique values", severity=OutcomeSeverity.ERROR)
     else:
         inst = recursive_unpack_value(inst)

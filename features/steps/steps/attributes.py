@@ -1,14 +1,15 @@
-from validation_handling import gherkin_ifc, StepResult
+from validation_handling import gherkin_ifc
 from utils import ifc
 
+from . import ValidationOutcome, OutcomeSeverity
+
+
 @gherkin_ifc.step('The {representation_id} shape representation has RepresentationType "{representation_type}"')
-def step_impl(context, **kwargs):
-    inst = kwargs.get('inst', None)
-    representation_id = kwargs.get('representation_id', None)
-    representation_type = kwargs.get('representation_type', None)
+def step_impl(context, inst, representation_id, representation_type):
 
     if context.step.step_type == "given":
-        yield list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type), context.instances))))
+        if ifc.instance_getter(inst, representation_id, representation_type):
+            yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS) #todo @gh merge given and then step
     else:
         if ifc.instance_getter(inst, representation_id, representation_type, 1):
-            yield StepResult(expected=representation_type, observed=None)
+            yield ValidationOutcome(inst=inst, expected=representation_type, observed=None, severity=OutcomeSeverity.ERROR)

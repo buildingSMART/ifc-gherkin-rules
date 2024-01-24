@@ -6,6 +6,7 @@ from functools import total_ordering
 from datetime import datetime
 import enum
 from sqlalchemy import Enum
+from typing import Any
 import os
 
 
@@ -129,9 +130,18 @@ class IfcInstance(Base, Serializable):
         # self.file = file # leave out for now
 
 
+class Mixin:
+    def __init__(self, warning: bool = False, outcome_code: str = None, inst: Any = None, **kwargs):
+        if outcome_code and not (len(outcome_code) == 6 and outcome_code[0].isalpha() and outcome_code[1:].isdigit()):
+            raise ValueError("outcome_code must be a string of 6 characters: one letter followed by five numbers.")
+
+        self.warning = warning
+        self.outcome_code = outcome_code
+        self.inst = inst
+        super().__init__(**kwargs)
 
 
-class ValidationOutcome(Base):
+class ValidationOutcome(Base, Mixin):
     __tablename__ = 'gherkin_validation_results'
 
     id = Column(Integer, primary_key=True)
@@ -146,6 +156,8 @@ class ValidationOutcome(Base):
     check_execution_id = Column(Integer)
 
     ifc_instance_id = Column(Integer) # Reference to IfcInstance, one-to-many
+    inst = None
+
     def __str__(self):
         return(f"Step finished with a/an {self.severity.name} {self.outcome_code.name}. Expected value: {self.expected}. Observed value: {self.observed}. ifc_instance_id: {self.ifc_instance_id}")
 
@@ -163,6 +175,7 @@ class ValidationOutcome(Base):
                     self.expected == other.expected and
                     self.outcome_code == other.outcome_code)
         return False
+
 
 
 def flush_results_to_db(results):

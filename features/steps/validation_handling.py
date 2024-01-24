@@ -221,7 +221,7 @@ def handle_given(context, fn, **kwargs):
     1) Set file-wide context.applicable. No further steps (given or then) have to be executed when context.applicability is set to False
     2) Set an initial set of instances ('Given an IfcAlignment' -> [IfcAlignm, IfcAlignm, IfcAlign])
     3) Filter the set of IfcAlignment based on a value ('Given attribute == X' -> [IfcAlignm, None, IfcAlignm])
-    4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape] 
+    4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
     """
 
     if not 'inst' in inspect.getargs(fn.__code__).args:
@@ -304,7 +304,7 @@ class gherkin_ifc():
             return step(step_text)(execute_step(func))
 
         return wrapped_step
-    
+
 def execute_step(fn):
     while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
         fn = fn.__wrapped__
@@ -314,13 +314,13 @@ def execute_step(fn):
         This section of code performs two primary checks:
 
         1. Applicability Check:
-        Check for file-wide applicability with the 'context.instances' variable (set to either True or False) 
+        Check for file-wide applicability with the 'context.instances' variable (set to either True or False)
         In case of non-applicability, further steps are are skipped to optimize performance and avoid unnecessary computations.
         For instance, when a rule requires IFC schema version IFC4X3 but the tested file contains schema version IFC2X3
 
         2. Handling 'Given' or 'Then' Statements:
-        The code differentiates and appropriately handles the logic based on whether the statement is a 'Given' or a 'Then' statement. 
-        'Given' statements are used to establish the applicability of either the file or instances within the file. 
+        The code differentiates and appropriately handles the logic based on whether the statement is a 'Given' or a 'Then' statement.
+        'Given' statements are used to establish the applicability of either the file or instances within the file.
         'Then' statements are used to run the checks on the previously defined instances or file.
 
         Data is circulated using the 'behave-context' and is ultimately stored in the database, as 'ValidationOutcome' corresponds to a database column.
@@ -350,14 +350,14 @@ def execute_step(fn):
 
 def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) -> str:
     """
-    Determines the outcome code for a step result. 
-    Check for : 
-    -> optional attributes in ValidationOutcome, 
+    Determines the outcome code for a step result.
+    Check for :
+    -> optional attributes in ValidationOutcome,
     -> variables set in tags from feature_file
     """
     if hasattr(validation_outcome, 'outcome_code') and validation_outcome.outcome_code:
         return validation_outcome.outcome_code
-    
+
     valid_outcome_codes = {code.name for code in ValidationOutcomeCode}
     feature_tags = context.feature.tags
     scenario_tags = context.scenario.tags

@@ -6,7 +6,6 @@ from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
-
 @gherkin_ifc.step('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
 def step_impl(context, inst, entity, other_entity, relationship):
     related_attr_matrix, relating_attr_matrix = system.load_attribute_matrix(
@@ -81,11 +80,25 @@ def step_impl(context, inst, field, file_or_model, values):
             yield ValidationOutcome(inst=inst, expected=values, observed=s, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('The {length_attribute} of the final segment must be 0')
-def step_impl(context, inst, length_attribute):
-    if (length_attribute == "SegmentLength") or (length_attribute == "Length"):
-        length = getattr(inst, length_attribute, )
-        length_value = length.wrappedValue
-        if abs(length_value) > geometry.GEOM_TOLERANCE:
-            yield ValidationOutcome(inst=inst, expected=0.0, observed=length_value, severity=OutcomeSeverity.ERROR)
+@gherkin_ifc.step('The {length_attribute} of the final {segment_type} must be 0')
+def step_impl(context, inst, segment_type, length_attribute):
+    business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]
+    if segment_type == "segment":
+        if (length_attribute == "SegmentLength") or (length_attribute == "Length"):
+            length = getattr(inst, length_attribute, )
+            length_value = length.wrappedValue
+            if abs(length_value) > geometry.GEOM_TOLERANCE:
+                yield ValidationOutcome(inst=inst, expected=0.0, observed=length_value, severity=OutcomeSeverity.ERROR)
+        else:
+            raise ValueError(f"Invalid length_attribute '{length_attribute}'.")
+    elif segment_type.upper() in business_logic_types:
+        if (length_attribute == "SegmentLength") or (length_attribute == "HorizontalLength"):
+            length = getattr(inst, length_attribute, )
+            if abs(length) > geometry.GEOM_TOLERANCE:
+                yield ValidationOutcome(inst=inst, expected=0.0, observed=length, severity=OutcomeSeverity.ERROR)
+        else:
+            raise ValueError(f"Invalid length_attribute '{length_attribute}'.")
+    else:
+        raise ValueError(f"Invalid segment_type '{segment_type}'.")
+
 

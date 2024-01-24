@@ -36,7 +36,7 @@ def step_impl(context, inst, attr, closed_or_open):
     assert closed_or_open in ('a closed', 'an open')
     should_be_closed = closed_or_open == 'a closed'
     if attr == 'It':  # if a pronoun is used instances are filtered based on previously established context
-        pass 
+        pass
     else:  # if a specific entity is used instances are filtered based on the ifc model
         inst = getattr(inst, attr, None)
 
@@ -82,10 +82,25 @@ def step_impl(context, inst, attribute, tail="single"):
     if isinstance(inst, tuple):
         return misc.map_state(inst, lambda i: getattr(i, attribute, None))
     return tuple(getattr(item, attribute, None) for item in inst)
-  
+
+
 @gherkin_ifc.step('Its final segment')
 def step_impl(context, inst):
+    """
+    Implement ALS015
+    This is a separate function from ALB015 because ALS015 needs to return an entity_instance.
+    """
     return [segments[-1] for curve in inst for segments in curve]
+
+
+@gherkin_ifc.step('Its final IfcAlignmentSegment')
+def step_impl(context, inst):
+    """
+    Implement ALB015
+    This is a separate function from ALS015 because ALB015 needs to yield a ValidationOutcome.
+    """
+    yield ValidationOutcome(inst=context.instances[-1], severity=OutcomeSeverity.PASS)
+
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):

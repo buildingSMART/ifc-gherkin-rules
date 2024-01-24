@@ -1,8 +1,8 @@
 @ALS
 @version1
-Feature: ALS015 - Alignment Representation Zero-Length Final Segment
+Feature: ALS015 - Alignment representation zero length final segment
 The rule verifies that the alignment geometry (representation) curve
-ends with a discontinuous segment with length = 0 and Transition = "DISCONTINUOUS".
+ends with a discontinuous segment with length = 0.
 
 Background: Validating final segment of alignment geometry (representation).
   Given A model with Schema "IFC4.3"

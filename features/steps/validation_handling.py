@@ -253,7 +253,7 @@ def handle_then(context, fn, **kwargs):
         expected=None,
         feature=context.feature.name,
         feature_version=misc.define_feature_version(context),
-        severity=1,
+        severity=OutcomeSeverity.EXECUTED,
         # instance_id = activation_inst.id(),
         instance_id=1,  # TODO -> set proper
         # validation_task_id=check_execution_id
@@ -278,7 +278,7 @@ def handle_then(context, fn, **kwargs):
                 expected=instance_step_outcome.model_dump(include=('expected'))["expected"],  # TODO (parse it correctly)
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
-                severity=3 if any(tag.lower() == "warning" for tag in context.feature.tags) else 4,
+                severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
                 # instance_id = activation_inst.id(),
                 instance_id=1,  # TODO -> set proper
                 # validation_task_id=check_execution_id
@@ -299,7 +299,7 @@ def handle_then(context, fn, **kwargs):
                 expected=None,
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
-                severity=2,
+                severity=OutcomeSeverity.PASSED,
                 # instance_id=activation_inst.id(),
                 instance_id=1,  # TODO -> set proper
                 # validation_task_id=check_execution_id
@@ -345,7 +345,7 @@ def execute_step(fn):
                 expected=None,
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
-                severity=0,
+                severity=OutcomeSeverity.NOT_APPLICABLE,
                 # validation_task_id=check_execution_id
                 validation_task_id = 1,   # TODO -> set proper
                 instance_id = 1 # TODO -> should be nullable?

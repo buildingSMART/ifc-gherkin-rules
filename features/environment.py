@@ -30,7 +30,7 @@ def before_step(context, step):
 
 def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
-    execution_mode = 'ExecutionMode.PRODUCTION'
+    # execution_mode = 'ExecutionMode.PRODUCTION'
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         def reduce_db_outcomes(feature_outcomes):
 

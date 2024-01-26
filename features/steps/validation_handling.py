@@ -13,10 +13,11 @@ import ast
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
 
-from validation_results import ValidationOutcomeCode
+# from validation_results import ValidationOutcomeCode
 from validation_results import IfcValidationOutcome
 
 OutcomeSeverity = IfcValidationOutcome.OutcomeSeverity
+ValidationOutcomeCode = IfcValidationOutcome.ValidationOutcomeCode
 
 
 from behave.runner import Context
@@ -26,29 +27,6 @@ from typing import Any, Union
 from typing_extensions import Annotated
 
 check_execution_id = random.randint(1, 1000)  # Placeholder number for check_execution_id
-
-class StepResult:
-    def __init__(self, observed, expected, outcome_code=None, warning=None):
-        """
-        Represents the outcome of a step in a test.
-        To be used in step_impl function and further processed in the StepOutcome class with information from the context and instance.
-
-        The `outcome_code` and `warning` are optional and allow developers to manually
-        specify additional details in the step implementation if needed.
-        """
-        self.observed = observed
-        self.expected = expected
-        if outcome_code is not None:
-            self.outcome_code = outcome_code
-        if warning is not None:
-            self.warning = warning
-
-    def as_dict(self):
-        """Return a dictionary representation.
-        Outcome_code and warning are optional fields to check manual input of a developer
-        (e.g. adding a warning to a rule or selecting an outcome_code).
-        so they are only included if they are not None."""
-        return {k: v for k, v in self.__dict__.items() if v is not None}
 
 class StepOutcome(BaseModel):
     inst: Union[ifcopenshell.entity_instance, str] = None
@@ -269,6 +247,7 @@ def handle_then(context, fn, **kwargs):
         step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
         for result in step_results:
             validation_outcome = IfcValidationOutcome(
+                outcome_code=get_outcome_code(result, context),
                 observed=json_serialize(result.observed),  
                 expected=json_serialize(result.expected), 
                 feature=context.feature.name,
@@ -283,11 +262,7 @@ def handle_then(context, fn, **kwargs):
             context.gherkin_outcomes.append(validation_outcome)
 
         if not step_results:
-
-            StepOutcome(inst=activation_inst,
-                        context=context,
-                        expected=None,
-                        observed=None)  # expected / observed equal on passed rule?
+            
             validation_outcome = IfcValidationOutcome(
                 # code=ValidationOutcomeCode.P00010,  # "Rule passed" # deactivated until code table is added to django model
                 observed=None,
@@ -384,3 +359,28 @@ def json_serialize(data: Any) -> str:
             return json.dumps(data)
         case _:
             return str(data)
+        
+def get_outcome_code(validation_outcome: IfcValidationOutcome, context: Context) -> str:
+    """
+    Determines the outcome code for a step result.
+    Check for :
+    -> optional attributes in ValidationOutcome,
+    -> variables set in tags from feature_file
+    """
+    try:
+        if hasattr(validation_outcome, 'outcome_code') and validation_outcome.outcome_code:
+            return validation_outcome.outcome_code
+
+        valid_outcome_codes = {code.name for code in ValidationOutcomeCode}
+        feature_tags = context.feature.tags
+        scenario_tags = context.scenario.tags
+
+        for tag in scenario_tags:
+            if tag in valid_outcome_codes:
+                return getattr(ValidationOutcomeCode, tag)
+        for tag in valid_outcome_codes:
+            if tag in feature_tags:
+                return getattr(ValidationOutcomeCode, tag)
+        return ValidationOutcomeCode.N00010  # Default outcome code if none is found
+    except:
+        pass

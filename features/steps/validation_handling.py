@@ -308,7 +308,7 @@ def handle_then(context, fn, **kwargs):
         context.gherkin_outcomes.append(validation_outcome)
 
     # evokes behave error
-    generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity >= 3])
+    generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
 
 class gherkin_ifc():
 

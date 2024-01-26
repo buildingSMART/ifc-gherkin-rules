@@ -9,6 +9,7 @@ from pathlib import Path
 import inspect
 import itertools
 from operator import attrgetter
+import ast
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
 
@@ -267,15 +268,9 @@ def handle_then(context, fn, **kwargs):
             activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
         step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
         for result in step_results:
-            try:
-                instance_step_outcome = StepOutcome(inst=activation_inst, context=context, **result.as_dict())
-            except:
-                pass
-
             validation_outcome = IfcValidationOutcome(
-                # code=getattr(ValidationOutcomeCode, instance_step_outcome.outcome_code), # deactivated until code table is added to django model
-                observed=instance_step_outcome.model_dump(include=('observed'))["observed"],  # TODO (parse it correctly)
-                expected=instance_step_outcome.model_dump(include=('expected'))["expected"],  # TODO (parse it correctly)
+                observed=json_serialize(result.observed),  
+                expected=json_serialize(result.expected), 
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
@@ -361,3 +356,31 @@ def execute_step(fn):
                 handle_then(context, fn, **kwargs)
 
     return inner
+
+def json_serialize(data: Any) -> str:
+    if isinstance(data, str):
+        try:
+            data = ast.literal_eval(data)
+        except (ValueError, SyntaxError):
+            pass
+
+    match data:
+        case list() | set():
+            return json.dumps({"OneOf": list(data)})
+        case tuple():
+            try:
+                return json.dumps({"OneOf": list(data)})
+            except TypeError:
+                serialized_data = []
+                for item in data:
+                    if isinstance(item, ifcopenshell.entity_instance):
+                        serialized_data.append(getattr(item, 'GlobalId', item.is_a()))
+                    else:
+                        serialized_data.append(str(item))
+                return json.dumps({"OneOf": serialized_data})
+        case dict():
+            return json.dumps(data)
+        case bool() | None | int() | float() | str():
+            return json.dumps(data)
+        case _:
+            return str(data)

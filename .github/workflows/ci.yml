@@ -17,6 +17,9 @@ jobs:
       run: |
         git submodule init
         git submodule update --recursive --remote
+        cd ifc_validation_models
+        git checkout 29cd217
+        cd ..
 
     - name: Set up Python 3.9
       uses: actions/setup-python@v3

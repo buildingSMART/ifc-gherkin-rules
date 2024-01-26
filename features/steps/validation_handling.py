@@ -248,7 +248,7 @@ def handle_then(context, fn, **kwargs):
     activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
 
     validation_outcome = IfcValidationOutcome(
-        code=ValidationOutcomeCode.X00040,  # "Executed", but not no error/pass/warning
+        # code=ValidationOutcomeCode.X00040,  # "Executed", but not no error/pass/warning #deactivated for now
         observed=None,
         expected=None,
         feature=context.feature.name,
@@ -273,7 +273,7 @@ def handle_then(context, fn, **kwargs):
                 pass
 
             validation_outcome = IfcValidationOutcome(
-                code=getattr(ValidationOutcomeCode, instance_step_outcome.outcome_code),
+                # code=getattr(ValidationOutcomeCode, instance_step_outcome.outcome_code), # deactivated until code table is added to django model
                 observed=instance_step_outcome.model_dump(include=('observed'))["observed"],  # TODO (parse it correctly)
                 expected=instance_step_outcome.model_dump(include=('expected'))["expected"],  # TODO (parse it correctly)
                 feature=context.feature.name,
@@ -294,7 +294,7 @@ def handle_then(context, fn, **kwargs):
                         expected=None,
                         observed=None)  # expected / observed equal on passed rule?
             validation_outcome = IfcValidationOutcome(
-                code=ValidationOutcomeCode.P00010,  # "Rule passed"
+                # code=ValidationOutcomeCode.P00010,  # "Rule passed" # deactivated until code table is added to django model
                 observed=None,
                 expected=None,
                 feature=context.feature.name,
@@ -340,7 +340,7 @@ def execute_step(fn):
         """
         if not getattr(context, 'applicable', True):
             validation_outcome = IfcValidationOutcome(
-                code=ValidationOutcomeCode.N00010,  # "NOT_APPLICABLE", Given statement with schema/mvd check failed
+                # code=ValidationOutcomeCode.N00010,  # "NOT_APPLICABLE", Given statement with schema/mvd check  # deactivated until code table is added to django model
                 observed=None,
                 expected=None,
                 feature=context.feature.name,

@@ -36,7 +36,9 @@ def step_impl(context, inst, other_entities):
     nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
     nested_entity_types = set(i.is_a() for i in nested_entities)
     if not nested_entity_types <= allowed_entity_types:
-        yield IfcValidationOutcome(inst=inst, expected=allowed_entity_types, observed=nested_entity_types, severity=OutcomeSeverity.ERROR)
+        yield IfcValidationOutcome(inst=inst, expected=str(allowed_entity_types), observed=allowed_entity_types - nested_entity_types, severity=OutcomeSeverity.ERROR)
+    else:
+        yield IfcValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
 
 
 

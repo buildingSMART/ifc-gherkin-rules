@@ -102,7 +102,9 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
             if check_directness:
                 observed_directness.update({'directly'})
             if decision == 'must not':
-                yield IfcValidationOutcome(inst=inst, expected=  f"{common_directness} {relationship}", observed = f"{decision} be {condition} {relationship}", severity=OutcomeSeverity.ERROR)
+                yield IfcValidationOutcome(inst=inst,
+                    observed = f"{decision} be {condition} {relationship}",
+                    expected = f"{common_directness} {relationship}", severity=OutcomeSeverity.ERROR)
 
         if hasattr(relating_element, other_entity_reference): # in case the relation points to a wrong instance
             while len(getattr(relating_element, other_entity_reference)) > 0:
@@ -114,7 +116,11 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
                         observed_directness.update({'indirectly'})
                         break
                     if decision == 'must not':
-                        yield IfcValidationOutcome(inst=inst, expected=f"{decision} be {condition} {relationship}", observed=f"{common_directness} {relationship}", severity=OutcomeSeverity.ERROR)
+                        outcome = IfcValidationOutcome(inst=inst,
+                            observed = f"{decision} be {condition} {relationship}",
+                            expected = f"{common_directness} {relationship}",
+                            severity=OutcomeSeverity.ERROR)
+                        yield outcome
                         break
 
     if check_directness:
@@ -122,7 +128,10 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
         directness_achieved = bool(common_directness)  # if there's a common value -> relationship achieved
         directness_expected = decision == 'must'  # check if relationship is expected
         if directness_achieved != directness_expected:
-            yield IfcValidationOutcome(inst=inst, expected=  f"{common_directness} {relationship}", observed = f"{decision} be {condition} {relationship}", severity=OutcomeSeverity.ERROR)
+            yield IfcValidationOutcome( inst=inst,
+                            observed = f"{decision} be {condition} {relationship}",
+                            expected = f"{common_directness} {relationship}",
+                            severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('It must not be referenced by itself directly or indirectly')
 def step_impl(context, inst):

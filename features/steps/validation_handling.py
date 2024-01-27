@@ -240,12 +240,12 @@ def handle_then(context, fn, **kwargs):
         activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
         if isinstance(activation_inst, ifcopenshell.file):
             activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
-        step_results = list(fn(context, inst = inst, **kwargs)) # note that 'inst' has to be a keyword argument
+        step_results = list(filter(lambda x: x.severity == OutcomeSeverity.ERROR, list(fn(context, inst=inst, **kwargs))))
         for result in step_results:
             validation_outcome = IfcValidationOutcome(
                 outcome_code=get_outcome_code(result, context),
-                observed=json_serialize(result.observed),  
-                expected=json_serialize(result.expected), 
+                observed=json_serialize(result.observed),
+                expected=json_serialize(result.expected),
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
@@ -255,7 +255,7 @@ def handle_then(context, fn, **kwargs):
             context.gherkin_outcomes.append(validation_outcome)
 
         if not step_results:
-            
+
             validation_outcome = IfcValidationOutcome(
                 # code=ValidationOutcomeCode.P00010,  # "Rule passed" # deactivated until code table is added to django model
                 observed=None,
@@ -348,7 +348,7 @@ def json_serialize(data: Any) -> str:
             return json.dumps(data)
         case _:
             return str(data)
-        
+
 def get_outcome_code(validation_outcome: IfcValidationOutcome, context: Context) -> str:
     """
     Determines the outcome code for a step result.

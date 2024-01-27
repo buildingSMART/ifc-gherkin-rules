@@ -26,7 +26,6 @@ from pydantic import BaseModel, field_validator, Field
 from typing import Any, Union
 from typing_extensions import Annotated
 
-check_execution_id = random.randint(1, 1000)  # Placeholder number for check_execution_id
 
 class StepOutcome(BaseModel):
     inst: Union[ifcopenshell.entity_instance, str] = None
@@ -233,8 +232,7 @@ def handle_then(context, fn, **kwargs):
         feature=context.feature.name,
         feature_version=misc.define_feature_version(context),
         severity=OutcomeSeverity.EXECUTED,
-        # validation_task_id=check_execution_id
-        validation_task_id=1,  # TODO -> set proper
+        validation_task_id=context.validation_task_id
     )
     context.gherkin_outcomes.append(validation_outcome)
 
@@ -252,9 +250,7 @@ def handle_then(context, fn, **kwargs):
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
                 instance_id = activation_inst.id(),
-                # validation_task_id=check_execution_id
-                validation_task_id = 1,   # TODO -> set proper
-
+                validation_task_id=context.validation_task_id
             )
             context.gherkin_outcomes.append(validation_outcome)
 
@@ -268,8 +264,7 @@ def handle_then(context, fn, **kwargs):
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.PASSED,
                 instance_id=activation_inst.id(),
-                # validation_task_id=check_execution_id
-                validation_task_id = 1,   # TODO -> set proper
+                validation_task_id=context.validation_task_id
             )
         context.gherkin_outcomes.append(validation_outcome)
 
@@ -312,8 +307,7 @@ def execute_step(fn):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.NOT_APPLICABLE,
-                # validation_task_id=check_execution_id
-                validation_task_id = 1,   # TODO -> set proper
+                validation_task_id=context.validation_task_id
             )
             context.gherkin_outcomes.append(validation_outcome)
 

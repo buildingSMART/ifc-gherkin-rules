@@ -19,7 +19,10 @@ def before_feature(context, feature):
     # assert protocol.enforce(context, feature), 'failed'
 
     context.model = read_model(context.config.userdata["input"])
-    # context.validation_task_id = context.config.userdata["task_id"]
+    try:
+        context.validation_task_id = context.config.userdata["task_id"]
+    except KeyError: # run via console, task_id not provided
+        context.validation_task_id = None
     Scenario.continue_after_failed_step = False
     context.gherkin_outcomes = []
 

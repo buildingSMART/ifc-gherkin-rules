@@ -42,7 +42,7 @@ def step_impl(context, inst, attribute, expected_entity_type):
 
     def accumulate_errors(i):
         if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
-            misc.map_state(inst, lambda x: errors.append(IfcValidationOutcome(inst=inst, expected=expected_entity_type, observed=i), severity=OutcomeSeverity.ERROR))
+            misc.map_state(inst, lambda x: errors.append(IfcValidationOutcome(inst=inst, expected=expected_entity_type, observed=i, severity=OutcomeSeverity.ERROR)))
 
     misc.map_state(related_entity, accumulate_errors)
     if errors:

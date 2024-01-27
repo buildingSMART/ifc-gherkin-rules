@@ -5,7 +5,7 @@ from behave import register_type
 from utils import geometry, ifc, misc, system
 from parse_type import TypeBuilder
 from validation_handling import gherkin_ifc
-from . import IfcValidationOutcome, OutcomeSeverity
+from . import ValidationOutcome, OutcomeSeverity
 
 register_type(file_or_model=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("file", "model")))))
 register_type(plural_or_single=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("plural", "single")))))
@@ -28,7 +28,7 @@ def step_impl(context, inst, attribute, value):
             pred = misc.reverse_operands(operator.contains)
 
     if hasattr(inst, attribute) and pred(getattr(inst, attribute), value):
-        yield IfcValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step('{attr} forms {closed_or_open} curve')
@@ -41,7 +41,7 @@ def step_impl(context, inst, attr, closed_or_open):
         inst = getattr(inst, attr, None)
 
     if geometry.is_closed(context, inst) == should_be_closed:
-        yield IfcValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step('A {file_or_model} with {field} "{values}"')
@@ -63,17 +63,17 @@ def step_impl(context, file_or_model, field, values):
 
 @gherkin_ifc.step('Its attribute {attribute}')
 def step_impl(context, inst, attribute, tail="single"):
-    yield IfcValidationOutcome(instance_id=getattr(inst, attribute, None), severity = OutcomeSeverity.PASSED)
+    yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity = OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("Its {attribute} attribute {condition} with {prefix}")
 def step_impl(context, inst, attribute, condition, prefix):
     assert condition in ('starts', 'does not start')
     if condition == 'starts':
         if hasattr(inst, attribute) and str(getattr(inst, attribute, '')).startswith(prefix):
-            yield IfcValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
     elif condition == 'does not start':
         if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')).startswith(prefix):
-            yield IfcValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("Its attributes {attribute} for each")
 def step_impl(context, inst, attribute, tail="single"):
@@ -100,9 +100,9 @@ def step_impl(context, inst):
     Implement ALB015
     This is a separate function from ALS015 because ALB015 needs to yield a ValidationOutcome.
     """
-    yield IfcValidationOutcome(instance_id=context.instances[-1], severity=OutcomeSeverity.PASSED)
+    yield ValidationOutcome(instance_id=context.instances[-1], severity=OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):
-    yield IfcValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
+    yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)

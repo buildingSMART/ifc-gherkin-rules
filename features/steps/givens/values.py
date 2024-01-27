@@ -1,6 +1,6 @@
 from utils import misc
 from validation_handling import gherkin_ifc
-from . import IfcValidationOutcome, OutcomeSeverity
+from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("Its values excluding {excluding} for each")

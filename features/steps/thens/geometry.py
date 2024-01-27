@@ -4,7 +4,7 @@ import math
 from utils import geometry, ifc, misc
 from validation_handling import gherkin_ifc
 
-from . import IfcValidationOutcome, OutcomeSeverity
+from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("It must have no duplicate points {clause} first and last point")
@@ -24,5 +24,5 @@ def step_impl(context, inst, clause):
                     break
         comparison_nr += 1
     if duplicates:
-        yield IfcValidationOutcome(inst=inst, expected="No duplicates", observed="Duplicates", severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected="No duplicates", observed="Duplicates", severity=OutcomeSeverity.ERROR)
 

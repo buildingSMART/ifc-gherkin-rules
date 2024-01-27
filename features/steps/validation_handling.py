@@ -14,10 +14,10 @@ current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
 
 # from validation_results import ValidationOutcomeCode
-from validation_results import IfcValidationOutcome
+from validation_results import ValidationOutcome
 
-OutcomeSeverity = IfcValidationOutcome.OutcomeSeverity
-ValidationOutcomeCode = IfcValidationOutcome.ValidationOutcomeCode
+OutcomeSeverity = ValidationOutcome.OutcomeSeverity
+ValidationOutcomeCode = ValidationOutcome.ValidationOutcomeCode
 
 
 from behave.runner import Context
@@ -225,7 +225,7 @@ def handle_then(context, fn, **kwargs):
     # see for more info docstring of get_activation_instances
     activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
 
-    validation_outcome = IfcValidationOutcome(
+    validation_outcome = ValidationOutcome(
         # code=ValidationOutcomeCode.X00040,  # "Executed", but not no error/pass/warning #deactivated for now
         observed=None,
         expected=None,
@@ -242,7 +242,7 @@ def handle_then(context, fn, **kwargs):
             activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
         step_results = list(filter(lambda x: x.severity == OutcomeSeverity.ERROR, list(fn(context, inst=inst, **kwargs))))
         for result in step_results:
-            validation_outcome = IfcValidationOutcome(
+            validation_outcome = ValidationOutcome(
                 outcome_code=get_outcome_code(result, context),
                 observed=json_serialize(result.observed),
                 expected=json_serialize(result.expected),
@@ -256,7 +256,7 @@ def handle_then(context, fn, **kwargs):
 
         if not step_results:
 
-            validation_outcome = IfcValidationOutcome(
+            validation_outcome = ValidationOutcome(
                 # code=ValidationOutcomeCode.P00010,  # "Rule passed" # deactivated until code table is added to django model
                 observed=None,
                 expected=None,
@@ -300,7 +300,7 @@ def execute_step(fn):
         Data is circulated using the 'behave-context' and is ultimately stored in the database, as 'ValidationOutcome' corresponds to a database column.
         """
         if not getattr(context, 'applicable', True):
-            validation_outcome = IfcValidationOutcome(
+            validation_outcome = ValidationOutcome(
                 # code=ValidationOutcomeCode.N00010,  # "NOT_APPLICABLE", Given statement with schema/mvd check  # deactivated until code table is added to django model
                 observed=None,
                 expected=None,
@@ -349,7 +349,7 @@ def json_serialize(data: Any) -> str:
         case _:
             return str(data)
 
-def get_outcome_code(validation_outcome: IfcValidationOutcome, context: Context) -> str:
+def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) -> str:
     """
     Determines the outcome code for a step result.
     Check for :

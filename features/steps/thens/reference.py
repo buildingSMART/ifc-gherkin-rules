@@ -2,7 +2,7 @@ from collections import Counter
 from utils import geometry, misc
 from validation_handling import gherkin_ifc
 
-from . import IfcValidationOutcome, OutcomeSeverity
+from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("Every {something} must be referenced exactly {num:d} times by the loops of the face")
@@ -13,7 +13,7 @@ def step_impl(context, inst, something, num):
         )
     invalid = {ed for ed, cnt in edge_usage.items() if cnt != num}
     if invalid:
-        yield IfcValidationOutcome(inst=inst, expected=num, observed=edge_usage[list(invalid)[0]], severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected=num, observed=edge_usage[list(invalid)[0]], severity=OutcomeSeverity.ERROR)
         
 
 
@@ -21,5 +21,5 @@ def step_impl(context, inst, something, num):
 def step_impl(context, inst):
     points = geometry.get_points(inst, return_type='points')
     if points[0] != points[-1]:
-        yield IfcValidationOutcome(inst=inst, expected="identical", observed="not identical", severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected="identical", observed="not identical", severity=OutcomeSeverity.ERROR)
 

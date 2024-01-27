@@ -34,7 +34,7 @@ if not user:
                                      password='something funky')
 database.set_user_context(user)
 
-from ifc_validation_models.models import IfcValidationOutcome
+from ifc_validation_models.models import ValidationOutcome
 
 # # Interact with the datamodel
 # model = database.IfcModel.objects.create(
@@ -51,8 +51,9 @@ from ifc_validation_models.models import IfcValidationOutcome
 # validation_request = database.IfcValidationRequest.objects.create(created=datetime.datetime.now())
 # validation_task = database.IfcValidationTask.objects.create(request_id=1)
 
-OutcomeSeverity = IfcValidationOutcome.OutcomeSeverity
+OutcomeSeverity = ValidationOutcome.OutcomeSeverity
 
+OutcomeCode = ValidationOutcome.ValidationOutcomeCode
 class ValidationOutcomeCode(enum.Enum):
     """
     Based on Scotts models.py

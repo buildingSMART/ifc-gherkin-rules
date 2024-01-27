@@ -7,7 +7,7 @@ from validation_handling import gherkin_ifc
 from parse_type import TypeBuilder
 from behave import register_type
 
-from . import IfcValidationOutcome, OutcomeSeverity
+from . import ValidationOutcome, OutcomeSeverity
 
 
 register_type(nested_sentences=TypeBuilder.make_enum(
@@ -26,7 +26,7 @@ def step_impl(context, inst, num, constraint, other_entity):
     nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
     amount_found = len([1 for i in nested_entities if i.is_a(other_entity)])
     if not op(amount_found, num):
-        yield IfcValidationOutcome(inst=inst, expected=num, observed=amount_found, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected=num, observed=amount_found, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('It must be nested by only the following entities: {other_entities}')
@@ -36,9 +36,9 @@ def step_impl(context, inst, other_entities):
     nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
     nested_entity_types = set(i.is_a() for i in nested_entities)
     if not nested_entity_types <= allowed_entity_types:
-        yield IfcValidationOutcome(inst=inst, expected=str(allowed_entity_types), observed=allowed_entity_types - nested_entity_types, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected=str(allowed_entity_types), observed=allowed_entity_types - nested_entity_types, severity=OutcomeSeverity.ERROR)
     else:
-        yield IfcValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
 
 
 
@@ -68,12 +68,12 @@ def step_impl(context, inst, fragment, other_entity):
         correct_elements = list(filter(lambda x: x.is_a(other_entity), related_entities))
 
         if condition == 'only 1' and len(correct_elements) > 1:
-            yield IfcValidationOutcome(inst=inst, expected=1, observed=len(correct_elements), severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected=1, observed=len(correct_elements), severity=OutcomeSeverity.ERROR)
         if condition == 'a list of only':
             if len(getattr(inst, extr['attribute'], [])) > 1:
-                yield IfcValidationOutcome(inst=inst, expected=other_entity, observed=false_elements, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=other_entity, observed=false_elements, severity=OutcomeSeverity.ERROR)
             elif len(false_elements):
-                yield IfcValidationOutcome(inst=inst, expected=other_entity, observed=false_elements, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=other_entity, observed=false_elements, severity=OutcomeSeverity.ERROR)
         if condition == 'only' and len(false_elements):
-            yield IfcValidationOutcome(inst=inst, expected=correct_elements, observed=false_elements, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected=correct_elements, observed=false_elements, severity=OutcomeSeverity.ERROR)
 

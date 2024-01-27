@@ -233,8 +233,6 @@ def handle_then(context, fn, **kwargs):
         feature=context.feature.name,
         feature_version=misc.define_feature_version(context),
         severity=OutcomeSeverity.EXECUTED,
-        # instance_id = activation_inst.id(),
-        instance_id=1,  # TODO -> set proper
         # validation_task_id=check_execution_id
         validation_task_id=1,  # TODO -> set proper
     )
@@ -253,8 +251,7 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                # instance_id = activation_inst.id(),
-                instance_id=1,  # TODO -> set proper
+                instance_id = activation_inst.id(),
                 # validation_task_id=check_execution_id
                 validation_task_id = 1,   # TODO -> set proper
 
@@ -270,8 +267,7 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.PASSED,
-                # instance_id=activation_inst.id(),
-                instance_id=1,  # TODO -> set proper
+                instance_id=activation_inst.id(),
                 # validation_task_id=check_execution_id
                 validation_task_id = 1,   # TODO -> set proper
             )
@@ -318,7 +314,6 @@ def execute_step(fn):
                 severity=OutcomeSeverity.NOT_APPLICABLE,
                 # validation_task_id=check_execution_id
                 validation_task_id = 1,   # TODO -> set proper
-                instance_id = 1 # TODO -> should be nullable?
             )
             context.gherkin_outcomes.append(validation_outcome)
 

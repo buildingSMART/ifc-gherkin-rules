@@ -19,6 +19,7 @@ def before_feature(context, feature):
     # assert protocol.enforce(context, feature), 'failed'
 
     context.model = read_model(context.config.userdata["input"])
+    # context.validation_task_id = context.config.userdata["task_id"]
     Scenario.continue_after_failed_step = False
     context.gherkin_outcomes = []
 
@@ -32,15 +33,16 @@ def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
     # execution_mode = 'ExecutionMode.PRODUCTION'
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
+        from validation_results import OutcomeSeverity
         def reduce_db_outcomes(feature_outcomes):
 
-            failed_outcomes = [outcome for outcome in feature_outcomes if outcome.severity in [3, 4]]
+            failed_outcomes = [outcome for outcome in feature_outcomes if outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]]
             if failed_outcomes:
                 return failed_outcomes
             else:
                 outcome_counts = Counter(outcome.severity for outcome in context.gherkin_outcomes)
 
-                for severity in [0,1,2]:
+                for severity in [OutcomeSeverity.NOT_APPLICABLE, OutcomeSeverity.EXECUTED, OutcomeSeverity.PASSED]:
                     if outcome_counts[severity] > 0:
                         for outcome in context.gherkin_outcomes:
                             if outcome.severity == severity:

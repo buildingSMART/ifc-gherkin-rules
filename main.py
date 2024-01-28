@@ -11,7 +11,8 @@ from enum import Flag, auto, Enum
 class RuleType(Flag):
     INFORMAL_PROPOSITION = auto()
     IMPLEMENTER_AGREEMENT = auto()
-    ALL = INFORMAL_PROPOSITION | IMPLEMENTER_AGREEMENT
+    CRITICAL = auto()
+    ALL = INFORMAL_PROPOSITION | IMPLEMENTER_AGREEMENT | CRITICAL
 
     @staticmethod
     def from_argv(argv):

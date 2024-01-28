@@ -52,7 +52,6 @@ def after_feature(context, feature):
                                 return [outcome]
         outcomes_to_save = reduce_db_outcomes(context.gherkin_outcomes)
 
-        # outcomes_to_save = context.gherkin_outcomes
         for outcome_to_save in outcomes_to_save:
             outcome_to_save.save()
 

@@ -13,15 +13,9 @@ import ast
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
 
-# from validation_results import ValidationOutcomeCode
-from validation_results import ValidationOutcome
-
-OutcomeSeverity = ValidationOutcome.OutcomeSeverity
-ValidationOutcomeCode = ValidationOutcome.ValidationOutcomeCode
-
+from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode
 
 from behave.runner import Context
-import random
 from pydantic import BaseModel, field_validator, Field
 from typing import Any, Union
 from typing_extensions import Annotated
@@ -226,7 +220,7 @@ def handle_then(context, fn, **kwargs):
     activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
 
     validation_outcome = ValidationOutcome(
-        # code=ValidationOutcomeCode.X00040,  # "Executed", but not no error/pass/warning #deactivated for now
+        outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
         observed=None,
         expected=None,
         feature=context.feature.name,
@@ -240,7 +234,7 @@ def handle_then(context, fn, **kwargs):
         activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
         if isinstance(activation_inst, ifcopenshell.file):
             activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
-        step_results = list(filter(lambda x: x.severity == OutcomeSeverity.ERROR, list(fn(context, inst=inst, **kwargs))))
+        step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
         for result in step_results:
             validation_outcome = ValidationOutcome(
                 outcome_code=get_outcome_code(result, context),
@@ -257,7 +251,7 @@ def handle_then(context, fn, **kwargs):
         if not step_results:
 
             validation_outcome = ValidationOutcome(
-                # code=ValidationOutcomeCode.P00010,  # "Rule passed" # deactivated until code table is added to django model
+                outcome_code=ValidationOutcomeCode.PASSED,  # "Rule passed" # deactivated until code table is added to django model
                 observed=None,
                 expected=None,
                 feature=context.feature.name,
@@ -301,7 +295,7 @@ def execute_step(fn):
         """
         if not getattr(context, 'applicable', True):
             validation_outcome = ValidationOutcome(
-                # code=ValidationOutcomeCode.N00010,  # "NOT_APPLICABLE", Given statement with schema/mvd check  # deactivated until code table is added to django model
+                outcome_code=ValidationOutcomeCode.NOT_APPLICABLE,  # "NOT_APPLICABLE", Given statement with schema/mvd check  # deactivated until code table is added to django model
                 observed=None,
                 expected=None,
                 feature=context.feature.name,
@@ -357,19 +351,18 @@ def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) ->
     -> variables set in tags from feature_file
     """
     try:
-        if hasattr(validation_outcome, 'outcome_code') and validation_outcome.outcome_code:
+        if hasattr(validation_outcome, 'outcome_code') and validation_outcome.outcome_code and validation_outcome.outcome_code not in ['N00010', 'X00040', 'P00010']:
             return validation_outcome.outcome_code
 
-        valid_outcome_codes = {code.name for code in ValidationOutcomeCode}
+        valid_outcome_codes = {code.value for code in ValidationOutcomeCode}
         feature_tags = context.feature.tags
         scenario_tags = context.scenario.tags
-
         for tag in scenario_tags:
             if tag in valid_outcome_codes:
-                return getattr(ValidationOutcomeCode, tag)
+                return tag
         for tag in valid_outcome_codes:
             if tag in feature_tags:
-                return getattr(ValidationOutcomeCode, tag)
+                return tag
         return ValidationOutcomeCode.N00010  # Default outcome code if none is found
     except:
         pass

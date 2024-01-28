@@ -1,17 +1,18 @@
 import operator
 
-from utils import ifc
-from utils import misc
-from utils import system
-from utils import geometry
+from utils import ifc43x_alignment_validation
+
 from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
-@gherkin_ifc.step('The business logic must contain a {layout} layout')
-def step_impl(context, inst, layout):
-    if layout in ["cant", "vertical"]:
-        align_ent = context.instances[0].inst[0]
 
-
-        print("foo to tha bah")
+@gherkin_ifc.step('A representation by {ifc_rep_entity} requires an {ifc_layout_entity} in the business logic')
+def step_impl(context, inst, ifc_rep_entity, ifc_layout_entity):
+    if ifc_layout_entity in ["IfcAlignmentCant", "IfcAlignmentVertical"]:
+        for align_ent in context.instances:
+            align = ifc43x_alignment_validation.entities.Alignment().from_entity(align_ent)
+            if align.segmented_reference_curve is not None:
+                if align.cant is None:
+                    yield ValidationOutcome(inst=inst, expected="IfcAlignmentCant", observed=None,
+                                            severity=OutcomeSeverity.ERROR)

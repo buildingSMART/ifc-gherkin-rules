@@ -7,12 +7,8 @@ Feature: ALA001 - Alignment overall agreement of business logic and geometry
 Background: Validating overall agreement on presence of cant in business logic
   Given A model with Schema "IFC4.3"
   Given An IfcAlignment
-  Given Its attribute Representation
-  Given Its attribute Representations
-  Given Its attributes Items for each
 
 @E00010
 Scenario: Validating overall agreement on presence of cant layout
-  Given The entity type is IfcSegmentedReferenceCurve
-  Then  The business logic must contain a cant layout
+  Then  A representation by IfcSegmentedReferenceCurve requires an IfcAlignmentCant in the business logic
 

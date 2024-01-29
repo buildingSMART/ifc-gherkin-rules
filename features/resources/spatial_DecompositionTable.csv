@@ -44,3 +44,7 @@ IfcSite,IfcRoad
 IfcSite,IfcExternalSpatialElement
 IfcSite,IfcSpace
 IfcSpace,IfcSpace
+IfcStair,IfcStair
+IfcStair,IfcRailing
+IfcStair,IfcSlab
+IfcStair,IfcStairFlight

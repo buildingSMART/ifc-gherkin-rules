@@ -1,7 +1,7 @@
 @implementer-agreement
 @ibp
-@industry-best-practice
 @warning
+@version1
 
 Feature: ASS101 - Stair decomposition
 
@@ -10,6 +10,5 @@ The possible allowed breakdown can be found in the csv file in the folder 'featu
 
 Scenario: Agreement on IfcStair being decomposed as per spatial composition table.
 
-Given A file with Schema Identifier "IFC2X3" or "IFC4" or "IFC4X3_ADD1" or "IFC4X3"
-And An IfcStair
-Then It must be aggregated as per stair_DecompositionTable.csv
+    Given An IfcStair
+    Then It must be aggregated as per spatial_DecompositionTable.csv

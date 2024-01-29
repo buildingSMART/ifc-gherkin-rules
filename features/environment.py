@@ -10,6 +10,17 @@ def read_model(fn):
     return model_cache[fn]
 
 def before_feature(context, feature):
+
+    #TODO - temp delete the part:
+    from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode
+    validation_outcome = ValidationOutcome(
+        outcome_code='E00100',
+        observed="is_in_db",
+        expected="is_in_db",
+        validation_task_id=1
+    )
+    validation_outcome.save()
+
     # @tfk we have this strange issue between stack frames blending over
     # between features so we need to preserve only the bottom two stack
     # frames when beginning a new feature.

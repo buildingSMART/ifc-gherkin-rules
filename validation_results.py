@@ -16,35 +16,36 @@ django.setup()
 
 from ifc_validation_models.models import ValidationOutcome
 
+call_command(
+    'migrate', interactive=False,
+)
+
+import ifc_validation_models.models as database
+from django.contrib.auth.models import User
+
+user = User.objects.filter(username='system').first()
+
+if not user:
+    user = User.objects.create(username='system',
+                                email='system',
+                                password='system')
+
+database.set_user_context(user)
+
+model = database.Model.objects.create(
+    size=1,
+    uploaded_by = user
+)
+
+instance = database.ModelInstance.objects.create(
+    stepfile_id=1,
+    model = model
+)
+
 OutcomeSeverity = ValidationOutcome.OutcomeSeverity
 ValidationOutcomeCode = ValidationOutcome.ValidationOutcomeCode
 
-if __name__ == "__main__":
-    call_command(
-        'migrate', interactive=False,
-    )
 
-    import ifc_validation_models.models as database
-    from django.contrib.auth.models import User
 
-    user = User.objects.filter(username='system').first()
-
-    if not user:
-        user = User.objects.create(username='system',
-                                    email='system',
-                                    password='system')
-
-    database.set_user_context(user)
-
-    model = database.Model.objects.create(
-        size=1,
-        uploaded_by = user
-    )
-
-    instance = database.ModelInstance.objects.create(
-        stepfile_id=1,
-        model = model
-    )
-
-    validation_request = database.ValidationRequest.objects.create(size=1)
-    validation_task = database.ValidationTask.objects.create(request_id=1)
+# validation_request = database.ValidationRequest.objects.create(size=1)
+# validation_task = database.ValidationTask.objects.create(request_id=1)

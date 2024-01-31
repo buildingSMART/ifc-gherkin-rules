@@ -6,10 +6,29 @@ for validity, elem in [
     ("pass", 'IfcRailing'),
     ("pass", 'IfcSlab'),
     ("pass", 'IfcStairFlight'),
+    ("pass", 'IfcBeam'),
+    ("pass", 'IfcMember'),
+    ("pass", 'IfcRoof'),
+    ("pass", 'IfcWall'),
     ("pass", None),
-    ("fail", "IfcBeam"), 
-    ("fail", "IfcAlignment")
-]:
+    ("fail", "IfcCovering"), 
+    ("fail", "IfcAlignment"), 
+    ("fail", "IfcChimney"), 
+    ("fail", "IfcCurtainWall"), 
+    ("fail", "IfcDoor"), 
+    ("fail", "IfcFooting"), 
+    ("fail", "IfcPile"), 
+    ("fail", "IfcPlate"), 
+    ("fail", "IfcShadingDevice"), 
+    ("fail", "IfcWindow"), 
+    ("fail", "IfcChimney"), 
+    ("fail", "IfcColumn"), 
+    ("fail", "IfcCurtainWall"), 
+    ("fail", "IfcFooting"), 
+    ("fail", "IfcPile"), 
+    ("fail", "IfcPlate"), 
+    ("fail", "IfcRamp"), 
+    ("fail", "IfcRampFlight") ]:
 
     f = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD1")
     building_parent = proj = f.by_type("IfcProject")[0]

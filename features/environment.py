@@ -1,6 +1,7 @@
 import ifcopenshell
 from behave.model import Scenario
 from collections import Counter
+import copy
 
 model_cache = {}
 def read_model(fn):
@@ -32,28 +33,49 @@ def before_scenario(context, scenario):
 def before_step(context, step):
     context.step = step
 
+def get_validation_outcome_hash(obj):
+    return obj.severity, obj.outcome_code, obj.expected, obj.observed, obj.instance_id
+
 def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
     execution_mode = 'ExecutionMode.PRODUCTION'
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
-        from validation_results import OutcomeSeverity
+        from validation_results import OutcomeSeverity, ModelInstance, ValidationTask
         def reduce_db_outcomes(feature_outcomes):
 
             failed_outcomes = [outcome for outcome in feature_outcomes if outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]]
             if failed_outcomes:
-                return failed_outcomes
+                unique_outcomes = set() # TODO __hash__ + __eq__ will be better
+                unique_objects = [obj for obj in failed_outcomes if get_validation_outcome_hash(obj) not in unique_outcomes and (unique_outcomes.add(get_validation_outcome_hash(obj)) or True)]
+                return unique_objects
+
             else:
                 outcome_counts = Counter(outcome.severity for outcome in context.gherkin_outcomes)
 
-                for severity in [OutcomeSeverity.NOT_APPLICABLE, OutcomeSeverity.EXECUTED, OutcomeSeverity.PASSED]:
+                for severity in [OutcomeSeverity.PASSED, OutcomeSeverity.EXECUTED, OutcomeSeverity.NOT_APPLICABLE]:
                     if outcome_counts[severity] > 0:
                         for outcome in context.gherkin_outcomes:
                             if outcome.severity == severity:
                                 return [outcome]
         outcomes_to_save = reduce_db_outcomes(context.gherkin_outcomes)
 
+        if outcomes_to_save:
+            retrieved_task = ValidationTask.objects.get(id=context.validation_task_id)
+            retrieved_model = retrieved_task.request.model
+
         for outcome_to_save in outcomes_to_save:
-            outcome_to_save.save()
+            if outcome_to_save.severity in [OutcomeSeverity.PASSED, OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]:
+                instance = ModelInstance.objects.get_or_create(
+                    stepfile_id=outcome_to_save.instance_id,
+                    model_id=retrieved_model.id
+                )
+
+                validation_outcome = copy.copy(outcome_to_save) # copy made not to overwrite id parameter on object reference
+                validation_outcome.instance_id = instance[0].id # switch from stepfile_id to instance_id
+                validation_outcome.save()
+
+            else:
+                outcome_to_save.save()
 
     else: # invoked via console
         pass

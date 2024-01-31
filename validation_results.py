@@ -14,7 +14,7 @@ ifc_validation_models.apps.IfcValidationModelsConfig.name = 'ifc_validation_mode
 os.environ['DJANGO_SETTINGS_MODULE'] = 'ifc_validation_models.independent_worker_settings'
 django.setup()
 
-from ifc_validation_models.models import ValidationOutcome
+from ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask
 OutcomeSeverity = ValidationOutcome.OutcomeSeverity
 ValidationOutcomeCode = ValidationOutcome.ValidationOutcomeCode
 
@@ -41,10 +41,5 @@ if __name__ == "__main__":
         uploaded_by = user
     )
 
-    instance = database.ModelInstance.objects.create(
-        stepfile_id=1,
-        model = model
-    )
-
-    validation_request = database.ValidationRequest.objects.create(size=1)
+    validation_request = database.ValidationRequest.objects.create(size=1, model_id = 1)
     validation_task = database.ValidationTask.objects.create(request_id=1)

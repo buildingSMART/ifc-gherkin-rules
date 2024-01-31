@@ -243,8 +243,7 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                # instance_id = activation_inst.id(),
-                instance_id=None,
+                instance_id = activation_inst.id(),
                 validation_task_id=context.validation_task_id
             )
             context.gherkin_outcomes.append(validation_outcome)
@@ -258,8 +257,7 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.PASSED,
-                # instance_id = activation_inst.id(),
-                instance_id=None,
+                instance_id = activation_inst.id(),
                 validation_task_id=context.validation_task_id
             )
         context.gherkin_outcomes.append(validation_outcome)

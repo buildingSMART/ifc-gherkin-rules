@@ -11,4 +11,4 @@ The possible allowed breakdown can be found in the csv file in the folder 'featu
 Scenario: Agreement on IfcStair being decomposed as per stair composition table.
 
     Given An IfcStair
-    Then It must be aggregated as per stair_DecompositionTable.csv
+    Then It must be aggregated as per stair_CompositionTable.csv

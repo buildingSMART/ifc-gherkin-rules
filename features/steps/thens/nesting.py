@@ -3,10 +3,12 @@ import operator
 import pyparsing
 
 from validation_handling import gherkin_ifc
-from . import ValidationOutcome, OutcomeSeverity
 
 from parse_type import TypeBuilder
 from behave import register_type
+
+from . import ValidationOutcome, OutcomeSeverity
+
 
 register_type(nested_sentences=TypeBuilder.make_enum(
     dict(map(lambda x: (x, x), ("must nest only 1",
@@ -36,7 +38,7 @@ def step_impl(context, inst, other_entities):
     if not nested_entity_types <= allowed_entity_types:
         yield ValidationOutcome(inst=inst, expected=str(allowed_entity_types), observed=allowed_entity_types - nested_entity_types, severity=OutcomeSeverity.ERROR)
     else:
-        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASS)
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
 
 
 
@@ -67,10 +69,11 @@ def step_impl(context, inst, fragment, other_entity):
 
         if condition == 'only 1' and len(correct_elements) > 1:
             yield ValidationOutcome(inst=inst, expected=1, observed=len(correct_elements), severity=OutcomeSeverity.ERROR)
-        elif condition == 'a list of only':
+        if condition == 'a list of only':
             if len(getattr(inst, extr['attribute'], [])) > 1:
                 yield ValidationOutcome(inst=inst, expected=other_entity, observed=false_elements, severity=OutcomeSeverity.ERROR)
             elif len(false_elements):
                 yield ValidationOutcome(inst=inst, expected=other_entity, observed=false_elements, severity=OutcomeSeverity.ERROR)
-        elif condition == 'only' and len(false_elements):
-            yield ValidationOutcome(inst=inst, expected=other_entity, observed=false_elements, severity=OutcomeSeverity.ERROR)
+        if condition == 'only' and len(false_elements):
+            yield ValidationOutcome(inst=inst, expected=correct_elements, observed=false_elements, severity=OutcomeSeverity.ERROR)
+

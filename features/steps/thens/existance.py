@@ -4,6 +4,7 @@ from utils import misc
 from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
+
 @gherkin_ifc.step("There must be one {representation_id} shape representation")
 def step_impl(context, inst, representation_id):
     if inst.Representation:

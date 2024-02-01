@@ -45,7 +45,17 @@ def do_try(fn, default=None):
         traceback.print_exc()
         return default
 
-
+def get_feature_filter(filename):
+    """"
+    If the filename comes from the repository as a test file for a specific rule, filter the relevant feature
+    """
+    try:
+        rule_code = os.path.basename(filename).split('-')[1].strip().upper()
+        if re.match(r'[A-Z]{3}[0-9]{3}', rule_code):
+            return ["-i", rule_code] # feature_filter to run in behave process
+    except IndexError: 
+        return [] # Not a file for a specific rule; i.e. any other IFC file used for testing purposes
+    
 def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
@@ -60,14 +70,8 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
     else:
         tag_filter.append('--tags=-disabled')
 
-    # If this is a test file from the repository filter only the relevant scenarios
-    feature_filter = []
-    try:
-        rule_code = os.path.basename(filename).split('-')[1].strip().upper()
-        if re.match(r'[A-Z]{3}[0-9]{3}', rule_code):
-            feature_filter = ["-i", rule_code]
-    except Exception as e:
-        print(e)
+
+    feature_filter = get_feature_filter(filename) if execution_mode == ExecutionMode.TESTING else []
 
     if with_console_output:
         # Sometimes it's easier to see what happens exactly on the console output

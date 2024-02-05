@@ -75,7 +75,6 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                 sys.executable, "-m", "behave",
                 *feature_filter, *tag_filter,
                 "--define", f"input={os.path.abspath(filename)}", 
-                "--define", f"check_rule_conventions={check_rule_conventions}", 
                 "--define", f"execution_mode={execution_mode}",
             ], 
         cwd=cwd
@@ -86,7 +85,6 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
             sys.executable, "-m", "behave",
             *feature_filter, *tag_filter, 
             "--define", f"input={os.path.abspath(filename)}",
-            "--define", f"check_rule_conventions={check_rule_conventions}",
             "--define", f"execution_mode={execution_mode}", 
             "-f", "json", "-o", jsonfn # save to json file
         ], 

@@ -24,8 +24,8 @@ def before_feature(context, feature):
     Scenario.continue_after_failed_step = False
     context.gherkin_outcomes = set()
 
-    execution_mode = context.config.userdata.get('execution_mode')
-    if execution_mode and execution_mode == 'ExecutionMode.TESTING':
+    check_rule_conventions = context.config.userdata.get('check_rule_conventions')
+    if eval(check_rule_conventions):
         ifc_filename_incl_path = context.config.userdata.get('input')
         convention_attrs = {
             'ifc_filename' : os.path.basename(context.config.userdata.get('input')),
@@ -38,7 +38,6 @@ def before_feature(context, feature):
             'filename' : ifc_filename_incl_path # filename that comes directly from 'main.py'
             }
         protocol.enforce(convention_attrs)
-        pass
 
 def before_scenario(context, scenario):
     context.applicable = True

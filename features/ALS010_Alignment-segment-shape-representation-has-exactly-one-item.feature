@@ -1,7 +1,7 @@
 @ALS
 @version1
 @E00040
-Feature: ALS010 - Alignment segment shape representation must have exactly one item
+Feature: ALS010 - Alignment segment shape representation has exactly one item
 The rule verifies that IfcAlignmentSegment is represented correctly with representation type Segment and a single item.
 
   Scenario: Agreement on each IfcAlignmentSegment having correct number of representation items

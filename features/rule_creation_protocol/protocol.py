@@ -2,6 +2,9 @@ import os
 import re
 import typing
 from pydantic import BaseModel, model_validator, field_validator, Field, conlist
+from pyparsing import Word, alphas, nums, Literal, Combine, StringEnd, alphanums, ParseException
+import pyparsing
+
 
 from .validation_helper import ValidatorHelper, ParsePattern
 from .duplicate_registry import Registry
@@ -148,7 +151,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
             )
 
         """Check that no punctuation at the end of the step"""
-        if any(d['name'].endswith(tuple(r"""!#$%&()*+,-./:;<=>?@[\]^_`{|}~""")) for d in value):
+        if any(d['name'].endswith(tuple(r"""!#$%&(*+,-./:;<=>?@[\]^_`{|}~""")) for d in value):
             raise ProtocolError(
                 value=value,
                 message=f"The feature steps must not end with punctuation. Now the steps end with {[d['name'][-1] for d in value]}."
@@ -187,20 +190,10 @@ class RuleCreationConventions(ConfiguredBaseModel):
                 message=f"The rule directory is supposed to be a valid rule code name, but is {rule_folder} instead"
             )
 
-        file_path = os.path.basename(value)
-        result, rule, *rest = file_path.split('-')
-        if len(rest) == 1:
-            rest = rest[0]
-            scenario = ''
-        elif len(rest) == 2:
-            scenario, rest = rest
-        else:
-            raise ProtocolError(
-                value=value,
-                message=f"Test file {value} does not fit the naming convention. Expected two '-' separators for pass file and three for fail file. Got {len(file_path.split('-')) - 1} instead"
-            )
+        ifc_path = os.path.basename(value)
+        result, rule, *rest = ifc_path.split('-') # result is either pass or fail
 
-        rest, extension = rest.split('.')
+        
 
         """Check if test file start with pass or fail"""
         if result not in ('pass', 'fail'):
@@ -217,26 +210,39 @@ class RuleCreationConventions(ConfiguredBaseModel):
             )
 
         """Check if scenario is found in the third part of the test file (for fail files)"""
-        if scenario and not re.match(r'^scenario\d{2}$', scenario):
-            raise ProtocolError(
-                value=value,
-                message=f"The third part of the fail test file name must be a valid scenario number. In that case it's: {scenario}"
-            )
+        # if scenario and not re.match(r'^scenario\d{2}$', scenario):
+        #     raise ProtocolError(
+        #         value=value,
+        #         message=f"The third part of the fail test file name must be a valid scenario number. In that case it's: {scenario}"
+        #     )
 
-        """Check if the only separator used in the file description is underscore"""
-        separators = [match.group(0) for match in re.finditer(r'[^a-zA-Z0-9]+', rest)]
-        if any(separator != '_' for separator in separators):
-            raise ProtocolError(
-                value=value,
-                message=f"The expected separator in the short_informative_description of the test file name is _. For file {value} found {separators}"
-            )
+        """
+        Naming convention for unit test files files
+        Unit test files must follow this naming convention
 
-        """Check if extension is ifc"""
-        if extension.lower() != 'ifc':
-            raise ProtocolError(
-                value=value,
-                message=f"The expected test file extension is .ifc, found: {extension} instead"
-            )
+        Expected result-rule code-rule scenario-short_informative_description`.ifc
+
+        Or in case where a rule has no scenarios
+        `Expected result`-`rule code`-`short_informative_description`.ifc
+
+        Examples
+
+        pass-alb001-short_informative_description.ifc
+        fail-alb001-scenario01-short_informative_description.ifc
+        fail-alb001-short_informative_description.ifc
+        
+        """
+        ifc_path_errors = validate_ifc_path(ifc_path)
+        if ifc_path_errors:
+            if ifc_path != ifc_path_errors:
+                os.rename(normalized_path, os.path.join(os.path.dirname(normalized_path), ifc_path_errors))
+                msg = f"Error in the ifc file name: {ifc_path}. File name has been corrected to {ifc_path_errors}"
+            else:
+                msg = f"Error in the ifc file name: {ifc_path}"
+                raise ProtocolError(
+                    value=value,
+                    message = msg
+                )
 
     @field_validator('readme')
     def validate_readme_presence(cls, value):
@@ -249,6 +255,46 @@ class RuleCreationConventions(ConfiguredBaseModel):
                 value=value,
                 message=f"README.ME file not found in the test file directory: {readme_path}"
             )
+        
+def correct_character_use(file_name):
+    """
+    Corrects the use of '-' and '_' in the file name according to the rules.
+    """
+    parts = file_name.split('-')
+    if len(parts) > 2:  # Expected format with scenario
+        rule_code_and_scenario = '-'.join(parts[:3])  # Keep the first 3 parts intact
+        description_parts = '-'.join(parts[3:]).split('_')  # Split the rest for correction
+        corrected_description = '_'.join(description_parts)
+        corrected_file_name = rule_code_and_scenario + '-' + corrected_description
+    else:
+        corrected_file_name = file_name.replace('_', '-')
+    return corrected_file_name
+
+
+def validate_ifc_path(file_name):
+    expectedResult = Literal("pass") | Literal("fail")
+    ruleCode = Combine(Word(alphas, exact=3) + Word(nums, exact=3))
+    scenario = pyparsing.Optional(Literal("-") + Literal("scenario") + Word(nums, exact=2))
+    description = Combine(Word(alphanums + "_") + Literal(".ifc"))
+    
+    fileNameGrammar = expectedResult + Literal("-") + ruleCode + scenario + Literal("-") + description + StringEnd()
+    
+
+    attempts = 0
+    max_attempts = 10 
+    opposites = {'-': '_', '_': '-'}
+    while attempts < max_attempts:
+        try:
+            fileNameGrammar.parseString(file_name)
+        except ParseException as pe:
+            if pe.loc < len(file_name) and file_name[pe.loc] in ['-', '_']:
+                file_name = file_name[:pe.loc] + opposites.get(file_name[pe.loc]) + file_name[pe.loc+1:]
+            else:
+                return file_name
+        attempts += 1
+
+    pass
+
 
 def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
     """Main function to validate feature and tagging conventions.

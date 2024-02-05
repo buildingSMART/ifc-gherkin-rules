@@ -1,4 +1,6 @@
-class ProtocolError(Exception):
+import enum
+
+class ProtocolError(AssertionError):
     """Custom exception for errors related to rule protocol.
 
     This exception is raised when there's a violation or error related to the rule protocol.

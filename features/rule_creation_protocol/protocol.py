@@ -1,7 +1,7 @@
 import os
 import re
 import typing
-from pydantic import BaseModel, model_validator, field_validator, Field, conlist
+from pydantic import model_validator, field_validator, Field, ValidationError
 from pyparsing import Word, alphas, nums, Literal, Combine, StringEnd, alphanums, ParseException
 import pyparsing
 
@@ -47,7 +47,10 @@ class Naming(ConfiguredBaseModel):
     def parse_name(cls, values) -> dict:
         name = values.get('name')
         if name is None:
-            raise ValueError('Name is required')
+            raise ProtocolError(
+                value = None,
+                message = "The name is required"
+            )
 
         parser = ParsePattern()
         parsed_name = parser.parse_feature_name(name)
@@ -328,4 +331,8 @@ def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
         'readme': attrs['filename'],  # e.g. ifc-gherkin-rules\test\files\alb002\pass-alb002-generated_file.ifc
     }
 
-    RuleCreationConventions(**feature_obj)
+    try:
+        RuleCreationConventions(**feature_obj)
+    except ValidationError as convention_errors:
+        for error in convention_errors.errors():
+            yield error.get('msg')

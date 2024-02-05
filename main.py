@@ -44,7 +44,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, check_rule_conventions=False):
+def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 

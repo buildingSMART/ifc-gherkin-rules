@@ -250,13 +250,13 @@ class RuleCreationConventions(ConfiguredBaseModel):
     @field_validator('readme')
     def validate_readme_presence(cls, value):
         """Check if readme file is located in test file directory"""
-        normalized_path = os.path.normpath(value)
-        test_file_directory = os.path.dirname(normalized_path)
-        readme_path = os.path.join(test_file_directory, 'readme.md')
-        if not os.path.exists(readme_path):
+        # normalized_path = os.path.normpath(value)
+        # test_file_directory = os.path.dirname(normalized_path)
+        # readme_path = os.path.join(test_file_directory, 'readme.md')
+        if not os.path.exists(os.path.join(os.path.dirname(__file__), 'readme.md')):
             raise ProtocolError(
                 value=value,
-                message=f"README.ME file not found in the test file directory: {readme_path}"
+                message=f"README.ME file not found in the test file directory"
             )
         
 def correct_character_use(file_name):

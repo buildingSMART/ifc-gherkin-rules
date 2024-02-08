@@ -34,7 +34,7 @@ def step_impl(context, entity, other_entity, relationship):
                 if obj.is_a(entity):
                     instances.append(obj)
     for inst in instances:
-        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS)
+        yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
 
 
 #@nb this is awaiting the merge of https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
@@ -67,7 +67,7 @@ def step_impl(context, relationship, entity, other_entity):
                 instances.extend(to_other)
 
     for inst in instances:
-        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS)
+        yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
 
     
 
@@ -78,5 +78,5 @@ def step_impl(context, inst, relationship_type, entity):
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
     if getattr(getattr(inst, extr['attribute'])[0], extr['object_placement']).is_a(entity):
-        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS)
+        yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
 

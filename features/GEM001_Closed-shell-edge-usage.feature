@@ -1,4 +1,5 @@
 @informal-proposition
+@critical
 @GEM
 @version1
 @E00050

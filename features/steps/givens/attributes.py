@@ -28,7 +28,7 @@ def step_impl(context, inst, attribute, value):
             pred = misc.reverse_operands(operator.contains)
 
     if hasattr(inst, attribute) and pred(getattr(inst, attribute), value):
-        yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASS)
+        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step('{attr} forms {closed_or_open} curve')
@@ -41,7 +41,7 @@ def step_impl(context, inst, attr, closed_or_open):
         inst = getattr(inst, attr, None)
 
     if geometry.is_closed(context, inst) == should_be_closed:
-        yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASS)
+        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step('A {file_or_model} with {field} "{values}"')
@@ -63,17 +63,17 @@ def step_impl(context, file_or_model, field, values):
 
 @gherkin_ifc.step('Its attribute {attribute}')
 def step_impl(context, inst, attribute, tail="single"):
-    yield ValidationOutcome(inst=getattr(inst, attribute, None), severity = OutcomeSeverity.PASS)
+    yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity = OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("Its {attribute} attribute {condition} with {prefix}")
 def step_impl(context, inst, attribute, condition, prefix):
     assert condition in ('starts', 'does not start')
     if condition == 'starts':
         if hasattr(inst, attribute) and str(getattr(inst, attribute, '')).startswith(prefix):
-            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASS)
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
     elif condition == 'does not start':
         if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')).startswith(prefix):
-            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASS)
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("Its attributes {attribute} for each")
 def step_impl(context, inst, attribute, tail="single"):
@@ -99,16 +99,16 @@ def step_impl(context, inst):
     Implement ALB015
     This is a separate function from ALS015 because ALB015 needs to yield a ValidationOutcome.
     """
-    yield ValidationOutcome(inst=context.instances[-1], severity=OutcomeSeverity.PASS)
+    yield ValidationOutcome(instance_id=context.instances[-1], severity=OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):
-    yield ValidationOutcome(inst=context.model, severity=OutcomeSeverity.PASS)
+    yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step("The entity type is {expected_entity_type}")
 def step_impl(context, inst, expected_entity_type):
     expected_entity_types = tuple(map(str.strip, expected_entity_type.split(' or ')))
     entities = [_[0] for _ in inst if _[0].is_a() in expected_entity_types]
-    return ValidationOutcome(inst=tuple(entities), severity=OutcomeSeverity.PASS)
+    return ValidationOutcome(inst_id=tuple(entities), severity=OutcomeSeverity.PASSED)

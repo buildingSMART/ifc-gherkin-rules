@@ -13,7 +13,8 @@ The rule verifies that IfcAlignmentVertical is represented correctly with repres
   @E00010
   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
 
-    Then  The type of attribute Items must be IfcGradientCurve
+    Given its attributes Items for each
+    Then  The type must be "IfcGradientCurve"
 
   @E00020
   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type

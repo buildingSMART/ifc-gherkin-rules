@@ -6,6 +6,7 @@ from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
+
 @gherkin_ifc.step("It must have no duplicate points {clause} first and last point")
 def step_impl(context, inst, clause):
     assert clause in ('including', 'excluding')
@@ -23,5 +24,5 @@ def step_impl(context, inst, clause):
                     break
         comparison_nr += 1
     if duplicates:
-        yield ValidationOutcome(inst=inst, expected="No duplicates", observed=duplicates, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected="No duplicates", observed="Duplicates", severity=OutcomeSeverity.ERROR)
 

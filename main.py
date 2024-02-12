@@ -11,7 +11,9 @@ from enum import Flag, auto, Enum
 class RuleType(Flag):
     INFORMAL_PROPOSITION = auto()
     IMPLEMENTER_AGREEMENT = auto()
-    ALL = INFORMAL_PROPOSITION | IMPLEMENTER_AGREEMENT
+    CRITICAL = auto()
+    INDUSTRY_PRACTICE = auto()
+    ALL = INFORMAL_PROPOSITION | IMPLEMENTER_AGREEMENT | CRITICAL | INDUSTRY_PRACTICE
 
     @staticmethod
     def from_argv(argv):
@@ -44,7 +46,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION):
+def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -90,6 +92,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
         ], 
         cwd=cwd, capture_output=True
     )
+
     if execution_mode == ExecutionMode.TESTING:
         with open(jsonfn) as f:
             try:

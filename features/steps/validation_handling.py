@@ -5,47 +5,21 @@ import ifcopenshell
 from behave import step
 import sys
 import os
-import ast
 from pathlib import Path
 import inspect
 import itertools
 from operator import attrgetter
+import ast
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(str(Path(current_script_dir).parent.parent))
 
-# sys.path.append(r"PATH TO VALIDATE DB") # TODO -> add the path if necessary
-from validation_results import OutcomeSeverity, ValidationOutcome, ValidationOutcomeCode
+from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode
 
 from behave.runner import Context
-import random
 from pydantic import BaseModel, field_validator, Field
 from typing import Any, Union
 from typing_extensions import Annotated
 
-check_execution_id = random.randint(1, 1000)  # Placeholder number for check_execution_id
-
-class StepResult:
-    def __init__(self, observed, expected, outcome_code=None, warning=None):
-        """
-        Represents the outcome of a step in a test.
-        To be used in step_impl function and further processed in the StepOutcome class with information from the context and instance.
-
-        The `outcome_code` and `warning` are optional and allow developers to manually 
-        specify additional details in the step implementation if needed.
-        """
-        self.observed = observed
-        self.expected = expected
-        if outcome_code is not None:
-            self.outcome_code = outcome_code
-        if warning is not None:
-            self.warning = warning
-
-    def as_dict(self):
-        """Return a dictionary representation.
-        Outcome_code and warning are optional fields to check manual input of a developer
-        (e.g. adding a warning to a rule or selecting an outcome_code).
-        so they are only included if they are not None."""
-        return {k: v for k, v in self.__dict__.items() if v is not None}
 
 class StepOutcome(BaseModel):
     inst: Union[ifcopenshell.entity_instance, str] = None
@@ -57,7 +31,7 @@ class StepOutcome(BaseModel):
 
     def __str__(cls):
         return(f"Step finished with a/an {cls.severity} {cls.outcome_code}. Expected value: {cls.expected}. Observed value: {cls.observed}")
-    
+
     @field_validator('expected')
     def format_expected(cls, v):
         if isinstance(v, list):
@@ -73,8 +47,8 @@ class StepOutcome(BaseModel):
         The outcome code must be included in the tags of the .feature file.
         The severity of the outcome code must be either ERROR or WARNING.
 
-        For a scenario in the .feature file with multiple tags, 
-        the topmost tag is utilized by default, except when overridden by user input. 
+        For a scenario in the .feature file with multiple tags,
+        the topmost tag is utilized by default, except when overridden by user input.
         For instance, given the tags:
         @E00001
         @E00002
@@ -190,7 +164,7 @@ def get_activation_instances(context, instances):
 
     Note that each layer is formatted in the same way as the previous layer. This is done by the misc.map_state function.
 
-    The activation_instance is then the first instance in the stack tree that is an actual ifcopenshell.entity_instance object. 
+    The activation_instance is then the first instance in the stack tree that is an actual ifcopenshell.entity_instance object.
     In this case, this would be IfcProductDefinitionShape.
     """
     stack_tree = get_stack_tree(context)
@@ -210,8 +184,8 @@ def flatten_list_of_lists(lst):
 
 def handle_nested(instance):
     if isinstance(instance, tuple):
-        return 
-    
+        return
+
 def is_list_of_tuples_or_none(var):
     return isinstance(var, list) and all(item is None or isinstance(item, tuple) for item in var)
 
@@ -221,14 +195,13 @@ def handle_given(context, fn, **kwargs):
     1) Set file-wide context.applicable. No further steps (given or then) have to be executed when context.applicability is set to False
     2) Set an initial set of instances ('Given an IfcAlignment' -> [IfcAlignm, IfcAlignm, IfcAlign])
     3) Filter the set of IfcAlignment based on a value ('Given attribute == X' -> [IfcAlignm, None, IfcAlignm])
-    4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape] 
+    4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
     """
-
     if not 'inst' in inspect.getargs(fn.__code__).args:
         gen = fn(context, **kwargs)
         if gen: # (2) Set initial set of instances
             insts = list(gen)
-            context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASS, insts)))
+            context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
         else:
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
@@ -236,7 +209,7 @@ def handle_given(context, fn, **kwargs):
         if is_list_of_tuples_or_none(context.instances): # in case of stacking multiple attribute values for a single entity instance, e.g. in ALS004
             context.instances =  flatten_list_of_lists([fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)])
         else: # (3) & (4) filter or set instances based on an attribute/criteirum
-            context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASS, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs)
+            context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs)
                                                                                                                                                         for inst in context.instances))))
 
 def handle_then(context, fn, **kwargs):
@@ -247,55 +220,50 @@ def handle_then(context, fn, **kwargs):
     activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
 
     validation_outcome = ValidationOutcome(
-        outcome_code=ValidationOutcomeCode.X00040,  # "Executed", but not no error/pass/warning
+        outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
         observed=None,
         expected=None,
         feature=context.feature.name,
         feature_version=misc.define_feature_version(context),
         severity=OutcomeSeverity.EXECUTED,
-        check_execution_id=check_execution_id
+        validation_task_id=context.validation_task_id
     )
-    context.gherkin_outcomes.add(validation_outcome)
+    context.gherkin_outcomes.append(validation_outcome)
 
     for i, inst in enumerate(instances):
         activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
         if isinstance(activation_inst, ifcopenshell.file):
             activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
-        step_results = list(filter(lambda x: x.severity == OutcomeSeverity.ERROR, list(fn(context, inst=inst, **kwargs))))
+        step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
         for result in step_results:
-
             validation_outcome = ValidationOutcome(
                 outcome_code=get_outcome_code(result, context),
-                observed=json_serialize(result.observed),  # TODO (parse it correctly)
-                expected=json_serialize(result.expected),  # TODO (parse it correctly)
+                observed=json_serialize(result.observed),
+                expected=json_serialize(result.expected),
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
-                severity=getattr(OutcomeSeverity, "WARNING" if any(tag.lower() == "warning" for tag in context.feature.tags) else "ERROR"),
-                ifc_instance_id = activation_inst.id(),
-                check_execution_id=check_execution_id
+                severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
+                instance_id = activation_inst.id(),
+                validation_task_id=context.validation_task_id
             )
-            context.gherkin_outcomes.add(validation_outcome)
+            context.gherkin_outcomes.append(validation_outcome)
 
         if not step_results:
 
-            StepOutcome(inst=activation_inst,
-                        context=context,
-                        expected=None,
-                        observed=None)  # expected / observed equal on passed rule?
             validation_outcome = ValidationOutcome(
-                outcome_code=ValidationOutcomeCode.P00010,  # "Rule passed"
+                outcome_code=ValidationOutcomeCode.PASSED,  # "Rule passed" # deactivated until code table is added to django model
                 observed=None,
                 expected=None,
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.PASS,
-                ifc_instance_id=None,
-                check_execution_id=check_execution_id
+                severity=OutcomeSeverity.PASSED,
+                instance_id = activation_inst.id(),
+                validation_task_id=context.validation_task_id
             )
-        context.gherkin_outcomes.add(validation_outcome)
+        context.gherkin_outcomes.append(validation_outcome)
 
     # evokes behave error
-    generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity >= OutcomeSeverity.WARNING])
+    generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
 
 class gherkin_ifc():
 
@@ -304,7 +272,7 @@ class gherkin_ifc():
             return step(step_text)(execute_step(func))
 
         return wrapped_step
-    
+
 def execute_step(fn):
     while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
         fn = fn.__wrapped__
@@ -314,13 +282,13 @@ def execute_step(fn):
         This section of code performs two primary checks:
 
         1. Applicability Check:
-        Check for file-wide applicability with the 'context.instances' variable (set to either True or False) 
+        Check for file-wide applicability with the 'context.instances' variable (set to either True or False)
         In case of non-applicability, further steps are are skipped to optimize performance and avoid unnecessary computations.
         For instance, when a rule requires IFC schema version IFC4X3 but the tested file contains schema version IFC2X3
 
         2. Handling 'Given' or 'Then' Statements:
-        The code differentiates and appropriately handles the logic based on whether the statement is a 'Given' or a 'Then' statement. 
-        'Given' statements are used to establish the applicability of either the file or instances within the file. 
+        The code differentiates and appropriately handles the logic based on whether the statement is a 'Given' or a 'Then' statement.
+        'Given' statements are used to establish the applicability of either the file or instances within the file.
         'Then' statements are used to run the checks on the previously defined instances or file.
 
         Data is circulated using the 'behave-context' and is ultimately stored in the database, as 'ValidationOutcome' corresponds to a database column.
@@ -328,15 +296,15 @@ def execute_step(fn):
 
         if not getattr(context, 'applicable', True):
             validation_outcome = ValidationOutcome(
-                outcome_code=ValidationOutcomeCode.N00010,  # "NOT_APPLICABLE", Given statement with schema/mvd check failed
+                outcome_code=ValidationOutcomeCode.NOT_APPLICABLE,  # "NOT_APPLICABLE", Given statement with schema/mvd check  # deactivated until code table is added to django model
                 observed=None,
                 expected=None,
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.NA,
-                check_execution_id=check_execution_id
+                severity=OutcomeSeverity.NOT_APPLICABLE,
+                validation_task_id=context.validation_task_id
             )
-            context.gherkin_outcomes.add(validation_outcome)
+            context.gherkin_outcomes.append(validation_outcome)
 
         else: # applicability is set to True
 
@@ -348,42 +316,56 @@ def execute_step(fn):
 
     return inner
 
+def json_serialize(data: Any) -> str:
+    #TODO -> temporarly disabled all serializing
+    return data
+    # if isinstance(data, str):
+    #     try:
+    #         data = ast.literal_eval(data)
+    #     except (ValueError, SyntaxError):
+    #         pass
+    #
+    # match data:
+    #     case list() | set():
+    #         return json.dumps({"OneOf": list(data)})
+    #     case tuple():
+    #         try:
+    #             return json.dumps({"OneOf": list(data)})
+    #         except TypeError:
+    #             serialized_data = []
+    #             for item in data:
+    #                 if isinstance(item, ifcopenshell.entity_instance):
+    #                     serialized_data.append(getattr(item, 'GlobalId', item.is_a()))
+    #                 else:
+    #                     serialized_data.append(str(item))
+    #             return json.dumps({"OneOf": serialized_data})
+    #     case dict():
+    #         return json.dumps(data)
+    #     case bool() | None | int() | float() | str():
+    #         return json.dumps(data)
+    #     case _:
+    #         return str(data)
 
 def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) -> str:
     """
-    Determines the outcome code for a step result. 
-    Check for : 
-    -> optional attributes in ValidationOutcome, 
+    Determines the outcome code for a step result.
+    Check for :
+    -> optional attributes in ValidationOutcome,
     -> variables set in tags from feature_file
     """
-    if hasattr(validation_outcome, 'outcome_code') and validation_outcome.outcome_code:
-        return validation_outcome.outcome_code
-    
-    valid_outcome_codes = {code.name for code in ValidationOutcomeCode}
-    feature_tags = context.feature.tags
-    scenario_tags = context.scenario.tags
+    try:
+        if hasattr(validation_outcome, 'outcome_code') and validation_outcome.outcome_code and validation_outcome.outcome_code not in ['N00010', 'X00040', 'P00010']:
+            return validation_outcome.outcome_code
 
-    for tag in scenario_tags:
-        if tag in valid_outcome_codes:
-            return getattr(ValidationOutcomeCode, tag)
-    for tag in valid_outcome_codes:
-        if tag in feature_tags:
-            return getattr(ValidationOutcomeCode, tag)
-    return ValidationOutcomeCode.N00010  # Default outcome code if none is found
-
-def json_serialize(data: Any) -> str:
-    if isinstance(data, str):
-        try:
-            data = ast.literal_eval(data)
-        except (ValueError, SyntaxError):
-            pass
-
-    match data:
-        case list() | set():
-            return json.dumps({"OneOf": list(data)})
-        case dict():
-            return json.dumps(data)
-        case bool() | None | int() | float() | str():
-            return json.dumps(data)
-        case _:
-            return str(data)
+        valid_outcome_codes = {code.value for code in ValidationOutcomeCode}
+        feature_tags = context.feature.tags
+        scenario_tags = context.scenario.tags
+        for tag in scenario_tags:
+            if tag in valid_outcome_codes:
+                return tag
+        for tag in valid_outcome_codes:
+            if tag in feature_tags:
+                return tag
+        return ValidationOutcomeCode.N00010  # Default outcome code if none is found
+    except:
+        pass

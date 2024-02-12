@@ -9,7 +9,7 @@ def step_impl(context, inst, representation_id, representation_type):
 
     if context.step.step_type == "given":
         if ifc.instance_getter(inst, representation_id, representation_type):
-            yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASS) #todo @gh merge given and then step
+            yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED) #todo @gh merge given and then step
     else:
         if ifc.instance_getter(inst, representation_id, representation_type, 1):
-            yield ValidationOutcome(inst=inst, expected=representation_type, observed=None, severity=OutcomeSeverity.ERROR)
+             yield ValidationOutcome(inst=inst, expected=representation_type, observed=None, severity=OutcomeSeverity.ERROR)

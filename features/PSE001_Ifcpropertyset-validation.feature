@@ -1,4 +1,3 @@
-@industry_practice
 @PSE
 @version1
 @E00020

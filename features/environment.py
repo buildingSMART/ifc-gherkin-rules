@@ -34,7 +34,7 @@ def before_step(context, step):
     context.step = step
 
 def get_validation_outcome_hash(obj):
-    return obj.severity, obj.outcome_code, obj.expected, obj.observed, obj.instance_id
+    return obj.severity, obj.outcome_code, obj.instance_id
 
 def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')

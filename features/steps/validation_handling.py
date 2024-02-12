@@ -316,32 +316,34 @@ def execute_step(fn):
     return inner
 
 def json_serialize(data: Any) -> str:
-    if isinstance(data, str):
-        try:
-            data = ast.literal_eval(data)
-        except (ValueError, SyntaxError):
-            pass
-
-    match data:
-        case list() | set():
-            return json.dumps({"OneOf": list(data)})
-        case tuple():
-            try:
-                return json.dumps({"OneOf": list(data)})
-            except TypeError:
-                serialized_data = []
-                for item in data:
-                    if isinstance(item, ifcopenshell.entity_instance):
-                        serialized_data.append(getattr(item, 'GlobalId', item.is_a()))
-                    else:
-                        serialized_data.append(str(item))
-                return json.dumps({"OneOf": serialized_data})
-        case dict():
-            return json.dumps(data)
-        case bool() | None | int() | float() | str():
-            return json.dumps(data)
-        case _:
-            return str(data)
+    #TODO -> temporarly disabled all serializing
+    return data
+    # if isinstance(data, str):
+    #     try:
+    #         data = ast.literal_eval(data)
+    #     except (ValueError, SyntaxError):
+    #         pass
+    #
+    # match data:
+    #     case list() | set():
+    #         return json.dumps({"OneOf": list(data)})
+    #     case tuple():
+    #         try:
+    #             return json.dumps({"OneOf": list(data)})
+    #         except TypeError:
+    #             serialized_data = []
+    #             for item in data:
+    #                 if isinstance(item, ifcopenshell.entity_instance):
+    #                     serialized_data.append(getattr(item, 'GlobalId', item.is_a()))
+    #                 else:
+    #                     serialized_data.append(str(item))
+    #             return json.dumps({"OneOf": serialized_data})
+    #     case dict():
+    #         return json.dumps(data)
+    #     case bool() | None | int() | float() | str():
+    #         return json.dumps(data)
+    #     case _:
+    #         return str(data)
 
 def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) -> str:
     """

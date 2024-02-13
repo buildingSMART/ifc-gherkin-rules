@@ -5,16 +5,29 @@ from pathlib import Path
 import django
 from django.core.management import call_command
 
-current_script_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(str(Path(current_script_dir).parent.parent))
+# @todo importing from random directories is a security hazard, this should be properly passed as a configuration param
+current_script_dir = Path(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, str(current_script_dir.parent.parent.parent.parent))
 
-import ifc_validation_models.apps
+try:
+    import apps.ifc_validation_models as ifc_validation_models
+except:
+    import ifc_validation_models
 
-ifc_validation_models.apps.IfcValidationModelsConfig.name = 'ifc_validation_models'
-os.environ['DJANGO_SETTINGS_MODULE'] = 'ifc_validation_models.independent_worker_settings'
+if Path(ifc_validation_models.__file__) == current_script_dir / 'ifc_validation_models':
+    # we are using our own submodule
+    ifc_validation_models.apps.IfcValidationModelsConfig.name = 'ifc_validation_models'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'ifc_validation_models.independent_worker_settings'
+else:
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'apps.ifc_validation_models.dependent_worker_settings'
+
 django.setup()
 
-from ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask
+try:
+    from apps.ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask
+except:
+    from ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask
+
 OutcomeSeverity = ValidationOutcome.OutcomeSeverity
 ValidationOutcomeCode = ValidationOutcome.ValidationOutcomeCode
 

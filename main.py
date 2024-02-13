@@ -62,19 +62,26 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
 
     # If this is a test file from the repository filter only the relevant scenarios
     feature_filter = []
-    try:
-        rule_code = os.path.basename(filename).split('-')[1].strip().upper()
-        if re.match(r'[A-Z]{3}[0-9]{3}', rule_code):
-            feature_filter = ["-i", rule_code]
-    except Exception as e:
-        print(e)
+    if execution_mode != ExecutionMode.PRODUCTION:
+        bfn = os.path.basename(filename)
+        parts = bfn.split('-')
+        if len(parts) >= 2:
+            rule_code = parts[1].strip().upper()
+            if re.match(r'[A-Z]{3}[0-9]{3}', rule_code):
+                feature_filter = ["-i", rule_code]
 
     if with_console_output:
         # Sometimes it's easier to see what happens exactly on the console output
         print('>',*[sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", f"task_id={task_id}"])
         subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", f"execution_mode={execution_mode}", "--define", f"task_id={task_id}"], cwd=cwd)
 
-    proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", f"execution_mode={execution_mode}", "-f", "json", "-o", jsonfn, "--define", f"task_id={task_id}"], cwd=cwd, capture_output=True)
+    kwargs = {}
+    if execution_mode == ExecutionMode.TESTING:
+        # Only capture output in testing mode
+        kwargs['capture_output'] = True
+
+    proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", f"execution_mode={execution_mode}", "-f", "json", "-o", jsonfn, "--define", f"task_id={task_id}"], cwd=cwd, **kwargs)
+
     if execution_mode == ExecutionMode.TESTING:
         with open(jsonfn) as f:
             try:

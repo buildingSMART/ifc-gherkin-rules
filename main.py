@@ -46,7 +46,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None):
+def run(filename, rule_type=RuleType.ALL, with_console_output=True, execution_mode = ExecutionMode.PRODUCTION, task_id = None):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -71,10 +71,28 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
 
     if with_console_output:
         # Sometimes it's easier to see what happens exactly on the console output
-        print('>',*[sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", f"task_id={task_id}"])
-        subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", f"execution_mode={execution_mode}", "--define", f"task_id={task_id}"], cwd=cwd)
+        print('>',*[sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"])
+        subprocess.run(
+            [
+                sys.executable, "-m", "behave",
+                *feature_filter, *tag_filter,
+                "--define", f"input={os.path.abspath(filename)}", 
+                "--define", f"execution_mode={execution_mode}",
+            ], 
+        cwd=cwd
+        )
 
-    proc = subprocess.run([sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}", "--define", f"execution_mode={execution_mode}", "-f", "json", "-o", jsonfn, "--define", f"task_id={task_id}"], cwd=cwd, capture_output=True)
+    proc = subprocess.run(
+        [
+            sys.executable, "-m", "behave",
+            *feature_filter, *tag_filter, 
+            "--define", f"input={os.path.abspath(filename)}",
+            "--define", f"execution_mode={execution_mode}", 
+            "-f", "json", "-o", jsonfn # save to json file
+        ], 
+        cwd=cwd, capture_output=True
+    )
+
     if execution_mode == ExecutionMode.TESTING:
         with open(jsonfn) as f:
             try:

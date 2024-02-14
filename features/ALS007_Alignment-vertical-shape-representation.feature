@@ -10,6 +10,8 @@ The rule verifies that IfcAlignmentVertical is represented correctly with repres
     Given Its attribute Representation
     Given Its attribute Representations
 
+  @ALS
+  @version2
   @E00010
   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
 

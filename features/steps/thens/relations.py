@@ -44,7 +44,7 @@ def step_impl(context, inst, relationship, table):
             relation = getattr(inst, stmt_to_op[relationship], True)[0]
         except IndexError: # no relationship found for the entity
             if is_required:
-                yield ValidationOutcome(inst=inst, expected={"oneOf":expected_relationship_objects}, observed={"entity":None}, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed={"entity":None}, severity=OutcomeSeverity.ERROR)
             continue
         relationship_objects = getattr(relation, relationship_tbl_header, True)
         if not isinstance(relationship_objects, tuple):
@@ -54,7 +54,7 @@ def step_impl(context, inst, relationship, table):
         for relationship_object in relationship_objects:
             is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
-                yield ValidationOutcome(inst=inst, expected={"oneOf":expected_relationship_objects}, observed={"entity":relationship_object.id()}, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed={"entity":relationship_object.id()}, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('It must be assigned to the {relating}')
 def step_impl(context, inst, relating):

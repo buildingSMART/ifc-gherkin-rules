@@ -28,7 +28,7 @@ def step_impl(context, inst, csv_file):
     valid_values = [row[0] for row in csv.reader(open(filename))]
     invalid_values = [value for value in inst if value not in valid_values]
     for value in invalid_values:
-        yield ValidationOutcome(inst=inst, expected= "Value in {csv_file}.csv", observed = value, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected= valid_values, observed = value, severity=OutcomeSeverity.ERROR)
 
     return []
 

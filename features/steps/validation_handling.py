@@ -238,8 +238,8 @@ def handle_then(context, fn, **kwargs):
         for result in step_results:
             validation_outcome = ValidationOutcome(
                 outcome_code=get_outcome_code(result, context),
-                observed=json_serialize(result.observed),
-                expected=json_serialize(result.expected),
+                observed=expected_behave_output(context, result.observed),
+                expected=expected_behave_output(context, result.expected),
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
@@ -316,35 +316,37 @@ def execute_step(fn):
 
     return inner
 
-def json_serialize(data: Any) -> str:
-    #TODO -> temporarly disabled all serializing
-    return data
-    # if isinstance(data, str):
-    #     try:
-    #         data = ast.literal_eval(data)
-    #     except (ValueError, SyntaxError):
-    #         pass
-    #
-    # match data:
-    #     case list() | set():
-    #         return json.dumps({"OneOf": list(data)})
-    #     case tuple():
-    #         try:
-    #             return json.dumps({"OneOf": list(data)})
-    #         except TypeError:
-    #             serialized_data = []
-    #             for item in data:
-    #                 if isinstance(item, ifcopenshell.entity_instance):
-    #                     serialized_data.append(getattr(item, 'GlobalId', item.is_a()))
-    #                 else:
-    #                     serialized_data.append(str(item))
-    #             return json.dumps({"OneOf": serialized_data})
-    #     case dict():
-    #         return json.dumps(data)
-    #     case bool() | None | int() | float() | str():
-    #         return json.dumps(data)
-    #     case _:
-    #         return str(data)
+def serialize_item(item: Any) -> Any:
+    if isinstance(item, ifcopenshell.entity_instance):
+        return getattr(item, 'GlobalId', item.is_a())
+    else:
+        return item
+
+def expected_behave_output(context: Context, data: Any) -> str:
+    if isinstance(data, str):
+        try:
+            data = ast.literal_eval(data)
+        except (ValueError, SyntaxError):
+            pass
+
+    
+    match data:
+        case list() | set() | tuple():
+            serialized_data = [serialize_item(item) for item in data]
+            return json.dumps({"OneOf": serialized_data})
+        case bool() | None:
+            return json.dumps(data)
+        case str():
+            if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:
+                return json.dumps({'entity': data}) # e.g. 'the type must be IfcCompositeCurve'
+            else:
+                return json.dumps({'value': data}) # e.g. "The value must be 'Body'"
+        case ifcopenshell.entity_instance():
+            return json.dumps({'ifc_instance': getattr(data, 'GlobalId', data.is_a())})
+        case int() | float():
+            return json.dumps({'count': data})
+        case _:
+            return json.dumps(data)
 
 def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) -> str:
     """

@@ -7,6 +7,7 @@
 | SPS  | Spatial structure                | @SPS        | Need to split SS aggregation and SS containment? |
 | ALB  | Alignment (business logic)       | @ALB        |                                                  |
 | ALG  | Alignment (geometry)             | @ALG        |                                                  |
+| ALA  | Alignment Agreement              | @ALA        |                                                  |
 | OJP  | Object placement                 | @OJP        |                                                  |
 | LIP  | Linear placement (non-geometric) | @LIP        |                                                  |
 | STN  | Stationing                       | @STN        |                                                  |

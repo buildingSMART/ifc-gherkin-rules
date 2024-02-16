@@ -10,15 +10,15 @@ Background: Validating overall agreement on presence of cant in business logic
 @E00040
 Scenario: Validating the same number of segments for horizontal layout and representation
   Given An IfcAlignmentHorizontal
-  Then  The alignment's horizontal layout must have the same number of segments as the shape representation
+  Then  The layout must have the same number of segments as the shape representation
 
 @E00040
 Scenario: Validating the same number of segments for vertical layout and representation
   Given An IfcAlignmentVertical
-  Then  The alignment's vertical layout must have the same number of segments as the shape representation
+  Then  The layout must have the same number of segments as the shape representation
 
 @E00040
 Scenario: Validating the same number of segments for cant layout and representation
   Given An IfcAlignmentCant
-  Then  The alignment's cant layout must have the same number of segments as the shape representation
+  Then  The layout must have the same number of segments as the shape representation
 

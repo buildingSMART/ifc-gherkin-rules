@@ -1,12 +1,16 @@
 import operator
 
+from behave import register_type
+
 import ifcopenshell.entity_instance
 
 from utils import ifc43x_alignment_validation
-
 from validation_handling import gherkin_ifc
-
 from . import ValidationOutcome, OutcomeSeverity
+
+from parse_type import TypeBuilder
+
+register_type(absence_or_presence=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("presence", "absence")))))
 
 
 def is_3d(entity: ifcopenshell.entity_instance) -> bool:
@@ -68,94 +72,93 @@ def count_segments(logic, representation):
     return logic_count, rep_count
 
 
-@gherkin_ifc.step('A representation by {ifc_rep_criteria} requires the {ifc_layout_criteria} in the business logic')
-def step_impl(context, inst, ifc_rep_criteria, ifc_layout_criteria):
+@gherkin_ifc.step(
+    'A representation by {ifc_rep_criteria} requires the {existence:absence_or_presence} of {entities} in the business logic')
+def step_impl(context, inst, ifc_rep_criteria, existence, entities):
     for align_ent in context.instances:
         align = ifc43x_alignment_validation.entities.Alignment().from_entity(align_ent)
-        match (ifc_rep_criteria, ifc_layout_criteria):
-            case ("IfcSegmentedReferenceCurve", "presence of IfcAlignmentCant"):
+        match (ifc_rep_criteria, existence, entities):
+            case ("IfcSegmentedReferenceCurve", "presence", "IfcAlignmentCant"):
                 if align.segmented_reference_curve is not None:
                     if align.cant is None:
-                        yield ValidationOutcome(inst=inst, expected=ifc_layout_criteria, observed=None,
+                        yield ValidationOutcome(inst=inst, expected=entities, observed=None,
                                                 severity=OutcomeSeverity.ERROR)
 
-            case ("IfcGradientCurve", "presence of IfcAlignmentVertical"):
+            case ("IfcGradientCurve", "presence", "IfcAlignmentVertical"):
                 if align.gradient_curve is not None:
                     if align.vertical is None:
-                        yield ValidationOutcome(inst=inst, expected=ifc_layout_criteria, observed=None,
+                        yield ValidationOutcome(inst=inst, expected=entities, observed=None,
                                                 severity=OutcomeSeverity.ERROR)
 
-            case ("3D IfcIndexedPolyCurve", "presence of IfcAlignmentVertical"):
+            case ("3D IfcIndexedPolyCurve", "presence", "IfcAlignmentVertical"):
                 product_rep = align.Representation
                 for shape_rep in product_rep.Representations:
                     for item in shape_rep.Items:
                         if (item.is_a().upper() == "IFCINDEXEDPOLYCURVE") and (is_3d(item)):
                             if align.vertical is None:
-                                yield ValidationOutcome(inst=inst, expected=ifc_layout_criteria, observed=None,
+                                yield ValidationOutcome(inst=inst, expected=entities, observed=None,
                                                         severity=OutcomeSeverity.ERROR)
 
-            case ("3D IfcPolyline", "presence of IfcAlignmentVertical"):
+            case ("3D IfcPolyline", "presence", "IfcAlignmentVertical"):
                 product_rep = align.Representation
                 for shape_rep in product_rep.Representations:
                     for item in shape_rep.Items:
                         if (item.is_a().upper() == "IFCPOLYLINE") and (is_3d(item)):
                             if align.vertical is None:
-                                yield ValidationOutcome(inst=inst, expected=ifc_layout_criteria, observed=None,
+                                yield ValidationOutcome(inst=inst, expected=entities, observed=None,
                                                         severity=OutcomeSeverity.ERROR)
 
-            case ("IfcCompositeCurve as Axis", "absence of IfcAlignmentVertical and IfcAlignmentCant"):
+            case ("IfcCompositeCurve as Axis", "absence", "IfcAlignmentVertical and IfcAlignmentCant"):
                 product_rep = align.Representation
                 for shape_rep in product_rep.Representations:
                     for item in shape_rep.Items:
                         if (item.is_a().upper() == "IFCCOMPOSITECURVE") and (
                                 shape_rep.RepresentationIdentifier == "Axis"):
-                            observed = list()
-                            if align.vertical is not None:
-                                observed.append("IfcAlignmentVertical")
-                            if align.cant is not None:
-                                observed.append("IfcAlignmentCant")
-                            if len(observed) > 0:
-                                yield ValidationOutcome(inst=inst, expected=ifc_layout_criteria, observed=observed,
+                            if (align.vertical is not None) or (align.cant is not None):
+                                yield ValidationOutcome(inst=inst, expected=None,
+                                                        observed="', '".join(entities.split(" and ")),
                                                         severity=OutcomeSeverity.ERROR)
 
-            case ("IfcGradientCurve", "absence of IfcAlignmentCant"):
+            case ("IfcGradientCurve", "absence", "IfcAlignmentCant"):
                 product_rep = align.Representation
                 for shape_rep in product_rep.Representations:
                     for item in shape_rep.Items:
                         if item.is_a().upper() == "IFCGRADIENTCURVE":
                             if align.cant is not None:
-                                yield ValidationOutcome(inst=inst, expected=ifc_layout_criteria,
-                                                        observed="IfcAlignmentCant",
+                                yield ValidationOutcome(inst=inst, expected=None,
+                                                        observed=entities,
                                                         severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step(
-    'The alignment\'s {layout_type} layout must have the same number of segments as the shape representation')
-def step_impl(context, inst, layout_type):
+    'The layout must have the same number of segments as the shape representation')
+def step_impl(context, inst):
     for layout_ent in context.instances:
         for rel in layout_ent.Nests:
             ent = rel.RelatingObject
             if ent.is_a() == "IfcAlignment":
                 align = ifc43x_alignment_validation.entities.Alignment().from_entity(ent)
 
-                match layout_type:
-                    case "horizontal":
+                match inst.is_a():
+                    case "IfcAlignmentHorizontal":
                         logic_count, rep_count = count_segments(
                             logic=align.horizontal,
                             representation=align.composite_curve,
                         )
-                    case "vertical":
+                    case "IfcAlignmentVertical":
                         logic_count, rep_count = count_segments(
                             logic=align.vertical,
                             representation=align.gradient_curve,
                         )
-                    case "cant":
+                    case "IfcAlignmentCant":
                         logic_count, rep_count = count_segments(
                             logic=align.cant,
                             representation=align.segmented_reference_curve,
                         )
                     case _:
-                        msg = f"Invalid value '{layout_type}'.  Should be 'horizontal', 'vertical', or 'cant'."
+                        msg = f"Invalid type '{inst.is_a()}'. "
+                        msg += "Should be 'IfcAlignmentHorizontal', 'IfcAlignmentVertical', or 'IfcAlignmentCant'."
+
                         raise NameError(msg)
 
                 if logic_count != rep_count:
@@ -164,6 +167,8 @@ def step_impl(context, inst, layout_type):
                     logic_only = (logic_count is not None) and (rep_count is None)
                     rep_only = (logic_count is None) and (rep_count is not None)
                     if not (logic_only or rep_only):
+                        observed_msg = f"{logic_count} segments in business logic and "
+                        observed_msg += f"{rep_count} segments in representation"
                         yield ValidationOutcome(inst=inst, expected="same count of segments",
-                                                observed="differing count of segments",
+                                                observed=observed_msg,
                                                 severity=OutcomeSeverity.ERROR)

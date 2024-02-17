@@ -8,6 +8,7 @@
 | ALB  | Alignment (business logic)       | @ALB        |                                                  |
 | ALS  | Alignment (segments)             | @ALS        |                                                  |
 | ALG  | Alignment (geometry)             | @ALG        |                                                  |
+| ALA  | Alignment Agreement              | @ALA        |                                                  |
 | OJP  | Object placement                 | @OJP        |                                                  |
 | LIP  | Linear placement (non-geometric) | @LIP        |                                                  |
 | STN  | Stationing                       | @STN        |                                                  |

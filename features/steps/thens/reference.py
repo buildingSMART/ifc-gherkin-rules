@@ -11,15 +11,12 @@ def step_impl(context, inst, something, num):
     edge_usage = geometry.get_edges(
             context.model, inst, Counter, oriented=something == "oriented edge"
         )
-    invalid = {ed for ed, cnt in edge_usage.items() if cnt != num}
-    if invalid:
-        yield ValidationOutcome(inst=inst, expected=num, observed=edge_usage[list(invalid)[0]], severity=OutcomeSeverity.ERROR)
+    for ed in {ed for ed, cnt in edge_usage.items() if cnt != num}:
+        yield ValidationOutcome(inst=inst, observed=edge_usage[ed], severity=OutcomeSeverity.ERROR)
         
-
 
 @gherkin_ifc.step("Its first and last point must be identical by reference")
 def step_impl(context, inst):
     points = geometry.get_points(inst, return_type='points')
     if points[0] != points[-1]:
-        yield ValidationOutcome(inst=inst, expected="identical", observed="not identical", severity=OutcomeSeverity.ERROR)
-
+        yield ValidationOutcome(inst=inst, observed=[points[0], points[-1]], severity=OutcomeSeverity.ERROR)

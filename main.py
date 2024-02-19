@@ -97,7 +97,6 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
             "-f", "json", "-o", jsonfn # save to json file
         ], 
         cwd=cwd, **kwargs)
-    )
 
     if execution_mode == ExecutionMode.TESTING:
         with open(jsonfn) as f:

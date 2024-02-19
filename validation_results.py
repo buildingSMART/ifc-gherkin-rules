@@ -14,7 +14,7 @@ try:
 except:
     import ifc_validation_models
 
-if Path(ifc_validation_models.__file__) == current_script_dir / 'ifc_validation_models':
+if Path(ifc_validation_models.__file__).parent == current_script_dir / 'ifc_validation_models':
     # we are using our own submodule
     ifc_validation_models.apps.IfcValidationModelsConfig.name = 'ifc_validation_models'
     os.environ['DJANGO_SETTINGS_MODULE'] = 'ifc_validation_models.independent_worker_settings'

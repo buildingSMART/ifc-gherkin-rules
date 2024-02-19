@@ -46,7 +46,8 @@ def before_feature(context, feature):
             'steps': [{'keyword': step.keyword, 'name': step.name} for scenario in context.feature.scenarios for step in scenario.steps],
             'filename' : ifc_filename_incl_path # filename that comes directly from 'main.py'
             }
-        protocol_errors = protocol.enforce(convention_attrs)
+        # protocol_errors = protocol.enforce(convention_attrs) 
+        protocol_errors = [] # deactivate pydantic convention-checking in this repo
         for error in protocol_errors:
             validation_outcome = ValidationOutcome(
             outcome_code=ValidationOutcomeCode.X00040, 

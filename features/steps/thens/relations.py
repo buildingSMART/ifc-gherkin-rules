@@ -44,7 +44,7 @@ def step_impl(context, inst, relationship, table):
             relation = getattr(inst, stmt_to_op[relationship], True)[0]
         except IndexError: # no relationship found for the entity
             if is_required:
-                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed= None, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed={"entity":None}, severity=OutcomeSeverity.ERROR)
             continue
         relationship_objects = getattr(relation, relationship_tbl_header, True)
         if not isinstance(relationship_objects, tuple):
@@ -54,13 +54,13 @@ def step_impl(context, inst, relationship, table):
         for relationship_object in relationship_objects:
             is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
-                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed=relationship_object, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed={"entity":relationship_object.id()}, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('It must be assigned to the {relating}')
 def step_impl(context, inst, relating):
     for rel in getattr(inst, 'Decomposes', []):
         if not rel.RelatingObject.is_a(relating):
-            yield ValidationOutcome(inst=inst, expected=relating, observed= rel.RelatingObject.is_a(), severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected={"value":relating}, observed ={"entity":rel.RelatingObject.id()}, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
@@ -90,7 +90,6 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
     other_entity_reference = acceptable_relationships[relationship][0]  # eg Decomposes
     other_entity_relation = acceptable_relationships[relationship][1]  # eg RelatingObject
 
-    relationship_reached = False
     if check_directness:
         observed_directness = set()
     if len(getattr(inst, other_entity_reference)) > 0:
@@ -103,8 +102,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
                 observed_directness.update({'directly'})
             if decision == 'must not':
                 yield ValidationOutcome(inst=inst,
-                    observed = f"{decision} be {condition} {relationship}",
-                    expected = f"{common_directness} {relationship}", severity=OutcomeSeverity.ERROR)
+                    observed = {"value":True},
+                    expected ={"value":False}, severity=OutcomeSeverity.ERROR)
 
         if hasattr(relating_element, other_entity_reference): # in case the relation points to a wrong instance
             while len(getattr(relating_element, other_entity_reference)) > 0:
@@ -117,8 +116,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
                         break
                     if decision == 'must not':
                         outcome = ValidationOutcome(inst=inst,
-                            observed = f"{decision} be {condition} {relationship}",
-                            expected = f"{common_directness} {relationship}",
+                            observed = {"value":True},
+                            expected = {"value":False},
                             severity=OutcomeSeverity.ERROR)
                         yield outcome
                         break
@@ -129,8 +128,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
         directness_expected = decision == 'must'  # check if relationship is expected
         if directness_achieved != directness_expected:
             yield ValidationOutcome( inst=inst,
-                            observed = f"{decision} be {condition} {relationship}",
-                            expected = f"{common_directness} {relationship}",
+                            observed = {"value":directness_achieved},
+                            expected = {"value":common_directness},
                             severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('It must not be referenced by itself directly or indirectly')
@@ -145,7 +144,7 @@ def step_impl(context, inst):
 
     inv, ent, attr = relationship[inst.is_a()]
     if inst in get_memberships(inst):
-        yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected={"value":False}, observed = {"value":True}, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('The IfcPropertySet Name attribute value must use predefined values according to the {table} table')
 @gherkin_ifc.step('The IfcPropertySet must be assigned according to the property set definitions table {table}')
@@ -196,8 +195,7 @@ def step_impl(context, inst, table):
 
     if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:
         if name not in property_set_definitons.keys():
-            # yield (err.InvalidValueError(False, inst, 'Name', name))  # A custom Pset_ prefixed attribute, e.g. Pset_Mywall
-            yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected= {"oneOf":"Official Pset_ prefixed values"}, observed = {'value':name}, severity=OutcomeSeverity.ERROR)
 
     accepted_values = establish_accepted_pset_values(name, property_set_definitons)
 
@@ -215,35 +213,27 @@ def step_impl(context, inst, table):
             for relation in relations:
                 related_objects = relation.RelatedObjects
                 for obj in related_objects:
-
                     if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
-                        # yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
-                        yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+                        yield ValidationOutcome(inst=inst, expected= {'value':"IfcTypeObject"}, observed = {'entity': obj.id()}, severity=OutcomeSeverity.ERROR)
 
                     correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
                     if not any(correct):
-                        # yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_entities']))
-                        yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
-
+                        yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed={'entity': obj.id()}, severity=OutcomeSeverity.ERROR)
 
             related_objects = inst.DefinesType
             for obj in related_objects:
                 if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN', 'PSET_PERFORMANCEDRIVEN']:
-                    # yield (err.InvalidPropertySetDefinition(False, inst=inst, object=obj, name=name, template_type_enum=accepted_values['template_type']))
-                    yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected= {"oneOf": ["IfcObject", "IfcPerformanceHistory"]}, observed = {'entity': obj.id()}, severity=OutcomeSeverity.ERROR)
 
                 correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_type_values']]
                 if not any(correct):
-                    # yield (err.InvalidPropertySetDefinition(False, inst, obj, name, accepted_values['applicable_type_values']))
-                    yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_type_values']}, observed={'entity': obj.id()}, severity=OutcomeSeverity.ERROR)
 
         if 'Each associated IfcProperty must be named according to the property set definitions table' in context.step.name:
             properties = inst.HasProperties
-
             for property in properties:
                 if property.Name not in accepted_values['property_names']:
-                    # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_values=accepted_values['property_names']))
-                    yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_values['property_names']}, observed = {'value':property.Name}, severity=OutcomeSeverity.ERROR)
 
         if 'Each associated IfcProperty must be of type according to the property set definitions table' in context.step.name:
             accepted_property_name_type_map = {}
@@ -259,8 +249,7 @@ def step_impl(context, inst, table):
                     break
 
                 if not property.is_a(accepted_property_type):
-                    # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_type=accepted_property_type))
-                    yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_property_type}, observed = {'entity':property.id()}, severity=OutcomeSeverity.ERROR)
 
         if 'Each associated IfcProperty value must be of data type according to the property set definitions table' in context.step.name:
             accepted_property_name_datatype_map = {}
@@ -277,18 +266,15 @@ def step_impl(context, inst, table):
                 if property.is_a('IfcPropertySingleValue'):
                     values = property.NominalValue
                     if not values.is_a(accepted_data_type['instance']):
-                        # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_data_type_value=accepted_data_type['instance'], value=values))
-                        yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+                        yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':values}, severity=OutcomeSeverity.ERROR)
 
                 elif property.is_a('IfcPropertyEnumeratedValue'):
                     values = property.EnumerationValues
                     for value in values:
                         if not value.wrappedValue in accepted_data_type['values']:
-                            # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_data_type_value=accepted_data_type['values'], value=value.wrappedValue))
-                            yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+                            yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['values']}, observed = {'value':value.wrappedValue}, severity=OutcomeSeverity.ERROR)
                 else:
                     continue
 
                 if not values:
-                    # yield (err.InvalidPropertyDefinition(False, inst=inst, property=property, accepted_data_type=accepted_data_type, value=values))
-                    yield ValidationOutcome(inst=inst, expected= True, observed = False, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':None}, severity=OutcomeSeverity.ERROR)

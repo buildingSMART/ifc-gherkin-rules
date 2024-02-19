@@ -322,6 +322,14 @@ def serialize_item(item: Any) -> Any:
     else:
         return item
 
+def serialize_to_json(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        return json.dumps(result)
+    return wrapper
+
+@serialize_to_json
 def expected_behave_output(context: Context, data: Any) -> str:
     if isinstance(data, str):
         try:
@@ -333,21 +341,23 @@ def expected_behave_output(context: Context, data: Any) -> str:
     match data:
         case list() | set() | tuple():
             serialized_data = [serialize_item(item) for item in data]
-            return json.dumps({"OneOf": serialized_data})
-        case bool() | None:
-            return json.dumps(data)
+            return {"OneOf": serialized_data}
+        case bool():
+            return data
+        case None:
+            return context.step.name
         case str():
             if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:
-                return json.dumps({'entity': data}) # e.g. 'the type must be IfcCompositeCurve'
+                return {'entity': data} # e.g. 'the type must be IfcCompositeCurve'
             else:
-                return json.dumps({'value': data}) # e.g. "The value must be 'Body'"
+                return {'value': data} # e.g. "The value must be 'Body'"
         case ifcopenshell.entity_instance():
-            return json.dumps({'ifc_instance': getattr(data, 'GlobalId', data.is_a())})
+            return {'ifc_instance': getattr(data, 'GlobalId', data.is_a())}
         case int() | float():
-            return json.dumps({'count': data})
+            return {'count': data}
         case _:
-            return json.dumps(data)
-
+            return data
+        
 def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) -> str:
     """
     Determines the outcome code for a step result.

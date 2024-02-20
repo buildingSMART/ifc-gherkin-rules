@@ -71,9 +71,9 @@ def get_validation_outcome_hash(obj):
 
 def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
-    execution_mode = 'ExecutionMode.PRODUCTION'
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         from validation_results import OutcomeSeverity, ModelInstance, ValidationTask
+
         def reduce_db_outcomes(feature_outcomes):
 
             failed_outcomes = [outcome for outcome in feature_outcomes if outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]]

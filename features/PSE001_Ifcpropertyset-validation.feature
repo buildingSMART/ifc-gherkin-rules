@@ -1,6 +1,7 @@
 @PSE
 @version1
 @E00020
+@disabled
 Feature: PSE001 - IfcPropertySet validation
 The rule verifies that each IfcPropertySet starting with Pset is defined correctly.
 

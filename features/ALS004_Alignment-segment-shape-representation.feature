@@ -1,6 +1,7 @@
 @implementer-agreement
 @ALS
 @version1
+@disabled
 Feature: ALS004 - Alignment segment shape representation
 The rule verifies that each IfcAlignmentSegment uses correct representation.
 

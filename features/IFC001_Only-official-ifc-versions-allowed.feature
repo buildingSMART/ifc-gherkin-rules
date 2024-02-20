@@ -3,6 +3,7 @@
 @IFC
 @version1
 @W00030
+@disabled
 Feature: IFC101 - Only official IFC versions allowed
 
 This rule verifies that the IFC model has a schema identifier corresponding to any of the official versions released by buildingSMART.

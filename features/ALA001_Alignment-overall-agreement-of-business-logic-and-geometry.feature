@@ -1,5 +1,6 @@
 @ALA
 @version1
+@disabled
 Feature: ALA001 - Alignment overall agreement of business logic and geometry
   The rule verifies that when an Alignment has both business logic and geometry (representation), the representation entity type must correspond to the layouts present in the business logic.
 

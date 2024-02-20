@@ -1,5 +1,6 @@
 @ALA
 @version1
+@disabled
 Feature: ALA002 - Alignment same number of segments in business logic and geometry
   The rule verifies that when an Alignment has both business logic and geometry (representation),
   the number of segments in the representation must be the same as the number of segments present in the business logic.

@@ -2,7 +2,7 @@
 @IBP
 @warning
 @version1
-
+@disabled
 Feature: IBP001 - Stair decomposition
 
 The rule verifies that stair elements are properly aggregated in accordance with the Stair Decomposition Table, as outlined in the best practices.

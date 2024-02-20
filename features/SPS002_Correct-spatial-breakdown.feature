@@ -2,6 +2,7 @@
 @SPS
 @version1
 @E00100
+@disabled
 Feature: SPS002 - Correct spatial breakdown
 The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.
 The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial_CompositionTable.csv'

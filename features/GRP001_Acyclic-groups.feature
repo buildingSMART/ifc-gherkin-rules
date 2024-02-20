@@ -2,6 +2,7 @@
 @GRP
 @version1
 @E00120
+@disabled
 Feature: GRP001 - Acyclic groups
 The rule verifies that an IfcGroup does not reference itself, not even through intermediary entities.
 

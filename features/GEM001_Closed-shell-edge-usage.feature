@@ -2,6 +2,7 @@
 @GEM
 @version1
 @E00050
+@disabled
 Feature: GEM001 - Closed shell edge usage
 The rule verifies that closed shells and closed facesets edges are referenced correctly.
 

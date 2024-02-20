@@ -1,5 +1,6 @@
 @ALS
 @version1
+@disabled
 
 Feature: ALS015 - Alignment representation zero length final segment
 

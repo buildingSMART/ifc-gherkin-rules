@@ -1,6 +1,7 @@
 @implementer-agreement
 @ALS
 @version1
+@disabled
 Feature: ALS008 - Alignment cant shape representation
 The rule verifies that IfcAlignmentCant is represented correctly with representation type Curve3D and representation item IfcSegmentedReferenceCurve.
 

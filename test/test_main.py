@@ -80,9 +80,9 @@ def test_invocation(filename):
             tablefmt="simple_grid"
         ))
 
-    if base.startswith("fail-") and not any(description == 'Rule disabled' for description in [result[4] for result in gherkin_results]):
+    if (base.startswith("fail-") or 'notpassed' in base) and not any(description == 'Rule disabled' for description in [result[4] for result in gherkin_results]):
         assert len(results) > 0
-    elif base.startswith("pass-"):
+    elif base.startswith("pass-") or '_passed' in base:
         assert len(results) == 0
 
 if __name__ == "__main__":

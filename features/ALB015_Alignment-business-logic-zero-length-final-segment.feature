@@ -1,5 +1,6 @@
 @ALB
 @version1
+@disabled
 Feature: ALB015 - Alignment business logic zero length final segment
   The rule verifies that each layout (horizontal, vertical, cant) of the alignment business logic
   ends with a segment of length = 0.

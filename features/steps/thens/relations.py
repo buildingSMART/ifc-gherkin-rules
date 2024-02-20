@@ -62,6 +62,14 @@ def step_impl(context, inst, relating):
         if not rel.RelatingObject.is_a(relating):
             yield ValidationOutcome(inst=inst, expected={"value":relating}, observed ={"entity":rel.RelatingObject.id()}, severity=OutcomeSeverity.ERROR)
 
+@gherkin_ifc.step('It must be assigned to exact {relating} with parameter {parameter} equal to {value}')
+def step_impl(context, inst, relating, parameter, value):
+    for rel in getattr(inst, 'Decomposes', []):
+        try:
+            if not (rel.RelatingObject.is_a(relating) and getattr(rel.RelatingObject, parameter) == value):
+                yield ValidationOutcome(inst=inst, expected={"value": relating}, observed={"entity": rel.RelatingObject.id()}, severity=OutcomeSeverity.ERROR)
+        except AttributeError:
+            yield ValidationOutcome(inst=inst, expected={"value": 'Attribute_present'}, observed={"value": 'Attribute not present'}, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
 def step_impl(context, inst, decision, relationship, preposition, other_entity, condition, *args):

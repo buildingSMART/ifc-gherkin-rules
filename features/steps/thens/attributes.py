@@ -63,6 +63,11 @@ def step_impl(context, inst, attribute, value):
     if isinstance(inst, (tuple, list)):
         inst = inst[0]
     attribute_value = getattr(inst, attribute, 'Attribute not found')
+    if type(attribute_value) == float:
+        try:
+            value = float(value)
+        except ValueError:
+            pass
     if not pred(attribute_value, value):
         yield ValidationOutcome(inst=inst, expected=value, observed=attribute_value, severity=OutcomeSeverity.ERROR)
 

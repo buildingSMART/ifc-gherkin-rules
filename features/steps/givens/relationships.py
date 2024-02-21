@@ -12,6 +12,12 @@ from . import ValidationOutcome, OutcomeSeverity
 
 @gherkin_ifc.step('A relationship {relationship} from {entity} to {other_entity}')
 def step_impl(context, entity, other_entity, relationship):
+    continue_with_relating = 'and following that' in other_entity # take relating object as instance for further step implementation
+    to_other = set()
+    if continue_with_relating:
+        other_entity = other_entity.split(' and following that')[0]
+
+
     instances = []
     relationships = context.model.by_type(relationship)
 
@@ -24,6 +30,7 @@ def step_impl(context, entity, other_entity, relationship):
         relationships_str = regex.search(str(rel)).group(2)
         relationship_relating_attr = relating_attr_matrix.get(relationships_str)
         relationship_related_attr = related_attr_matrix.get(relationships_str)
+        relating = getattr(rel, relationship_relating_attr)
         if getattr(rel, relationship_relating_attr).is_a(other_entity):
             try:  # check if the related attribute returns a tuple/list or just a single instance
                 iter(getattr(rel, relationship_related_attr))
@@ -33,6 +40,8 @@ def step_impl(context, entity, other_entity, relationship):
             for obj in related_objects:
                 if obj.is_a(entity):
                     instances.append(obj)
+                    to_other.add(relating)
+    instances = to_other if continue_with_relating else instances
     for inst in instances:
         yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
 

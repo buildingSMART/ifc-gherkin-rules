@@ -26,6 +26,8 @@ def step_impl(context, inst, attribute, value):
             # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
             value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
             pred = misc.reverse_operands(operator.contains)
+        except SyntaxError: # e.g. 'Column_1-01' 
+            pass
 
     if hasattr(inst, attribute) and pred(getattr(inst, attribute), value):
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)

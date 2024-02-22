@@ -94,6 +94,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
             *feature_filter, *tag_filter, 
             "--define", f"input={os.path.abspath(filename)}",
             "--define", f"execution_mode={execution_mode}", 
+            "--define", f"task_id={task_id}",
             "-f", "json", "-o", jsonfn # save to json file
         ], 
         cwd=cwd, **kwargs)

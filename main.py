@@ -83,6 +83,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
         subprocess.run(command, cwd=cwd)
 
     command += [
+            "--define", f"task_id={task_id}"
             "-f", "json", "-o", jsonfn # save to json file
         ]
     
@@ -94,8 +95,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
         command += ["--define", f"pull_request={pull_request}"]
     
     proc = subprocess.run(command, cwd=cwd, **kwargs)
-    
-
+   
 
     if execution_mode == ExecutionMode.TESTING:
         with open(jsonfn) as f:

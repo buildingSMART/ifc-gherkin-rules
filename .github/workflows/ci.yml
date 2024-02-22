@@ -38,6 +38,16 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Setup version bump env vars
+      id: envvars
+      run: |
+        echo "TARGET_BRANCH=$TARGET_BRANCH" >> $GITHUB_OUTPUT
+        echo "PULL_REQUEST=$PULL_REQUEST" >> $GITHUB_OUTPUT
+      env:
+        TARGET_BRANCH: ${{ github.event_name == 'pull_request' && github.base_ref || 'development' }}
+        PULL_REQUEST: ${{ github.event_name == 'pull_request' && 'True' || 'False' }}
+
     - name: Test with pytest
       run: |
+        pytest -sv --target_branch=${{ steps.envvars.outputs.TARGET_BRANCH }} --pull_request=${{ steps.envvars.outputs.PULL_REQUEST }}
         pytest -sv

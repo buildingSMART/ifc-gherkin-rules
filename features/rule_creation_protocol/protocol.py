@@ -11,6 +11,7 @@ from .duplicate_registry import Registry
 from .errors import ProtocolError
 from .utils import replace_substrings
 from .config import ConfiguredBaseModel
+from . import version_check
 
 from typing import Any, Optional
 
@@ -117,6 +118,8 @@ class RuleCreationConventions(ConfiguredBaseModel):
     steps: list
     filename: str
     readme: str
+    pull_request: bool
+    target_branch: str
 
     @field_validator('tags')
     def do_validate_tags(cls, value) -> dict:
@@ -247,6 +250,20 @@ class RuleCreationConventions(ConfiguredBaseModel):
                     message = msg
                 )
 
+    @field_validator('target_branch')
+    def check_version_bump(cls, value, values):
+        """"
+        In case a .feature file is updated, the version number must be bumped as well
+        """
+        if values.data.get('pull_request', False):
+            feature_files = version_check.get_changed_feature_files(value) #e.g. 'development'
+            for file in feature_files:
+                if not version_check.check_version_bump(file):
+                    raise ProtocolError(
+                        value=None,
+                        message = "When changing a .feature file, the version number must be bumped as well"
+                        )
+
     # @field_validator('readme')
     # def validate_readme_presence(cls, value):
     #     """Check if readme file is located in test file directory"""
@@ -299,7 +316,7 @@ def validate_ifc_path(file_name):
     pass
 
 
-def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
+def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}):
     """Main function to validate feature and tagging conventions.
 
     This function creates and validates a `RuleCreationConventions` instance based on the provided parameters. e
@@ -329,6 +346,8 @@ def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
         'steps': attrs['steps'],
         'filename': attrs['filename'], # e.g. ifc-gherkin-rules\test\files\alb002\pass-alb002-generated_file.ifc
         'readme': attrs['filename'],  # e.g. ifc-gherkin-rules\test\files\alb002\pass-alb002-generated_file.ifc
+        'target_branch': attrs['target_branch'],
+        'pull_request': attrs['pull_request']
     }
 
     try:

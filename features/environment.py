@@ -3,7 +3,7 @@ from behave.model import Scenario
 from collections import Counter
 import os
 import random
-from rule_creation_protocol import protocol
+from rule_creation_protocol import protocol, version_check
 import copy
 
 from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
@@ -44,7 +44,9 @@ def before_feature(context, feature):
             'tags': context.tags, 
             'location': context.feature.location.filename, 
             'steps': [{'keyword': step.keyword, 'name': step.name} for scenario in context.feature.scenarios for step in scenario.steps],
-            'filename' : ifc_filename_incl_path # filename that comes directly from 'main.py'
+            'filename' : ifc_filename_incl_path, # filename that comes directly from 'main.py'
+            'target_branch': context.config.userdata.get('target_branch', 'development'), 
+            'pull_request': context.config.userdata.get('pull_request', False) #e.g. don't run twice with the wtih_console_output variable
             }
         protocol_errors = protocol.enforce(convention_attrs)
         for error in protocol_errors:

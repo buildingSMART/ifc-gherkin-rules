@@ -64,8 +64,12 @@ def get_test_files():
     return test_files
 
 @pytest.mark.parametrize("filename", get_test_files())
-def test_invocation(filename):
-    gherkin_results = list(run(filename, execution_mode=ExecutionMode.TESTING))
+def test_invocation(request, filename):
+    run_kwargs = {
+        "target_branch": request.config.getoption("--target_branch"),
+        "pull_request": request.config.getoption("--pull_request").lower() == 'true' # github env returns True or False represented as a stringg
+    }
+    gherkin_results = list(run(filename, execution_mode=ExecutionMode.TESTING, **run_kwargs))
     base = os.path.basename(filename)
     results = [result for result in gherkin_results if result[4] != 'Rule disabled']
     print()

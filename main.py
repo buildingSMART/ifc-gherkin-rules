@@ -46,7 +46,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None):
+def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None, target_branch=None, pull_request=False):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -70,33 +70,32 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
             if re.match(r'[A-Z]{3}[0-9]{3}', rule_code):
                 feature_filter = ["-i", rule_code]
 
-    if with_console_output:
-        # Sometimes it's easier to see what happens exactly on the console output
-        print('>',*[sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"])
-        subprocess.run(
-            [
+    command = [
                 sys.executable, "-m", "behave",
                 *feature_filter, *tag_filter,
                 "--define", f"input={os.path.abspath(filename)}", 
                 "--define", f"execution_mode={execution_mode}",
-            ], 
-        cwd=cwd
-        )
-      
+            ]
+    
+    if with_console_output:
+        # Sometimes it's easier to see what happens exactly on the console output
+        print('>',*[sys.executable, "-m", "behave", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"])
+        subprocess.run(command, cwd=cwd)
+
+    command += [
+            "-f", "json", "-o", jsonfn # save to json file
+        ]
+    
     kwargs = {}
     if execution_mode == ExecutionMode.TESTING:
-        # Only capture output in testing mode
+        # Only capture output and add target branch for checking version bump in testing mode
         kwargs['capture_output'] = True
+        command += ["--define", f"target_branch={target_branch}"]
+        command += ["--define", f"pull_request={pull_request}"]
+    
+    proc = subprocess.run(command, cwd=cwd, **kwargs)
+    
 
-    proc = subprocess.run(
-        [
-            sys.executable, "-m", "behave",
-            *feature_filter, *tag_filter, 
-            "--define", f"input={os.path.abspath(filename)}",
-            "--define", f"execution_mode={execution_mode}", 
-            "-f", "json", "-o", jsonfn # save to json file
-        ], 
-        cwd=cwd, **kwargs)
 
     if execution_mode == ExecutionMode.TESTING:
         with open(jsonfn) as f:

@@ -412,18 +412,16 @@ class ValidationGraph:
                 graph=graph, parent_node=horiz_node, entity=align.horizontal._elem
             )
 
-        if not align.verticals is None:
-            vert_nodes = list()
+        if align.vertical is not None:
+            vert_node = self._entity_node(align.vertical._elem, label=align.vertical._elem.Name)
+            graph.add_node(vert_node)
+            valgn_cluster.add_node(vert_node)
 
-            for idx, vert in enumerate(align.verticals):
-                vert_nodes.append(self._entity_node(vert._elem, label=vert._elem.Name))
-                graph.add_node(vert_nodes[idx])
-                valgn_cluster.add_node(vert_nodes[idx])
-                self._add_business_logic_segments(
-                    graph=graph, parent_node=vert_nodes[idx], entity=vert._elem
-                )
+            self._add_business_logic_segments(
+                graph=graph, parent_node=vert_node, entity=align.vertical._elem
+            )
 
-        if not align.cant is None:
+        if align.cant is not None:
             cant_node = self._entity_node(align.cant._elem, label=align.cant._elem.Name)
             graph.add_node(cant_node)
             calgn_cluster.add_node(cant_node)
@@ -549,4 +547,6 @@ class ValidationGraph:
         elif len(coords) == 3:
             (x, y, z) = coords
             label = f"({x:.4f}, {y:.4f}, {z:.4f})"
+        else:
+            label = ""
         return label

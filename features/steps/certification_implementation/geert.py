@@ -27,19 +27,29 @@ def step_impl(context, inst):
 
 @gherkin_ifc.step('Property set: the value must be {value}')
 def step_impl(context, inst, value):
+    match value:
+        case 'given and exported':
+            if not inst:
+                yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+            return
+        case _:
+            if 'contains the substring' in value:
+                if inst not in value.split('contains the substring ')[-1]:
+                    yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+
     match inst:
-        case str():
-            if inst == value:
-                yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
         case bool():
-            if str(inst) == value:
-                yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+            if str(inst) != value:
+                yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
         case list():
             if value != inst[0]: #['NEW']
-                yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+                yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
         case int() | float():
-            if inst!= 0 or inst != value: # default is 0.0 (?)
-                yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR) 
+            if inst != value:
+                    yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
+        case str():
+            if inst != value:
+                yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
 
 def recursive_unpack_value(item):
     """Unpacks a tuple recursively, returning the first non-empty item
@@ -68,3 +78,14 @@ def step_impl(context, inst, value):
         inst = inst.is_a()
     if inst in value_or_values:
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+        
+@gherkin_ifc.step("The volume must be {volume} cubic metre")
+def step_impl(context, inst, volume):
+    acceptable_volumes = volume.split(' or ')
+    tolerance = 0.0005
+
+    if not any ([abs(inst - float(v)) <= tolerance for v in acceptable_volumes]):
+        yield ValidationOutcome(instance_id=inst,
+                                expected=acceptable_volumes, 
+                                 observed=float(inst),
+                                   severity = OutcomeSeverity.PASSED)

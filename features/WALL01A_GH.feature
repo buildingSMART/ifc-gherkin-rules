@@ -5,6 +5,7 @@ Feature: WALL01A
 
   Scenario: Spatial Containment | Product Local Placement
 
+        Given An IfcWall
         Given A relationship IfcRelContainedInSpatialStructure from IfcWall to IfcBuildingStorey and following that
         Given Its attribute Name
 
@@ -14,6 +15,7 @@ Feature: WALL01A
    Scenario: Quantity Sets
 
         Given An IfcWall
+        Given Name == Wall-01
         Given Its Property Sets, in dictionary form
         Given Its Quantity Set Qto_WallBaseQuantities
         Given Its Property NetVolume
@@ -29,13 +31,14 @@ Feature: WALL01A
         ? ThermalTransmittance is 0, is there tolerance?
 
         Given an IfcWall
+        Given Name == Wall-01
         Given Its Property Sets, in dictionary form
         Given Its Property Set Pset_WallCommon
         Given Its Property <Property>
 
         Then Property set: the value must be <Expected_Value>
 
-            Examples: 
+        Examples: 
             | Property              | Expected_Value            |
             | AcousticRating        | Class C (acc. DEGA')      |
             | Combustible           | False                     |
@@ -59,7 +62,7 @@ Feature: WALL01A
 
         Then The geometrical value must be "<Value>"
 
-            Examples: 
+        Examples: 
             | geometric_attribute       | Value                                                              |
             | RepresentationIdentifier  | Body                                                               |
             | RepresentationType        | Tessellation or SweptSolid or MappedRepresentation                 |

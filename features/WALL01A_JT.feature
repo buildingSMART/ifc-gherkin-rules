@@ -1,7 +1,7 @@
-@WALL00A
+@WALL01A
 @version1
 @N00010
-Feature: WALL001
+Feature: WALL01A
 
   Scenario: Building_Storey
 

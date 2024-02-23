@@ -20,7 +20,7 @@ def step_impl(context, inst, property_set_selector):
 def step_impl(context, inst, property_name):
     yield ValidationOutcome(instance_id=inst.get(property_name), severity = OutcomeSeverity.PASSED)
 
-@gherkin_ifc.step("It must be given and exported")
+@gherkin_ifc.step("The property must be given and exported")
 def step_impl(context, inst):
     if not inst:
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
@@ -51,32 +51,17 @@ def step_impl(context, inst, value):
             if inst != value:
                 yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
 
-def recursive_unpack_value(item):
-    """Unpacks a tuple recursively, returning the first non-empty item
-    For instance, (,'Body') will return 'Axis'
-    and (((IfcEntityInstance.)),) will return IfcEntityInstance
-
-    Note that it will only work for a single value. E.g. not values for statements like 
-    "The values must be X"
-    as ('Axis', 'Body') will return 'Axis' 
-    """
-    if isinstance(item, tuple):
-        if len(item) == 0:
-            return None
-        elif len(item) == 1 or not item[0]:
-            return recursive_unpack_value(item[1]) if len(item) > 1 else recursive_unpack_value(item[0])
-        else:
-            return item[0]
-    return item
-
-
+def flatten_and_process(item):
+    if not isinstance(item, (list, tuple)):
+        return [item.is_a() if isinstance(item, ifcopenshell.entity_instance) else item]
+    result = []
+    for sub_item in item:
+        result.extend(flatten_and_process(sub_item))
+    return result
+    
 @gherkin_ifc.step('The geometrical value must be "{value}"')
 def step_impl(context, inst, value):
-    inst = recursive_unpack_value(inst)
-    value_or_values = value.split(' or ')
-    if isinstance(inst, ifcopenshell.entity_instance):
-        inst = inst.is_a()
-    if inst in value_or_values:
+    if not any([i in value.split(' or ') for i in flatten_and_process(inst)]):
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
         
 @gherkin_ifc.step("The volume must be {volume} cubic metre")
@@ -89,3 +74,12 @@ def step_impl(context, inst, volume):
                                 expected=acceptable_volumes, 
                                  observed=float(inst),
                                    severity = OutcomeSeverity.PASSED)
+        
+@gherkin_ifc.step("The value must contain the substring {substring}")
+def step_impl(context, inst, substring):
+    if substring not in inst:
+        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step("Its Material")
+def step_impl(context, inst):
+    yield ValidationOutcome(instance_id=ifcopenshell.util.element.get_material(inst), severity = OutcomeSeverity.PASSED)

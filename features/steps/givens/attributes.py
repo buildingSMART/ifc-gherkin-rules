@@ -65,8 +65,6 @@ def step_impl(context, file_or_model, field, values):
 
 @gherkin_ifc.step('Its attribute {attribute}')
 def step_impl(context, inst, attribute, tail="single"):
-    print(inst)
-    getattr(inst, 'Address', None)
     yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity = OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("Its {attribute} attribute {condition} with {prefix}")

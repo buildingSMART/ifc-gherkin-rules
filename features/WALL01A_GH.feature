@@ -15,7 +15,7 @@ Feature: WALL01A
    Scenario: Quantity Sets
 
         Given An IfcWall
-        Given Name == Wall-01
+        Given Name = Wall-01
         Given Its Property Sets, in dictionary form
         Given Its Quantity Set Qto_WallBaseQuantities
         Given Its Property NetVolume
@@ -31,7 +31,7 @@ Feature: WALL01A
         ? ThermalTransmittance is 0, is there tolerance?
 
         Given an IfcWall
-        Given Name == Wall-01
+        Given Name = Wall-01
         Given Its Property Sets, in dictionary form
         Given Its Property Set Pset_WallCommon
         Given Its Property <Property>
@@ -42,7 +42,7 @@ Feature: WALL01A
             | Property              | Expected_Value            |
             | AcousticRating        | Class C (acc. DEGA')      |
             | Combustible           | False                     |
-            | Compartmentation      | FALSE                     |
+            | Compartmentation      | FALSE of type bool                   |
             | ExtendToStructure     | FALSE                     |
             | FireRating            | F90                       |
             | IsExternal            | TRUE                      |

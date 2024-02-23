@@ -46,7 +46,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None):
+def run(filename, rule_type=RuleType.ALL, with_console_output=True, execution_mode = ExecutionMode.PRODUCTION, task_id = None):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -60,6 +60,8 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
     else:
         tag_filter.append('--tags=-disabled')
 
+
+    tag_filter.append('--tags=@COLUMN01S')
     # If this is a test file from the repository filter only the relevant scenarios
     feature_filter = []
     try:

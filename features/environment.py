@@ -61,6 +61,7 @@ def before_feature(context, feature):
         
 
 def before_scenario(context, scenario):
+    context.gherkin_outcomes = []
     context.applicable = True
 
 def before_step(context, step):

@@ -14,6 +14,7 @@ Feature: OFFICEBUILDING
 
         Examples: 
             | Property              | Expected_Value       |  
+            #
             | Reference             | chargecontroller     |
             | Status                | NEW                  |
 
@@ -28,5 +29,29 @@ Feature: OFFICEBUILDING
 
         Examples: 
             | Property              | Expected_Value       |  
+            #
             | Reference             | cunit                |
             | Status                | NEW                  |
+
+
+    Scenario Outline: Body Geometry General
+
+        Given An <Entity>
+        Given Its attribute Representation
+        Given Its attribute Representations
+        Given Its attributes <geometric_attribute> for each
+
+        Then The geometrical value must be "<Value>"
+
+        Examples: 
+            | Entity                          | geometric_attribute       | Value                                                                               |
+            #
+            | IfcController                   | RepresentationIdentifier  | Body                                                                                |
+            | IfcController                   | RepresentationType        | Tessellation or SweptSolid or MappedRepresentation                                  |
+            | IfcController                   | Items                     | IfcTessellatedItem or IfcExtrudedAreaSolid or IfcRevolvedAreaSolid or IfcMappedItem |
+            | IfcElectricDistributionBoard    | RepresentationIdentifier  | Body                                                                                |  
+            | IfcElectricDistributionBoard    | RepresentationType        | Tessellation or SweptSolid or MappedRepresentation                                  |
+            | IfcElectricDistributionBoard    | Items                     | IfcTessellatedItem or IfcExtrudedAreaSolid or IfcRevolvedAreaSolid or IfcMappedItem |
+            | IfcTransformer                  | RepresentationIdentifier  | Body                                                                                |
+            | IfcTransformer                  | RepresentationType        | Tessellation or SweptSolid or MappedRepresentation                                  |
+            | IfcTransformer                  | Items                     | IfcTessellatedItem or IfcExtrudedAreaSolid or IfcRevolvedAreaSolid or IfcMappedItem |

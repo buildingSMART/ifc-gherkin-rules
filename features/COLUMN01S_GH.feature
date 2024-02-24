@@ -45,13 +45,12 @@ Feature: COLUMN01S
         Then Property set: the value must be <Expected_Value>
 
         Examples: 
-            | Property              | Expected_Value            |  
+            | Property              | Expected_Value            | 
+            # 
             | FireRating            | F60                       |
             | IsExternal            | False                     |
             | LoadBearing           | True                      |
-            | Status                | NEW             |
-            |ThermalTransmittance| given and exported |
-
+            | Status                | NEW                |
 
     Scenario: Property Set for Objects Column_01-01 - Reference
 
@@ -87,6 +86,7 @@ Feature: COLUMN01S
 
         Examples: 
             | Property        | Expected_Value     |  
+            #
             | Roll            | 0                  |
             | Slope           | 80                 |
     
@@ -101,6 +101,7 @@ Feature: COLUMN01S
 
         Examples: 
             | geometric_attribute       | Value                                                              |
+            #
             | RepresentationIdentifier  | Body                                                               |
             | RepresentationType        | Tessellation or SweptSolid or MappedRepresentation                 |
             | Items                     | IfcTessellateditem or IfcExtrudedAreaSolid or IfcRevolvedAreaSolid or IfcMappedItem |

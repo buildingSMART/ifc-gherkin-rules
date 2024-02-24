@@ -40,6 +40,7 @@ Feature: WALL01A
 
         Examples: 
             | Property              | Expected_Value            |
+            #
             | AcousticRating        | Class C (acc. DEGA')      |
             | Combustible           | False                     |
             | Compartmentation      | FALSE of type bool                   |
@@ -64,6 +65,7 @@ Feature: WALL01A
 
         Examples: 
             | geometric_attribute       | Value                                                              |
+            #
             | RepresentationIdentifier  | Body                                                               |
             | RepresentationType        | Tessellation or SweptSolid or MappedRepresentation                 |
             | Items                     | IfcTessellateditem or IfcExtrudedAreaSolid or IfcRevolvedAreaSolid |  

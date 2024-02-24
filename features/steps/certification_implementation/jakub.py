@@ -45,8 +45,13 @@ def step_impl(context, inst, relating, parameter, value):
 
 @gherkin_ifc.step("The following substring '{text}' must be contained in the Identification")
 def step_impl(context, inst, text):
-    if text not in inst.ObjectType:
-        yield ValidationOutcome(inst=inst, expected={"value": text}, observed={"value": inst.ObjectType}, severity=OutcomeSeverity.ERROR)
+    classification_references =  [i for i in inst.HasAssociations if i.is_a('IfcRelAssociatesClassification')]
+    if not classification_references:
+        yield ValidationOutcome(inst=inst, expected={"value": 'Not null'}, observed={"value": None}, severity=OutcomeSeverity.ERROR)
+
+    for ref in classification_references:
+        if text not in ref.RelatingClassification.Identification:
+            yield ValidationOutcome(inst=inst, expected={"value": text}, observed={"value": ref.RelatingClassification.Identification}, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step("The following substring '{text}' must be contained in the Classification Name")
 def step_impl(context, inst, text):

@@ -24,8 +24,11 @@ def step_impl(context, inst, attribute, value):
             value = ast.literal_eval(value)
         except ValueError:
             # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
-            value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
-            pred = misc.reverse_operands(operator.contains)
+            try:
+                value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
+                pred = misc.reverse_operands(operator.contains)
+            except:
+                pass
         except SyntaxError: # e.g. 'Column_1-01' 
             pass
 

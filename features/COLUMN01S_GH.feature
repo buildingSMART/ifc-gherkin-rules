@@ -86,9 +86,9 @@ Feature: COLUMN01S
         Then Property set: the value must be <Expected_Value>
 
         Examples: 
-            | Property              | Expected_Value            |  
-            | Roll            | 0                       |
-            | Slope            | 80                     |
+            | Property        | Expected_Value     |  
+            | Roll            | 0                  |
+            | Slope           | 80                 |
     
     Scenario Outline: Body Geometry General
 

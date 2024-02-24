@@ -4,6 +4,8 @@ from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
+import math
+
 @gherkin_ifc.step('Its Property Sets, in dictionary form')
 def step_impl(context, inst):
     yield ValidationOutcome(instance_id=ifcopenshell.util.element.get_psets(inst), severity = OutcomeSeverity.PASSED)
@@ -26,30 +28,27 @@ def step_impl(context, inst):
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('Property set: the value must be {value}')
-def step_impl(context, inst, value):
-    match value:
-        case 'given and exported':
-            if not inst:
-                yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
-            return
-        case _:
-            if 'contains the substring' in value:
-                if inst not in value.split('contains the substring ')[-1]:
-                    yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+@gherkin_ifc.step('Property set: the value must be {value} of type {data_type}')
+def step_impl(context, inst, value, data_type = None):
+    if data_type == 'degrees':
+        if inst * (180 / math.pi) != float(value):
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 
-    match inst:
-        case bool():
-            if str(inst) != value:
-                yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
-        case list():
-            if value != inst[0]: #['NEW']
-                yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
-        case int() | float():
-            if inst != value:
+    if not data_type: 
+        match inst:
+            case bool():
+                if str(inst) != value:
+                    yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+            case list():
+                inst = inst[0]
+                if type(inst[0])(value) != inst: #['NEW']
                     yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
-        case str():
-            if inst != value:
-                yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+            case int() | float():
+                if inst != float(value):
+                    yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
+            case str():
+                if inst != value:
+                    yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
 
 def flatten_and_process(item):
     if not isinstance(item, (list, tuple)):

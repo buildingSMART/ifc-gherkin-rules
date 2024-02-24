@@ -11,6 +11,16 @@ Feature: COLUMN01S
     Then It must be assigned to exact IfcBuilding with parameter Name equal to ColumnBuilding_1
     Then The value of attribute Elevation must be 0.0
 
+
+  Scenario: Classification
+
+    Given An IfcColumn
+    Given Name = 'Column_1-01'
+
+    Then The following substring 'L 250x250x28' must be contained in the Identification
+    Then The following substring 'EN 10056-1' must be contained in the Classification Name
+
+
   Scenario: Project
 
     Given An IfcProject

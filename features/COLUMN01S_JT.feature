@@ -11,8 +11,15 @@ Feature: COLUMN01S
     Then It must be assigned to exact IfcBuilding with parameter Name equal to ColumnBuilding_1
     Then The value of attribute Elevation must be 0.0
 
+  Scenario: Column
 
-  Scenario: Classification
+    Given An IfcColumn
+
+    Then It must have a Placement
+    Then Placement is relative to IfcBuildingStorey with parameter Name equal to 'Floor One'
+
+
+  Scenario: Column_1-01
 
     Given An IfcColumn
     Given Name = 'Column_1-01'

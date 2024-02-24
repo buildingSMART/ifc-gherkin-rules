@@ -3,6 +3,13 @@
 @N00010
 Feature: WALL01A
 
+  Scenario: Wall
+
+    Given An IfcWall
+
+    Then It must have a Placement
+    Then Placement is relative to IfcBuildingStorey with parameter Name equal to 'Basement'
+
   Scenario: Wall-05
 
     Given An IfcWall

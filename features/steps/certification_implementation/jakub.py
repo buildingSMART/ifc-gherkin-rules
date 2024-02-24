@@ -108,3 +108,39 @@ def step_impl(context, inst, value):
         for j in i.LayerAssignments:
             if j.Name != value:
                 yield ValidationOutcome(inst=inst, expected=value, observed=j.Name, severity=OutcomeSeverity.ERROR)
+
+def check_relative_placement(i, entity):
+    if not i:
+        return None
+    elif any([obj.is_a(entity) for obj in i.PlacesObject]):
+        result = i.PlacesObject
+        return result
+    else:
+        result = check_relative_placement(i.PlacementRelTo, entity)
+    return result
+@gherkin_ifc.step("Placement is relative to {entity} with no parameter requirements")
+def step_impl(context, inst, entity):
+
+    if not check_relative_placement(inst.ObjectPlacement, entity = entity):
+        yield ValidationOutcome(inst=inst, expected=True, observed=False, severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step("Placement is relative to {entity} with parameter {param} equal to '{value}'")
+def step_impl(context, inst, entity, param, value):
+
+    relating_entities =  check_relative_placement(inst.ObjectPlacement, entity = entity)
+
+    if not relating_entities:
+        yield ValidationOutcome(inst=inst, expected=True, observed=False, severity=OutcomeSeverity.ERROR)
+
+    if relating_entities:
+        for rel_entity in relating_entities:
+            if getattr(rel_entity, param, None) != value:
+                yield ValidationOutcome(inst=inst, expected=value, observed=getattr(rel_entity, param, None), severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step("It must have a Placement")
+def step_impl(context, inst):
+    try:
+        if not inst.ObjectPlacement:
+             yield ValidationOutcome(inst=inst, expected=True, observed=False, severity=OutcomeSeverity.ERROR)
+    except AttributeError:
+        yield ValidationOutcome(inst=inst, expected=True, observed=False, severity=OutcomeSeverity.ERROR)

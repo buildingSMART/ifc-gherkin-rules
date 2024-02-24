@@ -51,3 +51,9 @@ Scenario: Member
     Given An IfcMember
 
     Then The product geometry layer Name attribute must be equal to 'IFC4Member'
+
+Scenario: Member
+
+    Given An IfcMember
+
+    Then It must have a Placement

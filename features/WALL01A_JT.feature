@@ -3,6 +3,14 @@
 @N00010
 Feature: WALL01A
 
+  Scenario: Wall-05
+
+    Given An IfcWall
+    Given Name = 'Wall-05'
+
+    Then The product geometry layer Name attribute must be equal to 'WSC1 internal wall'
+
+
   Scenario: Building
 
     Given An IfcBuilding
@@ -20,3 +28,4 @@ Feature: WALL01A
 
     Then It must be assigned to exact IfcBuilding with parameter Name equal to WallBuilding_1
     Then The value of attribute Elevation must be -2.4
+

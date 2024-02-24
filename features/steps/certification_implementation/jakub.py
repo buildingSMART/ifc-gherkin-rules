@@ -100,3 +100,11 @@ def step_impl(context, inst, alignment, num):
 
     if not all(float(b - a) == float(num) for a, b in zip(sorted_spacing, sorted_spacing[1:])):
         yield ValidationOutcome(inst=inst, expected={num}, observed=sorted_spacing, severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step("The product geometry layer Name attribute must be equal to '{value}'")
+def step_impl(context, inst, value):
+
+    for i in inst.Representation.Representations:
+        for j in i.LayerAssignments:
+            if j.Name != value:
+                yield ValidationOutcome(inst=inst, expected=value, observed=j.Name, severity=OutcomeSeverity.ERROR)

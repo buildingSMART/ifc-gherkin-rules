@@ -45,3 +45,9 @@ Feature: MEMBER01A
     Then The insertion point must be equal to x=1.5, y=1.5, z=0
     Then The horizontal spacing must be equal to 3.00 m
     Then The vertical spacing must be equal to 3.00 m
+
+Scenario: Member
+
+    Given An IfcMember
+
+    Then The product geometry layer Name attribute must be equal to 'IFC4Member'

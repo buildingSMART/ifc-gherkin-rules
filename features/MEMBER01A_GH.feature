@@ -71,7 +71,7 @@ Feature: MEMBER01A
             | FireRating            | F30                  |
             | IsExternal            | False                |
             | Roll                  | 0.0                  |
-            | Slope                 | 35.27 of type degrees|s
+            | Slope                 | 35.27 of type degrees|
             | Span                  | 2.598                |
             | Status                | EXISTING             |
         

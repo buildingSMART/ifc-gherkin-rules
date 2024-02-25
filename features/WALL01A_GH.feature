@@ -3,30 +3,65 @@
 @N00010
 Feature: WALL01A
 
-    Scenario: Project Name
+    Scenario: Correct Name
 
         Given an IfcProject
 
-        Then Name = IFC4RV_Office Building_01M
+        Then Name = IFC4RC_Wall_01A
+
 
 
     Scenario: Spatial Containment - IfcWall - BuildingStorey - Existence
+    Separate because it applies to all entities of type IfcWall
 
         Given an IfcWall
 
-        Then A relationship IfcRelAggregates to IfcWall from IfcBuildingStorey and following that
+        Then A relationship IfcRelContainedInSpatialStructure to IfcWall from IfcBuildingStorey and following that
 
 
     Scenario: Spatial Containment - IfcWall - BuildingStorey - Name
+    Separate because it applies to all entities of type IfcWall
 
         Given an IfcWall 
-        Given A relationship IfcRelAggregates to IfcWall from IfcBuildingStorey and following that
+        Given A relationship IfcRelContainedInSpatialStructure to IfcWall from IfcBuildingStorey and following that
         Given Its attribute Name
 
         Then The value must be "Basement"
 
+    
+    Scenario Outline: - Spatial (De)Composition - from Relating Object - Existance
 
-   Scenario: Quantity Sets
+        Given an <IfcEntity>
+        Given Name = <Name>
+
+        Then A relationship IfcRelAggregates to <IfcEntity> from <RelatingObject> and following that
+
+        Examples:
+            | IfcEntity          |     Name         | RelatingObject    |
+            #
+            | IfcBuildingStorey  |    Basement      | IfcBuilding       |
+            | IfcBuilding        |    WallBuilding  | IfcSite           |
+            | IfcSite            |    WallSite_1    | IfcProject        |
+
+
+    Scenario Outline: - Spatial (De)Composition - Name
+
+        Given an <IfcEntity>
+        Given Name = <Name>
+        Given A relationship IfcRelAggregates to <IfcEntity> from <RelatingObject> and following that
+        Given Its attribute Name
+
+        Then The value must be "<RelatingName>"
+
+        Examples:
+            | IfcEntity          |     Name         | RelatingObject    | RelatingName  |
+            #
+            | IfcBuildingStorey  |    Basement      | IfcBuilding       | WallBuilding_1  |
+            | IfcBuilding        |    WallBuilding  | IfcSite           | WallSite_1      |
+            | IfcSite            |    WallSite_1    | IfcProject        | IFC4RV_Wall_01A |
+
+
+   Scenario: Quantity Sets - Wall-01
 
         Given An IfcWall
         Given Name = Wall-01
@@ -34,15 +69,21 @@ Feature: WALL01A
         Given Its Quantity Set Qto_WallBaseQuantities
         Given Its Property NetVolume
 
-        Then It must be given and exported
+        Then The property must be given and exported
 
 
-    Scenario Outline: Property Sets for Objects
-        notes: 
-        ? FireRating/Reference/SurfaceSpreadOfFlame/AcousticRating are not present in the file
-        ? 'If present, value must be X'
-        ? Status 'NEW' value is nested in a dict
-        ? ThermalTransmittance is 0, is there tolerance?
+    Scenario: Quantity Sets - Wall-05
+
+        Given An IfcWall
+        Given Name = Wall-05
+        Given Its Property Sets, in dictionary form
+        Given Its Quantity Set Qto_WallBaseQuantities
+        Given Select Properties starting with Constituent and specify Width
+        
+        Then The following values are present: 0.015 and 0.1 and 0.02 
+
+
+    Scenario Outline: Property Sets for Objects - Wall01
 
         Given an IfcWall
         Given Name = Wall-01

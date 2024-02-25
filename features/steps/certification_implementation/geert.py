@@ -5,6 +5,7 @@ import math
 from behave import register_type
 from parse_type import TypeBuilder
 from features.steps.utils import system
+import ast
 
 register_type(from_to=TypeBuilder.make_enum({"from": 0, "to": 1 }))
 register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and following that": 1 }))
@@ -138,3 +139,13 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
         'and following that' to the statement
         """
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step("Select Properties starting with {startswith} and specify {value}")
+def step_impl(context, inst, startswith, value):
+    x = [inst[key]['properties'][value] for key in inst if key.startswith(startswith)]
+    yield ValidationOutcome(instance_id=[inst[key]['properties'][value] for key in inst if key.startswith(startswith)], severity=OutcomeSeverity.PASSED)
+
+@gherkin_ifc.step("The following values are present: {values}")
+def step_impl(context, inst, values):
+    if not all([v in [ast.literal_eval(i) for i in values.split(' and ')] for v in inst]):
+        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)  

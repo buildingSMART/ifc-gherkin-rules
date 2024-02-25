@@ -76,6 +76,46 @@ Feature: OFFICEBUILDING
             | Reference             | cunit                |
             | Status                | NEW                  |
 
+    
+    Scenario Outline: Property Set for Objects - Solar Device
+
+        Given An IfcSolarDevice
+        Given Its Property Sets, in dictionary form
+        Given Its Property Set Pset_SolarDeviceTypeCommon
+        Given Its Property <Property>
+
+        Then Property set: the value must be <Expected_Value>
+
+        Examples: 
+            | Property              | Expected_Value       |  
+            #
+            | Reference             | cunit                |
+            | Status                | NEW                  |
+
+
+    
+    Scenario Outline: Property Set for Objects - Junction Box
+
+        Given An IfcJunctionBox
+        Given Its Property Sets, in dictionary form
+        Given Its Property Set Pset_JunctionBoxTypeCommon
+        Given Its Property <Property>
+
+        Then The property must be given and exported
+
+        Examples: 
+            | Property        |
+            #
+            | ClearDepth      |   
+            | IP_Code         |
+            | IsExternal      |
+            | MountingType    |
+            | NumberOfGangs   |
+            | PlacingType     |
+            | Reference       |
+            | ShapeType       |
+            | Status          |
+
 
     Scenario Outline: Body Geometry General
 

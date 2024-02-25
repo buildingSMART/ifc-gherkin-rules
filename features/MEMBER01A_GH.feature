@@ -3,6 +3,49 @@
 @N00010
 Feature: MEMBER01A
 
+    Scenario Outline: Spatial Containment - Existance
+
+        Given an <IfcEntity>
+        Given Name = <Name>
+
+        Then A relationship IfcRelAggregates to <IfcEntity> from <RelatingElement> and following that
+
+    Examples:
+            | IfcEntity          |     Name            |  Relationship     | RelatingElement |
+            #
+            | IfcSite            |    LOT123           |  IfcRelAggregates | IfcProject     |
+            | IfcBuilding        |    MemberBuilding_1 |  IfcRelAggregates | IfcSite        |
+            | IfcBuildingStorey  |    Ground Floor     |  IfcRelAggregates | IfcBuilding    |
+
+
+    Scenario Outline: - Spatial (De)Composition - Name
+
+        Given an <IfcEntity>
+        Given Name = <Name>
+        Given A relationship <Relationship> to <IfcEntity> from <RelatingElement> and following that
+        Given Its attribute Name
+
+        Then The value must be "<RelatingName>"
+
+        Examples:
+            | IfcEntity          |  Name             | Relationship                     | RelatingElement     | RelatingName      |
+            #
+            | IfcSite            | LOT123            | IfcRelAggregates                 | IfcProject         | IFC4RV_Member_01A |
+            | IfcBuilding        | MemberBuilding_1  | IfcRelAggregates                 | IfcSite            | LOT123            |
+            | IfcBuildingStorey  | Ground Floor      | IfcRelAggregates                 | IfcBuilding        | MemberBuilding_1  |
+            | IfcGrid            | Grid_1            | IfcRelContainedInSpatialStructure| IfcBuildingStorey  | Ground Floor      |
+            | IfcGrid            | Grid_2            | IfcRelContainedInSpatialStructure| IfcBuildingStorey  | Ground Floor      |
+
+
+    Scenario: Spatial (De)Composition - Member
+
+        Given an IfcMember
+        Given A relationship IfcRelContainedInSpatialStructure to IfcMember from IfcBuildingStorey and following that
+        Given Its attribute Name
+
+        Then The value must be "Ground Floor"
+
+
     Scenario: Material Single
     
         Given An IfcMember
@@ -28,11 +71,11 @@ Feature: MEMBER01A
             | FireRating            | F30                  |
             | IsExternal            | False                |
             | Roll                  | 0.0                  |
-            | Slope                 | 35.27 of type degrees|
+            | Slope                 | 35.27 of type degrees|s
             | Span                  | 2.598                |
             | Status                | EXISTING             |
         
-        Scenario: Property Set for Objects - Member_2-101 - Reference
+    Scenario: Property Set for Objects - Member_2-101 - Reference
 
         Given An IfcMember
         Given Name = Member_2-101

@@ -4,6 +4,30 @@
 Feature: COLUMN01S
 
 
+    Scenario: Correct Project Name
+
+        Given an IfcProject
+
+        Then  Name = IFC4RV_Column_01S
+
+
+    Scenario: Spatial Composition - IfcSite - IfcProject - Existence
+
+        Given an IfcSite
+
+        Then A relationship IfcRelAggregates to IfcSite from IfcProject and following that
+
+
+    Scenario: Spatial Containment - IfcSite - Project - Name
+
+        Given an IfcSite 
+        Given Name = ColumnBuilding_1
+        Given A relationship IfcRelAggregates to IfcSite from IfcProject and following that
+        Given Its attribute Name
+
+        Then The value must be "IFC4RV_Column_01S"
+
+
     Scenario: Spatial Containment - IfcBuilding - Site - Existence
 
         Given an IfcBuilding
@@ -20,7 +44,6 @@ Feature: COLUMN01S
         Given Its attribute Name
 
         Then The value must be "ColumnSite_1"
-
 
     
     Scenario: Spatial Containment - IfcBuildingStorey - IfcBuilding - Existence

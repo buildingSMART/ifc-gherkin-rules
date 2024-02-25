@@ -13,7 +13,7 @@ Feature: MEMBER01A
         Then The value must contain the substring stainless steel
 
 
-        Scenario Outline: Property Set for Objects - Member_2-101
+    Scenario Outline: Property Set for Objects - Member_2-101
 
         Given An IfcMember
         Given Name = Member_2-101

@@ -3,13 +3,58 @@
 @N00010
 Feature: COLUMN01S
 
-  Scenario: Spatial Containment | Product Local Placement
+
+    Scenario: Spatial Containment - IfcBuilding - Site - Existence
+
+        Given an IfcBuilding
+        Given Name = ColumnBuilding_1
+
+        Then A relationship IfcRelAggregates to IfcBuilding from IfcSite and following that
+
+
+    Scenario: Spatial Containment - IfcBuilding - Site - Name
 
         Given an IfcBuilding 
-        Given A relationship IfcRelAggregates from IfcBuilding to IfcSite and following that
+        Given Name = ColumnBuilding_1
+        Given A relationship IfcRelAggregates to IfcBuilding from IfcSite and following that
+        Given Its attribute Name
+
+        Then The value must be "ColumnSite_1"
+
+
+    
+    Scenario: Spatial Containment - IfcBuildingStorey - IfcBuilding - Existence
+
+        Given an IfcBuildingStorey
+        Given Name = Floor One
+
+        Then A relationship IfcRelAggregates to IfcBuilding from IfcBuildingStorey and following that
+
+    
+    Scenario: Spatial Containment - IfcBuildingStorey - IfcBuilding - Name
+
+        Given an IfcBuildingStorey 
+        Given Name = Floor One
+        Given A relationship IfcRelAggregates to IfcBuilding from IfcBuildingStorey and following that
         Given Its attribute Name
 
         Then The value must be "ColumnBuilding_1"
+
+
+    Scenario: Spatial Containment - IfcColumn - IfcBuildingStorey - Existence
+
+        Given an IfcColumn
+
+        Then A relationship IfcRelAggregates to IfcColumn from IfcBuildingStorey and following that
+
+
+    Scenario: Spatial Containment - IfcColumn - IfcBuildingStorey - Name
+
+        Given an IfcColumn
+        Given A relationship IfcRelAggregates to IfcColumn from IfcBuildingStorey and following that
+        Given Its attribute Name
+
+        Then The value must be "Floor One"
 
 
     Scenario: Quantity Sets - COLUMN_1-01 - OuterSurfaceArea
@@ -21,6 +66,7 @@ Feature: COLUMN01S
         Given Its Property OuterSurfaceArea
 
         Then The property must be given and exported
+
 
     Scenario: Quantity Sets - COLUMN_01-01 - NetVolume
 
@@ -45,12 +91,13 @@ Feature: COLUMN01S
         Then Property set: the value must be <Expected_Value>
 
         Examples: 
-            | Property              | Expected_Value            | 
+            | Property              | Expected_Value      | 
             # 
-            | FireRating            | F60                       |
-            | IsExternal            | False                     |
-            | LoadBearing           | True                      |
+            | FireRating            | F60                |
+            | IsExternal            | False              |
+            | LoadBearing           | True               |
             | Status                | NEW                |
+
 
     Scenario: Property Set for Objects Column_01-01 - Reference
 
@@ -90,6 +137,7 @@ Feature: COLUMN01S
             | Roll            | 0                  |
             | Slope           | 80                 |
     
+
     Scenario Outline: Body Geometry General
 
         Given An IfcColumn

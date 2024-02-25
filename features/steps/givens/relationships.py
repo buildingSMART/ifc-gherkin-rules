@@ -10,40 +10,40 @@ from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
 
-@gherkin_ifc.step('A relationship {relationship} from {entity} to {other_entity}')
-def step_impl(context, entity, other_entity, relationship):
-    continue_with_relating = 'and following that' in other_entity # take relating object as instance for further step implementation
-    to_other = set()
-    if continue_with_relating:
-        other_entity = other_entity.split(' and following that')[0]
+# @gherkin_ifc.step('A relationship {relationship} from {entity} to {other_entity}')
+# def step_impl(context, inst, entity, other_entity, relationship):
+#     continue_with_relating = 'and following that' in other_entity # take relating object as instance for further step implementation
+#     to_other = set()
+#     if continue_with_relating:
+#         other_entity = other_entity.split(' and following that')[0]
 
 
-    instances = []
-    relationships = context.model.by_type(relationship)
+#     instances = []
+#     relationships = context.model.by_type(relationship)
 
-    filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
-    filename_relating_attr_matrix = system.get_abs_path(f"resources/**/relating_entity_attributes.csv")
-    related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
-    relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
-    for rel in relationships:
-        regex = re.compile(r'([0-9]+=)([A-Za-z0-9]+)\(')
-        relationships_str = regex.search(str(rel)).group(2)
-        relationship_relating_attr = relating_attr_matrix.get(relationships_str)
-        relationship_related_attr = related_attr_matrix.get(relationships_str)
-        relating = getattr(rel, relationship_relating_attr)
-        if getattr(rel, relationship_relating_attr).is_a(other_entity):
-            try:  # check if the related attribute returns a tuple/list or just a single instance
-                iter(getattr(rel, relationship_related_attr))
-                related_objects = getattr(rel, relationship_related_attr)
-            except TypeError:
-                related_objects = tuple(getattr(rel, relationship_related_attr))
-            for obj in related_objects:
-                if obj.is_a(entity):
-                    instances.append(obj)
-                    to_other.add(relating)
-    instances = to_other if continue_with_relating else instances
-    for inst in instances:
-        yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
+#     filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
+#     filename_relating_attr_matrix = system.get_abs_path(f"resources/**/relating_entity_attributes.csv")
+#     related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
+#     relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
+#     for rel in relationships:
+#         regex = re.compile(r'([0-9]+=)([A-Za-z0-9]+)\(')
+#         relationships_str = regex.search(str(rel)).group(2)
+#         relationship_relating_attr = relating_attr_matrix.get(relationships_str)
+#         relationship_related_attr = related_attr_matrix.get(relationships_str)
+#         relating = getattr(rel, relationship_relating_attr)
+#         if getattr(rel, relationship_relating_attr).is_a(other_entity):
+#             try:  # check if the related attribute returns a tuple/list or just a single instance
+#                 iter(getattr(rel, relationship_related_attr))
+#                 related_objects = getattr(rel, relationship_related_attr)
+#             except TypeError:
+#                 related_objects = tuple(getattr(rel, relationship_related_attr))
+#             for obj in related_objects:
+#                 if obj.is_a(entity):
+#                     instances.append(obj)
+#                     to_other.add(relating)
+#     instances = to_other if continue_with_relating else instances
+#     for inst in instances:
+#         yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
 
 
 #@nb this is awaiting the merge of https://github.com/buildingSMART/ifc-gherkin-rules/pull/37

@@ -3,10 +3,24 @@
 @N00010
 Feature: WALL01A
 
-  Scenario: Spatial Containment | Product Local Placement
+    Scenario: Project Name
 
-        Given An IfcWall
-        Given A relationship IfcRelContainedInSpatialStructure from IfcWall to IfcBuildingStorey and following that
+        Given an IfcProject
+
+        Then Name = IFC4RV_Office Building_01M
+
+
+    Scenario: Spatial Containment - IfcWall - BuildingStorey - Existence
+
+        Given an IfcWall
+
+        Then A relationship IfcRelAggregates to IfcWall from IfcBuildingStorey and following that
+
+
+    Scenario: Spatial Containment - IfcWall - BuildingStorey - Name
+
+        Given an IfcWall 
+        Given A relationship IfcRelAggregates to IfcWall from IfcBuildingStorey and following that
         Given Its attribute Name
 
         Then The value must be "Basement"

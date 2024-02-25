@@ -3,6 +3,48 @@
 @N00010
 Feature: OFFICEBUILDING
 
+    Scenario: Spatial Composition - Existance
+
+        Given An IfcBuilding
+
+        Then A relationship IfcRelAggregates to IfcBuilding from IfcSite and following that
+
+
+    Scenario Outline: Spatial Composition - Office BuildingStorey
+
+        Given an IfcBuildingStorey
+        Given Name = <Storey Name>
+
+        Then A relationship IfcRelAggregates to IfcBuildingStorey from IfcBuilding and following that
+
+        Examples:
+            | Storey Name    |
+            #
+            | Basement      |
+            | Ground Floor  |
+            | 3rd Floor     |
+
+
+    Scenario Outline: Spatial Containment 
+    
+        Given An <IfcEntity>
+        Given Name == <Name>
+        Given A relationship IfcRelContainedInSpatialStructure to <IfcEntity> from IfcBuildingStorey and following that
+        Given Its attribute Name
+
+        Then The value must be "Basement"
+
+        Examples:
+            | IfcEntity    | Name      |
+            # 
+            | IfcController| Charge Controller |
+            | IfcElectricDistributionBoard| Power Panel |
+            | IfcElectricFlowStorageDevice| Battery |
+            | IfcTransformer| Inverter |
+            | IfcJunctionBox| 3rd Floor |
+            | IfcSolarDevice| 3rd Floor |
+
+
     Scenario Outline: Property Set for Objects - Controller
 
         Given An IfcController
@@ -17,6 +59,7 @@ Feature: OFFICEBUILDING
             #
             | Reference             | chargecontroller     |
             | Status                | NEW                  |
+
 
     Scenario Outline: Property Set for Objects - Power Panel
 

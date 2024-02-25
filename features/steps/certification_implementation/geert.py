@@ -1,10 +1,13 @@
 import ifcopenshell
-
 from validation_handling import gherkin_ifc
-
 from . import ValidationOutcome, OutcomeSeverity
-
 import math
+from behave import register_type
+from parse_type import TypeBuilder
+from features.steps.utils import system
+
+register_type(from_to=TypeBuilder.make_enum({"from": 0, "to": 1 }))
+register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and following that": 1 }))
 
 @gherkin_ifc.step('Its Property Sets, in dictionary form')
 def step_impl(context, inst):
@@ -82,3 +85,56 @@ def step_impl(context, inst, substring):
 @gherkin_ifc.step("Its Material")
 def step_impl(context, inst):
     yield ValidationOutcome(instance_id=ifcopenshell.util.element.get_material(inst), severity = OutcomeSeverity.PASSED)
+
+
+@gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
+@gherkin_ifc.step('A relationship {relationship} exists {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
+@gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
+def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tail=0):
+    """""
+    Reference to tfk ALB999 rule https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
+    """
+    assert dir1 != dir2
+
+    relationships = context.model.by_type(relationship)
+    instances = []
+    filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
+    filename_relating_attr_matrix = system.get_abs_path(f"resources/**/relating_entity_attributes.csv")
+    related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
+    relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
+
+    for rel in relationships:
+        attr_to_entity = relating_attr_matrix.get(rel.is_a())
+        attr_to_other = related_attr_matrix.get(rel.is_a())
+
+        if dir1:
+            attr_to_entity, attr_to_other = attr_to_other, attr_to_entity
+
+        def make_aggregate(val):
+            if not isinstance(val, (list, tuple)):
+                val = [val]
+            return val
+
+        to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
+        try:
+            to_other = set(filter(lambda i: i.is_a(other_entity), make_aggregate(getattr(rel, attr_to_other))))
+        except RuntimeError:
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
+
+        if v := {inst} & to_entity:
+            if tail:
+                instances.extend(to_other)
+                for instance in to_other:
+                    yield ValidationOutcome(instance_id=instance, severity=OutcomeSeverity.PASSED)
+            else:
+                instances.extend(v)
+                for instance in v:
+                    yield ValidationOutcome(instance_id=v, severity=OutcomeSeverity.PASSED)
+
+    if not instances and context.step.type == 'then':
+        """""
+        @gh note: if relating object is not found, then it is an error
+        probably there is a better solution since this implies that we'll have to add
+        'and following that' to the statement
+        """
+        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)

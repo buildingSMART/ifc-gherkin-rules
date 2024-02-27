@@ -124,8 +124,6 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
 
         if v := {inst} & to_entity:
             if tail:
-                if inst.is_a("IfcColumn"):
-                    pass
                 instances.extend(to_other)
                 for instance in to_other:
                     yield ValidationOutcome(instance_id=instance, severity=OutcomeSeverity.PASSED)

@@ -132,7 +132,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
                 for instance in v:
                     yield ValidationOutcome(instance_id=v, severity=OutcomeSeverity.PASSED)
 
-    if not instances and context.step.type == 'then':
+    if not instances and context.step.step_type == 'then':
         """""
         @gh note: if relating object is not found, then it is an error
         probably there is a better solution since this implies that we'll have to add

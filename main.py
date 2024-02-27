@@ -57,8 +57,8 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
         tag_filter.append(
             '--tags=' + ' and '.join(['@' + nm.lower().replace("_", "-") for nm, v in RuleType.__members__.items() if v in rule_type])
         )
-    else:
-        tag_filter.append('--tags=-disabled')
+
+    tag_filter.append('--tags=-disabled')
 
     # If this is a test file from the repository filter only the relevant scenarios
     feature_filter = []

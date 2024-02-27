@@ -91,6 +91,9 @@ def after_feature(context, feature):
                         for outcome in context.gherkin_outcomes:
                             if outcome.severity == severity:
                                 return [outcome]
+
+            return []
+
         outcomes_to_save = reduce_db_outcomes(context.gherkin_outcomes)
 
         if outcomes_to_save:

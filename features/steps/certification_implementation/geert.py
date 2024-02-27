@@ -124,6 +124,8 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
 
         if v := {inst} & to_entity:
             if tail:
+                if inst.is_a("IfcColumn"):
+                    pass
                 instances.extend(to_other)
                 for instance in to_other:
                     yield ValidationOutcome(instance_id=instance, severity=OutcomeSeverity.PASSED)
@@ -132,7 +134,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
                 for instance in v:
                     yield ValidationOutcome(instance_id=v, severity=OutcomeSeverity.PASSED)
 
-    if not instances and context.step.type == 'then':
+    if not instances and context.step.step_type == 'then':
         """""
         @gh note: if relating object is not found, then it is an error
         probably there is a better solution since this implies that we'll have to add

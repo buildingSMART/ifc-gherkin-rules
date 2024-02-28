@@ -11,70 +11,40 @@ Feature: COLUMN01S
         Then  Name = IFC4RV_Column_01S
 
 
-    Scenario: Spatial Composition - IfcSite - IfcProject - Existence
-
-        Given an IfcSite
-
-        Then A relationship IfcRelAggregates to IfcSite from IfcProject and following that
-
-
     Scenario: Spatial Containment - IfcSite - Project - Name
 
         Given an IfcSite 
         Given Name = ColumnSite_1
-        Given A relationship IfcRelAggregates to IfcSite from IfcProject and following that
+        Given A *required* relationship IfcRelAggregates to IfcSite from IfcProject and following that
         Given Its attribute Name
 
         Then The value must be "IFC4RV_Column_01S"
-
-
-    Scenario: Spatial Containment - IfcBuilding - Site - Existence
-
-        Given an IfcBuilding
-        Given Name = ColumnBuilding_1
-
-        Then A relationship IfcRelAggregates to IfcBuilding from IfcSite and following that
 
 
     Scenario: Spatial Containment - IfcBuilding - Site - Name
 
         Given an IfcBuilding 
         Given Name = ColumnBuilding_1
-        Given A relationship IfcRelAggregates to IfcBuilding from IfcSite and following that
+        Given A *required* relationship IfcRelAggregates to IfcBuilding from IfcSite and following that
         Given Its attribute Name
 
         Then The value must be "ColumnSite_1"
-
-    
-    Scenario: Spatial Containment - IfcBuildingStorey - IfcBuilding - Existence
-
-        Given an IfcBuildingStorey
-        Given Name = Floor One
-
-        Then A relationship IfcRelAggregates to IfcBuilding from IfcBuildingStorey and following that
 
     
     Scenario: Spatial Containment - IfcBuildingStorey - IfcBuilding - Name
 
         Given an IfcBuildingStorey 
         Given Name = Floor One
-        Given A relationship IfcRelAggregates to IfcBuilding from IfcBuildingStorey and following that
+        Given A *required* relationship IfcRelAggregates to IfcBuildingStorey from IfcBuilding and following that
         Given Its attribute Name
 
         Then The value must be "ColumnBuilding_1"
 
 
-    Scenario: Spatial Containment - IfcColumn - IfcBuildingStorey - Existence
-
-        Given an IfcColumn
-
-        Then A relationship IfcRelContainedInSpatialStructure to IfcColumn from IfcBuildingStorey and following that
-
-
     Scenario: Spatial Containment - IfcColumn - IfcBuildingStorey - Name
 
         Given an IfcColumn
-        Given A relationship IfcRelContainedInSpatialStructure to IfcColumn from IfcBuildingStorey and following that
+        Given A *required* relationship IfcRelContainedInSpatialStructure to IfcColumn from IfcBuildingStorey and following that
         Given Its attribute Name
 
         Then The value must be "Floor One"

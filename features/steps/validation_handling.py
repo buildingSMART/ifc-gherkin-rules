@@ -220,11 +220,41 @@ def handle_given(context, fn, **kwargs):
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?                                                                                                                                      for inst in context.instances))))
     else: 
         context._push() # for attribute stacking
+        givenSetupForThenValidation(context, fn, **kwargs) # optional validaton outcome for given statements
         context.instances = list(filter(None, map_state(context.instances, fn, context, **kwargs)))
 
-def handle_then(context, fn, **kwargs):
 
-    instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
+def create_validation_error_outcome(result, context, inst):
+    severity = OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR
+    return ValidationOutcome(
+        outcome_code=get_outcome_code(result, context),
+        observed=expected_behave_output(context, result.observed),
+        expected=expected_behave_output(context, result.expected),
+        feature=context.feature.name,
+        feature_version=misc.define_feature_version(context),
+        severity=severity,
+        instance_id=inst.id(),
+        validation_task_id=context.validation_task_id
+    )
+
+
+def givenSetupForThenValidation(context, fn, **kwargs):
+    """
+    Optional validation outcome for given statements
+    In behave, the 'Given' statement is in this case not only used to establish the applicability of either the file or instances within the file.
+    But also to validate the outcomes of the given statement, as if it's a Then statement.
+
+
+    """
+    for inst in context.instances:
+        step_results = filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], fn(context, inst=inst, **kwargs))
+        context.gherkin_outcomes.extend(misc.do_try(lambda: [create_validation_error_outcome(result, context, inst) for result in step_results], []))
+    # generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
+
+
+def handle_then(context, fn, instances = [], **kwargs):
+    if not instances:
+        instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
     # if 'instances' are not actual ifcopenshell.entity_instance objects, but e.g. tuple of string values then get the actual instances from the stack tree
     # see for more info docstring of get_activation_instances
@@ -246,18 +276,9 @@ def handle_then(context, fn, **kwargs):
         if isinstance(activation_inst, ifcopenshell.file):
             activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
         step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
-        for result in step_results:
-            validation_outcome = ValidationOutcome(
-                outcome_code=get_outcome_code(result, context),
-                observed=expected_behave_output(context, result.observed),
-                expected=expected_behave_output(context, result.expected),
-                feature=context.feature.name,
-                feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                # instance_id = activation_inst.id(),
-                validation_task_id=context.validation_task_id
-            )
-            context.gherkin_outcomes.append(validation_outcome)
+        step_outcomes = [create_validation_error_outcome(result, context, inst) for result in step_results] 
+        if step_outcomes:
+            context.gherkin_outcomes.extend(step_outcomes)
 
         if not step_results:
             validation_outcome = ValidationOutcome(

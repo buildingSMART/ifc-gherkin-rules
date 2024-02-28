@@ -132,11 +132,8 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
                 yield ValidationOutcome(instance_id=v, severity=OutcomeSeverity.PASSED)
 
 
-    if not instances and context.step.step_type == 'then':
-        pass
+    if not instances and required:
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
-    else:
-        pass
 
 @gherkin_ifc.step("Select Properties starting with {startswith} and specify {value}")
 def step_impl(context, inst, startswith, value):

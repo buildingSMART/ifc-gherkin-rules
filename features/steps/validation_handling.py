@@ -192,7 +192,7 @@ def is_list_of_tuples_or_none(var):
 
 def apply_operation(fn, inst, context, **kwargs):
     results = fn(context, inst, **kwargs)  
-    return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results))), None)
+    return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
 
 
 def map_state(values, fn, context, **kwargs):
@@ -219,7 +219,6 @@ def handle_given(context, fn, **kwargs):
         else:
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?                                                                                                                                      for inst in context.instances))))
     else: 
-        insts = context.instances
         context._push() # for attribute stacking
         context.instances = list(filter(None, map_state(context.instances, fn, context, **kwargs)))
 

@@ -91,7 +91,8 @@ def step_impl(context, inst):
 @gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
 @gherkin_ifc.step('A relationship {relationship} exists {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
 @gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
-def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tail=0):
+@gherkin_ifc.step('A *{required}* relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
+def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tail=0, required=False):
     """""
     Reference to tfk ALB999 rule https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
     """
@@ -125,21 +126,17 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
         if v := {inst} & to_entity:
             if tail:
                 instances.extend(to_other)
-                for instance in to_other:
-                    yield ValidationOutcome(instance_id=instance, severity=OutcomeSeverity.PASSED)
+                yield ValidationOutcome(instance_id=to_other, severity=OutcomeSeverity.PASSED)
             else:
                 instances.extend(to_other)
-                for instance in v:
-                    yield ValidationOutcome(instance_id=v, severity=OutcomeSeverity.PASSED)
+                yield ValidationOutcome(instance_id=v, severity=OutcomeSeverity.PASSED)
 
 
     if not instances and context.step.step_type == 'then':
-        """""
-        @gh note: if relating object is not found, then it is an error
-        probably there is a better solution since this implies that we'll have to add
-        'and following that' to the statement
-        """
+        pass
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
+    else:
+        pass
 
 @gherkin_ifc.step("Select Properties starting with {startswith} and specify {value}")
 def step_impl(context, inst, startswith, value):

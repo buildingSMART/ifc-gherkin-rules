@@ -233,7 +233,7 @@ def create_validation_error_outcome(result, context, inst):
         feature=context.feature.name,
         feature_version=misc.define_feature_version(context),
         severity=severity,
-        instance_id=inst.id(),
+        instance_id=getattr(inst, 'id', None),
         validation_task_id=context.validation_task_id
     )
 
@@ -288,7 +288,7 @@ def handle_then(context, fn, instances = [], **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.PASSED,
-                # instance_id = activation_inst.id(),
+                instance_id = getattr(activation_inst, 'id', None),
                 validation_task_id=context.validation_task_id
             )
         context.gherkin_outcomes.append(validation_outcome)

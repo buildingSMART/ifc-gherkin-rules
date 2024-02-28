@@ -4,7 +4,7 @@ from . import ValidationOutcome, OutcomeSeverity
 import math
 from behave import register_type
 from parse_type import TypeBuilder
-from features.steps.utils import system
+from features.steps.utils import system, misc
 import ast
 
 register_type(from_to=TypeBuilder.make_enum({"from": 0, "to": 1 }))
@@ -71,12 +71,12 @@ def step_impl(context, inst, value):
 def step_impl(context, inst, volume):
     acceptable_volumes = volume.split(' or ')
     tolerance = 0.0005
-
-    if not any ([abs(inst - float(v)) <= tolerance for v in acceptable_volumes]):
+    
+    if not any ([abs(getattr(inst,'wrappedValue',inst) - float(v)) <= tolerance for v in acceptable_volumes]):
         yield ValidationOutcome(instance_id=inst,
                                 expected=acceptable_volumes, 
-                                 observed=float(inst),
-                                   severity = OutcomeSeverity.PASSED)
+                                observed=float(inst),
+                                severity = OutcomeSeverity.PASSED)
         
 @gherkin_ifc.step("The value must contain the substring {substring}")
 def step_impl(context, inst, substring):
@@ -126,10 +126,10 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
         if v := {inst} & to_entity:
             if tail:
                 instances.extend(to_other)
-                yield ValidationOutcome(instance_id=to_other, severity=OutcomeSeverity.PASSED)
+                yield ValidationOutcome(instance_id=tuple(to_other), severity=OutcomeSeverity.PASSED)
             else:
                 instances.extend(to_other)
-                yield ValidationOutcome(instance_id=v, severity=OutcomeSeverity.PASSED)
+                yield ValidationOutcome(instance_id=tuple(v), severity=OutcomeSeverity.PASSED)
 
 
     if not instances and required:

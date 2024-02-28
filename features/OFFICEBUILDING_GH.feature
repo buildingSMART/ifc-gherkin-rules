@@ -28,7 +28,7 @@ Feature: OFFICEBUILDING
     Scenario Outline: Spatial Containment 
     
         Given An <IfcEntity>
-        Given Name == <Name>
+        Given Name = <Name>
         Given A relationship IfcRelContainedInSpatialStructure to <IfcEntity> from IfcBuildingStorey and following that
         Given Its attribute Name
 
@@ -122,7 +122,7 @@ Feature: OFFICEBUILDING
         Given An <Entity>
         Given Its attribute Representation
         Given Its attribute Representations
-        Given Its attributes <geometric_attribute> for each
+        Given Its attribute <geometric_attribute>
 
         Then The geometrical value must be "<Value>"
 

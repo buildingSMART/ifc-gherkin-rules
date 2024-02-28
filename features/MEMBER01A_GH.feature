@@ -3,26 +3,12 @@
 @N00010
 Feature: MEMBER01A
 
-    Scenario Outline: Spatial Containment - Existance
-
-        Given an <IfcEntity>
-        Given Name = <Name>
-
-        Then A relationship IfcRelAggregates to <IfcEntity> from <RelatingElement> and following that
-
-    Examples:
-            | IfcEntity          |     Name            |  Relationship     | RelatingElement |
-            #
-            | IfcSite            |    LOT123           |  IfcRelAggregates | IfcProject     |
-            | IfcBuilding        |    MemberBuilding_1 |  IfcRelAggregates | IfcSite        |
-            | IfcBuildingStorey  |    Ground Floor     |  IfcRelAggregates | IfcBuilding    |
-
 
     Scenario Outline: - Spatial (De)Composition - Name
 
         Given an <IfcEntity>
         Given Name = <Name>
-        Given A relationship <Relationship> to <IfcEntity> from <RelatingElement> and following that
+        Given A *required* relationship <Relationship> to <IfcEntity> from <RelatingElement> and following that
         Given Its attribute Name
 
         Then The value must be "<RelatingName>"

@@ -10,45 +10,21 @@ Feature: WALL01A
         Then Name = IFC4RC_Wall_01A
 
 
-
-    Scenario: Spatial Containment - IfcWall - BuildingStorey - Existence
-    Separate because it applies to all entities of type IfcWall
-
-        Given an IfcWall
-
-        Then A relationship IfcRelContainedInSpatialStructure to IfcWall from IfcBuildingStorey and following that
-
-
     Scenario: Spatial Containment - IfcWall - BuildingStorey - Name
     Separate because it applies to all entities of type IfcWall
 
         Given an IfcWall 
-        Given A relationship IfcRelContainedInSpatialStructure to IfcWall from IfcBuildingStorey and following that
+        Given A *required* relationship IfcRelContainedInSpatialStructure to IfcWall from IfcBuildingStorey and following that
         Given Its attribute Name
 
         Then The value must be "Basement"
-
-    
-    Scenario Outline: - Spatial (De)Composition - from Relating Object - Existance
-
-        Given an <IfcEntity>
-        Given Name = <Name>
-
-        Then A relationship IfcRelAggregates to <IfcEntity> from <RelatingObject> and following that
-
-        Examples:
-            | IfcEntity          |     Name         | RelatingObject    |
-            #
-            | IfcBuildingStorey  |    Basement      | IfcBuilding       |
-            | IfcBuilding        |    WallBuilding  | IfcSite           |
-            | IfcSite            |    WallSite_1    | IfcProject        |
 
 
     Scenario Outline: - Spatial (De)Composition - Name
 
         Given an <IfcEntity>
         Given Name = <Name>
-        Given A relationship IfcRelAggregates to <IfcEntity> from <RelatingObject> and following that
+        Given A *required* relationship IfcRelAggregates to <IfcEntity> from <RelatingObject> and following that
         Given Its attribute Name
 
         Then The value must be "<RelatingName>"
@@ -114,7 +90,7 @@ Feature: WALL01A
         Given An IfcWall
         Given Its attribute Representation
         Given Its attribute Representations
-        Given Its attributes <geometric_attribute> for each
+        Given Its attribute <geometric_attribute>
 
         Then The geometrical value must be "<Value>"
 
@@ -123,4 +99,4 @@ Feature: WALL01A
             #
             | RepresentationIdentifier  | Body                                                               |
             | RepresentationType        | Tessellation or SweptSolid or MappedRepresentation                 |
-            | Items                     | IfcTessellateditem or IfcExtrudedAreaSolid or IfcRevolvedAreaSolid |  
+            | Items                     | IfcTessellateditem or IfcExtrudedAreaSolid or IfcRevolvedAreaSolid or IfcTriangulatedFaceSet or IfcMappedItem or IfcPolygonalFaceSet|  

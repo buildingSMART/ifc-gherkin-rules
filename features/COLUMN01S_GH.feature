@@ -21,7 +21,7 @@ Feature: COLUMN01S
     Scenario: Spatial Containment - IfcSite - Project - Name
 
         Given an IfcSite 
-        Given Name = ColumnBuilding_1
+        Given Name = ColumnSite_1
         Given A relationship IfcRelAggregates to IfcSite from IfcProject and following that
         Given Its attribute Name
 
@@ -68,13 +68,13 @@ Feature: COLUMN01S
 
         Given an IfcColumn
 
-        Then A relationship IfcRelAggregates to IfcColumn from IfcBuildingStorey and following that
+        Then A relationship IfcRelContainedInSpatialStructure to IfcColumn from IfcBuildingStorey and following that
 
 
     Scenario: Spatial Containment - IfcColumn - IfcBuildingStorey - Name
 
         Given an IfcColumn
-        Given A relationship IfcRelAggregates to IfcColumn from IfcBuildingStorey and following that
+        Given A relationship IfcRelContainedInSpatialStructure to IfcColumn from IfcBuildingStorey and following that
         Given Its attribute Name
 
         Then The value must be "Floor One"
@@ -166,7 +166,7 @@ Feature: COLUMN01S
         Given An IfcColumn
         Given Its attribute Representation
         Given Its attribute Representations
-        Given Its attributes <geometric_attribute> for each
+        Given Its attribute <geometric_attribute>
 
         Then The geometrical value must be "<Value>"
 

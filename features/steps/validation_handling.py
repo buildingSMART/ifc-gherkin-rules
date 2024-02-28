@@ -189,6 +189,19 @@ def handle_nested(instance):
 def is_list_of_tuples_or_none(var):
     return isinstance(var, list) and all(item is None or isinstance(item, tuple) for item in var)
 
+
+def apply_operation(fn, inst, context, **kwargs):
+    results = fn(context, inst, **kwargs)  
+    return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results))), None)
+
+
+def map_state(values, fn, context, **kwargs):
+    if isinstance(values, (tuple, list)):
+        return type(values)(map_state(v, fn, context, **kwargs) for v in values)
+    else:
+        return apply_operation(fn, values, context, **kwargs)
+
+
 def handle_given(context, fn, **kwargs):
     """
     'Given' statements include four distinct functionalities.
@@ -202,17 +215,16 @@ def handle_given(context, fn, **kwargs):
         if gen: # (2) Set initial set of instances
             insts = list(gen)
             context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
+            context.alternative_instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
         else:
-            pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
-    else:
+            pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?                                                                                                                                      for inst in context.instances))))
+    else: 
+        insts = context.instances
         context._push() # for attribute stacking
-        if is_list_of_tuples_or_none(context.instances): # in case of stacking multiple attribute values for a single entity instance, e.g. in ALS004
-            context.instances =  flatten_list_of_lists([fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)])
-        else: # (3) & (4) filter or set instances based on an attribute/criteirum
-            context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs)
-                                                                                                                                                        for inst in context.instances))))
+        context.instances = list(filter(None, map_state(context.instances, fn, context, **kwargs)))
 
 def handle_then(context, fn, **kwargs):
+
     instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
     # if 'instances' are not actual ifcopenshell.entity_instance objects, but e.g. tuple of string values then get the actual instances from the stack tree
@@ -243,13 +255,12 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                instance_id = activation_inst.id(),
+                # instance_id = activation_inst.id(),
                 validation_task_id=context.validation_task_id
             )
             context.gherkin_outcomes.append(validation_outcome)
 
         if not step_results:
-
             validation_outcome = ValidationOutcome(
                 outcome_code=ValidationOutcomeCode.PASSED,  # "Rule passed" # deactivated until code table is added to django model
                 observed=None,
@@ -257,7 +268,7 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.PASSED,
-                instance_id = activation_inst.id(),
+                # instance_id = activation_inst.id(),
                 validation_task_id=context.validation_task_id
             )
         context.gherkin_outcomes.append(validation_outcome)

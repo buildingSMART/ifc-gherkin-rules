@@ -70,7 +70,7 @@ def before_step(context, step):
 def get_validation_outcome_hash(obj):
     return obj.severity, obj.outcome_code, obj.instance_id
 
-def after_feature(context, feature):
+def after_scenario(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         from validation_results import OutcomeSeverity, ModelInstance, ValidationTask

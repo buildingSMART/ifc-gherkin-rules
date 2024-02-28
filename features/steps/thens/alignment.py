@@ -75,7 +75,7 @@ def count_segments(logic, representation):
 
 
 @lru_cache
-def expected_segment_geometry_type(logic_predefined_type) -> List[str]:
+def expected_segment_geometry_types(logic_predefined_type) -> List[str]:
     """
     Used in ALA003 to return the expected entity type of an alignment segment representation.
 
@@ -116,20 +116,13 @@ def expected_segment_geometry_type(logic_predefined_type) -> List[str]:
             raise ValueError(msg)
 
 
-def same_segment_geometry_type(logic_segment, rep_segment) -> bool:
-    """
-    Used in ALA003 to confirm agreement of geometry types for segments in business logic
-    and geometry representation.
-    """
-    return expected_segment_geometry_type(logic_segment.PredefinedType) == rep_segment.is_a()
-
-
 def ala003_error_outcome(inst, logic_segment: ifcopenshell.entity_instance,
                          rep_segment: ifcopenshell.entity_instance) -> ValidationOutcome:
-    expected_msg = "Same geometry types for corresponding segments"
+    expected_types = expected_segment_geometry_types(logic_segment.PredefinedType)
+    expected = {"oneOf": expected_types}
     observed_msg = f"Business Logic Segment PredefinedType '{logic_segment.PredefinedType}' corresponds to "
     observed_msg += f"Representation by '{rep_segment.is_a()}'."
-    return ValidationOutcome(inst=inst, expected=expected_msg, observed=observed_msg, severity=OutcomeSeverity.ERROR)
+    return ValidationOutcome(inst=inst, expected=expected, observed=observed_msg, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step(
@@ -262,20 +255,39 @@ def step_impl(context, inst):
         logic_segment = align_segment.DesignParameters
         match logic_segment.is_a():
             case "IfcAlignmentHorizontalSegment":
-                rep_segment = align.composite_curve.segments[idx].entity.ParentCurve
+                try:
+                    rep_segment = align.composite_curve.segments[idx].entity.ParentCurve
+                except AttributeError:
+                    segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
+                    rep_segment = segment.representation.ParentCurve
             case "IfcAlignmentVerticalSegment":
-                rep_segment = align.gradient_curve.segments[idx].entity.ParentCurve
+                try:
+                    rep_segment = align.gradient_curve.segments[idx].entity.ParentCurve
+                except AttributeError:
+                    segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
+                    rep_segment = segment.representation.ParentCurve
             case "IfcAlignmentCantSegment":
-                rep_segment = align.segmented_reference_curve.segments[idx].entity.ParentCurve
+                try:
+                    rep_segment = align.segmented_reference_curve.segments[idx].entity.ParentCurve
+                except AttributeError:
+                    segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
+                    rep_segment = segment.representation.ParentCurve
             case _:
                 msg = f"Invalid type '{inst.is_a()}'. "
                 msg += "Should be 'IfcAlignmentHorizontal', 'IfcAlignmentVertical', or 'IfcAlignmentCant'."
 
                 raise NameError(msg)
 
-        if expected_segment_geometry_type(logic_segment.PredefinedType) != rep_segment.is_a():
+        if rep_segment.is_a() not in expected_segment_geometry_types(logic_segment.PredefinedType):
+            """
             yield ala003_error_outcome(
                 inst=inst,
                 logic_segment=logic_segment,
                 rep_segment=rep_segment
             )
+            """
+            expected_types = expected_segment_geometry_types(logic_segment.PredefinedType)
+            expected = {"oneOf": expected_types}
+            observed_msg = f"Business Logic Segment PredefinedType '{logic_segment.PredefinedType}' corresponds to "
+            observed_msg += f"Representation by '{rep_segment.is_a()}'."
+            yield ValidationOutcome(inst=inst, expected=expected, observed=observed_msg, severity=OutcomeSeverity.ERROR)

@@ -257,7 +257,7 @@ def handle_then(context, fn, **kwargs):
                 instance_id = activation_inst.id(),
                 validation_task_id=context.validation_task_id
             )
-        context.gherkin_outcomes.append(validation_outcome)
+            context.gherkin_outcomes.append(validation_outcome)
 
     # evokes behave error
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])

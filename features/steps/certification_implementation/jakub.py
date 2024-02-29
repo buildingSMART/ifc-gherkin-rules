@@ -1,6 +1,7 @@
 from validation_handling import gherkin_ifc
 from behave import *
 from . import ValidationOutcome, OutcomeSeverity
+from utils import geometry, ifc, misc
 
 # @gherkin_ifc.step("Its IfcLocalPlacement")
 # def step_impl(context, inst):
@@ -144,3 +145,29 @@ def step_impl(context, inst):
              yield ValidationOutcome(inst=inst, expected=True, observed=False, severity=OutcomeSeverity.ERROR)
     except AttributeError:
         yield ValidationOutcome(inst=inst, expected=True, observed=False, severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step("Its global positioning is CRSName='{crs_name}', Eastings={eastings}, Northings={northings}, OrthogonalHeight={height:d}")
+def step_impl(context, inst, crs_name, eastings, northings, height):
+    for c in inst.RepresentationContexts:
+        if c.is_a('IfcGeometricRepresentationContext'):
+            if c.HasCoordinateOperation:
+                map_conversion = c.HasCoordinateOperation[0]
+
+                precision = ifc.get_precision_from_contexts(inst.RepresentationContexts)
+
+                if map_conversion.TargetCRS.Name != crs_name:
+                    yield ValidationOutcome(inst=inst, expected=crs_name, observed=map_conversion.TargetCRS.Name, severity=OutcomeSeverity.ERROR)
+
+                e_type = type(map_conversion.Eastings)
+                if abs(map_conversion.Eastings - e_type(eastings)) > precision:
+                    yield ValidationOutcome(inst=inst, expected=e_type(eastings), observed=map_conversion.Eastings, severity=OutcomeSeverity.ERROR)
+
+                n_type = type(map_conversion.Northings)
+                if abs(map_conversion.Northings - n_type(northings)) > precision:
+                    yield ValidationOutcome(inst=inst, expected=n_type(northings), observed=map_conversion.Northings, severity=OutcomeSeverity.ERROR)
+
+                if abs(map_conversion.OrthogonalHeight - height) > precision:
+                    yield ValidationOutcome(inst=inst, expected=height, observed=round(map_conversion.OrthogonalHeight), severity=OutcomeSeverity.ERROR)
+
+            else:
+                yield ValidationOutcome(inst=inst, expected=True, observed=False, severity=OutcomeSeverity.ERROR)

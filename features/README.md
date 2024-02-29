@@ -64,7 +64,7 @@ SPS001_Basic-spatial-structure-for-buildings.feature
     - `@critical`
     - `@implementer-agreement`
     - `@informal-proposition`
-    - `@warning` (industry best practices as information; not a pass / fail)
+    - `@industry-practice` (warning; not a pass / fail)
 - must include a 3-character alpha tag to the functional part. See [Functional parts](./Functional-parts.md)
 - must include a single tag indicating the version of the feature file as a 1-based integer
   - Example: `@version1` for initial version of a feature file

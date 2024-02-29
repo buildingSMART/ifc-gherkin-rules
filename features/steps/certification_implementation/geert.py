@@ -66,6 +66,11 @@ def flatten_and_process(item):
 def step_impl(context, inst, value):
     if not any([i in value.split(' or ') for i in flatten_and_process(inst)]):
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step('The decomposed value must be "{value}"')
+def step_impl(context, inst, value):
+    if not any([i in value.split(' or ') for i in flatten_and_process(inst)]):
+        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
         
 @gherkin_ifc.step("The volume must be {volume} cubic metre")
 def step_impl(context, inst, volume):

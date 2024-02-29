@@ -60,7 +60,8 @@ SPS001_Basic-spatial-structure-for-buildings.feature
 
 #### Mandatory content
 `.feature` files:
-- must include one and only one of these three tags to classify the validation category:
+- must include one and only one of these tags to classify the validation category:
+    - `@critical`
     - `@implementer-agreement`
     - `@informal-proposition`
     - `@warning` (industry best practices as information; not a pass / fail)

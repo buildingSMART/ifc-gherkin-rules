@@ -1,10 +1,12 @@
-from behave import *
 from utils import misc
+from validation_handling import gherkin_ifc
+from . import ValidationOutcome, OutcomeSeverity
 
 
-@given('Its values')
-@given('Its values excluding {excluding}')
-def step_impl(context, excluding=()):
-    context._push()
-    context.instances = misc.map_state(context.instances, lambda inst: misc.do_try(
-        lambda: inst.get_info(recursive=True, include_identifier=False, ignore=excluding), None))
+@gherkin_ifc.step("Its values excluding {excluding} for each")
+def step_impl(context, inst, excluding):
+    return tuple(each_item.get_info(recursive=True, include_identifier=False, ignore=excluding) for each_item in inst)
+
+@gherkin_ifc.step("Its values")
+def step_impl(context, inst):
+    return tuple(each_item.inst.get_info(recursive=True, include_identifier=False) for each_item in inst)

@@ -2,12 +2,15 @@ import functools
 import operator
 import pyparsing
 
-from behave import *
 from utils import misc
 
+from validation_handling import gherkin_ifc, StepOutcome
 
-@given("An {entity_opt_stmt}")
-@given("All {insts} of {entity_opt_stmt}")
+from . import ValidationOutcome, OutcomeSeverity
+
+
+@gherkin_ifc.step("An {entity_opt_stmt}")
+@gherkin_ifc.step("All {insts} of {entity_opt_stmt}")
 def step_impl(context, entity_opt_stmt, insts=False):
     within_model = (insts == 'instances')  # True for given statement containing {insts}
 
@@ -20,8 +23,21 @@ def step_impl(context, entity_opt_stmt, insts=False):
     include_subtypes = misc.do_try(lambda: not 'without' in parse['include_subtypes'], True)
 
     try:
-        context.instances = context.model.by_type(entity, include_subtypes)
+        instances = context.model.by_type(entity, include_subtypes)
     except:
-        context.instances = []
+        instances = []
 
     context.within_model = getattr(context, 'within_model', True) and within_model
+    if instances:
+        context.applicable = getattr(context, 'applicable', True)
+    else:
+        context.applicable = False
+
+    # yield instances
+    for inst in instances:
+        yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
+
+@gherkin_ifc.step("No {entity}")
+def step_impl(context, entity):
+    if context.model.by_type(entity):
+        context.applicable = False

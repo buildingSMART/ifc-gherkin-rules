@@ -1,99 +1,56 @@
 import operator
-import errors as err
-
-from behave import *
-from utils import ifc, misc, system
-
-from parse_type import TypeBuilder
-
-register_type(file_or_model=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("file", "model")))))
-
-@then('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
-@err.handle_errors
-def step_impl(context, entity, other_entity, relationship):
-    if getattr(context, 'applicable', True):
-        errors = []
-        filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
-        filename_relating_attr_matrix = system.get_abs_path(f"resources/**/relating_entity_attributes.csv")
-        related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
-        relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
-
-        relationship_relating_attr = relating_attr_matrix.get(relationship)
-        relationship_related_attr = related_attr_matrix.get(relationship)
-        relationships = context.model.by_type(relationship)
-
-        for rel in relationships:
-            try:  # check if the related attribute returns a tuple/list or just a single instance
-                iter(getattr(rel, relationship_related_attr))
-                related_objects = getattr(rel, relationship_related_attr)
-            except TypeError:
-                related_objects = tuple(getattr(rel, relationship_related_attr))
-            for related_object in related_objects:
-                if related_object not in context.instances:
-                    continue
-                related_obj_placement = related_object.ObjectPlacement
-                entity_obj_placement_rel = related_obj_placement.PlacementRelTo
-                relating_object = getattr(rel, relationship_relating_attr)
-                relating_obj_placement = relating_object.ObjectPlacement
-                try:
-                    entity_obj_placement_rel = related_obj_placement.PlacementRelTo
-                    is_correct = relating_obj_placement == entity_obj_placement_rel
-                except AttributeError:
-                    is_correct = False
-                if not entity_obj_placement_rel:
-                    entity_obj_placement_rel = 'Not found'
-                if not is_correct:
-                    yield(err.InstancePlacementError(False, related_object, '', relating_object, relationship, relating_obj_placement, entity_obj_placement_rel))
-                elif context.error_on_passed_rule:
-                    yield(err.RuleSuccess(True, relating_object))
 
 
+from utils import ifc, misc, system, geometry
+from validation_handling import gherkin_ifc
 
-@then('The {representation_id} shape representation has RepresentationType "{representation_type}"')
-@err.handle_errors
-def step_impl(context, representation_id, representation_type):
-    errors = list(filter(None, list(map(lambda i: ifc.instance_getter(i, representation_id, representation_type, 1), context.instances))))
-    for error in errors:
-        yield(err.RepresentationTypeError(False, error, representation_id, representation_type))
-    if not errors and context.error_on_passed_rule:
-        yield(err.RuleSuccessInst(True, representation_id))
+from . import ValidationOutcome, OutcomeSeverity
+
+@gherkin_ifc.step('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
+def step_impl(context, inst, entity, other_entity, relationship):
+    related_attr_matrix, relating_attr_matrix = system.load_attribute_matrix(
+        "related_entity_attributes.csv"), system.load_attribute_matrix("relating_entity_attributes.csv")
+    relationship_relating_attr = relating_attr_matrix.get(relationship)
+    relationship_related_attr = related_attr_matrix.get(relationship)
+    relationships = context.model.by_type(relationship)
+
+    for rel in relationships:
+        related_objects = misc.map_state(rel, lambda i: getattr(i, relationship_related_attr, None))
+        for related_object in related_objects:
+            if related_object != inst:
+                continue
+            related_obj_placement = related_object.ObjectPlacement
+            relating_object = getattr(rel, relationship_relating_attr)
+
+            relating_obj_placement = relating_object.ObjectPlacement
+            entity_obj_placement_rel = getattr(related_obj_placement, "PlacementRelTo", None)
+            if relating_obj_placement != entity_obj_placement_rel:
+                yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed=entity_obj_placement_rel, severity=OutcomeSeverity.ERROR)
 
 
-@then('The relative placement of that {entity} must be provided by an {other_entity} entity')
-@err.handle_errors
-def step_impl(context, entity, other_entity):
-    if getattr(context, 'applicable', True):
-        errors = []
-        for obj in context.instances:
-            if not misc.do_try(lambda: obj.ObjectPlacement.is_a(other_entity), False):
-                yield(err.InstancePlacementError(False, obj, other_entity, "", "", "", ""))
-            elif context.error_on_passed_rule:
-                yield(err.RuleSuccessInst(True, obj))
+@gherkin_ifc.step('The relative placement of that {entity} must be provided by an {other_entity} entity')
+def step_impl(context, inst, entity, other_entity):
+    if not misc.do_try(lambda: inst.ObjectPlacement.is_a(other_entity), False):
+        yield ValidationOutcome(inst=inst, expected=other_entity, observed=inst.ObjectPlacement, severity=OutcomeSeverity.ERROR)
 
 
-@then('The type of attribute {attribute} must be {expected_entity_type}')
-@err.handle_errors
-def step_impl(context, attribute, expected_entity_type):
-
+@gherkin_ifc.step('The type of attribute {attribute} must be {expected_entity_type}')
+def step_impl(context, inst, attribute, expected_entity_type):
     expected_entity_types = tuple(map(str.strip, expected_entity_type.split(' or ')))
+    related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
+    errors = []
 
-    for inst in context.instances:
-        related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
-        errors = []
-        def accumulate_errors(i):
-            if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
-                misc.map_state(inst, lambda x: errors.append(err.AttributeTypeError(False, x, [i], attribute, expected_entity_type)))
-        misc.map_state(related_entity, accumulate_errors)
-        if errors:
-            yield from errors
-        elif context.error_on_passed_rule:
-            yield err.RuleSuccessInst(True, related_entity)
+    def accumulate_errors(i):
+        if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
+            misc.map_state(inst, lambda x: errors.append(ValidationOutcome(inst=inst, expected=expected_entity_type, observed=i, severity=OutcomeSeverity.ERROR)))
+
+    misc.map_state(related_entity, accumulate_errors)
+    if errors:
+        yield from errors
 
 
-
-@then('The value of attribute {attribute} must be {value}')
-@err.handle_errors
-def step_impl(context, attribute, value):
+@gherkin_ifc.step('The value of attribute {attribute} must be {value}')
+def step_impl(context, inst, attribute, value):
     # @todo the horror and inconsistency.. should we use
     # ast here as well to differentiate between types?
     pred = operator.eq
@@ -103,30 +60,45 @@ def step_impl(context, attribute, value):
         value = ()
         pred = operator.ne
 
-    if getattr(context, 'applicable', True):
-        errors = []
-        for inst in context.instances:
-            if isinstance(inst, (tuple, list)):
-                inst = inst[0]
-            attribute_value = getattr(inst, attribute, 'Attribute not found')
-            if not pred(attribute_value, value):
-                yield(err.InvalidValueError(False, inst, attribute, attribute_value))
-            elif context.error_on_passed_rule:
-                yield(err.RuleSuccessInst(True, inst))
+    if isinstance(inst, (tuple, list)):
+        inst = inst[0]
+    attribute_value = getattr(inst, attribute, 'Attribute not found')
+    if not pred(attribute_value, value):
+        yield ValidationOutcome(inst=inst, expected=value, observed=attribute_value, severity=OutcomeSeverity.ERROR)
 
 
-@then('The {field} of the {file_or_model} must be "{values}"')
-@err.handle_errors
-def step_impl(context, field, file_or_model, values):
+@gherkin_ifc.step('The {field} of the {file_or_model} must be "{values}"')
+def step_impl(context, inst, field, file_or_model, values):
     values = misc.strip_split(values, strp='"', splt=' or ')
-    for inst in context.instances:
-        if field == "Schema Identifier":
-            s = context.model.schema_identifier
-            if not s.lower() in values:
-                yield err.IncorrectSchemaError(False, s, values)
-        elif field == "Schema" and not context.model.schema in values:
-            s = context.model.schema
-            if not s.lower() in values:
-                yield err.IncorrectSchemaError(False, s, values)
+    if field == "Schema Identifier":
+        s = context.model.schema_identifier
+        if not s.lower() in values:
+            yield ValidationOutcome(inst=inst, expected=values, observed=s, severity=OutcomeSeverity.ERROR)
+    elif field == "Schema" and not context.model.schema in values:
+        s = context.model.schema
+        if not s.lower() in values:
+            yield ValidationOutcome(inst=inst, expected=values, observed=s, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step('The {length_attribute} of the final {segment_type} must be 0')
+def step_impl(context, inst, segment_type, length_attribute):
+    business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]
+    if segment_type == "segment":
+        if (length_attribute == "SegmentLength") or (length_attribute == "Length"):
+            length = getattr(inst, length_attribute, )
+            length_value = length.wrappedValue
+            if abs(length_value) > geometry.GEOM_TOLERANCE:
+                yield ValidationOutcome(inst=inst, expected=0.0, observed=length_value, severity=OutcomeSeverity.ERROR)
         else:
-            yield(err.RuleSuccessInst(True, inst))
+            raise ValueError(f"Invalid length_attribute '{length_attribute}'.")
+    elif segment_type.upper() in business_logic_types:
+        if (length_attribute == "SegmentLength") or (length_attribute == "HorizontalLength"):
+            length = getattr(inst, length_attribute, )
+            if abs(length) > geometry.GEOM_TOLERANCE:
+                yield ValidationOutcome(inst=inst, expected=0.0, observed=length, severity=OutcomeSeverity.ERROR)
+        else:
+            raise ValueError(f"Invalid length_attribute '{length_attribute}'.")
+    else:
+        raise ValueError(f"Invalid segment_type '{segment_type}'.")
+
+

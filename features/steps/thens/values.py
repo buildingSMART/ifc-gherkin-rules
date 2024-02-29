@@ -1,20 +1,59 @@
 import csv
-import errors as err
 import ifcopenshell
 import os
 
-from behave import *
+from behave import register_type
 from pathlib import Path
-from utils import ifc, misc
+
+from validation_handling import gherkin_ifc
+
+from . import ValidationOutcome, OutcomeSeverity
 
 
-@then("The value must {constraint}")
-@then("The values must {constraint}")
-@then('At least "{num:d}" value must {constraint}')
-@then('At least "{num:d}" values must {constraint}')
-@err.handle_errors
-def step_impl(context, constraint, num=None):
-    errors = []
+from parse_type import TypeBuilder
+from utils import misc
+register_type(unique_or_identical=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("be unique", "be identical"))))) # todo @gh remove 'be' from enum values
+register_type(value_or_type=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("value", "type"))))) # todo @gh remove 'be' from enum values
+register_type(values_or_types=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("values", "types"))))) # todo @gh remove 'be' from enum values
+
+
+@gherkin_ifc.step("The value must be in '{csv_file}.csv'")
+@gherkin_ifc.step("The values must be in '{csv_file}.csv'")
+def step_impl(context, inst, csv_file):
+    if not inst:
+        return []
+
+    dirname = os.path.dirname(__file__)
+    filename = Path(dirname).parent.parent / "resources" / f"{csv_file}.csv"
+    valid_values = [row[0] for row in csv.reader(open(filename))]
+    invalid_values = [value for value in inst if value not in valid_values]
+    for value in invalid_values:
+        yield ValidationOutcome(inst=inst, expected= valid_values, observed = value, severity=OutcomeSeverity.ERROR)
+
+    return []
+
+
+@gherkin_ifc.step('At least "{num:d}" value must {constraint}')
+@gherkin_ifc.step('At least "{num:d}" values must {constraint}')
+def step_impl(context, inst, constraint, num):
+    stack_tree = list(
+        filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+
+    values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
+
+    if stack_tree:
+        num_valid = 0
+        for i in range(len(stack_tree[0])):
+            path = [l[i] for l in stack_tree]
+            if path[0] in values:
+                num_valid += 1
+        if num_valid < num:
+            yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("The {value} must {constraint:unique_or_identical}")
+@gherkin_ifc.step("The values must {constraint:unique_or_identical}")
+def step_impl(context, inst, constraint, num=None):
 
     within_model = getattr(context, 'within_model', False)
 
@@ -22,65 +61,59 @@ def step_impl(context, constraint, num=None):
     while constraint.startswith('be ') or constraint.startswith('in '):
         constraint = constraint[3:]
 
-    if getattr(context, 'applicable', True):
-        stack_tree = list(
-            filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-        instances = [context.instances] if within_model else context.instances
+    instances = [context.instances] if within_model else context.instances
 
-        if constraint in ('identical', 'unique'):
-            for i, values in enumerate(instances):
-                if not values:
+    if constraint in ('identical', 'unique'):
+        for i, values in enumerate(instances):
+            if not values:
+                continue
+            if constraint == 'identical' and not all([values[0] == i for i in values]):
+                yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
+            if constraint == 'unique':
+                seen = set()
+                duplicates = [x for x in values if x in seen or seen.add(x)]
+                if not duplicates:
                     continue
-                amount_of_errors = len(errors)
-                attribute = getattr(context, 'attribute', None)
-                if constraint == 'identical' and not all([values[0] == i for i in values]):
-                    incorrect_values = values  # a more general approach of going through stack frames to return relevant information in error message?
-                    incorrect_insts = stack_tree[-1]
-                    yield(err.IdenticalValuesError(False, incorrect_insts, incorrect_values, attribute,))
-                if constraint == 'unique':
-                    seen = set()
-                    duplicates = [x for x in values if x in seen or seen.add(x)]
-                    if not duplicates:
-                        continue
-                    inst_tree = [t[i] for t in stack_tree]
-                    inst = inst_tree[-1]
-                    incorrect_insts = [inst_tree[1][i] for i, x in enumerate(values) if x in duplicates]
-                    incorrect_values = duplicates
-                    # avoid mentioning ifcopenshell.entity_instance twice in error message
-                    report_incorrect_insts = any(misc.map_state(values, lambda v: misc.do_try(
-                        lambda: isinstance(v, ifcopenshell.entity_instance), False)))
-                    yield(err.DuplicateValueError(False, inst, incorrect_values, attribute, incorrect_insts, report_incorrect_insts))
-                if len(errors) == amount_of_errors and context.error_on_passed_rule:
-                    yield(err.RuleSuccessInst(True, values))
-        elif constraint[-5:] == ".csv'":
+                yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
 
-            csv_name = constraint.strip("'")
-            for i, values in enumerate(instances):
-                if not values:
-                    continue
-                amount_of_errors = len(errors)
-                attribute = getattr(context, 'attribute', None)
 
-                dirname = os.path.dirname(__file__)
-                filename = Path(dirname).parent.parent / "resources" / csv_name
-                valid_values = [row[0] for row in csv.reader(open(filename))]
+def recursive_unpack_value(item):
+    """Unpacks a tuple recursively, returning the first non-empty item
+    For instance, (,'Body') will return 'Axis'
+    and (((IfcEntityInstance.)),) will return IfcEntityInstance
 
-                for iv, value in enumerate(values):
-                    if not value in valid_values:
-                        yield(err.InvalidValueError(False, [t[i] for t in stack_tree][1][iv], attribute, value))
-                if len(errors) == amount_of_errors and context.error_on_passed_rule:
-                    yield(err.RuleSuccessInst(True, values))
-        elif num is not None:
-            values = list(map(lambda s: s.strip('"'), constraint.split(' or ')))
+    Note that it will only work for a single value. E.g. not values for statements like 
+    "The values must be X"
+    as ('Axis', 'Body') will return 'Axis' 
+    """
+    if isinstance(item, tuple):
+        if len(item) == 0:
+            return None
+        elif len(item) == 1 or not item[0]:
+            return recursive_unpack_value(item[1]) if len(item) > 1 else recursive_unpack_value(item[0])
+        else:
+            return item[0]
+    return item
 
-            if stack_tree:
-                num_valid = 0
-                for i in range(len(stack_tree[0])):
-                    path = [l[i] for l in stack_tree]
-                    if path[0] in values:
-                        num_valid += 1
-                if num is not None and num_valid < num:
-                    paths = [[l[i] for l in stack_tree] for i in range(len(stack_tree[0]))]
-                    yield(err.ValueCountError(False, paths, values, num))
-                elif context.error_on_passed_rule:
-                    yield(err.RuleSuccessInst(True, values))
+
+@gherkin_ifc.step('The {i:value_or_type} must be "{value}"')
+def step_impl(context, inst, i, value):
+    inst = recursive_unpack_value(inst)
+    if isinstance(inst, ifcopenshell.entity_instance):
+        inst = inst.is_a() # another option would be to let this depend on 'type'. E.g. if i is 'type', then always check for entity_instance
+
+    if inst != value:
+        yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step('All {i:values_or_types} must be "{value}"')
+def step_impl(context, inst, i, value):
+    number_of_unique_values = len(set(inst))
+    if number_of_unique_values > 1: # if there are more than 1 values, the 'All' predicament is impossible to fulfill
+        yield ValidationOutcome(inst=inst, expected= value, observed=f"{number_of_unique_values} unique values", severity=OutcomeSeverity.ERROR)
+    else:
+        inst = recursive_unpack_value(inst)
+        if isinstance(inst, ifcopenshell.entity_instance):
+            inst = misc.do_try(lambda: inst.is_a(), inst)
+        if inst != value:
+            yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)

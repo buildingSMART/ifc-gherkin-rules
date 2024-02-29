@@ -4,6 +4,7 @@ import math
 from .misc import is_a
 from .ifc import get_precision_from_contexts, recurrently_get_entity_attr
 
+GEOM_TOLERANCE = 1E-12
 
 def get_edges(file, inst, sequence_type=frozenset, oriented=False):
     edge_type = tuple if oriented else frozenset

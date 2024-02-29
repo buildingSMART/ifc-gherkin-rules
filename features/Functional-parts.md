@@ -6,7 +6,9 @@
 | GRF  | Georeferencing                   | @GRF        |                                                  |
 | SPS  | Spatial structure                | @SPS        | Need to split SS aggregation and SS containment? |
 | ALB  | Alignment (business logic)       | @ALB        |                                                  |
+| ALS  | Alignment (segments)             | @ALS        |                                                  |
 | ALG  | Alignment (geometry)             | @ALG        |                                                  |
+| ALA  | Alignment Agreement              | @ALA        |                                                  |
 | OJP  | Object placement                 | @OJP        |                                                  |
 | LIP  | Linear placement (non-geometric) | @LIP        |                                                  |
 | STN  | Stationing                       | @STN        |                                                  |
@@ -19,3 +21,8 @@
 | GEM  | Geometric representation         | @GEM        | Shall be further decomposed                      |
 | AXG  | Axis geometry                    | @AXG        |                                                  |
 | LIB  | Library reference                | @LIB        |                                                  |
+| IBP  | Industry Best Practice           | @IBP        | Used for @industry-practice tag                  |
+| SYS  |                                  | @SYS        |                                                  |
+| IFC  | IFC                              | @IFC        | Validating correct IFC Schema                    |
+| PSE  | Property Sets                    | @PSE        |                                                  |
+| APA  |                                  | @PSE        |                                                  |

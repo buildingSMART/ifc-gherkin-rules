@@ -1,6 +1,7 @@
 @disabled
 @implementer-agreement
 @ALB
+@version1
 Feature: ALB002 - Alignment Layout Verification
   This feature ensures correct nesting relationships within alignment layout components and their attributes in alignment with specific schema identifiers.
 
@@ -8,8 +9,8 @@ Feature: ALB002 - Alignment Layout Verification
   Background:
 
     Given A model with Schema "IFC4.3"
-    
 
+@E00100
   Scenario Outline: Agreement on nested attributes of IfcAlignment
 
     Given an <AlignmentType>
@@ -22,7 +23,7 @@ Feature: ALB002 - Alignment Layout Verification
       | AlignmentType | HorizontalNesting | VerticalNesting | CantNesting |
       | IfcAlignment  | exactly 1         | at most 1       | at most 1   |
 
-
+@E00100
   Scenario Outline: Agreement on attributes being nested within a decomposition relationship
 
     Given an <AlignmentComponentType>
@@ -35,7 +36,7 @@ Feature: ALB002 - Alignment Layout Verification
       | IfcAlignmentVertical    |
       | IfcAlignmentCant        |
 
-
+@E00100
   Scenario Outline: Agreement of structure of alignment segments
 
     Given an <AlignmentComponentType>
@@ -48,7 +49,7 @@ Feature: ALB002 - Alignment Layout Verification
       | IfcAlignmentVertical    |
       | IfcAlignmentCant        |
 
-
+@E00010
   Scenario Outline: Agreement of the segments of alignment
 
     Given an IfcAlignmentSegment

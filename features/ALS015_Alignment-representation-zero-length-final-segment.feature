@@ -1,6 +1,7 @@
+@implementer-agreement
 @ALS
 @version1
-
+@E00020
 Feature: ALS015 - Alignment representation zero length final segment
 
 The rule verifies that the alignment geometry (representation) curve
@@ -15,11 +16,9 @@ Background: Validating final segment of alignment geometry (representation).
   Given Its attributes Segments for each
   Given Its final segment
 
-@E00020
 Scenario: Validating that the final alignment geometry segment is of length 0.0.
   Then The SegmentLength of the final segment must be 0
 
-@E00020
-  Scenario: Validating that the final alignment geometry segment is discontinuous.
-    Given Its attribute Transition
-    Then The value must be "DISCONTINUOUS"
+Scenario: Validating that the final alignment geometry segment is discontinuous.
+  Given Its attribute Transition
+  Then The value must be "DISCONTINUOUS"

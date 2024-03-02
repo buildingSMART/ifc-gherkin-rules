@@ -71,32 +71,43 @@ SPS001_Basic-spatial-structure-for-buildings.feature
   - Example: `@version3` for the third version of a feature file
     - Minor changes such as fixing typos or re-wording the description do not increment the version
     - Any change to a **"Given"** or **"Then"** statement, or to a step implementation, requires the version number to be incremented by 1.
-- must include one or more tags indicating the error code to be raised
+- must include one or more tags indicating the [error code](#error-codes) to be raised
   - If all scenarios raise the same error, then this tag should be placed immediately above the **"Feature:"** line
-    - Example: see GRF001
-     ```
-     @implementer-agreement
-     @GRF
-     @version1
-     @E00050
-     Feature: GRF001 - Identical....
-     ```
-  - If some scenarios raise different error codes, then this tag should be placed immediately above each **"Scenario"** line
-    - Example: see ALS005
-     ```
-     @implementer-agreement
-     @ALS
-     @version1
-     Feature: ALS005 - Alignment shape representation
-    
-     Background: ...
-    
-     @E00020
-     Scenario: Agreement on ... representation - Value
-    
-     @E00010
-     Scenario: Agreement on ... representation - Type
-     ```
+
+    <details><summary>example</summary>
+
+    ```
+    @implementer-agreement
+    @GRF
+    @version1
+    @E00050
+    Feature: GRF001 - Identical....
+    ```
+
+    </details>
+
+    - If some scenarios raise different error codes, then this tag should be placed immediately above each **"Scenario"
+      ** line
+
+    <details><summary>example</summary>
+
+    ```
+    @implementer-agreement
+    @ALS
+    @version1
+    Feature: ALS005 - Alignment shape representation
+
+    Background: ...
+
+    @E00020
+    Scenario: Agreement on ... representation - Value
+
+    @E00010
+    Scenario: Agreement on ... representation - Type
+    ```
+ 
+    </details>
+  
 - must include exactly 1 Feature
 - the naming convention for the Feature is the following: rule code - rule title (the same used for the file name). For the rule title blank spaces must be used instead of `-` 
 
@@ -137,7 +148,7 @@ Then ...
 
  - must include **a description of the rule** that start with "The rule verifies that..." 
 
-<details><summary>examples</summary>
+<details><summary>example</summary>
 
 ```
 @implementer-agreement
@@ -415,3 +426,48 @@ Example table describing unit test expected results
 ...
 ## 7. Approve and merge the pull request
 ...
+
+## Appendix
+
+### Error Codes
+
+Error codes are used to classify and categorize outcomes from the validation service and are
+implemented in [ifc-validation-data-model/main/models.py#L937](https://github.com/buildingSMART/ifc-validation-data-model/blob/main/models.py#L937).
+
+| Error Code | Description                            |
+|------------|----------------------------------------|
+| P00010     | Passed                                 |
+| N00010     | Not Applicable                         |
+|            |                                        |
+| E00001     | Syntax Error                           |
+| E00002     | Schema Error                           |
+| E00010     | Type Error                             |
+| E00020     | Value Error                            |
+| E00030     | Geometry Error                         |
+| E00040     | Cardinality Error                      |
+| E00050     | Duplicate Error                        |
+| E00060     | Placement Error                        |
+| E00070     | Units Error                            |
+| E00080     | Quantity Error                         |
+| E00090     | Enumerated Value Error                 |
+| E00100     | Relationship Error                     |
+| E00110     | Naming Error                           |
+| E00120     | Reference Error                        |
+| E00130     | Resource Error                         |
+| E00140     | Deprecation Error                      |
+| E00150     | Shape Representation Error             |
+| E00160     | Instance Structure Error               |
+|            |                                        |
+| W00010     | Alignment Contains Business Logic Only |
+| W00020     | Alignment Contains Geometry Only       |
+| W00030     | Warning                                |
+|            |                                        |
+| X00040     | Executed                               |
+
+#### Notes
+
+`Not Applicable` refers to a rule that does not apply because of the schema version.
+`Executed` refers to a rule that does apply because of schema version,
+but the model does not contain any entities validated as part of a particular rule.
+
+Both outcomes are reported as "N/A" in the validation service user interface.

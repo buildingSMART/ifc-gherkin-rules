@@ -61,6 +61,7 @@ def before_feature(context, feature):
         
 
 def before_scenario(context, scenario):
+    context.gherkin_outcomes = []
     context.applicable = True
 
 def before_step(context, step):
@@ -69,11 +70,11 @@ def before_step(context, step):
 def get_validation_outcome_hash(obj):
     return obj.severity, obj.outcome_code, obj.instance_id
 
-def after_feature(context, feature):
+def after_scenario(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
-    execution_mode = 'ExecutionMode.PRODUCTION'
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         from validation_results import OutcomeSeverity, ModelInstance, ValidationTask
+
         def reduce_db_outcomes(feature_outcomes):
 
             failed_outcomes = [outcome for outcome in feature_outcomes if outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]]
@@ -90,6 +91,9 @@ def after_feature(context, feature):
                         for outcome in context.gherkin_outcomes:
                             if outcome.severity == severity:
                                 return [outcome]
+
+            return []
+
         outcomes_to_save = reduce_db_outcomes(context.gherkin_outcomes)
 
         if outcomes_to_save:

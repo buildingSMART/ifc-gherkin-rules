@@ -24,9 +24,10 @@ def step_impl(context, inst, num, constraint, other_entity):
     op = stmt_to_op[constraint]
 
     nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
-    amount_found = len([1 for i in nested_entities if i.is_a(other_entity)])
+    nested_of_type = [i for i in nested_entities if i.is_a(other_entity)]
+    amount_found = len(nested_of_type)
     if not op(amount_found, num):
-        yield ValidationOutcome(inst=inst, expected=num, observed=amount_found, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, observed=nested_of_type, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('It must be nested by only the following entities: {other_entities}')
@@ -36,10 +37,7 @@ def step_impl(context, inst, other_entities):
     nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
     nested_entity_types = set(i.is_a() for i in nested_entities)
     if not nested_entity_types <= allowed_entity_types:
-        yield ValidationOutcome(inst=inst, expected=str(allowed_entity_types), observed=allowed_entity_types - nested_entity_types, severity=OutcomeSeverity.ERROR)
-    else:
-        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
-
+        yield ValidationOutcome(inst=inst, observed=nested_entity_types, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('It {fragment:nested_sentences} instance(s) of {other_entity}')
@@ -68,12 +66,12 @@ def step_impl(context, inst, fragment, other_entity):
         correct_elements = list(filter(lambda x: x.is_a(other_entity), related_entities))
 
         if condition == 'only 1' and len(correct_elements) > 1:
-            yield ValidationOutcome(inst=inst, expected=1, observed=len(correct_elements), severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, observed=len(correct_elements), severity=OutcomeSeverity.ERROR)
         if condition == 'a list of only':
             if len(getattr(inst, extr['attribute'], [])) > 1:
-                yield ValidationOutcome(inst=inst, expected=other_entity, observed=false_elements, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=other_entity, observed=related_entities, severity=OutcomeSeverity.ERROR)
             elif len(false_elements):
-                yield ValidationOutcome(inst=inst, expected=other_entity, observed=false_elements, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=other_entity, observed=related_entities, severity=OutcomeSeverity.ERROR)
         if condition == 'only' and len(false_elements):
-            yield ValidationOutcome(inst=inst, expected=correct_elements, observed=false_elements, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected=correct_elements, observed=related_entities, severity=OutcomeSeverity.ERROR)
 

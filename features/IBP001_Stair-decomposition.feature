@@ -1,6 +1,5 @@
-@implementer-agreement
 @IBP
-@warning
+@industry-practice
 @version1
 
 Feature: IBP001 - Stair decomposition

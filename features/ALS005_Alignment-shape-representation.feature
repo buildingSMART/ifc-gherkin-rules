@@ -15,7 +15,7 @@ The rule verifies that each IfcAlignment uses correct representation.
   Scenario: Agreement on each IfcAlignment using correct representation - Value
 
     Then The value of attribute RepresentationIdentifier must be Axis
-    Then  The value of attribute RepresentationType must be Curve3D
+    Then The value of attribute RepresentationType must be Curve3D
 
 
   @E00010

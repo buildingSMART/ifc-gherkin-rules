@@ -1,4 +1,3 @@
-@implementer-agreement
 @critical
 @IFC
 @version1

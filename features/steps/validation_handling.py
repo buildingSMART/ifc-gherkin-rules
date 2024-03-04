@@ -272,7 +272,10 @@ def handle_then(context, fn, instances = [], **kwargs):
     context.gherkin_outcomes.append(validation_outcome)
 
     for i, inst in enumerate(instances):
-        activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
+        try:
+            activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
+        except:
+            activation_inst = inst
         if isinstance(activation_inst, ifcopenshell.file):
             activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
         step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
@@ -324,6 +327,8 @@ def execute_step(fn):
 
         Data is circulated using the 'behave-context' and is ultimately stored in the database, as 'ValidationOutcome' corresponds to a database column.
         """
+
+        # breakpoint()
 
         if not getattr(context, 'applicable', True):
             validation_outcome = ValidationOutcome(

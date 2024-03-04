@@ -1,3 +1,4 @@
+import ast
 import ifcopenshell
 from behave.model import Scenario
 from collections import Counter
@@ -34,31 +35,32 @@ def before_feature(context, feature):
     Scenario.continue_after_failed_step = False
     context.gherkin_outcomes = []
 
-    if eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
-        ifc_filename_incl_path = context.config.userdata.get('input')
-        convention_attrs = {
-            'ifc_filename' : os.path.basename(ifc_filename_incl_path),
-            'feature_name': context.feature.name,
-            'feature_filename' : os.path.basename(context.feature.filename),
-            'description': '\n'.join(context.feature.description),
-            'tags': context.tags, 
-            'location': context.feature.location.filename, 
-            'steps': [{'keyword': step.keyword, 'name': step.name} for scenario in context.feature.scenarios for step in scenario.steps],
-            'filename' : ifc_filename_incl_path # filename that comes directly from 'main.py'
-            }
-        # protocol_errors = protocol.enforce(convention_attrs) 
-        protocol_errors = [] # deactivate pydantic convention-checking in this repo
-        for error in protocol_errors:
-            validation_outcome = ValidationOutcome(
-            outcome_code=ValidationOutcomeCode.X00040, 
-            observed=error,
-            expected=error,
-            feature=context.feature.name,
-            feature_version=1,
-            severity=OutcomeSeverity.ERROR,
-            check_execution_id=random.randint(1, 1000)
-        )
-            context.gherkin_outcomes.add(validation_outcome)
+    if context.config.userdata.get('execution_mode'):
+        if eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
+            ifc_filename_incl_path = context.config.userdata.get('input')
+            convention_attrs = {
+                'ifc_filename' : os.path.basename(ifc_filename_incl_path),
+                'feature_name': context.feature.name,
+                'feature_filename' : os.path.basename(context.feature.filename),
+                'description': '\n'.join(context.feature.description),
+                'tags': context.tags, 
+                'location': context.feature.location.filename, 
+                'steps': [{'keyword': step.keyword, 'name': step.name} for scenario in context.feature.scenarios for step in scenario.steps],
+                'filename' : ifc_filename_incl_path # filename that comes directly from 'main.py'
+                }
+            # protocol_errors = protocol.enforce(convention_attrs) 
+            protocol_errors = [] # deactivate pydantic convention-checking in this repo
+            for error in protocol_errors:
+                validation_outcome = ValidationOutcome(
+                outcome_code=ValidationOutcomeCode.X00040, 
+                observed=error,
+                expected=error,
+                feature=context.feature.name,
+                feature_version=1,
+                severity=OutcomeSeverity.ERROR,
+                check_execution_id=random.randint(1, 1000)
+            )
+                context.gherkin_outcomes.add(validation_outcome)
         
 
 def before_scenario(context, scenario):
@@ -73,7 +75,6 @@ def get_validation_outcome_hash(obj):
 
 def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
-    execution_mode = 'ExecutionMode.PRODUCTION'
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         from validation_results import OutcomeSeverity, ModelInstance, ValidationTask
         def reduce_db_outcomes(feature_outcomes):

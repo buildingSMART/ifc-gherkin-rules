@@ -1,6 +1,8 @@
 import ast
 import operator
 
+import ifcopenshell
+
 from behave import register_type
 from utils import geometry, ifc, misc, system
 from parse_type import TypeBuilder
@@ -32,8 +34,11 @@ def step_impl(context, inst, attribute, value):
         except SyntaxError: # e.g. 'Column_1-01' 
             pass
 
-    if hasattr(inst, attribute) and pred(getattr(inst, attribute), value):
-        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+    if isinstance(inst, ifcopenshell.entity_instance):
+        if hasattr(inst, attribute) and pred(getattr(inst, attribute), value):
+            yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+    else:
+        yield ValidationOutcome(instance_id=misc.preserved_list([i for i in inst if hasattr(i, attribute) and pred(getattr(i, attribute), value)]), severity = OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step('{attr} forms {closed_or_open} curve')
@@ -68,7 +73,10 @@ def step_impl(context, file_or_model, field, values):
 
 @gherkin_ifc.step('Its attribute {attribute}')
 def step_impl(context, inst, attribute, tail="single"):
-    yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity = OutcomeSeverity.PASSED)
+    if isinstance(inst, ifcopenshell.entity_instance):
+        yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity = OutcomeSeverity.PASSED)
+    else:
+        yield ValidationOutcome(instance_id=[getattr(i, attribute, None) for i in inst], severity = OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("Its {attribute} attribute {condition} with {prefix}")
 def step_impl(context, inst, attribute, condition, prefix):

@@ -131,12 +131,11 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
         if v := {inst} & to_entity:
             if tail:
                 instances.extend(to_other)
-                yield ValidationOutcome(instance_id=tuple(to_other), severity=OutcomeSeverity.PASSED)
             else:
-                instances.extend(to_other)
-                yield ValidationOutcome(instance_id=tuple(v), severity=OutcomeSeverity.PASSED)
+                instances.extend(v)
 
-
+    if instances:
+        yield ValidationOutcome(instance_id=instances, severity=OutcomeSeverity.PASSED)
     if not instances and required:
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 

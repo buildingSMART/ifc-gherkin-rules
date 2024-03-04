@@ -70,3 +70,22 @@ def step_impl(context, inst, entity):
 def step_impl(context, inst, val):
     if not val in map(str, inst):
         yield ValidationOutcome(instance_id=inst, expected=val, severity = OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("The number of elements must be {num:d}")
+def step_impl(context, inst, num):
+    if len(inst) != num:
+        yield ValidationOutcome(instance_id=inst, expected=num, severity = OutcomeSeverity.ERROR)
+    
+@gherkin_ifc.step("The type of all elements must be {entity}")
+def step_impl(context, inst, entity):
+    if set(i.is_a() for js in inst for i in js) != {entity}:
+        yield ValidationOutcome(instance_id=inst, expected=entity, severity = OutcomeSeverity.ERROR)
+
+from validation_handling import get_stack_tree
+
+@gherkin_ifc.step("Dumpstack")
+def step_impl(context, *args, **kwargs):
+    for i, a in enumerate(get_stack_tree(context)):
+        print(i, *a)
+    raise Exception()

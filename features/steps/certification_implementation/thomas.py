@@ -76,13 +76,39 @@ def step_impl(context, inst, val):
 def step_impl(context, inst, num):
     if len(inst) != num:
         yield ValidationOutcome(instance_id=inst, expected=num, severity = OutcomeSeverity.ERROR)
-    
+
+
+@gherkin_ifc.step("Size of attribute {attr} must be {num:d}")
+def step_impl(context, inst, attr, num):
+    a = getattr(inst, attr, None)
+    l = misc.do_try(lambda: len(a), -1)
+    if l != num:
+        yield ValidationOutcome(instance_id=inst, observed=a, expected=num, severity = OutcomeSeverity.ERROR)
+
+
 @gherkin_ifc.step("The type of all elements must be {entity}")
 def step_impl(context, inst, entity):
     if set(i.is_a() for js in inst for i in js) != {entity}:
         yield ValidationOutcome(instance_id=inst, expected=entity, severity = OutcomeSeverity.ERROR)
 
-from validation_handling import get_stack_tree
+from validation_handling import get_stack_tree, global_rule
+
+def recursive_flatten(lst):
+    flattened_list = []
+    for item in lst:
+        if isinstance(item, (tuple, list)):
+            flattened_list.extend(recursive_flatten(item))
+        else:
+            flattened_list.append(item)
+    return flattened_list
+
+
+@gherkin_ifc.step("Assert existence")
+@global_rule
+def step_impl(context, inst):
+    if not recursive_flatten(inst):
+        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+
 
 @gherkin_ifc.step("Dumpstack")
 def step_impl(context, *args, **kwargs):

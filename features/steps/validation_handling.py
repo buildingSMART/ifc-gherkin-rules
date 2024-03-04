@@ -1,3 +1,4 @@
+import functools
 import json
 from utils import misc
 from functools import wraps
@@ -271,6 +272,26 @@ def handle_then(context, fn, instances = [], **kwargs):
     )
     context.gherkin_outcomes.append(validation_outcome)
 
+    if context.is_global_rule:
+        # hack hack hack hack
+        step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=context.instances, **kwargs))))
+        step_outcomes = [create_validation_error_outcome(result, context, {}) for result in step_results] 
+        if step_outcomes:
+            context.gherkin_outcomes.extend(step_outcomes)
+
+        if not step_results:
+            validation_outcome = ValidationOutcome(
+                outcome_code=ValidationOutcomeCode.PASSED,  # "Rule passed" # deactivated until code table is added to django model
+                observed=None,
+                expected=None,
+                feature=context.feature.name,
+                feature_version=misc.define_feature_version(context),
+                severity=OutcomeSeverity.PASSED,
+                instance_id = None,
+                validation_task_id=context.validation_task_id
+            )
+            context.gherkin_outcomes.append(validation_outcome)
+
     for i, inst in enumerate(instances):
         try:
             activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
@@ -294,10 +315,19 @@ def handle_then(context, fn, instances = [], **kwargs):
                 instance_id = getattr(activation_inst, 'id', None),
                 validation_task_id=context.validation_task_id
             )
-        context.gherkin_outcomes.append(validation_outcome)
+            context.gherkin_outcomes.append(validation_outcome)
 
     # evokes behave error
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
+
+
+def global_rule(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    wrapper.global_rule = True
+    return wrapper
+
 
 class gherkin_ifc():
 
@@ -308,10 +338,14 @@ class gherkin_ifc():
         return wrapped_step
 
 def execute_step(fn):
+    is_global_rule = False
     while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
+        is_global_rule = is_global_rule or getattr(fn, 'global_rule', False)
         fn = fn.__wrapped__
     @wraps(fn)
     def inner(context, **kwargs):
+        context.is_global_rule = is_global_rule
+
         """
         This section of code performs two primary checks:
 

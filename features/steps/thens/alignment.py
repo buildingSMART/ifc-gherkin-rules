@@ -258,20 +258,35 @@ def step_impl(context, inst):
                 try:
                     rep_segment = align.composite_curve.segments[idx].entity.ParentCurve
                 except AttributeError:
-                    segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
-                    rep_segment = segment.representation.ParentCurve
+                    try:
+                        segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
+                        rep_segment = segment.representation.ParentCurve
+                    except AttributeError:
+                        # no representation for this segment - move to next
+                        continue
+
             case "IfcAlignmentVerticalSegment":
                 try:
                     rep_segment = align.gradient_curve.segments[idx].entity.ParentCurve
                 except AttributeError:
-                    segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
-                    rep_segment = segment.representation.ParentCurve
+                    try:
+                        segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
+                        rep_segment = segment.representation.ParentCurve
+                    except AttributeError:
+                        # no representation for this segment - move to next
+                        continue
+
             case "IfcAlignmentCantSegment":
                 try:
                     rep_segment = align.segmented_reference_curve.segments[idx].entity.ParentCurve
                 except AttributeError:
-                    segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
-                    rep_segment = segment.representation.ParentCurve
+                    try:
+                        segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
+                        rep_segment = segment.representation.ParentCurve
+                    except AttributeError:
+                        # no representation for this segment - move to next
+                        continue
+
             case _:
                 msg = f"Invalid type '{inst.is_a()}'. "
                 msg += "Should be 'IfcAlignmentHorizontal', 'IfcAlignmentVertical', or 'IfcAlignmentCant'."

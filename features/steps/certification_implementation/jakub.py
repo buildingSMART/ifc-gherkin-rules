@@ -171,3 +171,29 @@ def step_impl(context, inst, crs_name, eastings, northings, height):
 
             else:
                 yield ValidationOutcome(inst=inst, expected=True, observed=False, severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step("{limit} {entity} must be assigned to it")
+def step_impl(context, inst, limit, entity):
+    group_assignments = inst.IsGroupedBy
+
+    if limit == 'All':
+        expected_instances = context.model.by_type(entity, True)
+    else:
+        expected_instances = context.model.by_type(entity, True)
+        expected_instances = [ex for ex in expected_instances if ex.Name == limit]
+
+    if inst in expected_instances:  #remove self
+        expected_instances.remove(inst)
+
+
+    found_groupped_instances = set()
+    for group in group_assignments:
+        for i in group.RelatedObjects:
+            if i.is_a(entity):
+                found_groupped_instances.add(i)
+
+    for i in expected_instances:
+        if i not in found_groupped_instances:
+            yield ValidationOutcome(inst=inst, expected=i, observed=None, severity=OutcomeSeverity.ERROR)
+
+

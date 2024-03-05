@@ -138,3 +138,12 @@ def unpack_tuple(tup):
 def define_feature_version(context):
     version = next((tag for tag in context.tags if "version" in tag))  # e.g. version1
     return int(version.replace("version", ""))
+
+
+class preserved_list:
+    def __init__(self, li):
+        self.li = li
+    def __iter__(self):
+        return iter(self.li)
+    def __repr__(self) -> str:
+        return repr(self.li)

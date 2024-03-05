@@ -112,7 +112,10 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
 
     for rel in relationships:
         attr_to_entity = relating_attr_matrix.get(rel.is_a())
-        attr_to_other = related_attr_matrix.get(rel.is_a())
+        attr_to_other = {0: v for k, v in related_attr_matrix.items() if rel.is_a(k)}.get(0)
+
+        assert attr_to_entity
+        assert attr_to_other
 
         if dir1:
             attr_to_entity, attr_to_other = attr_to_other, attr_to_entity
@@ -131,12 +134,11 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
         if v := {inst} & to_entity:
             if tail:
                 instances.extend(to_other)
-                yield ValidationOutcome(instance_id=tuple(to_other), severity=OutcomeSeverity.PASSED)
             else:
-                instances.extend(to_other)
-                yield ValidationOutcome(instance_id=tuple(v), severity=OutcomeSeverity.PASSED)
+                instances.extend(v)
 
-
+    if instances:
+        yield ValidationOutcome(instance_id=instances, severity=OutcomeSeverity.PASSED)
     if not instances and required:
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 

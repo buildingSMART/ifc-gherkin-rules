@@ -377,4 +377,6 @@ def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) ->
                 return tag
         return ValidationOutcomeCode.N00010  # Default outcome code if none is found
     except:
-        pass
+        # tfk: we need to return something:
+        # > HOOK-ERROR in after_scenario: IntegrityError: null value in column "outcome_code" of relation "ifc_validation_outcome" violates not-null constraint
+        return ValidationOutcomeCode.VALUE_ERROR

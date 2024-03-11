@@ -61,15 +61,20 @@ def count_segments(logic, representation):
     and geometry representation.
     """
     try:
-        logic_count = len(logic.segments)
+        expected_count = 0
+        for seg in logic.segments:
+            if seg.PredefinedType == "HELMERTCURVE":
+                expected_count += 2
+            else:
+                expected_count += 1
     except AttributeError:
-        logic_count = None
+        expected_count = None
     try:
         rep_count = len(representation.segments)
     except AttributeError:
         rep_count = None
 
-    return logic_count, rep_count
+    return expected_count, rep_count
 
 
 @gherkin_ifc.step(
@@ -131,7 +136,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
 
 
 @gherkin_ifc.step(
-    'The layout must have the same number of segments as the shape representation')
+    'The representation must have the correct number of segments indicated by the layout')
 def step_impl(context, inst):
     for layout_ent in context.instances:
         for rel in layout_ent.Nests:

@@ -26,9 +26,28 @@ def step_impl(context, inst, constraint, num, entity):
             yield ValidationOutcome(inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('There must be {num:d} representation item(s)')
-def step_impl(context, inst, num):
+@gherkin_ifc.step("A representation must have 2 items for PredefinedType of HELMERTCURVE and 1 item for all other values of PredefinedType")
+def step_impl(context, inst):
     if inst is not None:
-        for v in inst:
-            if len(v) != num:
-                yield ValidationOutcome(inst=inst, observed=v, severity=OutcomeSeverity.ERROR)
+        predefined_type = inst.DesignParameters.PredefinedType
+        prod_def = inst.Representation
+        if prod_def is not None:
+            for shape_rep in prod_def.Representations:
+                rep_items = list()
+                for itm in shape_rep.Items:
+                    rep_items.append(itm)
+
+                if predefined_type == "HELMERTCURVE":
+                    expected_count = 2
+                else:
+                    expected_count = 1
+
+                observed_count = len(rep_items)
+
+                if observed_count != expected_count:
+                    yield ValidationOutcome(
+                        inst=inst,
+                        observed=observed_count,
+                        expected=expected_count,
+                        severity=OutcomeSeverity.ERROR
+                    )

@@ -138,42 +138,41 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
 @gherkin_ifc.step(
     'The representation must have the correct number of segments indicated by the layout')
 def step_impl(context, inst):
-    for layout_ent in context.instances:
-        for rel in layout_ent.Nests:
-            ent = rel.RelatingObject
-            if ent.is_a() == "IfcAlignment":
-                align = ifc43x_alignment_validation.entities.Alignment().from_entity(ent)
+    for rel in inst.Nests:
+        ent = rel.RelatingObject
+        if ent.is_a() == "IfcAlignment":
+            align = ifc43x_alignment_validation.entities.Alignment().from_entity(ent)
 
-                match inst.is_a():
-                    case "IfcAlignmentHorizontal":
-                        logic_count, rep_count = count_segments(
-                            logic=align.horizontal,
-                            representation=align.composite_curve,
-                        )
-                    case "IfcAlignmentVertical":
-                        logic_count, rep_count = count_segments(
-                            logic=align.vertical,
-                            representation=align.gradient_curve,
-                        )
-                    case "IfcAlignmentCant":
-                        logic_count, rep_count = count_segments(
-                            logic=align.cant,
-                            representation=align.segmented_reference_curve,
-                        )
-                    case _:
-                        msg = f"Invalid type '{inst.is_a()}'. "
-                        msg += "Should be 'IfcAlignmentHorizontal', 'IfcAlignmentVertical', or 'IfcAlignmentCant'."
+            match inst.is_a():
+                case "IfcAlignmentHorizontal":
+                    expected_count, rep_count = count_segments(
+                        logic=align.horizontal,
+                        representation=align.composite_curve,
+                    )
+                case "IfcAlignmentVertical":
+                    expected_count, rep_count = count_segments(
+                        logic=align.vertical,
+                        representation=align.gradient_curve,
+                    )
+                case "IfcAlignmentCant":
+                    expected_count, rep_count = count_segments(
+                        logic=align.cant,
+                        representation=align.segmented_reference_curve,
+                    )
+                case _:
+                    msg = f"Invalid type '{inst.is_a()}'. "
+                    msg += "Should be 'IfcAlignmentHorizontal', 'IfcAlignmentVertical', or 'IfcAlignmentCant'."
 
-                        raise NameError(msg)
+                    raise NameError(msg)
 
-                if logic_count != rep_count:
-                    # account for alignment that has business logic only
-                    # or contains representation only
-                    logic_only = (logic_count is not None) and (rep_count is None)
-                    rep_only = (logic_count is None) and (rep_count is not None)
-                    if not (logic_only or rep_only):
-                        observed_msg = f"{logic_count} segments in business logic and "
-                        observed_msg += f"{rep_count} segments in representation"
-                        yield ValidationOutcome(inst=inst, expected="same count of segments",
-                                                observed=observed_msg,
-                                                severity=OutcomeSeverity.ERROR)
+            if expected_count != rep_count:
+                # account for alignment that has business logic only
+                # or contains representation only
+                logic_only = (expected_count is not None) and (rep_count is None)
+                rep_only = (expected_count is None) and (rep_count is not None)
+                if not (logic_only or rep_only):
+                    observed_msg = f"{expected_count} segments in business logic and "
+                    observed_msg += f"{rep_count} segments in representation"
+                    yield ValidationOutcome(inst=inst, expected="same count of segments",
+                                            observed=observed_msg,
+                                            severity=OutcomeSeverity.ERROR)

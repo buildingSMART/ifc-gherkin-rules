@@ -4,6 +4,7 @@ These tests validate a matching count of segments for the business logic and the
 
 | File name                                                    | Expected result | Error log / further info                                       |
 |--------------------------------------------------------------|-----------------|----------------------------------------------------------------|
+| fail-ala002-scenario01-helmert_curve.ifc                     | E00040          | Helmert curve segment #30 has a single geometry representation |
 | fail-ala002-scenario01-segment_count_horizontal_geometry.ifc | E00040          | 2 fewer segments in horizontal geometry representation         |
 | fail-ala002-scenario01-segment_count_horizontal_logic.ifc    | E00040          | 2 fewer segments in horizontal business logic                  |
 | fail-ala002-scenario02-segment_count_vertical_geometry.ifc   | E00040          | 2 fewer segments in vertical geometry representation           |

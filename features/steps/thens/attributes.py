@@ -73,11 +73,11 @@ def step_impl(context, inst, field, file_or_model, values):
     if field == "Schema Identifier":
         s = context.model.schema_identifier
         if not s.lower() in values:
-            yield ValidationOutcome(inst=inst, expected=values, observed=s, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected=[v.upper() for v in values], observed=misc.do_try(s.upper(), s), severity=OutcomeSeverity.ERROR)
     elif field == "Schema" and not context.model.schema in values:
         s = context.model.schema
         if not s.lower() in values:
-            yield ValidationOutcome(inst=inst, expected=values, observed=s, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected=[v.upper() for v in values], observed=misc.do_try(s.upper(), s), severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('The {length_attribute} of the final {segment_type} must be 0')

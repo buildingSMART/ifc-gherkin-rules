@@ -321,6 +321,8 @@ class ValidationGraph:
                     parent_curve_label = (
                         f"ClothoidConstant:{parent_curve.ClothoidConstant:.4f}"
                     )
+                else:
+                    parent_curve_label = ""
 
                 parent_curve_node = self._entity_node(
                     parent_curve, label=parent_curve_label
@@ -412,16 +414,14 @@ class ValidationGraph:
                 graph=graph, parent_node=horiz_node, entity=align.horizontal._elem
             )
 
-        if not align.verticals is None:
-            vert_nodes = list()
+        if not align.vertical is None:
 
-            for idx, vert in enumerate(align.verticals):
-                vert_nodes.append(self._entity_node(vert._elem, label=vert._elem.Name))
-                graph.add_node(vert_nodes[idx])
-                valgn_cluster.add_node(vert_nodes[idx])
-                self._add_business_logic_segments(
-                    graph=graph, parent_node=vert_nodes[idx], entity=vert._elem
-                )
+            vert_node = self._entity_node(align.vertical._elem, label=align.vertical._elem.Name)
+            graph.add_node(vert_node)
+            valgn_cluster.add_node(vert_node)
+            self._add_business_logic_segments(
+                graph=graph, parent_node=vert_node, entity=align.vertical._elem
+            )
 
         if not align.cant is None:
             cant_node = self._entity_node(align.cant._elem, label=align.cant._elem.Name)

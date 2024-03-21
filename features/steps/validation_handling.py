@@ -209,6 +209,12 @@ def handle_given(context, fn, **kwargs):
             context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs)
                                                                                                                                                         for inst in context.instances))))
 
+def safe_method_call(obj, method_name, default=None ):
+    method = getattr(obj, method_name, None)
+    if callable(method):
+        return method()
+    return default
+
 def handle_then(context, fn, **kwargs):
     instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
@@ -230,7 +236,7 @@ def handle_then(context, fn, **kwargs):
     for i, inst in enumerate(instances):
         activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
         if isinstance(activation_inst, ifcopenshell.file):
-            activation_inst = context.model.by_type("IfcRoot")[0] # in case of blocking IFC001 check
+            activation_inst = None # in case of blocking IFC101 check, for safety set explicitly to None
         step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
         for result in step_results:
             validation_outcome = ValidationOutcome(
@@ -240,7 +246,7 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                instance_id = activation_inst.id(),
+                instance_id = safe_method_call(activation_inst, 'id', None),
                 validation_task_id=context.validation_task_id
             )
             context.gherkin_outcomes.append(validation_outcome)
@@ -254,7 +260,7 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.PASSED,
-                instance_id = activation_inst.id(),
+                instance_id = safe_method_call(activation_inst, 'id', None),
                 validation_task_id=context.validation_task_id
             )
             context.gherkin_outcomes.append(validation_outcome)

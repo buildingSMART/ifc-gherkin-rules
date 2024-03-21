@@ -60,18 +60,18 @@ def count_segments(logic, representation):
     Used in ALA002 to return count of segments for business logic
     and geometry representation.
     """
-    try:
+    if logic is not None:
         expected_count = 0
         for seg in logic.segments:
             if seg.PredefinedType == "HELMERTCURVE":
                 expected_count += 2
             else:
                 expected_count += 1
-    except AttributeError:
+    else:
         expected_count = None
-    try:
+    if representation is not None:
         rep_count = len(representation.segments)
-    except AttributeError:
+    else:
         rep_count = None
 
     return expected_count, rep_count

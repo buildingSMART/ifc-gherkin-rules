@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from enum import Enum
 import math
+from typing import Dict
 from typing import List
 
 import ifcopenshell
@@ -84,7 +84,7 @@ class CircularArc(VerticalCurve):
 
         # extreme point (high / low)
         self._Xt = (
-            self._direction.value * (-self._g1 * self._R) / math.sqrt(1 + self._g1**2)
+                self._direction.value * (-self._g1 * self._R) / math.sqrt(1 + self._g1 ** 2)
         )
         self._Zt = self.z_at_distance(self._Xt)
 
@@ -99,9 +99,9 @@ class CircularArc(VerticalCurve):
         ym = self._R / math.sqrt(1 + (self._g1) ** 2)
 
         num = self._g1 * self._R
-        denom = (1 + self._g1**2) ** 0.5
+        denom = (1 + self._g1 ** 2) ** 0.5
         z_term3 = self._R / denom
-        r2 = self._R**2
+        r2 = self._R ** 2
 
         if self._direction == VerticalCurveDirection.SAG:
             z_term2 = (u + (num / denom)) ** 2
@@ -161,9 +161,9 @@ class ParabolicArc(VerticalCurve):
         Ref: https://en.wikibooks.org/wiki/Fundamentals_of_Transportation/Vertical_Curves
         """
         return (
-            self._pvc_elevation
-            + self._g1 * u
-            + (((self._g2 - self._g1) * u**2) / (2 * self._length))
+                self._pvc_elevation
+                + self._g1 * u
+                + (((self._g2 - self._g1) * u ** 2) / (2 * self._length))
         )
 
     @property
@@ -234,8 +234,11 @@ class AlignmentVertical:
     def __init__(self):
         self._segments = list()
         self._end_distance = 0.0
+        self._expected_segment_geometry_types = list()
+        self._elem = None
 
     def from_entity(self, elem: ifcopenshell.entity_instance):
+        from .helpers import expected_segment_geometry_types
         self._elem = elem
         for rel in elem.IsNestedBy:
             for child in rel.RelatedObjects:
@@ -260,6 +263,8 @@ class AlignmentVertical:
                 self._end_distance = vs.StartDistAlong + vs.HorizontalLength
                 self._segments.append(vs)
 
+        self._expected_segment_geometry_types = expected_segment_geometry_types(self)
+
         return self
 
     @property
@@ -273,3 +278,11 @@ class AlignmentVertical:
     @property
     def entity(self) -> entity_instance:
         return self._elem
+
+    @property
+    def expected_segment_geometry_types(self) -> List[Dict]:
+        """
+        Describes the expected types of the corresponding segments in the representation geometry
+        for validation purposes.
+        """
+        return self._expected_segment_geometry_types

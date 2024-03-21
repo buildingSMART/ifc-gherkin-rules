@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Dict
 from typing import List
 
 import ifcopenshell
@@ -55,14 +56,17 @@ class AlignmentCant:
 
     def __init__(self, RailHeadDistance: float = None):
         self._segments = list()
+        self._expected_segment_geometry_types = list()
         if RailHeadDistance is None:
             self._rail_head_distance = 0.0
         else:
             self._rail_head_distance = RailHeadDistance
+        self._elem = None
+        self._length = 0
 
     def from_entity(self, elem: ifcopenshell.entity_instance):
+        from .helpers import expected_segment_geometry_types
         self._elem = elem
-        self._length = 0
         self._rail_head_distance = elem.RailHeadDistance
 
         for rel in elem.IsNestedBy:
@@ -86,6 +90,8 @@ class AlignmentCant:
                 )
                 self._segments.append(cs)
 
+        self._expected_segment_geometry_types = expected_segment_geometry_types(self)
+
         return self
 
     @property
@@ -99,3 +105,11 @@ class AlignmentCant:
     @property
     def entity(self) -> entity_instance:
         return self._elem
+
+    @property
+    def expected_segment_geometry_types(self) -> List[Dict]:
+        """
+        Describes the expected types of the corresponding segments in the representation geometry
+        for validation purposes.
+        """
+        return self._expected_segment_geometry_types

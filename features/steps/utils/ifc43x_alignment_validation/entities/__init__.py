@@ -1,4 +1,3 @@
-from enum import Enum
 
 from .IfcAlignment import Alignment
 from .IfcAlignmentCant import AlignmentCant
@@ -8,5 +7,8 @@ from .IfcAlignmentHorizontal import AlignmentHorizontalSegment
 from .IfcAlignmentSegment import AlignmentSegment
 from .IfcAlignmentVertical import AlignmentVertical
 from .IfcAlignmentVertical import AlignmentVerticalSegment
+from .IfcCompositeCurve import CompositeCurve
 from .IfcCompositeCurveSegment import CompositeCurveSegment
 from .IfcCurveSegment import CurveSegment
+from .IfcGradientCurve import GradientCurve
+from .IfcSegmentedReferenceCurve import SegmentedReferenceCurve

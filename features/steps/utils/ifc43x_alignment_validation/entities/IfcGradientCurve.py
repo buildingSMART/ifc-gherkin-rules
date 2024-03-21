@@ -22,6 +22,8 @@ class GradientCurve:
     BaseCurve: entity_instance = None
     EndPoint: entity_instance = None
     segments: List[CurveSegment] = field(default_factory=list)
+    _segment_types: List[str] = field(default_factory=list)
+    _elem: ifcopenshell.entity_instance = None
 
     def from_entity(self, elem: ifcopenshell.entity_instance):
         self._elem = elem
@@ -32,9 +34,17 @@ class GradientCurve:
             self.Segments.append(seg)
             cs = CurveSegment().from_entity(seg)
             self.segments.append(cs)
+            self._segment_types.append(seg.is_a().upper())
 
         return self
 
     @property
     def entity(self) -> ifcopenshell.entity_instance:
         return self._elem
+
+    @property
+    def segment_types(self) -> List[str]:
+        """
+        Describes the observed types of the representation segments for validation purposes.
+        """
+        return self._segment_types

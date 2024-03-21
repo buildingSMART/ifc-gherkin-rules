@@ -1,6 +1,8 @@
 import operator
 
 from behave import register_type
+from functools import lru_cache
+from typing import List
 
 import ifcopenshell.entity_instance
 
@@ -70,6 +72,57 @@ def count_segments(logic, representation):
         rep_count = None
 
     return logic_count, rep_count
+
+
+@lru_cache
+def expected_segment_geometry_types(logic_predefined_type) -> List[str]:
+    """
+    Used in ALA003 to return the expected entity type of an alignment segment representation.
+
+    :param logic_predefined_type: PredefinedType attribute of business logic alignment segment
+    :type logic_predefined_type: Union[IfcAlignmentHorizontalSegmentTypeEnum, IfcAlignmentVerticalSegmentTypeEnum, IfcAlignmentCantSegmentTypeEnum]
+    """
+    match logic_predefined_type:
+        case "BLOSSCURVE":
+            return ["IfcThirdOrderPolynomialSpiral"]
+        case "CIRCULARARC":
+            return ["IfcCircle"]
+        case "CLOTHOID":
+            return ["IfcClothoid"]
+        case "COSINECURVE":
+            return ["IfcCosineSpiral"]
+        case "CUBIC":
+            return ["IfcPolynomialCurve"]
+        case "HELMERTCURVE":
+            return ["IfcSecondOrderPolynomialSpiral"]
+        case "LINE":
+            return ["IfcLine", "IfcPolyline"]
+        case "LINEARTRANSITION":
+            return ["IfcLine"]
+        case "SINECURVE":
+            return ["IfcSineSpiral"]
+        case "VIENNESEBEND":
+            return ["IfcSeventhOrderPolynomialSpiral"]
+        # Applicable to vertical only:
+        case "CONSTANTGRADIENT":
+            return ["IfcLine"]
+        case "PARABOLIC":
+            return ["IfcPolynomialCurve"]
+        # Applicable to cant only:
+        case "CONSTANTCANT":
+            return ["IfcLine"]
+        case _:
+            msg = f"Unrecognized PredefinedType '{logic_predefined_type}'."
+            raise ValueError(msg)
+
+
+def ala003_error_outcome(inst, logic_segment: ifcopenshell.entity_instance,
+                         rep_segment: ifcopenshell.entity_instance) -> ValidationOutcome:
+    expected_types = expected_segment_geometry_types(logic_segment.PredefinedType)
+    expected = {"oneOf": expected_types}
+    observed_msg = f"Business Logic Segment PredefinedType '{logic_segment.PredefinedType}' corresponds to "
+    observed_msg += f"Representation by '{rep_segment.is_a()}'."
+    return ValidationOutcome(inst=inst, expected=expected, observed=observed_msg, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step(
@@ -172,3 +225,84 @@ def step_impl(context, inst):
                         yield ValidationOutcome(inst=inst, expected="same count of segments",
                                                 observed=observed_msg,
                                                 severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step(
+    'Each segment in the layout must have the same geometry type as its corresponding segment in the shape representation')
+def step_impl(context, inst):
+    # work back up the nesting tree to obtain the alignment
+    align = None
+    layout_entity_types = [
+        "IFCALIGNMENTHORIZONTAL",
+        "IFCALIGNMENTVERTICAL",
+        "IFCALIGNMENTCANT",
+    ]
+    for rel in inst.Nests:
+        layout = rel.RelatingObject
+        if layout.is_a().upper() in layout_entity_types:
+            for rel2 in layout.Nests:
+                align_ent = rel2.RelatingObject
+                if align_ent.is_a() == "IfcAlignment":
+                    align = ifc43x_alignment_validation.entities.Alignment().from_entity(align_ent)
+
+    if align is None:
+        msg = f"Error processing instance {str(inst)}. "
+        msg += "Expected an IfcAlignmentSegment nested 2 levels below an IfcAlignment."
+        raise ValueError(msg)
+
+    for idx, align_segment in enumerate(context.instances):
+
+        logic_segment = align_segment.DesignParameters
+        match logic_segment.is_a():
+            case "IfcAlignmentHorizontalSegment":
+                try:
+                    rep_segment = align.composite_curve.segments[idx].entity.ParentCurve
+                except AttributeError:
+                    try:
+                        segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
+                        rep_segment = segment.representation.ParentCurve
+                    except AttributeError:
+                        # no representation for this segment - move to next
+                        continue
+
+            case "IfcAlignmentVerticalSegment":
+                try:
+                    rep_segment = align.gradient_curve.segments[idx].entity.ParentCurve
+                except AttributeError:
+                    try:
+                        segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
+                        rep_segment = segment.representation.ParentCurve
+                    except AttributeError:
+                        # no representation for this segment - move to next
+                        continue
+
+            case "IfcAlignmentCantSegment":
+                try:
+                    rep_segment = align.segmented_reference_curve.segments[idx].entity.ParentCurve
+                except AttributeError:
+                    try:
+                        segment = ifc43x_alignment_validation.entities.AlignmentSegment().from_entity(align_segment)
+                        rep_segment = segment.representation.ParentCurve
+                    except AttributeError:
+                        # no representation for this segment - move to next
+                        continue
+
+            case _:
+                msg = f"Invalid type '{inst.is_a()}'. "
+                msg += "Should be 'IfcAlignmentHorizontal', 'IfcAlignmentVertical', or 'IfcAlignmentCant'."
+
+                raise NameError(msg)
+
+        if rep_segment.is_a() not in expected_segment_geometry_types(logic_segment.PredefinedType):
+            """
+            yield ala003_error_outcome(
+                inst=inst,
+                logic_segment=logic_segment,
+                rep_segment=rep_segment
+            )
+            """
+            expected_types = expected_segment_geometry_types(logic_segment.PredefinedType)
+            expected = {"oneOf": expected_types}
+            observed_msg = f"Business Logic Segment PredefinedType '{logic_segment.PredefinedType}' corresponds to "
+            observed_msg += f"Representation by '{rep_segment.is_a()}'."
+            yield ValidationOutcome(inst=inst, expected=expected, observed=observed_msg, severity=OutcomeSeverity.ERROR)

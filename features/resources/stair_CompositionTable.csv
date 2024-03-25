@@ -2,7 +2,3 @@ ApplicableEntity,RelatingObject
 IfcRailing,IfcStair
 IfcSlab,IfcStair
 IfcStairFlight,IfcStair
-IfcBeam,IfcStair
-IfcMember,IfcStair
-IfcRoof,IfcStair
-IfcWall,IfcStair

@@ -29,6 +29,8 @@ class CurveSegment(Segment):
     SegmentStart: entity_instance = None
     SegmentLength: entity_instance = None
     ParentCurve: entity_instance = None
+    _segment_type: str = None
+    _elem: entity_instance = None
 
     def from_entity(self, elem):
         self._elem = elem
@@ -37,9 +39,14 @@ class CurveSegment(Segment):
         self.SegmentStart = elem.SegmentStart
         self.SegmentLength = elem.SegmentLength
         self.ParentCurve = elem.ParentCurve
+        self._segment_type = elem.ParentCurve.is_a().upper()
 
         return self
 
     @property
     def entity(self) -> entity_instance:
         return self._elem
+
+    @property
+    def segment_type(self) -> str:
+        return self._segment_type

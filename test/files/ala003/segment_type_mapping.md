@@ -21,7 +21,7 @@
 | CIRCULARARC                                             | `IfcCircle`           | See [Horizontal Segment Types](#horizontal-segment-types) |
 | CLOTHOID                                                | `IfcClothoid`         | See [Horizontal Segment Types](#horizontal-segment-types) |
 | CONSTANTGRADIENT                                        | `IfcLine`             |                                                           |
-| PARABOLIC                                               | `IfcPolynomialCurve`  | [4.2.2.2.8 Parabolic Transition Segment][parabolic]       |
+| PARABOLICARC                                            | `IfcPolynomialCurve`  | [4.2.2.2.8 Parabolic Transition Segment][parabolic]       |
 
 ## Cant Segment Types
 
@@ -47,6 +47,8 @@ utilize `IfcClothoid` for this cant segment type.
 The use of `IfcClothoid` is also consistent with reference code from the IFC-Rail room,
 particularly the [EnrichIFC4x3][enrich_4x3] utility that can be used to generate
 an alignment geometry representation from an IFC model that contains business logic only.
+
+See additional discussion in IFC4.x Implementer Forum [Issue # 145][IFC4.x-IF#145].
 
 [horiz_enums]: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/lexical/IfcAlignmentHorizontalSegmentTypeEnum.htm
 
@@ -77,3 +79,5 @@ an alignment geometry representation from an IFC model that contains business lo
 [linear-placement-of-signal]: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/annex_e/alignment-geometries-and-linear-positioning/linear-placement-of-signal.html
 
 [enrich_4x3]: https://github.com/bSI-RailwayRoom/IFC-Rail-Unit-Test-Reference-Code/blob/6975595f84da8b78afb68f8ac97062732315aaf1/EnrichIFC4x3/EnrichIFC4x3/business2geometry/ifcalignmentcant.h#L428
+
+[IFC4.x-IF#145]: https://github.com/buildingSMART/IFC4.x-IF/issues/145

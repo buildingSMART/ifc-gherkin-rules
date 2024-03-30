@@ -2,6 +2,7 @@ from behave import register_type
 import itertools
 from typing import Dict
 from typing import List
+from typing import Union
 
 import ifcopenshell.entity_instance
 
@@ -78,41 +79,102 @@ def count_segments(logic, representation):
     return expected_count, rep_count
 
 
-def ala003_error_outcome(inst, logic_segment: ifcopenshell.entity_instance,
-                         rep_segment: ifcopenshell.entity_instance) -> ValidationOutcome:
-    expected_types = expected_segment_geometry_types(logic_segment.PredefinedType)
-    expected = {"oneOf": expected_types}
-    observed_msg = f"Business Logic Segment PredefinedType '{logic_segment.PredefinedType}' corresponds to "
-    observed_msg += f"Representation by '{rep_segment.is_a()}'."
-    return ValidationOutcome(inst=inst, expected=expected, observed=observed_msg, severity=OutcomeSeverity.ERROR)
+def check_segment_geometry_type(exp_type: Dict, obs_type: str) -> bool:
+    k, v = exp_type.keys(), exp_type.values()
+
+    def fn_exactly():
+        if obs_type in v:
+            return True
+
+    if "OneOf" in k:
+        # there is more than one valid representation type for this logic segment PredefinedType
+        if obs_type in exp_type["OneOf"]:
+            return True
+    elif "Exactly" in k:
+        return fn_exactly()
+    elif "multiple" in k:
+        opts = exp_type["multiple"]
+        for opt in opts:
+            k, v = opt.keys(), opt.values()
+            if "Exactly" in k:
+                return fn_exactly()
+
+    return False
 
 
 def check_segment_geometry_types(expected_types: List[Dict], observed_types: List[str]) -> List[bool]:
     """
-    Used in ALA003 to iterate over segments of a layout and its representation to confirm
-    that the geometry types (e.g. Line, Clothoid, Circle) are in agreement.
+    Used in ALA003 to confirm agreement of segment geometry types between business logic
+    and geometry representation.
+
+    :param expected_types: The expected segment geometry types based on the segments in the alignment business logic
+    :param observed_types: The observed segment geometry types based on the segment(s) in the shape representation
     """
     is_valid = list()
-    valid = False
 
     # confirm that both lists have the same number of items
     if len(expected_types) != len(observed_types):
         return [False]
     else:
         for expected_type, observed_type in zip(expected_types, observed_types):
-            k = expected_type.keys()
-            v = expected_type.values()
-
-            if ("OneOf" in k) or ("Exactly" in k):
-                if observed_type in v:
-                    valid = True
-                else:
-                    valid = False
-
-            is_valid.append(valid)
+            is_valid.append(check_segment_geometry_type(expected_type, observed_type))
 
         return is_valid
 
+
+def pretty_print_expected_geometry_type(spec: Dict, pretty: List[str]) -> List[str]:
+    """
+    Format the expected geometry types
+    """
+
+    pairs = [(k, v) for (k, v) in spec.items()]
+
+    def fn_exactly():
+        pretty.append(v)
+
+    for k, v in pairs:
+        match k:
+            case "Exactly":
+                fn_exactly()
+            case "OneOf":
+                opts = spec[k]
+                pretty.append(" or ".join(opts))
+            case "multiple":
+                opts = spec[k]
+                for o in opts:
+                    k, v = o.keys(), o.values()
+                    if k == "Exactly":
+                        fn_exactly()
+            case _:
+                pass
+
+    return pretty
+
+
+def pretty_print_expected_geometry_types(exp: List[Dict]) -> str:
+    """
+    Format the expected list of geometry types
+    """
+    pretty = list()
+
+    for d in exp:
+        pretty = pretty_print_expected_geometry_type(spec=d, pretty=pretty)
+
+    return ", ".join(pretty)
+
+
+def ala003_activation_inst(inst, context) -> Union[ifcopenshell.entity_instance | None]:
+    """
+    Used in ALA003 as reverse traversal of graph to locate the correct business logic entity
+    """
+    for candidate in context._stack[2]["instances"]:
+        if candidate is None:
+            return None
+        else:
+            for rep in candidate.Representations:
+                for item in rep.Items:
+                    if item.id() == inst[0][0].id():
+                        return candidate.ShapeOfProduct[0]
 
 @gherkin_ifc.step(
     'A representation by {ifc_rep_criteria} requires the {existence:absence_or_presence} of {entities} in the business logic')
@@ -178,7 +240,7 @@ def step_impl(context, inst):
     for rel in inst.Nests:
         ent = rel.RelatingObject
         if ent.is_a() == "IfcAlignment":
-            align = ifc43x_alignment_validation.entities.Alignment().from_entity(ent)
+            align = ifc43.entities.Alignment().from_entity(ent)
 
             match inst.is_a():
                 case "IfcAlignmentHorizontal":
@@ -215,35 +277,89 @@ def step_impl(context, inst):
                                             severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step(
-    'Each segment must have the same geometry type as its corresponding segment in the shape representation')
-def step_impl(context, inst):
-    # flatten the tuple of tuples
-    instances = tuple(itertools.chain(*inst))
-    for rep in instances:
+@gherkin_ifc.step('Each segment must have the same geometry type as its corresponding {activation_phrase}')
+def step_impl(context, inst, activation_phrase):
+    if inst is not None:
+        # flatten the tuple of tuples and turn in to a list so that gradient curve can be added if necessary
+        instances = list(tuple(itertools.chain(*inst)))
+
         # retrieve activation instance entity from the attribute stack
-        align_ent = context._stack[2]["instances"][0].ShapeOfProduct[0]
-        align = ifc43.entities.Alignment().from_entity(align_ent)
+        activation_ent = ala003_activation_inst(inst, context)
+        if activation_ent is not None:
 
-        match rep.is_a().upper():
-            case "IFCCOMPOSITECURVE":
-                layout = align.horizontal
-                representation = ifc43.entities.CompositeCurve().from_entity(rep)
-            case "IFCGRADIENTCURVE":
-                layout = align.vertical
-                representation = ifc43.entities.GradientCurve().from_entity(rep)
-            case "IFCSEGMENTEDREFERENCECURVE":
-                layout = align.cant
-                representation = ifc43.entities.SegmentedReferenceCurve().from_entity(rep)
-            case _:
-                layout = None
-                representation = None
+            if activation_ent.is_a().upper() == "IFCALIGNMENT":
+                # ensure that all three representation types will be validated
+                for i in instances:
+                    if i.is_a().upper() in ["IFCSEGMENTEDREFERENCECURVE", "IFCGRADIENTCURVE"]:
+                        instances.append(i.BaseCurve)
+                # remove any duplicate entities
+                instances = set(instances)
 
-        exp = layout.expected_segment_geometry_types
-        obs = representation.segment_types
-        checks = check_segment_geometry_types(expected_types=exp, observed_types=obs)
+            for rep in instances:
+                match activation_phrase:
+                    case "segment in the applicable IfcAlignment layout":
+                        align = ifc43.entities.Alignment().from_entity(activation_ent)
+                        match rep.is_a().upper():
+                            case "IFCCOMPOSITECURVE":
+                                logic = align.horizontal
+                                representation = ifc43.entities.CompositeCurve().from_entity(rep)
+                            case "IFCGRADIENTCURVE":
+                                logic = align.vertical
+                                representation = ifc43.entities.GradientCurve().from_entity(rep)
+                            case "IFCSEGMENTEDREFERENCECURVE":
+                                logic = align.cant
+                                representation = ifc43.entities.SegmentedReferenceCurve().from_entity(rep)
+                            case _:
+                                logic = None
+                                representation = None
 
-        if False in checks:
-            yield ValidationOutcome(
-                inst=inst,
-                expected=exp, observed=obs, severity=OutcomeSeverity.ERROR)
+                    case "segment in the horizontal layout":
+                        logic = ifc43.entities.AlignmentHorizontal().from_entity(activation_ent)
+                        representation = ifc43.entities.CompositeCurve().from_entity(rep)
+
+                    case "segment in the vertical layout":
+                        logic = ifc43.entities.AlignmentVertical().from_entity(activation_ent)
+                        representation = ifc43.entities.GradientCurve().from_entity(rep)
+
+                    case "segment in the cant layout":
+                        logic = ifc43.entities.AlignmentCant().from_entity(activation_ent)
+                        representation = ifc43.entities.SegmentedReferenceCurve().from_entity(rep)
+
+                    case "alignment segment":
+                        logic = ifc43.entities.AlignmentSegment().from_entity(activation_ent)
+                        representation = ifc43.entities.CurveSegment().from_entity(rep)
+
+                    case _:
+                        logic = None
+                        representation = None
+
+                if (logic is not None) & (representation is not None):
+                    if activation_ent.is_a().upper() == "IFCALIGNMENTSEGMENT":
+                        # validating a single segment
+                        exp = logic.expected_segment_geometry_type
+                        obs = representation.segment_type
+
+                        valid = check_segment_geometry_type(exp, obs)
+                        expected_msg = "".join(pretty_print_expected_geometry_type(exp, pretty=list()))
+                        observed_msg = obs
+
+                    else:
+                        # validating a list of segments
+                        exp = logic.expected_segment_geometry_types
+                        obs = representation.segment_types
+
+                        checks = check_segment_geometry_types(exp, obs)
+                        expected_msg = pretty_print_expected_geometry_types(exp)
+                        observed_msg = ", ".join(representation.segment_types)
+                        if False in checks:
+                            valid = False
+                        else:
+                            valid = True
+
+                    if not valid:
+                        yield ValidationOutcome(
+                            inst=rep,
+                            expected=expected_msg,
+                            observed=observed_msg,
+                            severity=OutcomeSeverity.ERROR,
+                        )

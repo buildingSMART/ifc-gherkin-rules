@@ -43,7 +43,7 @@ def expected_segment_geometry_type(logic_predefined_type) -> Dict:
         # Applicable to vertical only:
         case "CONSTANTGRADIENT":
             return {"Exactly": "IfcLine".upper()}
-        case "PARABOLIC":
+        case "PARABOLICARC":
             return {"Exactly": "IfcPolynomialCurve".upper()}
         # Applicable to cant only:
         case "CONSTANTCANT":
@@ -63,7 +63,8 @@ def expected_segment_geometry_types(alignment_layout) -> List[
     for seg in alignment_layout.segments:
         expected = expected_segment_geometry_type(seg.PredefinedType)
         if "multiple" in expected.keys():
-            for v in expected.values():
+            vals = expected["multiple"]
+            for v in vals:
                 expected_types.append(v)
         else:
             expected_types.append(expected)

@@ -65,39 +65,6 @@ class AlignmentParameterSegment:
 
 
 @dataclass
-class AlignmentSegment:
-    """
-    IfcAlignmentSegment
-
-    5.4.3.4
-    https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcAlignmentSegment.htm
-    """
-
-    GlobalId: str = None
-    OwnerHistory: ifcopenshell.entity_instance = None
-    Name: str = None
-    Description: str = None
-    ObjectType: str = None
-    ObjectPlacement: entity_instance = None
-    Representation: entity_instance = None
-    DesignParameters: AlignmentParameterSegment = None
-
-    def from_entity(self, elem: ifcopenshell.entity_instance):
-        self._elem = elem
-        self.GlobalId = elem.GlobalId
-        self.OwnerHistory = elem.OwnerHistory
-        self.Name = elem.Name
-        self.Description = elem.Description
-        self.ObjectType = elem.ObjectType
-        self.ObjectPlacement = elem.ObjectPlacement
-        self.Representation = elem.Representation
-
-    @property
-    def entity_instance(self) -> entity_instance:
-        return self._elem
-
-
-@dataclass
 class BoundedCurve:
     """
     IfcBoundedCurve
@@ -151,11 +118,11 @@ class ValidationGraph:
         return rel_label
 
     def _add_business_logic_segments(
-        self,
-        graph: pydot.Graph,
-        parent_node: pydot.Node,
-        entity: ifcopenshell.entity_instance,
-        cluster: pydot.Cluster = None,
+            self,
+            graph: pydot.Graph,
+            parent_node: pydot.Node,
+            entity: ifcopenshell.entity_instance,
+            cluster: pydot.Cluster = None,
     ) -> None:
         """
         Adds the segment decomposition for business logic elements:
@@ -213,7 +180,7 @@ class ValidationGraph:
                     dp_label = f"SegmentLength:{dp.SegmentLength:.4f}"
                     dp_label += f"\nPredefinedType:{dp.PredefinedType}"
                 elif (dp.is_a() == "IfcAlignmentVerticalSegment") or (
-                    dp.is_a() == "IfcAlignmentCantSegment"
+                        dp.is_a() == "IfcAlignmentCantSegment"
                 ):
                     dp_label = f"StartDistAlong:{dp.StartDistAlong:.4f}"
                     dp_label += f"\nHorizontalLength:{dp.HorizontalLength:.4f}"
@@ -276,10 +243,10 @@ class ValidationGraph:
                                 )
 
     def _add_rep_curve_segments(
-        self,
-        graph: pydot.Graph,
-        parent_node: pydot.Node,
-        entity: ifcopenshell.entity_instance,
+            self,
+            graph: pydot.Graph,
+            parent_node: pydot.Node,
+            entity: ifcopenshell.entity_instance,
     ) -> None:
         """
         Adds the segment decomposition for representation elements:

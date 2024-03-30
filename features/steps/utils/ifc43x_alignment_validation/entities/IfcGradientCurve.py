@@ -34,7 +34,7 @@ class GradientCurve:
             self.Segments.append(seg)
             cs = CurveSegment().from_entity(seg)
             self.segments.append(cs)
-            self._segment_types.append(seg.is_a().upper())
+            self._segment_types.append(seg.ParentCurve.is_a().upper())
 
         return self
 

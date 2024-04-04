@@ -245,7 +245,7 @@ def handle_then(context, fn, **kwargs):
                 expected=expected_behave_output(context, result.expected),
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
+                severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
                 instance_id = safe_method_call(activation_inst, 'id', None),
                 validation_task_id=context.validation_task_id
             )

@@ -34,7 +34,7 @@ def before_feature(context, feature):
     Scenario.continue_after_failed_step = False
     context.gherkin_outcomes = []
 
-    if eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
+    if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
         ifc_filename_incl_path = context.config.userdata.get('input')
         convention_attrs = {
             'ifc_filename' : os.path.basename(ifc_filename_incl_path),
@@ -95,23 +95,23 @@ def after_scenario(context, feature):
 
         outcomes_to_save = reduce_db_outcomes(context.gherkin_outcomes)
 
-        if outcomes_to_save:
+        if outcomes_to_save and context.validation_task_id is not None:
             retrieved_task = ValidationTask.objects.get(id=context.validation_task_id)
             retrieved_model = retrieved_task.request.model
 
-        for outcome_to_save in outcomes_to_save:
-            if outcome_to_save.severity in [OutcomeSeverity.PASSED, OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]:
-                instance = ModelInstance.objects.get_or_create(
-                    stepfile_id=outcome_to_save.instance_id,
-                    model_id=retrieved_model.id
-                )
+            for outcome_to_save in outcomes_to_save:
+                if outcome_to_save.severity in [OutcomeSeverity.PASSED, OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]:
+                    instance = ModelInstance.objects.get_or_create(
+                        stepfile_id=outcome_to_save.instance_id,
+                        model_id=retrieved_model.id
+                    )
 
-                validation_outcome = copy.copy(outcome_to_save) # copy made not to overwrite id parameter on object reference
-                validation_outcome.instance_id = instance[0].id # switch from stepfile_id to instance_id
-                validation_outcome.save()
+                    validation_outcome = copy.copy(outcome_to_save) # copy made not to overwrite id parameter on object reference
+                    validation_outcome.instance_id = instance[0].id # switch from stepfile_id to instance_id
+                    validation_outcome.save()
 
-            else:
-                outcome_to_save.save()
+                else:
+                    outcome_to_save.save()
 
     else: # invoked via console
         pass

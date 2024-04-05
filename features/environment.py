@@ -101,15 +101,16 @@ def after_scenario(context, feature):
 
             for outcome_to_save in outcomes_to_save:
                 if outcome_to_save.severity in [OutcomeSeverity.PASSED, OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]:
-                    instance = ModelInstance.objects.get_or_create(
-                        stepfile_id=outcome_to_save.instance_id,
-                        model_id=retrieved_model.id
-                    )
-
-                    validation_outcome = copy.copy(outcome_to_save) # copy made not to overwrite id parameter on object reference
-                    validation_outcome.instance_id = instance[0].id # switch from stepfile_id to instance_id
-                    validation_outcome.save()
-
+                    if outcome_to_save.instance_id is not None:
+                        instance = ModelInstance.objects.get_or_create(
+                            stepfile_id=outcome_to_save.instance_id,
+                            model_id=retrieved_model.id
+                        )
+                        validation_outcome = copy.copy(outcome_to_save) # copy made not to overwrite id parameter on object reference
+                        validation_outcome.instance_id = instance[0].id # switch from stepfile_id to instance_id
+                        validation_outcome.save()
+                    else:
+                        outcome_to_save.save()
                 else:
                     outcome_to_save.save()
 

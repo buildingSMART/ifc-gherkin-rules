@@ -128,8 +128,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
         directness_expected = decision == 'must'  # check if relationship is expected
         if directness_achieved != directness_expected:
             yield ValidationOutcome( inst=inst,
-                            observed = {"value":directness_achieved},
-                            expected = {"value":common_directness},
+                            observed = {"value": directness_achieved},
+                            expected = {"value": list(common_directness)},
                             severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('It must not be referenced by itself directly or indirectly')

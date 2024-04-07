@@ -259,30 +259,6 @@ def handle_then(context, fn, **kwargs):
     )
     context.gherkin_outcomes.append(validation_outcome)
 
-    def map_then_state(values, fn, context, **kwargs):
-        if isinstance(values, (tuple, list)):
-            return type(values)(map_then_state(v, fn, context, **kwargs) for v in values)
-        else:
-            return apply_then_operation(fn, values, context, **kwargs)
-        
-    def apply_then_operation(fn, inst, context, **kwargs):
-        activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
-        if isinstance(activation_inst, ifcopenshell.file):
-            activation_inst = None # in case of blocking IFC101 check, for safety set explicitly to None
-        step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
-        for result in step_results:
-            validation_outcome = ValidationOutcome(
-                outcome_code=get_outcome_code(result, context),
-                observed=expected_behave_output(context, result.observed),
-                expected=expected_behave_output(context, result.expected),
-                feature=context.feature.name,
-                feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                instance_id = safe_method_call(activation_inst, 'id', None),
-                validation_task_id=context.validation_task_id
-            )
-            context.gherkin_outcomes.append(validation_outcome)
-
     def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
             top_level_index = current_path[0] if current_path else None

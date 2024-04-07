@@ -17,6 +17,7 @@ def step_impl(context, inst, something, num):
 
 @gherkin_ifc.step("Its first and last point must be identical by reference")
 def step_impl(context, inst):
+    inst = misc.recursive_unpack_value(inst)
     points = geometry.get_points(inst, return_type='points')
     if points[0] != points[-1]:
         yield ValidationOutcome(inst=inst, observed=[points[0], points[-1]], severity=OutcomeSeverity.ERROR)

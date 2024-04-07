@@ -9,6 +9,6 @@ The rule verifies that the same coordinate system is used within an IFC model an
     Given A model with Schema "IFC4.3"
     Given All instances of IfcGeometricRepresentationContext without subtypes
     Given Its Attribute HasCoordinateOperation
-    Given Its values excluding SourceCRS for each
-
+    Given Its values excluding SourceCRS
+    
     Then The values must be identical

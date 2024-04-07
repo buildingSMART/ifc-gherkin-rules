@@ -75,7 +75,7 @@ def step_impl(context, inst, attribute, condition, prefix):
         if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')).startswith(prefix):
             yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
 
-@gherkin_ifc.step("Its attributes {attribute} for each")
+@gherkin_ifc.step("its attributes {attribute} for each")
 def step_impl(context, inst, attribute, tail="single"):
     if not inst:
         return None
@@ -90,7 +90,7 @@ def step_impl(context, inst):
     Implement ALS015
     This is a separate function from ALB015 because ALS015 needs to return an entity_instance.
     """
-    return [segments[-1] for curve in inst for segments in curve]
+    yield ValidationOutcome(instance_id = inst[-1], severity=OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step('Its final IfcAlignmentSegment')

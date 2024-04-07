@@ -26,9 +26,13 @@ def step_impl(context, inst, csv_file):
     dirname = os.path.dirname(__file__)
     filename = Path(dirname).parent.parent / "resources" / f"{csv_file}.csv"
     valid_values = [row[0] for row in csv.reader(open(filename))]
-    invalid_values = [value for value in inst if value not in valid_values]
-    for value in invalid_values:
-        yield ValidationOutcome(inst=inst, expected= valid_values, observed = value, severity=OutcomeSeverity.ERROR)
+    if isinstance(inst, (list, tuple)):
+        invalid_values = [value for value in inst if value not in valid_values]
+        for value in invalid_values:
+            yield ValidationOutcome(inst=inst, expected= valid_values, observed = value, severity=OutcomeSeverity.ERROR)
+    else:
+        if inst not in valid_values:
+            yield ValidationOutcome(inst=inst, expected= valid_values, observed = inst, severity=OutcomeSeverity.ERROR)
 
     return []
 
@@ -67,8 +71,14 @@ def step_impl(context, inst, constraint, num=None):
         for i, values in enumerate(instances):
             if not values:
                 continue
-            if constraint == 'identical' and not all([values[0] == i for i in values]):
-                yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
+            if constraint == 'identical':
+                if not all([values[0] == i for i in values]) or len(values) != len(misc.get_stack_tree(context)[-1]):
+                    """
+                    note for the last comparison; if the instances resulting from the first given statement are not the same as the instances resulting from the last given statement, 
+                    this means one of the values are None, which is not allowed in the GRF001 rule
+                    Option to adapt this dynamically in the future with more verbose given statements 
+                    """
+                    yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
             if constraint == 'unique':
                 seen = set()
                 duplicates = [x for x in values if x in seen or seen.add(x)]

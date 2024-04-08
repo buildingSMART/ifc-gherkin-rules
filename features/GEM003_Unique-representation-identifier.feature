@@ -10,6 +10,6 @@ The rule verifies that Shape Representation identifier is unique within the prod
     Given An IfcProduct
     Given Its attribute Representation
     Given Its attribute Representations
-    Given Its attributes RepresentationIdentifier for each
+    Given its attribute RepresentationIdentifier
 
     Then The values must be unique

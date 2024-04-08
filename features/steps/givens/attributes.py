@@ -74,17 +74,10 @@ def step_impl(context, inst, attribute, condition, prefix):
     elif condition == 'does not start':
         if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')).startswith(prefix):
             yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
-
-@gherkin_ifc.step("its attributes {attribute} for each")
-def step_impl(context, inst, attribute, tail="single"):
-    if not inst:
-        return None
-    if isinstance(inst, tuple):
-        return misc.map_state(inst, lambda i: getattr(i, attribute, None))
-    return tuple(getattr(item, attribute, None) for item in inst)
-
+            
 
 @gherkin_ifc.step('Its final segment')
+@gherkin_ifc.step('Its final segment at depth 1')
 def step_impl(context, inst):
     """
     Implement ALS015

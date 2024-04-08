@@ -11,4 +11,4 @@ The rule verifies that the same coordinate system is used within an IFC model an
     Given Its Attribute HasCoordinateOperation
     Given Its values excluding SourceCRS
     
-    Then The values must be identical
+    Then The values must be identical at depth 1

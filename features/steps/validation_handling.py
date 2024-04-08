@@ -229,7 +229,7 @@ def handle_given(context, fn, **kwargs):
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
         context._push() # for attribute stacking
-        if 'final segment' in context.step.name: 
+        if 'at depth 1' in context.step.name: 
             #todo @gh develop a more standardize approach
             context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=1, **kwargs)))
         else:
@@ -315,7 +315,7 @@ def handle_then(context, fn, **kwargs):
             return apply_then_operation(fn, items, context, **kwargs)
     plural_steps = ['the values must be identical']
     #todo @gh find a more standardized approach
-    map_then_state(instances, fn, context, depth = 1 if context.step.name.lower() in plural_steps else 0, **kwargs)
+    map_then_state(instances, fn, context, depth = 1 if 'at depth 1' in context.step.name.lower() else 0, **kwargs)
 
     # evokes behave error
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])

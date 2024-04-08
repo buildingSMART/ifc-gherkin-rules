@@ -58,7 +58,6 @@ def step_impl(context, inst, constraint, num):
 @gherkin_ifc.step("The {value} must {constraint:unique_or_identical}")
 @gherkin_ifc.step("The values must {constraint:unique_or_identical}")
 @gherkin_ifc.step("The values must {constraint:unique_or_identical} at depth 1")
-@gherkin_ifc.step("The {value} must {constraint:unique_or_identical} at depth 1")
 def step_impl(context, inst, constraint, num=None):
 
     within_model = getattr(context, 'within_model', False)

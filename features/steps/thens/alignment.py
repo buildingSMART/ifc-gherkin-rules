@@ -280,9 +280,6 @@ def step_impl(context, inst):
 @gherkin_ifc.step('Each segment must have the same geometry type as its corresponding {activation_phrase}')
 def step_impl(context, inst, activation_phrase):
     if inst is not None:
-        # flatten the tuple of tuples and turn in to a list so that gradient curve can be added if necessary
-        instances = list(tuple(itertools.chain(*inst)))
-
         # retrieve activation instance entity from the attribute stack
         activation_ent = ala003_activation_inst(inst, context)
         if activation_ent is not None:
@@ -291,76 +288,71 @@ def step_impl(context, inst, activation_phrase):
                 # ensure that all three representation types will be validated
                   if inst.is_a().upper() in ["IFCSEGMENTEDREFERENCECURVE", "IFCGRADIENTCURVE"]:
                     inst = inst.BaseCurve
-                    if i.is_a().upper() in ["IFCSEGMENTEDREFERENCECURVE", "IFCGRADIENTCURVE"]:
-                        instances.append(i.BaseCurve)
-                # remove any duplicate entities
-                instances = set(instances)
-
             
-                match activation_phrase:
-                    case "segment in the applicable IfcAlignment layout":
-                        align = ifc43.entities.Alignment().from_entity(activation_ent)
-                        match inst.is_a().upper():
-                            case "IFCCOMPOSITECURVE":
-                                logic = align.horizontal
-                                representation = ifc43.entities.CompositeCurve().from_entity(inst)
-                            case "IFCGRADIENTCURVE":
-                                logic = align.vertical
-                                representation = ifc43.entities.GradientCurve().from_entity(inst)
-                            case "IFCSEGMENTEDREFERENCECURVE":
-                                logic = align.cant
-                                representation = ifc43.entities.SegmentedReferenceCurve().from_entity(inst)
-                            case _:
-                                logic = None
-                                representation = None
+            match activation_phrase:
+                case "segment in the applicable IfcAlignment layout":
+                    align = ifc43.entities.Alignment().from_entity(activation_ent)
+                    match inst.is_a().upper():
+                        case "IFCCOMPOSITECURVE":
+                            logic = align.horizontal
+                            representation = ifc43.entities.CompositeCurve().from_entity(inst)
+                        case "IFCGRADIENTCURVE":
+                            logic = align.vertical
+                            representation = ifc43.entities.GradientCurve().from_entity(inst)
+                        case "IFCSEGMENTEDREFERENCECURVE":
+                            logic = align.cant
+                            representation = ifc43.entities.SegmentedReferenceCurve().from_entity(inst)
+                        case _:
+                            logic = None
+                            representation = None
 
-                    case "segment in the horizontal layout":
-                        logic = ifc43.entities.AlignmentHorizontal().from_entity(activation_ent)
-                        representation = ifc43.entities.CompositeCurve().from_entity(rep)
+                case "segment in the horizontal layout":
+                    logic = ifc43.entities.AlignmentHorizontal().from_entity(activation_ent)
+                    representation = ifc43.entities.CompositeCurve().from_entity(inst)
 
-                    case "segment in the vertical layout":
-                        logic = ifc43.entities.AlignmentVertical().from_entity(activation_ent)
-                        representation = ifc43.entities.GradientCurve().from_entity(inst)
+                case "segment in the vertical layout":
+                    logic = ifc43.entities.AlignmentVertical().from_entity(activation_ent)
+                    representation = ifc43.entities.GradientCurve().from_entity(inst)
 
-                    case "segment in the cant layout":
-                        logic = ifc43.entities.AlignmentCant().from_entity(activation_ent)
-                        representation = ifc43.entities.SegmentedReferenceCurve().from_entity(inst)
+                case "segment in the cant layout":
+                    logic = ifc43.entities.AlignmentCant().from_entity(activation_ent)
+                    representation = ifc43.entities.SegmentedReferenceCurve().from_entity(inst)
 
-                    case "alignment segment":
-                        logic = ifc43.entities.AlignmentSegment().from_entity(activation_ent)
-                        representation = ifc43.entities.CurveSegment().from_entity(inst)
+                case "alignment segment":
+                    logic = ifc43.entities.AlignmentSegment().from_entity(activation_ent)
+                    representation = ifc43.entities.CurveSegment().from_entity(inst)
 
-                    case _:
-                        logic = None
-                        representation = None
+                case _:
+                    logic = None
+                    representation = None
 
-                if (logic is not None) & (representation is not None):
-                    if activation_ent.is_a().upper() == "IFCALIGNMENTSEGMENT":
-                        # validating a single segment
-                        exp = logic.expected_segment_geometry_type
-                        obs = representation.segment_type
+            if (logic is not None) & (representation is not None):
+                if activation_ent.is_a().upper() == "IFCALIGNMENTSEGMENT":
+                    # validating a single segment
+                    exp = logic.expected_segment_geometry_type
+                    obs = representation.segment_type
 
-                        valid = check_segment_geometry_type(exp, obs)
-                        expected_msg = "".join(pretty_print_expected_geometry_type(exp, pretty=list()))
-                        observed_msg = obs
+                    valid = check_segment_geometry_type(exp, obs)
+                    expected_msg = "".join(pretty_print_expected_geometry_type(exp, pretty=list()))
+                    observed_msg = obs
 
+                else:
+                    # validating a list of segments
+                    exp = logic.expected_segment_geometry_types
+                    obs = representation.segment_types
+
+                    checks = check_segment_geometry_types(exp, obs)
+                    expected_msg = pretty_print_expected_geometry_types(exp)
+                    observed_msg = ", ".join(representation.segment_types)
+                    if False in checks:
+                        valid = False
                     else:
-                        # validating a list of segments
-                        exp = logic.expected_segment_geometry_types
-                        obs = representation.segment_types
+                        valid = True
 
-                        checks = check_segment_geometry_types(exp, obs)
-                        expected_msg = pretty_print_expected_geometry_types(exp)
-                        observed_msg = ", ".join(representation.segment_types)
-                        if False in checks:
-                            valid = False
-                        else:
-                            valid = True
-
-                    if not valid:
-                        yield ValidationOutcome(
-                            inst=inst,
-                            expected=expected_msg,
-                            observed=observed_msg,
-                            severity=OutcomeSeverity.ERROR,
-                        )
+                if not valid:
+                    yield ValidationOutcome(
+                        inst=inst,
+                        expected=expected_msg,
+                        observed=observed_msg,
+                        severity=OutcomeSeverity.ERROR,
+                    )

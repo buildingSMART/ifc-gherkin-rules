@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Dict
 from typing import List
 
 import numpy as np
@@ -149,8 +150,11 @@ class AlignmentHorizontal:
         super().__init__()
         self._segments = list()
         self._length = 0
+        self._expected_segment_geometry_types = list()
+        self._elem = None
 
     def from_entity(self, elem: ifcopenshell.entity_instance):
+        from .helpers import expected_segment_geometry_types
         self._elem = elem
         for rel in elem.IsNestedBy:
             for child in rel.RelatedObjects:
@@ -180,6 +184,8 @@ class AlignmentHorizontal:
                 self._length += hs.SegmentLength
                 self._segments.append(hs)
 
+        self._expected_segment_geometry_types = expected_segment_geometry_types(self)
+
         return self
 
     @property
@@ -193,3 +199,11 @@ class AlignmentHorizontal:
     @property
     def entity(self) -> entity_instance:
         return self._elem
+
+    @property
+    def expected_segment_geometry_types(self) -> List[Dict]:
+        """
+        Describes the expected types of the corresponding segments in the representation geometry
+        for validation purposes.
+        """
+        return self._expected_segment_geometry_types

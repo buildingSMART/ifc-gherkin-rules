@@ -12,7 +12,6 @@ These tests validate a matching count of segments for the business logic and the
 | fail-ala002-scenario03-segment_count_cant_geometry.ifc       | E00040          | 2 fewer segments in cant geometry representation               |
 | fail-ala002-scenario03-segment_count_cant_logic.ifc          | E00040          | 2 fewer segments in cant business logic                        |
 | pass-ala002-business_logic_only.ifc                          | P00010          | No representation                                              |
-| pass-ala002-helmert_curve.ifc                                | P00010          | Helmert curve segment properly represented with two segments   |
 | pass-ala002-representation_only.ifc                          | P00010          | No business logic                                              |
 | pass-ala002-segment_count_h+v+c.ifc                          | P00010          | Passing test for alignment with horizontal, vertical, and cant |
 | pass-ala002-segment_count_h+v.ifc                            | P00010          | Passing test for alignment with horizontal and vertical only   |

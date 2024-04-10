@@ -65,39 +65,6 @@ class AlignmentParameterSegment:
 
 
 @dataclass
-class AlignmentSegment:
-    """
-    IfcAlignmentSegment
-
-    5.4.3.4
-    https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcAlignmentSegment.htm
-    """
-
-    GlobalId: str = None
-    OwnerHistory: ifcopenshell.entity_instance = None
-    Name: str = None
-    Description: str = None
-    ObjectType: str = None
-    ObjectPlacement: entity_instance = None
-    Representation: entity_instance = None
-    DesignParameters: AlignmentParameterSegment = None
-
-    def from_entity(self, elem: ifcopenshell.entity_instance):
-        self._elem = elem
-        self.GlobalId = elem.GlobalId
-        self.OwnerHistory = elem.OwnerHistory
-        self.Name = elem.Name
-        self.Description = elem.Description
-        self.ObjectType = elem.ObjectType
-        self.ObjectPlacement = elem.ObjectPlacement
-        self.Representation = elem.Representation
-
-    @property
-    def entity_instance(self) -> entity_instance:
-        return self._elem
-
-
-@dataclass
 class BoundedCurve:
     """
     IfcBoundedCurve
@@ -151,11 +118,11 @@ class ValidationGraph:
         return rel_label
 
     def _add_business_logic_segments(
-        self,
-        graph: pydot.Graph,
-        parent_node: pydot.Node,
-        entity: ifcopenshell.entity_instance,
-        cluster: pydot.Cluster = None,
+            self,
+            graph: pydot.Graph,
+            parent_node: pydot.Node,
+            entity: ifcopenshell.entity_instance,
+            cluster: pydot.Cluster = None,
     ) -> None:
         """
         Adds the segment decomposition for business logic elements:
@@ -213,7 +180,7 @@ class ValidationGraph:
                     dp_label = f"SegmentLength:{dp.SegmentLength:.4f}"
                     dp_label += f"\nPredefinedType:{dp.PredefinedType}"
                 elif (dp.is_a() == "IfcAlignmentVerticalSegment") or (
-                    dp.is_a() == "IfcAlignmentCantSegment"
+                        dp.is_a() == "IfcAlignmentCantSegment"
                 ):
                     dp_label = f"StartDistAlong:{dp.StartDistAlong:.4f}"
                     dp_label += f"\nHorizontalLength:{dp.HorizontalLength:.4f}"
@@ -276,10 +243,10 @@ class ValidationGraph:
                                 )
 
     def _add_rep_curve_segments(
-        self,
-        graph: pydot.Graph,
-        parent_node: pydot.Node,
-        entity: ifcopenshell.entity_instance,
+            self,
+            graph: pydot.Graph,
+            parent_node: pydot.Node,
+            entity: ifcopenshell.entity_instance,
     ) -> None:
         """
         Adds the segment decomposition for representation elements:
@@ -313,16 +280,62 @@ class ValidationGraph:
 
                 parent_curve = seg.ParentCurve
 
-                if parent_curve.is_a() == "IfcCircle":
-                    parent_curve_label = f"Radius:{parent_curve.Radius:.4f}"
-                elif parent_curve.is_a() == "IfcLine":
-                    parent_curve_label = None
-                elif parent_curve.is_a() == "IfcClothoid":
-                    parent_curve_label = (
-                        f"ClothoidConstant:{parent_curve.ClothoidConstant:.4f}"
-                    )
-                else:
-                    parent_curve_label = ""
+                match parent_curve.is_a():
+                    case "IfcCircle":
+                        parent_curve_label = f"Radius:{parent_curve.Radius:.4f}"
+                    case "IfcLine":
+                        parent_curve_label = None
+                    case "IfcClothoid":
+                        parent_curve_label = (
+                            f"ClothoidConstant:{parent_curve.ClothoidConstant:.4f}"
+                        )
+                    case "IfcThirdOrderPolynomialSpiral":
+                        parent_curve_label = (
+                            f"CubicTerm:{parent_curve.CubicTerm:.4f}"
+                        )
+                        parent_curve_label += f"\nQuadraticTerm:{parent_curve.QuadraticTerm}"
+                        parent_curve_label += f"\nLinearTerm:{parent_curve.LinearTerm}"
+                        parent_curve_label += f"\nConstantTerm:{parent_curve.ConstantTerm}"
+
+                    case "IfcCosineSpiral":
+                        parent_curve_label = (
+                            f"CosineTerm:{parent_curve.CosineTerm:.4f}")
+                        parent_curve_label += f"\nConstantTerm:{parent_curve.ConstantTerm}"
+
+                    case "IfcPolynomialCurve":
+                        parent_curve_label = (
+                            f"CoefficientsX:{parent_curve.CoefficientsX:.4f}"
+                        )
+                        parent_curve_label += f"\nCoefficientsY:{parent_curve.CoefficientsY}"
+                        parent_curve_label += f"\nCoefficientsZ:{parent_curve.CoefficientsZ}"
+
+                    case "IfcSecondOrderPolynomialSpiral":
+                        parent_curve_label = (
+                            f"QuadraticTerm:{parent_curve.QuadraticTerm:.4f}"
+                        )
+                        parent_curve_label += f"\nLinearTerm:{parent_curve.LinearTerm}"
+                        parent_curve_label += f"\nConstantTerm:{parent_curve.ConstantTerm}"
+
+                    case "IfcSineSpiral":
+                        parent_curve_label = (
+                            f"SineTerm:{parent_curve.SineTerm:.4f}")
+                        parent_curve_label += f"\nLinearTerm:{parent_curve.LinearTerm}"
+                        parent_curve_label += f"\nConstantTerm:{parent_curve.ConstantTerm}"
+
+                    case "IfcSeventhOrderPolynomialSpiral":
+                        parent_curve_label = (
+                            f"SepticTerm:{parent_curve.SepticTerm:.4f}"
+                        )
+                        parent_curve_label += f"\nSexticTerm:{parent_curve.SexticTerm}"
+                        parent_curve_label += f"\nQuinticTerm:{parent_curve.QuinticTerm}"
+                        parent_curve_label += f"\nQuarticTerm:{parent_curve.QuarticTerm}"
+                        parent_curve_label += f"\nCubicTerm:{parent_curve.CubicTerm:.4f}"
+                        parent_curve_label += f"\nQuadraticTerm:{parent_curve.QuadraticTerm}"
+                        parent_curve_label += f"\nLinearTerm:{parent_curve.LinearTerm}"
+                        parent_curve_label += f"\nConstantTerm:{parent_curve.ConstantTerm}"
+
+                    case _:
+                        parent_curve_label = ""
 
                 parent_curve_node = self._entity_node(
                     parent_curve, label=parent_curve_label
@@ -414,16 +427,16 @@ class ValidationGraph:
                 graph=graph, parent_node=horiz_node, entity=align.horizontal._elem
             )
 
-        if not align.vertical is None:
-
+        if align.vertical is not None:
             vert_node = self._entity_node(align.vertical._elem, label=align.vertical._elem.Name)
             graph.add_node(vert_node)
             valgn_cluster.add_node(vert_node)
+
             self._add_business_logic_segments(
                 graph=graph, parent_node=vert_node, entity=align.vertical._elem
             )
 
-        if not align.cant is None:
+        if align.cant is not None:
             cant_node = self._entity_node(align.cant._elem, label=align.cant._elem.Name)
             graph.add_node(cant_node)
             calgn_cluster.add_node(cant_node)
@@ -549,4 +562,6 @@ class ValidationGraph:
         elif len(coords) == 3:
             (x, y, z) = coords
             label = f"({x:.4f}, {y:.4f}, {z:.4f})"
+        else:
+            label = ""
         return label

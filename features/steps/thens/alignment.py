@@ -1,9 +1,5 @@
 from behave import register_type
-import itertools
-from typing import Dict
-from typing import List
-from typing import Union
-
+from typing import Dict, List, Union, Optional
 import ifcopenshell.entity_instance
 
 from utils import ifc43x_alignment_validation as ifc43
@@ -79,8 +75,11 @@ def count_segments(logic, representation):
     return expected_count, rep_count
 
 
-def check_segment_geometry_type(exp_type: Dict, obs_type: str) -> bool:
+def check_segment_geometry_type(exp_type: Dict, obs_type: Union[str, None]) -> bool:
     k, v = exp_type.keys(), exp_type.values()
+
+    if exp_type is None:
+        exp_type_str = "None"
 
     def fn_exactly():
         if obs_type in v:
@@ -122,36 +121,31 @@ def check_segment_geometry_types(expected_types: List[Dict], observed_types: Lis
         return is_valid
 
 
-def pretty_print_expected_geometry_type(spec: Dict, pretty: List[str]) -> List[str]:
+def pretty_print_expected_geometry_type(spec: Optional[Dict], pretty: List[Optional[str]]) -> List[str]:
     """
     Format the expected geometry types
     """
-
-    pairs = [(k, v) for (k, v) in spec.items()]
-
-    def fn_exactly():
-        pretty.append(v)
-
-    for k, v in pairs:
+    for k, v in spec.items():
         match k:
             case "Exactly":
-                fn_exactly()
+                pretty.append(str(v) if v is not None else "None")
             case "OneOf":
                 opts = spec[k]
-                pretty.append(" or ".join(opts))
+                opts_str = [str(opt) if opt is not None else "None" for opt in opts]
+                pretty.append(" or ".join(opts_str))
             case "multiple":
                 opts = spec[k]
                 for o in opts:
-                    k, v = o.keys(), o.values()
+                    k, v = next(iter(o.items()))
                     if k == "Exactly":
-                        fn_exactly()
+                        pretty.append(str(v) if v is not None else "None")
             case _:
                 pass
 
-    return pretty
+    return [str(item) if item is not None else "None" for item in pretty]
 
 
-def pretty_print_expected_geometry_types(exp: List[Dict]) -> str:
+def pretty_print_expected_geometry_types(exp: List[Dict]) -> Union[str, None]:
     """
     Format the expected list of geometry types
     """
@@ -333,7 +327,10 @@ def step_impl(context, inst, activation_phrase):
                     obs = representation.segment_type
 
                     valid = check_segment_geometry_type(exp, obs)
-                    expected_msg = "".join(pretty_print_expected_geometry_type(exp, pretty=list()))
+                    try:
+                        expected_msg = "".join(pretty_print_expected_geometry_type(exp, pretty=list()))
+                    except:
+                        pass
                     observed_msg = obs
 
                 else:

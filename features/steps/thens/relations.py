@@ -269,7 +269,7 @@ def step_impl(context, inst, table):
                 if property.is_a('IfcPropertySingleValue'):
                     values = property.NominalValue
                     if not values.is_a(accepted_data_type['instance']):
-                        yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':values}, severity=OutcomeSeverity.ERROR)
+                        yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':str(values)}, severity=OutcomeSeverity.ERROR)
 
                 elif property.is_a('IfcPropertyEnumeratedValue'):
                     values = property.EnumerationValues

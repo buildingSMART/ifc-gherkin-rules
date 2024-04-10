@@ -41,8 +41,9 @@ def step_impl(context, inst, attribute, expected_entity_type):
     errors = []
 
     def accumulate_errors(i):
-        if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
-            misc.map_state(inst, lambda x: errors.append(ValidationOutcome(inst=inst, expected=expected_entity_type, observed=i, severity=OutcomeSeverity.ERROR)))
+        if i is not None:
+            if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
+                misc.map_state(inst, lambda x: errors.append(ValidationOutcome(inst=inst, expected=expected_entity_type, observed=i, severity=OutcomeSeverity.ERROR)))
 
     misc.map_state(related_entity, accumulate_errors)
     if errors:
@@ -59,11 +60,18 @@ def step_impl(context, inst, attribute, value):
     elif value == 'not empty':
         value = ()
         pred = operator.ne
+    elif 'or' in value:
+        opts = value.split(' or ')
+        value = tuple(opts)
+        pred = misc.reverse_operands(operator.contains)
 
     if isinstance(inst, (tuple, list)):
         inst = inst[0]
     attribute_value = getattr(inst, attribute, 'Attribute not found')
-    if not pred(attribute_value, value):
+    if inst is None:
+        # nothing was activated by the Given criteria
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.EXECUTED)
+    elif not pred(attribute_value, value):
         yield ValidationOutcome(inst=inst, expected=value, observed=attribute_value, severity=OutcomeSeverity.ERROR)
 
 

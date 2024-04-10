@@ -186,6 +186,31 @@ def handle_nested(instance):
 def is_list_of_tuples_or_none(var):
     return isinstance(var, list) and all(item is None or isinstance(item, tuple) for item in var)
 
+
+def apply_operation(fn, inst, context, **kwargs):
+    results = fn(context, inst, **kwargs)  
+    return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
+
+def map_given_state(values, fn, context, depth=0, **kwargs):
+    def is_nested(val):
+        return isinstance(val, (tuple, list))
+
+    def should_apply(values, depth):
+        if depth == 0:
+            return not is_nested(values)
+        elif depth == 1:
+            return is_nested(values) and all(not is_nested(v) for v in values)
+        return False
+
+    if should_apply(values, depth):
+        return apply_operation(fn, values, context, **kwargs)
+    elif is_nested(values):
+        new_depth = depth if depth > 0 else 0
+        return type(values)(map_given_state(v, fn, context, new_depth, **kwargs) for v in values)
+    else:
+        return apply_operation(fn, values, context, **kwargs)
+
+
 def handle_given(context, fn, **kwargs):
     """
     'Given' statements include four distinct functionalities.
@@ -199,15 +224,16 @@ def handle_given(context, fn, **kwargs):
         if gen: # (2) Set initial set of instances
             insts = list(gen)
             context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
+            pass
         else:
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
-        context._push() # for attribute stacking
-        if is_list_of_tuples_or_none(context.instances): # in case of stacking multiple attribute values for a single entity instance, e.g. in ALS004
-            context.instances =  flatten_list_of_lists([fn(context, inst=inst, **kwargs) for inst in flatten_list_of_lists(context.instances)])
-        else: # (3) & (4) filter or set instances based on an attribute/criteirum
-            context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, itertools.chain.from_iterable(fn(context, inst=inst, **kwargs)
-                                                                                                                                                        for inst in context.instances))))
+        context._push('attribute') # for attribute stacking
+        if 'at depth 1' in context.step.name: 
+            #todo @gh develop a more standardize approach
+            context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=1, **kwargs)))
+        else:
+            context.instances = list(filter(None, map_given_state(context.instances, fn, context, **kwargs)))
 
 def safe_method_call(obj, method_name, default=None ):
     method = getattr(obj, method_name, None)
@@ -233,37 +259,63 @@ def handle_then(context, fn, **kwargs):
     )
     context.gherkin_outcomes.append(validation_outcome)
 
-    for i, inst in enumerate(instances):
-        activation_inst = inst if activation_instances == instances or activation_instances[i] is None else activation_instances[i]
-        if isinstance(activation_inst, ifcopenshell.file):
-            activation_inst = None # in case of blocking IFC101 check, for safety set explicitly to None
-        step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
-        for result in step_results:
-            validation_outcome = ValidationOutcome(
-                outcome_code=get_outcome_code(result, context),
-                observed=expected_behave_output(context, result.observed),
-                expected=expected_behave_output(context, result.expected),
-                feature=context.feature.name,
-                feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.WARNING if any(tag.lower() == "warning" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                instance_id = safe_method_call(activation_inst, 'id', None),
-                validation_task_id=context.validation_task_id
-            )
-            context.gherkin_outcomes.append(validation_outcome)
+    def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
+        def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
+            top_level_index = current_path[0] if current_path else None
+            activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
+            if isinstance(activation_inst, ifcopenshell.file):
+                activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
 
-        if not step_results:
+            step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
+            for result in step_results:
+                validation_outcome = ValidationOutcome(
+                    outcome_code=get_outcome_code(result, context),
+                    observed=expected_behave_output(context, result.observed),
+                    expected=expected_behave_output(context, result.expected),
+                    feature=context.feature.name,
+                    feature_version=misc.define_feature_version(context),
+                    severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
+                    instance_id = safe_method_call(activation_inst, 'id', None),
+                    validation_task_id=context.validation_task_id
+                )
+                context.gherkin_outcomes.append(validation_outcome)
 
-            validation_outcome = ValidationOutcome(
-                outcome_code=ValidationOutcomeCode.PASSED,  # "Rule passed" # deactivated until code table is added to django model
-                observed=None,
-                expected=None,
-                feature=context.feature.name,
-                feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.PASSED,
-                instance_id = safe_method_call(activation_inst, 'id', None),
-                validation_task_id=context.validation_task_id
-            )
-            context.gherkin_outcomes.append(validation_outcome)
+                if not step_results:
+
+                    validation_outcome = ValidationOutcome(
+                        outcome_code=ValidationOutcomeCode.PASSED,  # todo @gh "Rule passed" # deactivated until code table is added to django model
+                        observed=None,
+                        expected=None,
+                        feature=context.feature.name,
+                        feature_version=misc.define_feature_version(context),
+                        severity=OutcomeSeverity.PASSED,
+                        instance_id = safe_method_call(activation_inst, 'id', None),
+                        validation_task_id=context.validation_task_id
+                    )
+                    context.gherkin_outcomes.append(validation_outcome)
+
+
+
+        def is_nested(val):
+            return isinstance(val, (tuple, list))
+
+        def should_apply(items, depth):
+            if depth == 0:
+                return not is_nested(items)
+            elif depth == 1:
+                return is_nested(items) and all(not is_nested(v) for v in items)
+            return False
+
+        if should_apply(items, depth):
+            return apply_then_operation(fn, items, context, current_path, **kwargs)
+        elif is_nested(items):
+            new_depth = depth if depth > 0 else 0
+            return type(items)(map_then_state(v, fn, context, current_path, new_depth, **kwargs) for v in items)
+        else:
+            return apply_then_operation(fn, items, context, **kwargs)
+    plural_steps = ['the values must be identical']
+    #todo @gh find a more standardized approach
+    map_then_state(instances, fn, context, depth = 1 if 'at depth 1' in context.step.name.lower() else 0, **kwargs)
 
     # evokes behave error
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])

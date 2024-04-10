@@ -18,11 +18,6 @@ def read_model(fn):
     return model_cache[fn]
 
 def before_feature(context, feature):
-    # @tfk we have this strange issue between stack frames blending over
-    # between features so we need to preserve only the bottom two stack
-    # frames when beginning a new feature.
-    context._stack = context._stack[-2:]
-
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
 
@@ -32,9 +27,8 @@ def before_feature(context, feature):
     except KeyError: # run via console, task_id not provided
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
-    context.gherkin_outcomes = []
 
-    if eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
+    if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
         ifc_filename_incl_path = context.config.userdata.get('input')
         convention_attrs = {
             'ifc_filename' : os.path.basename(ifc_filename_incl_path),
@@ -69,7 +63,12 @@ def before_step(context, step):
 def get_validation_outcome_hash(obj):
     return obj.severity, obj.outcome_code, obj.instance_id
 
-def after_scenario(context, feature):
+def after_scenario(context, scenario):
+    # Given steps may introduce an arbitrary amount of stackframes.
+    # we need to clean them up before behave starts appending new ones.
+    while context._stack[0].get('@layer') == 'attribute':
+        context._pop()
+
     execution_mode = context.config.userdata.get('execution_mode')
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         from validation_results import OutcomeSeverity, ModelInstance, ValidationTask
@@ -95,23 +94,24 @@ def after_scenario(context, feature):
 
         outcomes_to_save = reduce_db_outcomes(context.gherkin_outcomes)
 
-        if outcomes_to_save:
+        if outcomes_to_save and context.validation_task_id is not None:
             retrieved_task = ValidationTask.objects.get(id=context.validation_task_id)
             retrieved_model = retrieved_task.request.model
 
-        for outcome_to_save in outcomes_to_save:
-            if outcome_to_save.severity in [OutcomeSeverity.PASSED, OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]:
-                instance = ModelInstance.objects.get_or_create(
-                    stepfile_id=outcome_to_save.instance_id,
-                    model_id=retrieved_model.id
-                )
-
-                validation_outcome = copy.copy(outcome_to_save) # copy made not to overwrite id parameter on object reference
-                validation_outcome.instance_id = instance[0].id # switch from stepfile_id to instance_id
-                validation_outcome.save()
-
-            else:
-                outcome_to_save.save()
+            for outcome_to_save in outcomes_to_save:
+                if outcome_to_save.severity in [OutcomeSeverity.PASSED, OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]:
+                    if outcome_to_save.instance_id is not None:
+                        instance = ModelInstance.objects.get_or_create(
+                            stepfile_id=outcome_to_save.instance_id,
+                            model_id=retrieved_model.id
+                        )
+                        validation_outcome = copy.copy(outcome_to_save) # copy made not to overwrite id parameter on object reference
+                        validation_outcome.instance_id = instance[0].id # switch from stepfile_id to instance_id
+                        validation_outcome.save()
+                    else:
+                        outcome_to_save.save()
+                else:
+                    outcome_to_save.save()
 
     else: # invoked via console
         pass

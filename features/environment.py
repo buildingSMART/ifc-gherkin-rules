@@ -18,11 +18,6 @@ def read_model(fn):
     return model_cache[fn]
 
 def before_feature(context, feature):
-    # @tfk we have this strange issue between stack frames blending over
-    # between features so we need to preserve only the bottom two stack
-    # frames when beginning a new feature.
-    context._stack = context._stack[-2:]
-
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
 
@@ -32,7 +27,6 @@ def before_feature(context, feature):
     except KeyError: # run via console, task_id not provided
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
-    context.gherkin_outcomes = []
 
     if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
         ifc_filename_incl_path = context.config.userdata.get('input')
@@ -69,7 +63,12 @@ def before_step(context, step):
 def get_validation_outcome_hash(obj):
     return obj.severity, obj.outcome_code, obj.instance_id
 
-def after_scenario(context, feature):
+def after_scenario(context, scenario):
+    # Given steps may introduce an arbitrary amount of stackframes.
+    # we need to clean them up before behave starts appending new ones.
+    while context._stack[0].get('@layer') == 'attribute':
+        context._pop()
+
     execution_mode = context.config.userdata.get('execution_mode')
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         from validation_results import OutcomeSeverity, ModelInstance, ValidationTask

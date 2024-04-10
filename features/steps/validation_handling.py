@@ -228,7 +228,7 @@ def handle_given(context, fn, **kwargs):
         else:
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
-        context._push() # for attribute stacking
+        context._push('attribute') # for attribute stacking
         if 'at depth 1' in context.step.name: 
             #todo @gh develop a more standardize approach
             context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=1, **kwargs)))

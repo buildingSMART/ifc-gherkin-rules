@@ -173,7 +173,7 @@ def ala003_activation_inst(inst, context) -> Union[ifcopenshell.entity_instance 
         else:
             for rep in candidate.Representations:
                 for item in rep.Items:
-                    if item.id() == inst[0][0].id():
+                    if item.id() == inst.id():
                         return candidate.ShapeOfProduct[0]
 
 @gherkin_ifc.step(
@@ -289,26 +289,27 @@ def step_impl(context, inst, activation_phrase):
 
             if activation_ent.is_a().upper() == "IFCALIGNMENT":
                 # ensure that all three representation types will be validated
-                for i in instances:
+                  if inst.is_a().upper() in ["IFCSEGMENTEDREFERENCECURVE", "IFCGRADIENTCURVE"]:
+                    inst = inst.BaseCurve
                     if i.is_a().upper() in ["IFCSEGMENTEDREFERENCECURVE", "IFCGRADIENTCURVE"]:
                         instances.append(i.BaseCurve)
                 # remove any duplicate entities
                 instances = set(instances)
 
-            for rep in instances:
+            
                 match activation_phrase:
                     case "segment in the applicable IfcAlignment layout":
                         align = ifc43.entities.Alignment().from_entity(activation_ent)
-                        match rep.is_a().upper():
+                        match inst.is_a().upper():
                             case "IFCCOMPOSITECURVE":
                                 logic = align.horizontal
-                                representation = ifc43.entities.CompositeCurve().from_entity(rep)
+                                representation = ifc43.entities.CompositeCurve().from_entity(inst)
                             case "IFCGRADIENTCURVE":
                                 logic = align.vertical
-                                representation = ifc43.entities.GradientCurve().from_entity(rep)
+                                representation = ifc43.entities.GradientCurve().from_entity(inst)
                             case "IFCSEGMENTEDREFERENCECURVE":
                                 logic = align.cant
-                                representation = ifc43.entities.SegmentedReferenceCurve().from_entity(rep)
+                                representation = ifc43.entities.SegmentedReferenceCurve().from_entity(inst)
                             case _:
                                 logic = None
                                 representation = None
@@ -319,15 +320,15 @@ def step_impl(context, inst, activation_phrase):
 
                     case "segment in the vertical layout":
                         logic = ifc43.entities.AlignmentVertical().from_entity(activation_ent)
-                        representation = ifc43.entities.GradientCurve().from_entity(rep)
+                        representation = ifc43.entities.GradientCurve().from_entity(inst)
 
                     case "segment in the cant layout":
                         logic = ifc43.entities.AlignmentCant().from_entity(activation_ent)
-                        representation = ifc43.entities.SegmentedReferenceCurve().from_entity(rep)
+                        representation = ifc43.entities.SegmentedReferenceCurve().from_entity(inst)
 
                     case "alignment segment":
                         logic = ifc43.entities.AlignmentSegment().from_entity(activation_ent)
-                        representation = ifc43.entities.CurveSegment().from_entity(rep)
+                        representation = ifc43.entities.CurveSegment().from_entity(inst)
 
                     case _:
                         logic = None
@@ -358,7 +359,7 @@ def step_impl(context, inst, activation_phrase):
 
                     if not valid:
                         yield ValidationOutcome(
-                            inst=rep,
+                            inst=inst,
                             expected=expected_msg,
                             observed=observed_msg,
                             severity=OutcomeSeverity.ERROR,

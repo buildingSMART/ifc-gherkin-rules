@@ -60,11 +60,18 @@ def step_impl(context, inst, attribute, value):
     elif value == 'not empty':
         value = ()
         pred = operator.ne
+    elif 'or' in value:
+        opts = value.split(' or ')
+        value = tuple(opts)
+        pred = misc.reverse_operands(operator.contains)
 
     if isinstance(inst, (tuple, list)):
         inst = inst[0]
     attribute_value = getattr(inst, attribute, 'Attribute not found')
-    if not pred(attribute_value, value):
+    if inst is None:
+        # nothing was activated by the Given criteria
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.EXECUTED)
+    elif not pred(attribute_value, value):
         yield ValidationOutcome(inst=inst, expected=value, observed=attribute_value, severity=OutcomeSeverity.ERROR)
 
 

@@ -25,7 +25,10 @@ def step_impl(context, inst, entity, other_entity, relationship):
             relating_obj_placement = relating_object.ObjectPlacement
             entity_obj_placement_rel = getattr(related_obj_placement, "PlacementRelTo", None)
             if relating_obj_placement != entity_obj_placement_rel:
-                yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed=entity_obj_placement_rel, severity=OutcomeSeverity.ERROR)
+                if entity_obj_placement_rel:
+                    yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed=entity_obj_placement_rel, severity=OutcomeSeverity.ERROR)
+                else:
+                    yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed="Not found", severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('The relative placement of that {entity} must be provided by an {other_entity} entity')

@@ -270,8 +270,8 @@ def handle_then(context, fn, **kwargs):
             for result in step_results:
                 validation_outcome = ValidationOutcome(
                     outcome_code=get_outcome_code(result, context),
-                    observed=expected_behave_output(context, result.observed),
-                    expected=expected_behave_output(context, result.expected),
+                    observed=output_expected_observed(context, expected_observed= 'observed', data = result.observed),
+                    expected=output_expected_observed(context, expected_observed= 'expected', data = result.expected),
                     feature=context.feature.name,
                     feature_version=misc.define_feature_version(context),
                     severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
@@ -385,7 +385,7 @@ def serialize_to_json(func):
     return wrapper
 
 @serialize_to_json
-def expected_behave_output(context: Context, data: Any) -> str:
+def output_expected_observed(context: Context, expected_observed : str, data: Any) -> str:
     if isinstance(data, str):
         try:
             data = ast.literal_eval(data)
@@ -398,6 +398,8 @@ def expected_behave_output(context: Context, data: Any) -> str:
             serialized_data = [serialize_item(item) for item in data]
             return {"OneOf": serialized_data}
         case bool() | None:
+            if expected_observed == 'expected':
+                return context.step.name
             return data
         case str():
             if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:

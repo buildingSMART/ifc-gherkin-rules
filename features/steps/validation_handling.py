@@ -270,8 +270,8 @@ def handle_then(context, fn, **kwargs):
             for result in step_results:
                 validation_outcome = ValidationOutcome(
                     outcome_code=get_outcome_code(result, context),
-                    observed=output_expected_observed(context, expected_observed= 'observed', data = result.observed),
-                    expected=output_expected_observed(context, expected_observed= 'expected', data = result.expected),
+                    observed=expected_behave_output(context, result.observed, is_observed=True),
+                    expected=expected_behave_output(context, result.expected),
                     feature=context.feature.name,
                     feature_version=misc.define_feature_version(context),
                     severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
@@ -377,30 +377,29 @@ def serialize_item(item: Any) -> Any:
     else:
         return item
 
-def serialize_to_json(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
-        return json.dumps(result)
-    return wrapper
-
-@serialize_to_json
-def output_expected_observed(context: Context, expected_observed : str, data: Any) -> str:
+def expected_behave_output(context: Context, data: Any, is_observed : bool = False) -> str:
+    """
+    When serializing values in the observed field we never produce OneOf
+    """
     if isinstance(data, str):
         try:
             data = ast.literal_eval(data)
         except (ValueError, SyntaxError):
             pass
 
-    
     match data:
-        case list() | set() | tuple():
+        case [_, *__]:
+            # Non-empty aggregate
             serialized_data = [serialize_item(item) for item in data]
-            return {"OneOf": serialized_data}
-        case bool() | None:
-            if expected_observed == 'expected':
-                return context.step.name
+            return {("value" if is_observed else "oneOf"): serialized_data}
+        case bool():
             return data
+        case None:
+            if is_observed:
+                return None
+            else:
+                # step name is a good proxy for expected, but not for observed
+                return context.step.name
         case str():
             if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:
                 return {'entity': data} # e.g. 'the type must be IfcCompositeCurve'
@@ -408,10 +407,11 @@ def output_expected_observed(context: Context, expected_observed : str, data: An
                 return {'value': data} # e.g. "The value must be 'Body'"
         case ifcopenshell.entity_instance():
             return {'ifc_instance': getattr(data, 'GlobalId', data.is_a())}
-        case int() | float():
-            return {'count': data}
-        case _:
+        case dict():
+            # mostly for the pse001 rule, which already yields dicts
             return data
+        case _:
+            return {'value': data}
         
 def get_outcome_code(validation_outcome: ValidationOutcome, context: Context) -> str:
     """

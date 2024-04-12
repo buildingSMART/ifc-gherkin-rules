@@ -310,7 +310,7 @@ def handle_then(context, fn, **kwargs):
             return apply_then_operation(fn, items, context, current_path, **kwargs)
         elif is_nested(items):
             new_depth = depth if depth > 0 else 0
-            return type(items)(map_then_state(v, fn, context, current_path, new_depth, **kwargs) for v in items)
+            return type(items)(map_then_state(v, fn, context, current_path + [i], new_depth, **kwargs) for i, v in enumerate(items))
         else:
             return apply_then_operation(fn, items, context, **kwargs)
     plural_steps = ['the values must be identical']

@@ -104,8 +104,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
                 observed_directness.update({'directly'})
             if decision == 'must not':
                 yield ValidationOutcome(inst=inst,
-                    observed = "-",
-                    expected ="-", severity=OutcomeSeverity.ERROR)
+                    observed = None,
+                    expected =None, severity=OutcomeSeverity.ERROR)
 
         if hasattr(relating_element, other_entity_reference): # in case the relation points to a wrong instance
             while len(getattr(relating_element, other_entity_reference)) > 0:
@@ -118,8 +118,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
                         break
                     if decision == 'must not':
                         outcome = ValidationOutcome(inst=inst,
-                            observed = "-",
-                            expected = "-",
+                            observed = None,
+                            expected = None,
                             severity=OutcomeSeverity.ERROR)
                         yield outcome
                         break
@@ -130,8 +130,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
         directness_expected = decision == 'must'  # check if relationship is expected
         if directness_achieved != directness_expected:
             yield ValidationOutcome( inst=inst,
-                            observed = "-",
-                            expected = "-",
+                            observed = None,
+                            expected = None,
                             severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('It must not be referenced by itself directly or indirectly')
@@ -146,7 +146,7 @@ def step_impl(context, inst):
 
     inv, ent, attr = relationship[inst.is_a()]
     if inst in get_memberships(inst):
-        yield ValidationOutcome(inst=inst, expected="-", observed = "-", severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected=None, observed = None, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('The IfcPropertySet Name attribute value must use predefined values according to the {table} table')
 @gherkin_ifc.step('The IfcPropertySet must be assigned according to the property set definitions table {table}')

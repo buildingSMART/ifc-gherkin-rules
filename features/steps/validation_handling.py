@@ -402,6 +402,8 @@ def expected_behave_output(context: Context, data: Any) -> str:
         case None:
             return context.step.name
         case str():
+            if data == '-': #empty:
+                return data
             if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:
                 return {'entity': data} # e.g. 'the type must be IfcCompositeCurve'
             else:

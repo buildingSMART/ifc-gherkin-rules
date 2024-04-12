@@ -406,7 +406,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             else:
                 return {'value': data} # e.g. "The value must be 'Body'"
         case ifcopenshell.entity_instance():
-            return {'ifc_instance': getattr(data, 'GlobalId', data.is_a())}
+            return {'ifc_instance': f"{data.is_a()}({getattr(data, 'GlobalId', data.id())})"}
         case dict():
             # mostly for the pse001 rule, which already yields dicts
             return data

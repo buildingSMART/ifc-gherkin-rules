@@ -54,7 +54,7 @@ def step_impl(context, inst, relationship, table):
         for relationship_object in relationship_objects:
             is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
-                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed={"entity":f"{relationship_object.is_a()}(#{relationship_object.id()})"}, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed=relationship_object, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('It must be assigned to the {relating}')

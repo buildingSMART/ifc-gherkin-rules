@@ -36,8 +36,8 @@ def step_impl(context, inst, other_entities):
 
     nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
     nested_entity_types = set(i.is_a() for i in nested_entities)
-    if not nested_entity_types <= allowed_entity_types:
-        yield ValidationOutcome(inst=inst, observed=nested_entity_types, severity=OutcomeSeverity.ERROR)
+    for entity in nested_entity_types - allowed_entity_types:
+        yield ValidationOutcome(inst=inst, observed=entity, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('It {fragment:nested_sentences} instance(s) of {other_entity}')

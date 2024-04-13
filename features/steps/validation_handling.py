@@ -144,32 +144,6 @@ def check_layer_for_entity_instance(i, stack_tree):
             return layer[i]
     return None
 
-def get_activation_instances(context, instances):
-    """Returns the activation instances of the current context. To be used for 'attribute stacking', e.g. in GEM004
-    In many case, context.instances are actual ifcopenshell.entity_instance objects, but in some cases they are not. For example in the following scenario:
-    Given An IfcProduct
-    Given Its attribute Representation
-    Given its attribute Representations
-    Given Its Attribute RepresentationIdentifier
-
-    We calculate a stack tree, which is done by the function get_stack_tree(context). The stack tree is a list of lists, where each list represents a layer of the stack.
-    In the example above, this would look something like this:
-    [(None), ('Value', 'Axis')]
-    [(IfcShapeRepr, IfcShapeRepr), (IfcShapeRepr, IfcShapeRepr)]
-    [IfcProductDefintionShape, IfcProductDefinitionShape]
-    [IfcRoof, IfcSlab]
-
-    Note that each layer is formatted in the same way as the previous layer. This is done by the misc.map_state function.
-
-    The activation_instance is then the first instance in the stack tree that is an actual ifcopenshell.entity_instance object.
-    In this case, this would be IfcProductDefinitionShape.
-    """
-    stack_tree = get_stack_tree(context)
-    if isinstance(stack_tree[0], list):
-        return [check_layer_for_entity_instance(i, stack_tree) for i in range(len(stack_tree[0]))]
-    else:  # e.g. with IFC001, where stack is ifcopenshell.file.file
-        return instances
-
 def flatten_list_of_lists(lst):
     result = []
     for item in lst:
@@ -233,7 +207,7 @@ def handle_given(context, fn, **kwargs):
             #todo @gh develop a more standardize approach
             context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=1, **kwargs)))
         else:
-            context.instances = list(filter(None, map_given_state(context.instances, fn, context, **kwargs)))
+            context.instances = map_given_state(context.instances, fn, context, **kwargs)
 
 def safe_method_call(obj, method_name, default=None ):
     method = getattr(obj, method_name, None)
@@ -245,8 +219,7 @@ def handle_then(context, fn, **kwargs):
     instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
     # if 'instances' are not actual ifcopenshell.entity_instance objects, but e.g. tuple of string values then get the actual instances from the stack tree
-    # see for more info docstring of get_activation_instances
-    activation_instances = get_activation_instances(context, instances) if instances and get_stack_tree(context) else instances
+    activation_instances = misc.do_try(lambda: get_stack_tree(context)[-1], instances)
 
     validation_outcome = ValidationOutcome(
         outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
@@ -261,6 +234,8 @@ def handle_then(context, fn, **kwargs):
 
     def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
+            if inst is None:
+                return
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
             if isinstance(activation_inst, ifcopenshell.file):
@@ -313,8 +288,6 @@ def handle_then(context, fn, **kwargs):
             return type(items)(map_then_state(v, fn, context, current_path + [i], new_depth, **kwargs) for i, v in enumerate(items))
         else:
             return apply_then_operation(fn, items, context, **kwargs)
-    plural_steps = ['the values must be identical']
-    #todo @gh find a more standardized approach
     map_then_state(instances, fn, context, depth = 1 if 'at depth 1' in context.step.name.lower() else 0, **kwargs)
 
     # evokes behave error

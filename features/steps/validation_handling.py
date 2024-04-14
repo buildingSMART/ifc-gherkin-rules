@@ -177,12 +177,12 @@ def map_given_state(values, fn, context, depth=0, **kwargs):
         return False
 
     if should_apply(values, depth):
-        return apply_operation(fn, values, context, **kwargs)
+        return None if values is None else apply_operation(fn, values, context, **kwargs)
     elif is_nested(values):
         new_depth = depth if depth > 0 else 0
         return type(values)(map_given_state(v, fn, context, new_depth, **kwargs) for v in values)
     else:
-        return apply_operation(fn, values, context, **kwargs)
+        return None if values is None else apply_operation(fn, values, context, **kwargs)
 
 
 def handle_given(context, fn, **kwargs):

@@ -118,6 +118,18 @@ class RuleCreationConventions(ConfiguredBaseModel):
     filename: str
     readme: str
 
+    @field_validator('feature_filename')
+    def validate_feature_names(cls, value, values):
+        def parse_f_names(f: str) -> str:
+            return re.sub(r'[^a-zA-Z0-9\s]', '', f.split('.')[0]).lower().replace(' ', '')
+        feature_filename = value.name # as in the .feature file
+        feature_name = values.data['feature'].name # name after 'Feature' within the .feature file
+        if parse_f_names(feature_name) != parse_f_names(feature_filename):
+            raise ProtocolError(
+                value = feature_name,
+                message = f"Feature name {feature_name} and feature filename {feature_filename} should be the same"
+            )
+
     @field_validator('tags')
     def do_validate_tags(cls, value) -> dict:
         validator = ValidatorHelper()
@@ -278,7 +290,7 @@ def validate_ifc_path(file_name):
     expectedResult = Literal("pass") | Literal("fail")
     ruleCode = Combine(Word(alphas, exact=3) + Word(nums, exact=3))
     scenario = pyparsing.Optional(Literal("-") + Literal("scenario") + Word(nums, exact=2))
-    description = Combine(Word(alphanums + "_") + Literal(".ifc"))
+    description = Combine(Word(alphanums + "_+") + Literal(".ifc"))
     
     fileNameGrammar = expectedResult + Literal("-") + ruleCode + scenario + Literal("-") + description + StringEnd()
     
@@ -299,7 +311,7 @@ def validate_ifc_path(file_name):
     pass
 
 
-def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
+def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}):
     """Main function to validate feature and tagging conventions.
 
     This function creates and validates a `RuleCreationConventions` instance based on the provided parameters. e
@@ -324,7 +336,7 @@ def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
             'name': attrs['ifc_filename'],
             'valid_separators': '-'
         },
-        'tags': attrs['tags'],
+        'tags': list(attrs['tags']),
         'description': attrs['description'],
         'steps': attrs['steps'],
         'filename': attrs['filename'], # e.g. ifc-gherkin-rules\test\files\alb002\pass-alb002-generated_file.ifc
@@ -334,5 +346,6 @@ def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}) -> bool:
     try:
         RuleCreationConventions(**feature_obj)
     except ValidationError as convention_errors:
+        print(convention_errors.json())
         for error in convention_errors.errors():
             yield error.get('msg')

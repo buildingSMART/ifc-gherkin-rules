@@ -28,6 +28,7 @@ def before_feature(context, feature):
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
 
+    context.protocol_errors = []
     if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
         ifc_filename_incl_path = context.config.userdata.get('input')
         convention_attrs = {
@@ -50,11 +51,13 @@ def before_feature(context, feature):
             feature_version=1,
             severity=OutcomeSeverity.ERROR,
         )
-            context.gherkin_outcomes.append(validation_outcome)
+            context.protocol_errors.append(validation_outcome)
         
 
 def before_scenario(context, scenario):
     context.gherkin_outcomes = []
+    for protocol_error in context.protocol_errors:
+        context.gherkin_outcomes.append(protocol_error)
     context.applicable = True
 
 def before_step(context, step):

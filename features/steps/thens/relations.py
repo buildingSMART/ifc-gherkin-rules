@@ -62,7 +62,7 @@ def step_impl(context, inst, relationship, table):
 def step_impl(context, inst, relating):
     for rel in getattr(inst, 'Decomposes', []):
         if not rel.RelatingObject.is_a(relating):
-            yield ValidationOutcome(inst=inst, expected={"value":relating}, observed ={"instance":f"{rel.RelatingObject.is_a()}(#{rel.RelatingObject.id()})"}, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected={"value":relating}, observed =rel.RelatingObject, severity=OutcomeSeverity.ERROR)
 
 
 
@@ -217,9 +217,9 @@ def step_impl(context, inst, table):
                 related_objects = relation.RelatedObjects
                 for obj in related_objects:
                     if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
-                        yield ValidationOutcome(inst=inst, expected= {'entity':"IfcTypeObject"}, observed ={"instance":f"{obj.is_a()}(#{obj.id()})"}, severity=OutcomeSeverity.ERROR)
+                        yield ValidationOutcome(inst=inst, expected= {'entity':"IfcTypeObject"}, observed =obj, severity=OutcomeSeverity.ERROR)
 
-                    correct_occurrence = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
+                    correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
                     if accepted_values['template_type'] == 'PSET_TYPEDRIVENOVERRIDE':
                         def schema_has_declaration_name(s):
                             try:
@@ -229,19 +229,20 @@ def step_impl(context, inst, table):
                         correct_type1 = [(schema_has_declaration_name(accepted_object + "Type") and obj.is_a(accepted_object + "Type")) for accepted_object in accepted_values['applicable_entities']]
                         # in rare occasions (IfcWindow and IfcDoor) in IFC4, the Type object is named IfcDoorStyle
                         correct_type2 = [(schema_has_declaration_name(accepted_object + "Style") and obj.is_a(accepted_object + "Style")) for accepted_object in accepted_values['applicable_entities']]
-                        correct = list(map(any, zip(correct_occurrence, correct_type1, correct_type2)))
+                        correct = list(map(any, zip(correct, correct_type1, correct_type2)))
+                    # if 'correct' in locals() and not any(correct):
                     if not any(correct):
-                        yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed ={"instance":f"{obj.is_a()}(#{obj.id()})"}, severity=OutcomeSeverity.ERROR)
+                        yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed =obj, severity=OutcomeSeverity.ERROR)
 
 
             related_objects = inst.DefinesType
             for obj in related_objects:
                 if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN', 'PSET_PERFORMANCEDRIVEN']:
-                    yield ValidationOutcome(inst=inst, expected= {"oneOf": ["IfcObject", "IfcPerformanceHistory"]}, observed ={"instance":f"{obj.is_a()}(#{obj.id()})"}, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected= {"oneOf": ["IfcObject", "IfcPerformanceHistory"]}, observed =obj, severity=OutcomeSeverity.ERROR)
 
                 correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_type_values']]
                 if not any(correct):
-                    yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_type_values']}, observed ={"instance":f"{obj.is_a()}(#{obj.id()})"}, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_type_values']}, observed =obj, severity=OutcomeSeverity.ERROR)
 
         if 'Each associated IfcProperty must be named according to the property set definitions table' in context.step.name:
             properties = inst.HasProperties

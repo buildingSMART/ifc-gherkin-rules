@@ -1,7 +1,7 @@
 import operator
 
 from utils import misc
-from validation_handling import gherkin_ifc
+from validation_handling import gherkin_ifc, global_rule
 
 from . import ValidationOutcome, OutcomeSeverity
 
@@ -15,6 +15,7 @@ def step_impl(context, inst, representation_id):
 
 
 @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
+@global_rule
 def step_impl(context, inst, constraint, num, entity):
     op = misc.stmt_to_op(constraint)
 

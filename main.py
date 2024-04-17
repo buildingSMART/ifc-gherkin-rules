@@ -72,10 +72,10 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
 
     if with_console_output:
         # Sometimes it's easier to see what happens exactly on the console output
-        print('>',*[sys.executable, "-m", "behave", "-x", "-v", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"])
+        print('>',*[sys.executable, "-m", "behave", "--no-capture", "-v", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"])
         subprocess.run(
             [
-                sys.executable, "-m", "behave", "-x", "-v",
+                sys.executable, "-m", "behave", "--no-capture", "-v",
                 *feature_filter, *tag_filter,
                 "--define", f"input={os.path.abspath(filename)}", 
                 "--define", f"execution_mode={execution_mode}",

@@ -149,11 +149,11 @@ def step_impl(context, inst):
     if inst in get_memberships(inst):
         yield ValidationOutcome(inst=inst, expected=None, observed = None, severity=OutcomeSeverity.ERROR)
 
-@gherkin_ifc.step('The IfcPropertySet Name attribute value must use predefined values according to the {table} table')
-@gherkin_ifc.step('The IfcPropertySet must be assigned according to the property set definitions table {table}')
-@gherkin_ifc.step('Each associated IfcProperty must be named according to the property set definitions table {table}')
-@gherkin_ifc.step('Each associated IfcProperty must be of type according to the property set definitions table {table}')
-@gherkin_ifc.step('Each associated IfcProperty value must be of data type according to the property set definitions table {table}')
+@gherkin_ifc.step('The IfcPropertySet Name attribute value must use predefined values according to the "{table}" table')
+@gherkin_ifc.step('The IfcPropertySet must be assigned according to the property set definitions table "{table}"')
+@gherkin_ifc.step('Each associated IfcProperty must be named according to the property set definitions table "{table}"')
+@gherkin_ifc.step('Each associated IfcProperty must be of type according to the property set definitions table "{table}"')
+@gherkin_ifc.step('Each associated IfcProperty value must be of data type according to the property set definitions table "{table}"')
 def step_impl(context, inst, table):
 
     tbl_path = system.get_abs_path(f"resources/property_set_definitions/{table}")
@@ -264,7 +264,7 @@ def step_impl(context, inst, table):
                     break
 
                 if not property.is_a(accepted_property_type):
-                    yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_property_type}, observed ={"instance":f"{property.is_a()}(#{property.id()})"}, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_property_type}, observed = property, severity=OutcomeSeverity.ERROR)
 
         if 'Each associated IfcProperty value must be of data type according to the property set definitions table' in context.step.name:
             accepted_property_name_datatype_map = {}
@@ -280,14 +280,15 @@ def step_impl(context, inst, table):
 
                 if property.is_a('IfcPropertySingleValue'):
                     values = property.NominalValue
-                    if not values.is_a(accepted_data_type['instance']):
+                    if values and not values.is_a(accepted_data_type['instance']):
                         yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':str(values)}, severity=OutcomeSeverity.ERROR)
 
                 elif property.is_a('IfcPropertyEnumeratedValue'):
                     values = property.EnumerationValues
-                    for value in values:
-                        if not value.wrappedValue in accepted_data_type['values']:
-                            yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['values']}, observed = {'value':value.wrappedValue}, severity=OutcomeSeverity.ERROR)
+                    if values:
+                        for value in values:
+                            if not value.wrappedValue in accepted_data_type['values']:
+                                yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['values']}, observed = {'value':value.wrappedValue}, severity=OutcomeSeverity.ERROR)
                 else:
                     continue
 

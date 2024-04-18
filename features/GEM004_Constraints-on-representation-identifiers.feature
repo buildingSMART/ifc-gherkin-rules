@@ -24,6 +24,27 @@ The rule verifies that shape representations adhere to the permissible values ou
     Given Its attribute RepresentationType
     
     Then The values must be in 'valid_RepresentationType_IFC4.3.csv'
+
+
+  Scenario: Shape Representation Identifier must be valid - IFC4
+
+    Given A model with Schema "IFC4"
+    Given An IfcProduct
+    Given Its attribute Representation
+    Given Its attribute Representations
+    Given Its attribute RepresentationIdentifier
+
+    Then The values must be in 'valid_RepresentationIdentifier_IFC4.csv'
+  
+  Scenario: Shape Representation Type must be valid - IFC4
+
+    Given A model with Schema "IFC4"
+    Given An IfcProduct
+    Given Its attribute Representation
+    Given Its attribute Representations
+    Given Its attribute RepresentationType
+    
+    Then The values must be in 'valid_RepresentationType_IFC4.csv'
   
 Scenario: Shape Representation Type must be valid - IFC2X3
   Given A model with Schema "IFC2X3"

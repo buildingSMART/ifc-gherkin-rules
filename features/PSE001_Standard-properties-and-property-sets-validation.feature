@@ -13,7 +13,7 @@ The rule verifies that each IfcPropertySet starting with Pset is defined correct
      
       Given a file with Schema "<schema>"
 
-      Then The IfcPropertySet Name attribute value must use predefined values according to the <csv_table> table
+      Then The IfcPropertySet Name attribute value must use predefined values according to the "<csv_table>" table
 
       Examples:
         | schema  | csv_table |
@@ -26,7 +26,7 @@ The rule verifies that each IfcPropertySet starting with Pset is defined correct
 
         Given a file with Schema "<schema>"
 
-        Then Each associated IfcProperty must be named according to the property set definitions table <csv_table>
+        Then Each associated IfcProperty must be named according to the property set definitions table "<csv_table>"
 
         Examples:
           | schema  | csv_table |
@@ -39,7 +39,7 @@ The rule verifies that each IfcPropertySet starting with Pset is defined correct
 
         Given a file with Schema "<schema>"
 
-        Then The IfcPropertySet must be assigned according to the property set definitions table <csv_table>
+        Then The IfcPropertySet must be assigned according to the property set definitions table "<csv_table>"
 
         Examples:
           | schema  | csv_table |
@@ -52,7 +52,7 @@ The rule verifies that each IfcPropertySet starting with Pset is defined correct
 
         Given a file with Schema "<schema>"
 
-        Then Each associated IfcProperty must be of type according to the property set definitions table <csv_table>
+        Then Each associated IfcProperty must be of type according to the property set definitions table "<csv_table>"
 
         Examples:
           | schema  | csv_table |
@@ -65,7 +65,7 @@ The rule verifies that each IfcPropertySet starting with Pset is defined correct
       
           Given a file with Schema "<schema>"
   
-          Then Each associated IfcProperty value must be of data type according to the property set definitions table <csv_table>
+          Then Each associated IfcProperty value must be of data type according to the property set definitions table "<csv_table>"
   
           Examples:
             | schema  | csv_table |

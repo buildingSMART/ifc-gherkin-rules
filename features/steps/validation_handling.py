@@ -163,7 +163,12 @@ def is_list_of_tuples_or_none(var):
 
 
 def apply_operation(fn, inst, context, **kwargs):
-    results = fn(context, inst, **kwargs)  
+    try:
+        results = fn(context, inst, **kwargs)  
+    except Exception as e:
+        # it's sometimes helpful not throwing an error but displaying it the console output while debugging using with_console_output
+        if not context.with_console_output:
+            exit(1)
     return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
 
 def map_given_state(values, fn, context, depth=0, **kwargs):
@@ -242,7 +247,13 @@ def handle_then(context, fn, **kwargs):
             if isinstance(activation_inst, ifcopenshell.file):
                 activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
 
-            step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
+            try:
+                step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
+            except Exception as e:
+                # it's sometimes helpful not throwing an error but displaying it the console output while debugging using with_console_output
+                if not context.with_console_output:
+                    exit(1)
+    
             for result in step_results:
                 validation_outcome = ValidationOutcome(
                     outcome_code=get_outcome_code(result, context),

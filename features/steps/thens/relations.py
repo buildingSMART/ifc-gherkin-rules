@@ -38,13 +38,14 @@ def step_impl(context, inst, relationship, table):
             # @tfk. I think this simply means, no requirement imposed.
             # raise Exception(f'Entity {entity} was not found in the {table}')
             continue
+
         applicable_entity = ifc.order_by_ifc_inheritance(applicable_entities, base_class_last = True)[0]
         expected_relationship_objects = aggregated_table[applicable_entity]
         try:
             relation = getattr(inst, stmt_to_op[relationship], True)[0]
         except IndexError: # no relationship found for the entity
             if is_required:
-                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed={"entity":None}, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, severity=OutcomeSeverity.ERROR)
             continue
         relationship_objects = getattr(relation, relationship_tbl_header, True)
         if not isinstance(relationship_objects, tuple):
@@ -61,7 +62,7 @@ def step_impl(context, inst, relationship, table):
 def step_impl(context, inst, relating):
     for rel in getattr(inst, 'Decomposes', []):
         if not rel.RelatingObject.is_a(relating):
-            yield ValidationOutcome(inst=inst, expected={"value":relating}, observed ={"entity":f"{rel.RelatingObject.is_a()}(#{rel.RelatingObject.id()})"}, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected={"value":relating}, observed =rel.RelatingObject, severity=OutcomeSeverity.ERROR)
 
 
 
@@ -186,7 +187,7 @@ def step_impl(context, inst, table):
             accepted_values['property_types'].append(property_def['property_type'])
             accepted_values['data_types'].append(property_def['data_type'])
 
-        accepted_values['applicable_entities'] = make_obj(property_set_attr['applicable_entities'])
+        accepted_values['applicable_entities'] = [s.split('/')[0] for s in make_obj(property_set_attr['applicable_entities'])]
 
         accepted_values['applicable_type_values'] = property_set_attr.get('applicable_type_value', '').split(',')
 
@@ -197,7 +198,7 @@ def step_impl(context, inst, table):
 
     if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:
         if name not in property_set_definitons.keys():
-            yield ValidationOutcome(inst=inst, expected= {"oneOf":"Official Pset_ prefixed values"}, observed = {'value':name}, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, observed = {'value':name}, severity=OutcomeSeverity.ERROR)
 
     accepted_values = establish_accepted_pset_values(name, property_set_definitons)
 
@@ -216,21 +217,32 @@ def step_impl(context, inst, table):
                 related_objects = relation.RelatedObjects
                 for obj in related_objects:
                     if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
-                        yield ValidationOutcome(inst=inst, expected= {'value':"IfcTypeObject"}, observed ={"entity":f"{obj.is_a()}(#{obj.id()})"}, severity=OutcomeSeverity.ERROR)
+                        yield ValidationOutcome(inst=inst, expected= {'entity':"IfcTypeObject"}, observed =obj, severity=OutcomeSeverity.ERROR)
 
                     correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
+                    if accepted_values['template_type'] == 'PSET_TYPEDRIVENOVERRIDE':
+                        def schema_has_declaration_name(s):
+                            try:
+                                return obj.wrapped_data.declaration().schema().declaration_by_name(s) is not None
+                            except:
+                                return False
+                        correct_type1 = [(schema_has_declaration_name(accepted_object + "Type") and obj.is_a(accepted_object + "Type")) for accepted_object in accepted_values['applicable_entities']]
+                        # in rare occasions (IfcWindow and IfcDoor) in IFC4, the Type object is named IfcDoorStyle
+                        correct_type2 = [(schema_has_declaration_name(accepted_object + "Style") and obj.is_a(accepted_object + "Style")) for accepted_object in accepted_values['applicable_entities']]
+                        correct = list(map(any, zip(correct, correct_type1, correct_type2)))
+                    # if 'correct' in locals() and not any(correct):
                     if not any(correct):
-                        yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed ={"entity":f"{obj.is_a()}(#{obj.id()})"}, severity=OutcomeSeverity.ERROR)
+                        yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed =obj, severity=OutcomeSeverity.ERROR)
 
 
             related_objects = inst.DefinesType
             for obj in related_objects:
                 if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN', 'PSET_PERFORMANCEDRIVEN']:
-                    yield ValidationOutcome(inst=inst, expected= {"oneOf": ["IfcObject", "IfcPerformanceHistory"]}, observed ={"entity":f"{obj.is_a()}(#{obj.id()})"}, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected= {"oneOf": ["IfcObject", "IfcPerformanceHistory"]}, observed =obj, severity=OutcomeSeverity.ERROR)
 
                 correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_type_values']]
                 if not any(correct):
-                    yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_type_values']}, observed ={"entity":f"{obj.is_a()}(#{obj.id()})"}, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_type_values']}, observed =obj, severity=OutcomeSeverity.ERROR)
 
         if 'Each associated IfcProperty must be named according to the property set definitions table' in context.step.name:
             properties = inst.HasProperties
@@ -252,7 +264,7 @@ def step_impl(context, inst, table):
                     break
 
                 if not property.is_a(accepted_property_type):
-                    yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_property_type}, observed ={"entity":f"{property.is_a()}(#{property.id()})"}, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_property_type}, observed ={"instance":f"{property.is_a()}(#{property.id()})"}, severity=OutcomeSeverity.ERROR)
 
         if 'Each associated IfcProperty value must be of data type according to the property set definitions table' in context.step.name:
             accepted_property_name_datatype_map = {}

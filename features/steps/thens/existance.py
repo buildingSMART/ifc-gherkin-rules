@@ -1,7 +1,7 @@
 import operator
 
 from utils import misc
-from validation_handling import gherkin_ifc
+from validation_handling import gherkin_ifc, global_rule
 
 from . import ValidationOutcome, OutcomeSeverity
 
@@ -15,15 +15,13 @@ def step_impl(context, inst, representation_id):
 
 
 @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
+@global_rule
 def step_impl(context, inst, constraint, num, entity):
     op = misc.stmt_to_op(constraint)
+    instances_in_model = context.model.by_type(entity)
 
-    if getattr(context, 'applicable', True):
-
-        instances_in_model = context.model.by_type(entity)
-
-        if not op(len(instances_in_model), num):
-            yield ValidationOutcome(inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR)
+    if not op(len(instances_in_model), num):
+        yield ValidationOutcome(inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("A representation must have 2 items for PredefinedType of HELMERTCURVE and 1 item for all other values of PredefinedType")

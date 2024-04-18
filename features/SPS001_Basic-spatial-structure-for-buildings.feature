@@ -14,12 +14,9 @@ The rule verifies that there's maximum one instance of IfcSite and at least one 
 
     Then There must be at most 1 instance(s) of IfcSite
 
-
   Scenario: Agreement142(1) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
 
-    Given An IfcRoot
     Then There must be at least 1 instance(s) of IfcBuilding
-
 
   Scenario: Agreement142(2) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
 

@@ -1,3 +1,4 @@
+import functools
 import json
 from utils import misc
 from functools import wraps
@@ -281,7 +282,9 @@ def handle_then(context, fn, **kwargs):
                 return is_nested(items) and all(not is_nested(v) for v in items)
             return False
 
-        if should_apply(items, depth):
+        if context.is_global_rule:
+            return apply_then_operation(fn, [items], context, current_path=None, **kwargs)
+        elif should_apply(items, depth):
             return apply_then_operation(fn, items, context, current_path, **kwargs)
         elif is_nested(items):
             new_depth = depth if depth > 0 else 0
@@ -293,6 +296,13 @@ def handle_then(context, fn, **kwargs):
     # evokes behave error
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
 
+def global_rule(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    wrapper.global_rule = True
+    return wrapper
+
 class gherkin_ifc():
 
     def step(step_text):
@@ -302,10 +312,14 @@ class gherkin_ifc():
         return wrapped_step
 
 def execute_step(fn):
+    is_global_rule = False
     while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
+        is_global_rule = is_global_rule or getattr(fn, 'global_rule', False)
         fn = fn.__wrapped__
     @wraps(fn)
     def inner(context, **kwargs):
+        context.is_global_rule = is_global_rule
+
         """
         This section of code performs two primary checks:
 
@@ -379,7 +393,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             else:
                 return {'value': data} # e.g. "The value must be 'Body'"
         case ifcopenshell.entity_instance():
-            return {'ifc_instance': f"{data.is_a()}({getattr(data, 'GlobalId', data.id())})"}
+            return {'instance': f"{data.is_a()}({getattr(data, 'GlobalId', data.id())})"}
         case dict():
             # mostly for the pse001 rule, which already yields dicts
             return data

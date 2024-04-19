@@ -2,12 +2,13 @@ import ifcopenshell
 from behave.model import Scenario
 from collections import Counter
 import os
-import ast
+import random
 from rule_creation_protocol import protocol
 import copy
 
 from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
-from main import ExecutionMode, do_try
+from main import ExecutionMode
+
 
 model_cache = {}
 def read_model(fn):
@@ -27,7 +28,6 @@ def before_feature(context, feature):
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
 
-    context.with_console_output = do_try(lambda: ast.literal_eval(context.config.userdata.get('with_console_output')), False)
     context.protocol_errors = []
     if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
         ifc_filename_incl_path = context.config.userdata.get('input')

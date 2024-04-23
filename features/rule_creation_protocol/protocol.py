@@ -11,6 +11,8 @@ from .duplicate_registry import Registry
 from .errors import ProtocolError
 from .utils import replace_substrings
 from .config import ConfiguredBaseModel
+from . import version_check
+
 
 from typing import Any, Optional
 
@@ -34,6 +36,8 @@ class Naming(ConfiguredBaseModel):
     first_separator: str = parsed_field(" ")
     rule_title: str = parsed_field(" ")
     separators: list = parsed_field(default_factory=list)
+    pull_request: bool
+    target_branch: str
 
     @classmethod
     def get_parsed_value_fields(cls, parsed_name) -> dict:
@@ -66,7 +70,21 @@ class Naming(ConfiguredBaseModel):
         values.update(cls.get_parsed_value_fields(parsed_name))
         # Rule code - Rule title to check for uniqueness
         # Registry.register_combination(f"{values['rule_code']['functional_part']}{values['rule_code']['number']}", re.sub('[-_.]', ' ', values['rule_title'])) s
-        return values
+        return 
+    
+    @field_validator('target_branch')
+    def check_version_bump(cls, value, values):
+        """"
+        In case a .feature file is updated, the version number must be bumped as well
+        """
+        if values.data.get('pull_request', False):
+            feature_files = version_check.get_changed_feature_files(value) #e.g. 'development'
+            for file in feature_files:
+                if not version_check.check_version_bump(file):
+                    raise ProtocolError(
+                        value=None,
+                        message = "When changing a .feature file, the version number must be bumped as well"
+                        )
 
     @field_validator('rule_code')
     def validate_rule_code(cls, value) -> dict:
@@ -341,6 +359,8 @@ def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}):
         'steps': attrs['steps'],
         'filename': attrs['filename'], # e.g. ifc-gherkin-rules\test\files\alb002\pass-alb002-generated_file.ifc
         'readme': attrs['filename'],  # e.g. ifc-gherkin-rules\test\files\alb002\pass-alb002-generated_file.ifc
+        'target_branch': attrs['target_branch'],
+        'pull_request': attrs['pull_request']
     }
 
     try:

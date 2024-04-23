@@ -46,7 +46,7 @@ def do_try(fn, default=None):
         return default
 
 
-def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None):
+def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None, target_branch=None, pull_request=False):
     cwd = os.path.dirname(__file__)
     remote = get_remote(cwd)
 
@@ -79,6 +79,8 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                 *feature_filter, *tag_filter,
                 "--define", f"input={os.path.abspath(filename)}", 
                 "--define", f"execution_mode={execution_mode}",
+                "--define", f"target_branch={target_branch}",
+                "--define", f"pull_request={pull_request}",
                 *(["--define", f"task_id={task_id}"] if task_id is not None else []),
             ], 
         cwd=cwd

@@ -28,4 +28,3 @@ def step_impl(context, inst):
             observed=[get_coordinates(points[0]), get_coordinates(points[1])],
             severity=OutcomeSeverity.ERROR
         )
-        # yield ValidationOutcome(inst=inst, observed=[getattr(points[0], 'Coordinates', points[0]), getattr(points[1], 'Coordinates', points[1])], severity=OutcomeSeverity.ERROR)

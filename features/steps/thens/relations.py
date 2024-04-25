@@ -1,11 +1,8 @@
 from validation_handling import gherkin_ifc
 import json
-
 from utils import ifc, misc, system
-
 from parse_type import TypeBuilder
 from behave import register_type
-
 from . import ValidationOutcome, OutcomeSeverity
 
 

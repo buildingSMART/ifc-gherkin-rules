@@ -4,119 +4,13 @@ from utils import misc
 from functools import wraps
 import ifcopenshell
 from behave import step
-import sys
-import os
-from pathlib import Path
 import inspect
-import itertools
 from operator import attrgetter
 import ast
 from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode
 
 from behave.runner import Context
-from pydantic import BaseModel, field_validator, Field
-from typing import Any, Union
-from typing_extensions import Annotated
-
-
-class StepOutcome(BaseModel):
-    inst: Union[ifcopenshell.entity_instance, str] = None
-    context: Context
-    expected: Any = None
-    observed: Any = None
-    outcome_code: Annotated[str, Field(validate_default=True, max_length=6)] = 'N00010'
-    severity : Annotated[OutcomeSeverity, Field(validate_default=True)] = OutcomeSeverity.ERROR # severity must be validated after outcome_coxd
-
-    def __str__(cls):
-        return(f"Step finished with a/an {cls.severity} {cls.outcome_code}. Expected value: {cls.expected}. Observed value: {cls.observed}")
-
-    @field_validator('expected')
-    def format_expected(cls, v):
-        if isinstance(v, list):
-            return json.dumps({'OneOf': v})
-        return v
-
-    @field_validator('outcome_code')
-    @classmethod
-    def valid_outcome_code(cls, outcome_code : str, values):
-        """
-        Function to validate and/or determine the outcome code of a step implementation.
-        In case the outcome code is not specified in the step implementation, the outcome code of respectively the scenario and feature is used.
-        The outcome code must be included in the tags of the .feature file.
-        The severity of the outcome code must be either ERROR or WARNING.
-
-        For a scenario in the .feature file with multiple tags,
-        the topmost tag is utilized by default, except when overridden by user input.
-        For instance, given the tags:
-        @E00001
-        @E00002
-        Scenario: X
-
-        @E00001 is used by default, unless the user specifies @E00002 in the step implementation.
-        """
-        valid_outcome_codes = {code.name for code in ValidationOutcomeCode}
-
-        context = values.data.get('context')
-        feature_tags = context.feature.tags
-        scenario_tags = context.scenario.tags
-
-        # current_rule_tags = [tag for tag in values.data.get('context').feature.tags + values.data.get('context').scenario.tags if tag in valid_outcome_codes]
-        current_rule_tags = [tag for tag in feature_tags + scenario_tags if tag in valid_outcome_codes]
-
-        default = cls.model_fields['outcome_code'].default
-        if outcome_code == default:
-            if scenario_tags:
-                outcome_code = scenario_tags[0]
-            elif valid_outcome_codes:
-                for tag in valid_outcome_codes:
-                    if tag in feature_tags:
-                        outcome_code = tag
-                        break
-        else:
-            # should an implementer be allowed to use a custom outcome code (i.e. not mentioned in the .feature file)?
-            assert outcome_code in current_rule_tags, 'Outcome code not included in tags of .feature file'
-        assert getattr(ValidationOutcomeCode, outcome_code).determine_severity().name in ["ERROR", "WARNING"], "Outcome code at step implementation must be either ERROR or WARNING"
-        return outcome_code
-
-    @field_validator('severity')
-    @classmethod
-    def valid_severity(cls, severity : OutcomeSeverity, values):
-        """
-        Validates and determines the severity of a step implementation in a Pydantic model.
-        In Pydantic, field validation follows the order in which fields are defined in the model.
-        Therefore, the 'severity' field will be validated after the 'outcome_code' field.
-
-        To set the severity to 'WARNING', the 'outcome_code' must correspond to a code beginning with 'W'.
-        Conversely, to set the severity to 'ERROR', the 'outcome_code' should start with 'E'.
-        For example:
-
-        - @W00001 leads to Severity 'WARNING'
-        - @E00001 leads to Severity 'ERROR'
-        """
-        return getattr(ValidationOutcomeCode, values.data.get('outcome_code')).determine_severity().name
-
-    # @field_validator('inst')
-
-
-    # @field_validator('warning', mode='after')
-    # def validate_warning(cls, value, values):
-    #     pass
-        # if values.get('warning'):
-        #     return True
-
-        # has_warning_tag = lambda tags: any(tag.lower() == 'warning' for tag in tags)
-
-        # if has_warning_tag(values.get('context').scenario.tags) or \
-        #    has_warning_tag(values.get('context').feature.tags):
-        #     return True
-
-        # return False
-
-
-    class Config:
-        arbitrary_types_allowed = True
-        extra = "allow"
-
+from typing import Any
 
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str

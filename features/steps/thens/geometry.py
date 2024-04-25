@@ -1,7 +1,7 @@
 import itertools
 import math
 
-from utils import geometry, ifc, misc
+from utils import geometry, ifc
 from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity

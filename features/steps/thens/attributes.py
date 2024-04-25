@@ -1,7 +1,7 @@
 import operator
 
 
-from utils import ifc, misc, system, geometry
+from utils import misc, system, geometry
 from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity

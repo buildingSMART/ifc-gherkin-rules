@@ -2,7 +2,6 @@ import ifcopenshell
 from behave.model import Scenario
 from collections import Counter
 import os
-import random
 from rule_creation_protocol import protocol
 import copy
 

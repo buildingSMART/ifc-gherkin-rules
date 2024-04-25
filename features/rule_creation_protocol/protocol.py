@@ -9,7 +9,6 @@ import pyparsing
 from .validation_helper import ValidatorHelper, ParsePattern
 from .duplicate_registry import Registry
 from .errors import ProtocolError
-from .utils import replace_substrings
 from .config import ConfiguredBaseModel
 
 from typing import Any, Optional
@@ -223,14 +222,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
                 value=value,
                 message=f"The second part of the test file name must be a valid rule code. In that case it's: {rule}"
             )
-
-        """Check if scenario is found in the third part of the test file (for fail files)"""
-        # if scenario and not re.match(r'^scenario\d{2}$', scenario):
-        #     raise ProtocolError(
-        #         value=value,
-        #         message=f"The third part of the fail test file name must be a valid scenario number. In that case it's: {scenario}"
-        #     )
-
+        
         """
         Naming convention for unit test files files
         Unit test files must follow this naming convention

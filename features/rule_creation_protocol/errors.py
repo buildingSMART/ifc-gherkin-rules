@@ -1,5 +1,3 @@
-import enum
-
 class ProtocolError(AssertionError):
     """Custom exception for errors related to rule protocol.
 

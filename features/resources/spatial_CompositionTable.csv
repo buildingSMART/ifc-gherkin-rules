@@ -1,5 +1,6 @@
 ApplicableEntity,RelatingObject
 IfcBridgePart,IfcBridge
+IfcBridgePart,IfcBridgePart
 IfcBridge,IfcProject
 IfcBridge,IfcSite
 IfcBridge,IfcBridge
@@ -12,6 +13,7 @@ IfcExternalSpatialElement,IfcProject
 IfcExternalSpatialElement,IfcSite
 IfcExternalSpatialElement,IfcExternalSpatialElement
 IfcFacilityPartCommon,IfcFacility
+IfcFacilityPartCommon,IfcFacilityPartCommon
 IfcFacility,IfcProject
 IfcFacility,IfcSite
 IfcFacility,IfcFacility
@@ -19,11 +21,14 @@ IfcMarineFacility,IfcProject
 IfcMarineFacility,IfcSite
 IfcMarineFacility,IfcMarineFacility
 IfcMarinePart,IfcMarineFacility
+IfcMarinePart, IfcMarinePart
 IfcRailwayPart,IfcRailway
+IfcRailwayPart,IfcRailwayPart
 IfcRailway,IfcProject
 IfcRailway,IfcSite
 IfcRailway,IfcRailway
 IfcRoadPart,IfcRoad
+IfcRoadPart,IfcRoadPart
 IfcRoad,IfcProject
 IfcRoad,IfcSite
 IfcRoad,IfcRoad

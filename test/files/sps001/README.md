@@ -1,15 +1,76 @@
-| File name                                                | Expected result | Error                                                                                                                                                                                                            | Description                                                     |
-|----------------------------------------------------------|-------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| pass-sps001-0_sites_1_buildings_variant_0.ifc            | pass  |                                                                                                                                                                                                                  | File with 0 sites and 1 buildings, building assigned to project |
-| pass-sps001-0_sites_2_buildings_variant_0.ifc            | pass  |                                                                                                                                                                                                                  | File with 0 sites and 2 buildings, building assigned to project |
-| pass-sps001-1_sites_1_buildings_variant_1.ifc            | pass  |                                                                                                                                                                                                                  | File with 1 sites and 1 buildings, building assigned to site    |
-| pass-sps001-1_sites_2_buildings_variant_1.ifc            | pass  |                                                                                                                                                                                                                  | File with 1 sites and 2 buildings, building assigned to site    |
-| fail-sps001-scenario02-0_sites_0_buildings_variant_0.ifc | fail  | No instances of type IfcBuilding were encountered                                                                                                                                                                | File with 0 sites and 0 buildings, building assigned to project |
-| fail-sps001-scenario02-1_sites_0_buildings_variant_0.ifc | fail  | No instances of type IfcBuilding were encountered                                                                                                                                                                | File with 1 sites and 0 buildings, building assigned to project |
-| fail-sps001-scenario02-1_sites_1_buildings_variant_0.ifc | fail  | The instance #23=IfcBuilding ... is assigned to #20=IfcProject ...                                                                                                                                               | File with 1 sites and 1 buildings, building assigned to project |
-| fail-sps001-scenario02-1_sites_2_buildings_variant_0.ifc | fail  | (1) The instance #23=IfcBuilding ... is assigned to #20=IfcProject ... (2) The instance #24=IfcBuilding ... is assigned to #20=IfcProject ...                                                                    | File with 1 sites and 2 buildings, building assigned to project |
-| fail-sps001-scenario01-2_sites_0_buildings_variant_0.ifc | fail  | (1) The following 2 instances of type IfcSite were encountered ... (2) No instances of type IfcBuilding were encountered                                                                                         | File with 2 sites and 0 buildings                               |
-| fail-sps001-scenario01-2_sites_1_buildings_variant_0.ifc | fail  | (1) The following 2 instances of type IfcSite were encountered ... (2) The instance #24=IfcBuilding ... is assigned to #20=IfcProject ...                                                                        | File with 2 sites and 1 buildings, building assigned to project |
-| fail-sps001-scenario01-2_sites_1_buildings_variant_1.ifc | fail  | The following 2 instances of type IfcSite were encountered ...                                                                                                                                                   | File with 2 sites and 1 buildings, building assigned to site    |
-| fail-sps001-scenario01-2_sites_2_buildings_variant_0.ifc | fail  | (1) The following 2 instances of type IfcSite were encountered ... (2) The instance #24=IfcBuilding ... is assigned to #20=IfcProject ... (3) The instance #25=IfcBuilding ... is assigned to #20=IfcProject ... | File with 2 sites and 2 buildings, building assigned to project |
-| fail-sps001-scenario01-2_sites_2_buildings_variant_1.ifc | fail  | The following 2 instances of type IfcSite were encountered ...                                                                                                                                                   | File with 2 sites and 2 buildings, building assigned to site    |
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>File name</th>
+      <th>Expected result</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pass-sps001-1_sites_1_buildings_variant_1.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-sps001-1_sites_2_buildings_variant_1.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-sps001-0_sites_2_buildings_variant_0.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-sps001-0_sites_1_buildings_variant_0.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>fail-sps001-scenario02-1_sites_2_buildings_variant_0.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '23', 'Expected': "{'value': 'IfcSite'}", 'Observed': "{'instance': 'IfcProject(3GwmFWa1n8RgV63Bp$0U8M)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-sps001-scenario01-2_sites_2_buildings_variant_0.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['3NAP9012z2cgFsxW434nvy', '3fS25qAY52eP1esqdCjA1w']}"} . Result 2: {'Instance_id': '24', 'Expected': "{'value': 'IfcSite'}", 'Observed': "{'instance': 'IfcProject(1mgMwetTbDlBR7$9qyMgHR)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-sps001-scenario02-0_sites_0_buildings_variant_0.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': []}"}</td>
+    </tr>
+    <tr>
+      <td>fail-sps001-scenario01-2_sites_2_buildings_variant_1.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['1uVlHAlAfEBeLNmyLRG8lR', '3mlrFKyEjFsgrzpehcqzes']}"}</td>
+    </tr>
+    <tr>
+      <td>fail-sps001-scenario01-2_sites_1_buildings_variant_0.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['1oP$qvRGPCNQ5S2SGXBn$p', '3S_HoHe6LBewO_QRBfiTow']}"} . Result 2: {'Instance_id': '24', 'Expected': "{'value': 'IfcSite'}", 'Observed': "{'instance': 'IfcProject(0UO1LtH6H9UhENH5HiES7X)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-sps001-scenario01-2_sites_1_buildings_variant_1.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['2JtNBx2jX15gq5taKyKTNY', '0_fBKwwTz6kODY$WwRmma0']}"}</td>
+    </tr>
+    <tr>
+      <td>fail-sps001-scenario02-1_sites_1_buildings_variant_0.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '23', 'Expected': "{'value': 'IfcSite'}", 'Observed': "{'instance': 'IfcProject(1ncJLmeIfAfhYWT1MwrogC)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-sps001-scenario02-1_sites_0_buildings_variant_0.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': []}"}</td>
+    </tr>
+    <tr>
+      <td>fail-sps001-scenario01-2_sites_0_buildings_variant_0.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['0uXZOT5dT5Nwm0YhlkLAiD', '19rxuYaM16C9xIM5CsbEI8']}"} . Result 2: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': []}"}</td>
+    </tr>
+  </tbody>
+</table>

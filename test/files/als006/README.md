@@ -1,6 +1,31 @@
-| File name                                                       | Expected result | Error                                                                                                                                                                                                                  | Description                                                                                                                                                                                              |
-|-----------------------------------------------------------------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| fail-als006-scenario01-wrong_representationidentifier_value.ifc | E00020          | On instance #200001=IfcShapeRepresenta...,(#54)) the following invalid value for RepresentationIdentifier has been found: Footprint                                                                                    | The value of attribute Representation must be Axis, but is Footprint instead                                                                                                                             |
-| fail-als006-scenario01-wrong_representationtype_value.ifc       | E00020          | On instance #20001=IfcShapeRepresenta...,(#54)) the following invalid value for RepresentationType has been found: Curve3D                                                                                             | The value of attribute RepresentationType must be Curve2D, but found Curve3D instead                                                                                                                     |
-| fail-als006-scenario02-wrong_items_type.ifc                     | E00010          | The instance #20001=IfcShapeRepresentation(#1001, 'Axis', 'Curve2D',(#79)) expected type 'IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline' for the attribute Items, but found #79=IfcGradientCurve((#8..#54,$) | On entity #20001=IfcShapeRepresentation(#1001, 'Axis', 'Curve2D',(#79)). The type of attribute Items must be IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline, but found IfcGradientCurve instead |
-| pass-als006-alignment_horizontal_shape_representation.ifc       | P00010          | Rules passed                                                                                                                                                                                                           |                                                                                                                                                                                                          |
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>File name</th>
+      <th>Expected result</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pass-als006-alignment_horizontal_shape_representation.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>fail-als006-scenario02-wrong_items_type.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '34', 'Expected': "{'value': 'IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline'}", 'Observed': "{'instance': 'IfcGradientCurve(79)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-als006-scenario01-wrong_representationidentifier_value.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '34', 'Expected': "{'value': 'Axis'}", 'Observed': "{'value': 'FootPrint'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-als006-scenario01-wrong_representationtype_value.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '34', 'Expected': "{'value': 'Curve2D'}", 'Observed': "{'value': 'Curve3D'}"}</td>
+    </tr>
+  </tbody>
+</table>

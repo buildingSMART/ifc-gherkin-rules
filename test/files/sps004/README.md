@@ -1,5 +1,26 @@
-| File name                                             | Expected result   | Error                                                                                                                                                                                                                                                                                                                                                                                                  | Description   |
-|:------------------------------------------------------|:------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------|
-| fail-sps004-scenario01-with_position_with_contain.ifc | fail              | ["On instance #27=IfcReferent('2JtfaaPA...,$,$,$) the following invalid value for PositionedRelativeTo has been found: (#29=IfcRelPositions('23MErhoGDAF9H$5jxm4OSu',#5,$,$,#23,(#27)),)", "On instance #27=IfcReferent('2JtfaaPA...,$,$,$) the following invalid value for ContainedInStructure has been found: (#28=IfcRelContainedInSpatialStructure('1bj8PJZ7n8wPsxWO61i764',#5,$,$,(#27),#21),)"] |               |
-| pass-sps004-without_position_with_contain.ifc         | pass              | Rules passed                                                                                                                                                                                                                                                                                                                                                                                           |               |
-| pass-sps004-with_position_without_contain.ifc         | pass              | Rules passed                                                                                                                                                                                                                                                                                                                                                                                           |               |
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>File name</th>
+      <th>Expected result</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pass-sps004-without_position_with_contain.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-sps004-with_position_without_contain.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>fail-sps004-scenario01-with_position_with_contain.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': ''}</td>
+    </tr>
+  </tbody>
+</table>

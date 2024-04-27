@@ -1,12 +1,61 @@
-| File name                                               | Expected result | Error                                                                                                                                                                                         | Description                                                                                                                  |
-|---------------------------------------------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| pass-gem003-1-body-1-axis-as-identifiers.ifc            | pass            |                                                                                                                                                                                               | IfcProductDefinitionShape has multiple Representations, but each has unique value for the attribute RepresentationIdentifier |
-| pass-gem003-0-body-1-axis-as-identifiers.ifc            | pass            |                                                                                                                                                                                               | IfcProductDefinitionshape has only one Representation                                                                        |
-| pass-gem003-1-body-0-axis-as-identifiers.ifc            | pass            |                                                                                                                                                                                               | IfcProductDefinitionshape has only one Representation                                                                        |
-| fail-gem003-scenario01-0-body-2-axis-as-identifiers.ifc | fail            | Instance #31IfcProductDefin .. contained the following non-unique identifier(s): Axis at instances  #27=IfcShapeRepre .. #28=IfcShapeRepre ..                                                 | There are two IfcShapeRepresentations having the same RepresentationIdentifier within one IfcProductDefinitionShape.         
-| fail-gem003-scenario01-1-body-2-axis-as-identifiers.ifc | fail            | Instance #31IfcProductDefin .. contained the following non-unique identifier(s): Axis at instances  #27=IfcShapeRepre .. #28=IfcShapeRepre ..                                                 | There are two IfcShapeRepresentations having the same RepresentationIdentifier within one IfcProductDefinitionShape.         |
-| fail-gem003-scenario01-2-body-0-axis-as-identifiers.ifc | fail            | Instance #31IfcProductDefin .. contained the following non-unique identifier(s): Body at instances  #27=IfcShapeRepre .. #28=IfcShapeRepre ..                                                 | There are two IfcShapeRepresentations having the same RepresentationIdentifier within one IfcProductDefinitionShape.         |
-| fail-gem003-scenario01-2-body-1-axis-as-identifiers.ifc | fail            | Instance #31IfcProductDefin .. contained the following non-unique identifier(s): Body at instances  #27=IfcShapeRepre .. #28=IfcShapeRepre ..                                                 | There are two IfcShapeRepresentations having the same RepresentationIdentifier within one IfcProductDefinitionShape.         |
-| fail-gem003-scenario01-2-body-2-axis-as-identifiers.ifc | fail            | Instance #31IfcProductDefin .. contained the following non-unique identifier(s): Body, Axis at instances  #27=IfcShapeRepre .. #28=IfcShapeRepre .. #29=IfcShapeRepre .. #30=IfcShapeRepre .. | There are four IfcShapeRepresentations having the same RepresentationIdentifier within one IfcProductDefinitionShape twice   |
-| fail-gem003-scenario01-3-body-0-axis-as-identifiers.ifc | fail            | Instance #31IfcProductDefin .. contained the following non-unique identifier(s): Body at instances  #27=IfcShapeRepre .. #28=IfcShapeRepre ..  #29=IfcShapeRepr ..                            | There are three IfcShapeRepresentations having the same RepresentationIdentifier within one IfcProductDefinitionShape.       |
-| fail-gem003-scenario01-3-body-1-axis-as-identifiers.ifc | fail            | Instance #31IfcProductDefin .. contained the following non-unique identifier(s): Body at instances  #27=IfcShapeRepre .. #28=IfcShapeRepre ..  #29=IfcShapeRepr ..                            | There are three IfcShapeRepresentations having the same RepresentationIdentifier within one IfcProductDefinitionShape.       |
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>File name</th>
+      <th>Expected result</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pass-gem003-0_body_1_axis_as_identifiers.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-gem003-1_body_1_axis_as_identifiers.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-gem003-1_body_0_axis_as_identifiers.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>fail-gem003-scenario01-2_body_2_axis_as_identifiers.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '45', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-gem003-scenario01-3_body_1_axis_as_identifiers.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '45', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-gem003-scenario01-2_body_1_axis_as_identifiers.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '44', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-gem003-scenario01-0_body_2_axis_as_identifiers.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '43', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-gem003-scenario01-3_body_0_axis_as_identifiers.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '44', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-gem003-scenario01-1_body_2_axis_as_identifiers.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '44', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-gem003-scenario01-2_body_0_axis_as_identifiers.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '43', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
+    </tr>
+  </tbody>
+</table>

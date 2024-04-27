@@ -1,9 +1,56 @@
-| File name                                         | Expected result | Error | Description                    |
-|---------------------------------------------------|-----------------|-------|--------------------------------|
-| pass-grf001-1-mapconversion.ifc | pass            |       | File contains 1 attribute 'IfcGeometricRepresentationContext' with 1 coordinate operation attribute 'IfcMapConversion' |
-| pass-grf001-2-mapconversion.ifc                       | pass            |       | File contains  1attribute 'IfcGeometricRepresentationContext' with 2 coordinate operation attributes 'IfcMapConversion' |
-|  pass-grf001-2-None.ifc       | pass            |       | file contains 2 'IfcGeometricRepresentationContext' without coordinate operations |
-| fail-grf001-1-rigidoperation-1-none.ifc | fail | On instance(s) #11=IfcGeom ..;#22=IfcGeom... , the following non-identical value(s) for attribute HasCoordinateOperation was/were found: IfcRigidOperation, None      | File contains 2 attributes 'IfcGeometricRepresentationContext' with either no coordinate operation or a coordinate operation attribute 'IfcRigidOperation' |
-| fail-grf001-1-mapconversion-1-rigidoperation.ifc | fail | On instance(s) #11=IfcGeom ..;#22=IfcGeom... , the following non-identical value(s) for attribute HasCoordinateOperation was/were found: IfcMapConversion, IfcRigidOperation      | File contains 2 attributes 'IfcGeometricRepresentationContext' with either coordinate operation attribute 'IfcMapConversion' or 'IfcRigidOperation' |
-| fail-grf001-1-mapconversion-1-none.ifc | fail | On instance(s) #22=IfcGeom ..;#55=IfcGeom... , the following non-identical value(s) for attribute HasCoordinateOperation was/were found: IfcMapConversion, None      | File contains 2 attributes 'IfcGeometricRepresentationContext' with either no coordinate operation or a coordinate operation attribute 'IfcMapConversion' |
-| fail-grf001-1-mapconversion-1-none.ifc | fail | On instance(s) #11=IfcGeom ..;#26=IfcGeom..., ;#22=IfcGeom..., the following non-identical value(s) for attribute HasCoordinateOperation was/were found: IfcMapConversion, None      | File contains 3 attributes 'IfcGeometricRepresentationContext' with either coordinate operation attribute 'IfcMapConversion' or 'IfcRigidOperation' |
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>File name</th>
+      <th>Expected result</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pass-grf001-ifcrigidoperation_ifcrigidoperation.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-grf001-none_none.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-grf001-ifcmapconversionscaled_ifcmapconversionscaled.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-grf001-ifcmapconversion_ifcmapconversion.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>fail-grf001-ifcmapconversion_none.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '11', 'Expected': "{'value': 'identical'}", 'Observed': "{'value': 'Not identical'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-grf001-ifcmapconversionscaled_ifcmapconversionscaled_non_identical.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '11', 'Expected': "{'value': 'identical'}", 'Observed': "{'value': 'Not identical'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-grf001-ifcmapconversion_ifcmapconversion_non_identical.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '11', 'Expected': "{'value': 'identical'}", 'Observed': "{'value': 'Not identical'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-grf001-ifcrigidoperation_ifcrigidoperation_non_identical.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '11', 'Expected': "{'value': 'identical'}", 'Observed': "{'value': 'Not identical'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-grf001-none_ifcmapconversion.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '11', 'Expected': "{'value': 'identical'}", 'Observed': "{'value': 'Not identical'}"}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,7 +1,36 @@
-| File name                                              | Expected result   | Error                                                                                                                                                                                             | Description   |
-|:-------------------------------------------------------|:------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------|
-| pass-ifc001-IFC2X3.ifc        | pass              | Rules                                                                                                                                                                                       |        'IFC2X3' is one of the accepted schema identifiers      |
-| pass-ifc001-IFC4.ifc        | pass              | Rules                                                                                                                                                                                       |    'IFC4' is one of the accepted schema identifiers       |
-| pass-IFC4X3_ADD2.ifc        | pass              | Rules                                                                                                                                                                                       |    'IFC4X3_ADD2' is one of the accepted schema identifiers            |
-| fail-IFC4X3.ifc       | pass              | The file's schema identifier IFC4X3 does not match any of the expected current schema identifiers: 'ifc4X3_add2', 'ifc4', 'ifc2x3'  fail                                                                                                                                                                                      |    IFC4X3 is a correct schema, but not schema identifier         |
-|  fail-IFC4X3_ADD1.ifc    | fail              | The file's schema identifier IFC4X3_ADD1 does not match any of the expected current schema identifiers: 'ifc4X3_add2', 'ifc4', 'ifc2x3'  #23, |   IFC4X3_ADD1 is outdated            |
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>File name</th>
+      <th>Expected result</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pass-ifc101-IFC4X3_ADD2.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-ifc101-IFC4.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-ifc101-IFC2X3.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>fail-ifc101-IFC4X3.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': "{'oneOf': ['IFC4X3_ADD2', 'IFC4', 'IFC2X3']}", 'Observed': "{'value': 'IFC4X3'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-ifc101-IFC4X3_ADD1.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '', 'Expected': "{'oneOf': ['IFC4X3_ADD2', 'IFC4', 'IFC2X3']}", 'Observed': "{'value': 'IFC4X3_ADD1'}"}</td>
+    </tr>
+  </tbody>
+</table>

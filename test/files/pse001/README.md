@@ -1,26 +1,131 @@
-| File name                                          | Expected result | Error log                                                                                                                                                                                                                                                                                                                                                                                        | Description                                                                                                                                                                               |
-|----------------------------------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| pass-pse001-ifcpropertyset-name-2x3                | success         | n.a.                                                                                                                                                                                                                                                                                                                                                                                             | IFC2x3 file containing a IFCPROPERTYSET with a correct Pset_ prefixed Name attribute                                                                                                      |
-| pass-pse001-ifcpropertyset-name-no-pset-2x3        | success         | n.a.                                                                                                                                                                                                                                                                                                                                                                                             | IFC2x3 file containing a IFCPROPERTYSET without Pset_ prefixed Name attribute                                                                                                             |
-| fail-pse001-scenario01-custom-pset-prefix          | fail            | On instance #8=IfcPropertySet('16MocU...,(#11)) the following invalid value for Name has been found: Pset_Mywall                                                                                                                                                                                                                                                                                 | IFC2x3 file containing a IFCPROPERTYSET with an incorrect Pset_ prefixed Name attribute: Pset_Mywall                                                                                      |
-| fail-pse001-scenario01-pset-misassigned            | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) with Name attribute Pset_WallCommon is assigned to #1=IfcProject('1hqIFTRjfV...23),#6). It must be assigned to one of the following types instead: ['IfcWall', 'IfcWallStandardCase']                                                                                                                                                           | IFC2x3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTYSET is assigned to IfcProject instead of IfcWall.                  |
-| fail-pse001-scenario01-wrong-ifcproperty-name      | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) has an associated property #11=IfcPropertySingleValu...,$,$,$) with Name attribute equal to: 'MyProperty'. Expected values for Pset_WallCommon are ['Reference', 'AcousticRating', 'FireRating', 'Combustible', 'SurfaceSpreadOfFlame', 'ThermalTransmittance', 'IsExternal', 'ExtendToStructure', 'LoadBearing', 'Compartmentation']           | IFC2x3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTY assigned to the IFCPROPERTYSET has an invalid Name attribute      |
-| fail-pse001-scenario01-wrong-ifcproperty-type      | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) has an associated property #11=IfcPropertyEnumerated...,$,$,$). Expected type of this property is: IfcPropertySingleValue                                                                                                                                                                                                                       | IFC2x3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTY assigned to the IFCPROPERTYSET has an invalid Type attribute      |
-| fail-pse001-scenario01-wrong-ifcproperty-data-type | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) has an associated value #11=IfcPropertySingleValu....T.),$) with Name attribute equal to: 'AcousticRating'. Expected data type of this value is IfcLabel, but IfcBoolean(.T.) was found.                                                                                                                                                        | IFC2x3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTY assigned to the IFCPROPERTYSET has an invalid Data Type attribute |
-| pass-pse001-ifcpropertyset-name-4                  | success         | n.a.                                                                                                                                                                                                                                                                                                                                                                                             | IFC4 file containing a IFCPROPERTYSET with a correct Pset_ prefixed Name attribute                                                                                                        |
-| pass-pse001-ifcpropertyset-name-no-pset-4          | success         | n.a.                                                                                                                                                                                                                                                                                                                                                                                             | IFC4 file containing a IFCPROPERTYSET without Pset_ prefixed Name attribute                                                                                                               |
-| fail-pse001-scenario02-custom-pset-prefix          | fail            | On instance #8=IfcPropertySet('16MocU...,(#11)) the following invalid value for Name has been found: Pset_Mywall                                                                                                                                                                                                                                                                                 | IFC4 file containing a IFCPROPERTYSET with an incorrect Pset_ prefixed Name attribute: Pset_Mywall                                                                                        |
-| fail-pse001-scenario02-pset-misassigned            | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) with Name attribute Pset_WallCommon is assigned to #1=IfcProject('1hqIFTRjfV...23),#6). It must be assigned to one of the following types instead: ['IfcWall']                                                                                                                                                                                  | IFC4 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTYSET is assigned to IfcProject instead of IfcWall.                    |
-| fail-pse001-scenario02-wrong-ifcproperty-name      | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) has an associated property #11=IfcPropertyEnumerated...)),#10) with Name attribute equal to: 'MyProperty'. Expected values for Pset_WallCommon are ['Reference', 'Status', 'AcousticRating', 'FireRating', 'Combustible', 'SurfaceSpreadOfFlame', 'ThermalTransmittance', 'IsExternal', 'LoadBearing', 'ExtendToStructure', 'Compartmentation'] | IFC4 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTY assigned to the IFCPROPERTYSET has an invalid Name attribute        |
-| fail-pse001-scenario02-wrong-ifcproperty-type      | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) has an associated property #11=IfcPropertySingleValu...,$,$,$). Expected type of this property is: IfcPropertyEnumeratedValue                                                                                                                                                                                                                   | IFC4 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTY assigned to the IFCPROPERTYSET has an invalid Type attribute        |
-| fail-pse001-scenario02-wrong-ifcproperty-data-type | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) has an associated value #11=IfcPropertyEnumerated...)),#10) with Name attribute equal to: 'Status'. Expected data type of this value is ['NEW', 'EXISTING', 'DEMOLISH', 'TEMPORARY', 'OTHER', 'NOTKNOWN', 'UNSET'], but CustomStatus was found.                                                                                                 | IFC4 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTY assigned to the IFCPROPERTYSET has an invalid Data Type attribute   |
-| pass-pse001-ifcpropertyset-name-4x3                | success         | n.a.                                                                                                                                                                                                                                                                                                                                                                                             | IFC4X3 file containing a IFCPROPERTYSET with a correct Pset_ prefixed Name attribute                                                                                                      |
-| pass-pse001-ifcpropertyset-type-check-4x3          | success         | n.a.                                                                                                                                                                                                                                                                                                                                                                                             | IFC4X3 file containing a IFCPROPERTYSET with a correct Pset_ prefixed Name attribute (assigned to a IfcTypeObject)                                                                        |
-| pass-pse001-ifcpropertyset-name-no-pset-4x3        | success         | n.a.                                                                                                                                                                                                                                                                                                                                                                                             | IFC4X3 file containing a IFCPROPERTYSET without Pset_ prefixed Name attribute                                                                                                             |
-| fail-pse001-scenario03-custom-pset-prefix          | fail            | On instance #8=IfcPropertySet('16MocU...,(#11)) the following invalid value for Name has been found: Pset_Mywall                                                                                                                                                                                                                                                                                 | IFC4X3 file containing a IFCPROPERTYSET with an incorrect Pset_ prefixed Name attribute: Pset_Mywall                                                                                      |
-| fail-pse001-scenario03-pset-misassigned            | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) with Name attribute Pset_WallCommon is assigned to #1=IfcProject('1hqIFTRjfV...23),#6). It must be assigned to one of the following types instead: ['IfcWall', 'IfcWallType']                                                                                                                                                                   | IFC4X3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTYSET is assigned to IfcProject instead of IfcWall.                  |
-| fail-pse001-scenario03-pset-type-misassigned       | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) with Name attribute Pset_WindowCommon is assigned to #7=IfcWallType('2nJrDaLQf...,$,$,$). It must be assigned to one of the following types instead: ['IfcWindow', 'IfcWindowType']                                                                                                                                                             | IFC4X3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WindowCommon. The IFCPROPERTYSET is assigned to IfcWallType instead of IfcWindow.             |
-| fail-pse001-scenario03-wrong-ifcproperty-name      | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) has an associated property #11=IfcPropertyEnumerated...)),#10) with Name attribute equal to: 'MyProperty'. Expected values for Pset_WallCommon are ['Reference', 'Status', 'AcousticRating', 'FireRating', 'Combustible', 'SurfaceSpreadOfFlame', 'ThermalTransmittance', 'IsExternal', 'LoadBearing', 'ExtendToStructure', 'Compartmentation'] | IFC4X3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTY assigned to the IFCPROPERTYSET has an invalid Name attribute      |
-| fail-pse001-scenario03-wrong-ifcproperty-type      | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) has an associated property #11=IfcPropertySingleValu...,$,$,$). Expected type of this property is: IfcPropertyEnumeratedValue                                                                                                                                                                                                                   | IFC4X3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTY assigned to the IFCPROPERTYSET has an invalid Type attribute      |
-| fail-pse001-scenario03-wrong-template-type         | fail            | The instance #108=IfcPropertySet('116M...(#111)) with Name attribute Pset_Address is assigned to #107=IfcWallType('12aG1gZ...FINED.). Pset_Address is PSET_OCCURRENCEDRIVEN. The property sets defined by this IfcPropertySetTemplate can only be assigned to subtypes of IfcObject.                                                                                                             | IFC4X3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_Address. The IFCPROPERTY is incorrectly assigned to a type object                             |
-| fail-pse001-scenario03-wrong-ifcproperty-data-type | fail            | The instance #8=IfcPropertySet('16MocU...,(#11)) has an associated value #11=IfcPropertyEnumerated...)),#10) with Name attribute equal to: 'Status'. Expected data type of this value is ['NEW', 'EXISTING', 'DEMOLISH', 'TEMPORARY', 'OTHER', 'NOTKNOWN', 'UNSET'], but CustomStatus was found.                                                                                                 | IFC4X3 file containing a IFCPROPERTYSET with an correct Pset_ prefixed Name attribute: Pset_WallCommon. The IFCPROPERTY assigned to the IFCPROPERTYSET has an invalid Data Type attribute |
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>File name</th>
+      <th>Expected result</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pass-pse001-ifcpropertyset_name_no_pset_2x3.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-pse001-ifcpropertyset_name_4.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-pse001-ifcpropertyset_name_4x3.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-pse001-ifcpropertyset_name_no_pset_4.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-pse001-ifcpropertyset_name_2x3.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-pse001-ifcpropertyset_type_check_4x3.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>pass-pse001-ifcpropertyset_name_no_pset_4x3.ifc</td>
+      <td>pass</td>
+      <td>NA / Automatically generated markdown</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario01-custom_pset_prefix.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': '', 'Observed': "{\\'value\\': \\'Pset_Mywall\\'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario03-wrong_ifcproperty_type.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': 'IfcPropertyEnumeratedValue'}", 'Observed': "{'instance': 'IfcPropertySingleValue(11)'}"} . Result 2: {'Instance_id': '8', 'Expected': "{'oneOf': 'PEnum_ElementStatus'}", 'Observed': "{'value': None}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario03-pset_type_misassigned.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': ['IfcWindow', 'IfcWindowType']}", 'Observed': "{'instance': 'IfcWallType(2nJrDaLQfJ1QPhdJR0o97J)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario02-wrong_ifcproperty_type.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': 'IfcPropertyEnumeratedValue'}", 'Observed': "{'instance': 'IfcPropertySingleValue(11)'}"} . Result 2: {'Instance_id': '8', 'Expected': "{'oneOf': 'PEnum_ElementStatus'}", 'Observed': "{'value': None}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario03-custom_pset_prefix.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': '', 'Observed': "{\\'value\\': \\'Pset_Mywall\\'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario02-pset_misassigned.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': ['IfcWall']}", 'Observed': "{'instance': 'IfcProject(1hqIFTRjfV6AWq_bMtnZwI)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario01-wrong_ifcproperty_type.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': 'IfcPropertySingleValue'}", 'Observed': "{'instance': 'IfcPropertyEnumeratedValue(11)'}"} . Result 2: {'Instance_id': '8', 'Expected': "{'oneOf': 'IfcBoolean'}", 'Observed': "{'value': None}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario02-custom_pset_prefix.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': '', 'Observed': "{\\'value\\': \\'Pset_Mywall\\'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario02-wrong_ifcproperty_data_type.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': ['NEW', 'EXISTING', 'DEMOLISH', 'TEMPORARY', 'OTHER', 'NOTKNOWN', 'UNSET']}", 'Observed': "{'value': 'CustomStatus'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario03-wrong_ifcproperty_name.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': ['Reference', 'Status', 'AcousticRating', 'FireRating', 'Combustible', 'SurfaceSpreadOfFlame', 'ThermalTransmittance', 'IsExternal', 'LoadBearing', 'ExtendToStructure', 'Compartmentation']}", 'Observed': "{'value': 'MyProperty'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario02-wrong_ifcproperty_name.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': ['Reference', 'Status', 'AcousticRating', 'FireRating', 'Combustible', 'SurfaceSpreadOfFlame', 'ThermalTransmittance', 'IsExternal', 'LoadBearing', 'ExtendToStructure', 'Compartmentation']}", 'Observed': "{'value': 'MyProperty'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario01-wrong_ifcproperty_data_type.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': 'IfcLabel'}", 'Observed': "{'value': 'IfcBoolean(.T.)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario03-wrong_ifcproperty_data_type.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': ['DEMOLISH', 'EXISTING', 'NEW', 'TEMPORARY', 'OTHER', 'NOTKNOWN', 'UNSET']}", 'Observed': "{'value': 'CustomStatus'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario03-wrong_template_type.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '108', 'Expected': "{'oneOf': ['IfcObject', 'IfcPerformanceHistory']}", 'Observed': "{'instance': 'IfcWallType(12aG1gZj7PD2PztLOx2$IVX)'}"} . Result 2: {'Instance_id': '108', 'Expected': "{'oneOf': 'PEnum_AddressType'}", 'Observed': "{'value': None}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario03-pset_misassigned.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': ['IfcWall', 'IfcWallType']}", 'Observed': "{'instance': 'IfcProject(1hqIFTRjfV6AWq_bMtnZwI)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario01-pset_misassigned.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': ['IfcWall', 'IfcWallStandardCase']}", 'Observed': "{'instance': 'IfcProject(1hqIFTRjfV6AWq_bMtnZwI)'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-pse001-scenario01-wrong_ifcproperty_name.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '8', 'Expected': "{'oneOf': ['Reference', 'AcousticRating', 'FireRating', 'Combustible', 'SurfaceSpreadOfFlame', 'ThermalTransmittance', 'IsExternal', 'ExtendToStructure', 'LoadBearing', 'Compartmentation']}", 'Observed': "{'value': 'MyProperty'}"}</td>
+    </tr>
+  </tbody>
+</table>

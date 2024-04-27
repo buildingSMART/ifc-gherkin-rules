@@ -1,14 +1,56 @@
-| File name                                                              | Expected result | Error                                                                                                                                                                                                                                            | Description                                                       |
-|------------------------------------------------------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| pass-gem004-scenario01-body-axis-as-identifiers.ifc                    | pass            |                                                                                                                                                                                                                                                  | 'Body' and 'Axis' are valid values                                |
-| pass-gem004-scenario01-surface-as-identifiers.ifc                      | pass            |                                                                                                                                                                                                                                                  | 'Surface' is a valid value for RepresentationIdentifier         
-| pass-gem004-scenario01-axis-as-identifiers.ifc                         | pass            |                                                                                                                                                                                                                                                  | 'Axis' a valid value                                              
-| pass-gem004-scenario02-surface-as-identifiers.ifc                      | pass            |                                                                                                                                                                                                                                                  | 'BoundingBox' is a valid value for RepresentationIdentifier       
-| pass-gem004-scenario02-axis-as-identifiers.ifc                         | pass            |                                                                                                                                                                                                                                                  | 'SweptSolid' is a valid value                                     
-| fail-gem004-scenario01-bodyy-as-identifiers.ifc                        | fail            | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: Boddy                                                                                                                                   | 'Bodyy' is a typo and therefore not a valid value                 | 
-| fail-gem004-scenario01-validationplan-mappedelement-as-identifiers.ifc | fail            | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: ValidationPlan, On instance #41=IfcShapeRepr ... the following invalid value for RepresentationIdentifier has been found: MappedElement | Both 'ValidationPlan' and 'MappedElement' are not valid values    |
-| fail-gem004-scenario01-body-validationplan-as-identifiers.ifc          | fail            | On instance #41=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: ValidationPlan                                                                                                                          | In this case, 'Body' is valid but 'ValidationPlan' is not         
-| fail-gem004-scenario01-validationplan-as-identifiers.ifc               | fail            | On instance #41=IfcShapeRepr .. the following invalid value for RepresentationIdentifier has been found: ValidationPlan                                                                                                                          | 'ValidationPlan' is not a vaid value for RepresentationIdentifier 
-| fail-gem004-scenario02-validationplan-axis-as-identifiers.ifc          | fail            | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationType has been found: ValidationPlan, On instance #41=IfcShapeRepr ... the following invalid value for RepresentationType has been found: Axis                      | Both 'ValidationPlan' and 'Axis' are not valid values             
-| fail-gem004-scenario02-sweptsolid-body-as-identifiers.ifc              | fail            | On instance #41=IfcShapeRepr .. the following invalid value for RepresentationType has been found: Body                                                                                                                                          | In this case, 'SweptSolid' is valid but 'Body' is not             
-| fail-gem004-scenario02-sweptsolidss-as-identifiers.ifc                 | fail            | On instance #40=IfcShapeRepr .. the following invalid value for RepresentationType has been found: SweptSolidss                                                                                                                                  | 'SweptSolidss' is a typo and therefore not a valid value          |
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>File name</th>
+      <th>Expected result</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pass-gem004-ifc4-surface_as_identifiers.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-gem004-ifc4x3-axis_as_identifiers.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-gem004-ifc4-boundingbox_as_type.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-gem004-ifc4x3-body_axis_as_identifiers.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-gem004-2x3-sweptsolid_as_type.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-gem004-ifc4x3-surface_as_identifiers.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>pass-gem004-ifc4x3-boundingbox_as_type.ifc</td>
+      <td>pass</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>fail-gem004-ifc4x3-body_validationplan_as_identifiers.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '43', 'Expected': "{'oneOf': ['CoG', 'Box', 'Annotation', 'Axis', 'FootPrint', 'Profile', 'Surface', 'Reference', 'Body', 'Body-Fallback', 'Clearance', 'Lighting']}", 'Observed': "{'value': 'ValidationPlan'}"}</td>
+    </tr>
+    <tr>
+      <td>fail-gem004-ifc4x3-sweptsolid_body_as_identifiers.ifc</td>
+      <td>fail</td>
+      <td>Result 1: {'Instance_id': '43', 'Expected': "{'oneOf': ['Point', 'PointCloud', 'Curve', 'Curve2D', 'Curve3D', 'Surface', 'Surface2D', 'Surface3D', 'SectionedSurface', 'FillArea', 'Text', 'AdvancedSurface', 'GeometricSet', 'GeometricCurveSet', 'Annotation2D', 'SurfaceModel', 'Tessellation', 'Segment', 'SolidModel', 'SweptSolid', 'AdvancedSweptSolid', 'Brep', 'AdvancedBrep', 'CSG', 'Clipping', 'BoundingBox', 'SectionedSpine', 'LightSource', 'MappedRepresentation']}", 'Observed': "{'value': 'Body'}"}</td>
+    </tr>
+  </tbody>
+</table>

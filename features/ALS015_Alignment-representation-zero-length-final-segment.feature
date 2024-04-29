@@ -14,7 +14,7 @@ Background: Validating final segment of alignment geometry (representation).
   Given Its attribute Representations
   Given its attribute Items
   Given its attribute Segments
-  Given Its final segment at depth 1
+  Given Its final element at depth 1
 
 Scenario: Validating that the final alignment geometry segment is of length 0.0.
   Then The SegmentLength of the final segment must be 0

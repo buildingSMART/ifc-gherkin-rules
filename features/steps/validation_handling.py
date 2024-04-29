@@ -210,6 +210,10 @@ def handle_given(context, fn, **kwargs):
         else:
             context.instances = map_given_state(context.instances, fn, context, **kwargs)
 
+        if "Its final IfcAlignmentSegment" in context.step.name:
+            # ensure unique instances; e.g. only return the last segment from a group of alignment segment instances
+            context.instances = list(set(context.instances))
+
 def safe_method_call(obj, method_name, default=None ):
     method = getattr(obj, method_name, None)
     if callable(method):

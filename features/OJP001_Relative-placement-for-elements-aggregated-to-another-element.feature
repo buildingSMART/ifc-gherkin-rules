@@ -11,7 +11,7 @@ with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the contai
 
       Given A model with Schema "IFC2X3" or "IFC4"
       Given An IfcElement
-      Given A relationship IfcRelAggregates from IfcElement to IfcElement
+      Given A relationship IfcRelAggregates from IfcElement to IfcElement and following that
 
       Then The relative placement of that IfcElement must be provided by an IfcLocalPlacement entity
 
@@ -20,6 +20,6 @@ with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the contai
 
       Given A model with Schema "IFC2X3" or "IFC4"
       Given An IfcElement
-      Given A relationship IfcRelAggregates from IfcElement to IfcElement
+      Given A relationship IfcRelAggregates from IfcElement to IfcElement and following that
 
       Then The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship

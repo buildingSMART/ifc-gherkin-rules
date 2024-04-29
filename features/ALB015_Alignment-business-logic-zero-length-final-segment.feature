@@ -10,7 +10,7 @@ Feature: ALB015 - Alignment business logic zero length final segment
     Given A model with Schema "IFC4.3"
     Given An IfcAlignmentHorizontal
     Given A relationship IfcRelNests from IfcAlignmentHorizontal to IfcAlignmentSegment and following that
-    Given Its final segment at depth 1
+    Given Its final element at depth 1 filtering by id
     Given Its attribute DesignParameters
     Then The SegmentLength of the final IfcAlignmentHorizontalSegment must be 0
 
@@ -18,7 +18,7 @@ Feature: ALB015 - Alignment business logic zero length final segment
     Given A model with Schema "IFC4.3"
     Given An IfcAlignmentVertical
     Given A relationship IfcRelNests from IfcAlignmentVertical to IfcAlignmentSegment and following that
-    Given Its final segment at depth 1
+    Given Its final element at depth 1 filtering by id
     Given Its attribute DesignParameters
     Then The HorizontalLength of the final IfcAlignmentVerticalSegment must be 0
 
@@ -26,7 +26,6 @@ Feature: ALB015 - Alignment business logic zero length final segment
     Given A model with Schema "IFC4.3"
     Given An IfcAlignmentCant
     Given A relationship IfcRelNests from IfcAlignmentCant to IfcAlignmentSegment and following that
-    Given Its final segment at depth 1
+    Given Its final element at depth 1 filtering by id
     Given Its attribute DesignParameters
     Then The HorizontalLength of the final IfcAlignmentCantSegment must be 0
-

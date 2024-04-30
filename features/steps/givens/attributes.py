@@ -7,7 +7,11 @@ from parse_type import TypeBuilder
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
-register_type(first_or_final=TypeBuilder.make_enum({"first": 0, "final": 1 }))
+from enum import Enum, auto
+class FirstOrFinal(Enum):
+  FIRST = auto()
+  FINAL = auto()
+register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
 
 @gherkin_ifc.step("{attribute} = {value}")
 def step_impl(context, inst, attribute, value):
@@ -76,19 +80,11 @@ def step_impl(context, inst, attribute, condition, prefix):
 
 @gherkin_ifc.step('Its {ff:first_or_final} element')
 @gherkin_ifc.step('Its {ff:first_or_final} element at depth 1')
-@gherkin_ifc.step('Its {ff:first_or_final} element filtering by {filter}')
-@gherkin_ifc.step('Its {ff:first_or_final} element at depth 1 filtering by {filter}')
 def step_impl(context, inst, ff=0, filter=None):
-    def get_filter_key(attr):
-        if attr == 'id':
-            return lambda entity: entity.id() # in case of a method
-        else:
-            return lambda entity: getattr(entity, attr, None) # in case of an attribute
-
-    if ff:
-        yield ValidationOutcome(instance_id =  max(inst, key=get_filter_key(filter)) if filter else inst[-1], severity=OutcomeSeverity.PASSED)
-    else:
-        yield ValidationOutcome(instance_id =  min(inst, key=get_filter_key(filter)) if filter else inst[0], severity=OutcomeSeverity.PASSED)
+    if ff == FirstOrFinal.FINAL:
+        yield ValidationOutcome(instance_id = inst[-1], severity=OutcomeSeverity.PASSED)
+    elif ff == FirstOrFinal.FIRST:
+        yield ValidationOutcome(instance_id = inst[0], severity=OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):

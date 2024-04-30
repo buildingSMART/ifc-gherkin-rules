@@ -17,7 +17,7 @@ Background: Validating final segment of alignment geometry (representation).
   Given Its final element at depth 1
 
 Scenario: Validating that the final alignment geometry segment is of length 0.0.
-  Then The SegmentLength of the final segment must be 0
+  Then The SegmentLength of the segment must be 0
 
 Scenario: Validating that the final alignment geometry segment is discontinuous.
   Given Its attribute Transition

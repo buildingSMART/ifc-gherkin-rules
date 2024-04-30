@@ -91,7 +91,7 @@ def step_impl(context, inst, field, file_or_model, values):
             yield ValidationOutcome(inst=inst, expected=[v.upper() for v in values], observed=misc.do_try(s.upper(), s), severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('The {length_attribute} of the final {segment_type} must be 0')
+@gherkin_ifc.step('The {length_attribute} of the {segment_type} must be 0')
 def step_impl(context, inst, segment_type, length_attribute):
     business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]
     if segment_type == "segment":

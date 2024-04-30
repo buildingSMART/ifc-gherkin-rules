@@ -89,10 +89,3 @@ def step_impl(context, inst, ff=0, filter=None):
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):
     yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
-
-
-@gherkin_ifc.step("The entity type is {expected_entity_type}")
-def step_impl(context, inst, expected_entity_type):
-    expected_entity_types = tuple(map(str.strip, expected_entity_type.split(' or ')))
-    entities = [_[0] for _ in inst if _[0].is_a() in expected_entity_types]
-    return ValidationOutcome(inst_id=tuple(entities), severity=OutcomeSeverity.PASSED)

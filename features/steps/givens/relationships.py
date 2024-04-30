@@ -45,7 +45,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
         for other in other_entity.split(' or '):
             to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
             try:
-                to_other = set(filter(lambda i: i.is_a(other), make_aggregate(getattr(rel, attr_to_other))))
+                to_other = list(filter(lambda i: i.is_a(other), make_aggregate(getattr(rel, attr_to_other))))
             except RuntimeError:
                 yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 

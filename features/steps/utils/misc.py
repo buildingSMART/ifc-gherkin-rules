@@ -1,5 +1,4 @@
 import ifcopenshell
-import json
 import operator
 import pyparsing
 
@@ -134,3 +133,31 @@ def unpack_tuple(tup):
             unpack_tuple(item)
         else:
             return item
+
+def define_feature_version(context):
+    version = next((tag for tag in context.tags if "version" in tag))  # e.g. version1
+    return int(version.replace("version", ""))
+
+
+def recursive_unpack_value(item):
+    """Unpacks a tuple recursively, returning the first non-empty item
+    For instance, (,'Body') will return 'Axis'
+    and (((IfcEntityInstance.)),) will return IfcEntityInstance
+
+    Note that it will only work for a single value. E.g. not values for statements like 
+    "The values must be X"
+    as ('Axis', 'Body') will return 'Axis' 
+    """
+    if isinstance(item, (tuple, list)):
+        if len(item) == 0:
+            return None
+        elif len(item) == 1 or not item[0]:
+            return recursive_unpack_value(item[1]) if len(item) > 1 else recursive_unpack_value(item[0])
+        else:
+            return item[0]
+    return item
+
+def get_stack_tree(context):
+    """Returns the stack tree of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
+    return list(
+        filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))

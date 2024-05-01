@@ -1,0 +1,4 @@
+ApplicableEntity,RelatingObject
+IfcRailing,IfcStair
+IfcSlab,IfcStair
+IfcStairFlight,IfcStair

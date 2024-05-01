@@ -1,4 +1,7 @@
+@implementer-agreement
 @GRF
+@version1
+@E00050
 Feature: GRF001 - Identical coordinate operations
 The rule verifies that the same coordinate system is used within an IFC model and not, for example, an IfcMapConversion in one representation context and IfcRigidOperation in another.
 
@@ -8,5 +11,5 @@ The rule verifies that the same coordinate system is used within an IFC model an
     Given All instances of IfcGeometricRepresentationContext without subtypes
     Given Its Attribute HasCoordinateOperation
     Given Its values excluding SourceCRS
-
-    Then The values must be identical
+    
+    Then The values must be identical at depth 1

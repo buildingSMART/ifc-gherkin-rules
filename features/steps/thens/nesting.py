@@ -1,48 +1,47 @@
-import errors as err
 import functools
 import operator
 import pyparsing
 
-from behave import *
-from utils import ifc, misc
+from validation_handling import gherkin_ifc
+
+from parse_type import TypeBuilder
+from behave import register_type
+
+from . import ValidationOutcome, OutcomeSeverity
 
 
-@then('It must be nested by {constraint} {num:d} instance(s) of {other_entity}')
-@err.handle_errors
-def step_impl(context, num, constraint, other_entity):
+register_type(nested_sentences=TypeBuilder.make_enum(
+    dict(map(lambda x: (x, x), ("must nest only 1",
+                                "must not a list of only",
+                                "is nested by only 1",
+                                "is nested by a list of only")))))
+
+
+@gherkin_ifc.step('It must be nested by {constraint} {num:d} instance(s) of {other_entity}')
+def step_impl(context, inst, num, constraint, other_entity):
     stmt_to_op = {'exactly': operator.eq, "at most": operator.le}
     assert constraint in stmt_to_op
     op = stmt_to_op[constraint]
 
-    if getattr(context, 'applicable', True):
-        for inst in context.instances:
-            nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
-            if not op(len([1 for i in nested_entities if i.is_a(other_entity)]), num):
-                yield(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a(other_entity)], 'nested by'))
-            elif context.error_on_passed_rule:
-                yield(err.RuleSuccessInst(True, inst))
+    nested_entities = [entity for rel in inst.IsNestedBy for entity in rel.RelatedObjects]
+    nested_of_type = [i for i in nested_entities if i.is_a(other_entity)]
+    amount_found = len(nested_of_type)
+    if not op(amount_found, num):
+        yield ValidationOutcome(inst=inst, observed=nested_of_type, severity=OutcomeSeverity.ERROR)
 
 
-@then('It must be nested by only the following entities: {other_entities}')
-@err.handle_errors
-def step_impl(context, other_entities):
+@gherkin_ifc.step('It must be nested by only the following entities: {other_entities}')
+def step_impl(context, inst, other_entities):
     allowed_entity_types = set(map(str.strip, other_entities.split(',')))
 
-    if getattr(context, 'applicable', True):
-        for inst in context.instances:
-            nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
-            nested_entity_types = set(i.is_a() for i in nested_entities)
-            if not nested_entity_types <= allowed_entity_types:
-                differences = list(nested_entity_types - allowed_entity_types)
-                yield(err.InstanceStructureError(False, inst, [i for i in nested_entities if i.is_a() in differences], 'nested by'))
-            elif context.error_on_passed_rule:
-                yield(err.RuleSuccessInst(True, inst))
+    nested_entities = [i for rel in inst.IsNestedBy for i in rel.RelatedObjects]
+    nested_entity_types = set(i.is_a() for i in nested_entities)
+    for entity in nested_entity_types - allowed_entity_types:
+        yield ValidationOutcome(inst=inst, observed=entity, severity=OutcomeSeverity.ERROR)
 
 
-
-@then('It {fragment} instance(s) of {other_entity}')
-@err.handle_errors
-def step_impl(context, fragment, other_entity):
+@gherkin_ifc.step('It {fragment:nested_sentences} instance(s) of {other_entity}')
+def step_impl(context, inst, fragment, other_entity):
     reltype_to_extr = {'must nest': {'attribute': 'Nests', 'object_placement': 'RelatingObject', 'error_log_txt': 'nesting'},
                        'is nested by': {'attribute': 'IsNestedBy', 'object_placement': 'RelatedObjects', 'error_log_txt': 'nested by'}}
     conditions = ['only 1', 'a list of only']
@@ -58,26 +57,21 @@ def step_impl(context, fragment, other_entity):
     extr = reltype_to_extr[relationship_type]
     error_log_txt = extr['error_log_txt']
 
-    errors = []
 
-    if getattr(context, 'applicable', True):
-        for inst in context.instances:
-            amount_of_errors = len(errors)
-            related_entities = list(map(lambda x: getattr(x, extr['object_placement'], []), getattr(inst, extr['attribute'], [])))
-            if len(related_entities):
-                if isinstance(related_entities[0], tuple):
-                    related_entities = list(related_entities[0])  # if entity has only one IfcRelNests, convert to list
-                false_elements = list(filter(lambda x: not x.is_a(other_entity), related_entities))
-                correct_elements = list(filter(lambda x: x.is_a(other_entity), related_entities))
+    related_entities = list(map(lambda x: getattr(x, extr['object_placement'], []), getattr(inst, extr['attribute'], [])))
+    if len(related_entities):
+        if isinstance(related_entities[0], tuple):
+            related_entities = list(related_entities[0])  # if entity has only one IfcRelNests, convert to list
+        false_elements = list(filter(lambda x: not x.is_a(other_entity), related_entities))
+        correct_elements = list(filter(lambda x: x.is_a(other_entity), related_entities))
 
-                if condition == 'only 1' and len(correct_elements) > 1:
-                    yield(err.InstanceStructureError(False, inst, correct_elements, f'{error_log_txt}'))
-                if condition == 'a list of only':
-                    if len(getattr(inst, extr['attribute'], [])) > 1:
-                        yield(err.InstanceStructureError(False, inst, f'{error_log_txt} more than 1 list, including', 'nesting'))
-                    elif len(false_elements):
-                        yield(err.InstanceStructureError(False, inst, false_elements, f'{error_log_txt} a list that includes'))
-                if condition == 'only' and len(false_elements):
-                    yield(err.InstanceStructureError(False, inst, correct_elements, f'{error_log_txt}'))
-            if len(errors) == amount_of_errors and context.error_on_passed_rule:
-                yield(err.RuleSuccessInst(True, inst))
+        if condition == 'only 1' and len(correct_elements) > 1:
+            yield ValidationOutcome(inst=inst, observed=len(correct_elements), severity=OutcomeSeverity.ERROR)
+        if condition == 'a list of only':
+            if len(getattr(inst, extr['attribute'], [])) > 1:
+                yield ValidationOutcome(inst=inst, expected=other_entity, observed=related_entities, severity=OutcomeSeverity.ERROR)
+            elif len(false_elements):
+                yield ValidationOutcome(inst=inst, expected=other_entity, observed=related_entities, severity=OutcomeSeverity.ERROR)
+        if condition == 'only' and len(false_elements):
+            yield ValidationOutcome(inst=inst, expected=correct_elements, observed=related_entities, severity=OutcomeSeverity.ERROR)
+

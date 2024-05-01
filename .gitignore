@@ -1,3 +1,7 @@
 __pycache__ 
 /.vscode
 /.conda
+/.idea
+ifc-gherkin.db
+worker_db.sqlite3
+test/out/svg

@@ -7,10 +7,10 @@ import pytest
 import tabulate
 
 try:
-    from ..main import run
+    from ..main import run, ExecutionMode
 except ImportError:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-    from main import run
+    from main import run, ExecutionMode
 
 rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
 rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), sys.argv[1:]))
@@ -65,11 +65,9 @@ def get_test_files():
 
 @pytest.mark.parametrize("filename", get_test_files())
 def test_invocation(filename):
-    gherkin_results = list(run(filename))
+    gherkin_results = list(run(filename, execution_mode=ExecutionMode.TESTING))
     base = os.path.basename(filename)
-    # if base.startswith("pass-"):
     results = [result for result in gherkin_results if result[4] != 'Rule disabled']
-    results = [result for result in results if 'Rule passed' not in result[4]]
     print()
     print(base)
     print()

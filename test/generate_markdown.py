@@ -4,6 +4,8 @@ import pandas as pd
 from typing import NewType
 import sys
 import argparse
+import markdown
+from markdownify import markdownify as md
 
 try:
     from ..main import run, ExecutionMode, do_try
@@ -15,21 +17,6 @@ except ImportError:
 
 
 MarkdownTableStr = NewType('MarkdownTableStr', str)
-
-def handle_markdown_table(markdown_table: MarkdownTableStr) -> pd.DataFrame:
-    """
-    Handling in case the already existing file is in non-html markdown format
-    """
-    lines = [line.strip() for line in markdown_table.split("\n")]
-    headers = [header.strip()for header in lines[0].split("|") if header.strip()]
-
-    data = {header: [] for header in headers}
-    for line in lines[2:]:
-        values = [value.strip() if value.strip() != '' else ' ' for value in line.split("|")][1:]
-        for header, value in zip(headers, values):
-            data[header].append(value)
-    return pd.DataFrame(data)
-
 
 def rearrange_column(df: pd.DataFrame, column_to_move: str, relative_column: str, place_before=True) -> pd.DataFrame:
     """
@@ -53,8 +40,19 @@ def update_html_markdown(df: pd.DataFrame, content_testfile: dict) -> pd.DataFra
 
     return rearrange_column(df = df, column_to_move="Error no.", relative_column="Error", place_before=True)
 
+def html_to_markdown(html_content):
+    """Convert HTML to Markdown format."""
+    return md(html_content)
 
-def generate(file_desc_list = False, testfile_filter = False):
+def convert_and_update_readme(readme_path):
+    if os.path.exists(readme_path):
+        with open(readme_path, 'r') as file:
+            html_content = file.read()
+        markdown_content = html_to_markdown(html_content)
+        with open(readme_path, 'w') as file:
+            file.write(markdown_content)
+
+def generate(file_desc_list = False, testfile_filter = False, delete_existing_readme=True):
     """
     Usage:
     ------
@@ -74,6 +72,15 @@ def generate(file_desc_list = False, testfile_filter = False):
         for fd in file_desc_list:
             file_desc_dict[fd[0]] = fd[1]
 
+    # Check if README.md exists and delete it if it does
+    if delete_existing_readme:
+        base = os.path.basename(test_files[0])
+        rule_code = re.search(r'(fail|pass)-([a-z]{3}[0-9]{3})-', base).group(2)
+        readme_path = os.path.join(os.path.dirname(__file__), 'files', rule_code, 'README.md')
+        if os.path.exists(readme_path):
+            os.remove(readme_path)
+            print(f"Deleted existing README.md for rule code {rule_code}")
+
     for filename in test_files:
         results = list(run(filename, execution_mode=ExecutionMode.TESTING))
         base = os.path.basename(filename)
@@ -88,23 +95,31 @@ def generate(file_desc_list = False, testfile_filter = False):
 
         behave_output_patterns = {
             'Instance_id': r"Instance_id=(\d+)",
-            'Expected': r"Expected=({.*?})",
-            'Observed': r"Observed=({.*?})"
+            'Expected': r"Expected=(.+?)(?= Observed| Feature|$)",
+            'Observed': r"Observed=(.+?)(?=\"]|$)"
         }
 
 
         def extract_value(pattern, text):
-            """ Utility function to apply regex search and return the matching group. """
+            """ Utility function to apply regex search and return the cleaned matching group. """
             match = re.search(pattern, text)
-            return match.group(1) if match else ''
+            if not match:
+                return ''
+
+            result = match.group(1)
+
+            special_chars = "{}[]}\"',;"
+            for char in special_chars:
+                result = result.replace(char, ' ')  
+
+            return result
         
         def get_parsed_behave_output(results):
             formatted_results = []
             for e, result in enumerate(results):
-                extracted_values = {key: extract_value(pattern, result[4][1]) for key, pattern in behave_output_patterns.items()}  
+                extracted_values = {key: extract_value(pattern, result[4][1]) for key, pattern in behave_output_patterns.items()}
                 result_str = f"Result {e+1}: {extracted_values}"
                 formatted_results.append(result_str)
-
             return str(" . ".join(formatted_results))
         
 
@@ -113,41 +128,25 @@ def generate(file_desc_list = False, testfile_filter = False):
                         "Expected result" : "pass" if base.startswith("pass-") else "fail",
                         "Description": do_try(lambda: get_parsed_behave_output(results), "NA / Automatically generated markdown")
                     }
+        
+        if 'fail' in base:
+            pass
 
         if os.path.exists(readme_path) and os.path.getsize(readme_path) > 0:
             with open(readme_path, 'r+') as file:
                 content = file.read()
                 file.seek(0)
-
-                markdown_table_pattern = re.compile(r'\|.*?\|\n\|[-:]+\|[-:]+', re.DOTALL)
-                has_markdown_table = bool(markdown_table_pattern.search(content))
-
-                html_table_pattern = re.compile(r'<table.*?>.*?</table>', re.DOTALL)
-                has_html_table = bool(html_table_pattern.search(content))
-
-                if has_markdown_table:
-                    df = handle_markdown_table(content)
-                elif has_html_table:
-                    df = pd.read_html(content)[0]
-                else:
-                    raise ValueError(f"The file '{readme_path}' does not contain a recognized HTML or Markdown table. Please ensure the file adheres to the expected format.")
-
-                if base not in df['File name'].values:
-                    df = update_html_markdown(df, content_testfile)
-
-                    file.write(df.to_html(index=False))
-                else: # check for an updated description
-                    description_in_df = df[df['File name'] == base]['Description'].values[0]
-                    if description != description_in_df:
-                        df.loc[df['File name'] == base, 'Description'] = description
-                        file.write(df.to_html(index=False))
-                        print('readme for rule code {rule_code} has been updated')
+                df = pd.read_html(content)[0]
+        
+                df = update_html_markdown(df, content_testfile)
+                file.write(df.to_html(index=False))
+                print(f'readme for rule code {rule_code} has been updated')
         else: # create new README.md markdown file
             with open(readme_path, 'w') as file:
                 assert base.startswith('pass-'), f'file must contain at least one file that passes the rule {rule_code}'
                 file.write(pd.DataFrame([content_testfile]).to_html(index=False))
                 print(f'readme for rule code {rule_code} has been created')
-
+    convert_and_update_readme(readme_path)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Description about your script")
@@ -155,5 +154,8 @@ if __name__ == "__main__":
     parser.add_argument('--file-desc', nargs=2, action='append', help="File and its description")
 
     args = parser.parse_args()
-
-    generate(args.file_desc, args.testfile_filter)
+    
+    for i in args.testfile_filter:
+        if not re.match(r'^[a-zA-Z]{3}\d{3}$', i):
+            raise AssertionError(f"Arg must be a rule_code, got {i} instead.")
+        generate(args.file_desc, [i])

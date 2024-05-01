@@ -283,14 +283,14 @@ def handle_then(context, fn, **kwargs):
             return False
 
         if context.is_global_rule:
-            return apply_then_operation(fn, [items], context, current_path=None, **kwargs)
+            return apply_then_operation(fn, items, context, current_path=None, **kwargs)
         elif should_apply(items, depth):
             return apply_then_operation(fn, items, context, current_path, **kwargs)
         elif is_nested(items):
             new_depth = depth if depth > 0 else 0
             return type(items)(map_then_state(v, fn, context, current_path + [i], new_depth, **kwargs) for i, v in enumerate(items))
         else:
-            return apply_then_operation(fn, items, context, **kwargs)
+            return apply_then_operation(fn, items, context, current_path, **kwargs)
     map_then_state(instances, fn, context, depth = 1 if 'at depth 1' in context.step.name.lower() else 0, **kwargs)
 
     # evokes behave error
@@ -388,7 +388,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
                 # step name is a good proxy for expected, but not for observed
                 return context.step.name
         case str():
-            if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:
+            if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema_identifier).entities()]:
                 return {'entity': data} # e.g. 'the type must be IfcCompositeCurve'
             else:
                 return {'value': data} # e.g. "The value must be 'Body'"

@@ -5,7 +5,7 @@ import os
 from behave import register_type
 from pathlib import Path
 
-from validation_handling import gherkin_ifc
+from validation_handling import gherkin_ifc, global_rule
 
 from . import ValidationOutcome, OutcomeSeverity
 
@@ -55,37 +55,39 @@ def step_impl(context, inst, constraint, num):
             yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("The {value} must {constraint:unique_or_identical}")
-@gherkin_ifc.step("The values must {constraint:unique_or_identical}")
-@gherkin_ifc.step("The values must {constraint:unique_or_identical} at depth 1")
-def step_impl(context, inst, constraint, num=None):
 
-    within_model = getattr(context, 'within_model', False)
-
+def test_unique(context, inst, constraint):
     #to account for order-dependency of removing characters from constraint
     while constraint.startswith('be ') or constraint.startswith('in '):
         constraint = constraint[3:]
 
-    instances = [context.instances] if within_model else context.instances
-
     if constraint in ('identical', 'unique'):
-        for i, values in enumerate(instances):
-            if not values:
-                continue
-            if constraint == 'identical':
-                if not all([values[0] == i for i in values]) or len(values) != len(misc.get_stack_tree(context)[-1]):
-                    """
-                    note for the last comparison; if the instances resulting from the first given statement are not the same as the instances resulting from the last given statement, 
-                    this means one of the values are None, which is not allowed in the GRF001 rule
-                    Option to adapt this dynamically in the future with more verbose given statements 
-                    """
-                    yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
-            if constraint == 'unique':
-                seen = set()
-                duplicates = [x for x in values if x in seen or seen.add(x)]
-                if not duplicates:
-                    continue
-                yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
+        if constraint == 'identical':
+            if not all([inst[0] == i for i in inst]) or len(inst) != len(misc.get_stack_tree(context)[-1]):
+                """
+                note for the last comparison; if the instances resulting from the first given statement are not the same as the instances resulting from the last given statement, 
+                this means one of the values are None, which is not allowed in the GRF001 rule
+                Option to adapt this dynamically in the future with more verbose given statements 
+                """
+                yield ValidationOutcome(inst=inst, observed = inst, severity=OutcomeSeverity.ERROR)
+        if constraint == 'unique':
+            seen = set()
+            duplicates = [x for x in inst if x in seen or seen.add(x)]
+            if duplicates:
+                yield ValidationOutcome(inst=inst, observed = inst, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("The {value} must {constraint:unique_or_identical}")
+@gherkin_ifc.step("The values must {constraint:unique_or_identical}")
+@gherkin_ifc.step("The values must {constraint:unique_or_identical} at depth 1")
+def step_impl(context, inst, constraint):
+    yield from test_unique(context, inst, constraint)
+
+
+@gherkin_ifc.step("The values must {constraint:unique_or_identical} within the model")
+@global_rule
+def step_impl(context, inst, constraint):
+    yield from test_unique(context, inst, constraint)
 
 
 def recursive_unpack_value(item):

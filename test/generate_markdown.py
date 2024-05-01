@@ -128,9 +128,6 @@ def generate(file_desc_list = False, testfile_filter = False, delete_existing_re
                         "Expected result" : "pass" if base.startswith("pass-") else "fail",
                         "Description": do_try(lambda: get_parsed_behave_output(results), "NA / Automatically generated markdown")
                     }
-        
-        if 'fail' in base:
-            pass
 
         if os.path.exists(readme_path) and os.path.getsize(readme_path) > 0:
             with open(readme_path, 'r+') as file:

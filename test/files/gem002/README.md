@@ -1,66 +1,16 @@
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>File name</th>
-      <th>Expected result</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>pass-gem002-body_representation_footprint.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>pass-gem002-no_space.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>pass-gem002-body_representation_sweptsolid.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>fail-gem002-scenario01-no_representation.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '1', 'Expected': "{'value': 'SweptSolid, Clipping, Brep'}", 'Observed': ''}</td>
-    </tr>
-    <tr>
-      <td>fail-gem002-no_representation.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '1', 'Expected': "{'value': 'SweptSolid, Clipping, Brep'}", 'Observed': ''}</td>
-    </tr>
-    <tr>
-      <td>fail-gem002-scenario02-body_representation_no_footprint.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '65', 'Expected': '', 'Observed': ''}</td>
-    </tr>
-    <tr>
-      <td>fail-gem002-only_footprint_representation.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '65', 'Expected': '', 'Observed': ''}</td>
-    </tr>
-    <tr>
-      <td>fail-gem002-scenario01-body_representation_csg.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '65', 'Expected': "{'value': 'SweptSolid, Clipping, Brep'}", 'Observed': ''}</td>
-    </tr>
-    <tr>
-      <td>fail-gem002-scenario01-only_footprint_representation.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '65', 'Expected': '', 'Observed': ''}</td>
-    </tr>
-    <tr>
-      <td>fail-gem002-body_representation_csg.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '65', 'Expected': "{'value': 'SweptSolid, Clipping, Brep'}", 'Observed': ''}</td>
-    </tr>
-    <tr>
-      <td>fail-gem002-body_representation_no_footprint.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '65', 'Expected': '', 'Observed': ''}</td>
-    </tr>
-  </tbody>
-</table>
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-gem002-body\_representation\_footprint.ifc | pass | NaN |
+| pass-gem002-no\_space.ifc | pass | NaN |
+| pass-gem002-body\_representation\_sweptsolid.ifc | pass | NaN |
+| fail-gem002-scenario01-no\_representation.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: SweptSolid Clipping Brep', 'Observed': ''} |
+| fail-gem002-no\_representation.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: SweptSolid Clipping Brep', 'Observed': ''} |
+| fail-gem002-scenario02-body\_representation\_no\_footprint.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be one FootPrint shape representation', 'Observed': ''} |
+| fail-gem002-only\_footprint\_representation.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be one Body shape representation', 'Observed': ''} |
+| fail-gem002-scenario01-body\_representation\_csg.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: SweptSolid Clipping Brep', 'Observed': ''} |
+| fail-gem002-scenario01-only\_footprint\_representation.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be one Body shape representation', 'Observed': ''} |
+| fail-gem002-body\_representation\_csg.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: SweptSolid Clipping Brep', 'Observed': ''} |
+| fail-gem002-body\_representation\_no\_footprint.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be one FootPrint shape representation', 'Observed': ''} |
+

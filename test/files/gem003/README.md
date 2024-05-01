@@ -1,61 +1,15 @@
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>File name</th>
-      <th>Expected result</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>pass-gem003-0_body_1_axis_as_identifiers.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>pass-gem003-1_body_1_axis_as_identifiers.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>pass-gem003-1_body_0_axis_as_identifiers.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>fail-gem003-scenario01-2_body_2_axis_as_identifiers.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '45', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-gem003-scenario01-3_body_1_axis_as_identifiers.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '45', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-gem003-scenario01-2_body_1_axis_as_identifiers.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '44', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-gem003-scenario01-0_body_2_axis_as_identifiers.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '43', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-gem003-scenario01-3_body_0_axis_as_identifiers.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '44', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-gem003-scenario01-1_body_2_axis_as_identifiers.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '44', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-gem003-scenario01-2_body_0_axis_as_identifiers.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '43', 'Expected': "{'value': 'unique'}", 'Observed': "{'value': 'Not unique'}"}</td>
-    </tr>
-  </tbody>
-</table>
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-gem003-0\_body\_1\_axis\_as\_identifiers.ifc | pass | NaN |
+| pass-gem003-1\_body\_1\_axis\_as\_identifiers.ifc | pass | NaN |
+| pass-gem003-1\_body\_0\_axis\_as\_identifiers.ifc | pass | NaN |
+| fail-gem003-scenario01-2\_body\_2\_axis\_as\_identifiers.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: unique', 'Observed': 'value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique'} |
+| fail-gem003-scenario01-3\_body\_1\_axis\_as\_identifiers.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: unique', 'Observed': 'value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique'} |
+| fail-gem003-scenario01-2\_body\_1\_axis\_as\_identifiers.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: unique', 'Observed': 'value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique'} |
+| fail-gem003-scenario01-0\_body\_2\_axis\_as\_identifiers.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: unique', 'Observed': 'value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique'} |
+| fail-gem003-scenario01-3\_body\_0\_axis\_as\_identifiers.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: unique', 'Observed': 'value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique'} |
+| fail-gem003-scenario01-1\_body\_2\_axis\_as\_identifiers.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: unique', 'Observed': 'value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique'} |
+| fail-gem003-scenario01-2\_body\_0\_axis\_as\_identifiers.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: unique', 'Observed': 'value: Not unique Feature=GEM003 Outcome=E00050 Severity=ERROR Expected=value: unique Observed=value: Not unique'} |
+

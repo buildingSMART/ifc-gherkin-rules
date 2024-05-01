@@ -1,76 +1,18 @@
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>File name</th>
-      <th>Expected result</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>pass-sps001-1_sites_1_buildings_variant_1.ifc</td>
-      <td>pass</td>
-      <td>NA / Automatically generated markdown</td>
-    </tr>
-    <tr>
-      <td>pass-sps001-1_sites_2_buildings_variant_1.ifc</td>
-      <td>pass</td>
-      <td>NA / Automatically generated markdown</td>
-    </tr>
-    <tr>
-      <td>pass-sps001-0_sites_2_buildings_variant_0.ifc</td>
-      <td>pass</td>
-      <td>NA / Automatically generated markdown</td>
-    </tr>
-    <tr>
-      <td>pass-sps001-0_sites_1_buildings_variant_0.ifc</td>
-      <td>pass</td>
-      <td>NA / Automatically generated markdown</td>
-    </tr>
-    <tr>
-      <td>fail-sps001-scenario02-1_sites_2_buildings_variant_0.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '23', 'Expected': "{'value': 'IfcSite'}", 'Observed': "{'instance': 'IfcProject(3GwmFWa1n8RgV63Bp$0U8M)'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-sps001-scenario01-2_sites_2_buildings_variant_0.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['3NAP9012z2cgFsxW434nvy', '3fS25qAY52eP1esqdCjA1w']}"} . Result 2: {'Instance_id': '24', 'Expected': "{'value': 'IfcSite'}", 'Observed': "{'instance': 'IfcProject(1mgMwetTbDlBR7$9qyMgHR)'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-sps001-scenario02-0_sites_0_buildings_variant_0.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': []}"}</td>
-    </tr>
-    <tr>
-      <td>fail-sps001-scenario01-2_sites_2_buildings_variant_1.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['1uVlHAlAfEBeLNmyLRG8lR', '3mlrFKyEjFsgrzpehcqzes']}"}</td>
-    </tr>
-    <tr>
-      <td>fail-sps001-scenario01-2_sites_1_buildings_variant_0.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['1oP$qvRGPCNQ5S2SGXBn$p', '3S_HoHe6LBewO_QRBfiTow']}"} . Result 2: {'Instance_id': '24', 'Expected': "{'value': 'IfcSite'}", 'Observed': "{'instance': 'IfcProject(0UO1LtH6H9UhENH5HiES7X)'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-sps001-scenario01-2_sites_1_buildings_variant_1.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['2JtNBx2jX15gq5taKyKTNY', '0_fBKwwTz6kODY$WwRmma0']}"}</td>
-    </tr>
-    <tr>
-      <td>fail-sps001-scenario02-1_sites_1_buildings_variant_0.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '23', 'Expected': "{'value': 'IfcSite'}", 'Observed': "{'instance': 'IfcProject(1ncJLmeIfAfhYWT1MwrogC)'}"}</td>
-    </tr>
-    <tr>
-      <td>fail-sps001-scenario02-1_sites_0_buildings_variant_0.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': []}"}</td>
-    </tr>
-    <tr>
-      <td>fail-sps001-scenario01-2_sites_0_buildings_variant_0.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': ['0uXZOT5dT5Nwm0YhlkLAiD', '19rxuYaM16C9xIM5CsbEI8']}"} . Result 2: {'Instance_id': '', 'Expected': '', 'Observed': "{'value': []}"}</td>
-    </tr>
-  </tbody>
-</table>
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-sps001-1\_sites\_1\_buildings\_variant\_1.ifc | pass | NaN |
+| pass-sps001-1\_sites\_2\_buildings\_variant\_1.ifc | pass | NaN |
+| pass-sps001-0\_sites\_2\_buildings\_variant\_0.ifc | pass | NaN |
+| pass-sps001-0\_sites\_1\_buildings\_variant\_0.ifc | pass | NaN |
+| fail-sps001-scenario02-1\_sites\_2\_buildings\_variant\_0.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: IfcSite', 'Observed': 'instance: IfcProject3GwmFWa1n8RgV63Bp$0U8M Feature=SPS001 Outcome=E00160 Severity=ERROR Expected=value: IfcSite Observed=instance: IfcProject3GwmFWa1n8RgV63Bp$0U8M'} |
+| fail-sps001-scenario01-2\_sites\_2\_buildings\_variant\_0.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be at most 1 instances of IfcSite', 'Observed': 'value: 3NAP9012z2cgFsxW434nvy 3fS25qAY52eP1esqdCjA1w'} . Result 2: {'Instance\_id': '', 'Expected': 'value: IfcSite', 'Observed': 'instance: IfcProject1mgMwetTbDlBR7$9qyMgHR Feature=SPS001 Outcome=E00160 Severity=ERROR Expected=value: IfcSite Observed=instance: IfcProject1mgMwetTbDlBR7$9qyMgHR'} |
+| fail-sps001-scenario02-0\_sites\_0\_buildings\_variant\_0.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be at least 1 instances of IfcBuilding', 'Observed': 'value: '} |
+| fail-sps001-scenario01-2\_sites\_2\_buildings\_variant\_1.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be at most 1 instances of IfcSite', 'Observed': 'value: 1uVlHAlAfEBeLNmyLRG8lR 3mlrFKyEjFsgrzpehcqzes'} |
+| fail-sps001-scenario01-2\_sites\_1\_buildings\_variant\_0.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be at most 1 instances of IfcSite', 'Observed': 'value: 1oP$qvRGPCNQ5S2SGXBn$p 3S\_HoHe6LBewO\_QRBfiTow'} . Result 2: {'Instance\_id': '', 'Expected': 'value: IfcSite', 'Observed': 'instance: IfcProject0UO1LtH6H9UhENH5HiES7X'} |
+| fail-sps001-scenario01-2\_sites\_1\_buildings\_variant\_1.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be at most 1 instances of IfcSite', 'Observed': 'value: 2JtNBx2jX15gq5taKyKTNY 0\_fBKwwTz6kODY$WwRmma0'} |
+| fail-sps001-scenario02-1\_sites\_1\_buildings\_variant\_0.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: IfcSite', 'Observed': 'instance: IfcProject1ncJLmeIfAfhYWT1MwrogC'} |
+| fail-sps001-scenario02-1\_sites\_0\_buildings\_variant\_0.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be at least 1 instances of IfcBuilding', 'Observed': 'value: '} |
+| fail-sps001-scenario01-2\_sites\_0\_buildings\_variant\_0.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be at most 1 instances of IfcSite', 'Observed': 'value: 0uXZOT5dT5Nwm0YhlkLAiD 19rxuYaM16C9xIM5CsbEI8'} . Result 2: {'Instance\_id': '', 'Expected': 'There must be at least 1 instances of IfcBuilding', 'Observed': 'value: '} |
+

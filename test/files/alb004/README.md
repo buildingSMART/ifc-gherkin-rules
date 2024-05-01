@@ -1,41 +1,11 @@
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>File name</th>
-      <th>Expected result</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>pass-alb004-correct_alignment_behaviour_directly_aggregated.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>pass-alb004-no_alignment.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>pass-alb004-correct_alignment_behaviour_indirectly_aggregated.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>fail-alb004-not_aggregated_to_ifcproject.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '27', 'Expected': '', 'Observed': ''}</td>
-    </tr>
-    <tr>
-      <td>fail-alb004-aggregated_to_ifcperson.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '27', 'Expected': '', 'Observed': ''}</td>
-    </tr>
-    <tr>
-      <td>fail-alb004-contained_in_spatial_entity.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '27', 'Expected': '', 'Observed': ''}</td>
-    </tr>
-  </tbody>
-</table>
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-alb004-correct\_alignment\_behaviour\_directly\_aggregated.ifc | pass | NaN |
+| pass-alb004-no\_alignment.ifc | pass | NaN |
+| pass-alb004-correct\_alignment\_behaviour\_indirectly\_aggregated.ifc | pass | NaN |
+| fail-alb004-not\_aggregated\_to\_ifcproject.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'It must be aggregated to IfcProject directly or indirectly', 'Observed': ''} |
+| fail-alb004-aggregated\_to\_ifcperson.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'It must be aggregated to IfcProject directly or indirectly', 'Observed': ''} |
+| fail-alb004-contained\_in\_spatial\_entity.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'It must not be contained in IfcSpatialElement directly or indirectly Feature=ALB004 Outcome=E00100 Severity=ERROR Expected=It must not be contained in IfcSpatialElement directly or indirectly', 'Observed': ''} |
+

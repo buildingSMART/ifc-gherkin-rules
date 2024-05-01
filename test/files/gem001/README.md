@@ -1,31 +1,9 @@
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>File name</th>
-      <th>Expected result</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>pass-gem001-polygonal_face_tessellation.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>pass-gem001-brep_model.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>pass-gem001-beam_straight_i_shape_tessellated.ifc</td>
-      <td>pass</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>fail-gem001-cube_advanced_brep.ifc</td>
-      <td>fail</td>
-      <td>Result 1: {'Instance_id': '29', 'Expected': '', 'Observed': "{'value': 2}"}</td>
-    </tr>
-  </tbody>
-</table>
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-gem001-polygonal\_face\_tessellation.ifc | pass | NaN |
+| pass-gem001-brep\_model.ifc | pass | NaN |
+| pass-gem001-beam\_straight\_i\_shape\_tessellated.ifc | pass | NaN |
+| fail-gem001-cube\_advanced\_brep.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'Every oriented edge must be referenced exactly 1 times by the loops of the face', 'Observed': 'value: 2 Feature=GEM001 Outcome=E00050 Severity=ERROR Expected=Every oriented edge must be referenced exactly 1 times by the loops of the face Observed=value: 2 Feature=GEM001 Outcome=E00050 Severity=ERROR Expected=Every oriented edge must be referenced exactly 1 times by the loops of the face Observed=value: 2 Feature=GEM001 Outcome=E00050 Severity=ERROR Expected=Every oriented edge must be referenced exactly 1 times by the loops of the face Observed=value: 2 Feature=GEM001 Outcome=E00050 Severity=ERROR Expected=Every oriented edge must be referenced exactly 1 times by the loops of the face Observed=value: 2 Feature=GEM001 Outcome=E00050 Severity=ERROR Expected=Every oriented edge must be referenced exactly 1 times by the loops of the face Observed=value: 2 Feature=GEM001 Outcome=E00050 Severity=ERROR Expected=Every oriented edge must be referenced exactly 1 times by the loops of the face Observed=value: 2 Feature=GEM001 Outcome=E00050 Severity=ERROR Expected=Every oriented edge must be referenced exactly 1 times by the loops of the face Observed=value: 2'} |
+

@@ -1,6 +1,10 @@
-| File name                                                   | Expected result | Error log                                                                                                                                                          | Description                                           |
-|-------------------------------------------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| fail-als004-scenario01-wrong_representationidentifier_value | E00020          | On instance #183=IfcShapeRepresentati...(#178)) the following invalid value for RepresentationIdentifier has been found: Curve2D                                   | The expected RepresentationIdentifier value was Axis. |
-| fail-als004-scenario02-wrong_representationtype_value       | E00020          | On instance #183=IfcShapeRepresentati...(#178)) the following invalid value for RepresentationType has been found: Brep                                            | The expected RepresentationType value was Segment.    |
-| fail-als004-scenario03-wrong_items_type                     | E00010          | The instance #183=IfcShapeRepresentation(#17,'Axis','Segment',(#187)) expected type 'IfcCurveSegment' for the attribute Items, but found [#187=IfcLine(#188,#189)] | The expected type of Items was IfcCurveSegment        |
-| pass-als004-alignment_segment_shape_representation          | P00010          | Rules passed                                                                                                                                                       |
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-als004-alignment\_segment\_shape\_representation.ifc | pass | NaN |
+| fail-als004-scenario01-wrong\_representationidentifier\_value.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: Axis', 'Observed': 'value: Curve2D'} |
+| fail-als004-scenario02-wrong\_representationtype\_value.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: Segment', 'Observed': 'value: Brep'} |
+| fail-als004-scenario03-wrong\_items\_type.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'entity: IfcCurveSegment', 'Observed': 'entity: IfcLine'} |
+| fail-als004-scenario01-wrong\_representationidentifier\_value\_different\_order.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: Axis', 'Observed': 'value: Curve2D'} |
+

@@ -1,6 +1,9 @@
-| File name                                                       | Expected result | Error                                                                                                                                                                                 | Description |
-|:----------------------------------------------------------------|:----------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------|
-| fail-als007-scenario01-wrong_representationidentifier_value.ifc | E00020          | ['On instance #20011=IfcShapeRepresenta...,(#79)) the following invalid value for RepresentationIdentifier has been found: FootPrint']                                                |             |
-| fail-als007-scenario02-wrong_representationtype_value.ifc       | E00020          | 'On instance #20011=IfcShapeRepresenta...,(#79)) the following invalid value for RepresentationType has been found: Curve2D']                                                         |             |
-| fail-als007-scenario03-wrong_items_type.ifc                     | E00010          | "The instance #20011=IfcShapeRepresentation(#1001,'Axis','Curve3D',(#54)) expected type 'IfcGradientCurve' for the attribute Items, but found [#54=IfcCompositeCurve((#...),.U.)]  "] |             |
-| pass-als007-alignment_vertical_representation.ifc               | P00010          | Rules passed                                                                                                                                                                          |             |
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-als007-alignment\_vertical\_representation.ifc | pass | NaN |
+| fail-als007-scenario03-wrong\_items\_type.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'entity: IfcGradientCurve', 'Observed': 'entity: IfcCompositeCurve'} |
+| fail-als007-scenario02-wrong\_representationtype\_value.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: Curve3D', 'Observed': 'value: Curve2D'} |
+| fail-als007-scenario01-wrong\_representationidentifier\_value.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: Axis', 'Observed': 'value: FootPrint'} |
+

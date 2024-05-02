@@ -22,6 +22,7 @@ def step_impl(context, inst, relationship, table):
 
     for is_required, stmt_to_op, tbl, get_attr in ((True, stmt_to_op_forward, tbl_forward, lambda x: x), (False, stmt_to_op_reversed, tbl_reversed, opposites.__getitem__)):
 
+        context = 'to aggregate' if stmt_to_op == stmt_to_op_forward else 'to be aggregated by'
         ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
         aggregated_table = misc.make_aggregrated_dict(tbl, ent_tbl_header, relationship_tbl_header)
 
@@ -42,7 +43,7 @@ def step_impl(context, inst, relationship, table):
             relation = getattr(inst, stmt_to_op[relationship], True)[0]
         except IndexError: # no relationship found for the entity
             if is_required:
-                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, severity=OutcomeSeverity.ERROR)
             continue
         relationship_objects = getattr(relation, relationship_tbl_header, True)
         if not isinstance(relationship_objects, tuple):
@@ -52,7 +53,7 @@ def step_impl(context, inst, relationship, table):
         for relationship_object in relationship_objects:
             is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
-                yield ValidationOutcome(inst=inst, expected=expected_relationship_objects, observed=relationship_object, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, observed=relationship_object, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('It must be assigned to the {relating}')

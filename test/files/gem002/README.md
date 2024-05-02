@@ -1,10 +1,16 @@
-| File name | Expected result | Error log / further info                                     |
-| --------- | --------------- | ------------------------------------------------------------ |
-| pass-gem002-no-space.ifc   | pass            | File with no space                                          |
-| fail-gem002-no-representation   | fail            | File with one space that has no representation               |
-| fail-gem002-only-footprint-representation   | fail            | The space has only a FootPrint representation                |
-| pass-gem002-body-representation-sweptsolid  | pass            | The space has a Body representation of type SweptSolid            |
-| fail-gem002-body-representation-csg  | fail            | The space has a Body representation of type CSG              |
-| fail-gem002-body-representation-no-footprint  | fail            | The space has a Body representation of type Brep and no FootPrint representation |
-| pass-gem002-body-representation-footprint  | pass            | The space has a Body representation of type Brep and a FootPrint representation |
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-gem002-body\_representation\_footprint.ifc | pass | NaN |
+| pass-gem002-no\_space.ifc | pass | NaN |
+| pass-gem002-body\_representation\_sweptsolid.ifc | pass | NaN |
+| fail-gem002-scenario01-no\_representation.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: SweptSolid Clipping Brep', 'Observed': ''} |
+| fail-gem002-no\_representation.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: SweptSolid Clipping Brep', 'Observed': ''} |
+| fail-gem002-scenario02-body\_representation\_no\_footprint.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be one FootPrint shape representation', 'Observed': ''} |
+| fail-gem002-only\_footprint\_representation.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be one Body shape representation', 'Observed': ''} |
+| fail-gem002-scenario01-body\_representation\_csg.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: SweptSolid Clipping Brep', 'Observed': ''} |
+| fail-gem002-scenario01-only\_footprint\_representation.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be one Body shape representation', 'Observed': ''} |
+| fail-gem002-body\_representation\_csg.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: SweptSolid Clipping Brep', 'Observed': ''} |
+| fail-gem002-body\_representation\_no\_footprint.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'There must be one FootPrint shape representation', 'Observed': ''} |
 

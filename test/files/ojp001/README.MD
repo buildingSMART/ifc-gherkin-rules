@@ -1,5 +1,8 @@
-| File name                                                                  | Expected result | Error log                                                                                                                                                                                                                                       | Description                                                                             |
-|----------------------------------------------------------------------------|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| pass-ojp001-relative_placement_for_elements_aggregated_to_another_element  | success         | n.a.                                                                                                                                                                                                                                            |                                                                                         |
-| fail-ojp001-scenario01-wrong_ifclocalplacement_linked                      | fail            | The entity #28=IfcStairFlight('0dUR9...,$,$,$) is contained in #26=IfcStair('3OP1zcvjX6a...FINED.) with the IfcRelAggregates relationship. The container points to #31=IfcLocalPlacement($,#33), but the entity to Not found                    | The expected ObjectPlacement entity was IfcLocalPlacement                               |
-| fail-ojp001-scenario01-wrong_ifclocalplacement_linked-chain                | fail            | The entity #28=IfcStairFlight('0dUR9...,$,$,$) is contained in #26=IfcStair('3OP1zcvjX6a...FINED.) with the IfcRelAggregates relationship. The container points to #31=IfcLocalPlacement($,#33), but the entity to #46=IfcLocalPlacement($,#47) | The contained object placement should point to the same entity as the container object. |
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-ojp001-relative\_placement\_for\_elements\_aggregated\_to\_another\_element.ifc | pass | NaN |
+| fail-ojp001-scenario01-wrong\_ifclocalplacement\_linked\_chain.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'instance: IfcLocalPlacement31', 'Observed': 'instance: IfcLocalPlacement46'} |
+| fail-ojp001-scenario01-wrong\_ifclocalplacement\_linked.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'instance: IfcLocalPlacement31', 'Observed': 'value: Not found'} |
+

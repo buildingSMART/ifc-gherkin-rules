@@ -189,9 +189,10 @@ class RuleCreationConventions(ConfiguredBaseModel):
     @field_validator('filename')
     def validate_test_filename(cls, value):
 
-        normalized_path = os.path.normpath(value)
+        # replace the backslashes for Windows systems, and replace underscores with dashes for when running as submodule in validate repo
+        normalized_path = os.path.normpath(value).replace('\\', '/').replace('_', '-')
         """Check if test file is located in the ifc-gherkin-rules\\test\\files directory"""
-        if not (('ifc-gherkin-rules\\test\\files\\' in normalized_path) or ('ifc-gherkin-rules/test/files/' in normalized_path) or ('ifc_gherkin_rules\\test\\files\\' in normalized_path) or ('ifc_gherkin_rules/test/files/' in normalized_path)):
+        if not 'ifc-gherkin-rules/test/files' in normalized_path:
             raise ProtocolError(
                 value=value,
                 message=f"The test files are to be placed in the ifc-gherkin-rules/test/files/ directory. Currently it's placed: {normalized_path}"

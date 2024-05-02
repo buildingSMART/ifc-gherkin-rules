@@ -20,7 +20,7 @@ These variables can be used to check the protocol.
 ## Test_main.py
 
 Entrypoint is in this file. Due to the command `--validate-dev` with pytest, e.g. `pytest -sv --validate-dev`. This command can also be used to debug the code. 
-For running with the Github CI/CD, this command is added in ci.yml 
+For running with the Github CI/CD, this command is added in ci.yml.
 
 To allow for this custom argument in pytest, 'conftest.py' is added. 
 

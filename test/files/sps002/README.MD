@@ -1,11 +1,18 @@
-| File name                                                           | Expected result | Error log                                                                                                                                  | Description                                                                                                         |
-|---------------------------------------------------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| pass-sps002-correct-spatial-breakdown                               | success         | n.a.                                                                                                                                       |                                                                                                                     |
-| pass-sps002-correct-spatial-breakdown-no-spatial-elements           | success         | n.a.                                                                                                                                       |                                                                                                                     |
-| pass-sps002-correct-spatial-breakdown-ifc4                          | success         | n.a.                                                                                                                                       |                                                                                                                     |
-| fail-sps002-scenario01-ifcrailway-not-part-of-spatial-structure     | fail            | The instance #15=IfcRailway('1FNFy9AJe...)',$,$) is not  related to (in) the following (1) instances: ['IfcProject', 'IfcSite',...ility']  | The #15=IfcRailway instance should be a part of #1=IFCPROJECT, but IFCRELAGGREGATES relation is not there           |
-| fail-sps002-scenario01-ifcrailway-part-of-ifcperson                 | fail            | The instance #15=IfcRailway('1FNFy9AJe...)',$,$) is not  related to (in) the following (1) instances: ['IfcProject', 'IfcSite',...ility']  | The #15=IfcRailway instance should be a part of #1=IFCPROJECT, but IFCRELAGGREGATES points to #4=IFCPERSON          |
-| fail-sps002-scenario01-ifcrailwaypart-not-part-of-spatial-structure | fail            | The instance #786=IfcRailwayPart('0hb5...CTURE.) is not  related to (in) the following (1) instances: ['IfcRailway']                       | The #786=IfcRailwayPart instance should be a part of #15=IFCRAILWAY, but IFCRELAGGREGATES relation is not there     |
-| fail-sps002-scenario01-ifcrailwaypart-part-of-ifcproject            | fail            | The instance #786=IfcRailwayPart('0hb5...CTURE.) is not  related to (in) the following (1) instances: ['IfcRailway']                       | The #786=IfcRailwayPart instance should be a part of #15=IFCRAILWAY, but IFCRELAGGREGATES points to #1=IFCPROJECT   |
-| fail-sps002-scenario01-ifcbuilding-part-of-ifcperson-ifc4           | fail            | The instance #50=IfcBuilding('0Cd2Mw3c...,$,#57) is not  related to (in) the following (1) instances: ['IfcProject', 'IfcSite',...lding']  | The #50=#50=IfcBuilding instance should be a part of #100=IFCPROJECT, but IFCRELAGGREGATES points to #4=IFCPERSON   |
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-sps002-IfcProject\_aggregating\_IfcBuilding.ifc | pass | NaN |
+| pass-sps002-IfcProject\_aggregating\_IfcSite.ifc | pass | NaN |
+| pass-sps002-correct\_spatial\_breakdown.ifc | pass | NaN |
+| pass-sps002-correct\_spatial\_breakdown\_no\_spatial\_elements.ifc | pass | NaN |
+| pass-sps002-IfcProject\_aggregating\_None.ifc | pass | NaN |
+| pass-sps002-correct\_spatial\_breakdown\_ifc4.ifc | pass | NaN |
+| fail-sps002-scenario01-ifcbuilding\_part\_of\_ifcperson\_ifc4.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'oneOf: IfcProject IfcSite IfcBuilding', 'Observed': 'instance: IfcPerson4'} |
+| fail-sps002-scenario01-ifcrailwaypart\_not\_part\_of\_spatial\_structure.ifc | fail | Result (multiple/example): {'Instance\_id': '', 'Expected': 'oneOf: IfcRailwayPart IfcRailway IfcSpace', 'Observed': 'instance: IfcElementAssembly0Lp4yTTT189Bsoq45eZaiO|
+| fail-sps002-IfcProject\_aggregating\_IfcAlignment.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'oneOf: IfcBridge IfcBuilding IfcExternalSpatialElement IfcFacility IfcMarineFacility IfcRailway IfcRoad IfcSite IfcSpace', 'Observed': 'instance: IfcAlignment11nfyFI\_P0wgXddnCVunaS'} |
+| fail-sps002-scenario01-ifcrailway\_part\_of\_ifcperson.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'oneOf: IfcProject IfcSite IfcRailway', 'Observed': 'instance: IfcPerson4'} |
+| fail-sps002-scenario01-ifcrailwaypart\_part\_of\_ifcproject.ifc | fail | Result (multiple/example): {'Instance\_id': '', 'Expected': 'oneOf: IfcRailwayPart IfcRailway IfcSpace', 'Observed': 'instance: IfcElementAssembly0Lp4yTTT189Bsoq45eZaiO|
+| fail-sps002-scenario01-IfcProject\_aggregating\_IfcBeam.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'oneOf: IfcBridge IfcBuilding IfcExternalSpatialElement IfcFacility IfcMarineFacility IfcRailway IfcRoad IfcSite IfcSpace', 'Observed': 'instance: IfcBeam1LBhlSD7bCYuHDv14J3NVC'} |
+| fail-sps002-scenario01-ifcrailway\_not\_part\_of\_spatial\_structure.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'oneOf: IfcProject IfcSite IfcRailway', 'Observed': ''} |
 

@@ -1,7 +1,10 @@
-| File name                                                       | Expected result | Error                                                                                                                                                           | Description |
-|:----------------------------------------------------------------|:----------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------|
-| fail-als005-scenario01-wrong_representationidentifier_value.ifc | E00020          | Expected value: {"OneOf": ["FootPrint", "Axis"]}. Observed value: {"value": "Body"}                                                                             |             |
-| fail-als005-scenario02-wrong_representationtype_value.ifc       | E00010          | Expected value: {"value": "Curve3D"}. Observed value: {"value": "Curve2D"}                                                                                      |             |
-| fail-als005-scenario03-wrong_representationtype_value.ifc       | E00010          | Expected value: {"value": "Curve2D"}. Observed value: {"value": "Curve3D"}                                                                                      |             |
-| fail-als005-scenario04-wrong_items_type.ifc                     | E00010          | Expected value: {"value": "IfcGradientCurve or IfcSegmentedReferenceCurve or IfcCompositeCurve or ..."}. Observed value: {"instance": "IfcCartesianPoint"}. |             |
-| pass-als005-alignment_representation.ifc                        | P00010          | Rules passed                                                                                                                                                    |             |
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-als005-alignment\_representation.ifc | pass | NaN |
+| fail-als005-scenario04-wrong\_items\_type.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: IfcGradientCurve or IfcSegmentedReferenceCurve or IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline or IfcOffsetCurveByDistance', 'Observed': 'instance: IfcCartesianPoint81'} |
+| fail-als005-scenario02-wrong\_representationtype\_value.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: Curve3D', 'Observed': 'value: Curve2D'} |
+| fail-als005-scenario01-wrong\_representationidentifier\_value.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'oneOf: FootPrint Axis', 'Observed': 'value: Body'} |
+| fail-als005-scenario03-wrong\_representationtype\_value.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: Curve2D', 'Observed': 'value: Curve3D'} |
+

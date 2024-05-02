@@ -1,9 +1,14 @@
-| File name                                         | Expected result | Error | Description                    |
-|---------------------------------------------------|-----------------|-------|--------------------------------|
-| pass-grf001-1-mapconversion.ifc | pass            |       | File contains 1 attribute 'IfcGeometricRepresentationContext' with 1 coordinate operation attribute 'IfcMapConversion' |
-| pass-grf001-2-mapconversion.ifc                       | pass            |       | File contains  1attribute 'IfcGeometricRepresentationContext' with 2 coordinate operation attributes 'IfcMapConversion' |
-|  pass-grf001-2-None.ifc       | pass            |       | file contains 2 'IfcGeometricRepresentationContext' without coordinate operations |
-| fail-grf001-1-rigidoperation-1-none.ifc | fail | On instance(s) #11=IfcGeom ..;#22=IfcGeom... , the following non-identical value(s) for attribute HasCoordinateOperation was/were found: IfcRigidOperation, None      | File contains 2 attributes 'IfcGeometricRepresentationContext' with either no coordinate operation or a coordinate operation attribute 'IfcRigidOperation' |
-| fail-grf001-1-mapconversion-1-rigidoperation.ifc | fail | On instance(s) #11=IfcGeom ..;#22=IfcGeom... , the following non-identical value(s) for attribute HasCoordinateOperation was/were found: IfcMapConversion, IfcRigidOperation      | File contains 2 attributes 'IfcGeometricRepresentationContext' with either coordinate operation attribute 'IfcMapConversion' or 'IfcRigidOperation' |
-| fail-grf001-1-mapconversion-1-none.ifc | fail | On instance(s) #22=IfcGeom ..;#55=IfcGeom... , the following non-identical value(s) for attribute HasCoordinateOperation was/were found: IfcMapConversion, None      | File contains 2 attributes 'IfcGeometricRepresentationContext' with either no coordinate operation or a coordinate operation attribute 'IfcMapConversion' |
-| fail-grf001-1-mapconversion-1-none.ifc | fail | On instance(s) #11=IfcGeom ..;#26=IfcGeom..., ;#22=IfcGeom..., the following non-identical value(s) for attribute HasCoordinateOperation was/were found: IfcMapConversion, None      | File contains 3 attributes 'IfcGeometricRepresentationContext' with either coordinate operation attribute 'IfcMapConversion' or 'IfcRigidOperation' |
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-grf001-ifcrigidoperation\_ifcrigidoperation.ifc | pass | NaN |
+| pass-grf001-none\_none.ifc | pass | NaN |
+| pass-grf001-ifcmapconversionscaled\_ifcmapconversionscaled.ifc | pass | NaN |
+| pass-grf001-ifcmapconversion\_ifcmapconversion.ifc | pass | NaN |
+| fail-grf001-ifcmapconversion\_none.ifc | fail | Result (multiple/example): 'Instance\_id': '', 'Expected': 'value: identical', 'Observed': 'value: Not identical |
+| fail-grf001-ifcmapconversionscaled\_ifcmapconversionscaled\_non\_identical.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: identical', 'Observed': 'value: Not identical |
+| fail-grf001-ifcmapconversion\_ifcmapconversion\_non\_identical.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: identical', 'Observed': 'value: Not identical |
+| fail-grf001-ifcrigidoperation\_ifcrigidoperation\_non\_identical.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'value: identical', 'Observed': 'value: Not identical |
+| fail-grf001-none\_ifcmapconversion.ifc | fail | Result (multiple/example): 'Instance\_id': '', 'Expected': 'value: identical', 'Observed': 'value: Not identical |
+

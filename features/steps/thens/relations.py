@@ -22,7 +22,7 @@ def step_impl(context, inst, relationship, table):
 
     for is_required, stmt_to_op, tbl, get_attr in ((True, stmt_to_op_forward, tbl_forward, lambda x: x), (False, stmt_to_op_reversed, tbl_reversed, opposites.__getitem__)):
 
-        context = 'to aggregate' if stmt_to_op == stmt_to_op_forward else 'to be aggregated by'
+        context = 'to be a part that decomposes' if stmt_to_op == stmt_to_op_forward else 'to be the whole that is decomposed by'
         ent_tbl_header, relationship_tbl_header = list(tbl[0].keys())
         aggregated_table = misc.make_aggregrated_dict(tbl, ent_tbl_header, relationship_tbl_header)
 

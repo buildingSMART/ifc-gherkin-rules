@@ -1,0 +1,13 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_NAME('','2024-05-09T13:24:48',(),(),'IfcOpenShell v0.7.0-f7c03db75','IfcOpenShell v0.7.0-f7c03db75','');
+FILE_SCHEMA(('IFC4'));
+ENDSEC;
+DATA;
+#1=IFCACTUATORTYPE('1WXt2Yz5H2xhEWrs8Dw9pA',$,$,$,$,$,$,$,$,.HANDOPERATEDACTUATOR.);
+#2=IFCPROPERTYSINGLEVALUE('ActuatorInputPower',$,IFCPOWERMEASURE(1.),$);
+#3=IFCPROPERTYSET('0tkgBeMuD80PXkkOcPrbWq',$,'Pset_ActuatorTypeElectricActuator',$,(#2));
+#4=IFCRELDEFINESBYPROPERTIES('3QuA$qdmnDK9Xy66hUUrYA',$,$,$,(#1),#3);
+ENDSEC;
+END-ISO-10303-21;

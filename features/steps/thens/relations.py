@@ -362,7 +362,7 @@ def step_impl(context, inst, table):
                     if values:
                         for value in values:
                             if not value.wrappedValue in accepted_data_type['values']:
-                                yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['values']}, observed = value.wrappedValue, severity=OutcomeSeverity.ERROR)
+                                yield ValidationOutcome(inst=inst, expected= accepted_data_type['values'], observed = value.wrappedValue, severity=OutcomeSeverity.ERROR)
 
                 # @todo other properties such as list/bounded/etc.
                 

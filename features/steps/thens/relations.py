@@ -273,7 +273,7 @@ def step_impl(context, inst, table):
 
                 correct = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities'] if obj.is_a(accepted_object)]
                 if not any(correct):
-                    yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed =obj, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected=accepted_values['applicable_entities'], observed =obj, severity=OutcomeSeverity.ERROR)
                 else:
                     # - when entity validation succeeds we continue to check predefined type
                     # - we take note of the predefined types that are allowed for the entity that was used to select the current applicability (this has to take into account inheritance) [could be multiple in case of inheritance - sometimes we see in IFC that both the parent as well as the child entity are explicitly allowed]

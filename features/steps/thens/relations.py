@@ -314,7 +314,7 @@ def step_impl(context, inst, table):
                 correct = functools.reduce(operator.add, (correct, correct_type1, correct_type2))
                 
                 if not any(correct):
-                    yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed = obj, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected=accepted_values['applicable_entities'], observed = obj, severity=OutcomeSeverity.ERROR)
                 else:
                     allowed_predefined_types_for_matching_entity = [ptype.upper() if ptype else None for entity, ptype in accepted_values['applicable_entities_with_predefined_types'] if entity.lower() in correct]
                     if None not in allowed_predefined_types_for_matching_entity:

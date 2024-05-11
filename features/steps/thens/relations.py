@@ -275,6 +275,11 @@ def step_impl(context, inst, table):
                 if not any(correct):
                     yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed =obj, severity=OutcomeSeverity.ERROR)
                 else:
+                    # - when entity validation succeeds we continue to check predefined type
+                    # - we take note of the predefined types that are allowed for the entity that was used to select the current applicability (this has to take into account inheritance) [could be multiple in case of inheritance - sometimes we see in IFC that both the parent as well as the child entity are explicitly allowed]
+                    # - we filter the allowed predefined types based on the entity used for selection [could be multiple]
+                    # - if this contains None, then no predefined type is allowed, so we don't need to do any further checks
+                    # - if it doesn't contain none we do need to check if the predefined type in the model (can be null) is part of the allowed predefined types. 
                     allowed_predefined_types_for_matching_entity = [ptype.upper() if ptype else None for entity, ptype in accepted_values['applicable_entities_with_predefined_types'] if entity.lower() in correct]
                     if None not in allowed_predefined_types_for_matching_entity:
                         # None means here that the predefined type is not constrained, or bare entity is also allowed -> no further check

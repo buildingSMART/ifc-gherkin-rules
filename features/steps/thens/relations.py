@@ -329,7 +329,7 @@ def step_impl(context, inst, table):
             properties = inst.HasProperties
             for property in properties:
                 if property.Name not in accepted_values['property_names']:
-                    yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_values['property_names']}, observed = property.Name, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected=accepted_values['property_names'], observed = property.Name, severity=OutcomeSeverity.ERROR)
 
         if 'Each associated IfcProperty must be of type according to the property set definitions table' in context.step.name:
             accepted_property_name_type_map = dict(zip(accepted_values['property_names'], accepted_values['property_types']))

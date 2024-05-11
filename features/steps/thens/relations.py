@@ -1,4 +1,6 @@
+import functools
 import itertools
+import operator
 from validation_handling import gherkin_ifc
 import json
 
@@ -177,6 +179,13 @@ def take_first_if_single_length(li):
     return li[0] if len(li) == 1 else li
 
 
+def upper_case_if_string(v):
+    try:
+        return v.upper()
+    except:
+        return v
+
+
 @gherkin_ifc.step('The IfcPropertySet Name attribute value must use predefined values according to the "{table}" table')
 @gherkin_ifc.step('The IfcPropertySet must be assigned according to the property set definitions table "{table}"')
 @gherkin_ifc.step('Each associated IfcProperty must be named according to the property set definitions table "{table}"')
@@ -215,22 +224,20 @@ def step_impl(context, inst, table):
 
         accepted_values['applicable_entities'] = [s.split('/')[0] for s in make_obj(property_set_attr['applicable_entities'])]
 
-        # in the ifc4 data, predefined type restrictions are imposed as:
-        # | | | applicable_entities                                                     | | 
-        # | | | ['{entity}','{entity}/{predefinedtype}','{entity2}/{predefinedtype2}']  | |
-        accepted_values['predefined_types'] = [s.split('/')[1] for s in make_obj(property_set_attr['applicable_entities']) if '/' in s]
-
         # in the ifc2x3 data, predefined type restrictions are imposed as:
         # | | | applicable_type_value                     | | 
         # | | | {entity}.PredefinedType={predefinedtype}  | |
         if property_set_attr['applicable_type_value'] and '.PredefinedType=' in property_set_attr['applicable_type_value']:
-            accepted_values['predefined_types'].append(property_set_attr['applicable_type_value'].split('.PredefinedType=')[1])
-
-        # just in case convert to upper cae, probably not needed
-        accepted_values['predefined_types'] = sorted(set(s.upper() for s in accepted_values['predefined_types']))
-
-        # @todo this is actually wrong, we should consider pairs of <entity, predefined type> together
-        # and not separately. But in the majority of cases this will be good enough.
+            ptype = property_set_attr['applicable_type_value'].split('.PredefinedType=')[1].upper()
+            accepted_values['applicable_entities_with_predefined_types'] = list(zip(
+                accepted_values['applicable_entities'],
+                (ptype for _ in itertools.count())
+            ))
+        else:
+            # in the ifc4 data, predefined type restrictions are imposed as:
+            # | | | applicable_entities                                                     | | 
+            # | | | ['{entity}','{entity}/{predefinedtype}','{entity2}/{predefinedtype2}']  | |
+            accepted_values['applicable_entities_with_predefined_types'] = [((ab[0], ab[1].upper()) if len(ab) == 2 else (ab[0], None)) for ab in (s.split('/') for s in make_obj(property_set_attr['applicable_entities']))]
 
         return accepted_values
 
@@ -264,13 +271,17 @@ def step_impl(context, inst, table):
                 if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
                     yield ValidationOutcome(inst=inst, expected= {'entity':template_type_to_expected[accepted_values['template_type']]}, observed =obj, severity=OutcomeSeverity.ERROR)
 
-                correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
+                correct = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities'] if obj.is_a(accepted_object)]
                 if not any(correct):
                     yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed =obj, severity=OutcomeSeverity.ERROR)
                 else:
-                    # Check predefined type if constrained
-                    if accepted_values['predefined_types'] and get_predefined_type(obj).upper() not in accepted_values['predefined_types']:
-                        yield ValidationOutcome(inst=inst, expected=take_first_if_single_length(accepted_values['predefined_types']), observed=get_predefined_type(obj), severity=OutcomeSeverity.ERROR)
+                    allowed_predefined_types_for_matching_entity = [ptype.upper() if ptype else None for entity, ptype in accepted_values['applicable_entities_with_predefined_types'] if entity.lower() in correct]
+                    if None not in allowed_predefined_types_for_matching_entity:
+                        # None means here that the predefined type is not constrained, or bare entity is also allowed -> no further check
+                        observed_ptype = upper_case_if_string(get_predefined_type(obj))
+
+                        if observed_ptype not in allowed_predefined_types_for_matching_entity:
+                            yield ValidationOutcome(inst=inst, expected=take_first_if_single_length(sorted(set(allowed_predefined_types_for_matching_entity))), observed=observed_ptype, severity=OutcomeSeverity.ERROR)
 
             # Now check association to type objects.
             # Notes:
@@ -284,7 +295,7 @@ def step_impl(context, inst, table):
                 if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN', 'PSET_PERFORMANCEDRIVEN']:
                     yield ValidationOutcome(inst=inst, expected= {"entity": template_type_to_expected[accepted_values['template_type']]}, observed =obj, severity=OutcomeSeverity.ERROR)
 
-                correct = [obj.is_a(accepted_object) for accepted_object in accepted_values['applicable_entities']]
+                correct = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities'] if obj.is_a(accepted_object)]
                 
                 # Translate occurence to type name for when template is typedriven(override) but applicability only lists occurrence
                 def schema_has_declaration_name(s):
@@ -292,17 +303,21 @@ def step_impl(context, inst, table):
                         return obj.wrapped_data.declaration().schema().declaration_by_name(s) is not None
                     except:
                         return False
-                correct_type1 = [(schema_has_declaration_name(accepted_object + "Type") and obj.is_a(accepted_object + "Type")) for accepted_object in accepted_values['applicable_entities']]
+                correct_type1 = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities'] if (schema_has_declaration_name(accepted_object + "Type") and obj.is_a(accepted_object + "Type")) ]
                 # in rare occasions (IfcWindow and IfcDoor) in IFC4, the Type object is named IfcDoorStyle
-                correct_type2 = [(schema_has_declaration_name(accepted_object + "Style") and obj.is_a(accepted_object + "Style")) for accepted_object in accepted_values['applicable_entities']]
-                correct = list(map(any, zip(correct, correct_type1, correct_type2)))
+                correct_type2 = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities'] if (schema_has_declaration_name(accepted_object + "Style") and obj.is_a(accepted_object + "Style")) ]
+                correct = functools.reduce(operator.add, (correct, correct_type1, correct_type2))
                 
                 if not any(correct):
                     yield ValidationOutcome(inst=inst, expected={"oneOf": accepted_values['applicable_entities']}, observed = obj, severity=OutcomeSeverity.ERROR)
                 else:
-                    # Check predefined type if constrained
-                    if accepted_values['predefined_types'] and get_predefined_type(obj).upper() not in accepted_values['predefined_types']:
-                        yield ValidationOutcome(inst=inst, expected=take_first_if_single_length(accepted_values['predefined_types']), observed=get_predefined_type(obj), severity=OutcomeSeverity.ERROR)
+                    allowed_predefined_types_for_matching_entity = [ptype.upper() if ptype else None for entity, ptype in accepted_values['applicable_entities_with_predefined_types'] if entity.lower() in correct]
+                    if None not in allowed_predefined_types_for_matching_entity:
+                        # None means here that the predefined type is not constrained, or bare entity is also allowed -> no further check
+                        observed_ptype = upper_case_if_string(get_predefined_type(obj))
+
+                        if observed_ptype not in allowed_predefined_types_for_matching_entity:
+                            yield ValidationOutcome(inst=inst, expected=take_first_if_single_length(sorted(set(allowed_predefined_types_for_matching_entity))), observed=observed_ptype, severity=OutcomeSeverity.ERROR)
 
 
         if 'Each associated IfcProperty must be named according to the property set definitions table' in context.step.name:

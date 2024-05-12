@@ -68,12 +68,16 @@ def step_impl(context, inst, attribute, tail="single"):
 @gherkin_ifc.step("Its {attribute} attribute {condition} with {prefix}")
 def step_impl(context, inst, attribute, condition, prefix):
     assert condition in ('starts', 'does not start')
+    attr = str(getattr(inst, attribute, ''))
     if condition == 'starts':
-        if hasattr(inst, attribute) and str(getattr(inst, attribute, '')).startswith(prefix):
+        if attr and attr.startswith(prefix):
+            context.activation_attr = attr
             yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
     elif condition == 'does not start':
-        if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')).startswith(prefix):
+        if attr and not attr.startswith(prefix):
             yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+
+
             
 
 @gherkin_ifc.step('Its final segment')

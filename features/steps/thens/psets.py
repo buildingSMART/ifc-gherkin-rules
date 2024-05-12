@@ -3,6 +3,7 @@ import itertools
 import operator
 from validation_handling import gherkin_ifc
 import json
+import os
 
 from utils import misc, system
 
@@ -87,17 +88,25 @@ def establish_accepted_pset_values(name, property_set_definitions):
 
         return accepted_values
 
-def get_pset_definitions(table):
-    tbl_path = system.get_abs_path(f"resources/property_set_definitions/{table}")
+def get_pset_definitions(context, table):
+    schema_specific_path = system.get_abs_path(f"resources/{context.model.schema.upper()}/{table}.csv")
+
+    if os.path.exists(schema_specific_path):
+        tbl_path = schema_specific_path
+    else:
+        tbl_path =system.get_abs_path(f"resources/{table}.csv")
+
     tbl = system.get_csv(tbl_path, return_type='dict')
     return {d['property_set_name']: d for d in tbl}
 
+
+
 def get_accepted_pset_values(context, table):
-    return establish_accepted_pset_values(context.activation_attr, get_pset_definitions(table))
+    return establish_accepted_pset_values(context.activation_attr, get_pset_definitions(context, table))
 
 @gherkin_ifc.step('It must use predefined values according to the "{table}" table')
 def step_impl(context, inst, table):
-    property_set_definitions = get_pset_definitions(table)
+    property_set_definitions = get_pset_definitions(context, table)
 
     if inst not in property_set_definitions.keys():
         yield ValidationOutcome(inst=inst, observed = {'value':inst}, severity=OutcomeSeverity.ERROR)
@@ -153,7 +162,7 @@ def step_impl(context, inst, table):
 
 @gherkin_ifc.step('The IfcPropertySet must be assigned according to the property set definitions table "{table}"')
 def step_impl(context, inst, table):
-    property_set_definitions = get_pset_definitions(table)
+    property_set_definitions = get_pset_definitions(context, table)
 
     name = getattr(inst, 'Name', 'Attribute not found')
 

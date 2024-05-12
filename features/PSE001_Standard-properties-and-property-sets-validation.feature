@@ -10,71 +10,35 @@ The rule verifies that each IfcPropertySet starting with Pset is defined correct
    Given its Name attribute starts with Pset
 
 
-    Scenario Outline: IfcPropertySet Name
+    Scenario: IfcPropertySet Name
      
-      Given a file with Schema "<schema>"
       Given its attribute Name
 
-      Then It must use predefined values according to the "<csv_table>" table
-
-      Examples:
-        | schema  | csv_table |
-        | IFC2X3  | IFC2x3_definitions.csv |
-        | IFC4    | IFC4_definitions.csv |
-        | IFC4X3  | IFC4X3_definitions.csv |
-
+      Then It must use predefined values according to the "pset_definitions" table
     
-    Scenario Outline: Property Name
+    Scenario: Property Name
 
-        Given a file with Schema "<schema>"
         Given its attribute HasProperties
         Given its attribute Name
 
-        Then It must be named according to the property set definitions table "<csv_table>"
-
-        Examples:
-          | schema  | csv_table |
-          | IFC2X3  | IFC2x3_definitions.csv |
-          | IFC4    | IFC4_definitions.csv |
-          | IFC4X3  | IFC4X3_definitions.csv |
+        Then It must be named according to the property set definitions table "pset_definitions"
 
       
-      Scenario Outline: PropertySet definitions
+    Scenario: PropertySet definitions
 
-        Given a file with Schema "<schema>"
-
-        Then The IfcPropertySet must be assigned according to the property set definitions table "<csv_table>"
-
-        Examples:
-          | schema  | csv_table |
-          | IFC2X3  | IFC2x3_definitions.csv |
-          | IFC4    | IFC4_definitions.csv |
-          | IFC4X3  | IFC4X3_definitions.csv |
+      Then The IfcPropertySet must be assigned according to the property set definitions table "pset_definitions"
 
 
-    Scenario Outline: Property Type
+    Scenario: Property Type
 
-        Given a file with Schema "<schema>"
         Given its attribute HasProperties
 
-        Then It must be of type according to the property set definitions table "<csv_table>"
-
-        Examples:
-          | schema  | csv_table |
-          | IFC2X3  | IFC2x3_definitions.csv |
-          | IFC4    | IFC4_definitions.csv |
-          | IFC4X3  | IFC4X3_definitions.csv |
+        Then It must be of type according to the property set definitions table "pset_definitions"
 
 
-    Scenario Outline: Property Data Type
+    Scenario: Property Data Type
     
-        Given a file with Schema "<schema>"
         Given its attribute HasProperties
 
-        Then It must be of data type according to the property set definitions table "<csv_table>"
+        Then It must be of data type according to the property set definitions table "pset_definitions"
 
-        Examples:
-          | schema  | csv_table |
-          | IFC2X3  | IFC2x3_definitions.csv |
-          | IFC4    | IFC4_definitions.csv |
-          | IFC4X3  | IFC4X3_definitions.csv |  

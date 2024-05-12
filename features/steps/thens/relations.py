@@ -3,6 +3,7 @@ import itertools
 import operator
 from validation_handling import gherkin_ifc
 import json
+import os
 
 from utils import ifc, misc, system
 
@@ -184,6 +185,17 @@ def upper_case_if_string(v):
         return v.upper()
     except:
         return v
+    
+def get_pset_definitions(context, table):
+    schema_specific_path = system.get_abs_path(f"resources/{context.model.schema.upper()}/{table}.csv")
+
+    if os.path.exists(schema_specific_path):
+        tbl_path = schema_specific_path
+    else:
+        tbl_path =system.get_abs_path(f"resources/{table}.csv")
+    
+    tbl = system.get_csv(tbl_path, return_type='dict')
+    return {d['property_set_name']: d for d in tbl}
 
 
 @gherkin_ifc.step('The IfcPropertySet Name attribute value must use predefined values according to the "{table}" table')
@@ -193,9 +205,7 @@ def upper_case_if_string(v):
 @gherkin_ifc.step('Each associated IfcProperty value must be of data type according to the property set definitions table "{table}"')
 def step_impl(context, inst, table):
 
-    tbl_path = system.get_abs_path(f"resources/property_set_definitions/{table}")
-    tbl = system.get_csv(tbl_path, return_type='dict')
-    property_set_definitions = {d['property_set_name']: d for d in tbl}
+    property_set_definitions = get_pset_definitions(context, table)
 
     def establish_accepted_pset_values(name, property_set_definitions):
         def make_obj(s):

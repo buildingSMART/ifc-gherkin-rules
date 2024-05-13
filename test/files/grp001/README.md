@@ -1,6 +1,9 @@
-| File name                                    | Expected result   | Error        | Description   |
-|:---------------------------------------------|:------------------|:-------------|:--------------|
-| pass-grp001-path-of-length-1.ifc             | pass              |              |               |
-| pass-grp001-path-of-length-3.ifc             | pass              |              |               |
-| fail-grp001-scenario01-cycle-of-length-1.ifc | fail              |              |               |
-| fail-grp001-scenario01-cycle-of-length-3.ifc | fail              |              |               |
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-grp001-path\_of\_length\_3.ifc | pass | NaN |
+| pass-grp001-path\_of\_length\_1.ifc | pass | NaN |
+| fail-grp001-scenario01-cycle\_of\_length\_3.ifc | fail | Result (multiple/example): {'Instance\_id': '', 'Expected': 'It must not be referenced by itself directly or indirectly|
+| fail-grp001-scenario01-cycle\_of\_length\_1.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'It must not be referenced by itself directly or indirectly', 'Observed': ''} |
+

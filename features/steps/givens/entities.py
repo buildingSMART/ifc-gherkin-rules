@@ -4,7 +4,7 @@ import pyparsing
 
 from utils import misc
 
-from validation_handling import gherkin_ifc, StepOutcome
+from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 

@@ -1,4 +1,3 @@
-from functools import reduce
 import itertools
 import json
 import operator

@@ -1,7 +1,10 @@
-| File name                                              | Expected result   | Error                                                                                                                                                                                             | Description   |
-|:-------------------------------------------------------|:------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------|
-| pass-ifc001-IFC2X3.ifc        | pass              | Rules                                                                                                                                                                                       |        'IFC2X3' is one of the accepted schema identifiers      |
-| pass-ifc001-IFC4.ifc        | pass              | Rules                                                                                                                                                                                       |    'IFC4' is one of the accepted schema identifiers       |
-| pass-IFC4X3_ADD2.ifc        | pass              | Rules                                                                                                                                                                                       |    'IFC4X3_ADD2' is one of the accepted schema identifiers            |
-| fail-IFC4X3.ifc       | pass              | The file's schema identifier IFC4X3 does not match any of the expected current schema identifiers: 'ifc4X3_add2', 'ifc4', 'ifc2x3'  fail                                                                                                                                                                                      |    IFC4X3 is a correct schema, but not schema identifier         |
-|  fail-IFC4X3_ADD1.ifc    | fail              | The file's schema identifier IFC4X3_ADD1 does not match any of the expected current schema identifiers: 'ifc4X3_add2', 'ifc4', 'ifc2x3'  #23, |   IFC4X3_ADD1 is outdated            |
+
+
+| File name | Expected result | Description |
+| --- | --- | --- |
+| pass-ifc101-IFC4X3\_ADD2.ifc | pass | NaN |
+| pass-ifc101-IFC4.ifc | pass | NaN |
+| pass-ifc101-IFC2X3.ifc | pass | NaN |
+| fail-ifc101-IFC4X3.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'oneOf: IFC4X3\_ADD2 IFC4 IFC2X3', 'Observed': 'value: IFC4X3'} |
+| fail-ifc101-IFC4X3\_ADD1.ifc | fail | Result 1: {'Instance\_id': '', 'Expected': 'oneOf: IFC4X3\_ADD2 IFC4 IFC2X3', 'Observed': 'value: IFC4X3\_ADD1'} |
+

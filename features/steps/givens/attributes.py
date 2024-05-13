@@ -2,14 +2,16 @@ import ast
 import operator
 
 from behave import register_type
-from utils import geometry, ifc, misc, system
+from utils import geometry, ifc, misc
 from parse_type import TypeBuilder
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
-register_type(file_or_model=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("file", "model")))))
-register_type(plural_or_single=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("plural", "single")))))
-
+from enum import Enum, auto
+class FirstOrFinal(Enum):
+  FIRST = auto()
+  FINAL = auto()
+register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
 
 @gherkin_ifc.step("{attribute} = {value}")
 def step_impl(context, inst, attribute, value):
@@ -74,34 +76,16 @@ def step_impl(context, inst, attribute, condition, prefix):
     elif condition == 'does not start':
         if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')).startswith(prefix):
             yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
-            
-
-@gherkin_ifc.step('Its final segment')
-@gherkin_ifc.step('Its final segment at depth 1')
-def step_impl(context, inst):
-    """
-    Implement ALS015
-    This is a separate function from ALB015 because ALS015 needs to return an entity_instance.
-    """
-    yield ValidationOutcome(instance_id = inst[-1], severity=OutcomeSeverity.PASSED)
 
 
-@gherkin_ifc.step('Its final IfcAlignmentSegment')
-def step_impl(context, inst):
-    """
-    Implement ALB015
-    This is a separate function from ALS015 because ALB015 needs to yield a ValidationOutcome.
-    """
-    yield ValidationOutcome(instance_id=context.instances[-1], severity=OutcomeSeverity.PASSED)
-
+@gherkin_ifc.step('Its {ff:first_or_final} element')
+@gherkin_ifc.step('Its {ff:first_or_final} element at depth 1')
+def step_impl(context, inst, ff : FirstOrFinal):
+    if ff == FirstOrFinal.FINAL:
+        yield ValidationOutcome(instance_id = inst[-1], severity=OutcomeSeverity.PASSED)
+    elif ff == FirstOrFinal.FIRST:
+        yield ValidationOutcome(instance_id = inst[0], severity=OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):
     yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
-
-
-@gherkin_ifc.step("The entity type is {expected_entity_type}")
-def step_impl(context, inst, expected_entity_type):
-    expected_entity_types = tuple(map(str.strip, expected_entity_type.split(' or ')))
-    entities = [_[0] for _ in inst if _[0].is_a() in expected_entity_types]
-    return ValidationOutcome(inst_id=tuple(entities), severity=OutcomeSeverity.PASSED)

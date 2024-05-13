@@ -20,4 +20,11 @@ def step_impl(context, inst):
     inst = misc.recursive_unpack_value(inst)
     points = geometry.get_points(inst, return_type='points')
     if points[0] != points[-1]:
-        yield ValidationOutcome(inst=inst, observed=[points[0], points[-1]], severity=OutcomeSeverity.ERROR)
+        def get_coordinates(point):
+            return getattr(point, 'Coordinates', point)
+
+        yield ValidationOutcome(
+            inst=inst,
+            observed=[get_coordinates(points[0]), get_coordinates(points[1])],
+            severity=OutcomeSeverity.ERROR
+        )

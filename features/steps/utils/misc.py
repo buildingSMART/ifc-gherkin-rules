@@ -1,5 +1,4 @@
 import ifcopenshell
-import json
 import operator
 import pyparsing
 

@@ -15,8 +15,8 @@ Follow these steps to add a new rule to the Validation Service
 
 In the buildingSMART [GitHub repository containing all rules](https://github.com/buildingSMART/ifc-gherkin-rules), create the branch that will be used to develop the new rule.
 
-- Name the branch with the name of the new rule. Example: `GEM900` for a new rule in the geometry functional part
-- Add 1 rule per branch, to facilitate review (1 rule = 1 `.feature` file)
+- Name the branch with the name of the new rule. Example: `GEM900` for a new rule in the geometry functional part.
+- Add 1 rule per branch, to facilitate review (1 rule = 1 `.feature` file).
 
 ## 2. Rule development
 

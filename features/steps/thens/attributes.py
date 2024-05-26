@@ -1,6 +1,5 @@
 import operator
 
-
 from utils import misc, system, geometry
 from validation_handling import gherkin_ifc
 
@@ -112,4 +111,8 @@ def step_impl(context, inst, segment_type, length_attribute):
     else:
         raise ValueError(f"Invalid segment_type '{segment_type}'.")
 
-
+@gherkin_ifc.step("It must be of type {values}")
+def step_impl(context, inst, values):
+    values = misc.strip_split(values, strp='"', splt=' or ')
+    if not any(inst.is_a(x) for x in  values):
+        yield ValidationOutcome(inst=inst, expected=values, observed=inst.is_a(), severity=OutcomeSeverity.ERROR)

@@ -2,11 +2,18 @@ import functools
 import operator
 import pyparsing
 
-from utils import misc
+from utils import misc, system
+from utils.vs_none import VSNone
 
 from validation_handling import gherkin_ifc
 
+from behave import register_type
+from parse_type import TypeBuilder
+
 from . import ValidationOutcome, OutcomeSeverity
+
+register_type(relating_or_related=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("relating", "related")))))
+
 
 
 @gherkin_ifc.step("An {entity_opt_stmt}")
@@ -41,3 +48,15 @@ def step_impl(context, entity_opt_stmt, insts=False):
 def step_impl(context, entity):
     if context.model.by_type(entity):
         context.applicable = False
+
+@gherkin_ifc.step("Its {relationship_direction:relating_or_related} entities")
+@gherkin_ifc.step("Its {relationship_direction:relating_or_related} entity")
+def step_impl(context, inst, relationship_direction):
+    attr_matrix = system.load_attribute_matrix(
+        f"{relationship_direction}_entity_attributes.csv")
+    
+    attribute_name = attr_matrix.get(inst.is_a(), None)
+    attr_value = getattr(inst, attribute_name, VSNone)
+    if attr_value is None:
+        attr_value = VSNone
+    yield ValidationOutcome(instance_id = attr_value, severity = OutcomeSeverity.PASSED)

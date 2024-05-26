@@ -93,7 +93,6 @@ def handle_given(context, fn, **kwargs):
         if gen: # (2) Set initial set of instances
             insts = list(gen)
             context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
-            pass
         else:
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
@@ -184,7 +183,7 @@ def handle_then(context, fn, **kwargs):
             new_depth = depth if depth > 0 else 0
             return type(items)(map_then_state(v, fn, context, current_path + [i], new_depth, **kwargs) for i, v in enumerate(items))
         else:
-            return apply_then_operation(fn, items, context, **kwargs)
+            return apply_then_operation(fn, items, context, current_path=None, **kwargs)
     map_then_state(instances, fn, context, depth = 1 if 'at depth 1' in context.step.name.lower() else 0, **kwargs)
 
     # evokes behave error

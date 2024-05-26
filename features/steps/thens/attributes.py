@@ -71,6 +71,8 @@ def step_impl(context, inst, attribute, value):
     if isinstance(inst, (tuple, list)):
         inst = inst[0]
     attribute_value = getattr(inst, attribute, 'Attribute not found')
+    if attribute_value is None:
+        attribute_value = ()
     if inst is None:
         # nothing was activated by the Given criteria
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.EXECUTED)

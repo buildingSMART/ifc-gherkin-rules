@@ -5,6 +5,40 @@ from validation_handling import gherkin_ifc, global_rule
 
 from . import ValidationOutcome, OutcomeSeverity
 
+def recursive_flatten(lst):
+    for item in lst:
+        if isinstance(item, (tuple, list)):
+            yield from recursive_flatten(item)
+        # also exclude None, e.g. no attribute found for the entity
+        elif item is not None:
+            yield item
+
+@gherkin_ifc.step("Assert existence")
+def step_impl(context, inst):
+    def recursive_flatten(lst):
+        for item in lst:
+            if isinstance(item, (tuple, list)):
+                yield from recursive_flatten(item)
+            # also exclude None, e.g. no attribute found for the entity
+            elif item is not None:
+                yield item
+    
+    try:
+        if not list(recursive_flatten(inst)):
+            yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+    except TypeError: # non-collection types
+        if inst == None: # note '==', not 'is'; see docs in vsNone
+            yield ValidationOutcome(instance_id=None, severity = OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("Assert global existence")
+@global_rule
+def step_impl(context, inst):
+    flattened_list = list(recursive_flatten(inst))
+    if not flattened_list or any(i == None for i in flattened_list):
+        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.ERROR)
+
+
 @gherkin_ifc.step("There must be one {representation_id} shape representation")
 def step_impl(context, inst, representation_id):
     if inst.Representation:

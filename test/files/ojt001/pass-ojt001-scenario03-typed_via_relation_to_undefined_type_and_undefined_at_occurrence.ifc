@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('pass-ojt001-scenario01-userdefined_w_object_type.ifc','2024-05-09T17:23:26',(),(),'IfcOpenShell v0.8.0-0d3c73de8','IfcOpenShell v0.8.0-0d3c73de8','');
+FILE_NAME('fail-ojt001-scenario03-typed_via_relation_to_undefined_type_and_undefined_at_occurrence.ifc','2024-05-09T17:23:26',(),(),'IfcOpenShell v0.8.0-0d3c73de8','IfcOpenShell v0.8.0-0d3c73de8','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -27,9 +27,7 @@ DATA;
 #21=IFCCIRCLEHOLLOWPROFILEDEF(.AREA.,'18 in. x 0.375 in.',$,0.75,0.03125);
 #22=IFCEXTRUDEDAREASOLID(#21,$,#20,40.);
 #23=IFCSHAPEREPRESENTATION(#15,'Body','SweptSolid',(#22));
-#24=IFCPRODUCTDEFINITIONSHAPE('Shell Pile','18 in. dia., 0.375 in. thick',(#23));
-#25=IFCLOCALPLACEMENT($,#14);
-#26=IFCPILE('3V2pG56cDD6AyFG5nHXY9a',$,$,$,'HAMMERED',#25,#24,'A1',.USERDEFINED.,.PREFAB_STEEL.)
+
 #27=IFCBRIDGE('2glKELkMzAkfaFcp_w_RN8',$,'Bridge 27',$,$,$,$,$,$,$);
 #28=IFCRELAGGREGATES('1dBT93ayH5UAQqzifFwwwF',$,'Bridges are a part of the site',$,#17,(#27));
 #29=IFCBRIDGEPART('1HR0sgdPHF89h$ZTZnXpxC',$,'Superstructure',$,$,$,$,$,.PARTIAL.,.LONGITUDINAL.,.SUPERSTRUCTURE.);
@@ -39,6 +37,31 @@ DATA;
 #33=IFCBRIDGEPART('1RDD_5TVD1wOzkDky1oisq',$,'Pier 2 Foundation',$,$,$,$,$,.PARTIAL.,.LONGITUDINAL.,.FOUNDATION.);
 #34=IFCRELAGGREGATES('3ayjM3JIbC4eXsIhhjisn5',$,'pier is part of the substructure',$,#30,(#32));
 #35=IFCRELAGGREGATES('0DDfbV$yX6PvFhAXZCCSZf',$,'foundation is part of the pier',$,#32,(#33));
-#36=IFCRELCONTAINEDINSPATIALSTRUCTURE('0g1SvUYyb4Y8XJfksT1yLh',$,'piles are part of the foundation',$,(#26),#33);
+#36=IFCRELCONTAINEDINSPATIALSTRUCTURE('0g1SvUYyb4Y8XJfksT1yLh',$,'piles are part of the foundation',$,(#210,#220,#230,#240),#33);
+#37=IFCPILETYPE('3pDA7sP9PF0AlfyyLNvzaP',$,'Shell Pile',$,$,$,(#39),'18 in. dia., 0.375 in. thick',$,.NOTDEFINED.);
+#38=IFCRELDEFINESBYTYPE('2lxWqsJCX6LQ8erVvLoRoC',$,$,$,(#210,#220,#230,#240),#37);
+#39=IFCREPRESENTATIONMAP(#14,#23);
+
+#100=IFCCARTESIANTRANSFORMATIONOPERATOR3D($,$,#11,$,$);
+#101=IFCMAPPEDITEM(#39,#100);
+#102=IFCSHAPEREPRESENTATION(#15,'Body','MappedRepresentation',(#101));
+#103=IFCPRODUCTDEFINITIONSHAPE('Shell Pile','18 in. dia., 0.375 in. thick',(#102));
+
+#110=IFCCARTESIANPOINT((0.,9.,0.));
+#111=IFCAXIS2PLACEMENT3D(#110,#12,#13);
+#112=IFCLOCALPLACEMENT($,#111);
+#120=IFCCARTESIANPOINT((0.,3.,0.));
+#121=IFCAXIS2PLACEMENT3D(#120,#12,#13);
+#122=IFCLOCALPLACEMENT($,#121);
+#130=IFCCARTESIANPOINT((0.,-3.,0.));
+#131=IFCAXIS2PLACEMENT3D(#130,#12,#13);
+#132=IFCLOCALPLACEMENT($,#131);
+#140=IFCCARTESIANPOINT((0.,-9.,0.));
+#141=IFCAXIS2PLACEMENT3D(#140,#12,#13);
+#142=IFCLOCALPLACEMENT($,#141);
+#210=IFCPILE('3X2pG56cDD6AyFG5nHXY9a',$,'P1',$,$,#112,#103,'R1C3',$,$);
+#220=IFCPILE('3X2pG66cDD6AyFG5nHXY9a',$,'P2',$,$,#122,#103,'R2C3',$,$);
+#230=IFCPILE('3X2pG76cDD6AyFG5nHXY9a',$,'P3',$,$,#132,#103,'R3C3',$,$);
+#240=IFCPILE('3X2pG86cDD6AyFG5nHXY9a',$,'P4',$,$,#142,#103,'R4C3',$,$);
 ENDSEC;
 END-ISO-10303-21;

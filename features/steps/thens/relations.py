@@ -1,3 +1,4 @@
+import ifcopenshell
 import functools
 import itertools
 import operator
@@ -150,6 +151,13 @@ def step_impl(context, inst):
     inv, ent, attr = relationship[inst.is_a()]
     if inst in get_memberships(inst):
         yield ValidationOutcome(inst=inst, expected=None, observed = None, severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step('The current directional relationship must not contain multiple entities at depth 1')
+def step_impl(context, inst):
+    if not isinstance(inst, (list, ifcopenshell.entity_instance)): #ifcopenshell packs multiple relationships into tuples, so a list indicates we are validating instances, not the relationships within them.
+        if misc.do_try(lambda: all((any([isinstance(i, ifcopenshell.entity_instance) for i in inst]), len(inst) > 1)), False):
+            yield ValidationOutcome(inst=inst, expected=1, observed=[i.is_a() for i in inst], severity=OutcomeSeverity.ERROR)
+
 
 template_type_to_expected = {
     'PSET_TYPEDRIVENONLY': 'IfcTypeObject',

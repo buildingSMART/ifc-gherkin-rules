@@ -1,6 +1,7 @@
 import ast
 import operator
 
+import ifcopenshell
 from behave import register_type
 from utils import geometry, ifc, misc
 from parse_type import TypeBuilder
@@ -11,15 +12,39 @@ from enum import Enum, auto
 class FirstOrFinal(Enum):
   FIRST = auto()
   FINAL = auto()
-register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
 
-@gherkin_ifc.step("{attribute} = {value}")
-def step_impl(context, inst, attribute, value):
+class ComparisonOperator (Enum):
+    EQUAL = auto()
+    NOT_EQUAL = auto()
+
+class SubTypeHandling (Enum):
+    INCLUDE = auto()
+    EXCLUDE = auto()
+
+register_type(include_or_exclude_subtypes=TypeBuilder.make_enum({"including subtypes": SubTypeHandling.INCLUDE, "excluding subtypes": SubTypeHandling.EXCLUDE }))
+register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
+register_type(equal_or_not_equal=TypeBuilder.make_enum({
+    "=": ComparisonOperator.EQUAL,
+    "!=": ComparisonOperator.NOT_EQUAL
+}))
+
+def check_entity_type(inst, entity_type, handling: SubTypeHandling):
+    handling_functions = {
+        SubTypeHandling.INCLUDE: lambda inst, entity_type: inst.is_a(entity_type),
+        SubTypeHandling.EXCLUDE: lambda inst, entity_type: inst.is_a() == entity_type,
+    }
+    return handling_functions[handling](inst, entity_type)
+
+@gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value}")
+@gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value} {tail:include_or_exclude_subtypes}")
+def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandling.EXCLUDE):
     pred = operator.eq
     if value == 'empty':
         value = ()
     elif value == 'not empty':
         value = ()
+        pred = operator.ne
+    elif comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
         pred = operator.ne
     else:
         try:
@@ -29,8 +54,24 @@ def step_impl(context, inst, attribute, value):
             value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
             pred = misc.reverse_operands(operator.contains)
 
-    if hasattr(inst, attribute) and pred(getattr(inst, attribute), value):
+    entity_is_applicable = False
+    if attribute == 'is_a':
+        inst.is_a()
+        if pred(check_entity_type(inst, value, tail), True):
+            observed_v = inst.is_a()
+            entity_is_applicable = True
+
+    elif hasattr(inst, attribute):
+        observed_v = getattr(inst, attribute)
+        if pred(getattr(inst, attribute), value):
+            entity_is_applicable = True
+
+    if entity_is_applicable:
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+    else:
+        yield ValidationOutcome(instance_id=inst,
+                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL else ''}{value}", 
+                                observed = observed_v, severity = OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('{attr} forms {closed_or_open} curve')

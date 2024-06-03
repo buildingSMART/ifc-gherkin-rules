@@ -141,7 +141,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                                 pattern = r'ifc_instance_id=(\d+)'
                                 match = re.search(r'ifc_instance_id=(\d+)', str(results))
                                 if match:
-                                    instance_id = match.group(1)
+                                    instance_id = '#' + match.group(1)
                                     results = re.sub(pattern, '', str(results))
                                 else:
                                     instance_id = "Instance not found"

@@ -1,6 +1,7 @@
 from utils import system
 from behave import register_type
 from parse_type import TypeBuilder
+import ifcopenshell
 
 from validation_handling import gherkin_ifc
 
@@ -61,7 +62,20 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
     if not instances and required:
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 
-    
+
+@gherkin_ifc.step("Each relating material layer")
+def step_impl(context, inst):
+    if inst.is_a("IfcMaterialLayerSet"):
+        layer = inst.MaterialLayers
+    elif inst.is_a("IfcMaterialProfileSet"):
+        layer = inst.MaterialProfiles
+    elif inst.is_a("ifcMaterialConstituentSet"):
+        layer = inst.MaterialConstituents
+    if not layer:
+        yield ValidationOutcome(instance_id = inst, observed=None, severity=OutcomeSeverity.ERROR)
+    else:
+        yield ValidationOutcome(instance_id = layer, severity=OutcomeSeverity.PASSED)
+
 
 @gherkin_ifc.step("The element {relationship_type} an {entity}")
 def step_impl(context, inst, relationship_type, entity):

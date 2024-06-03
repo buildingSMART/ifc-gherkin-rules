@@ -144,7 +144,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                                     instance_id = '#' + match.group(1)
                                     results = re.sub(pattern, '', str(results))
                                 else:
-                                    instance_id = "Instance not found"
+                                    instance_id = "-"
                                 yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{step_name}", instance_id, results
 
     os.close(fd)

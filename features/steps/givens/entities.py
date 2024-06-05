@@ -6,7 +6,7 @@ from behave import register_type
 from parse_type import TypeBuilder
 
 from utils import misc,system
-from utils.vs_none import VSNone
+from utils.vs_none import NullAttribute
 
 from validation_handling import gherkin_ifc
 
@@ -55,7 +55,7 @@ def step_impl(context, inst, relationship_direction):
         f"{relationship_direction}_entity_attributes.csv")
     
     attribute_name = attr_matrix.get(inst.is_a(), None)
-    attr_value = getattr(inst, attribute_name, VSNone)
+    attr_value = getattr(inst, attribute_name, NullAttribute)
     if attr_value is None:
-        attr_value = VSNone
+        attr_value = NullAttribute
     yield ValidationOutcome(instance_id = attr_value, severity = OutcomeSeverity.PASSED)

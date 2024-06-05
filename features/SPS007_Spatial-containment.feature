@@ -4,7 +4,7 @@
 @E00040
 
 Feature: SPS007 - Spatial Containment
-The rule verifies that correct spatial containment - IfcRelContainedInSpatialStructure
+The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with [Concept Template 4.1.5.13.2](https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/concepts/Object_Connectivity/Spatial_Structure/Spatial_Containment/content.html)
 
     Scenario: Subtypes of IfcElement are placed within the project spatial hierarchy
         Given an IfcSpatialElement

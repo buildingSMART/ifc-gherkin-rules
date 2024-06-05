@@ -9,7 +9,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
     Scenario: Subtypes of IfcElement are placed within the project spatial hierarchy
         Given an IfcSpatialElement
         Given A relationship IfcRelContainedInSpatialStructure from IfcSpatialElement to IfcElement and following that
-        Given is_a != IfcElementAssembly
+        Given Its type is not IfcElementAssembly
         Given ContainedInStructure = not empty
         Given its attribute ContainedInStructure
         Given its relating entity

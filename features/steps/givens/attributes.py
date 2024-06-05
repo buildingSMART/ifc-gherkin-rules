@@ -25,7 +25,9 @@ register_type(include_or_exclude_subtypes=TypeBuilder.make_enum({"including subt
 register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
 register_type(equal_or_not_equal=TypeBuilder.make_enum({
     "=": ComparisonOperator.EQUAL,
-    "!=": ComparisonOperator.NOT_EQUAL
+    "!=": ComparisonOperator.NOT_EQUAL,
+    "is not": ComparisonOperator.NOT_EQUAL,
+    "is": ComparisonOperator.EQUAL,
 }))
 
 def check_entity_type(inst, entity_type, handling: SubTypeHandling):
@@ -55,7 +57,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
             pred = misc.reverse_operands(operator.contains)
 
     entity_is_applicable = False
-    if attribute == 'is_a':
+    if attribute.lower() in ['its type', 'its entity type']:
         inst.is_a()
         if pred(check_entity_type(inst, value, tail), True):
             observed_v = inst.is_a()

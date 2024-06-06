@@ -99,21 +99,32 @@ def after_scenario(context, scenario):
         if outcomes_to_save and context.validation_task_id is not None:
             retrieved_task = ValidationTask.objects.get(id=context.validation_task_id)
             retrieved_model = retrieved_task.request.model
+            retrieved_model_id = retrieved_model.id
 
-            for outcome_to_save in outcomes_to_save:
-                if outcome_to_save.severity in [OutcomeSeverity.PASSED, OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]:
-                    if outcome_to_save.instance_id is not None:
-                        instance = ModelInstance.objects.get_or_create(
-                            stepfile_id=outcome_to_save.instance_id,
-                            model_id=retrieved_model.id
-                        )
-                        validation_outcome = copy.copy(outcome_to_save) # copy made not to overwrite id parameter on object reference
-                        validation_outcome.instance_id = instance[0].id # switch from stepfile_id to instance_id
-                        validation_outcome.save()
-                    else:
-                        outcome_to_save.save()
-                else:
-                    outcome_to_save.save()
+            def get_or_create_instance_when_set(spf_id):
+                if not spf_id:
+                    return None
+                # @todo see if we can change this into a bulk insert as well
+                # with bulk_create(ignore_conflicts=True). There appear to be
+                # quite some caveats regarding this though...
+                instance, _created = ModelInstance.objects.get_or_create(
+                    stepfile_id=spf_id,
+                    model_id=retrieved_model_id
+                )
+                return instance.id
+
+            spf_ids = sorted(set(o.instance_id for o in outcomes_to_save))
+            instances_in_db = list(map(get_or_create_instance_when_set, spf_ids))
+            inst_id_mapping = dict(zip(spf_ids, instances_in_db))
+
+            for outcome in outcomes_to_save:
+                # Previously we have the current model SPF id in the instance_id
+                # field. This needs to be updated to an actual foreign key into
+                # our ModelInstances table.
+                if outcome.instance_id:
+                    outcome.instance_id = inst_id_mapping[outcome.instance_id]
+
+            ValidationOutcome.objects.bulk_create(outcomes_to_save)
 
     else: # invoked via console
         pass

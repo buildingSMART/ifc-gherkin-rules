@@ -12,7 +12,8 @@ def step_impl(context, inst, entity, other_entity, relationship):
         "related_entity_attributes.csv"), system.load_attribute_matrix("relating_entity_attributes.csv")
     relationship_relating_attr = relating_attr_matrix.get(relationship)
     relationship_related_attr = related_attr_matrix.get(relationship)
-    relationships = context.model.by_type(relationship)
+
+    relationships = [i for i in context.model.get_inverse(inst) if i.is_a(relationship)]
 
     for rel in relationships:
         related_objects = misc.map_state(rel, lambda i: getattr(i, relationship_related_attr, None))

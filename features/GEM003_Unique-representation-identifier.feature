@@ -12,4 +12,4 @@ The rule verifies that Shape Representation identifier is unique within the prod
     Given Its attribute Representations
     Given its attribute RepresentationIdentifier
 
-    Then The values must be unique
+    Then The values must be unique at depth 1

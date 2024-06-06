@@ -173,8 +173,9 @@ def ala003_activation_inst(inst, context) -> Union[ifcopenshell.entity_instance 
 @gherkin_ifc.step(
     'A representation by {ifc_rep_criteria} requires the {existence:absence_or_presence} of {entities} in the business logic')
 def step_impl(context, inst, ifc_rep_criteria, existence, entities):
-    for align_ent in context.instances:
-        align = ifc43.entities.Alignment().from_entity(align_ent)
+    # @nb if True is just temporarily here to keep indentation the same during review
+    if True:
+        align = ifc43.entities.Alignment().from_entity(inst)
         match (ifc_rep_criteria, existence, entities):
             case ("IfcSegmentedReferenceCurve", "presence", "IfcAlignmentCant"):
                 if align.segmented_reference_curve is not None:

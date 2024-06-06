@@ -10,10 +10,7 @@ from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("An {entity_opt_stmt}")
-@gherkin_ifc.step("All {insts} of {entity_opt_stmt}")
 def step_impl(context, entity_opt_stmt, insts=False):
-    within_model = (insts == 'instances')  # True for given statement containing {insts}
-
     entity2 = pyparsing.Word(pyparsing.alphas)('entity')
     sub_stmts = ['with subtypes', 'without subtypes', pyparsing.LineEnd()]
     incl_sub_stmt = functools.reduce(operator.or_, [misc.rtrn_pyparse_obj(i) for i in sub_stmts])('include_subtypes')
@@ -27,7 +24,6 @@ def step_impl(context, entity_opt_stmt, insts=False):
     except:
         instances = []
 
-    context.within_model = getattr(context, 'within_model', True) and within_model
     if instances:
         context.applicable = getattr(context, 'applicable', True)
     else:

@@ -1,0 +1,15 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_NAME('Scenario1.ifc','','2024-06-06T12:00:00',(''),'','IfcOpenShell','0.6.0');
+FILE_SCHEMA(('IFC4X3_ADD2'));
+ENDSEC;
+DATA;
+#1=IFCPERSON($,'John','Doe',$,$,$,$,$);
+#2=IFCORGANIZATION($,'ExampleOrg',$,$,$);
+#3=IFCPERSONANDORGANIZATION(#1,#2,$);
+#4=IFCAPPLICATION(#2,'1.0','ExampleApp','ExampleAppId');
+#5=IFCOWNERHISTORY(#3,#4,$,.ADDED.,$,$,$,123456);
+#7=IFCWALL('2ZcYtzLnLCrRn_00g093yf',$,$,$,$,$,$,$,.USERDEFINED.);
+ENDSEC;
+END-ISO-10303-21;

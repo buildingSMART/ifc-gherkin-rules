@@ -15,6 +15,7 @@ def step_impl(context, inst, representation_id):
 
 
 @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
+@gherkin_ifc.step('There must be {constraint} {num:d} instance of {entity}')
 @global_rule
 def step_impl(context, inst, constraint, num, entity):
     op = misc.stmt_to_op(constraint)

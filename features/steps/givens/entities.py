@@ -6,7 +6,7 @@ from behave import register_type
 from parse_type import TypeBuilder
 
 from utils import misc,system
-from utils.vs_none import NullAttribute
+from utils.null_attribute import NullAttribute
 
 from validation_handling import gherkin_ifc
 

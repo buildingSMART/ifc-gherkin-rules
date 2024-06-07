@@ -67,22 +67,22 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
             # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
             value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
             pred = misc.reverse_operands(operator.contains)
-
+    
     entity_is_applicable = False
-    if attribute.lower() in ['its type', 'its entity type']:
-        inst.is_a()
+    observed_v = ()
+    if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
         if pred(check_entity_type(inst, value, tail), True):
             observed_v = inst.is_a()
             entity_is_applicable = True
 
-    elif hasattr(inst, attribute):
-        observed_v = getattr(inst, attribute)
-        if pred(getattr(inst, attribute), value):
+    else:
+        observed_v = getattr(inst, attribute, ())
+        if pred(observed_v, value):
             entity_is_applicable = True
 
     if entity_is_applicable:
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
-    else:
+    else: # in case of a Then statement
         yield ValidationOutcome(instance_id=inst,
                                 expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL else ''}{value}", 
                                 observed = observed_v, severity = OutcomeSeverity.ERROR)

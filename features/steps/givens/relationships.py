@@ -13,6 +13,7 @@ register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and follow
 @gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
 @gherkin_ifc.step('A relationship {relationship} exists {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
 @gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
+@gherkin_ifc.step('A *{required}* relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
 @gherkin_ifc.step('A *{required}* relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
 def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tail=0, required=False):
     """""

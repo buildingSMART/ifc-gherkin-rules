@@ -23,6 +23,7 @@ def apply_is_a(inst):
         return inst.is_a()
 
 @gherkin_ifc.step("The {i:value_or_type} must be in '{csv_file}.csv'")
+@gherkin_ifc.step("The {i:values_or_types} must be in '{csv_file}.csv'")
 def step_impl(context, inst, i, csv_file):
     if not inst:
         return []

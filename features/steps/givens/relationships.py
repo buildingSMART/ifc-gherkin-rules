@@ -20,12 +20,13 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
     """
     assert dir1 != dir2
 
-    relationships = context.model.by_type(relationship)
     instances = []
     filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
     filename_relating_attr_matrix = system.get_abs_path(f"resources/**/relating_entity_attributes.csv")
     related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
     relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
+
+    relationships = [i for i in context.model.get_inverse(inst) if i.is_a(relationship)]
 
     for rel in relationships:
         attr_to_entity = relating_attr_matrix.get(rel.is_a())

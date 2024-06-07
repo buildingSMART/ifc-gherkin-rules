@@ -51,8 +51,9 @@ class ValidatorHelper():
         return self.valid_functional_part(code['functional_part'])
 
     def validate_tags(self, tags):
-        if not any(value.lower() in self.valid_functional_parts for value in tags):
-            current_tags = ''.join(tags)
+        functional_part_tags = [tag for tag in tags if tag.isalpha() and len(tag) == 3 and tag.isupper()]
+        if not any(value.lower() in self.valid_functional_parts for value in functional_part_tags):
+            current_tags = ''.join(functional_part_tags)
             return {
                 'value': current_tags,
                 'message': 'The tags must contain one tag with a reference to a valid functional part'

@@ -11,4 +11,4 @@ For example, project libraries, including type libraries or property definition 
 Scenario: Check project existence
     Given an IFC Model
     
-    Then There must be exactly 1 instance of IfcProject
+    Then There must be exactly 1 instance(s) of IfcProject

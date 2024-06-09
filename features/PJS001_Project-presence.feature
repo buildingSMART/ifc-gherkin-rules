@@ -1,4 +1,3 @@
-@implementer-agreement
 @PJS
 @industry-practice
 @version1

@@ -252,9 +252,18 @@ def execute_step(fn):
 
     return inner
 
+def display_entity_instance(inst: ifcopenshell.entity_instance) -> str : 
+    """
+    Displays a message for an entity instance within the expected and observed table.
+    For example, an instance of IfcAlignment would be displayed as:
+    '(Expected/Observed) = IfcAlignment(#27)'
+    """
+    return misc.do_try(lambda: f'{inst.is_a()}(#{inst.id()})', getattr(inst, 'GlobalId', inst.id()))
+
+
 def serialize_item(item: Any) -> Any:
     if isinstance(item, ifcopenshell.entity_instance):
-        return getattr(item, 'GlobalId', item.is_a())
+        return display_entity_instance(item)
     else:
         return item
 
@@ -287,7 +296,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             else:
                 return {'value': data} # e.g. "The value must be 'Body'"
         case ifcopenshell.entity_instance():
-            return {'instance': f"{data.is_a()}({getattr(data, 'GlobalId', data.id())})"}
+            return {'instance': display_entity_instance(data)}
         case dict():
             # mostly for the pse001 rule, which already yields dicts
             return data

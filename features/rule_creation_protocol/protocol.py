@@ -10,6 +10,7 @@ from .validation_helper import ValidatorHelper, ParsePattern
 from .duplicate_registry import Registry
 from .errors import ProtocolError
 from .config import ConfiguredBaseModel
+from .ifcopenshell_versioning import update_ifcopenshell_version
 
 from typing import Any, Optional
 
@@ -310,6 +311,9 @@ def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}):
     It can work in a testing mode when a testing dictionary is provided.
     """
     attrs = convention_attrs or testing_attrs
+
+    #if relevant, update ifcopenshell version in yml file
+    update_ifcopenshell_version()
 
     feature_obj = {
         'feature': {

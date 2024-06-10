@@ -1,10 +1,10 @@
 @IFC
 @version1
 @E00030
+@implementer-agreement
 Feature: IFC102 - Deprecation IFC4X3
 
 This rule verifies that the IFC model does not have deprecated entities, attributes or enumerators. 
-According to https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/content/introduction.htm
 
 Background: 
   Given A model with Schema "IFC4.3"

@@ -312,9 +312,6 @@ def enforce(convention_attrs : dict = {}, testing_attrs : dict = {}):
     """
     attrs = convention_attrs or testing_attrs
 
-    #if relevant, update ifcopenshell version in yml file
-    update_ifcopenshell_version()
-
     feature_obj = {
         'feature': {
             'name': attrs['feature_name'],  # e.g. 'ALB001 - Alignment in spatial structure

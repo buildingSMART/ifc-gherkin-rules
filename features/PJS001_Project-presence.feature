@@ -4,7 +4,7 @@
 @E00020
 Feature: PJS001 - Project presence
 The rule verifies that there is exactly one instance of IfcProject.
-While this is a common industry practice, it is not a strict requirement.
+While this is a common industry practice, it does not make the IFC model invalid.
 For example, project libraries, including type libraries or property definition libraries, may not necessarily follow this rule.
 
 Scenario: Check project existence

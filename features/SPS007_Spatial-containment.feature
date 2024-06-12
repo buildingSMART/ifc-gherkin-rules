@@ -21,14 +21,14 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
 
         Given an IfcElement
         Given Its Type is not IfcFeatureElementSubtraction including subtypes
-        Given IsDecomposedBy = empty
+        Given Decomposes = empty
 
         Then a *required* relationship IfcRelContainedInSpatialStructure to IfcElement from IfcSpatialElement
 
     
     Scenario: Entities that are an aggregated part of another element must not also be part of a spatial structure
         Given an IfcElement
-        Given a relationship IfcRelAggregates from IfcElement to IfcElement
+        Given a relationship IfcRelAggregates to IfcElement from IfcElement
 
         Then ContainedInStructure = empty
     

@@ -3,7 +3,7 @@
 @BLT
 @version1
 @E00010
-Feature: PJS002 - Project Declaration
+Feature: PJS002 - Correct elements related to project
 
   The rule verifies that object occurrences (e.g. beams, walls) used within the context of a project
   are not related to the project using the aggregation nor the declaration relationships.

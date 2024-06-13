@@ -24,5 +24,4 @@
 | IBP  | Industry Best Practice           | @IBP        | Used for @industry-practice tag                  |
 | SYS  |                                  | @SYS        |                                                  |
 | IFC  | IFC                              | @IFC        | Validating correct IFC Schema                    |
-| ALA  | Alignment                        | @ALA        |                                                  |
 | PSE  | Property Sets                    | @PSE        |                                                  |

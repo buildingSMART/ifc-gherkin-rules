@@ -26,4 +26,5 @@
 | IFC  | IFC                              | @IFC        | Validating correct IFC Schema                    |
 | PSE  | Property Sets                    | @PSE        |                                                  |
 | PJS  | Project Definition               | @PJS        |                                                  |
+| ALA  |                                  | @ALA        |                                                  |
 | BLT  | Built Elements                   | @BLT        |                                                  |

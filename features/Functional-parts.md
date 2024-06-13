@@ -25,6 +25,5 @@
 | SYS  |                                  | @SYS        |                                                  |
 | IFC  | IFC                              | @IFC        | Validating correct IFC Schema                    |
 | PSE  | Property Sets                    | @PSE        |                                                  |
-| APA  |                                  | @APA        |                                                  |
 | PJS  | Project Definition               | @PJS        |                                                  |
 | BLT  | Built Elements                   | @BLT        |                                                  |

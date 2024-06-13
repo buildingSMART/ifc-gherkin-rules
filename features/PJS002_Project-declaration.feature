@@ -9,7 +9,7 @@ Feature: PJS002 - Project Declaration
   are not related to the project using the aggregation nor the declaration relationships.
   See the Spatial Containment template for relating object occurrences to the spatial structure.
 
-Scenario Outline: Validating correct elements declaration from IfcProject
+Scenario Outline: Validating correct elements relationship from IfcProject
   Given An IfcProject
   Given a relationship <relationship> from IfcProject to IfcRoot and following that
 

@@ -362,14 +362,16 @@ def step_impl(context, inst, table):
 
                 if property.is_a('IfcPropertySingleValue'):
                     values = property.NominalValue
-                    if values and not values.is_a(accepted_data_type['instance']):
+                    if values and not values.is_a(accepted_data_type['instance']).strip():
+                        if values.is_a() == 'IfcThermalTransmittanceMeasure':
+                            pass
                         yield ValidationOutcome(inst=inst, expected= accepted_data_type['instance'], observed = values.is_a(), severity=OutcomeSeverity.ERROR)
 
                 elif property.is_a('IfcPropertyEnumeratedValue'):
                     values = property.EnumerationValues
                     if values:
                         for value in values:
-                            if not value.wrappedValue in accepted_data_type['values']:
+                            if not value.wrappedValue in accepted_data_type['values'].strip():
                                 yield ValidationOutcome(inst=inst, expected= accepted_data_type['values'], observed = value.wrappedValue, severity=OutcomeSeverity.ERROR)
 
                 # @todo other properties such as list/bounded/etc.

@@ -5,9 +5,9 @@
 @E00010
 Feature: PJS002 - Project Declaration
 
-  The rule verifies that the actual object occurrences (e.g. beams, walls) used within the context of a project
-  are not declared to to the project using the aggregation or declaration hierarchy.
-  See concept Spatial Decomposition for linking a spatial structure to the project.
+  The rule verifies that object occurrences (e.g. beams, walls) used within the context of a project
+  are not related to the project using the aggregation nor the declaration relationships.
+  See the Spatial Containment template for relating object occurrences to the spatial structure.
 
 Scenario Outline: Validating correct elements declaration from IfcProject
   Given An IfcProject

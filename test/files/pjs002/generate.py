@@ -3,7 +3,7 @@ import ifcopenshell.template
 import os
 
 for rel_name, relating, related, i, description in [
-    ('IfcRelAggregates', 'RelatingObject', 'RelatedObjects', 1, 'decomposes'),
+    ('IfcRelAggregates', 'RelatingObject', 'RelatedObjects', 1, 'is_decomposed_by'),
     ('IfcRelDeclares', 'RelatingContext', 'RelatedDefinitions', 2, 'declares')
 ]:
     for validity, elem in [

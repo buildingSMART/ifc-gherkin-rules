@@ -13,6 +13,7 @@ for validity, elem in [
     ("pass", 'IfcWall'),
     ("fail", "IfcBuildingSystem"), 
     ("fail", "IfcCivilElementType"), 
+    ("fail", "IfcCivilElement"),
     ("fail", "IfcPostalAddress"),
     ("fail", "IfcTelecomAddress") ]:
 

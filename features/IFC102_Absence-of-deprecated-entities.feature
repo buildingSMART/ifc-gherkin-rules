@@ -18,6 +18,7 @@ Background:
     Examples:
       | entity | 
       | IfcBuildingSystem | 
+      | IfcCivilElement | 
       | IfcCivilElementType | 
       | IfcElectricDistributionBoard | 
       | IfcElectricDistributionBoardType | 

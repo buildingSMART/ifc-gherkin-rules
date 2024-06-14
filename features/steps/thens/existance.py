@@ -13,7 +13,6 @@ def step_impl(context, inst, representation_id):
         if not present:
             yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
 
-
 @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
 @global_rule
 def step_impl(context, inst, constraint, num, entity):

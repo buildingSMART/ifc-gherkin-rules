@@ -92,7 +92,7 @@ for i, (elem, value) in enumerate([
         ) 
     except:
         continue
-    pass_or_fail = 'pass' if i % 2 == 0 else 'fail'
+    pass_or_fail = 'fail' if i % 2 == 0 else 'pass'
 
     f.write(f"{dir}/{pass_or_fail}-{rule_code}-scenario03-{elem}_enum_type_value_{value}.ifc")
 

@@ -55,7 +55,7 @@ Background:
     Scenario Outline: Check for deprecated enumerations 
 
       Given an <entity>
-      Then PredefinedType = <value>
+      Then PredefinedType is not <value>
 
       Examples:
        | entity  | value |

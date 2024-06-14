@@ -25,3 +25,4 @@
 | SYS  |                                  | @SYS        |                                                  |
 | IFC  | IFC                              | @IFC        | Validating correct IFC Schema                    |
 | PSE  | Property Sets                    | @PSE        |                                                  |
+| PJS  | Project Definition               | @PJS        |                                                  |

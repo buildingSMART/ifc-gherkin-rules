@@ -76,7 +76,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
             entity_is_applicable = True
 
     else:
-        observed_v = getattr(inst, attribute, ())
+        observed_v = getattr(inst, attribute, ()) or ()
         if pred(observed_v, value):
             entity_is_applicable = True
 

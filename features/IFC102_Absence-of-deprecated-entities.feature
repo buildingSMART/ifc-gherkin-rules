@@ -65,7 +65,7 @@ Background:
        | IfcCableCarrierFitting | "TEE" or "CROSS" or "REDUCER" |
        | IfcCableCarrierFittingType | "TEE" or "CROSS" or "REDUCER" |
        | IfcGeographicElement | "SOIL_BORING_POINT" |
-       | IfcGeographicElement | "SOIL_BORING_POINT" |
+       | IfcGeographicElementType | "SOIL_BORING_POINT" |
 
 
 

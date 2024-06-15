@@ -94,24 +94,29 @@ def step_impl(context, inst, field, file_or_model, values):
             yield ValidationOutcome(inst=inst, expected=[v.upper() for v in values], observed=misc.do_try(s.upper(), s), severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('The {length_attribute} of the {segment_type} must be 0')
-def step_impl(context, inst, segment_type, length_attribute):
+@gherkin_ifc.step('The {attribute_or_type} of the {segment_type} must be {required_value}')
+def step_impl(context, inst, attribute_or_type, segment_type, required_value):
     business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]
     if segment_type == "segment":
-        if (length_attribute == "SegmentLength") or (length_attribute == "Length"):
-            length = getattr(inst, length_attribute, )
+        if (attribute_or_type == "SegmentLength") or (attribute_or_type == "Length"):
+            length = getattr(inst, attribute_or_type, )
             length_value = length.wrappedValue
-            if abs(length_value) > geometry.GEOM_TOLERANCE:
-                yield ValidationOutcome(inst=inst, expected=0.0, observed=length_value, severity=OutcomeSeverity.ERROR)
+            if abs(length_value - float(required_value)) > geometry.GEOM_TOLERANCE:
+                yield ValidationOutcome(inst=inst, expected=required_value, observed=length_value, severity=OutcomeSeverity.ERROR)
         else:
-            raise ValueError(f"Invalid length_attribute '{length_attribute}'.")
+            raise ValueError(f"Invalid length_attribute '{attribute_or_type}'.")
     elif segment_type.upper() in business_logic_types:
-        if (length_attribute == "SegmentLength") or (length_attribute == "HorizontalLength"):
-            length = getattr(inst, length_attribute, )
+        if (attribute_or_type == "SegmentLength") or (attribute_or_type == "HorizontalLength"):
+            length = getattr(inst, attribute_or_type, )
             if abs(length) > geometry.GEOM_TOLERANCE:
-                yield ValidationOutcome(inst=inst, expected=0.0, observed=length, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=required_value, observed=length, severity=OutcomeSeverity.ERROR)
         else:
-            raise ValueError(f"Invalid length_attribute '{length_attribute}'.")
+            raise ValueError(f"Invalid length_attribute '{attribute_or_type}'.")
+    elif (segment_type == "Segments") and (attribute_or_type == "entity type") and (required_value == "the same"):
+        attrs = getattr(inst, segment_type, None)
+        unique_types = set([e.is_a() for e in attrs])
+        if len(unique_types) > 1:
+            yield ValidationOutcome(inst=inst, expected=required_value, observed = unique_types, severity=OutcomeSeverity.ERROR)
     else:
         raise ValueError(f"Invalid segment_type '{segment_type}'.")
 

@@ -5,7 +5,7 @@
 
 Feature: BLT001 - Correct use of operation type attributes for doors
 
-  The rule verifies that attribuet UserDefinedOperationType is provided only when 
+  The rule verifies that attribute UserDefinedOperationType is provided only when 
   the value of the attribute OperationType is set to USERDEFINED.
 
 

@@ -60,6 +60,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         pred = operator.ne
     elif comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
         pred = operator.ne
+        value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
     else:
         try:
             value = ast.literal_eval(value)
@@ -67,7 +68,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
             # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
             value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
             pred = misc.reverse_operands(operator.contains)
-    
+
     entity_is_applicable = False
     observed_v = ()
     if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
@@ -76,8 +77,11 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
             entity_is_applicable = True
 
     else:
-        observed_v = getattr(inst, attribute, ())
-        if pred(observed_v, value):
+        observed_v = getattr(inst, attribute, ()) or ()
+        if comparison_op.name == 'NOT_EQUAL':
+            if all(pred(observed_v, v) for v in value):
+                entity_is_applicable = True
+        elif pred(observed_v, value):
             entity_is_applicable = True
 
     if entity_is_applicable:

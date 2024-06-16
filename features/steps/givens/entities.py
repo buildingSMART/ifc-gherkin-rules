@@ -48,6 +48,14 @@ def step_impl(context, entity):
     if context.model.by_type(entity):
         context.applicable = False
 
+@gherkin_ifc.step("Its entity type")
+def step_impl(context, inst):
+    entity_type = misc.do_try(lambda: inst.is_a(), ())
+    if not entity_type:
+        yield ValidationOutcome(instance_id = inst, expected='entity_type', observed=entity_type, severity=OutcomeSeverity.ERROR)
+    else:
+        yield ValidationOutcome(instance_id = entity_type, severity=OutcomeSeverity.PASSED)
+
 @gherkin_ifc.step("Its {relationship_direction:relating_or_related} entities")
 @gherkin_ifc.step("Its {relationship_direction:relating_or_related} entity")
 def step_impl(context, inst, relationship_direction):

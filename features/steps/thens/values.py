@@ -81,12 +81,7 @@ def step_impl(context, inst, constraint, num=None):
             if not values:
                 continue
             if constraint == 'identical':
-                if not all([values[0] == i for i in values]) or len(values) != len(misc.get_stack_tree(context)[-1]):
-                    """
-                    note for the last comparison; if the instances resulting from the first given statement are not the same as the instances resulting from the last given statement, 
-                    this means one of the values are None, which is not allowed in the GRF001 rule
-                    Option to adapt this dynamically in the future with more verbose given statements 
-                    """
+                if not all([values[0] == i for i in values]):
                     yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
             if constraint == 'unique':
                 seen = set()

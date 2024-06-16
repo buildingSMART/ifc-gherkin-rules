@@ -52,6 +52,15 @@ def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, hand
 @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value}")
 @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value} {tail:include_or_exclude_subtypes}")
 def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandling.EXCLUDE):
+    """
+    Note that the following statements are acceptable:
+    - Attribute = empty
+    - Attribute = not empty
+    - Attribute is empty
+
+    However, please avoid using:
+    - Attribute is not empty
+    """
     pred = operator.eq
     if value == 'empty':
         value = ()

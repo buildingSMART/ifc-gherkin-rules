@@ -1,4 +1,4 @@
-@implementer-agreement
+@informal-proposition
 @ALS
 @version1
 @E00010

@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALA
-@version1
+@version2
 @E00040
 Feature: ALA003 - Alignment same segment types in business logic and geometry
   The rule verifies that when an Alignment has both business logic and geometry (representation),

@@ -10,8 +10,13 @@ Feature: ALS012 - Alignment segment start and length attribute types
   Ref: [Issue #141](https://github.com/buildingSMART/ifc-gherkin-rules/issues/141)
 
 Scenario Outline: Correct entity type used for SegmentStart and Segment Length
-  Given an <entity>
+  Given A model with Schema "IFC4.3"
+  Given An IfcAlignment
+  Given Its attribute Representation
+  Given Its attribute Representations
+  Given an <entity> without subtypes
   Given its attribute Segments
+  Given Its Entity Type is 'IfcCurveSegment'
 
   Then The type of attribute <attribute> must be IfcLengthMeasure
 

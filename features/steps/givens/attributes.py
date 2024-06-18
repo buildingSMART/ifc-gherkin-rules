@@ -69,7 +69,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         pred = operator.ne
     elif comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
         pred = operator.ne
-        value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
+        value = misc.do_try(lambda : set(map(ast.literal_eval, map(str.strip, value.split(' or ')))), value)
     else:
         try:
             value = ast.literal_eval(value)

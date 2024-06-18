@@ -113,4 +113,37 @@ IFC4X3: https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/c
       Given an IfcPropertySet
 
       Then Name is not 'Pset_Draughting'
-        
+    
+
+    Scenario Outline: Check for deprecated entities - IFC4
+
+        Given A model with Schema "IFC4"
+        Given An IFC model
+
+        Then There must be less than 1 instance(s) of <entity>
+
+        Examples:
+          | entity                           | 
+          | IfcProxy                         | 
+          | IfcObjectTypeEnum                | 
+          | IfcOpeningStandardCase           | 
+          | IfcDoorStyle                     | 
+          | IfcWindowStyle                   | 
+          | IfcFaceBasedSurfaceModel         | 
+          | IfcMaterialClassificationRelationship | 
+          | IfcMaterialList                  | 
+          | IfcPresentationStyleAssignment   | 
+          | IfcNullStyle                     | 
+          | IfcPresentationStyleSelect       | 
+          | IfcStyleAssignmentSelect         | 
+          | IfcBeamStandardCase              | 
+          | IfcColumnStandardCase            | 
+          | IfcDoorStandardCase              | 
+          | IfcMemberStandardCase            | 
+          | IfcPlateStandardCase             | 
+          | IfcRelCoversSpaces               | 
+          | IfcSlabElementedCase             | 
+          | IfcSlabStandardCase              | 
+          | IfcWallElementedCase             | 
+          | IfcWallStandardCase              | 
+          | IfcWindowStandardCase            | 

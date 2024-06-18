@@ -5,12 +5,12 @@
 Feature: IFC102 - Absence of deprecated entities
 
 This rule verifies that the IFC model does not have deprecated entities, attributes or enumerators. 
+IFC2X3 : https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.htm
+IFC4X3: https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/content/introduction.htm
 
-Background: 
-  Given A model with Schema "IFC4.3"
+  Scenario Outline: Check for deprecated entities - IFC4.3
 
-  Scenario Outline: Check for deprecated entities
-  
+    Given A model with Schema "IFC4.3"
     Given An IFC model
 
     Then There must be less than 1 instance(s) of <entity>
@@ -30,8 +30,9 @@ Background:
       | IfcTrapeziumProfileDef | 
 
 
-  Scenario Outline: Check for deprecated attributes 
+  Scenario Outline: Check for deprecated attributes - IFC4.3
 
+    Given A model with Schema "IFC4.3"
     Given an <entity>
 
     Then <attribute> = empty
@@ -53,8 +54,9 @@ Background:
       | IfcTextureCoordinateGenerator | Parameter | 
 
     
-    Scenario Outline: Check for deprecated enumerations 
+    Scenario Outline: Check for deprecated enumerations - IFC4.3
 
+      Given A model with Schema "IFC4.3"
       Given an <entity>
       Then PredefinedType is not <value>
 
@@ -68,7 +70,47 @@ Background:
        | IfcGeographicElementType | "SOIL_BORING_POINT" |
 
 
+    Scenario Outline: Check for deprecated entities - IFC2X3
+
+      Given A model with Schema "IFC2X3"
+      Given An IFC model
+
+      Then There must be less than 1 instance(s) of <entity>
+
+      Examples:
+        | entity | 
+        | IfcConnectionPortGeometry | 
+        | Ifc2DCompositeCurve | 
+        | IfcElectricalElement | 
+        | IfcEquipmentElement | 
 
 
+    Scenario: Check for deprecated attributes - IFC2X3
+
+      Given A model with Schema "IFC2X3"
+      Given an IfcFillAreaStyleHatching
+
+      Then PointOfReferenceHatchLine = empty
 
     
+    Scenario Outline: Check for deprecated explicitly instantiated entities - IFC2X3
+
+      Given A model with Schema "IFC2X3"
+      Given an <entity>
+
+      Then its type is not <entity> excluding subtypes
+
+    Examples:
+        | entity | 
+        | IfcProductRepresentation |
+        | IfcRepresentation | 
+        | IfcRepresentationContext | 
+        | IfcRelAssociates | 
+
+    Scenario: Check for deprecated property set - IFC2X3
+
+      Given a model with Schema "IFC2X3"
+      Given an IfcPropertySet
+
+      Then Name is not 'Pset_Draughting'
+        

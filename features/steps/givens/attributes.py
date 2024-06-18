@@ -60,7 +60,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         pred = operator.ne
     elif comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
         pred = operator.ne
-        value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
+        value = misc.do_try(lambda : set(map(ast.literal_eval, map(str.strip, value.split(' or ')))), value)
     else:
         try:
             value = ast.literal_eval(value)
@@ -72,8 +72,8 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
     entity_is_applicable = False
     observed_v = ()
     if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
+        observed_v = inst.is_a()
         if pred(check_entity_type(inst, value, tail), True):
-            observed_v = inst.is_a()
             entity_is_applicable = True
 
     else:

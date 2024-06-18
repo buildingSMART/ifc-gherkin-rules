@@ -17,15 +17,19 @@ IFC4X3: https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/c
 
     Examples:
       | entity | 
+      | IfcBuildingElementProxy | 
       | IfcBuildingSystem | 
+      | IfcBridgePart |
       | IfcCivilElement | 
       | IfcCivilElementType | 
       | IfcElectricDistributionBoard | 
       | IfcElectricDistributionBoardType | 
       | IfcFaceBasedSurfaceModel | 
+      | IfcGeographicElementTypeEnum |
       | IfcPostalAddress | 
       | IfcRelConnectsPortToElement | 
       | IfcRelServicesBuildings | 
+      | IfcVibrationIsolator |
       | IfcTelecomAddress | 
       | IfcTrapeziumProfileDef | 
 

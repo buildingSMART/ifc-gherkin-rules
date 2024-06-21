@@ -71,7 +71,7 @@ def step_impl(context, inst, attribute, value):
 
     if isinstance(inst, (tuple, list)):
         inst = inst[0]
-    attribute_value = getattr(inst, attribute, 'Attribute not found')
+    attribute_value = getattr(inst, attribute, ())
     if attribute_value is None:
         attribute_value = ()
     if inst is None:

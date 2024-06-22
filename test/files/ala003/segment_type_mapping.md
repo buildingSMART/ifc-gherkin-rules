@@ -31,7 +31,7 @@
 | CONSTANTCANT                                        | `IfcLine`                         |                                                           |
 | COSINECURVE                                         | `IfcCosineSpiral`                 | See [Horizontal Segment Types](#horizontal-segment-types) |
 | HELMERTCURVE                                        | `IfcSecondOrderPolynomialSpiral`  | See [Horizontal Segment Types](#horizontal-segment-types) |
-| LINEARTRANSITION                                    | `IfcLine`                         | See [Horizontal Segment Types](#horizontal-segment-types) |
+| LINEARTRANSITION                                    | `IfcClothoid`                     |                                                           |
 | SINECURVE                                           | `IfcSineSpiral`                   | See [Horizontal Segment Types](#horizontal-segment-types) |
 | VIENNESEBEND                                        | `IfcSeventhOrderPolynomialSpiral` | see [Horizontal Segment Types](#horizontal-segment-types) |
 
@@ -39,16 +39,10 @@
 
 The partial concept template addresses horizontal segment types only and is silent on
 `PredefinedType` values that are specific to vertical and cant.
-For a cant `LINEARTRANSITION`, this rule implementation will consider both `IfcLine` and `IfcClothoid` to be
-valid representation entity types.
-`IfcLine` seems correct from the author's perspective,
-however sample models such as [linear-placement-of-signal][linear-placement-of-signal]
-utilize `IfcClothoid` for this cant segment type.
-The use of `IfcClothoid` is also consistent with reference code from the IFC-Rail room,
-particularly the [EnrichIFC4x3][enrich_4x3] utility that can be used to generate
-an alignment geometry representation from an IFC model that contains business logic only.
+For a cant `LINEARTRANSITION`, `IfcLine` originally seemed correct from the author's perspective.
+Corresponding discussion in the IFC4.x Implementer Forum [Issue # 145][IFC4.x-IF#145]
+verified that `IfcClothoid` is the property entity class to utilize for the representation of this cant segment type.
 
-See additional discussion in IFC4.x Implementer Forum [Issue # 145][IFC4.x-IF#145].
 
 [horiz_enums]: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/lexical/IfcAlignmentHorizontalSegmentTypeEnum.htm
 

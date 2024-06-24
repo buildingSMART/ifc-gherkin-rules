@@ -97,7 +97,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
     else: # in case of a Then statement
         yield ValidationOutcome(instance_id=inst,
-                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL else ''}{value}", 
+                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL or value == () else ''}{'empty' if value == () else value}", 
                                 observed = observed_v, severity = OutcomeSeverity.ERROR)
 
 

@@ -38,13 +38,8 @@ def step_impl(context, inst, i, csv_file):
         else:
             return instance in valid_values
 
-    if isinstance(inst, (list, tuple)):
-        invalid_values = [i for i in inst if not is_valid_instance(i)]
-        for value in invalid_values:
-            yield ValidationOutcome(inst=inst, expected=valid_values, observed=value, severity=OutcomeSeverity.ERROR)
-    else:
-        if not is_valid_instance(inst):
-            yield ValidationOutcome(inst=inst, expected=valid_values, observed=inst, severity=OutcomeSeverity.ERROR)
+    if not is_valid_instance(inst):
+        yield ValidationOutcome(inst=inst, expected=valid_values, observed=inst, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('At least "{num:d}" value must {constraint}')
 @gherkin_ifc.step('At least "{num:d}" values must {constraint}')

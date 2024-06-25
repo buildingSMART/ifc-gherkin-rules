@@ -14,7 +14,8 @@ Scenario Outline: Correct entity type used for SegmentStart and Segment Length
   Given An IfcAlignment
   Given Its attribute Representation
   Given Its attribute Representations
-  Given an <entity> without subtypes
+  Given All referenced instances
+  Given Its Entity Type is '<entity>'
   Given its attribute Segments
   Given Its Entity Type is 'IfcCurveSegment'
 

@@ -59,3 +59,9 @@ def step_impl(context, inst, relationship_direction):
     if attr_value is None:
         attr_value = NullAttribute
     yield ValidationOutcome(instance_id = attr_value, severity = OutcomeSeverity.PASSED)
+
+
+@gherkin_ifc.step("All referenced instances")
+def step_impl(context, inst):
+    instances = context.model.traverse(inst)
+    yield ValidationOutcome(instance_id=instances, severity=OutcomeSeverity.PASSED)

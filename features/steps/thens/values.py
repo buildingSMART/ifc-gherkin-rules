@@ -27,23 +27,24 @@ def apply_is_a(inst):
 def step_impl(context, inst, i, csv_file):
     if not inst:
         return []
-    
-    if i == 'type':
-        inst = apply_is_a(inst)
 
     dirname = os.path.dirname(__file__)
     filename = Path(dirname).parent.parent / "resources" / f"{csv_file}.csv"
     valid_values = [row[0] for row in csv.reader(open(filename))]
+
+    def is_valid_instance(instance):
+        if isinstance(instance, ifcopenshell.entity_instance):
+            return any(instance.is_a(valid_value) for valid_value in valid_values)
+        else:
+            return instance in valid_values
+
     if isinstance(inst, (list, tuple)):
-        invalid_values = [value for value in inst if value not in valid_values]
+        invalid_values = [i for i in inst if not is_valid_instance(i)]
         for value in invalid_values:
-            yield ValidationOutcome(inst=inst, expected= valid_values, observed = value, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected=valid_values, observed=value, severity=OutcomeSeverity.ERROR)
     else:
-        if inst not in valid_values:
-            yield ValidationOutcome(inst=inst, expected= valid_values, observed = inst, severity=OutcomeSeverity.ERROR)
-
-    return []
-
+        if not is_valid_instance(inst):
+            yield ValidationOutcome(inst=inst, expected=valid_values, observed=inst, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('At least "{num:d}" value must {constraint}')
 @gherkin_ifc.step('At least "{num:d}" values must {constraint}')

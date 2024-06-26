@@ -13,7 +13,7 @@ The rule verifies that a geometric context is present in the model.
     Given Its attribute RepresentationContexts
 
     Then Assert existence 
-    Then Its entity type is 'IfcGeometricRepresentationContext'
+    Then Its entity type is 'IfcGeometricRepresentationContext' including subtypes
 
 
   Scenario: Agreement on having at least one geometric representation context - IFC4 & IFC4X3
@@ -23,4 +23,4 @@ The rule verifies that a geometric context is present in the model.
     Given Its attribute RepresentationContexts
 
     Then  Assert existence 
-    Then Its entity type is 'IfcGeometricRepresentationContext'
+    Then Its entity type is 'IfcGeometricRepresentationContext' including subtypes

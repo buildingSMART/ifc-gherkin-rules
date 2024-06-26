@@ -18,5 +18,5 @@ Scenario: Each geometric context must have a subcontext
 Scenario: Constraints on context type
     Given An IfcGeometricRepresentationSubContext
 
-    Then ContextIdentifier = 'Annotation' or 'Axis' or 'Box' or 'Footprint' or 'Reference' or 'Body' or 'Clearance' or 'CoG' or 'Profile' or 'SurveyPoints' or 'Lightning'
+    Then ContextIdentifier = 'Annotation' or 'Axis' or 'Box' or 'Footprint' or 'Reference' or 'Body' or 'Clearance' or 'CoG' or 'Profile' or 'Lighting'
 

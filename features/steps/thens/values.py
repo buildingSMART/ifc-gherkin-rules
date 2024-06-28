@@ -16,26 +16,30 @@ register_type(unique_or_identical=TypeBuilder.make_enum(dict(map(lambda x: (x, x
 register_type(value_or_type=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("value", "type"))))) # todo @gh remove 'be' from enum values
 register_type(values_or_types=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("values", "types"))))) # todo @gh remove 'be' from enum values
 
+def apply_is_a(inst):
+    if isinstance(inst, (list, tuple)):
+        return [i.is_a() for i in inst]
+    else:
+        return inst.is_a()
 
-@gherkin_ifc.step("The value must be in '{csv_file}.csv'")
-@gherkin_ifc.step("The values must be in '{csv_file}.csv'")
-def step_impl(context, inst, csv_file):
+@gherkin_ifc.step("The {i:value_or_type} must be in '{csv_file}.csv'")
+@gherkin_ifc.step("The {i:values_or_types} must be in '{csv_file}.csv'")
+def step_impl(context, inst, i, csv_file):
     if not inst:
         return []
 
     dirname = os.path.dirname(__file__)
     filename = Path(dirname).parent.parent / "resources" / f"{csv_file}.csv"
     valid_values = [row[0] for row in csv.reader(open(filename))]
-    if isinstance(inst, (list, tuple)):
-        invalid_values = [value for value in inst if value not in valid_values]
-        for value in invalid_values:
-            yield ValidationOutcome(inst=inst, expected= valid_values, observed = value, severity=OutcomeSeverity.ERROR)
-    else:
-        if inst not in valid_values:
-            yield ValidationOutcome(inst=inst, expected= valid_values, observed = inst, severity=OutcomeSeverity.ERROR)
 
-    return []
+    def is_valid_instance(instance):
+        if isinstance(instance, ifcopenshell.entity_instance):
+            return any(instance.is_a(valid_value) for valid_value in valid_values)
+        else:
+            return instance in valid_values
 
+    if not is_valid_instance(inst):
+        yield ValidationOutcome(inst=inst, expected=valid_values, observed=inst, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step('At least "{num:d}" value must {constraint}')
 @gherkin_ifc.step('At least "{num:d}" values must {constraint}')
@@ -73,12 +77,7 @@ def step_impl(context, inst, constraint, num=None):
             if not values:
                 continue
             if constraint == 'identical':
-                if not all([values[0] == i for i in values]) or len(values) != len(misc.get_stack_tree(context)[-1]):
-                    """
-                    note for the last comparison; if the instances resulting from the first given statement are not the same as the instances resulting from the last given statement, 
-                    this means one of the values are None, which is not allowed in the GRF001 rule
-                    Option to adapt this dynamically in the future with more verbose given statements 
-                    """
+                if not all([values[0] == i for i in values]):
                     yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
             if constraint == 'unique':
                 seen = set()

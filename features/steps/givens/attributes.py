@@ -1,6 +1,7 @@
 import ast
 import operator
 
+import ifcopenshell
 from behave import register_type
 from utils import geometry, ifc, misc
 from parse_type import TypeBuilder
@@ -11,16 +12,64 @@ from enum import Enum, auto
 class FirstOrFinal(Enum):
   FIRST = auto()
   FINAL = auto()
-register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
 
-@gherkin_ifc.step("{attribute} = {value}")
-def step_impl(context, inst, attribute, value):
+class ComparisonOperator (Enum):
+    EQUAL = auto()
+    NOT_EQUAL = auto()
+
+class SubTypeHandling (Enum):
+    INCLUDE = auto()
+    EXCLUDE = auto()
+
+register_type(include_or_exclude_subtypes=TypeBuilder.make_enum({"including subtypes": SubTypeHandling.INCLUDE, "excluding subtypes": SubTypeHandling.EXCLUDE }))
+register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
+register_type(equal_or_not_equal=TypeBuilder.make_enum({
+    "=": ComparisonOperator.EQUAL,
+    "!=": ComparisonOperator.NOT_EQUAL,
+    "is not": ComparisonOperator.NOT_EQUAL,
+    "is": ComparisonOperator.EQUAL,
+}))
+
+def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, handling: SubTypeHandling) -> bool:
+    """
+    Check if the instance is of a specific entity type or its subtype.
+    INCLUDE will evaluate to True if inst is a subtype of entity_type while the second function for EXCLUDE will evaluate to True only for an exact type match
+
+    Parameters:
+    inst (ifcopenshell.entity_instance): The instance to check.
+    entity_type (str): The entity type to check against.
+    handling (SubTypeHandling): Determines whether to include subtypes or not.
+
+    Returns:
+    bool: True if the instance matches the entity type criteria, False otherwise.
+    """
+    handling_functions = {
+        SubTypeHandling.INCLUDE: lambda inst, entity_type: inst.is_a(entity_type),
+        SubTypeHandling.EXCLUDE: lambda inst, entity_type: inst.is_a() == entity_type,
+    }
+    return handling_functions[handling](inst, entity_type)
+
+@gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value}")
+@gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value} {tail:include_or_exclude_subtypes}")
+def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandling.EXCLUDE):
+    """
+    Note that the following statements are acceptable:
+    - Attribute = empty
+    - Attribute = not empty
+    - Attribute is empty
+
+    However, please avoid using:
+    - Attribute is not empty
+    """
     pred = operator.eq
     if value == 'empty':
         value = ()
     elif value == 'not empty':
         value = ()
         pred = operator.ne
+    elif comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
+        pred = operator.ne
+        value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
     else:
         try:
             value = ast.literal_eval(value)
@@ -29,8 +78,27 @@ def step_impl(context, inst, attribute, value):
             value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
             pred = misc.reverse_operands(operator.contains)
 
-    if hasattr(inst, attribute) and pred(getattr(inst, attribute), value):
+    entity_is_applicable = False
+    observed_v = ()
+    if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
+        if pred(check_entity_type(inst, value, tail), True):
+            observed_v = inst.is_a()
+            entity_is_applicable = True
+
+    else:
+        observed_v = getattr(inst, attribute, ()) or ()
+        if comparison_op.name == 'NOT_EQUAL':
+            if all(pred(observed_v, v) for v in value):
+                entity_is_applicable = True
+        elif pred(observed_v, value):
+            entity_is_applicable = True
+
+    if entity_is_applicable:
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+    else: # in case of a Then statement
+        yield ValidationOutcome(instance_id=inst,
+                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL else ''}{value}", 
+                                observed = observed_v, severity = OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('{attr} forms {closed_or_open} curve')

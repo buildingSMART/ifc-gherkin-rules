@@ -3,7 +3,7 @@ from behave.model import Scenario
 from collections import Counter
 import os
 from rule_creation_protocol import protocol
-import copy
+import json
 
 from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
@@ -63,7 +63,7 @@ def before_step(context, step):
     context.step = step
 
 def get_validation_outcome_hash(obj):
-    return obj.severity, obj.outcome_code, obj.instance_id
+    return obj.severity, obj.outcome_code, obj.instance_id, json.dumps(obj.observed)
 
 def after_scenario(context, scenario):
     # Given steps may introduce an arbitrary amount of stackframes.

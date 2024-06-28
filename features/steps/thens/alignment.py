@@ -1,8 +1,14 @@
+import math
+
 from behave import register_type
 from typing import Dict, List, Union, Optional
+
 import ifcopenshell.entity_instance
+import ifcopenshell.util.unit
 
 from utils import ifc43x_alignment_validation as ifc43
+from utils import geometry
+from utils import ifc
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
@@ -170,6 +176,7 @@ def ala003_activation_inst(inst, context) -> Union[ifcopenshell.entity_instance 
                     if item.id() == inst.id():
                         return candidate.ShapeOfProduct[0]
 
+
 @gherkin_ifc.step(
     'A representation by {ifc_rep_criteria} requires the {existence:absence_or_presence} of {entities} in the business logic')
 def step_impl(context, inst, ifc_rep_criteria, existence, entities):
@@ -279,9 +286,9 @@ def step_impl(context, inst, activation_phrase):
 
             if activation_ent.is_a().upper() == "IFCALIGNMENT":
                 # ensure that all three representation types will be validated
-                  if inst.is_a().upper() in ["IFCSEGMENTEDREFERENCECURVE", "IFCGRADIENTCURVE"]:
+                if inst.is_a().upper() in ["IFCSEGMENTEDREFERENCECURVE", "IFCGRADIENTCURVE"]:
                     inst = inst.BaseCurve
-            
+
             match activation_phrase:
                 case "segment in the applicable IfcAlignment layout":
                     align = ifc43.entities.Alignment().from_entity(activation_ent)
@@ -352,3 +359,80 @@ def step_impl(context, inst, activation_phrase):
                         observed=observed_msg,
                         severity=OutcomeSeverity.ERROR,
                     )
+
+
+@gherkin_ifc.step('Each segment must have geometric continuity in {continuity_type}')
+def step_impl(context, inst, continuity_type):
+    """
+    Assess geometric continuity between alignment segments for ALS016, ALS017, and ALS018
+    """
+    # Ref: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/lexical/IfcTransitionCode.htm
+    position_transition_codes = ["CONTINUOUS", "CONTSAMEGRADIENT", "CONTSAMEGRADIENTSAMECURVATURE"]
+    tangency_transition_codes = ["CONTSAMEGRADIENT", "CONTSAMEGRADIENTSAMECURVATURE"]
+    curvature_transition_codes = ["CONTSAMEGRADIENTSAMECURVATURE"]
+
+    length_unit_scale_factor = ifcopenshell.util.unit.calculate_unit_scale(
+        ifc_file=context.model,
+        unit_type="LENGTHUNIT"
+    )
+    for pair in inst:
+        previous, current = pair
+        entity_contexts = ifc.recurrently_get_entity_attr(context, current, 'IfcRepresentation', 'ContextOfItems')
+        precision = ifc.get_precision_from_contexts(entity_contexts)
+        precision_str = str(precision)
+        parts = precision_str.lower().split("e")
+        mantissa = parts[0]
+        sig_figs = len(mantissa)
+        if "." in mantissa:
+            sig_figs -= 1
+
+        exponent_str = parts[-1]
+        display_sig_figs = int(abs(float(exponent_str)) + sig_figs + 1)  # add one more digit for rounding confirmation
+
+        match continuity_type.lower():
+            case "position":
+                if current.Transition in position_transition_codes:
+                    observed = geometry.alignment_segment_positional_difference(
+                        length_unit_scale_factor,
+                        previous,
+                        current
+                    )
+                expected_msg = "{:.{width}e}".format(precision, width=display_sig_figs)
+                observed_msg = "{:.{width}e}".format(observed, width=display_sig_figs)
+
+                # add a suffix so that we keep the number formatting
+                # otherwise the values will be coerced back to floats
+                expected_msg += f" (max deviation in {continuity_type.lower()})"
+                observed_msg += f" (calculated deviation in {continuity_type.lower()})"
+                if abs(observed) > precision:
+                    yield ValidationOutcome(
+                        inst=current,
+                        expected=expected_msg,
+                        observed=observed_msg,
+                        severity=OutcomeSeverity.WARNING)
+            case "tangency":
+                if current.Transition in tangency_transition_codes:
+                    allowable = math.atan2(precision, float(current.SegmentLength.wrappedValue) * 1000)
+                    observed = geometry.alignment_segment_angular_difference(
+                        length_unit_scale_factor,
+                        previous,
+                        current
+                    )
+
+                    expected_msg = "{:.{width}e}".format(allowable, width=display_sig_figs)
+                    observed_msg = "{:.{width}e}".format(observed, width=display_sig_figs)
+
+                    # add a suffix so that we keep the number formatting
+                    # otherwise the values will be coerced back to floats
+                    expected_msg += f" (max deviation in {continuity_type.lower()})"
+                    observed_msg += f" (calculated deviation in {continuity_type.lower()})"
+                    if abs(observed) > allowable:
+                        yield ValidationOutcome(
+                            inst=current,
+                            expected=expected_msg,
+                            observed=observed_msg,
+                            severity=OutcomeSeverity.WARNING)
+
+            case "curvature":
+                if current.Transition in curvature_transition_codes:
+                    pass

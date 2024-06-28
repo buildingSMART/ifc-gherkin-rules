@@ -1,10 +1,17 @@
 import operator
 import math
 
+import numpy as np
+
+import ifcopenshell.entity_instance
+import ifcopenshell.geom as ifcos_geom
+import ifcopenshell.ifcopenshell_wrapper as wrapper
+
 from .misc import is_a
 from .ifc import get_precision_from_contexts, recurrently_get_entity_attr
 
 GEOM_TOLERANCE = 1E-12
+
 
 def get_edges(file, inst, sequence_type=frozenset, oriented=False):
     edge_type = tuple if oriented else frozenset
@@ -52,6 +59,7 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
                         yield from emit(inner)
         else:
             raise NotImplementedError(f"get_edges({inst.is_a()})")
+
     return sequence_type(inner())
 
 
@@ -77,3 +85,49 @@ def is_closed(context, instance):
     precision = get_precision_from_contexts(entity_contexts)
     points_coordinates = get_points(instance)
     return math.dist(points_coordinates[0], points_coordinates[-1]) < precision
+
+
+def evaluate_segment(segment: ifcopenshell.entity_instance, dist_along: float) -> np.ndarray:
+    s = ifcos_geom.settings()
+    pwf = wrapper.map_shape(s, segment.wrapped_data)
+
+    prev_trans_matrix = pwf.evaluate(dist_along)
+
+    return np.array(prev_trans_matrix, dtype=np.float64)
+
+def alignment_segment_positional_difference(length_unit_scale_factor, previous_segment, segment_to_analyze):
+
+    u = abs(float(previous_segment.SegmentLength.wrappedValue)) * length_unit_scale_factor
+    prev_end_transform = evaluate_segment(segment=previous_segment, dist_along=u)
+
+    pX = prev_end_transform[0][3] / length_unit_scale_factor
+    pY = prev_end_transform[1][3] / length_unit_scale_factor
+    preceding_end = (pX, pY)
+
+    current_start = segment_to_analyze.Placement.Location.Coordinates
+
+    return math.dist(preceding_end, current_start)
+
+
+def alignment_segment_angular_difference(length_unit_scale_factor, previous_segment, segment_to_analyze):
+
+    u = abs(float(previous_segment.SegmentLength.wrappedValue)) * length_unit_scale_factor
+    prev_end_transform = evaluate_segment(segment=previous_segment, dist_along=u)
+
+    prev_i = prev_end_transform[0][0]
+    prev_j = prev_end_transform[1][0]
+    preceding_end_direction = math.atan2(prev_j, prev_i)
+
+    cur_i, cur_j = segment_to_analyze.Placement.RefDirection.DirectionRatios
+    current_start_direction = math.atan2(cur_j, cur_i)
+
+    print(f"{prev_i=}")
+    print(f"{prev_j=}")
+    print(f"{preceding_end_direction=}")
+
+    print(f"{cur_i=}")
+    print(f"{cur_j=}")
+    print(f"{current_start_direction=}")
+    print("\n*** Next Segment **** \n")
+
+    return abs(current_start_direction - preceding_end_direction)

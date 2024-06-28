@@ -1,4 +1,5 @@
 import ast
+import itertools
 import operator
 
 import ifcopenshell
@@ -132,8 +133,12 @@ def step_impl(context, file_or_model, field, values):
 
 
 @gherkin_ifc.step('Its attribute {attribute}')
+@gherkin_ifc.step('Its attribute {attribute} grouped {tail}')
 def step_impl(context, inst, attribute, tail="single"):
-    yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity = OutcomeSeverity.PASSED)
+    selected = getattr(inst, attribute, None)
+    if tail.lower() == "pairwise":
+        selected = itertools.pairwise(selected)
+    yield ValidationOutcome(instance_id=selected, severity = OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("Its {attribute} attribute {condition} with {prefix}")
 def step_impl(context, inst, attribute, condition, prefix):

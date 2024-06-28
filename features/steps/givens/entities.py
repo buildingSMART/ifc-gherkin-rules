@@ -63,5 +63,6 @@ def step_impl(context, inst, relationship_direction):
 
 @gherkin_ifc.step("All referenced instances")
 def step_impl(context, inst):
+    # Note that this includes `inst` as the first element in this list
     instances = context.model.traverse(inst)
     yield ValidationOutcome(instance_id=instances, severity=OutcomeSeverity.PASSED)

@@ -1,12 +1,14 @@
 import itertools
 import math
 from utils import geometry, ifc
-from validation_handling import gherkin_ifc
+from validation_handling import full_stack_rule, gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
 @gherkin_ifc.step("There must be no self-intersections")
-def step_impl(context, inst):
+@gherkin_ifc.step("There must be no self-intersections for attribute {attr}")
+@full_stack_rule
+def step_impl(context, inst, path=None, attr=None):
     import ifcopenshell
     import ifcopenshell.geom
     import numpy
@@ -36,79 +38,112 @@ def step_impl(context, inst):
 
     idx = index.Index(properties=p)
 
-    # We set deflection (max deviation from real to approximated) based on the precision
-    # it needs to be significantly larger than the precision value, because otherwise we
-    # can get false positive intersection outcomes (near sharp corners). But also not too
-    # large because that can also result into false positives (when multiple curves are
-    # close)
-    deflection = min(precision * 10, 0.01)
-    try:
-        settings = ifcopenshell.geom.settings(MESHER_LINEAR_DEFLECTION=deflection)
-    except:
-        settings = ifcopenshell.geom.settings()
-        settings.set_deflection_tolerance(deflection)
-
-    if USE_MAPPING:
-        loop = ifcopenshell.ifcopenshell_wrapper.map_shape(ifcopenshell.geom.settings(), inst.wrapped_data)
-        edges = list(loop.children)
+    if inst.is_a('IfcIndexedPolygonalFace'):
+        # In tesselated items we have a list of coordinates globally defined
+        # for the 'shell' and individual faces referencing these by indexing
+        # into this global list. So we need to trace back the path in order
+        # to resolve the indices into actual coordinates.
+        # 
+        # The rules also use:
+        #  - Then There must be no self-intersections for attribute ...
+        #                                             ^^^^^^^^^^^^^^^^^
+        # Because resolving the final attribute in Gherkin would mean that
+        # we no longer have access to an entity instance but just a tuple
+        # of numbers which is handled differently.
+        #
+        # For the same reason we cannot call create_shape() on these because
+        # they don't encapsulate all data required to evaluate the geometry.
+        faceset = path[0]
+        assert faceset.is_a('IfcPolygonalFaceSet')
+        vs = numpy.array(faceset.Coordinates.CoordList)
+        # -1 for express' one-based indexing
+        indices = numpy.array(getattr(inst, attr)) - 1
+        ds = len(indices.shape)
+        assert ds in (1,2)
+        if ds == 1:
+            edges_idxs = numpy.array(list(zip(indices, numpy.roll(indices, -1))))
+            bounds = [vs[edges_idxs]]
+        else:
+            bounds = []
+            for bnd in indices:
+                edges_idxs = numpy.array(list(zip(bnd, numpy.roll(bnd, -1))))
+                edges = vs[edges_idxs]
+                bounds.append(edges)
     else:
-        loop = ifcopenshell.geom.create_shape(settings, inst)
-        verts = numpy.array(loop.verts).reshape((-1, 3))
-        edge_idxs = numpy.array(loop.edges).reshape((-1, 2))
-        edges = verts[edge_idxs]
+        # We set deflection (max deviation from real to approximated) based on the precision
+        # it needs to be significantly larger than the precision value, because otherwise we
+        # can get false positive intersection outcomes (near sharp corners). But also not too
+        # large because that can also result into false positives (when multiple curves are
+        # close)
+        deflection = min(precision * 10, 0.01)
+        try:
+            settings = ifcopenshell.geom.settings(MESHER_LINEAR_DEFLECTION=deflection)
+        except:
+            settings = ifcopenshell.geom.settings()
+            settings.set_deflection_tolerance(deflection)
 
-    for i, edge in enumerate(edges):
-        if isinstance(edge, numpy.ndarray):
-            ps = edge
+        if USE_MAPPING:
+            loop = ifcopenshell.ifcopenshell_wrapper.map_shape(ifcopenshell.geom.settings(), inst.wrapped_data)
+            bounds = [list(loop.children)]
         else:
-            if edge.basis:
-                raise NotImplementedError()
-            ps = numpy.array([
-                edge.start.coords,
-                edge.end.coords
-            ])
-        idx.insert(i, (ps.min(axis=0) - precision).tolist() + (ps.max(axis=0) + precision).tolist())
+            loop = ifcopenshell.geom.create_shape(settings, inst)
+            verts = numpy.array(loop.verts).reshape((-1, 3))
+            edge_idxs = numpy.array(loop.edges).reshape((-1, 2))
+            bounds = [verts[edge_idxs]]
 
-    for i, edge in enumerate(edges):
-        if isinstance(edge, numpy.ndarray):
-            ps = edge
-        else:
-            ps = numpy.array([
-                edge.start.coords,
-                edge.end.coords
-            ])
-        ps_flat = numpy.concatenate((ps.min(axis=0),ps.max(axis=0)))
-        neighbours = {(i - 1) % len(edges), (i + 1) % len(edges)}
-        for j in idx.intersection(ps_flat):
-            if i <= j:
-                continue
-            if isinstance(edges[j], numpy.ndarray):
-                qs = edges[j]
+    for edges in bounds:
+        for i, edge in enumerate(edges):
+            if isinstance(edge, numpy.ndarray):
+                ps = edge
             else:
-                qs = numpy.array([
-                    edges[j].start.coords,
-                    edges[j].end.coords
+                if edge.basis:
+                    raise NotImplementedError()
+                ps = numpy.array([
+                    edge.start.coords,
+                    edge.end.coords
                 ])
-            info = geometry.nearest_points_on_line_segments(*ps, *qs, tol=precision)
-            if j in neighbours:
-                # neighbours should always intersect, but just cannot
-                # be parallel and cross
-                if info.is_parallel:
-                    p_vec = ps[1] - ps[0]
-                    p_b = numpy.linalg.norm(p_vec)
-                    q_a = (qs[0] - ps[0]) @ p_vec
-                    q_b = (qs[1] - ps[0]) @ p_vec
-                    if q_a <= precision and q_b <= precision:
-                        # both on or behind ps[0]
-                        pass
-                    elif q_a >= p_b - precision and q_b >= p_b - precision:
-                        # both on or behind ps[1]
-                        pass
-                    else:
-                        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+            idx.insert(i, (ps.min(axis=0) - precision).tolist() + (ps.max(axis=0) + precision).tolist())
+
+        for i, edge in enumerate(edges):
+            if isinstance(edge, numpy.ndarray):
+                ps = edge
             else:
-                if info.distance < precision:
-                    yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+                ps = numpy.array([
+                    edge.start.coords,
+                    edge.end.coords
+                ])
+            ps_flat = numpy.concatenate((ps.min(axis=0),ps.max(axis=0)))
+            neighbours = {(i - 1) % len(edges), (i + 1) % len(edges)}
+            for j in idx.intersection(ps_flat):
+                if i <= j:
+                    continue
+                if isinstance(edges[j], numpy.ndarray):
+                    qs = edges[j]
+                else:
+                    qs = numpy.array([
+                        edges[j].start.coords,
+                        edges[j].end.coords
+                    ])
+                info = geometry.nearest_points_on_line_segments(*ps, *qs, tol=precision)
+                if j in neighbours:
+                    # neighbours should always intersect, but just cannot
+                    # be parallel and cross
+                    if info.is_parallel:
+                        p_vec = ps[1] - ps[0]
+                        p_b = numpy.linalg.norm(p_vec)
+                        q_a = (qs[0] - ps[0]) @ p_vec
+                        q_b = (qs[1] - ps[0]) @ p_vec
+                        if q_a <= precision and q_b <= precision:
+                            # both on or behind ps[0]
+                            pass
+                        elif q_a >= p_b - precision and q_b >= p_b - precision:
+                            # both on or behind ps[1]
+                            pass
+                        else:
+                            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+                else:
+                    if info.distance < precision:
+                        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("It must have no duplicate points {clause} first and last point")

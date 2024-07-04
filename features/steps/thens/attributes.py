@@ -85,10 +85,12 @@ def step_impl(context, inst, attribute, value, display_entity=0):
         # nothing was activated by the Given criteria
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.EXECUTED)
     elif not pred(attribute_value, value):
-        observed = misc.recursive_unpack_value(attribute_value)
-        if display_entity:
-            observed = f"{inst.is_a()}(#{inst.id()}); {attribute} = {observed}"
-        yield ValidationOutcome(inst=inst, expected= None if not value else value, observed=observed, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(
+            inst=inst,
+            expected=None if not value else value,
+            observed=misc.recursive_unpack_value(attribute_value),
+            severity=OutcomeSeverity.ERROR
+        )
 
 @gherkin_ifc.step('The {field} of the {file_or_model} must be "{values}"')
 def step_impl(context, inst, field, file_or_model, values):

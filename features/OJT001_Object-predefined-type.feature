@@ -1,6 +1,6 @@
 @implementer-agreement
 @OJT
-@version1
+@version2
 @E00010
 Feature: OJT001 - Object Predefined Type
 

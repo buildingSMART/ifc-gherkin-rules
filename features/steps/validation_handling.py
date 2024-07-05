@@ -138,11 +138,11 @@ def handle_then(context, fn, **kwargs):
 
             step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
 
-            displayed_inst_override_trigger = "and display entity instance"
-            displayed_inst_override = displayed_inst_override_trigger in context._stack[0]['step'].name.lower()
-            inst_to_display = activation_inst if displayed_inst_override else inst
-
             for result in step_results:
+                displayed_inst_override_trigger = "and display entity instance"
+                displayed_inst_override = displayed_inst_override_trigger in context._stack[0]['step'].name.lower()
+                inst_to_display = inst if displayed_inst_override else activation_inst
+
                 validation_outcome = ValidationOutcome(
                     outcome_code=get_outcome_code(result, context),
                     observed=expected_behave_output(context, result.observed, is_observed=True),

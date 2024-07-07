@@ -60,7 +60,7 @@ def recursive_flatten(lst):
 
 def get_previous_step_before_assertion(context):
     for i, step in enumerate(context.scenario.steps):
-        if step.name == 'assert existence' and i > 0:
+        if step.name.lower() == context.step.name.lower() and i > 0:
             return context.scenario.steps[i - 1].name
 
 @gherkin_ifc.step("Assert existence")

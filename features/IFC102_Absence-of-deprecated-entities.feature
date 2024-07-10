@@ -4,7 +4,7 @@
 Feature: IFC102 - Absence of deprecated entities
 
 This rule verifies that the IFC model does not have deprecated entities, attributes or enumerators. 
-IFC2X3 : https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.htm
+IFC2X3 : https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.html
 IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/introduction.htm#List-of-known-backward-incompatibilities-of-this-document-with-ISO-16739-1-2018
 
   Scenario Outline: Check for deprecated entities - IFC4.3
@@ -16,7 +16,6 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
 
     Examples:
       | entity | 
-      | IfcBuildingElement | 
       | IfcBuildingSystem | 
       | IfcBridgePart |
       | IfcCivilElement | 
@@ -25,11 +24,14 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcElectricDistributionBoardType | 
       | IfcFaceBasedSurfaceModel | 
       | IfcGeographicElementTypeEnum |
+      | IfcMaterialList | 
+      | IfcMaterialClassificationRelationship |
       | IfcPostalAddress | 
       | IfcRelConnectsPortToElement | 
       | IfcRelServicesBuildings | 
       | IfcVibrationIsolator |
       | IfcTelecomAddress | 
+      | IfcTextLiteral | 
       | IfcTrapeziumProfileDef | 
 
 
@@ -48,6 +50,8 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcBuildingStorey | Elevation |
       | IfcOrganization | Addresses |
       | IfcPerson | Addresses |
+      | IfcPort | ContainedIn | 
+      | IfcRelAssigns | RelatedObjectsType |
       | IfcSite | LandTitleNumber |
       | IfcSite | SiteAddress |
       | IfcSurfaceStyleRendering | DiffuseTransmissionColour |
@@ -55,6 +59,13 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcSurfaceStyleRendering | TransmissionColour |
       | IfcSurfaceTexture | Parameter | 
       | IfcTextureCoordinateGenerator | Parameter | 
+
+  Scenario Outline: Check for deprecated attribute values - IFC4.3
+
+    Given A model with Schema "IFC4.3"
+    Given an IfcShapeRepresentation
+
+    Then RepresentationType is not PointCloud
 
     
     Scenario Outline: Check for deprecated enumerations - IFC4.3
@@ -71,6 +82,8 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
        | IfcCableCarrierFittingType | "TEE" or "CROSS" or "REDUCER" |
        | IfcGeographicElement | "SOIL_BORING_POINT" |
        | IfcGeographicElementType | "SOIL_BORING_POINT" |
+       | IfcSpace | "INTERNAL" or "EXTERNAL" |
+       | IfcSpaceType | "INTERNAL" or "EXTERNAL" |
 
 
     Scenario Outline: Check for deprecated entities - IFC2X3
@@ -131,6 +144,7 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
           | IfcObjectTypeEnum                | 
           | IfcOpeningStandardCase           | 
           | IfcDoorStyle                     | 
+          | IfcMaterialList | 
           | IfcWindowStyle                   | 
           | IfcFaceBasedSurfaceModel         | 
           | IfcMaterialClassificationRelationship | 
@@ -150,3 +164,18 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
           | IfcWallElementedCase             | 
           | IfcWallStandardCase              | 
           | IfcWindowStandardCase            | 
+
+
+    Scenario Outline: Check for deprecated attributes - IFC4
+
+      Given A model with Schema "IFC4"
+      Given an <entity>
+
+      Then <attribute> = empty
+
+      Examples: 
+        | entity      | attribute | 
+        | IfcRelAssignsToActor | RelatedObjectsType |
+        | IfcRelAssignsToControl | RelatedObjectsType |
+        | IfcRelAssignsToGroup | RelatedObjectsType |
+        | IfcRelAssignsToGroupByFactor | RelatedObjectsType|

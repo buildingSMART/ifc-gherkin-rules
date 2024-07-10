@@ -140,7 +140,7 @@ def handle_then(context, fn, **kwargs):
 
             for result in step_results:
                 displayed_inst_override_trigger = "and display entity instance"
-                displayed_inst_override = displayed_inst_override_trigger in context._stack[0]['step'].name.lower()
+                displayed_inst_override = displayed_inst_override_trigger in context.step.name.lower()
                 inst_to_display = inst if displayed_inst_override else activation_inst
 
                 validation_outcome = ValidationOutcome(

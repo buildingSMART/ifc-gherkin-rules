@@ -21,16 +21,21 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcBridgePart |
       | IfcCivilElement | 
       | IfcCivilElementType | 
+      | IfcDoorLiningProperties | 
+      | IfcDoorPanelProperties | 
       | IfcElectricDistributionBoard | 
       | IfcElectricDistributionBoardType | 
       | IfcFaceBasedSurfaceModel | 
       | IfcGeographicElementTypeEnum |
       | IfcMaterialList | 
       | IfcMaterialClassificationRelationship |
+      | IfcPermeableCoveringProperties |
       | IfcPostalAddress | 
       | IfcRelConnectsPortToElement | 
       | IfcRelServicesBuildings | 
       | IfcVibrationIsolator |
+      | IfcWindowLiningProperties |
+      | IfcWindowPanelProperties | 
       | IfcTelecomAddress | 
       | IfcTextLiteral | 
       | IfcTrapeziumProfileDef | 
@@ -77,6 +82,8 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
 
       Examples:
        | entity  | value |
+       | IfcBuildingElementProxyTypeEnum | "PROVISIONFORSPACE" |
+       | IfcBuildingElementProxyTypeEnum | "PROVISIONFORVOID" |
        | IfcFireSuppressionTerminal | "SPRINKLERDEFLECTOR" |
        | IfcFireSuppressionTerminalType | "SPRINKLERDEFLECTOR" |
        | IfcCableCarrierFitting | "TEE" or "CROSS" or "REDUCER" |
@@ -85,6 +92,18 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
        | IfcGeographicElementType | "SOIL_BORING_POINT" |
        | IfcSpace | "INTERNAL" or "EXTERNAL" |
        | IfcSpaceType | "INTERNAL" or "EXTERNAL" |
+
+  
+    Scenario Outline: Check for deprecated enumerations - IFC4.3
+
+      Given A model with Schema "IFC4.3"
+      Given an <entity>
+      Then PredefinedType is not <value>
+
+      Examples:
+       | entity  | value |
+       | IfcWallTypeEnum | "STANDARD" |
+       | IfcWallTypeEnum | "POLYGONAL" |
 
 
     Scenario Outline: Check for deprecated entities - IFC2X3
@@ -124,6 +143,7 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
         | IfcRepresentationContext | 
         | IfcRelAssociates | 
 
+
     Scenario: Check for deprecated property set - IFC2X3
 
       Given a model with Schema "IFC2X3"
@@ -141,6 +161,7 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
 
         Examples:
           | entity                           | 
+          | IfcRelCoversBldgElements         | 
           | IfcProxy                         | 
           | IfcObjectTypeEnum                | 
           | IfcOpeningStandardCase           | 
@@ -180,3 +201,24 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
         | IfcRelAssignsToControl | RelatedObjectsType |
         | IfcRelAssignsToGroup | RelatedObjectsType |
         | IfcRelAssignsToGroupByFactor | RelatedObjectsType|
+        | IfcDoorLiningProperties | ShapeAspectStyle |
+        | IfcWindowLiningProperties | ShapeAspectStyle |
+
+
+    Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
+
+      Given A model with Schema "IFC2X3"
+      Given an <entity>
+
+      Then its type is not <entity> excluding subtypes
+
+    Examples:
+        | entity | 
+        | IfcFlowFitting |
+        | IfcFlowSegment | 
+        | IfcFlowTerminal | 
+        | IfcFlowController | 
+        | IfcFlowMovingDevice | 
+        | IfcFlowStorageDevice | 
+        | IfcFlowTreatmentDevice | 
+        | IfcEnergyConversionDevice | 

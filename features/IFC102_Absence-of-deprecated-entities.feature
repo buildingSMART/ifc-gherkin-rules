@@ -123,30 +123,70 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
 
     Then <attribute> = empty
 
-    Examples: 
-      | entity      | attribute | 
-      | IfcDoorLiningProperties | ShapeAspectStyle |
-      | IfcPile | ConstructionType |
-      | IfcReinforcingBar | NominalDiameter |
-      | IfcReinforcingBar | BarLength | 
-      | IfcReinforcingBar | BarRole |
-      | IfcReinforcingBar | BarSurface |
-      | IfcReinforcingElement | SteelGrade |
-      | IfcReinforcingMesh | MeshLength | 
-      | IfcReinforcingMesh | MeshWidth |
-      | IfcReinforcingMesh | LongitudinalBarNominalDiameter |
-      | IfcReinforcingMesh | TransverseBarNominalDiameter |
-      | IfcReinforcingMesh | LongitudinalBarCrossSectionArea |
-      | IfcReinforcingMesh | TransverseBarCrossSectionArea | 
-      | IfcReinforcingMesh | LongitudinalBarSpacing |
-      | IfcReinforcingMesh | TransverseBarSpacing |
-      | IfcRelAssignsToActor | RelatedObjectsType |
-      | IfcRelAssignsToControl | RelatedObjectsType |
-      | IfcRelAssignsToGroup | RelatedObjectsType |
-      | IfcRelAssignsToGroupByFactor | RelatedObjectsType|
-      | IfcWindowLiningProperties | ShapeAspectStyle |
-      | IfcTendon | NominalDiameter |
-      | IfcTendon | CrossSectionArea |
+    Examples:
+      | entity                        | attribute                     |
+      | IfcDoorLiningProperties       | ShapeAspectStyle              |
+      | IfcMechanicalFastener         | NominalDiameter               |
+      | IfcMechanicalFastener         | NominalLength                 |
+      | IfcMechanicalFastenerType     | NominalDiameter               |
+      | IfcMechanicalFastener         | NominalLength                 |
+      | IfcPile                       | ConstructionType              |
+      | IfcReinforcingBar             | NominalDiameter               |
+      | IfcReinforcingBar             | SteelGrade                    |
+      | IfcReinforcingBar             | BarLength                     |
+      | IfcReinforcingBar             | BarRole                       |
+      | IfcReinforcingBar             | BarSurface                    |
+      | IfcReinforcingBarType         | NominalDiameter               |
+      | IfcReinforcingBarType         | CrossSectionArea              |
+      | IfcReinforcingBarType         | BarLength                     |
+      | IfcReinforcingBarType         | BarSurface               |
+      | IfcReinforcingBarType         | BendingShapeCode               |
+      | IfcReinforcingBarType         | BendingParameters               |
+      | IfcReinforcingElement         | SteelGrade                    |
+      | IfcReinforcingMesh            | MeshLength                    |
+      | IfcReinforcingMesh            | MeshWidth                     |
+      | IfcReinforcingMesh            | LongitudinalBarNominalDiameter|
+      | IfcReinforcingMesh            | TransverseBarNominalDiameter  |
+      | IfcReinforcingMesh            | LongitudinalBarCrossSectionArea|
+      | IfcReinforcingMesh            | TransverseBarCrossSectionArea |
+      | IfcReinforcingMesh            | LongitudinalBarSpacing        |
+      | IfcReinforcingMesh            | TransverseBarSpacing          |
+      | IfcReinforcingMesh            | SteelGrade                    |
+      | IfcReinforcingMeshType     | MeshLength                          |
+      | IfcReinforcingMeshType     | MeshWidth                           |
+      | IfcReinforcingMeshType     | LongitudinalBarNominalDiameter      |
+      | IfcReinforcingMeshType     | TransverseBarNominalDiameter        |
+      | IfcReinforcingMeshType     | LongitudinalBarCrossSectionArea     |
+      | IfcReinforcingMeshType     | TransverseBarCrossSectionArea       |
+      | IfcReinforcingMeshType     | LongitudinalBarSpacing              |
+      | IfcReinforcingMeshType     | TransverseBarSpacing                |
+      | IfcReinforcingMeshType     | BendingShapeCode                    |
+      | IfcReinforcingMeshType     | BendingParameters                   |
+      | IfcRelAssignsToActor          | RelatedObjectsType            |
+      | IfcRelAssignsToControl        | RelatedObjectsType            |
+      | IfcRelAssignsToGroup          | RelatedObjectsType            |
+      | IfcRelAssignsToGroupByFactor  | RelatedObjectsType            |
+      | IfcRelAssignsToProcess        | RelatedObjectsType            |
+      | IfcRelAssignsToProduct        | RelatedObjectsType            |
+      | IfcRelAssignsToResource       | RelatedObjectsType            |
+      | IfcStairFlight                | NumberOfRisers                |
+      | IfcStairFlight                | NumberOfTreads                |
+      | IfcStairFlight                | RiserHeight                   |
+      | IfcStairFlight                | TreadLength                   |
+      | IfcWindowLiningProperties     | ShapeAspectStyle              |
+      | IfcTendon       | SteelGrade           |
+      | IfcTendon       | NominalDiameter      |
+      | IfcTendon       | CrossSectionArea     |
+      | IfcTendon       | TensionForce         |
+      | IfcTendon       | PreStress            |
+      | IfcTendon       | FrictionCoefficient  |
+      | IfcTendon       | AnchorageSlip        |
+      | IfcTendon       | MinCurvatureRadius   |
+      | IfcTendonArchor       | SteelGrade   |
+      | IfcTendonType   | NominalDiameter      |
+      | IfcTendonType   | CrossSectionArea     |
+      | IfcTendonType   | SheathDiameter       |
+
 
 
   Scenario: Check for deprecated attributes - IFC2X3  
@@ -192,6 +232,19 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcWallTypeEnum | "STANDARD" |
       | IfcWallTypeEnum | "POLYGONAL" |
       | IfcWindowTypePartitioningEnum | "IfcWindowStyleOperationEnum" |
+
+
+  Scenario Outline: Check for deprecated enumerations - IFC2X3
+
+    Given A model with Schema "IFC2X3" or "IFC4" or "IFC4X3"
+    Given an <entity>
+
+    Then PredefinedType is not <value>
+
+    Examples:
+      | entity  | value |
+      | IfcChangeActionEnum | " MODIFIEDADDED" |
+      | IfcChangeActionEnum | "MODIFIEDDELETED" |
 
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4

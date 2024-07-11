@@ -93,15 +93,15 @@ def evaluate_segment(segment: ifcopenshell.entity_instance, dist_along: float) -
 
     prev_trans_matrix = pwf.evaluate(dist_along)
 
-    return np.array(prev_trans_matrix, dtype=np.float64)
+    return np.array(prev_trans_matrix, dtype=np.float64).T
 
 def alignment_segment_positional_difference(length_unit_scale_factor, previous_segment, segment_to_analyze):
 
     u = abs(float(previous_segment.SegmentLength.wrappedValue)) * length_unit_scale_factor
     prev_end_transform = evaluate_segment(segment=previous_segment, dist_along=u)
 
-    pX = prev_end_transform[0][3] / length_unit_scale_factor
-    pY = prev_end_transform[1][3] / length_unit_scale_factor
+    pX = prev_end_transform[3][0] / length_unit_scale_factor
+    pY = prev_end_transform[3][1] / length_unit_scale_factor
     preceding_end = (pX, pY)
 
     current_start = segment_to_analyze.Placement.Location.Coordinates
@@ -115,19 +115,18 @@ def alignment_segment_angular_difference(length_unit_scale_factor, previous_segm
     prev_end_transform = evaluate_segment(segment=previous_segment, dist_along=u)
 
     prev_i = prev_end_transform[0][0]
-    prev_j = prev_end_transform[1][0]
+    prev_j = prev_end_transform[0][1]
     preceding_end_direction = math.atan2(prev_j, prev_i)
 
     cur_i, cur_j = segment_to_analyze.Placement.RefDirection.DirectionRatios
     current_start_direction = math.atan2(cur_j, cur_i)
+    delta = abs(current_start_direction - preceding_end_direction)
 
-    print(f"{prev_i=}")
-    print(f"{prev_j=}")
+    print(f"{segment_to_analyze=}")
+    print(f"ParentCurve={segment_to_analyze.ParentCurve}")
     print(f"{preceding_end_direction=}")
-
-    print(f"{cur_i=}")
-    print(f"{cur_j=}")
     print(f"{current_start_direction=}")
+    print(f"{delta=}")
     print("\n*** Next Segment **** \n")
 
     return abs(current_start_direction - preceding_end_direction)

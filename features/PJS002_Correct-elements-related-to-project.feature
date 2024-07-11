@@ -1,7 +1,7 @@
 @implementer-agreement
 @PJS
 @BLT
-@version1
+@version2
 @E00010
 Feature: PJS002 - Correct elements related to project
 

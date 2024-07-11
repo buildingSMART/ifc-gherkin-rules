@@ -19,7 +19,6 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
     Examples:
       | entity | 
       | IfcBuildingSystem | 
-      | IfcBridgePart |
       | IfcCivilElement | 
       | IfcCivilElementType | 
       | IfcDoorLiningProperties | 
@@ -34,7 +33,6 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcPostalAddress | 
       | IfcRelConnectsPortToElement | 
       | IfcRelServicesBuildings | 
-      | IfcVibrationIsolator |
       | IfcWindowLiningProperties |
       | IfcWindowPanelProperties | 
       | IfcTelecomAddress | 

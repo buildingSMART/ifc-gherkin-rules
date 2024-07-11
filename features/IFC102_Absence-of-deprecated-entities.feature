@@ -25,7 +25,8 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcDoorPanelProperties | 
       | IfcElectricDistributionBoard | 
       | IfcElectricDistributionBoardType | 
-      | IfcFaceBasedSurfaceModel | 
+      | IfcFaceBasedSurfaceModel |
+      | IfcFluidFlowProperties |
       | IfcGeographicElementTypeEnum |
       | IfcMaterialList | 
       | IfcMaterialClassificationRelationship |
@@ -102,8 +103,10 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
 
       Examples:
        | entity  | value |
+       | IfcLoadGroupTypeEnum | "LOAD_COMBINATION" |
        | IfcWallTypeEnum | "STANDARD" |
        | IfcWallTypeEnum | "POLYGONAL" |
+       | IfcWindowTypePartitioningEnum | "IfcWindowStyleOperationEnum" |
 
 
     Scenario Outline: Check for deprecated entities - IFC2X3
@@ -115,10 +118,11 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
 
       Examples:
         | entity | 
-        | IfcConnectionPortGeometry | 
         | Ifc2DCompositeCurve | 
+        | IfcConnectionPortGeometry | 
         | IfcElectricalElement | 
         | IfcEquipmentElement | 
+        | IfcFillAreaStyleTiles | 
 
 
     Scenario: Check for deprecated attributes - IFC2X3
@@ -165,8 +169,8 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
           | IfcObjectTypeEnum                | 
           | IfcOpeningStandardCase           | 
           | IfcDoorStyle                     | 
+          | IfcDoorStyleOperationEnum         |
           | IfcMaterialList | 
-          | IfcWindowStyle                   | 
           | IfcFaceBasedSurfaceModel         | 
           | IfcMaterialClassificationRelationship | 
           | IfcMaterialList                  | 
@@ -185,6 +189,7 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
           | IfcWallElementedCase             | 
           | IfcWallStandardCase              | 
           | IfcWindowStandardCase            | 
+          | IfcWindowStyle |
 
 
     Scenario Outline: Check for deprecated attributes - IFC4
@@ -196,12 +201,28 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
 
       Examples: 
         | entity      | attribute | 
+        | IfcDoorLiningProperties | ShapeAspectStyle |
+        | IfcPile | ConstructionType |
+        | IfcReinforcingBar | NominalDiameter |
+        | IfcReinforcingBar | BarLength | 
+        | IfcReinforcingBar | BarRole |
+        | IfcReinforcingBar | BarSurface |
+        | IfcReinforcingElement | SteelGrade |
+        | IfcReinforcingMesh | MeshLength | 
+        | IfcReinforcingMesh | MeshWidth |
+        | IfcReinforcingMesh | LongitudinalBarNominalDiameter |
+        | IfcReinforcingMesh | TransverseBarNominalDiameter |
+        | IfcReinforcingMesh | LongitudinalBarCrossSectionArea |
+        | IfcReinforcingMesh | TransverseBarCrossSectionArea | 
+        | IfcReinforcingMesh | LongitudinalBarSpacing |
+        | IfcReinforcingMesh | TransverseBarSpacing |
         | IfcRelAssignsToActor | RelatedObjectsType |
         | IfcRelAssignsToControl | RelatedObjectsType |
         | IfcRelAssignsToGroup | RelatedObjectsType |
         | IfcRelAssignsToGroupByFactor | RelatedObjectsType|
-        | IfcDoorLiningProperties | ShapeAspectStyle |
         | IfcWindowLiningProperties | ShapeAspectStyle |
+        | IfcTendon | NominalDiameter |
+        | IfcTendon | CrossSectionArea |
 
 
     Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4

@@ -12,4 +12,5 @@ IfcSurfaceStyleRendering, DiffuseTransmissionColour
 IfcSurfaceStyleRendering, ReflectionColour
 IfcSurfaceStyleRendering, TransmissionColour
 IfcSurfaceTexture, Parameter
-IfcTextureCoordinateGenerator, Parame
+IfcTextureCoordinateGenerator, Parameter
+IfcWindowPanelProperties, ShapeAspectStyle

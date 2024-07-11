@@ -94,9 +94,9 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
        | IfcSpaceType | "INTERNAL" or "EXTERNAL" |
 
   
-    Scenario Outline: Check for deprecated enumerations - IFC4.3
+    Scenario Outline: Check for deprecated enumerations - IFC4
 
-      Given A model with Schema "IFC4.3"
+      Given A model with Schema "IFC4"
       Given an <entity>
       Then PredefinedType is not <value>
 
@@ -142,7 +142,6 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
         | IfcRepresentation | 
         | IfcRepresentationContext | 
         | IfcRelAssociates | 
-
 
     Scenario: Check for deprecated property set - IFC2X3
 

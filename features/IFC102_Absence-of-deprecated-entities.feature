@@ -26,7 +26,6 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcElectricDistributionBoard | 
       | IfcElectricDistributionBoardType | 
       | IfcFaceBasedSurfaceModel |
-      | IfcFluidFlowProperties |
       | IfcGeographicElementTypeEnum |
       | IfcMaterialList | 
       | IfcMaterialClassificationRelationship |

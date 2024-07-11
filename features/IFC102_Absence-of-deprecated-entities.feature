@@ -24,11 +24,7 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcDoorLiningProperties | 
       | IfcDoorPanelProperties | 
       | IfcElectricDistributionBoard | 
-      | IfcElectricDistributionBoardType | 
-      | IfcFaceBasedSurfaceModel |
-      | IfcGeographicElementTypeEnum |
-      | IfcMaterialList | 
-      | IfcMaterialClassificationRelationship |
+      | IfcElectricDistributionBoardType |  
       | IfcPermeableCoveringProperties |
       | IfcPostalAddress | 
       | IfcRelConnectsPortToElement | 
@@ -36,7 +32,6 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcWindowLiningProperties |
       | IfcWindowPanelProperties | 
       | IfcTelecomAddress | 
-      | IfcTextLiteral | 
       | IfcTrapeziumProfileDef | 
 
 
@@ -48,33 +43,32 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
     Then There must be less than 1 instance(s) of <entity>
 
     Examples:
-      | entity                           | 
-      | IfcRelCoversBldgElements         | 
-      | IfcProxy                         | 
-      | IfcObjectTypeEnum                | 
-      | IfcOpeningStandardCase           | 
-      | IfcDoorStyle                     | 
-      | IfcDoorStyleOperationEnum         |
-      | IfcMaterialList | 
-      | IfcFaceBasedSurfaceModel         | 
+      | entity                                | 
+      | IfcProxy                              | 
+      | IfcObjectTypeEnum                     | 
+      | IfcOpeningStandardCase                | 
+      | IfcDoorStyle                          | 
+      | IfcDoorStyleOperationEnum             |
+      | IfcMaterialList                       | 
+      | IfcFaceBasedSurfaceModel              | 
       | IfcMaterialClassificationRelationship | 
-      | IfcMaterialList                  | 
-      | IfcPresentationStyleAssignment   | 
-      | IfcNullStyle                     | 
-      | IfcPresentationStyleSelect       | 
-      | IfcStyleAssignmentSelect         | 
-      | IfcBeamStandardCase              | 
-      | IfcColumnStandardCase            | 
-      | IfcDoorStandardCase              | 
-      | IfcMemberStandardCase            | 
-      | IfcPlateStandardCase             | 
-      | IfcRelCoversSpaces               | 
-      | IfcSlabElementedCase             | 
-      | IfcSlabStandardCase              | 
-      | IfcWallElementedCase             | 
-      | IfcWallStandardCase              | 
-      | IfcWindowStandardCase            | 
-      | IfcWindowStyle |
+      | IfcPresentationStyleAssignment        | 
+      | IfcNullStyle                          | 
+      | IfcPresentationStyleSelect            | 
+      | IfcStyleAssignmentSelect              | 
+      | IfcBeamStandardCase                   | 
+      | IfcColumnStandardCase                 | 
+      | IfcDoorStandardCase                   | 
+      | IfcMemberStandardCase                 | 
+      | IfcPlateStandardCase                  | 
+      | IfcRelCoversBldgElements              | 
+      | IfcRelCoversSpaces                    | 
+      | IfcSlabElementedCase                  | 
+      | IfcSlabStandardCase                   | 
+      | IfcWallElementedCase                  | 
+      | IfcWallStandardCase                   | 
+      | IfcWindowStandardCase                 | 
+      | IfcWindowStyle                        |
 
 
   Scenario Outline: Check for deprecated entities - IFC2X3
@@ -91,6 +85,8 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcElectricalElement | 
       | IfcEquipmentElement | 
       | IfcFillAreaStyleTiles | 
+      | IfcTextLiteral | 
+
 
 
   Scenario Outline: Check for deprecated attributes - IFC4.3
@@ -117,6 +113,7 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcSurfaceStyleRendering | TransmissionColour |
       | IfcSurfaceTexture | Parameter | 
       | IfcTextureCoordinateGenerator | Parameter | 
+      | IfcWindowPanelProperties | ShapeAspectStyle |
 
 
   Scenario Outline: Check for deprecated attributes - IFC4
@@ -177,6 +174,7 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
       | IfcCableCarrierFittingType | "TEE" or "CROSS" or "REDUCER" |
       | IfcGeographicElement | "SOIL_BORING_POINT" |
       | IfcGeographicElementType | "SOIL_BORING_POINT" |
+      | IfcGeographicElementTypeEnum | "SOIL_BORING_POINT" |
       | IfcSpace | "INTERNAL" or "EXTERNAL" |
       | IfcSpaceType | "INTERNAL" or "EXTERNAL" |
 

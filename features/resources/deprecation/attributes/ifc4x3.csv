@@ -1,0 +1,15 @@
+IfcBuilding, BuildingAddress
+IfcBuilding, ElevationOfRefHeight
+IfcBuilding, ElevationOfTerrain
+IfcBuildingStorey, Elevation
+IfcOrganization, Addresses
+IfcPerson, Addresses
+IfcPort, ContainedIn
+IfcRelAssigns, RelatedObjectsType
+IfcSite, LandTitleNumber
+IfcSite, SiteAddress
+IfcSurfaceStyleRendering, DiffuseTransmissionColour
+IfcSurfaceStyleRendering, ReflectionColour
+IfcSurfaceStyleRendering, TransmissionColour
+IfcSurfaceTexture, Parameter
+IfcTextureCoordinateGenerator, Parame

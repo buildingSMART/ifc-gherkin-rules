@@ -1,0 +1,4 @@
+IfcLoadGroupTypeEnum, "LOAD_COMBINATION"
+IfcWallTypeEnum, "STANDARD"
+IfcWallTypeEnum, "POLYGONAL"
+IfcWindowTypePartitioningEnum, "IfcWindowStyleOperationEnum"

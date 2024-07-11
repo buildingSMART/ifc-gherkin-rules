@@ -1,0 +1,8 @@
+IfcFlowFitting
+IfcFlowSegment
+IfcFlowTerminal
+IfcFlowController
+IfcFlowMovingDevice
+IfcFlowStorageDevice
+IfcFlowTreatmentDevice
+IfcEnergyConversionDevice

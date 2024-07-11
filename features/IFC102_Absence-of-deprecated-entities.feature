@@ -200,7 +200,7 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
 
-      Given A model with Schema "IFC2X3" or "IFC4" or "IFC4X3"
+      Given A model with Schema "IFC4" or "IFC4X3"
       Given an <entity>
 
       Then its type is not <entity> excluding subtypes
@@ -219,7 +219,7 @@ IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/intr
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC2X3
 
-      Given A model with Schema "IFC2X3" or "IFC4" or "IFC4X3"
+      Given A model with Schema "IFC2X3"
       Given an <entity>
 
       Then its type is not <entity> excluding subtypes

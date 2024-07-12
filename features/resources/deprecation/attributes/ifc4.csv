@@ -1,4 +1,5 @@
 IfcDoorLiningProperties, ShapeAspectStyle
+IfcDoorPanelProperties, ShapeAspectStyle
 IfcMechanicalFastener, NominalDiameter
 IfcMechanicalFastener, NominalLength
 IfcMechanicalFastenerType, NominalDiameter
@@ -46,7 +47,6 @@ IfcStairFlight, NumberOfRisers
 IfcStairFlight, NumberOfTreads
 IfcStairFlight, RiserHeight
 IfcStairFlight, TreadLength
-IfcWindowLiningProperties, ShapeAspectStyle
 IfcTendon, SteelGrade
 IfcTendon, NominalDiameter
 IfcTendon, CrossSectionArea
@@ -59,3 +59,5 @@ IfcTendonArchor, SteelGrade
 IfcTendonType, NominalDiameter
 IfcTendonType, CrossSectionArea
 IfcTendonType, SheathDiameter
+IfcWindowLiningProperties, ShapeAspectStyle
+IfcWindowPanelProperties, ShapeAspectStyle

@@ -15,6 +15,7 @@ IfcColumnStandardCase
 IfcDoorStandardCase
 IfcMemberStandardCase
 IfcPlateStandardCase
+IfcRelConnectsPortToElement
 IfcRelCoversBldgElements
 IfcRelCoversSpaces
 IfcSlabElementedCase

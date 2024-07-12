@@ -27,7 +27,6 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcElectricDistributionBoardType|  
       | IfcPermeableCoveringProperties|
       | IfcPostalAddress           | 
-      | IfcRelConnectsPortToElement| 
       | IfcRelServicesBuildings    | 
       | IfcWindowLiningProperties  |
       | IfcWindowPanelProperties   | 
@@ -61,6 +60,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcDoorStandardCase                   | 
       | IfcMemberStandardCase                 | 
       | IfcPlateStandardCase                  | 
+      | IfcRelConnectsPortToElement| 
       | IfcRelCoversBldgElements              | 
       | IfcRelCoversSpaces                    | 
       | IfcSlabElementedCase                  | 
@@ -84,7 +84,6 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcConnectionPortGeometry  | 
       | IfcElectricalElement       | 
       | IfcEquipmentElement        | 
-      | IfcFillAreaStyleTiles      | 
       | IfcTextLiteral             | 
 
 
@@ -103,7 +102,6 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcBuildingStorey         | Elevation                      |
       | IfcOrganization           | Addresses                      |
       | IfcPerson                 | Addresses                      |
-      | IfcPort                   | ContainedIn                    | 
       | IfcRelAssigns             | RelatedObjectsType             |
       | IfcSite                   | LandTitleNumber                |
       | IfcSite                   | SiteAddress                    |
@@ -112,7 +110,6 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcSurfaceStyleRendering  | TransmissionColour             |
       | IfcSurfaceTexture         | Parameter                      | 
       | IfcTextureCoordinateGenerator | Parameter                  | 
-      | IfcWindowPanelProperties  | ShapeAspectStyle               |
 
 
   Scenario Outline: Check for deprecated attributes - IFC4
@@ -125,6 +122,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Examples:
       | entity                        | attribute                     |
       | IfcDoorLiningProperties       | ShapeAspectStyle              |
+      | IfcDoorPanelProperties        | ShapeAspectStyle              |
       | IfcMechanicalFastener         | NominalDiameter               |
       | IfcMechanicalFastener         | NominalLength                 |
       | IfcMechanicalFastenerType     | NominalDiameter               |
@@ -172,6 +170,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcStairFlight                | NumberOfTreads                |
       | IfcStairFlight                | RiserHeight                   |
       | IfcStairFlight                | TreadLength                   |
+      | IfcWindowPanelProperties      | ShapeAspectStyle               |
       | IfcWindowLiningProperties     | ShapeAspectStyle              |
       | IfcTendon                     | SteelGrade                    |
       | IfcTendon                     | NominalDiameter               |

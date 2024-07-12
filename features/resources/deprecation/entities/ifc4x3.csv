@@ -7,7 +7,6 @@ IfcElectricDistributionBoard
 IfcElectricDistributionBoardType
 IfcPermeableCoveringProperties
 IfcPostalAddress
-IfcRelConnectsPortToElement
 IfcRelServicesBuildings
 IfcWindowLiningProperties
 IfcWindowPanelProperties

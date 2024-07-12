@@ -4,7 +4,6 @@ IfcBuilding, ElevationOfTerrain
 IfcBuildingStorey, Elevation
 IfcOrganization, Addresses
 IfcPerson, Addresses
-IfcPort, ContainedIn
 IfcRelAssigns, RelatedObjectsType
 IfcSite, LandTitleNumber
 IfcSite, SiteAddress
@@ -13,4 +12,3 @@ IfcSurfaceStyleRendering, ReflectionColour
 IfcSurfaceStyleRendering, TransmissionColour
 IfcSurfaceTexture, Parameter
 IfcTextureCoordinateGenerator, Parameter
-IfcWindowPanelProperties, ShapeAspectStyle

@@ -122,11 +122,4 @@ def alignment_segment_angular_difference(length_unit_scale_factor, previous_segm
     current_start_direction = math.atan2(cur_j, cur_i)
     delta = abs(current_start_direction - preceding_end_direction)
 
-    print(f"{segment_to_analyze=}")
-    print(f"ParentCurve={segment_to_analyze.ParentCurve}")
-    print(f"{preceding_end_direction=}")
-    print(f"{current_start_direction=}")
-    print(f"{delta=}")
-    print("\n*** Next Segment **** \n")
-
-    return abs(current_start_direction - preceding_end_direction)
+    return delta

@@ -1,4 +1,4 @@
-@implementer-agreement
+@industry-practice
 @GEM
 @version1
 @E00020

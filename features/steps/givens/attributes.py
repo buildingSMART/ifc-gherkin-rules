@@ -81,8 +81,8 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
     entity_is_applicable = False
     observed_v = ()
     if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
+        observed_v = misc.do_try(lambda : inst.is_a(), ())
         if pred(check_entity_type(inst, value, tail), True):
-            observed_v = inst.is_a()
             entity_is_applicable = True
 
     else:

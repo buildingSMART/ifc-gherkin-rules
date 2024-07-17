@@ -133,6 +133,9 @@ def handle_then(context, fn, **kwargs):
                 return
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
+
+            if "GEM051" in context.feature.name and context.is_global_rule:
+                activation_inst = activation_instances[0]
             if isinstance(activation_inst, ifcopenshell.file):
                 activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
 

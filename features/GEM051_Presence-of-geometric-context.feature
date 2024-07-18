@@ -22,5 +22,5 @@ The rule verifies that a geometric context is present in the model.
     Given An IfcContext
     Given Its attribute RepresentationContexts
 
-    Then  Assert existence 
+    Then Assert existence 
     Then Its entity type is 'IfcGeometricRepresentationContext' including subtypes

@@ -5,160 +5,153 @@
 Feature: IFC102 - Absence of deprecated entities
 
 This rule verifies that the IFC model does not have deprecated entities, attributes or enumerators. 
-IFC2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.html
+IFC2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.htm
 IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/introduction.htm#List-of-known-backward-incompatibilities-of-this-document-with-ISO-16739-1-2018
 IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
+
 
   Scenario Outline: Check for deprecated entities - IFC4.3
 
     Given A model with Schema "IFC4.3"
     Given An IFC model
 
-    Then There must be less than 1 instance(s) of <entity>
+    Then There must be less than 1 instance(s) of <Entity>
 
     Examples:
-      | entity                     | 
-      | IfcBuildingSystem          | 
-      | IfcCivilElement            | 
-      | IfcCivilElementType        | 
-      | IfcDoorLiningProperties    | 
-      | IfcDoorPanelProperties     | 
-      | IfcElectricDistributionBoard| 
-      | IfcElectricDistributionBoardType|  
-      | IfcPermeableCoveringProperties|
-      | IfcPostalAddress           | 
-      | IfcRelServicesBuildings    | 
-      | IfcWindowLiningProperties  |
-      | IfcWindowPanelProperties   | 
-      | IfcTelecomAddress          | 
-      | IfcTrapeziumProfileDef     | 
+      | Entity                                | 
+      | IfcBuildingSystem                     | 
+      | IfcCivilElement                       | 
+      | IfcCivilElementType                   | 
+      | IfcDoorLiningProperties               | 
+      | IfcDoorPanelProperties                | 
+      | IfcElectricDistributionBoard          | 
+      | IfcElectricDistributionBoardType      | 
+      | IfcFaceBasedSurfaceModel              | 
+      | IfcMaterialClassificationRelationship | 
+      | IfcMaterialList                       | 
+      | IfcPermeableCoveringProperties        | 
+      | IfcPostalAddress                      | 
+      | IfcPresentationStyleSelect            | 
+      | IfcRelConnectsPortToElement           | 
+      | IfcRelCoversBldgElements              | 
+      | IfcRelServicesBuildings               | 
+      | IfcRelCoversSpaces                    | 
+      | IfcTelecomAddress                     | 
+      | IfcTextLiteral                        | 
+      | IfcTrapeziumProfileDef                | 
+      | IfcWallStandardCase                   | 
+      | IfcWindowLiningProperties             | 
+      | IfcWindowPanelProperties              | 
+      | IfcWindowStandardCase                 | 
 
 
   Scenario Outline: Check for deprecated entities - IFC4
 
     Given An IFC model
-    Given A model with Schema "IFC4" or "IFC4X3"
+    Given A model with Schema "IFC4"
 
-    Then There must be less than 1 instance(s) of <entity>
+    Then There must be less than 1 instance(s) of <Entity>
 
     Examples:
-      | entity                                | 
-      | IfcProxy                              | 
-      | IfcObjectTypeEnum                     | 
-      | IfcOpeningStandardCase                | 
-      | IfcDoorStyle                          | 
-      | IfcDoorStyleOperationEnum             |
-      | IfcMaterialList                       | 
-      | IfcFaceBasedSurfaceModel              | 
-      | IfcMaterialClassificationRelationship | 
-      | IfcPresentationStyleAssignment        | 
-      | IfcNullStyle                          | 
-      | IfcPresentationStyleSelect            | 
-      | IfcStyleAssignmentSelect              | 
+      | Entity                                |
+      | Ifc2DCompositeCurve                   | 
       | IfcBeamStandardCase                   | 
+      | IfcConnectionPortGeometry             |
       | IfcColumnStandardCase                 | 
       | IfcDoorStandardCase                   | 
+      | IfcDoorStyle                          | 
+      | IfcDoorStyleOperationEnum             |
+      | IfcElectricalElement                  |
+      | IfcEquipmentElement                   | 
+      | IfcFaceBasedSurfaceModel              | 
+      | IfcMaterialClassificationRelationship | 
+      | IfcMaterialList                       | 
       | IfcMemberStandardCase                 | 
+      | IfcNullStyle                          |
+      | IfcObjectTypeEnum                     | 
+      | IfcOpeningStandardCase                | 
       | IfcPlateStandardCase                  | 
-      | IfcRelConnectsPortToElement| 
+      | IfcPresentationStyleAssignment        | 
+      | IfcPresentationStyleSelect            | 
+      | IfcProxy                              | 
+      | IfcRelConnectsPortToElement           | 
       | IfcRelCoversBldgElements              | 
       | IfcRelCoversSpaces                    | 
       | IfcSlabElementedCase                  | 
       | IfcSlabStandardCase                   | 
+      | IfcStyleAssignmentSelect              |
+      | IfcTextLiteral                        | 
       | IfcWallElementedCase                  | 
       | IfcWallStandardCase                   | 
       | IfcWindowStandardCase                 | 
       | IfcWindowStyle                        | 
+      | IfcWindowStyleOperationEnum           | 
 
 
   Scenario Outline: Check for deprecated entities - IFC2X3
 
-    Given A model with Schema "IFC2X3" or "IFC4" or "IFC4X3"
     Given An IFC model
+    Given A model with Schema "IFC2X3"
 
-    Then There must be less than 1 instance(s) of <entity>
+    Then There must be less than 1 instance(s) of <Entity>
 
     Examples:
-      | entity                     | 
-      | Ifc2DCompositeCurve        | 
-      | IfcConnectionPortGeometry  | 
-      | IfcElectricalElement       | 
-      | IfcEquipmentElement        | 
-      | IfcTextLiteral             | 
+      |   Entity                   | 
+      |   Ifc2DCompositeCurve      | 
+      |   IfcConnectionPortGeometry| 
+      |   IfcElectricalElement     | 
+      |   IfcEquipmentElement      |
+      |   IfcObjectTypeEnum        | 
+      |   IfcTextLiteral           |
 
 
   Scenario Outline: Check for deprecated attributes - IFC4.3
 
     Given A model with Schema "IFC4.3"
-    Given an <entity>
+    Given an <Entity>
 
-    Then <attribute> = empty
+    Then <Attribute> = empty
 
     Examples: 
-      | entity                    | attribute                      | 
+      | Entity                    | Attribute                      | 
       | IfcBuilding               | BuildingAddress                |
       | IfcBuilding               | ElevationOfRefHeight           |
       | IfcBuilding               | ElevationOfTerrain             |
       | IfcBuildingStorey         | Elevation                      |
+      | IfcFillAreaStyleHatching  | PointOfReferenceHatchLine      |
       | IfcOrganization           | Addresses                      |
       | IfcPerson                 | Addresses                      |
+      | IfcPile                   | ConstructionType               |
+      | IfcReinforcingElement     | SteelGrade                     |
       | IfcRelAssigns             | RelatedObjectsType             |
       | IfcSite                   | LandTitleNumber                |
       | IfcSite                   | SiteAddress                    |
+      | IfcStairFlight            | NumberOfRisers                 |
+      | IfcStairFlight            | NumberOfTreads                 |
+      | IfcStairFlight            | RiserHeight                    |
+      | IfcStairFlight            | TreadLength                    |
       | IfcSurfaceStyleRendering  | DiffuseTransmissionColour      |
       | IfcSurfaceStyleRendering  | ReflectionColour               |
       | IfcSurfaceStyleRendering  | TransmissionColour             |
-      | IfcSurfaceTexture         | Parameter                      | 
+      | IfcSurfaceTexture         | Parameter                      |
+      | IfcTendon                     | NominalDiameter            |
+      | IfcTendon                     | CrossSectionArea           | 
       | IfcTextureCoordinateGenerator | Parameter                  | 
 
 
   Scenario Outline: Check for deprecated attributes - IFC4
 
-    Given A model with Schema "IFC4" or "IFC4X3"
-    Given an <entity>
+    Given A model with Schema "IFC4"
+    Given an <Entity>
 
-    Then <attribute> = empty
+    Then <Attribute> = empty
 
     Examples:
-      | entity                        | attribute                     |
+      | Entity                        | Attribute                     |
       | IfcDoorLiningProperties       | ShapeAspectStyle              |
       | IfcDoorPanelProperties        | ShapeAspectStyle              |
-      | IfcMechanicalFastener         | NominalDiameter               |
-      | IfcMechanicalFastener         | NominalLength                 |
-      | IfcMechanicalFastenerType     | NominalDiameter               |
-      | IfcMechanicalFastener         | NominalLength                 |
-      | IfcPile                       | ConstructionType              |
-      | IfcReinforcingBar             | NominalDiameter               |
-      | IfcReinforcingBar             | SteelGrade                    |
-      | IfcReinforcingBar             | BarLength                     |
-      | IfcReinforcingBar             | BarRole                       |
-      | IfcReinforcingBar             | BarSurface                    |
-      | IfcReinforcingBarType         | NominalDiameter               |
-      | IfcReinforcingBarType         | CrossSectionArea              |
-      | IfcReinforcingBarType         | BarLength                     |
-      | IfcReinforcingBarType         | BarSurface                    |
-      | IfcReinforcingBarType         | BendingShapeCode              |
-      | IfcReinforcingBarType         | BendingParameters             |
+      | IfcFillAreaStyleHatching      | PointOfReferenceHatchLine     |
       | IfcReinforcingElement         | SteelGrade                    |
-      | IfcReinforcingMesh            | MeshLength                    |
-      | IfcReinforcingMesh            | MeshWidth                     |
-      | IfcReinforcingMesh            | LongitudinalBarNominalDiameter|
-      | IfcReinforcingMesh            | TransverseBarNominalDiameter  |
-      | IfcReinforcingMesh            | LongitudinalBarCrossSectionArea|
-      | IfcReinforcingMesh            | TransverseBarCrossSectionArea |
-      | IfcReinforcingMesh            | LongitudinalBarSpacing        |
-      | IfcReinforcingMesh            | TransverseBarSpacing          |
-      | IfcReinforcingMesh            | SteelGrade                    |
-      | IfcReinforcingMeshType        | MeshLength                    |
-      | IfcReinforcingMeshType        | MeshWidth                     |
-      | IfcReinforcingMeshType        | LongitudinalBarNominalDiameter|
-      | IfcReinforcingMeshType        | TransverseBarNominalDiameter  |
-      | IfcReinforcingMeshType        | LongitudinalBarCrossSectionArea|
-      | IfcReinforcingMeshType        | TransverseBarCrossSectionArea |
-      | IfcReinforcingMeshType        | LongitudinalBarSpacing        |
-      | IfcReinforcingMeshType        | TransverseBarSpacing          |
-      | IfcReinforcingMeshType        | BendingShapeCode              |
-      | IfcReinforcingMeshType        | BendingParameters             |
       | IfcRelAssignsToActor          | RelatedObjectsType            |
       | IfcRelAssignsToControl        | RelatedObjectsType            |
       | IfcRelAssignsToGroup          | RelatedObjectsType            |
@@ -170,7 +163,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcStairFlight                | NumberOfTreads                |
       | IfcStairFlight                | RiserHeight                   |
       | IfcStairFlight                | TreadLength                   |
-      | IfcWindowPanelProperties      | ShapeAspectStyle               |
+      | IfcWindowPanelProperties      | ShapeAspectStyle              |
       | IfcWindowLiningProperties     | ShapeAspectStyle              |
       | IfcTendon                     | SteelGrade                    |
       | IfcTendon                     | NominalDiameter               |
@@ -185,73 +178,106 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcTendonType                 | CrossSectionArea              |
       | IfcTendonType                 | SheathDiameter                |
 
-  Scenario: Check for deprecated attributes - IFC2X3  
 
-    Given A model with Schema "IFC2X3" or "IFC4" or "IFC4X3"
-    Given an IfcFillAreaStyleHatching
+  Scenario Outline: Check for deprecated attributes - IFC2X3  
 
-    Then PointOfReferenceHatchLine = empty
+      Given A model with Schema "IFC2X3"
+      Given an <Entity>
+
+      Then <Attribute> = empty
+
+    Examples:
+      | Entity                        | Attribute                     |
+      | IfcFillAreaStyleHatching      | PointOfReferenceHatchLine     |
 
 
-  Scenario Outline: Check for deprecated enumerations - IFC4.3
+  Scenario Outline: Check for deprecated enumerated values - IFC4.3
+    # IfcBuildingElementProxy: IfcBuildingElementProxyTypeEnum
+    # IfcFireSuppressionTerminal: IfcFireSuppressionTerminalTypeEnum
+    # IfcCableCarrierFitting: IfcCableCarrierFittingTypeEnum
+    # IfcGeographicElement: IfcGeographicElementTypeEnum
+    # IfcSpace: IfcSpaceTypeEnum
+    # IfcWall: IfcWallTypeEnum
 
     Given A model with Schema "IFC4.3"
-    Given an <entity>
+    Given an <Entity>
 
-    Then PredefinedType is not <value>
-
-    Examples:
-      | entity                           | value                          |
-      | IfcBuildingElementProxyTypeEnum  | "PROVISIONFORSPACE"            |
-      | IfcBuildingElementProxyTypeEnum  | "PROVISIONFORVOID"             |
-      | IfcFireSuppressionTerminal       | "SPRINKLERDEFLECTOR"           |
-      | IfcFireSuppressionTerminalType   | "SPRINKLERDEFLECTOR"           |
-      | IfcCableCarrierFitting           | "TEE" or "CROSS" or "REDUCER"  |
-      | IfcCableCarrierFittingType       | "TEE" or "CROSS" or "REDUCER"  |
-      | IfcGeographicElement             | "SOIL_BORING_POINT"            |
-      | IfcGeographicElementType         | "SOIL_BORING_POINT"            |
-      | IfcGeographicElementTypeEnum     | "SOIL_BORING_POINT"            |
-      | IfcSpace                         | "INTERNAL" or "EXTERNAL"       |
-      | IfcSpaceType                     | "INTERNAL" or "EXTERNAL"       |
-
-
-  Scenario Outline: Check for deprecated enumerations - IFC4
-
-    Given A model with Schema "IFC4" or "IFC4X3"
-    Given an <entity>
-
-    Then PredefinedType is not <value>
+    Then PredefinedType is not <Value>
 
     Examples:
-      | entity               | value                          |
-      | IfcLoadGroupTypeEnum | "LOAD_COMBINATION"             |
-      | IfcWallTypeEnum      | "STANDARD"                     |
-      | IfcWallTypeEnum      | "POLYGONAL"                    |
-      | IfcWindowTypePartitioningEnum | "IfcWindowStyleOperationEnum" |
+      | Entity                          |        Value                   |
+      | IfcBuildingElementProxy         | "PROVISIONFORSPACE"            |
+      | IfcBuildingElementProxy         | "PROVISIONFORVOID"             |
+      | IfcFireSuppressionTerminal      | "SPRINKLERDEFLECTOR"           |
+      | IfcFireSuppressionTerminalType  | "SPRINKLERDEFLECTOR"           |
+      | IfcCableCarrierFitting          | "TEE" or "CROSS" or "REDUCER"  |
+      | IfcCableCarrierFittingType      | "TEE" or "CROSS" or "REDUCER"  |
+      | IfcGeographicElement            | "SOIL_BORING_POINT"            |
+      | IfcGeographicElementType        | "SOIL_BORING_POINT"            |
+      | IfcSpace                        | "INTERNAL" or "EXTERNAL"       |
+      | IfcSpaceType                    | "INTERNAL" or "EXTERNAL"       |
+      | IfcStructuralLoadGroup          | "LOAD_COMBINATION"             |
+      | IfcWall                         | "POLYGONAL" or "STANDARD"      |
+      | IfcWallType                     | "POLYGONAL" or "STANDARD"      |
 
 
-  Scenario Outline: Check for deprecated enumerations - IFC2X3
+  Scenario Outline: Check for deprecated enumerated values - IFC4
+    # IfcStructuralLoadGroup: IfcLoadGroupTypeEnum
+    # IfcWall: IfcWallTypeEnum
 
-    Given A model with Schema "IFC2X3" or "IFC4" or "IFC4X3"
-    Given an <entity>
+    Given A model with Schema "IFC4"
+    Given an <Entity>
 
-    Then PredefinedType is not <value>
+    Then PredefinedType is not <Value>
 
     Examples:
-      | entity               | value                          |
-      | IfcChangeActionEnum  | " MODIFIEDADDED"               |
-      | IfcChangeActionEnum  | "MODIFIEDDELETED"              |
+      | Entity                   |  Value                                       |
+      | IfcStructuralLoadGroup   | "LOAD_COMBINATION"                           | 
+      | IfcWall                  | "POLYGONAL" or "STANDARD" or "ELEMENTEDWALL" |
+      | IfcWallType              | "POLYGONAL" or "STANDARD" or "ELEMENTEDWALL" |
+
+
+  Scenario Outline: Check for deprecated enumerated values - IFC2X3
+    # IfcOwnerHistory: IfcChangeActionEnum
+
+    Given A model with Schema "IFC2X3"
+    Given an <Entity>
+
+    Then <Attribute> is not <Value>
+
+    Examples:
+      | Entity                   | Attribute            |         Value                                |
+      | IfcOwnerHistory          | ChangeAction         | "MODIFIEDADDED" or "MODIFIEDDELETED"         |
+
+
+  Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4.3
+
+    Given A model with Schema "IFC4X3"
+    Given an <Entity>
+
+    Then its type is not <Entity> excluding subtypes
+
+    Examples:
+      | Entity                     | 
+      | IfcFlowFitting             |
+      | IfcFlowSegment             | 
+      | IfcFlowTerminal            | 
+      | IfcFlowController          | 
+      | IfcFlowMovingDevice        | 
+      | IfcFlowStorageDevice       | 
+      | IfcFlowTreatmentDevice     | 
+      | IfcEnergyConversionDevice  |
 
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
 
     Given A model with Schema "IFC4" or "IFC4X3"
-    Given an <entity>
+    Given an <Entity>
 
-    Then its type is not <entity> excluding subtypes
+    Then its type is not <Entity> excluding subtypes
 
     Examples:
-      | entity                     | 
+      | Entity                     | 
       | IfcFlowFitting             |
       | IfcFlowSegment             | 
       | IfcFlowTerminal            | 
@@ -265,12 +291,12 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC2X3
 
     Given A model with Schema "IFC2X3"
-    Given an <entity>
+    Given an <Entity>
 
-    Then its type is not <entity> excluding subtypes
+    Then its type is not <Entity> excluding subtypes
 
     Examples:
-      | entity                     | 
+      | Entity                     | 
       | IfcProductRepresentation   |
       | IfcRepresentation          | 
       | IfcRepresentationContext   | 
@@ -282,7 +308,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema "IFC4.3"
     Given an IfcShapeRepresentation
 
-    Then RepresentationType is not PointCloud
+    Then RepresentationType is not "PointCloud"
 
 
   Scenario: Check for deprecated property set - IFC2X3

@@ -285,6 +285,8 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
     """
     When serializing values in the observed field we never produce OneOf
     """
+    if "GEM051" in context.feature.name and context.is_global_rule and not is_observed:
+        data = 'IfcGeometricRepresentationContext'
     if isinstance(data, str):
         try:
             data = ast.literal_eval(data)

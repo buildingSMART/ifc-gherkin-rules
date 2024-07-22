@@ -4,7 +4,7 @@
 @E00020
 
 Feature: CLS000 - Classification Association
-    The rule verifies that there is an ability to classify elements, materials, and systems according to various classification systems,
+    The rule verifies the presence of IFC entities used to classify elements, materials, and systems according to various classification systems,
     such as the UNIFORMAT or Omniclass classification systems.
 
     Scenario: Check for activation of Classification Association

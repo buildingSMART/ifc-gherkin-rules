@@ -147,7 +147,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
     @field_validator('description')
     def validate_description(cls, value=list) -> list:
-        """must include a description of the rule that start with "The rule verifies that..."""  # allow for comma's
+        """must include a description of the rule that start with "The rule verifies..."""  # allow for comma's
         if not any(value.startswith(f"{prefix} rule verifies{optional_comma} that") for prefix in ("This", "The") for optional_comma in ("", ",")):
             raise ProtocolError(
                 value=value,

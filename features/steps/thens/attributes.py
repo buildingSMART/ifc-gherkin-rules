@@ -6,13 +6,20 @@ from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
+
+from behave import register_type
+from parse_type import TypeBuilder
+register_type(display_entity=TypeBuilder.make_enum({"": 0, "and display entity instance": 1 }))
+
+
 @gherkin_ifc.step('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
 def step_impl(context, inst, entity, other_entity, relationship):
     related_attr_matrix, relating_attr_matrix = system.load_attribute_matrix(
         "related_entity_attributes.csv"), system.load_attribute_matrix("relating_entity_attributes.csv")
     relationship_relating_attr = relating_attr_matrix.get(relationship)
     relationship_related_attr = related_attr_matrix.get(relationship)
-    relationships = context.model.by_type(relationship)
+
+    relationships = [i for i in context.model.get_inverse(inst) if i.is_a(relationship)]
 
     for rel in relationships:
         related_objects = misc.map_state(rel, lambda i: getattr(i, relationship_related_attr, None))
@@ -54,7 +61,8 @@ def step_impl(context, inst, attribute, expected_entity_type):
 
 
 @gherkin_ifc.step('The value of attribute {attribute} must be {value}')
-def step_impl(context, inst, attribute, value):
+@gherkin_ifc.step('The value of attribute {attribute} must be {value} {display_entity:display_entity}')
+def step_impl(context, inst, attribute, value, display_entity=0):
     # @todo the horror and inconsistency.. should we use
     # ast here as well to differentiate between types?
     pred = operator.eq
@@ -71,12 +79,18 @@ def step_impl(context, inst, attribute, value):
     if isinstance(inst, (tuple, list)):
         inst = inst[0]
     attribute_value = getattr(inst, attribute, 'Attribute not found')
+    if attribute_value is None:
+        attribute_value = ()
     if inst is None:
         # nothing was activated by the Given criteria
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.EXECUTED)
     elif not pred(attribute_value, value):
-        yield ValidationOutcome(inst=inst, expected= None if not value else value, observed=misc.recursive_unpack_value(attribute_value), severity=OutcomeSeverity.ERROR)
-
+        yield ValidationOutcome(
+            inst=inst,
+            expected=None if not value else value,
+            observed=misc.recursive_unpack_value(attribute_value),
+            severity=OutcomeSeverity.ERROR
+        )
 
 @gherkin_ifc.step('The {field} of the {file_or_model} must be "{values}"')
 def step_impl(context, inst, field, file_or_model, values):

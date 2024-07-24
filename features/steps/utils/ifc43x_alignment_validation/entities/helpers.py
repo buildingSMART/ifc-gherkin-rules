@@ -35,7 +35,7 @@ def expected_segment_geometry_type(logic_predefined_type) -> Dict:
         case "LINE":
             return {"OneOf": ["IfcLine".upper(), "IfcPolyline".upper()]}
         case "LINEARTRANSITION":
-            return {"Exactly": "IfcLine".upper()}
+            return {"Exactly": "IfcClothoid".upper()}
         case "SINECURVE":
             return {"Exactly": "IfcSineSpiral".upper()}
         case "VIENNESEBEND":

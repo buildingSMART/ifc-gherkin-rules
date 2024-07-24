@@ -133,11 +133,19 @@ def handle_then(context, fn, **kwargs):
                 return
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
+#TODO: refactor into a more general solution that works for all rules
+            if "GEM051" in context.feature.name and context.is_global_rule:
+                activation_inst = activation_instances[0]
             if isinstance(activation_inst, ifcopenshell.file):
                 activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
 
             step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
+
             for result in step_results:
+                displayed_inst_override_trigger = "and display entity instance"
+                displayed_inst_override = displayed_inst_override_trigger in context.step.name.lower()
+                inst_to_display = inst if displayed_inst_override else activation_inst
+
                 validation_outcome = ValidationOutcome(
                     outcome_code=get_outcome_code(result, context),
                     observed=expected_behave_output(context, result.observed, is_observed=True),
@@ -145,9 +153,15 @@ def handle_then(context, fn, **kwargs):
                     feature=context.feature.name,
                     feature_version=misc.define_feature_version(context),
                     severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                    instance_id = safe_method_call(activation_inst, 'id', None),
+                    instance_id=safe_method_call(inst_to_display, 'id', None),
                     validation_task_id=context.validation_task_id
                 )
+                # suppress the 'display_entity' trigger text if it is used as part of the expected value
+                validation_outcome.expected = (
+                    validation_outcome.expected.split(displayed_inst_override_trigger)[0].strip()
+                    if displayed_inst_override_trigger in validation_outcome.expected
+                    else validation_outcome.expected)
+
                 context.gherkin_outcomes.append(validation_outcome)
 
                 if not step_results:
@@ -184,7 +198,7 @@ def handle_then(context, fn, **kwargs):
             new_depth = depth if depth > 0 else 0
             return type(items)(map_then_state(v, fn, context, current_path + [i], new_depth, **kwargs) for i, v in enumerate(items))
         else:
-            return apply_then_operation(fn, items, context, **kwargs)
+            return apply_then_operation(fn, items, context, current_path = None, **kwargs)
     map_then_state(instances, fn, context, depth = 1 if 'at depth 1' in context.step.name.lower() else 0, **kwargs)
 
     # evokes behave error
@@ -252,9 +266,18 @@ def execute_step(fn):
 
     return inner
 
+def display_entity_instance(inst: ifcopenshell.entity_instance) -> str : 
+    """
+    Displays a message for an entity instance within the expected and observed table.
+    For example, an instance of IfcAlignment would be displayed as:
+    '(Expected/Observed) = IfcAlignment(#27)'
+    """
+    return misc.do_try(lambda: f'{inst.is_a()}(#{inst.id()})', getattr(inst, 'GlobalId', inst.id()))
+
+
 def serialize_item(item: Any) -> Any:
     if isinstance(item, ifcopenshell.entity_instance):
-        return getattr(item, 'GlobalId', item.is_a())
+        return display_entity_instance(item)
     else:
         return item
 
@@ -287,7 +310,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             else:
                 return {'value': data} # e.g. "The value must be 'Body'"
         case ifcopenshell.entity_instance():
-            return {'instance': f"{data.is_a()}({getattr(data, 'GlobalId', data.id())})"}
+            return {'instance': display_entity_instance(data)}
         case dict():
             # mostly for the pse001 rule, which already yields dicts
             return data

@@ -5,6 +5,8 @@
 Feature: IFC102 - Absence of deprecated entities
 
 This rule verifies that the IFC model does not have deprecated entities, attributes or enumerators. 
+By definition, a deprecated entity shall not be exported by applications.
+Complying interpreters shall still be able to import deprecated definitions.
 IFC2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.htm
 IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/introduction.htm#List-of-known-backward-incompatibilities-of-this-document-with-ISO-16739-1-2018
 IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/

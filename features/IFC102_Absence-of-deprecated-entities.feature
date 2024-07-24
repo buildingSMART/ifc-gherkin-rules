@@ -174,7 +174,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcTendon                     | FrictionCoefficient           |
       | IfcTendon                     | AnchorageSlip                 |
       | IfcTendon                     | MinCurvatureRadius            |
-      | IfcTendonArchor               | SteelGrade                    |
+      | IfcTendonAnchor               | SteelGrade                    |
       | IfcTendonType                 | NominalDiameter               |
       | IfcTendonType                 | CrossSectionArea              |
       | IfcTendonType                 | SheathDiameter                |

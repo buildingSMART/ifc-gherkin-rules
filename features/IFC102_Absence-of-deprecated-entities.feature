@@ -74,7 +74,6 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcPresentationStyleAssignment        | 
       | IfcPresentationStyleSelect            | 
       | IfcProxy                              | 
-      | IfcRelConnectsPortToElement           | 
       | IfcRelCoversBldgElements              | 
       | IfcRelCoversSpaces                    | 
       | IfcSlabElementedCase                  | 

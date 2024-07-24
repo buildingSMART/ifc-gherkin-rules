@@ -369,13 +369,13 @@ def step_impl(context, inst, continuity_type):
     # Ref: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/lexical/IfcTransitionCode.htm
     position_transition_codes = ["CONTINUOUS", "CONTSAMEGRADIENT", "CONTSAMEGRADIENTSAMECURVATURE"]
     tangency_transition_codes = ["CONTSAMEGRADIENT", "CONTSAMEGRADIENTSAMECURVATURE"]
-    curvature_transition_codes = ["CONTSAMEGRADIENTSAMECURVATURE"]
 
     length_unit_scale_factor = ifcopenshell.util.unit.calculate_unit_scale(
         ifc_file=context.model,
         unit_type="LENGTHUNIT"
     )
     for pair in inst:
+        pair_continuity_was_calculated = False
         previous, current = pair
         entity_contexts = ifc.recurrently_get_entity_attr(context, current, 'IfcRepresentation', 'ContextOfItems')
         precision = ifc.get_precision_from_contexts(entity_contexts)
@@ -391,48 +391,35 @@ def step_impl(context, inst, continuity_type):
 
         match continuity_type.lower():
             case "position":
+                expected = precision
                 if current.Transition in position_transition_codes:
                     observed = geometry.alignment_segment_positional_difference(
                         length_unit_scale_factor,
                         previous,
                         current
                     )
-                expected_msg = "{:.{width}e}".format(precision, width=display_sig_figs)
-                observed_msg = "{:.{width}e}".format(observed, width=display_sig_figs)
+                    pair_continuity_was_calculated = True
 
-                # add a suffix so that we keep the number formatting
-                # otherwise the values will be coerced back to floats
-                expected_msg += f" (max deviation in {continuity_type.lower()})"
-                observed_msg += f" (calculated deviation in {continuity_type.lower()})"
-                if abs(observed) > precision:
-                    yield ValidationOutcome(
-                        inst=current,
-                        expected=expected_msg,
-                        observed=observed_msg,
-                        severity=OutcomeSeverity.WARNING)
             case "tangency":
                 if current.Transition in tangency_transition_codes:
-                    allowable = math.atan2(precision, float(current.SegmentLength.wrappedValue) * 1000)
+                    expected = math.atan2(precision, float(current.SegmentLength.wrappedValue) * 1000)
                     observed = geometry.alignment_segment_angular_difference(
                         length_unit_scale_factor,
                         previous,
                         current
                     )
+                    pair_continuity_was_calculated = True
 
-                    expected_msg = "{:.{width}e}".format(allowable, width=display_sig_figs)
-                    observed_msg = "{:.{width}e}".format(observed, width=display_sig_figs)
+        if pair_continuity_was_calculated and (abs(observed) > expected):
+            expected_msg = "{:.{width}e}".format(expected, width=display_sig_figs)
+            observed_msg = "{:.{width}e}".format(observed, width=display_sig_figs)
 
-                    # add a suffix so that we keep the number formatting
-                    # otherwise the values will be coerced back to floats
-                    expected_msg += f" (max deviation in {continuity_type.lower()})"
-                    observed_msg += f" (calculated deviation in {continuity_type.lower()})"
-                    if abs(observed) > allowable:
-                        yield ValidationOutcome(
-                            inst=current,
-                            expected=expected_msg,
-                            observed=observed_msg,
-                            severity=OutcomeSeverity.WARNING)
-
-            case "curvature":
-                if current.Transition in curvature_transition_codes:
-                    pass
+            # add a suffix so that we keep the number formatting
+            # otherwise the values will be coerced back to floats
+            expected_msg += f" (max deviation in {continuity_type.lower()})"
+            observed_msg += f" (calculated deviation in {continuity_type.lower()})"
+            yield ValidationOutcome(
+                inst=current,
+                expected=expected_msg,
+                observed=observed_msg,
+                severity=OutcomeSeverity.WARNING)

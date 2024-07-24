@@ -27,8 +27,3 @@ Scenario: Geometric continuity in position
 Scenario: Geometric continuity in tangency
 
   Then Each segment must have geometric continuity in tangency
-
-Scenario: Geometric continuity in curvature
-
-  Then Each segment must have geometric continuity in curvature
-

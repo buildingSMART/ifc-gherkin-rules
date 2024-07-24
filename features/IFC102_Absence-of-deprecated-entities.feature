@@ -272,7 +272,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
 
-    Given A model with Schema "IFC4" or "IFC4X3"
+    Given A model with Schema "IFC4"
     Given an <Entity>
 
     Then its type is not <Entity> excluding subtypes
@@ -312,9 +312,25 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Then RepresentationType is not "PointCloud"
 
 
+  Scenario: Check for deprecated property set - IFC4.3
+
+    Given A model with Schema "IFC4X3"
+    Given an IfcPropertySet
+
+    Then Name is not 'Pset_Draughting'
+
+
+  Scenario: Check for deprecated property set - IFC4
+
+    Given A model with Schema "IFC4"
+    Given an IfcPropertySet
+
+    Then Name is not 'Pset_Draughting'
+
+
   Scenario: Check for deprecated property set - IFC2X3
 
-    Given A model with Schema "IFC2X3" or "IFC4" or "IFC4X3"
+    Given A model with Schema "IFC2X3"
     Given an IfcPropertySet
 
     Then Name is not 'Pset_Draughting'

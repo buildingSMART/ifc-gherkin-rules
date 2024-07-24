@@ -82,8 +82,8 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
     entity_is_applicable = False
     observed_v = ()
     if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
+        observed_v = misc.do_try(lambda : inst.is_a(), ())
         if pred(check_entity_type(inst, value, tail), True):
-            observed_v = inst.is_a()
             entity_is_applicable = True
 
     else:
@@ -98,8 +98,8 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
     else: # in case of a Then statement
         yield ValidationOutcome(instance_id=inst,
-                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL else ''}{value}", 
-                                observed = observed_v, severity = OutcomeSeverity.ERROR)
+                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL or value == () else ''}{'empty' if value == () else value}", 
+                                observed = 'empty' if observed_v == () else observed_v, severity = OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('{attr} forms {closed_or_open} curve')

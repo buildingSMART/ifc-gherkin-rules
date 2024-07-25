@@ -71,8 +71,9 @@ def step_impl(context, inst):
         expected = get_previous_step_before_assertion(context)
         yield ValidationOutcome(instance_id=inst, expected = expected, observed='Nonexistent', severity = OutcomeSeverity.ERROR)
 
+
 @gherkin_ifc.step("The IFC model contains information on {functional_part_description}")
 def step_impl(context, inst, functional_part_description):
    # This rule is designed to always pass and is used solely to trigger the activation of the rule 
     # if an instance linked to the functional part is present.
-    return []
+    yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)

@@ -374,9 +374,8 @@ def step_impl(context, inst, continuity_type):
         ifc_file=context.model,
         unit_type="LENGTHUNIT"
     )
-    for pair in inst:
+    for previous, current in inst:
         pair_continuity_was_calculated = False
-        previous, current = pair
         entity_contexts = ifc.recurrently_get_entity_attr(context, current, 'IfcRepresentation', 'ContextOfItems')
         precision = ifc.get_precision_from_contexts(entity_contexts)
         precision_str = str(precision)

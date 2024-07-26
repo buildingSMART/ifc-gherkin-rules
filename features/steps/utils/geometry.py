@@ -97,14 +97,17 @@ def evaluate_segment(segment: ifcopenshell.entity_instance, dist_along: float) -
 
 def alignment_segment_positional_difference(length_unit_scale_factor, previous_segment, segment_to_analyze):
 
-    u = abs(float(previous_segment.SegmentLength.wrappedValue)) * length_unit_scale_factor
+    u = abs(previous_segment.SegmentLength.wrappedValue) * length_unit_scale_factor
     prev_end_transform = evaluate_segment(segment=previous_segment, dist_along=u)
 
     pX = prev_end_transform[3][0] / length_unit_scale_factor
     pY = prev_end_transform[3][1] / length_unit_scale_factor
     preceding_end = (pX, pY)
 
-    current_start = segment_to_analyze.Placement.Location.Coordinates
+    current_start = (
+        segment_to_analyze.Placement.Location.Coordinates[0],
+        segment_to_analyze.Placement.Location.Coordinates[1],
+    )
 
     return math.dist(preceding_end, current_start)
 

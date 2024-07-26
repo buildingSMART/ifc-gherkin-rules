@@ -375,50 +375,45 @@ def step_impl(context, inst, continuity_type):
         unit_type="LENGTHUNIT"
     )
     for previous, current in inst:
-        pair_continuity_was_calculated = False
         entity_contexts = ifc.recurrently_get_entity_attr(context, current, 'IfcRepresentation', 'ContextOfItems')
         precision = ifc.get_precision_from_contexts(entity_contexts)
-        precision_str = str(precision)
-        parts = precision_str.lower().split("e")
-        mantissa = parts[0]
-        sig_figs = len(mantissa)
-        if "." in mantissa:
-            sig_figs -= 1
 
-        exponent_str = parts[-1]
-        display_sig_figs = int(abs(float(exponent_str)) + sig_figs + 1)  # add one more digit for rounding confirmation
+        # calculate number of significant figures to display
+        # use the precision of the geometric context plus one additional digit to accommodate rounding
+        from math import ceil, log10
+        display_sig_figs = abs(int(ceil(log10(precision)))) + 1
 
-        match continuity_type.lower():
-            case "position":
-                expected = precision
-                if current.Transition in position_transition_codes:
-                    observed = geometry.alignment_segment_positional_difference(
-                        length_unit_scale_factor,
-                        previous,
-                        current
-                    )
-                    pair_continuity_was_calculated = True
+        continuity_type = continuity_type.lower()
 
-            case "tangency":
-                if current.Transition in tangency_transition_codes:
-                    expected = math.atan2(precision, float(current.SegmentLength.wrappedValue) * 1000)
-                    observed = geometry.alignment_segment_angular_difference(
-                        length_unit_scale_factor,
-                        previous,
-                        current
-                    )
-                    pair_continuity_was_calculated = True
+        if (continuity_type == "position") and (current.Transition in position_transition_codes):
+            expected = precision
+            observed = geometry.alignment_segment_positional_difference(
+                length_unit_scale_factor,
+                previous,
+                current
+            )
 
-        if pair_continuity_was_calculated and (abs(observed) > expected):
-            expected_msg = "{:.{width}e}".format(expected, width=display_sig_figs)
-            observed_msg = "{:.{width}e}".format(observed, width=display_sig_figs)
+        elif (continuity_type == "tangency") and (current.Transition in tangency_transition_codes):
+            expected = math.atan2(precision, current.SegmentLength.wrappedValue)
+            observed = geometry.alignment_segment_angular_difference(
+                length_unit_scale_factor,
+                previous,
+                current
+            )
+        else:
+            return
 
-            # add a suffix so that we keep the number formatting
-            # otherwise the values will be coerced back to floats
-            expected_msg += f" (max deviation in {continuity_type.lower()})"
-            observed_msg += f" (calculated deviation in {continuity_type.lower()})"
+        if abs(observed) > expected:
             yield ValidationOutcome(
                 inst=current,
-                expected=expected_msg,
-                observed=observed_msg,
+                expected={
+                    "expected": expected,
+                    "num_digits": display_sig_figs,
+                    "context": context,
+                },
+                observed={
+                    "observed": observed,
+                    "num_digits": display_sig_figs,
+                    "context": context,
+                },
                 severity=OutcomeSeverity.WARNING)

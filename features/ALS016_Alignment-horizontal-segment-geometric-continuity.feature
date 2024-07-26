@@ -6,8 +6,10 @@ Feature: ALS016 - Alignment horizontal segment geometric continuity
 
   The rule verifies that there is geometric continuity between segments in an IfcCompositeCurve.
   The calculated end position and tangent vector of segment `n` is compared to the provided placement of segment `n + 1`.
-  A warning is emitted if the calculated difference is greater than the specified tolerance of the applicable
-  geometric context.
+  A warning is emitted if the calculated difference is greater than the applicable tolerance.
+  The tolerance for positional continuity is taken from the precision of the applicable geometric context.
+  The tolerance for tangential continuity is taken from the precision of the applicable geometric context and
+  adjusted based on the length of the alignment segment.
 
 Background:
 

@@ -25,6 +25,6 @@ DATA;
 #18=IFCCONVERSIONBASEDUNIT(#12,.PLANEANGLEUNIT.,'DEGREE',#17);
 #19=IFCUNITASSIGNMENT((#13,#14,#15,#18));
 #20=IFCPROJECT('1pKnOqhJf7Qhcd1k8beTZx',#5,'',$,$,$,$,(#11),#19);
-#21=IFCBUILDING($,$,$,$,$,$,$,$,$,$,$,#22);
+#21=IFCBUILDING($,$,$,$,$,$,$,$,$,$,$,'Some Address');
 ENDSEC;
 END-ISO-10303-21;

@@ -193,6 +193,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
 
   Scenario Outline: Check for deprecated enumerated values - IFC4.3
+    # ****** Description of deprecated enumerations for each entity *****
     # IfcBuildingElementProxy: IfcBuildingElementProxyTypeEnum
     # IfcFireSuppressionTerminal: IfcFireSuppressionTerminalTypeEnum
     # IfcCableCarrierFitting: IfcCableCarrierFittingTypeEnum

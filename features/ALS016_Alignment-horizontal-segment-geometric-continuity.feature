@@ -18,7 +18,8 @@ Background:
   Given RepresentationType = 'Curve2D'
   Given All referenced instances
   Given Its Entity Type is 'IfcCompositeCurve'
-  Given Its attribute Segments grouped pairwise
+  Given Its attribute Segments 
+  Given The values grouped pairwise
 
 Scenario: Geometric continuity in position
 

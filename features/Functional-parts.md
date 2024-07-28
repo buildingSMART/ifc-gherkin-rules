@@ -27,3 +27,4 @@
 | PSE  | Property Sets                    | @PSE        |                                                  |
 | PJS  | Project Definition               | @PJS        |                                                  |
 | BLT  | Built Elements                   | @BLT        |                                                  |
+| SPA  | Spaces Infomation                | @SPA        |                                                  |

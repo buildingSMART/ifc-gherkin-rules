@@ -14,17 +14,8 @@ Scenario: Each geometric context must have a subcontext
     Then HasSubContexts = not empty
 
 
-Scenario: Constraints on context type - IFC4.3
-    Given a model with Schema "IFC4.3"
+Scenario: Constraints on context type
     Given An IfcGeometricRepresentationSubContext
     Given Its attribute ContextIdentifier
 
-    Then The values must be in 'valid_RepresentationIdentifier_IFC4.3.csv'
-
-Scenario: Constraints on context type - IFC4
-    Given a model with Schema "IFC4"
-    Given An IfcGeometricRepresentationSubContext
-    Given Its attribute ContextType
-
-    Then The values must be in 'valid_RepresentationType_IFC4.csv'
-
+    Then The values must be in 'valid_ContextIdentifier.csv'

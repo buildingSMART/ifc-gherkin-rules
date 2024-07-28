@@ -16,5 +16,5 @@ Feature: QTY000 - Quantities for Objects
     Given its attribute RelatingPropertyDefinition
     Given its entity type is 'IfcElementQuantity'
 
-    Then The IFC model contains information on external classifications 
+    Then The IFC model contains information on quantities of elements
 

@@ -409,11 +409,11 @@ def step_impl(context, inst, continuity_type):
                 expected={
                     "expected": expected,
                     "num_digits": display_sig_figs,
-                    "context": context,
+                    "context": f"max deviation in {continuity_type.lower()}",
                 },
                 observed={
                     "observed": observed,
                     "num_digits": display_sig_figs,
-                    "context": context,
+                    "context": f"calculated deviation in {continuity_type.lower()}",
                 },
                 severity=OutcomeSeverity.WARNING)

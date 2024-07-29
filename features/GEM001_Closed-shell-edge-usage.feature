@@ -5,27 +5,28 @@
 Feature: GEM001 - Closed shell edge usage
 The rule verifies that closed shells and closed facesets edges are referenced correctly.
 
-  Scenario: IfcClosedShell
+  Scenario Outline: IfcClosedShell
 
     Given An IfcClosedShell
 
-    Then Every edge must be referenced exactly 2 times by the loops of the face
-    Then Every oriented edge must be referenced exactly 1 times by the loops of the face
-  
+    Then <Statement>
 
-  Scenario: IfcTriangulatedFaceSet
-
-    Given An IfcTriangulatedFaceSet
-    Given Closed = True
-
-    Then Every edge must be referenced exactly 2 times by the loops of the face
-    Then Every oriented edge must be referenced exactly 1 times by the loops of the face
+    Examples:
+      | Statement |
+      | Every edge must be referenced exactly 2 times by the loops of the face |
+      | Every oriented edge must be referenced exactly 1 times by the loops of the face |
 
 
-  Scenario: IfcPolygonalFaceSet
+    Scenario Outline: Check constraints for FaceSets; TriangulatedFaceSet and PolygonalFaceSet
+    
+      Given An <FaceSetType>
+      And Closed = True
 
-    Given An IfcPolygonalFaceSet
-    Given Closed = True
+      Then <Statement>
 
-    Then Every edge must be referenced exactly 2 times by the loops of the face
-    Then Every oriented edge must be referenced exactly 1 times by the loops of the face
+      Examples:
+        | FaceSetType              | Statement                                                           |
+        | IfcTriangulatedFaceSet   | Every edge must be referenced exactly 2 times by the loops of the face  |
+        | IfcTriangulatedFaceSet   | Every oriented edge must be referenced exactly 1 time by the loops of the face |
+        | IfcPolygonalFaceSet      | Every edge must be referenced exactly 2 times by the loops of the face  |
+        | IfcPolygonalFaceSet      | Every oriented edge must be referenced exactly 1 time by the loops of the face |

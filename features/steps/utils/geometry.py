@@ -12,31 +12,49 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
     def inner():
         if inst.is_a("IfcConnectedFaceSet"):
             deps = file.traverse(inst)
-            loops = filter(is_a("IfcPolyLoop"), deps)
-            for lp in loops:
+            loops = [(b.Orientation, b.Bound) for b in filter(is_a("IfcFaceBound"), deps) if b.Bound.is_a('IfcPolyLoop')]
+            for ori, lp in loops:
                 coords = list(map(operator.attrgetter("Coordinates"), lp.Polygon))
+                if not ori:
+                    coords = list(reversed(coords))
                 shifted = coords[1:] + [coords[0]]
                 yield from map(edge_type, zip(coords, shifted))
-            edges = filter(is_a("IfcOrientedEdge"), deps)
-            for ed in edges:
-                # @todo take into account edge geometry
-                # edge_geom = ed[2].EdgeGeometry.get_info(recursive=True, include_identifier=False)
-                coords = [
-                    ed.EdgeElement.EdgeStart.VertexGeometry.Coordinates,
-                    ed.EdgeElement.EdgeEnd.VertexGeometry.Coordinates,
-                ]
-                # @todo verify:
-                # if not ed.EdgeElement.SameSense:
-                #     coords.reverse()
-                if not ed.Orientation:
-                    coords.reverse()
+
+            facebounds = filter(is_a("IfcFaceBound"), deps)
+            bounds_with_edge_loops = filter(lambda b: b.Bound.is_a('IfcEdgeLoop'), facebounds)
+            for bnd in bounds_with_edge_loops:
+                for ed in bnd.Bound.EdgeList:
+                    # @todo take into account edge geometry
+                    # edge_geom = ed[2].EdgeGeometry.get_info(recursive=True, include_identifier=False)
+                    
+                    coords = [
+                        ed.EdgeElement.EdgeStart.VertexGeometry.Coordinates,
+                        ed.EdgeElement.EdgeEnd.VertexGeometry.Coordinates,
+                    ]
+                    
+                    # @todo verify:
+                    # @tfk: afaict, sense only affects the parametric space of the underlying curve,
+                    #       not the topology of the begin/end vertices
+                    # if not ed.EdgeElement.SameSense:
+                    #     coords.reverse()
+
+                    if not ed.Orientation:
+                        coords.reverse()
+                    if not bnd.Orientation:
+                        # If sense is FALSE the senses of all its component oriented edges are implicitly reversed when used in the face.
+                        # @tfk: note that bnd.Orientation=.F. also implies that EdgeList has to be iterated in the reverse
+                        #       order, but since we're not actually building a face, but only counting edge use - which is
+                        #       independent of order in the loop - we don't need to apply that.
+                        coords.reverse()
                 yield edge_type(coords)
+
         elif inst.is_a("IfcTriangulatedFaceSet"):
             # @nb to decide: should we return index pairs, or coordinate pairs here?
             coords = inst.Coordinates.CoordList
             for idx in inst.CoordIndex:
                 for ij in zip(range(3), ((x + 1) % 3 for x in range(3))):
                     yield edge_type(coords[idx[x] - 1] for x in ij)
+
         elif inst.is_a("IfcPolygonalFaceSet"):
             coords = inst.Coordinates.CoordList
             for f in inst.Faces:

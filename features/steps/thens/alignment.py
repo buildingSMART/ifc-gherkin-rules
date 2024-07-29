@@ -173,59 +173,58 @@ def ala003_activation_inst(inst, context) -> Union[ifcopenshell.entity_instance 
 @gherkin_ifc.step(
     'A representation by {ifc_rep_criteria} requires the {existence:absence_or_presence} of {entities} in the business logic')
 def step_impl(context, inst, ifc_rep_criteria, existence, entities):
-    for align_ent in context.instances:
-        align = ifc43.entities.Alignment().from_entity(align_ent)
-        match (ifc_rep_criteria, existence, entities):
-            case ("IfcSegmentedReferenceCurve", "presence", "IfcAlignmentCant"):
-                if align.segmented_reference_curve is not None:
-                    if align.cant is None:
-                        yield ValidationOutcome(inst=inst, expected=entities, observed=None,
-                                                severity=OutcomeSeverity.ERROR)
+    align = ifc43.entities.Alignment().from_entity(inst)
+    match (ifc_rep_criteria, existence, entities):
+        case ("IfcSegmentedReferenceCurve", "presence", "IfcAlignmentCant"):
+            if align.segmented_reference_curve is not None:
+                if align.cant is None:
+                    yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                                            severity=OutcomeSeverity.ERROR)
 
-            case ("IfcGradientCurve", "presence", "IfcAlignmentVertical"):
-                if align.gradient_curve is not None:
-                    if align.vertical is None:
-                        yield ValidationOutcome(inst=inst, expected=entities, observed=None,
-                                                severity=OutcomeSeverity.ERROR)
+        case ("IfcGradientCurve", "presence", "IfcAlignmentVertical"):
+            if align.gradient_curve is not None:
+                if align.vertical is None:
+                    yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                                            severity=OutcomeSeverity.ERROR)
 
-            case ("3D IfcIndexedPolyCurve", "presence", "IfcAlignmentVertical"):
-                product_rep = align.Representation
-                for shape_rep in product_rep.Representations:
-                    for item in shape_rep.Items:
-                        if (item.is_a().upper() == "IFCINDEXEDPOLYCURVE") and (is_3d(item)):
-                            if align.vertical is None:
-                                yield ValidationOutcome(inst=inst, expected=entities, observed=None,
-                                                        severity=OutcomeSeverity.ERROR)
+        case ("3D IfcIndexedPolyCurve", "presence", "IfcAlignmentVertical"):
+            product_rep = align.Representation
+            for shape_rep in product_rep.Representations:
+                for item in shape_rep.Items:
+                    if (item.is_a().upper() == "IFCINDEXEDPOLYCURVE") and (is_3d(item)):
+                        if align.vertical is None:
+                            yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                                                    severity=OutcomeSeverity.ERROR)
 
-            case ("3D IfcPolyline", "presence", "IfcAlignmentVertical"):
-                product_rep = align.Representation
-                for shape_rep in product_rep.Representations:
-                    for item in shape_rep.Items:
-                        if (item.is_a().upper() == "IFCPOLYLINE") and (is_3d(item)):
-                            if align.vertical is None:
-                                yield ValidationOutcome(inst=inst, expected=entities, observed=None,
-                                                        severity=OutcomeSeverity.ERROR)
+        case ("3D IfcPolyline", "presence", "IfcAlignmentVertical"):
+            product_rep = align.Representation
+            for shape_rep in product_rep.Representations:
+                for item in shape_rep.Items:
+                    if (item.is_a().upper() == "IFCPOLYLINE") and (is_3d(item)):
+                        if align.vertical is None:
+                            yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                                                    severity=OutcomeSeverity.ERROR)
 
-            case ("IfcCompositeCurve as Axis", "absence", "IfcAlignmentVertical and IfcAlignmentCant"):
-                product_rep = align.Representation
-                for shape_rep in product_rep.Representations:
-                    for item in shape_rep.Items:
-                        if (item.is_a().upper() == "IFCCOMPOSITECURVE") and (
-                                shape_rep.RepresentationIdentifier == "Axis"):
-                            if (align.vertical is not None) or (align.cant is not None):
-                                yield ValidationOutcome(inst=inst, expected=None,
-                                                        observed="', '".join(entities.split(" and ")),
-                                                        severity=OutcomeSeverity.ERROR)
+        case ("IfcCompositeCurve as Axis", "absence", "IfcAlignmentVertical and IfcAlignmentCant"):
+            product_rep = align.Representation
+            for shape_rep in product_rep.Representations:
+                for item in shape_rep.Items:
+                    if (item.is_a().upper() == "IFCCOMPOSITECURVE") and (
+                            shape_rep.RepresentationIdentifier == "Axis"):
+                        if (align.vertical is not None) or (align.cant is not None):
+                            yield ValidationOutcome(inst=inst, expected=None,
+                                                    observed="', '".join(entities.split(" and ")),
+                                                    severity=OutcomeSeverity.ERROR)
 
-            case ("IfcGradientCurve", "absence", "IfcAlignmentCant"):
-                product_rep = align.Representation
-                for shape_rep in product_rep.Representations:
-                    for item in shape_rep.Items:
-                        if item.is_a().upper() == "IFCGRADIENTCURVE":
-                            if align.cant is not None:
-                                yield ValidationOutcome(inst=inst, expected=None,
-                                                        observed=entities,
-                                                        severity=OutcomeSeverity.ERROR)
+        case ("IfcGradientCurve", "absence", "IfcAlignmentCant"):
+            product_rep = align.Representation
+            for shape_rep in product_rep.Representations:
+                for item in shape_rep.Items:
+                    if item.is_a().upper() == "IFCGRADIENTCURVE":
+                        if align.cant is not None:
+                            yield ValidationOutcome(inst=inst, expected=None,
+                                                    observed=entities,
+                                                    severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step(

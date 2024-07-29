@@ -147,11 +147,11 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
     @field_validator('description')
     def validate_description(cls, value=list) -> list:
-        """must include a description of the rule that start with "The rule verifies that..."""  # allow for comma's
-        if not any(value.startswith(f"{prefix} rule verifies{optional_comma} that") for prefix in ("This", "The") for optional_comma in ("", ",")):
+        """must include a description of the rule that start with "The rule verifies ..."""  # allow for comma's
+        if not any(value.startswith(f"{prefix} rule verifies{optional_comma}") for prefix in ("This", "The") for optional_comma in ("", ",")):
             raise ProtocolError(
                 value=value,
-                message=f"The description must start with 'The rule verifies that', it now starts with {value}"
+                message=f"The description must start with 'The rule verifies', it now starts with {value}"
             )
         return value
 
@@ -165,7 +165,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
             )
 
         """Check that no punctuation at the end of the step"""
-        if any(d['name'].endswith(tuple(r"""!#$%&(*+,-./:;<=>?@[\]^_`{|}~""")) for d in value):
+        if any(d['name'].endswith(tuple(r"""!#$%&(*+,-./:;<=?@[\]^_`{|}~""")) for d in value):
             raise ProtocolError(
                 value=value,
                 message=f"The feature steps must not end with punctuation. Now the steps end with {[d['name'][-1] for d in value]}."

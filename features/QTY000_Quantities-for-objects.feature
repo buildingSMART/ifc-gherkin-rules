@@ -4,7 +4,7 @@
 @E00020
 
 Feature: QTY000 - Quantities for Objects
-    The rule verifies the ability to define quantities of elements, such as their dimensions, volume, area, weight.
+    The rule verifies the presence of IFC entities used to define quantities of elements, such as their dimensions, volume, area, weight.
     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Definition/Quantity_Sets/content.html
 
 

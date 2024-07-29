@@ -1,26 +1,38 @@
 @industry-practice
 @GEM
-@version1
+@version2
 @E00020
 Feature: GEM051 - Presence of Geometric Context
 The rule verifies that a geometric context is present in the model.
 
 
-  Scenario: Agreement on having at least one geometric representation context - IFC2X3
+    Scenario Outline: Agreement on having at least one geometric representation context
 
-    Given A model with Schema "IFC2X3"
-    Given An IfcProject
-    Given Its attribute RepresentationContexts
+      Given A model with Schema "<Schema>"
+      Given An <Entity>
+      Given Its attribute RepresentationContexts
 
-    Then Assert existence 
-    Then Its entity type is 'IfcGeometricRepresentationContext' including subtypes
+      Then Assert existence
+      Then Its entity type is 'IfcGeometricRepresentationContext' including subtypes
+
+      Examples:
+        | Schema  | Entity     |
+        | IFC2X3  | IfcProject |
+        | IFC4    | IfcContext |
+        | IFC4X3  | IfcContext |
 
 
-  Scenario: Agreement on having at least one geometric representation context - IFC4 & IFC4X3
+    Scenario Outline: Agreement on correct context types
 
-    Given A model with Schema "IFC4X3" or "IFC4"
-    Given An IfcContext
-    Given Its attribute RepresentationContexts
+      Given A model with Schema "<Schema>"
+      Given An <Entity>
+      Given Its attribute RepresentationContexts
+      Given its attribute ContextType
 
-    Then Assert existence 
-    Then Its entity type is 'IfcGeometricRepresentationContext' including subtypes
+      Then The value must be "Model" or "Plan" or "NotDefined"
+
+      Examples:
+        | Schema  | Entity     |
+        | IFC2X3  | IfcProject |
+        | IFC4    | IfcContext |
+        | IFC4X3  | IfcContext |

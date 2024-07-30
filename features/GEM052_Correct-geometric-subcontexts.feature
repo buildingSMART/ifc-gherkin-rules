@@ -3,7 +3,7 @@
 @version2
 @E00050
 Feature: GEM052 - Correct geometric subcontexts
-The rule verifies that there is a minimum of at least one subcontext per context. 
+The rule verifies that there is a minimum of at least one subcontext per context, that its attribute ContextIdentifier is provided (not empty) and its value is one of the allowed values in the list of shape representation identifiers.
 Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
 
     Scenario: Each geometric context must have a subcontext

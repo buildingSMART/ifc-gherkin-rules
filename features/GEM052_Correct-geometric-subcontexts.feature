@@ -8,7 +8,8 @@ Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
 The context identifier shall be one of the values in the list of allowed shape representation identifiers.
 
     Scenario: Each geometric context must have a subcontext
-    
+
+        Given a model with Schema "IFC4.3" or "IFC4"
         Given an IfcGeometricRepresentationContext without subtypes
     
         Then HasSubContexts = not empty
@@ -27,3 +28,10 @@ The context identifier shall be one of the values in the list of allowed shape r
             | IFC4.3 | valid_RepresentationIdentifier_IFC4.3.csv |
             | IFC4   | valid_RepresentationIdentifier_IFC4.csv |
 
+
+    Scenario: Context identifier must not be empty
+
+        Given a model with Schema "IFC4.3" or "IFC4"
+        Given An IfcGeometricRepresentationSubContext
+        
+        Then ContextIdentifier = not empty

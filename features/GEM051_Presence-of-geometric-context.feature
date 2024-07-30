@@ -27,9 +27,8 @@ The rule verifies that a geometric context is present in the model, and has a va
       Given A model with Schema "<Schema>"
       Given An <Entity>
       Given Its attribute RepresentationContexts
-      Given its attribute ContextType
-
-      Then The value must be "Model" or "Plan" or "NotDefined"
+      
+      Then ContextType = "Model" or "Plan" or "NotDefined"
 
       Examples:
         | Schema  | Entity     |

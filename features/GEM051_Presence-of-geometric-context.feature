@@ -3,7 +3,7 @@
 @version2
 @E00020
 Feature: GEM051 - Presence of Geometric Context
-The rule verifies that a geometric context is present in the model.
+The rule verifies that a geometric context is present in the model, and has a valid ContextType.
 
 
     Scenario Outline: Agreement on having at least one geometric representation context

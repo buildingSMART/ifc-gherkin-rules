@@ -254,7 +254,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4.3
 
-    Given A model with Schema "IFC4X3"
+    Given A model with Schema "IFC4.3"
     Given an <Entity>
 
     Then its type is not <Entity> excluding subtypes

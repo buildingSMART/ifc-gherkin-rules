@@ -24,6 +24,6 @@ The context identifier should be one of the agreed values.
 
         Examples: 
             | schema | source |
-            | IFC4X3 | valid_RepresentationIdentifier_IFC4.3.csv |
+            | IFC4.3 | valid_RepresentationIdentifier_IFC4.3.csv |
             | IFC4   | valid_RepresentationIdentifier_IFC4.csv |
 

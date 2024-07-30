@@ -19,7 +19,7 @@ The rule verifies that a geometric context is present in the model.
         | Schema  | Entity     |
         | IFC2X3  | IfcProject |
         | IFC4    | IfcContext |
-        | IFC4X3  | IfcContext |
+        | IFC4.3  | IfcContext |
 
 
     Scenario Outline: Agreement on correct context types

@@ -130,10 +130,10 @@ class RuleCreationConventions(ConfiguredBaseModel):
             )
 
     @field_validator('tags')
-    def do_validate_tags(cls, value) -> dict:
+    def do_validate_tags(cls, value, values) -> dict:
         validator = ValidatorHelper()
         validated_tags = validator.validate_tags(value)
-        if validated_tags != 'passed':
+        if validated_tags != 'passed' and not re.match(r"^IFC\d{3} - .+", values.data.get('feature').name):
             raise ProtocolError(
                 value=validated_tags['value'],
                 message=validated_tags['message']

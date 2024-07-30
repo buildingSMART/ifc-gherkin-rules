@@ -1,8 +1,8 @@
-@IBP
+@BLT
 @industry-practice
-@version1
+@version2
 
-Feature: IBP001 - Stair decomposition
+Feature: BLT002 - Stair decomposition
 
 The rule verifies that stair elements are properly aggregated in accordance with the Stair Decomposition Table, as outlined in the best practices.
 The possible allowed breakdown can be found in the csv file in the folder 'features/resources/stair_DecompositionTable.csv'

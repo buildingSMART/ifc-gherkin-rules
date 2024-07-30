@@ -315,7 +315,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario: Check for deprecated property set - IFC4.3
 
-    Given A model with Schema "IFC4X3"
+    Given A model with Schema "IFC4.3"
     Given an IfcPropertySet
 
     Then Name is not 'Pset_Draughting'

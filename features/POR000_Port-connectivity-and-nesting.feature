@@ -3,7 +3,7 @@
 @version1
 @E00020
 
-Feature: POR000 - Port Connectivity & Nesting
+Feature: POR000 - Port Connectivity and Nesting
     The rule verifies the presence of IFC entities used to define ports (as means for an element to connect to other elements) and the relationship that is made between two ports.
     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Connectivity/Element_Connectivity/Port_Connectivity/content.html
 

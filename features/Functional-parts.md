@@ -1,5 +1,3 @@
-# Functional parts
-
 Below is the list of the IFC functional parts.
 
 | TAG | FUNCTIONAL PART                   | DESCRIPTION                                                                                                                                                                                                                                                                                                                                       |

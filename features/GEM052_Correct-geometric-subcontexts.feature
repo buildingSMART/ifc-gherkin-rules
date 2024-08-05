@@ -1,30 +1,36 @@
 @industry-practice
 @GEM
-@version1
+@version2
 @E00050
 Feature: GEM052 - Correct geometric subcontexts
-The rule verifies that there is a minimum of at least one subcontext per context. 
+The rule verifies that there is a minimum of at least one subcontext per context, that its attribute ContextIdentifier is provided (not empty) and its value is one of the allowed values in the list of shape representation identifiers.
 Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
-The context identifier should be one of the agreed values.
 
-Scenario: Each geometric context must have a subcontext
+    Scenario: Each geometric context must have a subcontext
+
+        Given a model with Schema "IFC4.3" or "IFC4"
+        Given an IfcGeometricRepresentationContext without subtypes
     
-    Given an IfcGeometricRepresentationContext without subtypes
-    
-    Then HasSubContexts = not empty
+        Then HasSubContexts = not empty
 
 
-Scenario: Constraints on context type - IFC4.3
-    Given a model with Schema "IFC4.3"
-    Given An IfcGeometricRepresentationSubContext
-    Given Its attribute ContextIdentifier
+    Scenario Outline: Constraints on context identifier 
 
-    Then The values must be in 'valid_RepresentationIdentifier_IFC4.3.csv'
+        Given a model with Schema "<schema>"
+        Given An IfcGeometricRepresentationSubContext
+        Given Its attribute ContextIdentifier
 
-Scenario: Constraints on context type - IFC4
-    Given a model with Schema "IFC4"
-    Given An IfcGeometricRepresentationSubContext
-    Given Its attribute ContextType
+        Then The values must be in '<source>'
 
-    Then The values must be in 'valid_RepresentationType_IFC4.csv'
+        Examples: 
+            | schema | source |
+            | IFC4.3 | valid_RepresentationIdentifier_IFC4.3.csv |
+            | IFC4   | valid_RepresentationIdentifier_IFC4.csv |
 
+
+    Scenario: Context identifier must not be empty
+
+        Given a model with Schema "IFC4.3" or "IFC4"
+        Given An IfcGeometricRepresentationSubContext
+        
+        Then ContextIdentifier = not empty

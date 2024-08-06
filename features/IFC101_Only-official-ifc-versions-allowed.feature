@@ -1,5 +1,4 @@
 @critical
-@IFC
 @version1
 @W00030
 Feature: IFC101 - Only official IFC versions allowed

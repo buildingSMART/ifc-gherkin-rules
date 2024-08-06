@@ -1,4 +1,3 @@
-@IFC
 @version1
 @E00030
 @implementer-agreement

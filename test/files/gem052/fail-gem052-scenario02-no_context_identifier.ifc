@@ -2,7 +2,7 @@ ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION (('ViewDefinition [Alignment-basedReferenceView]'), '2;1');
 FILE_NAME ('linear-placement-of-signal.ifc', '2023-07-11T10:16:10', ('redacted'), ('redacted'), 'redacted', 'redacted', 'redacted');
-FILE_SCHEMA (('IFC4'));
+FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
 #1 = IFCOWNERHISTORY(#2, #6, .READWRITE., .NOCHANGE., $, $, $, 1689070570);
@@ -21,7 +21,7 @@ DATA;
 #14 = IFCAXIS2PLACEMENT3D(#15, $, $);
 #15 = IFCCARTESIANPOINT((0., 0., 0.));
 #16 = IFCDIRECTION((0., 1.));
-#17 = IFCGEOMETRICREPRESENTATIONSUBCONTEXT('Wrong_Value', 'Model', *, *, *, *, #13, $, .MODEL_VIEW., $);
+#17 = IFCGEOMETRICREPRESENTATIONSUBCONTEXT($, 'Model', *, *, *, *, #13, $, .MODEL_VIEW., $);
 
 #2268 = IFCSITE('0RX$Ll4DT2Mu_tepecO2Cl', #1, 'Default Site Name', $, $, #2269, $, $, .ELEMENT., $, $, $, $, $);
 #2269 = IFCLOCALPLACEMENT($, #2272);

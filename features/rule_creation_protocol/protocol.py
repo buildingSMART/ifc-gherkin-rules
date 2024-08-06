@@ -117,6 +117,48 @@ class RuleCreationConventions(ConfiguredBaseModel):
     filename: str
     readme: str
 
+    @model_validator(mode='before')
+    def validate_tags(cls, values) -> dict:
+        """
+        Validate whether the tags are valid tags as described in the documentation (e.g. ALB, ALA, GEM, etc.)
+        An exception is made for the the crucial IFC rules which are not required to have a tag
+        Next to this, check if functional parts in feature name, feature filename and IFC input match
+        """
+        if not re.match(r"^IFC\d{3} - .+", values.get('feature', {}).get('name', '')): # skip with 'IFC' rules
+            validator = ValidatorHelper()
+
+            def extract_functional_part(value, key):
+                try:
+                    match = re.search(r"[a-z]{3}\d{3}", values.get(key).get('name'), re.IGNORECASE)
+                    return match.group(0)[:3].lower() #e.g. return 'sps' from SPS001
+                except AttributeError:
+                    raise ProtocolError(
+                        value=value.get(key).get('name'),
+                        message=f"No functional part found in the {key}. Please check the naming convention."
+                    )
+                
+            fp_tags_found = {
+                'feature_name' : extract_functional_part(values, 'feature'),
+                'feature_filename' : extract_functional_part(values, 'feature_filename'),
+                'ifc_input' : extract_functional_part(values, 'ifc_input')
+            }
+
+            unique_fp_tags = set(fp_tags_found.values())
+            if not len(unique_fp_tags) == 1:
+                raise ProtocolError(
+                    value=unique_fp_tags,
+                    message="Functional parts do not match across feature name, feature filename, and IFC input."
+                )
+            
+            validated_tags = validator.validate_tags(values['tags'])
+            if validated_tags != 'passed':
+                raise ProtocolError(
+                    value=validated_tags['value'],
+                    message=validated_tags['message']
+                )
+            
+        return values
+
     @field_validator('feature_filename')
     def validate_feature_names(cls, value, values):
         def parse_f_names(f: str) -> str:
@@ -128,18 +170,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
                 value = feature_name,
                 message = f"Feature name {feature_name} and feature filename {feature_filename} should be the same"
             )
-
-    @field_validator('tags')
-    def do_validate_tags(cls, value) -> dict:
-        validator = ValidatorHelper()
-        validated_tags = validator.validate_tags(value)
-        if validated_tags != 'passed':
-            raise ProtocolError(
-                value=validated_tags['value'],
-                message=validated_tags['message']
-            )
-        return value
-
+        
     @field_validator('ifc_input')
     def validate_ifc_input(cls, value):
         # @todo implement

@@ -4,6 +4,7 @@ import operator
 import ifcopenshell
 from behave import register_type
 from utils import geometry, ifc, misc
+from utils.subtype_handling import SubTypeHandling, check_entity_type
 from parse_type import TypeBuilder
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
@@ -17,9 +18,6 @@ class ComparisonOperator (Enum):
     EQUAL = auto()
     NOT_EQUAL = auto()
 
-class SubTypeHandling (Enum):
-    INCLUDE = auto()
-    EXCLUDE = auto()
 
 register_type(include_or_exclude_subtypes=TypeBuilder.make_enum({"including subtypes": SubTypeHandling.INCLUDE, "excluding subtypes": SubTypeHandling.EXCLUDE }))
 register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
@@ -29,25 +27,6 @@ register_type(equal_or_not_equal=TypeBuilder.make_enum({
     "is not": ComparisonOperator.NOT_EQUAL,
     "is": ComparisonOperator.EQUAL,
 }))
-
-def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, handling: SubTypeHandling) -> bool:
-    """
-    Check if the instance is of a specific entity type or its subtype.
-    INCLUDE will evaluate to True if inst is a subtype of entity_type while the second function for EXCLUDE will evaluate to True only for an exact type match
-
-    Parameters:
-    inst (ifcopenshell.entity_instance): The instance to check.
-    entity_type (str): The entity type to check against.
-    handling (SubTypeHandling): Determines whether to include subtypes or not.
-
-    Returns:
-    bool: True if the instance matches the entity type criteria, False otherwise.
-    """
-    handling_functions = {
-        SubTypeHandling.INCLUDE: lambda inst, entity_type: inst.is_a(entity_type),
-        SubTypeHandling.EXCLUDE: lambda inst, entity_type: inst.is_a() == entity_type,
-    }
-    return handling_functions[handling](inst, entity_type)
 
 @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value}")
 @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value} {tail:include_or_exclude_subtypes}")

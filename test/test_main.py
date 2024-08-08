@@ -53,6 +53,8 @@ def test_invocation(filename):
 
     if base.startswith("fail-") and not any(description == 'Rule disabled' for description in [result[4] for result in gherkin_results]):
         assert len(results) > 0
+    elif bool(re.search(r'000-activated', base)):
+        assert len(results) > 0
     elif base.startswith("pass-"):
         assert len(results) == 0
 

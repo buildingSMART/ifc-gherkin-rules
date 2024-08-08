@@ -95,7 +95,7 @@ def handle_given(context, fn, **kwargs):
             context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
             pass
         else:
-            pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
+            pass # (1) -> context.applicable is set within the function, e.g. implementations with the 'global_rule' tag
     else:
         context._push('attribute') # for attribute stacking
         if 'at depth 1' in context.step.name: 
@@ -132,10 +132,7 @@ def handle_then(context, fn, **kwargs):
             if inst is None:
                 return
             top_level_index = current_path[0] if current_path else None
-            activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
-#TODO: refactor into a more general solution that works for all rules
-            if "GEM051" in context.feature.name and context.is_global_rule:
-                activation_inst = activation_instances[0]
+            activation_inst = misc.do_try(lambda: activation_instances[0] if not current_path else misc.do_try(lambda: activation_instances[top_level_index], activation_instances[0]), None)
             if isinstance(activation_inst, ifcopenshell.file):
                 activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
 
@@ -203,6 +200,7 @@ def handle_then(context, fn, **kwargs):
 
     # evokes behave error
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
+    pass
 
 def global_rule(func):
     @functools.wraps(func)

@@ -117,7 +117,8 @@ def handle_then(context, fn, **kwargs):
     activation_instances = misc.do_try(lambda: get_stack_tree(context)[-1], instances)
 
     #ensure the rule is not activated when there are no instances
-    if (lambda f: f(f))(lambda f: lambda data: bool(data) and (not isinstance(data, (list, tuple)) or any(f(f)(item) for item in data)))(context.instances):
+    #in case there are no instances but the rule is applicable (e.g. SPS001), then the rule is still activated and will return either a pass or an error
+    if misc.do_try(lambda: (lambda f: f(f))(lambda f: lambda data: bool(data) and (not isinstance(data, (list, tuple)) or any(f(f)(item) for item in data)))(context.instances), context.applicable):
         validation_outcome = ValidationOutcome(
             outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
             observed=None,
@@ -128,6 +129,7 @@ def handle_then(context, fn, **kwargs):
             validation_task_id=context.validation_task_id
         )
         context.gherkin_outcomes.append(validation_outcome)
+
 
     def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):

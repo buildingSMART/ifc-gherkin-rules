@@ -116,16 +116,18 @@ def handle_then(context, fn, **kwargs):
     # if 'instances' are not actual ifcopenshell.entity_instance objects, but e.g. tuple of string values then get the actual instances from the stack tree
     activation_instances = misc.do_try(lambda: get_stack_tree(context)[-1], instances)
 
-    validation_outcome = ValidationOutcome(
-        outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
-        observed=None,
-        expected=None,
-        feature=context.feature.name,
-        feature_version=misc.define_feature_version(context),
-        severity=OutcomeSeverity.EXECUTED,
-        validation_task_id=context.validation_task_id
-    )
-    context.gherkin_outcomes.append(validation_outcome)
+    #ensure the rule is not activated when there are no instances
+    if (lambda f: f(f))(lambda f: lambda data: bool(data) and (not isinstance(data, (list, tuple)) or any(f(f)(item) for item in data)))(context.instances):
+        validation_outcome = ValidationOutcome(
+            outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
+            observed=None,
+            expected=None,
+            feature=context.feature.name,
+            feature_version=misc.define_feature_version(context),
+            severity=OutcomeSeverity.EXECUTED,
+            validation_task_id=context.validation_task_id
+        )
+        context.gherkin_outcomes.append(validation_outcome)
 
     def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):

@@ -241,10 +241,10 @@ class RuleCreationConventions(ConfiguredBaseModel):
         
 
         """Check if test file start with pass or fail"""
-        if result not in ('pass', 'fail'):
+        if result not in ('pass', 'fail', 'activated'):
             raise ProtocolError(
                 value=value,
-                message=f"Name of the result file must start with 'pass' or 'fail'. In that case name starts with: {result}"
+                message=f"Name of the result file must start with 'pass', 'fail' or 'activated'. In that case name starts with: {result}"
             )
 
         """Check if a second part of the test file is a rule code"""

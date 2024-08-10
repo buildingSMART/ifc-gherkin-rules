@@ -11,7 +11,7 @@ Feature: ASM000 - Assemblies information
 
     Scenario: Check for activation
 
-    Given an IfcElement
+    Given an IfcElementAssembly
     Given its attribute Decomposes
     Given its entity type is 'IfcRelAggregates'
     Given its attribute RelatingObject

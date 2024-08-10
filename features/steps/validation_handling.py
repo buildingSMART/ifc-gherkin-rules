@@ -200,7 +200,6 @@ def handle_then(context, fn, **kwargs):
 
     # evokes behave error
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
-    pass
 
 def global_rule(func):
     @functools.wraps(func)

@@ -21,6 +21,16 @@ def reverse_operands(fn):
     return inner
 
 
+def recursive_flatten(lst):
+    flattened_list = []
+    for item in lst:
+        if isinstance(item, (tuple, list)):
+            flattened_list.extend(recursive_flatten(item))
+        else:
+            flattened_list.append(item)
+    return flattened_list
+
+
 def do_try(fn, default=None):
     try:
         return fn()

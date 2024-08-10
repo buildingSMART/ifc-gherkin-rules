@@ -118,7 +118,8 @@ def handle_then(context, fn, **kwargs):
 
     #ensure the rule is not activated when there are no instances
     #in case there are no instances but the rule is applicable (e.g. SPS001), then the rule is still activated and will return either a pass or an error
-    if misc.do_try(lambda: (lambda f: f(f))(lambda f: lambda data: bool(data) and (not isinstance(data, (list, tuple)) or any(f(f)(item) for item in data)))(context.instances), context.applicable):
+    is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
+    if is_activated:
         validation_outcome = ValidationOutcome(
             outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
             observed=None,

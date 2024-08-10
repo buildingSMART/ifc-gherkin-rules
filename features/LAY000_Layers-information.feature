@@ -16,4 +16,4 @@ Feature: LAY000 - Layers Information
     Given its attribute Representations
     Given its attribute LayerAssignments
 
-    Then The IFC model contains information on geometry layers
+    Then The IFC model contains information on the selected functional part

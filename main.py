@@ -48,8 +48,7 @@ def do_try(fn, default=None):
 
 def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None):
     cwd = os.path.dirname(__file__)
-    remote = get_remote(cwd)
-
+    
     fd, jsonfn = tempfile.mkstemp("pytest.json")
 
     tag_filter = []
@@ -103,6 +102,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
         cwd=cwd, **kwargs)
 
     if execution_mode == ExecutionMode.TESTING:
+        remote = get_remote(cwd)
         with open(jsonfn) as f:
             try:
                 log = json.load(f)

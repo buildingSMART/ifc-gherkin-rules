@@ -168,20 +168,21 @@ def handle_then(context, fn, **kwargs):
                     else validation_outcome.expected)
 
                 context.gherkin_outcomes.append(validation_outcome)
+            
+            # Currently, we should not inject passed outcomes for each individual instance to the databse
+            # if not step_results:
 
-            if not step_results:
-
-                validation_outcome = ValidationOutcome(
-                    outcome_code=ValidationOutcomeCode.PASSED,  # todo @gh "Rule passed" # deactivated until code table is added to django model
-                    observed=None,
-                    expected=None,
-                    feature=context.feature.name,
-                    feature_version=misc.define_feature_version(context),
-                    severity=OutcomeSeverity.PASSED,
-                    instance_id = safe_method_call(activation_inst, 'id', None),
-                    validation_task_id=context.validation_task_id
-                )
-                context.gherkin_outcomes.append(validation_outcome)
+            #     validation_outcome = ValidationOutcome(
+            #         outcome_code=ValidationOutcomeCode.PASSED,  # todo @gh "Rule passed" # deactivated until code table is added to django model
+            #         observed=None,
+            #         expected=None,
+            #         feature=context.feature.name,
+            #         feature_version=misc.define_feature_version(context),
+            #         severity=OutcomeSeverity.PASSED,
+            #         instance_id = safe_method_call(activation_inst, 'id', None),
+            #         validation_task_id=context.validation_task_id
+            #     )
+            #     context.gherkin_outcomes.append(validation_outcome)
 
 
 

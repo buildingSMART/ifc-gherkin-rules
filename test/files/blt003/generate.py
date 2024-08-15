@@ -30,7 +30,7 @@ for validity, elem in [
     ("fail", "IfcRamp"), 
     ("fail", "IfcRampFlight") ]:
 
-    f = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD1")
+    f = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD2")
     building_parent = proj = f.by_type("IfcProject")[0]
     owner = f.by_type("IfcOwnerHistory")[0]
     owner.ChangeAction = "ADDED"       

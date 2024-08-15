@@ -25,7 +25,7 @@ def step_impl(context, inst, path=None, attr=None):
     #  - is a bit experimental
     #  - requires more work on the python end because we need to perform edge-edge
     #    intersections on all combinations of possible edge curve types.
-    # Therefore, fore the time being, we set this to False
+    # Therefore, for the time being, we set this to False
     #  - we rely on the tesselated output (linear segments even for curved segments)
     #  - this is a dependency on OpenCASCADE which is a bit of a black box
     #  - but use a relatively low deflection tolerance (the max distance between actual and approximated points)
@@ -96,6 +96,9 @@ def step_impl(context, inst, path=None, attr=None):
             if isinstance(edge, numpy.ndarray):
                 ps = edge
             else:
+                # @nb this branch is currently not active, only if we later
+                # decide to set USE_MAPPING = True, in which case we need to
+                # implement support for the various edge curves.
                 if edge.basis:
                     raise NotImplementedError()
                 ps = numpy.array([

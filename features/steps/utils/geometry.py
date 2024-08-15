@@ -1,5 +1,8 @@
+from dataclasses import dataclass
 import operator
 import math
+
+import numpy as np
 
 from .misc import is_a
 from .ifc import get_precision_from_contexts, recurrently_get_entity_attr
@@ -95,3 +98,42 @@ def is_closed(context, instance):
     precision = get_precision_from_contexts(entity_contexts)
     points_coordinates = get_points(instance)
     return math.dist(points_coordinates[0], points_coordinates[-1]) < precision
+
+
+@dataclass
+class intersection_information:
+    is_parallel : bool
+    point_on_a : np.ndarray
+    point_on_b : np.ndarray
+    distance : float
+
+def nearest_points_on_line_segments(a0, a1, b0, b1, tol=1.e-6):
+    r = b0 - a0
+    u = a1 - a0
+    v = b1 - b0
+
+    ru = np.dot(r, u)
+    rv = np.dot(r, v)
+    uu = np.dot(u, u)
+    uv = np.dot(u, v)
+    vv = np.dot(v, v)
+
+    det = uu * vv - uv * uv
+    s = t = 0
+
+    is_parallel = math.sqrt(det) < tol * math.sqrt(uu) * math.sqrt(vv)
+    if is_parallel:
+        s = np.clip(ru / uu, 0, 1)
+        t = 0
+    else:
+        s = np.clip((ru * vv - rv * uv) / det, 0, 1)
+        t = np.clip((ru * uv - rv * uu) / det, 0, 1)
+
+    S = np.clip((t * uv + ru) / uu, 0, 1)
+    T = np.clip((s * uv - rv) / vv, 0, 1)
+
+    A = a0 + S * u
+    B = b0 + T * v
+
+    distance = np.linalg.norm(B - A)
+    return intersection_information(is_parallel, A, B, distance)

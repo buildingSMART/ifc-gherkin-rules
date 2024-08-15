@@ -241,10 +241,10 @@ class RuleCreationConventions(ConfiguredBaseModel):
         
 
         """Check if test file start with pass or fail"""
-        if result not in ('pass', 'fail', 'activated'):
+        if result not in ('pass', 'fail', 'na'):
             raise ProtocolError(
                 value=value,
-                message=f"Name of the result file must start with 'pass', 'fail' or 'activated'. In that case name starts with: {result}"
+                message=f"Name of the result file must start with 'pass', 'fail' or 'na'. In that case name starts with: {result}"
             )
 
         """Check if a second part of the test file is a rule code"""
@@ -310,7 +310,7 @@ def correct_character_use(file_name):
 
 
 def validate_ifc_path(file_name):
-    expectedResult = Literal("pass") | Literal("fail")
+    expectedResult = Literal("pass") | Literal("fail") | Literal("na")
     ruleCode = Combine(Word(alphas, exact=3) + Word(nums, exact=3))
     scenario = pyparsing.Optional(Literal("-") + Literal("scenario") + Word(nums, exact=2))
     description = Combine(Word(alphanums + "_+") + Literal(".ifc"))

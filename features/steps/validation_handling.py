@@ -226,7 +226,7 @@ class gherkin_ifc():
 def execute_step(fn):
     is_global_rule = False
     is_full_stack_rule = False
-    while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
+    while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in case of catching multiple string platterns
         is_global_rule = is_global_rule or getattr(fn, 'global_rule', False)
         is_full_stack_rule = is_full_stack_rule or getattr(fn, 'full_stack_rule', False)
         fn = fn.__wrapped__

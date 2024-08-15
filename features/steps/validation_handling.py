@@ -11,6 +11,7 @@ from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOut
 
 from behave.runner import Context
 from typing import Any
+from main import ExecutionMode
 
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str
@@ -120,17 +121,29 @@ def handle_then(context, fn, **kwargs):
     #in case there are no instances but the rule is applicable (e.g. SPS001), then the rule is still activated and will return either a pass or an error
     is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
     if is_activated:
-        validation_outcome = ValidationOutcome(
-            outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
-            observed=None,
-            expected=None,
-            feature=context.feature.name,
-            feature_version=misc.define_feature_version(context),
-            severity=OutcomeSeverity.EXECUTED,
-            validation_task_id=context.validation_task_id
-        )
+         # in case we're testing, add a custom behave error to flag the rule as passed for the CI/CD pipeline
+        if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
+            validation_outcome = ValidationOutcome(
+                    outcome_code=ValidationOutcomeCode.PASSED,
+                    feature=context.feature.name,
+                    observed=None, 
+                    expected=None,
+                    feature_version=misc.define_feature_version(context),
+                    severity= OutcomeSeverity.ERROR,
+                    validation_task_id=context.validation_task_id
+                )
+        else: # in Production, the rule is marked as green when executed and there are no subsequent errors
+            validation_outcome = ValidationOutcome(
+                outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
+                observed="passed",
+                expected=None,
+                feature=context.feature.name,
+                feature_version=misc.define_feature_version(context),
+                severity=OutcomeSeverity.EXECUTED,
+                validation_task_id=context.validation_task_id
+            )
         context.gherkin_outcomes.append(validation_outcome)
-
+        
 
     def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):

@@ -69,7 +69,10 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         pred = operator.ne
     elif comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
         pred = operator.ne
-        value = misc.do_try(lambda : set(map(ast.literal_eval, map(str.strip, value.split(' or ')))), value)
+        try:
+            value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
+        except ValueError:
+            print('ValueError: entity must be typed in quotes')
     else:
         try:
             value = ast.literal_eval(value)
@@ -82,9 +85,9 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
     observed_v = ()
     if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
         observed_v = misc.do_try(lambda : inst.is_a(), ())
-        if pred(check_entity_type(inst, value, tail), True):
+        values = {value} if isinstance(value, str) else value
+        if any(pred(check_entity_type(inst, v, tail), True) for v in values):
             entity_is_applicable = True
-
     else:
         observed_v = getattr(inst, attribute, ()) or ()
         if comparison_op.name == 'NOT_EQUAL':

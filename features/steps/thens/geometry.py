@@ -79,7 +79,13 @@ def step_impl(context, inst, path=None, attr=None):
         try:
             settings = ifcopenshell.geom.settings(MESHER_LINEAR_DEFLECTION=deflection)
         except:
-            settings = ifcopenshell.geom.settings()
+            settings = ifcopenshell.geom.settings(
+                INCLUDE_CURVES=True,
+                # Don't let IfcOpenShell fix wire intersections for us,
+                # as it is exactly the point to detect these. This seems
+                # to only affect the polyloops (BRP001)
+                NO_WIRE_INTERSECTION_CHECK=True
+            )
             settings.set_deflection_tolerance(deflection)
 
         if USE_MAPPING:

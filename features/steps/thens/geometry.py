@@ -97,6 +97,14 @@ def step_impl(context, inst, path=None, attr=None):
             edge_idxs = numpy.array(loop.edges).reshape((-1, 2))
             bounds = [verts[edge_idxs]]
 
+    # tfk: for debugging, note only plots X and Y
+    #
+    # import matplotlib.pyplot as plt
+    # for edges in bounds:
+    #     for i, edge in enumerate(edges):
+    #         plt.plot(edge.T[0], edge.T[1])
+    # plt.show()
+
     for edges in bounds:
         for i, edge in enumerate(edges):
             if isinstance(edge, numpy.ndarray):

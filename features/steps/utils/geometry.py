@@ -119,6 +119,10 @@ def nearest_points_on_line_segments(a0, a1, b0, b1, tol=1.e-6):
     vv = np.dot(v, v)
 
     det = uu * vv - uv * uv
+    # The determinant represents the squared sine of the angle between
+    # the two vectors uu and vv. Hence in reality cannot be negative,
+    # only due to rounding errors which are clipped with the min() function.
+    det = max(0., det)
     s = t = 0
 
     is_parallel = math.sqrt(det) < tol * math.sqrt(uu) * math.sqrt(vv)

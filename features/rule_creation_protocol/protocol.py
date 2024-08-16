@@ -98,10 +98,12 @@ class Naming(ConfiguredBaseModel):
         valid_separators = values.data['valid_separators']
         unvalid_separators = [separator for separator in separators if separator != valid_separators]
         if any(unvalid_separators):
-            raise ProtocolError(
-                value = separators,
-                message = f"expected {valid_separators} but found the following unvalid seperators {unvalid_separators} for name {values.data['name']}"
-            )
+            # For feature descriptions in the feature file, we also allow hyphens as separators. For example, "self-intersection" in SWE001.
+            if not set(unvalid_separators).issubset('-') and not valid_separators == ' ':
+                raise ProtocolError(
+                    value = separators,
+                    message = f"expected {valid_separators} but found the following unvalid seperators {unvalid_separators} for name {values.data['name']}"
+                )
         return value, values
 
 

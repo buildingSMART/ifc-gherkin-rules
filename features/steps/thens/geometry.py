@@ -5,6 +5,94 @@ from validation_handling import full_stack_rule, gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
+import ifcopenshell
+import ifcopenshell.geom
+import numpy
+from rtree import index
+
+def generate_bounds(vs, indices):
+    ds = len(indices.shape)
+    assert ds in (1,2)
+    if ds == 1:
+        edges_idxs = numpy.array(list(zip(indices, numpy.roll(indices, -1))))
+        return [vs[edges_idxs]]
+    else:
+        bounds = []
+        for bnd in indices:
+            edges_idxs = numpy.array(list(zip(bnd, numpy.roll(bnd, -1))))
+            edges = vs[edges_idxs]
+            bounds.append(edges)
+        return bounds
+    
+def handle_polygonal_faces(inst, path, attr):
+    """
+    Handles geometry processing for IfcIndexedPolygonalFace instances.
+    """
+    faceset = path[0]
+    assert faceset.is_a('IfcPolygonalFaceSet')
+    vs = numpy.array(faceset.Coordinates.CoordList)
+    indices = numpy.array(getattr(inst, attr)) - 1
+    ds = len(indices.shape)
+    assert ds in (1, 2)
+    if ds == 1:
+        edges_idxs = numpy.array(list(zip(indices, numpy.roll(indices, -1))))
+        return [vs[edges_idxs]]
+    else:
+        bounds = []
+        for bnd in indices:
+            edges_idxs = numpy.array(list(zip(bnd, numpy.roll(bnd, -1))))
+            edges = vs[edges_idxs]
+            bounds.append(edges)
+        return bounds
+    
+def generate_bounds_for_other_shapes(inst, settings, use_mapping):
+    """
+    Generates bounds for non-IfcIndexedPolygonalFace shapes.
+    """
+    import ifcopenshell
+    if use_mapping:
+        loop = ifcopenshell.ifcopenshell_wrapper.map_shape(settings, inst.wrapped_data)
+        return [list(loop.children)]
+    else:
+        loop = ifcopenshell.geom.create_shape(settings, inst)
+        verts = numpy.array(loop.verts).reshape((-1, 3))
+        edge_idxs = numpy.array(loop.edges).reshape((-1, 2))
+        return [verts[edge_idxs]]
+    
+def extract_points(edge):
+    # Extract start and end points from an edge.
+    if isinstance(edge, numpy.ndarray):
+        return edge
+    else:
+        if edge.basis:
+            raise NotImplementedError()
+        return numpy.array([edge.start.coords, edge.end.coords])
+
+def calculate_bounding_box(points, precision):
+    return (points.min(axis=0) - precision).tolist() + (points.max(axis=0) + precision).tolist()
+    
+def insert_edges_into_index(edges, idx, precision):
+    for i, edge in enumerate(edges):
+        ps = extract_points(edge)
+        bounding_box = calculate_bounding_box(ps, precision)
+        idx.insert(i, bounding_box)
+
+def within_precision_range(ps, qs, precision):
+    # neighbours should always intersect, but just cannot
+    # be parallel and cross
+    p_vec = ps[1] - ps[0]
+    p_b = numpy.linalg.norm(p_vec)
+    q_a = (qs[0] - ps[0]) @ p_vec
+    q_b = (qs[1] - ps[0]) @ p_vec
+    if q_a <= precision and q_b <= precision:
+        # both on or behind ps[0]
+        return True
+    elif q_a >= p_b - precision and q_b >= p_b - precision:
+        # both on or behind ps[1]
+        return True
+    else:
+        return False
+
 @gherkin_ifc.step("There must be no self-intersections")
 @gherkin_ifc.step("There must be no self-intersections for attribute {attr}")
 @full_stack_rule
@@ -53,22 +141,7 @@ def step_impl(context, inst, path=None, attr=None):
         #
         # For the same reason we cannot call create_shape() on these because
         # they don't encapsulate all data required to evaluate the geometry.
-        faceset = path[0]
-        assert faceset.is_a('IfcPolygonalFaceSet')
-        vs = numpy.array(faceset.Coordinates.CoordList)
-        # -1 for express' one-based indexing
-        indices = numpy.array(getattr(inst, attr)) - 1
-        ds = len(indices.shape)
-        assert ds in (1,2)
-        if ds == 1:
-            edges_idxs = numpy.array(list(zip(indices, numpy.roll(indices, -1))))
-            bounds = [vs[edges_idxs]]
-        else:
-            bounds = []
-            for bnd in indices:
-                edges_idxs = numpy.array(list(zip(bnd, numpy.roll(bnd, -1))))
-                edges = vs[edges_idxs]
-                bounds.append(edges)
+        bounds = handle_polygonal_faces(inst, path, attr)
     else:
         # We set deflection (max deviation from real to approximated) based on the precision
         # it needs to be significantly larger than the precision value, because otherwise we
@@ -88,17 +161,10 @@ def step_impl(context, inst, path=None, attr=None):
             )
             settings.set_deflection_tolerance(deflection)
 
-        if USE_MAPPING:
-            loop = ifcopenshell.ifcopenshell_wrapper.map_shape(ifcopenshell.geom.settings(), inst.wrapped_data)
-            bounds = [list(loop.children)]
-        else:
-            loop = ifcopenshell.geom.create_shape(settings, inst)
-            verts = numpy.array(loop.verts).reshape((-1, 3))
-            edge_idxs = numpy.array(loop.edges).reshape((-1, 2))
-            bounds = [verts[edge_idxs]]
+        bounds = generate_bounds_for_other_shapes(inst, settings, USE_MAPPING)
 
     # tfk: for debugging, note only plots X and Y
-    #
+    
     # import matplotlib.pyplot as plt
     # for edges in bounds:
     #     for i, edge in enumerate(edges):
@@ -106,57 +172,26 @@ def step_impl(context, inst, path=None, attr=None):
     # plt.show()
 
     for edges in bounds:
-        for i, edge in enumerate(edges):
-            if isinstance(edge, numpy.ndarray):
-                ps = edge
-            else:
-                # @nb this branch is currently not active, only if we later
-                # decide to set USE_MAPPING = True, in which case we need to
-                # implement support for the various edge curves.
-                if edge.basis:
-                    raise NotImplementedError()
-                ps = numpy.array([
-                    edge.start.coords,
-                    edge.end.coords
-                ])
-            idx.insert(i, (ps.min(axis=0) - precision).tolist() + (ps.max(axis=0) + precision).tolist())
+        insert_edges_into_index(edges, idx, precision)
+        # @nb this branch is currently not active, only if we later
+            # decide to set USE_MAPPING = True, in which case we need to
+            # implement support for the various edge curves.
 
+        # check for intersections
         for i, edge in enumerate(edges):
-            if isinstance(edge, numpy.ndarray):
-                ps = edge
-            else:
-                ps = numpy.array([
-                    edge.start.coords,
-                    edge.end.coords
-                ])
+            ps = extract_points(edge)
             ps_flat = numpy.concatenate((ps.min(axis=0),ps.max(axis=0)))
             neighbours = {(i - 1) % len(edges), (i + 1) % len(edges)}
             for j in idx.intersection(ps_flat):
                 if i <= j:
                     continue
-                if isinstance(edges[j], numpy.ndarray):
-                    qs = edges[j]
-                else:
-                    qs = numpy.array([
-                        edges[j].start.coords,
-                        edges[j].end.coords
-                    ])
+                qs = extract_points(edges[j])
                 info = geometry.nearest_points_on_line_segments(*ps, *qs, tol=precision)
                 if j in neighbours:
                     # neighbours should always intersect, but just cannot
                     # be parallel and cross
                     if info.is_parallel:
-                        p_vec = ps[1] - ps[0]
-                        p_b = numpy.linalg.norm(p_vec)
-                        q_a = (qs[0] - ps[0]) @ p_vec
-                        q_b = (qs[1] - ps[0]) @ p_vec
-                        if q_a <= precision and q_b <= precision:
-                            # both on or behind ps[0]
-                            pass
-                        elif q_a >= p_b - precision and q_b >= p_b - precision:
-                            # both on or behind ps[1]
-                            pass
-                        else:
+                        if not within_precision_range(ps, qs, precision):
                             yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
                 else:
                     if info.distance < precision:

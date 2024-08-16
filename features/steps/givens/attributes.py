@@ -21,6 +21,12 @@ class SubTypeHandling (Enum):
     INCLUDE = auto()
     EXCLUDE = auto()
 
+class StartOrNotStart (Enum):
+    STARTS = auto()
+    NOT_START = auto()
+    STARTS_LITERALLY = auto()
+    NOT_START_LITERALLY = auto()
+
 register_type(include_or_exclude_subtypes=TypeBuilder.make_enum({"including subtypes": SubTypeHandling.INCLUDE, "excluding subtypes": SubTypeHandling.EXCLUDE }))
 register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
 register_type(equal_or_not_equal=TypeBuilder.make_enum({
@@ -29,6 +35,11 @@ register_type(equal_or_not_equal=TypeBuilder.make_enum({
     "is not": ComparisonOperator.NOT_EQUAL,
     "is": ComparisonOperator.EQUAL,
 }))
+
+register_type(start_or_not_start=TypeBuilder.make_enum({"starts": StartOrNotStart.STARTS,
+                                                        "does not start": StartOrNotStart.NOT_START,
+                                                        "starts literally" : StartOrNotStart.STARTS_LITERALLY,
+                                                        "does not start literally" : StartOrNotStart.NOT_START_LITERALLY}))
 
 def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, handling: SubTypeHandling) -> bool:
     """
@@ -135,14 +146,23 @@ def step_impl(context, file_or_model, field, values):
 def step_impl(context, inst, attribute, tail="single"):
     yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity = OutcomeSeverity.PASSED)
 
-@gherkin_ifc.step("Its {attribute} attribute {condition} with {prefix}")
+@gherkin_ifc.step("Its {attribute} attribute {condition:start_or_not_start} with {prefix}")
+@gherkin_ifc.step("Its {attribute} attribute {condition:start_or_not_start} with {literal} {prefix}")
 def step_impl(context, inst, attribute, condition, prefix):
-    assert condition in ('starts', 'does not start')
-    if condition == 'starts':
-        if hasattr(inst, attribute) and str(getattr(inst, attribute, '')).startswith(prefix):
+    if condition.name.lower() == 'starts':
+        if hasattr(inst, attribute) and str(getattr(inst, attribute, '')).lower().startswith(prefix.lower()):
             yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
-    elif condition == 'does not start':
-        if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')).startswith(prefix):
+
+    elif condition.name.lower() == 'starts_literally':
+        if hasattr(inst, attribute) and str(getattr(inst, attribute, '')) == prefix:
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+
+    elif condition.name.lower() == 'not_start':
+        if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')).lower().startswith(prefix.lower()):
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+
+    elif condition.name.lower() == 'not_start_literally':
+        if hasattr(inst, attribute) and not str(getattr(inst, attribute, '')) != prefix:
             yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
 
 

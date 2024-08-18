@@ -12,7 +12,7 @@ f = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD2")
 save_ifc_file(f, 'pass-qty000-not_activated_no_quantity.ifc')
 
 qt = f.createIfcElementQuantity()
-door = f.createIfcDoor()
+door = f.createIfcDoor(ifcopenshell.guid.new())
 
 save_ifc_file(f, 'pass-qty000-not_activated_no_relating_element.ifc')
 

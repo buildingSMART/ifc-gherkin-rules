@@ -6,6 +6,7 @@ from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("Every {something} must be referenced exactly {num:d} times by the loops of the face")
+@gherkin_ifc.step("Every {something} must be referenced exactly {num:d} time by the loops of the face")
 def step_impl(context, inst, something, num):
     assert something in ("edge", "oriented edge")
     edge_usage = geometry.get_edges(

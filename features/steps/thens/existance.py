@@ -67,4 +67,4 @@ def step_impl(context, inst):
 def step_impl(context, inst, functional_part_description):
    # This rule is designed to always pass and is used solely to trigger the activation of the rule 
     # if an instance linked to the functional part is present.
-    yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+    pass

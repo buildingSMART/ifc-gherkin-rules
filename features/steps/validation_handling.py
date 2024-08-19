@@ -4,6 +4,7 @@ from utils import misc
 from functools import wraps
 import ifcopenshell
 from behave import step
+from behave.model import Step
 import inspect
 from operator import attrgetter
 import ast
@@ -121,27 +122,16 @@ def handle_then(context, fn, **kwargs):
     #in case there are no instances but the rule is applicable (e.g. SPS001), then the rule is still activated and will return either a pass or an error
     is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
     if is_activated:
-         # in case we're testing, add a custom behave error to flag the rule as passed for the CI/CD pipeline
-        if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
-            validation_outcome = ValidationOutcome(
-                    outcome_code=ValidationOutcomeCode.PASSED,
-                    feature=context.feature.name,
-                    observed=None, 
-                    expected=None,
-                    feature_version=misc.define_feature_version(context),
-                    severity= OutcomeSeverity.ERROR,
-                    validation_task_id=context.validation_task_id
-                )
-        else: # in Production, the rule is marked as green when executed and there are no subsequent errors
-            validation_outcome = ValidationOutcome(
-                outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
-                observed="passed",
-                expected=None,
-                feature=context.feature.name,
-                feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.EXECUTED,
-                validation_task_id=context.validation_task_id
-            )
+        setattr(Step, 'activating_feature', True) # an activated Then step activates the whole rule/feature
+        validation_outcome = ValidationOutcome(
+            outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
+            observed=None,
+            expected=None,
+            feature=context.feature.name,
+            feature_version=misc.define_feature_version(context),
+            severity=OutcomeSeverity.EXECUTED,
+            validation_task_id=context.validation_task_id
+        )
         context.gherkin_outcomes.append(validation_outcome)
         
 
@@ -157,8 +147,7 @@ def handle_then(context, fn, **kwargs):
             if isinstance(activation_inst, ifcopenshell.file):
                 activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
 
-            step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
-
+            step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], fn(context, inst=inst, **kwargs) or []))
             for result in step_results:
                 displayed_inst_override_trigger = "and display entity instance"
                 displayed_inst_override = displayed_inst_override_trigger in context.step.name.lower()

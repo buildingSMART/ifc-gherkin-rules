@@ -47,37 +47,42 @@ def contains_outcome_code(data, code='P00010'):
 
 @pytest.mark.parametrize("filename", collect_test_files())
 def test_invocation(filename):
+    #results are all the results without considering the disabled rules and is the sum of the failing and passing results
     gherkin_results = list(run(filename, execution_mode=ExecutionMode.TESTING))
+    results, failing_results, passing_results = [], [], []
+    rule_is_disabled = any(description == 'Rule disabled' for description in [result[5] for result in gherkin_results])
+
+    for result in gherkin_results:
+        if result[5] != 'Rule disabled':
+            results.append(result)
+            (passing_results if result[5] == 'Rule passed' else failing_results).append(result)
     base = os.path.basename(filename)
-    results = [result for result in gherkin_results if result[4] != 'Rule disabled']
+
     print()
     print(base)
     print()
-    print(f"{len(results)} errors")
+    print(f"{len(results)} result(s)")
 
-    def print_tabulate(gherkin_results):
+    if results:
         print(tabulate.tabulate(
-            [[c or '' for c in r] for r in gherkin_results],
-            maxcolwidths=[30] * len(gherkin_results[0]),
-            tablefmt="simple_grid"
-        ))
+                [[c or '' for c in r] for r in gherkin_results],
+                headers = ["Rule", "Location", "Last step", "Scenario", "Instance", "Result"],
+                maxcolwidths=[30] * len(gherkin_results[0]),
+                tablefmt="simple_grid"
+            ))
+    elif rule_is_disabled:
+        print("Rule is disabled")
+    else: 
+        print("Rule deactivated")
+        
+
+    if not rule_is_disabled:
+        if base.startswith("fail-"):
+            assert len(failing_results) > 0
+        elif base.startswith("na-"):
+            assert len(results) == 0
+        elif base.startswith("pass-"):
+            assert len(passing_results) > 0
     
-    if gherkin_results and not base.startswith("pass-"):
-        print_tabulate(gherkin_results)
-
-    rule_is_disabled = any(description == 'Rule disabled' for description in [result[4] for result in gherkin_results])
-
-    if base.startswith("fail-") and not rule_is_disabled:
-        assert len(results) > 0
-    elif base.startswith("na-"):
-        assert len(results) == 0
-    elif base.startswith("pass-") and not rule_is_disabled:
-        # check whether every result has a P00010 (PASSED) outcome code
-        assert len(results) > 0 and [item for item in results if not contains_outcome_code(item, 'P00010')] == results
-        for result in results:
-            result[4][0] = 'Testfile activated and no validation error found'
-            result[4][1] = 'Outcome=P00010'
-        print_tabulate(results)
-
 if __name__ == "__main__":
     pytest.main(["-s", __file__])

@@ -63,17 +63,17 @@ def test_invocation(filename):
     print()
     print(f"{len(results)} result(s)")
 
-    if results:
-        print(tabulate.tabulate(
-                [[c or '' for c in r] for r in gherkin_results],
-                headers = ["Rule", "Location", "Last step", "Scenario", "Instance", "Result"],
-                maxcolwidths=[30] * len(gherkin_results[0]),
-                tablefmt="simple_grid"
-            ))
-    elif rule_is_disabled:
-        print("Rule is disabled")
-    else: 
-        print("Rule deactivated")
+    # if results:
+    #     print(tabulate.tabulate(
+    #             [[c or '' for c in r] for r in gherkin_results],
+    #             headers = ["Rule", "Location", "Last step", "Scenario", "Instance", "Result"],
+    #             maxcolwidths=[30] * len(gherkin_results[0]),
+    #             tablefmt="simple_grid"
+    #         ))
+    # elif rule_is_disabled:
+    #     print("Rule is disabled")
+    # else: 
+    #     print("Rule deactivated")
         
 
     if not rule_is_disabled:

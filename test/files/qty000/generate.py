@@ -11,8 +11,24 @@ f = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD2")
 
 save_ifc_file(f, 'pass-qty000-not_activated_no_quantity.ifc')
 
-qt = f.createIfcElementQuantity()
-door = f.createIfcDoor(ifcopenshell.guid.new())
+quantities = [
+    f.createIFCQUANTITYLENGTH(
+    Name="GrossArea", 
+    LengthValue=0), 
+    f.createIfcQuantityArea(
+    Name="NetArea", 
+    AreaValue=0,
+    )
+]
+
+qt = qt = f.createIfcElementQuantity(
+    GlobalId=ifcopenshell.guid.new(),
+    Quantities=(quantities)
+)
+
+door = f.createIfcDoor(
+    GlobalId=ifcopenshell.guid.new(),
+)
 
 save_ifc_file(f, 'pass-qty000-not_activated_no_relating_element.ifc')
 

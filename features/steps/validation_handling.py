@@ -4,7 +4,7 @@ from utils import misc
 from functools import wraps
 import ifcopenshell
 from behave import step
-from behave.model import Step
+from behave.model import Step, Feature
 import inspect
 from operator import attrgetter
 import ast

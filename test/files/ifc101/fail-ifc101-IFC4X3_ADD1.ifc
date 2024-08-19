@@ -2,7 +2,7 @@ ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
 FILE_NAME('','2023-11-19T18:37:35',(''),(''),'IfcOpenShell-v0.7.0-6c9e130ca','IfcOpenShell-v0.7.0-6c9e130ca','');
-FILE_SCHEMA(('IFC4X3_ADD2'));
+FILE_SCHEMA(('IFC4X3_ADD1'));
 ENDSEC;
 DATA;
 #1=IFCPERSON($,$,'',$,$,$,$,$);

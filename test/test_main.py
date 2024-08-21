@@ -73,7 +73,7 @@ def test_invocation(filename):
     elif rule_is_disabled:
         print("Rule is disabled")
     else: 
-        print("Rule deactivated")
+        print("Rule not activated by test file")
         
 
     if not rule_is_disabled:

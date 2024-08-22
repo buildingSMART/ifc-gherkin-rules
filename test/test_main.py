@@ -60,6 +60,9 @@ def test_invocation(filename):
                 tablefmt="simple_grid"
             ))
     elif rule_is_disabled:
+        # Because we only run unit-testfiles on the feature they are created for,
+        # it means that if there is one mention of a disabled rule it applies to the
+        # testfile as well and nothing needs to be printed.
         print("Rule is disabled")
     else: 
         print("Rule not activated by test file")

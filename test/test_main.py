@@ -34,17 +34,6 @@ def rule_disabled(code: str) -> bool:
     return next((exclude_disabled_rules(path) for path in feature_paths if os.path.basename(path).lower().startswith(code)), False)
 
 
-def contains_outcome_code(data, code='P00010'):
-    """
-    Recursively checks if the given outcome code exists in the data.
-    """
-    if isinstance(data, str):
-        return code in data
-    elif isinstance(data, (list, tuple)):
-        return any(contains_outcome_code(item, f'Outcome={code}') for item in data)
-    return False
-
-
 @pytest.mark.parametrize("filename", collect_test_files())
 def test_invocation(filename):
     #results are all the results without considering the disabled rules and is the sum of the failing and passing results

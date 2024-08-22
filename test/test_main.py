@@ -65,6 +65,15 @@ def test_invocation(filename):
         # testfile as well and nothing needs to be printed.
         print("Rule is disabled")
     else: 
+        # Errors and warnings come from exceptions raised in Python and are
+        # propagated by the logger. Pass results are emitted in the run() loop
+        # when inspecting the json log from behave, when there have been no
+        # errors or warnings, but feature.activated is set to true. This flag is
+        # managed by our custom JSONFormatter, based on whether a then
+        # step is executed over a prior selected set of instances or applicable
+        # state originating from given steps. Therefore when results without disabled messages
+        # is empty, it means that the rule has not been activated. I.e given statements
+        # did not result in an actionable set of instances at the time of the first then step.
         print("Rule not activated by test file")
         
 

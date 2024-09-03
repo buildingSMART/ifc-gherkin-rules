@@ -213,16 +213,17 @@ class RuleCreationConventions(ConfiguredBaseModel):
                 message = f"The feature description contains spelling errors. Here are the incorrect words and their suggested corrections: {corrections}."
                 
                 if not corrected_valid_start:
-                    message += f" Additionally, after corrections, the description still does not start with 'The rule verifies'. It starts with '{corrected_string}'."
+                    message += f" Additionally, after corrections, the description still does not start with 'The rule verifies'. It starts with '{' '.join(corrected_string.split()[:4])}'."
                 
                 raise ProtocolError(
                     value=value,
                     message=message
                 )
-            raise ProtocolError(
-                value=value,
-                message=f"The description must start with 'The rule verifies', but it now starts with '{' '.join(value.split()[:4])}'."
-            )
+            else:
+                raise ProtocolError(
+                    value=value,
+                    message=f"The description must start with 'The rule verifies', but it now starts with '{' '.join(value.split()[:4])}'."
+                )
 
         return value
     

@@ -4,6 +4,7 @@ import typing
 from pydantic import model_validator, field_validator, Field, ValidationError
 from pyparsing import Word, alphas, nums, Literal, Combine, StringEnd, alphanums, ParseException
 import pyparsing
+from spellchecker import SpellChecker
 
 
 from .validation_helper import ValidatorHelper, ParsePattern
@@ -178,14 +179,54 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
     @field_validator('description')
     def validate_description(cls, value=list) -> list:
-        """must include a description of the rule that start with "The rule verifies ..."""  # allow for comma's
-        if not any(value.startswith(f"{prefix} rule verifies{optional_comma}") for prefix in ("This", "The") for optional_comma in ("", ",")):
+        """
+        Validates that the description starts with 'The rule verifies ...'.
+        Captures cases where an incorrect prefix is used or the format is entirely incorrect.
+        """
+        valid_prefix = "The"
+        invalid_prefix = "This"
+        
+        valid_start = any(value.startswith(f"{prefix} rule verifies{optional_comma}") 
+                        for prefix in [valid_prefix, invalid_prefix] 
+                        for optional_comma in ("", ","))
+        
+        incorrect_prefix_start = any(value.startswith(f"{prefix} rule verifies{optional_comma}") 
+                                    for prefix in (invalid_prefix,) 
+                                    for optional_comma in ("", ","))
+        
+        if incorrect_prefix_start:
             raise ProtocolError(
                 value=value,
-                message=f"The description must start with 'The rule verifies', it now starts with {value}"
+                message=f"The description starts with an incorrect prefix '{invalid_prefix}'. It should start with 'The rule verifies'."
             )
-        return value
 
+        if not valid_start:
+            spell = SpellChecker()
+            misspelled_words = spell.unknown(value.split()[:4])
+            if misspelled_words:
+                corrections = {word: spell.correction(word) for word in misspelled_words}
+                corrected_string = ' '.join([corrections.get(word, word) for word in value.split()])
+                corrected_valid_start = any(corrected_string.startswith(f"{prefix} rule verifies{optional_comma}") 
+                                        for prefix in [valid_prefix] 
+                                        for optional_comma in ("", ","))
+            
+                message = f"The feature description contains spelling errors. Here are the incorrect words and their suggested corrections: {corrections}."
+                
+                if not corrected_valid_start:
+                    message += f" Additionally, after corrections, the description still does not start with 'The rule verifies'. It starts with '{' '.join(corrected_string.split()[:4])}'."
+                
+                raise ProtocolError(
+                    value=value,
+                    message=message
+                )
+            else:
+                raise ProtocolError(
+                    value=value,
+                    message=f"The description must start with 'The rule verifies', but it now starts with '{' '.join(value.split()[:4])}'."
+                )
+
+        return value
+    
     @field_validator('steps')
     def validate_steps(cls, value):
         """Check only correct keywords are applied: 'Given', 'Then', 'And'"""

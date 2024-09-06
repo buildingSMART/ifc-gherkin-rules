@@ -4,7 +4,6 @@ from collections import Counter
 import os
 from rule_creation_protocol import protocol
 import json
-import orjson
 
 from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
@@ -129,6 +128,7 @@ def after_scenario(context, scenario):
 
     else: # invoked via console or CI/CD pipeline
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]
-        outcomes_json_bytes = orjson.dumps(outcomes) #encoded to utf-8 
+        outcomes_json_str = json.dumps(outcomes) #ncodes to utf-8 
+        outcomes_bytes = outcomes_json_str.encode("utf-8") 
         for formatter in filter(lambda f: hasattr(f, "embedding"), context._runner.formatters):
-            formatter.embedding(mime_type="application/json", data=outcomes_json_bytes, target='feature', attribute_name='validation_outcomes')
+            formatter.embedding(mime_type="application/json", data=outcomes_bytes, target='feature', attribute_name='validation_outcomes')

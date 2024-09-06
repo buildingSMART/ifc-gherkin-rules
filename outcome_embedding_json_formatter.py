@@ -1,22 +1,14 @@
 """
 Enhanced JSON Formatter for clearer activation checks in CI/CD pipeline
-===================================
-
-This file provides an `EnhancedJSONFormatter` for Behave, which extends the
-functionality of the default JSON formatter. This custom formatter includes additional
-information in the output JSON, specifically the results of passed steps, which can
-be useful for activation checks..
-
-File: enhanced_json_formatter.py
+embeds the ValidationOutcome to the JSON output.
 
 Example:
 --------
 To use the `EnhancedJSONFormatter` in a Behave test run:
 
-    behave --format=enhanced_json -o enhanced_output.json features/
+    behave --format=outcome_embedding_json -o output.json features/
 
-The output will be saved to `enhanced_output.json` in JSON format, including
-additional details about passed results.
+The output will be saved to `enhanced_output.json`.
 """
 from behave.formatter.json import JSONFormatter
 import base64

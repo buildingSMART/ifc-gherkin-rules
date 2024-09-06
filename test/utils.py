@@ -2,6 +2,7 @@ import glob
 import os
 import re
 import sys
+from pyparsing import Word, Literal, alphas, nums, Combine, StringEnd, ParseException
 
 
 def collect_test_files(top_order_string = False, insert_args = False):
@@ -37,3 +38,35 @@ def collect_test_files(top_order_string = False, insert_args = False):
     if top_order_string:
         test_files = sorted(test_files, key=lambda x: top_order_string not in x)
     return test_files
+
+
+def check_filename_structure(filename):
+    """
+    This function checks if the provided filename follows a strict structure:
+    1. Starts with 'na', 'pass', or 'fail'.
+    2. Followed by a hyphen ('-').
+    3. Followed by a combination of three letters and three digits (i.e. the rulecodes).
+    4. Followed by another hyphen ('-') and a remainder that may not be strictly validated here.
+    
+    If any of the rules above are violated, the function will print an error .
+    """
+
+    start_keywords = Word("na" + "pass" + "fail")
+
+    hyphen = Literal("-")
+
+    three_letters = Word(alphas, exact=3)
+    three_digits = Word(nums, exact=3)
+    letters_digits_combination = Combine(three_letters + three_digits)
+
+    remainder = Word(alphas + nums + "_.-")
+
+    filename_structure = (
+        (start_keywords + hyphen + letters_digits_combination + hyphen + remainder)
+        + StringEnd() 
+    )
+
+    try:
+        filename_structure.parseString(filename)
+    except ParseException as pe:
+        print(f"'{filename}' is invalid. Error: {pe}")

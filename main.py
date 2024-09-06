@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import functools
+import base64
 from enum import Flag, auto, Enum
 
 class RuleType(Flag):
@@ -97,7 +98,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
             "--define", f"input={os.path.abspath(filename)}",
             "--define", f"execution_mode={execution_mode}", 
             *(["--define", f"task_id={task_id}"] if task_id is not None else []),
-            "-f", "enhanced_json", "-o", jsonfn # save to json file
+            "-f", "outcome_embedding_json", "-o", jsonfn # save to json file
         ], 
         cwd=cwd, **kwargs)
 
@@ -117,36 +118,24 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                 feature_file = item['location'].split(':')[0]
                 shas = get_commits(cwd, feature_file)
                 version = len(shas)
-                check_disabled = 'disabled' in item['tags']
-                if check_disabled:
-                    yield f"{feature_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", "Rule disabled", ("Rule disabled", "This rule has been disabled from checking"), "Rule disabled", "Rule disabled"
-
+                rule_is_disabled = 'disabled' in item['tags']
+                yield { # add feature information, mainly to check disabled feature
+                    'feature_name': f"{feature_name}.v{version}",
+                    'remote' : f"{remote}/blob/{shas[0]}/{feature_file}",
+                    'rule_is_disabled': rule_is_disabled
+                }
                 try:
                     el_list = item['elements']
                 except KeyError:
                     el_list = []
                 for el in el_list:
-                    scenario_name = el['name']
-                    for step in el['steps']:
-                        step_name = step['name']
-                        step_status = step.get('result', {}).get('status')
-                        instance_id = "-"
-                        if step_status and step['step_type'] == 'then':
-                            try:
-                                results = step['result']['error_message']
-                            except KeyError:  # THEN not checked
-                                results = []
-                            except json.decoder.JSONDecodeError:  # THEN not checked
-                                results = []
-                            if results:
-                                pattern = r'ifc_instance_id=(\d+)'
-                                match = re.search(r'ifc_instance_id=(\d+)', str(results))
-                                if match:
-                                    instance_id = '#' + match.group(1)
-                                    results = re.sub(pattern, '', str(results))
-                                yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{scenario_name}", f"{step_name}", instance_id, results
-                            elif item['activated']:
-                                yield f"{feature_name}/{scenario_name}.v{version}", f"{remote}/blob/{shas[0]}/{feature_file}", f"{scenario_name}" , f"{step_name}", instance_id, "Rule passed"
+                    scenario_validation_outcomes = json.loads(base64.b64decode(el.get('validation_outcomes', [{}])[0].get('data', '')).decode('utf-8')) if el.get('validation_outcomes') else []
+                    for validation_outcome in scenario_validation_outcomes:
+                        validation_outcome.update({ # add scenario information to display in terminal
+                            'scenario_name': el['name'],
+                            'step_names': [step['name'] for step in el['steps']]
+                        })
+                        yield validation_outcome
 
     os.close(fd)
     os.unlink(jsonfn)

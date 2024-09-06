@@ -122,7 +122,6 @@ def handle_then(context, fn, **kwargs):
     #in case there are no instances but the rule is applicable (e.g. SPS001), then the rule is still activated and will return either a pass or an error
     is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
     if is_activated:
-        setattr(Step, 'activating_feature', True) # an activated Then step activates the whole rule/feature
         validation_outcome = ValidationOutcome(
             outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
             observed=None,
@@ -322,6 +321,8 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
         case dict():
             # mostly for the pse001 rule, which already yields dicts
             return data
+        case set(): # object of type set is not JSONserializable
+            return tuple(data)
         case _:
             return {'value': data}
         

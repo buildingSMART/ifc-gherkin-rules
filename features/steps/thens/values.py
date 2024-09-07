@@ -108,11 +108,12 @@ def recursive_unpack_value(item):
 
 @gherkin_ifc.step('The {i:value_or_type} must be "{value}"')
 def step_impl(context, inst, i, value):
+    values = [v.lower() for v in misc.strip_split(value, strp='"', splt=' or ')]
     inst = recursive_unpack_value(inst)
-    if isinstance(inst, ifcopenshell.entity_instance):
-        inst = inst.is_a() # another option would be to let this depend on 'type'. E.g. if i is 'type', then always check for entity_instance
+    if isinstance(inst, ifcopenshell.entity_instance): # redundant due to the statement 'Its entity type must be X; see e.g. ALS007 & ALS008'. This also allows to check for inheritance
+        inst = inst.is_a()  
 
-    if inst != value:
+    if inst.lower() not in values:
         yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
 
 

@@ -8,11 +8,11 @@ import tabulate
 
 try:
     from ..main import run, ExecutionMode
-    from .utils import collect_test_files
+    from .utils import collect_test_files, check_filename_structure
 except ImportError:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
     from main import run, ExecutionMode
-    from test.utils import collect_test_files
+    from test.utils import collect_test_files, check_filename_structure
 
 rule_code_pattern = re.compile(r"^[a-zA-Z]{3}\d{3}$")
 rule_codes = list(filter(lambda arg: rule_code_pattern.match(arg), sys.argv[1:]))
@@ -36,25 +36,70 @@ def rule_disabled(code: str) -> bool:
 
 @pytest.mark.parametrize("filename", collect_test_files())
 def test_invocation(filename):
-    gherkin_results = list(run(filename, execution_mode=ExecutionMode.TESTING))
     base = os.path.basename(filename)
-    results = [result for result in gherkin_results if result[4] != 'Rule disabled']
+
+    # If the hyphens or structure are incorrect, the file won't be picked up by the protocol check,
+    # as the correct features can't be derived from the filename.
+    check_filename_structure(base)
+
+    gherkin_results = list(run(filename, execution_mode=ExecutionMode.TESTING))
+
+    try:
+        feature_info = gherkin_results[0]
+    except IndexError:  
+        print('The Gherkin tests did not run for the specified test file, and the JSON report is empty. Please review the test file for any errors.')
+
+    rule_is_disabled = feature_info['rule_is_disabled']
+    validation_outcomes = gherkin_results[1:]
+
+    error_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] in ['Error', 'Warning']]
+    activating_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] == 'Executed']
+
+
     print()
     print(base)
     print()
-    print(f"{len(results)} errors")
+    print(f"{len(activating_outcomes)} activating outcome(s)")
+    print(f"{len(error_outcomes)} error(s)")
 
-    if gherkin_results:
+
+    if not rule_is_disabled:
+        # Because we only run unit-testfiles on the feature they are created for,
+        # it means that if there is one mention of a disabled rule it applies to the
+        # testfile as well and nothing needs to be printed.
+        # Errors and warnings come from exceptions raised in Python and are
+        # propagated by the logger. Pass results are emitted in the run() loop
+        # when inspecting the json log from behave, when there have been no
+        # errors, warnings or activating outcomes. This flag is
+        # based on whether a then step is executed over a prior selected set of instances or applicable
+        # state originating from given steps. Therefore when results without disabled messages
+        # is empty, it means that the rule has not been activated. I.e given statements
+        # did not result in an actionable set of instances at the time of the first then step.
+        if base.startswith('fail'):
+            assert len(error_outcomes) > 0
+        elif base.startswith('pass'):
+            assert len(error_outcomes) == 0 and len(activating_outcomes) > 0
+        elif base.startswith('na'):
+            assert len(error_outcomes) == 0 and len(activating_outcomes) == 0
+    
+    if error_outcomes:
+        tabulate_results = [
+            (
+                f"{outcome.get('feature')} - v{outcome.get('feature_version')}", # Feature
+                outcome.get('scenario_name'), # Scenario 
+                outcome.get('step_names')[-1], # Last Step
+                outcome.get('instance_id'), # Instance
+                f"Expected : {outcome.get('expected')}, Observed : {outcome.get('observed')}", # Message
+                outcome.get('outcome_code') # Code
+            )
+            for outcome in error_outcomes
+        ]
         print(tabulate.tabulate(
-            [[c or '' for c in r] for r in gherkin_results],
-            maxcolwidths=[30] * len(gherkin_results[0]),
+            [[c or '' for c in r] for r in tabulate_results],
+            headers = ["Feature", "Scenario", "Last Step", "Instance", "Message", "Code"],
+            maxcolwidths=[30] * len(tabulate_results[0]),
             tablefmt="simple_grid"
         ))
-
-    if base.startswith("fail-") and not any(description == 'Rule disabled' for description in [result[4] for result in gherkin_results]):
-        assert len(results) > 0
-    elif base.startswith("pass-"):
-        assert len(results) == 0
 
 if __name__ == "__main__":
     pytest.main(["-s", __file__])

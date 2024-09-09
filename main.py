@@ -121,7 +121,6 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                 rule_is_disabled = 'disabled' in item['tags']
                 yield { # add feature information, mainly to check disabled feature
                     'feature_name': f"{feature_name}.v{version}",
-                    'remote' : f"{remote}/blob/{shas[0]}/{feature_file}",
                     'rule_is_disabled': rule_is_disabled
                 }
                 try:
@@ -130,12 +129,11 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                     el_list = []
                 for el in el_list:
                     scenario_validation_outcomes = json.loads(base64.b64decode(el.get('validation_outcomes', [{}])[0].get('data', '')).decode('utf-8')) if el.get('validation_outcomes') else []
+                    scenario_info = {
+                        'scenario_name': el['name'],
+                        'step_names': [step['name'] for step in el['steps']]
+                    }
                     for validation_outcome in scenario_validation_outcomes:
-                        validation_outcome.update({ # add scenario information to display in terminal
-                            'scenario_name': el['name'],
-                            'step_names': [step['name'] for step in el['steps']]
-                        })
-                        yield validation_outcome
-
+                        yield validation_outcome | scenario_info
     os.close(fd)
     os.unlink(jsonfn)

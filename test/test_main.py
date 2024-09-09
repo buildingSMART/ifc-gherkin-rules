@@ -86,11 +86,11 @@ def test_invocation(filename):
         tabulate_results = [
             (
                 f"{outcome.get('feature')} - v{outcome.get('feature_version')}", # Feature
-                outcome.get('scenario_name'),
-                outcome.get('step_names')[-1],
-                outcome.get('instance_id'),
-                f"Expected : {outcome.get('expected')}, Observed : {outcome.get('observed')}",
-                outcome.get('outcome_code')
+                outcome.get('scenario_name'), # Scenario 
+                outcome.get('step_names')[-1], # Last Step
+                outcome.get('instance_id'), # Instance
+                f"Expected : {outcome.get('expected')}, Observed : {outcome.get('observed')}", # Message
+                outcome.get('outcome_code') # Code
             )
             for outcome in error_outcomes
         ]

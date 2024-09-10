@@ -251,20 +251,18 @@ def execute_step(fn):
         Data is circulated using the 'behave-context' and is ultimately stored in the database, as 'ValidationOutcome' corresponds to a database column.
         """
 
-        if not getattr(context, 'applicable', True):
-            validation_outcome = ValidationOutcome(
-                outcome_code=ValidationOutcomeCode.NOT_APPLICABLE,  # "NOT_APPLICABLE", Given statement with schema/mvd check  # deactivated until code table is added to django model
-                observed=None,
-                expected=None,
-                feature=context.feature.name,
-                feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.NOT_APPLICABLE,
-                validation_task_id=context.validation_task_id
-            )
-            context.gherkin_outcomes.append(validation_outcome)
+        validation_outcome = ValidationOutcome(
+            outcome_code=ValidationOutcomeCode.NOT_APPLICABLE,  # "NOT_APPLICABLE", Given statement with schema/mvd check  # deactivated until code table is added to django model
+            observed=None,
+            expected=None,
+            feature=context.feature.name,
+            feature_version=misc.define_feature_version(context),
+            severity=OutcomeSeverity.NOT_APPLICABLE,
+            validation_task_id=context.validation_task_id
+        )
+        context.gherkin_outcomes.append(validation_outcome)
 
-        else: # applicability is set to True
-
+        if getattr(context, 'applicable', True):
             step_type = context.step.step_type
             if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
                 handle_given(context, fn, **kwargs)

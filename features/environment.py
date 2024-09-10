@@ -90,7 +90,7 @@ def after_feature(context, feature):
                 outcome_counts = Counter(outcome.severity for outcome in context.gherkin_outcomes)
                 for severity in [OutcomeSeverity.PASSED, OutcomeSeverity.EXECUTED, OutcomeSeverity.NOT_APPLICABLE]:
                     if outcome_counts[severity] > 0:
-                        yield next(o for o in context.gherkin_outcomes if o.severity == severity)
+                        yield next(outcome for outcome in context.gherkin_outcomes if outcome.severity == severity)
                         break
 
         outcomes_to_save = list(reduce_db_outcomes(context.gherkin_outcomes))

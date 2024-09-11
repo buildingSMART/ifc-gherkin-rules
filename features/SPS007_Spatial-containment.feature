@@ -4,7 +4,7 @@
 @E00040
 
 Feature: SPS007 - Spatial Containment
-The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Contept Template for Spatial Containment
+The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment
 
     Scenario Outline: Instances of IfcAnnotation and IfcGrid must be contained within a spatial structure
 

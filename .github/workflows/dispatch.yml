@@ -3,7 +3,7 @@ name: Dispatch
 on:
   push:
     branches:
-      - development
+      - main
     paths-ignore:
       - '.github/**'
   workflow_dispatch:

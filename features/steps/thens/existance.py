@@ -17,8 +17,7 @@ def step_impl(context, inst, representation_id):
 @global_rule
 def step_impl(context, inst, constraint, num, entity):
     op = misc.stmt_to_op(constraint)
-    instances_in_model = context.model.by_type(entity)
-
+    instances_in_model = misc.do_try(lambda: context.model.by_type(entity), ()) # return empty tuple for deleted entities, e.g. in IFC102
     if not op(len(instances_in_model), num):
         yield ValidationOutcome(inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR)
 
@@ -48,15 +47,7 @@ def step_impl(context, inst):
                         expected=expected_count,
                         severity=OutcomeSeverity.ERROR
                     )
-
-def recursive_flatten(lst):
-    flattened_list = []
-    for item in lst:
-        if isinstance(item, (tuple, list)):
-            flattened_list.extend(recursive_flatten(item))
-        else:
-            flattened_list.append(item)
-    return flattened_list
+                    
 
 def get_previous_step_before_assertion(context):
     for i, step in enumerate(context.scenario.steps):
@@ -67,6 +58,13 @@ def get_previous_step_before_assertion(context):
 @global_rule
 def step_impl(context, inst):
 
-    if not any(recursive_flatten(inst)):
+    if not any(misc.recursive_flatten(inst)):
         expected = get_previous_step_before_assertion(context)
-        yield ValidationOutcome(instance_id=inst, expected = expected, observed='Nonexistent', severity = OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, expected=expected, observed='Nonexistent', severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("The IFC model contains information on {functional_part_description}")
+def step_impl(context, inst, functional_part_description):
+   # This rule is designed to always pass and is used solely to trigger the activation of the rule 
+    # if an instance linked to the functional part is present.
+    pass

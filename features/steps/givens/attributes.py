@@ -1,4 +1,5 @@
 import ast
+import itertools
 import operator
 
 import ifcopenshell
@@ -69,7 +70,10 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         pred = operator.ne
     elif comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
         pred = operator.ne
-        value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
+        try:
+            value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
+        except ValueError:
+            print('ValueError: entity must be typed in quotes')
     else:
         try:
             value = ast.literal_eval(value)
@@ -82,9 +86,9 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
     observed_v = ()
     if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
         observed_v = misc.do_try(lambda : inst.is_a(), ())
-        if pred(check_entity_type(inst, value, tail), True):
+        values = {value} if isinstance(value, str) else value
+        if any(pred(check_entity_type(inst, v, tail), True) for v in values):
             entity_is_applicable = True
-
     else:
         observed_v = getattr(inst, attribute, ()) or ()
         if comparison_op.name == 'NOT_EQUAL':
@@ -97,7 +101,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
     else: # in case of a Then statement
         yield ValidationOutcome(instance_id=inst,
-                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL or value == () else ''}{'empty' if value == () else value}", 
+                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL else ''}{'empty' if value == () else value}", 
                                 observed = 'empty' if observed_v == () else observed_v, severity = OutcomeSeverity.ERROR)
 
 
@@ -133,7 +137,8 @@ def step_impl(context, file_or_model, field, values):
 
 @gherkin_ifc.step('Its attribute {attribute}')
 def step_impl(context, inst, attribute, tail="single"):
-    yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity = OutcomeSeverity.PASSED)
+    yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity=OutcomeSeverity.PASSED)
+
 
 @gherkin_ifc.step("Its {attribute} attribute {condition} with {prefix}")
 def step_impl(context, inst, attribute, condition, prefix):

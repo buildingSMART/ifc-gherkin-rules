@@ -4,7 +4,7 @@
 @E00040
 
 Feature: SPS007 - Spatial Containment
-The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Contept Template for Spatial Containment
+The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment
 
     Scenario Outline: Instances of IfcAnnotation and IfcGrid must be contained within a spatial structure
 
@@ -20,7 +20,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
     Scenario: Instances of IfcElement must be part of a spatial structure, with certain exceptions
 
         Given an IfcElement
-        Given Its Type is not IfcFeatureElementSubtraction including subtypes
+        Given Its Type is not 'IfcFeatureElementSubtraction' including subtypes
         Given Decomposes = empty
 
         Then a *required* relationship IfcRelContainedInSpatialStructure to IfcElement from IfcSpatialElement
@@ -40,8 +40,8 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
     
     Scenario: All other IFC entities must not be contained within a spatial structure
         Given An IfcRoot
-        Given Its Type is not IfcElement including subtypes
-        Given Its Type is not IfcGrid
-        Given Its Type is not IfcAnnotation
+        Given Its Type is not 'IfcElement' including subtypes
+        Given Its Type is not 'IfcGrid'
+        Given Its Type is not 'IfcAnnotation'
 
         Then ContainedInStructure = empty

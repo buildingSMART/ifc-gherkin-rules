@@ -4,6 +4,7 @@ from utils import misc
 from functools import wraps
 import ifcopenshell
 from behave import step
+from behave.model import Step
 import inspect
 from operator import attrgetter
 import ast
@@ -11,6 +12,7 @@ from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOut
 
 from behave.runner import Context
 from typing import Any
+from main import ExecutionMode
 
 def generate_error_message(context, errors):
     error_formatter = (lambda dc: json.dumps(misc.asdict(dc), default=tuple)) if context.config.format == ["json"] else str
@@ -116,16 +118,21 @@ def handle_then(context, fn, **kwargs):
     # if 'instances' are not actual ifcopenshell.entity_instance objects, but e.g. tuple of string values then get the actual instances from the stack tree
     activation_instances = misc.do_try(lambda: get_stack_tree(context)[-1], instances)
 
-    validation_outcome = ValidationOutcome(
-        outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
-        observed=None,
-        expected=None,
-        feature=context.feature.name,
-        feature_version=misc.define_feature_version(context),
-        severity=OutcomeSeverity.EXECUTED,
-        validation_task_id=context.validation_task_id
-    )
-    context.gherkin_outcomes.append(validation_outcome)
+    #ensure the rule is not activated when there are no instances
+    #in case there are no instances but the rule is applicable (e.g. SPS001), then the rule is still activated and will return either a pass or an error
+    is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
+    if is_activated:
+        validation_outcome = ValidationOutcome(
+            outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
+            observed=None,
+            expected=None,
+            feature=context.feature.name,
+            feature_version=misc.define_feature_version(context),
+            severity=OutcomeSeverity.EXECUTED,
+            validation_task_id=context.validation_task_id
+        )
+        context.gherkin_outcomes.append(validation_outcome)
+        
 
     def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
@@ -139,8 +146,7 @@ def handle_then(context, fn, **kwargs):
             if isinstance(activation_inst, ifcopenshell.file):
                 activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
 
-            step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], list(fn(context, inst=inst, **kwargs))))
-
+            step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], fn(context, inst=inst, **kwargs) or []))
             for result in step_results:
                 displayed_inst_override_trigger = "and display entity instance"
                 displayed_inst_override = displayed_inst_override_trigger in context.step.name.lower()
@@ -163,20 +169,21 @@ def handle_then(context, fn, **kwargs):
                     else validation_outcome.expected)
 
                 context.gherkin_outcomes.append(validation_outcome)
+            
+            # Currently, we should not inject passed outcomes for each individual instance to the databse
+            # if not step_results:
 
-                if not step_results:
-
-                    validation_outcome = ValidationOutcome(
-                        outcome_code=ValidationOutcomeCode.PASSED,  # todo @gh "Rule passed" # deactivated until code table is added to django model
-                        observed=None,
-                        expected=None,
-                        feature=context.feature.name,
-                        feature_version=misc.define_feature_version(context),
-                        severity=OutcomeSeverity.PASSED,
-                        instance_id = safe_method_call(activation_inst, 'id', None),
-                        validation_task_id=context.validation_task_id
-                    )
-                    context.gherkin_outcomes.append(validation_outcome)
+            #     validation_outcome = ValidationOutcome(
+            #         outcome_code=ValidationOutcomeCode.PASSED,  # todo @gh "Rule passed" # deactivated until code table is added to django model
+            #         observed=None,
+            #         expected=None,
+            #         feature=context.feature.name,
+            #         feature_version=misc.define_feature_version(context),
+            #         severity=OutcomeSeverity.PASSED,
+            #         instance_id = safe_method_call(activation_inst, 'id', None),
+            #         validation_task_id=context.validation_task_id
+            #     )
+            #     context.gherkin_outcomes.append(validation_outcome)
 
 
 
@@ -243,21 +250,20 @@ def execute_step(fn):
 
         Data is circulated using the 'behave-context' and is ultimately stored in the database, as 'ValidationOutcome' corresponds to a database column.
         """
+        # this basically serves as placeholder, later only the highest severity
+        # outcomes are retained, so the state is initiated to NOT_APPLICABLE
+        validation_outcome = ValidationOutcome(
+            outcome_code=ValidationOutcomeCode.NOT_APPLICABLE,  # "NOT_APPLICABLE", Given statement with schema/mvd check  # deactivated until code table is added to django model
+            observed=None,
+            expected=None,
+            feature=context.feature.name,
+            feature_version=misc.define_feature_version(context),
+            severity=OutcomeSeverity.NOT_APPLICABLE,
+            validation_task_id=context.validation_task_id
+        )
+        context.gherkin_outcomes.append(validation_outcome)
 
-        if not getattr(context, 'applicable', True):
-            validation_outcome = ValidationOutcome(
-                outcome_code=ValidationOutcomeCode.NOT_APPLICABLE,  # "NOT_APPLICABLE", Given statement with schema/mvd check  # deactivated until code table is added to django model
-                observed=None,
-                expected=None,
-                feature=context.feature.name,
-                feature_version=misc.define_feature_version(context),
-                severity=OutcomeSeverity.NOT_APPLICABLE,
-                validation_task_id=context.validation_task_id
-            )
-            context.gherkin_outcomes.append(validation_outcome)
-
-        else: # applicability is set to True
-
+        if getattr(context, 'applicable', True):
             step_type = context.step.step_type
             if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
                 handle_given(context, fn, **kwargs)
@@ -314,6 +320,8 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
         case dict():
             # mostly for the pse001 rule, which already yields dicts
             return data
+        case set(): # object of type set is not JSONserializable
+            return tuple(data)
         case _:
             return {'value': data}
         

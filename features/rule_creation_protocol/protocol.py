@@ -4,6 +4,7 @@ import typing
 from pydantic import model_validator, field_validator, Field, ValidationError
 from pyparsing import Word, alphas, nums, Literal, Combine, StringEnd, alphanums, ParseException
 import pyparsing
+from spellchecker import SpellChecker
 
 
 from .validation_helper import ValidatorHelper, ParsePattern
@@ -117,6 +118,48 @@ class RuleCreationConventions(ConfiguredBaseModel):
     filename: str
     readme: str
 
+    @model_validator(mode='before')
+    def validate_tags(cls, values) -> dict:
+        """
+        Validate whether the tags are valid tags as described in the documentation (e.g. ALB, ALA, GEM, etc.)
+        An exception is made for the the crucial IFC rules which are not required to have a tag
+        Next to this, check if functional parts in feature name, feature filename and IFC input match
+        """
+        if not re.match(r"^IFC\d{3} - .+", values.get('feature', {}).get('name', '')): # skip with 'IFC' rules
+            validator = ValidatorHelper()
+
+            def extract_functional_part(value, key):
+                try:
+                    match = re.search(r"[a-z]{3}\d{3}", values.get(key).get('name'), re.IGNORECASE)
+                    return match.group(0)[:3].lower() #e.g. return 'sps' from SPS001
+                except AttributeError:
+                    raise ProtocolError(
+                        value=value.get(key).get('name'),
+                        message=f"No functional part found in the {key}. Please check the naming convention."
+                    )
+                
+            fp_tags_found = {
+                'feature_name' : extract_functional_part(values, 'feature'),
+                'feature_filename' : extract_functional_part(values, 'feature_filename'),
+                'ifc_input' : extract_functional_part(values, 'ifc_input')
+            }
+
+            unique_fp_tags = set(fp_tags_found.values())
+            if not len(unique_fp_tags) == 1:
+                raise ProtocolError(
+                    value=unique_fp_tags,
+                    message="Functional parts do not match across feature name, feature filename, and IFC input."
+                )
+            
+            validated_tags = validator.validate_tags(values['tags'])
+            if validated_tags != 'passed':
+                raise ProtocolError(
+                    value=validated_tags['value'],
+                    message=validated_tags['message']
+                )
+            
+        return values
+
     @field_validator('feature_filename')
     def validate_feature_names(cls, value, values):
         def parse_f_names(f: str) -> str:
@@ -128,18 +171,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
                 value = feature_name,
                 message = f"Feature name {feature_name} and feature filename {feature_filename} should be the same"
             )
-
-    @field_validator('tags')
-    def do_validate_tags(cls, value) -> dict:
-        validator = ValidatorHelper()
-        validated_tags = validator.validate_tags(value)
-        if validated_tags != 'passed':
-            raise ProtocolError(
-                value=validated_tags['value'],
-                message=validated_tags['message']
-            )
-        return value
-
+        
     @field_validator('ifc_input')
     def validate_ifc_input(cls, value):
         # @todo implement
@@ -147,14 +179,54 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
     @field_validator('description')
     def validate_description(cls, value=list) -> list:
-        """must include a description of the rule that start with "The rule verifies that..."""  # allow for comma's
-        if not any(value.startswith(f"{prefix} rule verifies{optional_comma} that") for prefix in ("This", "The") for optional_comma in ("", ",")):
+        """
+        Validates that the description starts with 'The rule verifies ...'.
+        Captures cases where an incorrect prefix is used or the format is entirely incorrect.
+        """
+        valid_prefix = "The"
+        invalid_prefix = "This"
+        
+        valid_start = any(value.startswith(f"{prefix} rule verifies{optional_comma}") 
+                        for prefix in [valid_prefix, invalid_prefix] 
+                        for optional_comma in ("", ","))
+        
+        incorrect_prefix_start = any(value.startswith(f"{prefix} rule verifies{optional_comma}") 
+                                    for prefix in (invalid_prefix,) 
+                                    for optional_comma in ("", ","))
+        
+        if incorrect_prefix_start:
             raise ProtocolError(
                 value=value,
-                message=f"The description must start with 'The rule verifies that', it now starts with {value}"
+                message=f"The description starts with an incorrect prefix '{invalid_prefix}'. It should start with 'The rule verifies'."
             )
-        return value
 
+        if not valid_start:
+            spell = SpellChecker()
+            misspelled_words = spell.unknown(value.split()[:4])
+            if misspelled_words:
+                corrections = {word: spell.correction(word) for word in misspelled_words}
+                corrected_string = ' '.join([corrections.get(word, word) for word in value.split()])
+                corrected_valid_start = any(corrected_string.startswith(f"{prefix} rule verifies{optional_comma}") 
+                                        for prefix in [valid_prefix] 
+                                        for optional_comma in ("", ","))
+            
+                message = f"The feature description contains spelling errors. Here are the incorrect words and their suggested corrections: {corrections}."
+                
+                if not corrected_valid_start:
+                    message += f" Additionally, after corrections, the description still does not start with 'The rule verifies'. It starts with '{' '.join(corrected_string.split()[:4])}'."
+                
+                raise ProtocolError(
+                    value=value,
+                    message=message
+                )
+            else:
+                raise ProtocolError(
+                    value=value,
+                    message=f"The description must start with 'The rule verifies', but it now starts with '{' '.join(value.split()[:4])}'."
+                )
+
+        return value
+    
     @field_validator('steps')
     def validate_steps(cls, value):
         """Check only correct keywords are applied: 'Given', 'Then', 'And'"""
@@ -210,10 +282,10 @@ class RuleCreationConventions(ConfiguredBaseModel):
         
 
         """Check if test file start with pass or fail"""
-        if result not in ('pass', 'fail'):
+        if result not in ('pass', 'fail', 'na'):
             raise ProtocolError(
                 value=value,
-                message=f"Name of the result file must start with 'pass' or 'fail'. In that case name starts with: {result}"
+                message=f"Name of the result file must start with 'pass', 'fail' or 'na'. In that case name starts with: {result}"
             )
 
         """Check if a second part of the test file is a rule code"""
@@ -279,7 +351,7 @@ def correct_character_use(file_name):
 
 
 def validate_ifc_path(file_name):
-    expectedResult = Literal("pass") | Literal("fail")
+    expectedResult = Literal("pass") | Literal("fail") | Literal("na")
     ruleCode = Combine(Word(alphas, exact=3) + Word(nums, exact=3))
     scenario = pyparsing.Optional(Literal("-") + Literal("scenario") + Word(nums, exact=2))
     description = Combine(Word(alphanums + "_+") + Literal(".ifc"))

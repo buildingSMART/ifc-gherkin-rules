@@ -28,7 +28,7 @@ class ValidatorHelper():
             self.filename_functional_parts) for item in sublist]
 
     def valid_functional_part(self, functional_part):
-        if functional_part.lower() not in self.valid_functional_parts:
+        if functional_part.lower() not in self.valid_functional_parts and functional_part != 'IFC': #exclude IFC from protocol checks
             return {
                 'value': self.rule_code,
                 'message': f"{self.rule_code} not in list of functional parts, please check /n\
@@ -49,7 +49,6 @@ class ValidatorHelper():
             }
         # Functional part validity check
         return self.valid_functional_part(code['functional_part'])
-
     def validate_tags(self, tags):
         if (rule_type_tags := [t for t in tags if t.lower() in ['implementer-agreement', 'informal-proposition', 'industry-practice', 'critical']]) and len(rule_type_tags) > 1: 
             return { 

@@ -9,32 +9,23 @@ Feature: LAY000 - Presentation Layer Assignment
     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product_Shape/Product_Geometry_Layer/content.html
 
 
-    Scenario Outline: Layer assignment to representation
+    Scenario: Layer assignment to representation
 
         Given an IfcProduct
         Given its attribute Representation
         Given its attribute Representations
-        Given its attribute <Layer Assignment>
+        Given its attribute LayerAssignments
 
         Then The IFC model contains information on the selected functional part
 
-        Examples:
-            | Layer Assignment |
-            | LayerAssignment  | 
-            | LayerAssignments |
-    
 
-    Scenario Outline: Layer assignment to representation items
+    Scenario: Layer assignment to representation items
 
         Given an IfcProduct
         Given its attribute Representation
         Given its attribute Representations
         Given its attribute Items
-        Given its attribute <Layer Assignment>
+        Given its attribute LayerAssignment
 
         Then The IFC model contains information on the selected functional part
         
-        Examples:
-            | Layer Assignment |
-            | LayerAssignment |
-            | LayerAssignments |

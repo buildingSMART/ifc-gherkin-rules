@@ -17,7 +17,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema "IFC4.3"
     Given An IFC model
 
-    Then There must be less than 1 instance(s) of <Entity>
+    Then There must be less than 1 instance(s) of <Entity> excluding subtypes
 
     Examples:
       | Entity                                | 
@@ -33,7 +33,6 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcMaterialList                       | 
       | IfcPermeableCoveringProperties        | 
       | IfcPostalAddress                      | 
-      | IfcPresentationStyleSelect            | 
       | IfcRelConnectsPortToElement           | 
       | IfcRelCoversBldgElements              | 
       | IfcRelServicesBuildings               | 
@@ -52,7 +51,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given An IFC model
     Given A model with Schema "IFC4"
 
-    Then There must be less than 1 instance(s) of <Entity>
+    Then There must be less than 1 instance(s) of <Entity> excluding subtypes
 
     Examples:
       | Entity                                |
@@ -94,7 +93,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given An IFC model
     Given A model with Schema "IFC2X3"
 
-    Then There must be less than 1 instance(s) of <Entity>
+    Then There must be less than 1 instance(s) of <Entity> excluding subtypes
 
     Examples:
       |   Entity                   | 

@@ -226,6 +226,19 @@ class gherkin_ifc():
 
         return wrapped_step
 
+def register_enum_type(cls):
+    from behave import register_type
+    """
+    Use this decorator to register an enum type for behave, e.g. 
+    @register_enum_type
+    class SubtypeHandling(Enum):
+        INCLUDE = "including subtypes"
+        EXCLUDE = "excluding subtypes"
+    """
+    register_type(**{cls.__name__: cls})
+    return cls
+
+
 def execute_step(fn):
     is_global_rule = False
     while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns

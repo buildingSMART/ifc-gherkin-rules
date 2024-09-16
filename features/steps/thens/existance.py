@@ -1,9 +1,16 @@
 import operator
-
 from utils import misc
-from validation_handling import gherkin_ifc, global_rule
+from validation_handling import gherkin_ifc, global_rule, register_enum_type
 
 from . import ValidationOutcome, OutcomeSeverity
+
+from enum import Enum
+
+@register_enum_type
+class SubtypeHandling(Enum):
+    INCLUDE = "including subtypes"
+    EXCLUDE = "excluding subtypes"
+
 
 @gherkin_ifc.step("There must be one {representation_id} shape representation")
 def step_impl(context, inst, representation_id):
@@ -13,11 +20,27 @@ def step_impl(context, inst, representation_id):
         if not present:
             yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
 
+def get_entities_in_model(context, constraint, entity, tail):
+    # the @global_rule decorator doesn't work with in combination with multiple decorators, hence the helper function
+    return misc.do_try(
+    lambda: context.model.by_type(entity) if tail == SubtypeHandling.INCLUDE else context.model.by_type(entity, include_subtypes=False), 
+    () # return empty tuple for deleted entities, e.g. in IFC102
+    )
+
+@gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity} {tail:SubtypeHandling}')
+@global_rule
+def step_impl(context, inst, constraint, num, entity, tail=SubtypeHandling.INCLUDE):
+    op = misc.stmt_to_op(constraint)
+    instances_in_model = get_entities_in_model(context, constraint, entity, tail)
+    if not op(len(instances_in_model), num):
+        yield ValidationOutcome(inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR)
+
+
 @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
 @global_rule
-def step_impl(context, inst, constraint, num, entity):
+def step_impl(context, inst, constraint, num, entity, tail=SubtypeHandling.INCLUDE):
     op = misc.stmt_to_op(constraint)
-    instances_in_model = misc.do_try(lambda: context.model.by_type(entity), ()) # return empty tuple for deleted entities, e.g. in IFC102
+    instances_in_model = get_entities_in_model(context, constraint, entity, tail)
     if not op(len(instances_in_model), num):
         yield ValidationOutcome(inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR)
 

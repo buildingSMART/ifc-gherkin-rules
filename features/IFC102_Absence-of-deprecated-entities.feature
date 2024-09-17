@@ -1,5 +1,5 @@
 @IFC
-@version2
+@version3
 @E00030
 @implementer-agreement
 Feature: IFC102 - Absence of deprecated entities

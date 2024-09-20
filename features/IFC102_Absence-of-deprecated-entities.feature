@@ -73,13 +73,11 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcOpeningStandardCase                | 
       | IfcPlateStandardCase                  | 
       | IfcPresentationStyleAssignment        | 
-      | IfcPresentationStyleSelect            | 
       | IfcProxy                              | 
       | IfcRelCoversBldgElements              | 
       | IfcRelCoversSpaces                    | 
       | IfcSlabElementedCase                  | 
       | IfcSlabStandardCase                   | 
-      | IfcStyleAssignmentSelect              |
       | IfcTextLiteral                        | 
       | IfcWallElementedCase                  | 
       | IfcWallStandardCase                   | 

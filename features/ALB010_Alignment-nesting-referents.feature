@@ -1,0 +1,17 @@
+@implementer-agreement
+@ALB
+@POS
+@RFT
+@version1
+@E00100
+Feature: ALB010 - Alignment Nesting Referents
+The rule verifies that Alignment nest IfcReferent's, such as stations or mileage points. 
+These can be used as semantic entities holding information about locations along the alignment curve. 
+This is done using the IfcRelNests relationship.
+
+  Scenario: Agreement on each IfcAlignment nesting at least one IfcReferent
+
+      Given A model with Schema "IFC4.3"
+      Given An IfcAlignment
+      
+      Then A *required* relationship IfcRelNests from IfcAlignment to IfcReferent and following that

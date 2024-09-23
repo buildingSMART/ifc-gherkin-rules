@@ -1,4 +1,4 @@
-@implementer-agreement
+@industry-practice
 @ALB
 @POS
 @RFT

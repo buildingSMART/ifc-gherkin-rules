@@ -5,7 +5,7 @@
 @version1
 @E00100
 Feature: ALB010 - Alignment Nesting Referents
-The rule verifies that Alignment nest IfcReferent's, such as stations or mileage points. 
+The rule verifies that each alignment nests at least one IfcReferent, such as stations or mileage points. 
 These can be used as semantic entities holding information about locations along the alignment curve. 
 This is done using the IfcRelNests relationship.
 

@@ -1,0 +1,33 @@
+@implementer-agreement
+@PJS
+@version2
+@E00010
+Feature: PJS003 - Globally Unique Identifiers
+  The rule verifies that the GUID of each element adheres to the Global Unique Identifier format 
+  and ensures compliance with constraints that are not yet validated by other methods. 
+  Specifically, the characters must be within the official encoding character set
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$,"
+  and the resulting string must be exactly 22 characters in length. 
+  Additionally, starting from IFC4.3_ADD2, the first character must be either 0, 1, 2, or 3.
+
+  https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcGloballyUniqueId.htm
+
+
+  Scenario Outline: Correct encoding and length
+    Given An IfcRoot
+    Given Its attribute GlobalId 
+
+    Then <Constraint>
+
+    Examples:
+    | Constraint |
+    | The string length must be exactly "22" characters |
+    | The characters must be within the official encoding character set |
+
+
+  Scenario: Correct first character for IFC4X3_ADD2
+    Given A model with Schema "IFC4.3"
+    Given An IfcRoot
+    Given its attribute GlobalId
+
+    Then Its value starts with 0 or 1 or 2 or 3

@@ -174,9 +174,6 @@ def handle_given(context, fn, **kwargs):
     3) Filter the set of IfcAlignment based on a value ('Given attribute == X' -> [IfcAlignm, None, IfcAlignm])
     4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
     """
-    if '*required*' in context.step.name and context.instances:
-        # in cases *required* is in the step name, the rule is activated, as the step is treated as a 'Then' step
-        activate_rule(context)
 
     if not 'inst' in inspect.getargs(fn.__code__).args:
         gen = fn(context, **kwargs)
@@ -204,7 +201,17 @@ def handle_then(context, fn, **kwargs):
     #in case there are no instances but the rule is applicable (e.g. SPS001), then the rule is still activated and will return either a pass or an error
     is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
     if is_activated:
-        activate_rule(context)
+        context.gherkin_outcomes.append(
+        ValidationOutcome(
+        outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
+        observed=None,
+        expected=None,
+        feature=context.feature.name,
+        feature_version=misc.define_feature_version(context),
+        severity=OutcomeSeverity.EXECUTED,
+        validation_task_id=context.validation_task_id
+        )
+    )
 
     def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
@@ -282,24 +289,6 @@ def handle_then(context, fn, **kwargs):
     # evokes behave error
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
 
-
-def activate_rule(context):
-    """
-    The rule will be activated in the following two cases:
-    - When the rule has reached a Then step.
-    - When the rule has reached a Given step including "*required*" in the statement (e.g. SPS007, ALB010)
-    """
-    context.gherkin_outcomes.append(
-        ValidationOutcome(
-        outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
-        observed=None,
-        expected=None,
-        feature=context.feature.name,
-        feature_version=misc.define_feature_version(context),
-        severity=OutcomeSeverity.EXECUTED,
-        validation_task_id=context.validation_task_id
-        )
-    )
 
 def safe_method_call(obj, method_name, default=None ):
     """

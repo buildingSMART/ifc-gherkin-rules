@@ -1,5 +1,4 @@
 import operator
-import re
 
 
 from utils import misc, system, geometry

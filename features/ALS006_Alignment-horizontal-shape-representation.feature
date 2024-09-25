@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALS
+@GEM
 @version1
 Feature: ALS006 - Alignment horizontal shape representation
 The rule verifies that IfcAlignmentHorizontal is represented correctly with representation type Curve2D and representation item either IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline.

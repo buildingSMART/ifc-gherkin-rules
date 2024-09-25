@@ -49,6 +49,7 @@ class ValidatorHelper():
             }
         # Functional part validity check
         return self.valid_functional_part(code['functional_part'])
+    
     def validate_tags(self, tags):
         if (rule_type_tags := [t for t in tags if t.lower() in ['implementer-agreement', 'informal-proposition', 'industry-practice', 'critical']]) and len(rule_type_tags) > 1: 
             return { 
@@ -62,6 +63,27 @@ class ValidatorHelper():
                 'value': current_tags,
                 'message': 'The tags must contain one tag with a reference to a valid functional part'
             }
+        
+
+        from .tags_hierarchy import tags_hierarchy
+        required_parents = {parent: False for parent in tags_hierarchy.keys()}
+
+        for tag in functional_part_tags:
+            for parent, children in tags_hierarchy.items():
+                if tag in children:
+                    required_parents[parent] = True
+        
+        missing_tags = []
+        for parent, is_present in required_parents.items():
+            if is_present and parent not in functional_part_tags:
+                missing_tags.append(parent)
+        
+        if missing_tags:
+            return {
+                'value': missing_tags,
+                'message': f"The tags {''.join(functional_part_tags)} must contain the following parent tags: {missing_tags}"
+            }
+        
         return 'passed'
     
     

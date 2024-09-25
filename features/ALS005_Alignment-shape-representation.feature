@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALS
+@GEM
 @version1
 Feature: ALS005 - Alignment shape representation
 The rule verifies that each IfcAlignment uses correct representation.

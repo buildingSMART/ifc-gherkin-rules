@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALS
+@GEM
 @version1
 @E00040
 Feature: ALS010 - Alignment segment shape representation has the correct number of items

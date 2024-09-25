@@ -1,5 +1,6 @@
 @industry-practice
 @ALS
+@GEM
 @version1
 
 Feature: ALS016 - Alignment horizontal segment geometric continuity

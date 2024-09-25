@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALS
+@GEM
 @version2
 Feature: ALS007 - Alignment vertical shape representation
 The rule verifies that IfcAlignmentVertical is represented correctly with representation type Curve3D and representation item IfcGradientCurve.

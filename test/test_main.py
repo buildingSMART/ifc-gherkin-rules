@@ -50,7 +50,10 @@ def test_invocation(filename):
         print('The Gherkin tests did not run for the specified test file, and the JSON report is empty. Please review the test file for any errors.')
 
     rule_is_disabled = feature_info['rule_is_disabled']
-    validation_outcomes = gherkin_results[1:]
+
+    protocol_errors = next((d for d in gherkin_results if 'protocol_errors' in d), None)
+    
+    validation_outcomes = [d for d in gherkin_results[1:] if 'protocol_errors' not in d]
 
     error_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] in ['Error', 'Warning']]
     activating_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] == 'Executed']
@@ -64,18 +67,29 @@ def test_invocation(filename):
 
 
     if not rule_is_disabled:
-        # Because we only run unit-testfiles on the feature they are created for,
-        # it means that if there is one mention of a disabled rule it applies to the
-        # testfile as well and nothing needs to be printed.
-        # Errors and warnings come from exceptions raised in Python and are
-        # propagated by the logger. Pass results are emitted in the run() loop
-        # when inspecting the json log from behave, when there have been no
-        # errors, warnings or activating outcomes. This flag is
-        # based on whether a then step is executed over a prior selected set of instances or applicable
-        # state originating from given steps. Therefore when results without disabled messages
-        # is empty, it means that the rule has not been activated. I.e given statements
-        # did not result in an actionable set of instances at the time of the first then step.
-        if base.startswith('fail'):
+        """"
+        Because we only run unit-testfiles on the feature they are created for,
+        it means that if there is one mention of a disabled rule it applies to the
+        testfile as well and nothing needs to be printed.
+        Errors and warnings come from exceptions raised in Python and are
+        propagated by the logger. Pass results are emitted in the run() loop
+        when inspecting the json log from behave, when there have been no
+        errors, warnings or activating outcomes. This flag is
+        based on whether a then step is executed over a prior selected set of instances or applicable
+        state originating from given steps. Therefore when results without disabled messages
+        is empty, it means that the rule has not been activated. I.e given statements
+        did not result in an actionable set of instances at the time of the first then step.
+        """
+
+        #first, check if there are no protocol errors
+        if protocol_errors:
+            red_text = "\033[91m"
+            reset_text = "\033[0m"
+            print(f'{red_text}\n\nWARNING: The following protocol errors have been found:{reset_text}')
+            print(tabulate.tabulate([[error] for error in protocol_errors['protocol_errors']], headers=['Details'], tablefmt='fancy_grid'))
+            assert False # table should be printed before the assertion
+
+        elif base.startswith('fail'):
             assert len(error_outcomes) > 0
         elif base.startswith('pass'):
             assert len(error_outcomes) == 0 and len(activating_outcomes) > 0

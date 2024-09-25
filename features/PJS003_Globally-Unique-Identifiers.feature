@@ -13,7 +13,7 @@ Feature: PJS003 - Globally Unique Identifiers
   https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcGloballyUniqueId.htm
 
 
-  Scenario Outline: Correct encoding and length
+  Scenario Outline: Valid globally unique identifiers
     Given An IfcRoot
     Given Its attribute GlobalId 
 
@@ -23,11 +23,4 @@ Feature: PJS003 - Globally Unique Identifiers
     | Constraint |
     | The string length must be exactly "22" characters |
     | The characters must be within the official encoding character set |
-
-
-  Scenario: Correct first character for IFC4X3_ADD2
-    Given A model with Schema "IFC4.3"
-    Given An IfcRoot
-    Given its attribute GlobalId
-
-    Then Its value starts with 0 or 1 or 2 or 3
+    | Its value starts with 0 or 1 or 2 or 3 |

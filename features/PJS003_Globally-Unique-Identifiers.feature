@@ -1,6 +1,6 @@
 @implementer-agreement
 @PJS
-@version2
+@version1
 @E00010
 Feature: PJS003 - Globally Unique Identifiers
   The rule verifies that the GUID of each element adheres to the Global Unique Identifier format 

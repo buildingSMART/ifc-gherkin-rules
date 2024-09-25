@@ -7,8 +7,7 @@ Feature: PJS003 - Globally Unique Identifiers
   and ensures compliance with constraints that are not yet validated by other methods. 
   Specifically, the characters must be within the official encoding character set
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$,"
-  and the resulting string must be exactly 22 characters in length. 
-  Additionally, starting from IFC4.3_ADD2, the first character must be either 0, 1, 2, or 3.
+  , the resulting string must be exactly 22 characters in length, and the first character must be either 0, 1, 2, or 3.
 
   https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcGloballyUniqueId.htm
 

@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALB
+@POS
 @version1
 @E00100
 Feature: ALB004 - Alignment in spatial structure relationships

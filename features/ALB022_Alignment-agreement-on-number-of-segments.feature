@@ -1,5 +1,6 @@
 @implementer-agreement
 @ALB
+@POS
 @version1
 @E00040
 Feature: ALB022 - Alignment agreement on number of segments

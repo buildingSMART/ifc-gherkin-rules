@@ -62,6 +62,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
     However, please avoid using:
     - Attribute is not empty
     """
+    start_value = value
     pred = operator.eq
     if value == 'empty':
         value = ()
@@ -101,7 +102,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
     else: # in case of a Then statement
         yield ValidationOutcome(instance_id=inst,
-                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL else ''}{'empty' if value == () else value}", 
+                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL or 'not' in start_value else ''}{'empty' if value == () else value}", 
                                 observed = 'empty' if observed_v == () else observed_v, severity = OutcomeSeverity.ERROR)
 
 

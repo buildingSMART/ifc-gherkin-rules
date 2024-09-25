@@ -130,6 +130,9 @@ def step_impl(context, inst, segment_type, length_attribute):
 
 @gherkin_ifc.step('The string length must be {constraint} "{num:d}" characters')
 def step_impl(context, inst, constraint, num):
+    if not isinstance(inst, str):
+        yield ValidationOutcome(inst=inst, expected='string', observed=type(inst).__name__, severity=OutcomeSeverity.ERROR)
+    inst = str(inst)
     op = misc.stmt_to_op(constraint)
     if not op(len(inst), num):
         yield ValidationOutcome(inst=inst, expected=num, observed=len(inst), severity=OutcomeSeverity.ERROR) 

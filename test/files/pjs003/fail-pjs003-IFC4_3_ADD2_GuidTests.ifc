@@ -30,13 +30,9 @@ DATA;
 
  
 #29990=IFCSITE('14oxcl5LHMZQ6iCWJKpe5w',#2,'SITE_withCorrectGuid',$,$,#31,$,$,.COMPLEX.,$,$,$,$,$);
-#30000=IFCSITE(30000,#2,'SITE_withIncorrectGuid','GUID is not a string',$,#31,$,$,.COMPLEX.,$,$,$,$,$); 
 #30010=IFCSITE('14oxcl5',#2,'SITE_withIncorrectGuid','Invalid Length',$,#31,$,$,.ELEMENT.,$,$,$,$,$); 
 #30020=IFCSITE('1-+=cl5LHMZQ6iCWJKpe5w',#2,'SITE_withIncorrectGuid','Invalid Characters',$,#31,$,$,.PARTIAL.,$,$,$,$,$); 
 #30030=IFCSITE('b4oxcl5LHMZQ6iCWJKpe5w',#2,'SITE_withIncorrectGuid','Invalid Starting Character',$,#31,$,$,.COMPLEX.,$,$,$,$,$); 
-#30040=IFCSITE('14oxcl5LHMZQ6iCWJKpe5w',#2,'SITE_withIncorrectGuid','Duplicated GUID',$,#31,$,$,.COMPLEX.,$,$,$,$,$); 
-
-
 
 ENDSEC;
 END-ISO-10303-21;

@@ -28,9 +28,9 @@ else:
 django.setup()
 
 try:
-    from apps.ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask
+    from apps.ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask, FunctionalPart
 except:
-    from ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask
+    from ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask, FunctionalPart
 
 OutcomeSeverity = ValidationOutcome.OutcomeSeverity
 ValidationOutcomeCode = ValidationOutcome.ValidationOutcomeCode

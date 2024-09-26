@@ -7,7 +7,7 @@ from behave import step
 import inspect
 from operator import attrgetter
 import ast
-from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode
+from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode, FunctionalPart
 from behave import register_type
 
 from behave.runner import Context
@@ -104,6 +104,7 @@ def execute_step(fn):
             feature=context.feature.name,
             feature_version=misc.define_feature_version(context),
             severity=OutcomeSeverity.NOT_APPLICABLE,
+            functional_part_codes = FunctionalPart.filter_functional_part_tags(context.feature.tags),
             validation_task_id=context.validation_task_id
         )
         context.gherkin_outcomes.append(validation_outcome)
@@ -209,6 +210,7 @@ def handle_then(context, fn, **kwargs):
         feature=context.feature.name,
         feature_version=misc.define_feature_version(context),
         severity=OutcomeSeverity.EXECUTED,
+        functional_part_codes = FunctionalPart.filter_functional_part_tags(context.feature.tags),
         validation_task_id=context.validation_task_id
         )
     )
@@ -237,6 +239,7 @@ def handle_then(context, fn, **kwargs):
                     expected=expected_behave_output(context, result.expected),
                     feature=context.feature.name,
                     feature_version=misc.define_feature_version(context),
+                    functional_part_codes = FunctionalPart.filter_functional_part_tags(context.feature.tags),
                     severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
                     instance_id=safe_method_call(inst_to_display, 'id', None),
                     validation_task_id=context.validation_task_id

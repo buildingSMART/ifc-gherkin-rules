@@ -43,15 +43,6 @@ def before_feature(context, feature):
         protocol_errors = protocol.enforce(convention_attrs)
         for error in protocol_errors:
             context.protocol_errors.append(error)
-        #     validation_outcome = ValidationOutcome(
-        #     outcome_code=ValidationOutcomeCode.EXECUTED,
-        #     observed=error,
-        #     expected=error,
-        #     feature=context.feature.name,
-        #     feature_version=1,
-        #     severity=OutcomeSeverity.ERROR,
-        # )
-        #     context.protocol_errors.append(validation_outcome)
     
     context.gherkin_outcomes = []
         

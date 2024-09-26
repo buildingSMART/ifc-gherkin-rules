@@ -7,9 +7,11 @@ from .utils import replace_substrings
 
 try:
     from ...features.steps.utils import system
+    from ...validation_results import FunctionalPart
 except ImportError:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '...'))
     from features.steps.utils import system
+    from validation_results import FunctionalPart
 
 class ValidatorHelper():
     """
@@ -56,34 +58,40 @@ class ValidatorHelper():
                 'value': rule_type_tags, 
                 'message' : "The tags must contain only one tag with a reference to the rule type: normative (ia ip), industry-practice and critical"
             }
-        functional_part_tags = [tag for tag in tags if tag.isalpha() and len(tag) == 3 and tag.isupper()]
-        if not any(value.lower() in self.valid_functional_parts for value in functional_part_tags):
-            current_tags = ''.join(functional_part_tags)
+        possible_functional_part_tags = [tag for tag in tags if tag.isalpha() and len(tag) == 3 and tag.isupper()]
+        if not any(value.lower() in self.valid_functional_parts for value in possible_functional_part_tags):
+            current_tags = ''.join(possible_functional_part_tags)
             return {
                 'value': current_tags,
                 'message': 'The tags must contain one tag with a reference to a valid functional part'
             }
         
+        functional_part_tags = FunctionalPart.filter_functional_part_tags(tags)
 
-        from .tags_hierarchy import tags_hierarchy
-        required_parents = {parent: False for parent in tags_hierarchy.keys()}
-
-        for tag in functional_part_tags:
-            for parent, children in tags_hierarchy.items():
-                if tag in children:
-                    required_parents[parent] = True
+        invalid_functional_parts = list(set(functional_part_tags) - set(possible_functional_part_tags))
+        if invalid_functional_parts:
+            return {
+                'value': invalid_functional_parts,
+                'message': f"The tag(s) {''.join(invalid_functional_parts)} is(/are) not (a) valid functional part(s)"
+            }
         
         missing_tags = []
-        for parent, is_present in required_parents.items():
-            if is_present and parent not in functional_part_tags:
-                missing_tags.append(parent)
+        for tag in functional_part_tags:
+            parent_info = FunctionalPart.get_parent(tag)
+            if parent_info is not None:
+                parent = parent_info.get('code')
+                if parent and parent not in functional_part_tags:
+                    missing_tags.append({
+                        'tag': tag,
+                        'parent': parent,
+                    })
         
         if missing_tags:
             return {
                 'value': missing_tags,
-                'message': f"The tags {''.join(functional_part_tags)} must contain the following parent tags: {missing_tags}"
+                'message': f"The tag(s) {' and '.join([t['tag'] for t in missing_tags])} is(/are) missing the parent tag(s) {' and '.join([t['parent'] for t in missing_tags])}"
             }
-        
+
         return 'passed'
     
     

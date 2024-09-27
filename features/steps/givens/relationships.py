@@ -21,6 +21,10 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
     """
     assert dir1 != dir2
 
+    if 'exists' in context.step.name:
+        required=True
+        tail=1 #  output the other entity
+
     instances = []
     filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
     filename_relating_attr_matrix = system.get_abs_path(f"resources/**/relating_entity_attributes.csv")

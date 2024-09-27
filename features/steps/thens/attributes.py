@@ -127,3 +127,63 @@ def step_impl(context, inst, segment_type, length_attribute):
         raise ValueError(f"Invalid segment_type '{segment_type}'.")
 
 
+@gherkin_ifc.step('{attribute_compared} value must be {comparison_op} the expression: {expression}')
+def step_impl(context, inst, attribute_compared:str, comparison_op:str, expression:str):
+    '''
+    Compare a attribute to a expression based on attributes.
+    
+    The {comparison_op} operator can be 'equal to', 'not equal to', 'greater than', 'less than', 'greater than or equal to', and 'less than or equal to'.
+     
+    The {expression} should be composed by attribute values, and use the following operators:
+    + : addition;
+    - : subtraction;
+    * : multiplication;
+    / : division;
+    % : modulus;
+    ** : exponentiation.'''
+
+    operators = {
+        '+' : operator.add,
+        '-' : operator.sub,
+        '*' : operator.mul,
+        '/' : operator.truediv,
+        '%' : operator.mod,
+        '^' : operator.pow,
+        'equal to' : operator.eq,
+        'not equal to' : operator.ne,
+        'greater than' : operator.gt,
+        'less than' : operator.gt,
+        'greater than or equal to' : operator.ge,
+        'less than or equal to' : operator.le,
+    }
+
+    # Get compared attribute value
+    attr_compared_value = getattr(inst, attribute_compared, 'Attribute not found')
+
+    # Replace attribute names with attribute values in the expression
+    for string in expression.split():
+        # Checks if the string is not a operator neither parenthesis
+        if string not in [*operators, '(', ')']:
+            if hasattr(inst, string):
+                expression = expression.replace(string, str(getattr(inst, string)))
+            else:
+                raise Exception('Attribute not found')
+
+    # Evaluate the string expression using eval
+    try:
+        expression_value = eval(expression)
+    except Exception as e:
+        raise ValueError(f"Error evaluating expression: {e}")
+    
+    print(attr_compared_value)
+    print(expression_value)
+    print()
+    
+    # Compare the attribute with the expression value
+    comparison_func = operators.get(comparison_op)
+    if comparison_func:
+        result = comparison_func(attr_compared_value, expression_value)
+        if not result:
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+    else:
+        raise ValueError(f"Invalid comparison operator: {comparison_op}")

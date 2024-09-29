@@ -1,10 +1,10 @@
 @IFC
-@version2
+@version3
 @E00030
 @implementer-agreement
 Feature: IFC102 - Absence of deprecated entities
 
-This rule verifies that the IFC model does not have deprecated entities, attributes or enumerators. 
+The rule verifies that the IFC model does not have deprecated entities, attributes or enumerators. 
 By definition, a deprecated entity shall not be exported by applications.
 Complying interpreters shall still be able to import deprecated definitions.
 IFC2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.htm
@@ -17,7 +17,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema "IFC4.3"
     Given An IFC model
 
-    Then There must be less than 1 instance(s) of <Entity>
+    Then There must be less than 1 instance(s) of <Entity> excluding subtypes
 
     Examples:
       | Entity                                | 
@@ -33,7 +33,6 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcMaterialList                       | 
       | IfcPermeableCoveringProperties        | 
       | IfcPostalAddress                      | 
-      | IfcPresentationStyleSelect            | 
       | IfcRelConnectsPortToElement           | 
       | IfcRelCoversBldgElements              | 
       | IfcRelServicesBuildings               | 
@@ -52,7 +51,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given An IFC model
     Given A model with Schema "IFC4"
 
-    Then There must be less than 1 instance(s) of <Entity>
+    Then There must be less than 1 instance(s) of <Entity> excluding subtypes
 
     Examples:
       | Entity                                |
@@ -74,13 +73,11 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcOpeningStandardCase                | 
       | IfcPlateStandardCase                  | 
       | IfcPresentationStyleAssignment        | 
-      | IfcPresentationStyleSelect            | 
       | IfcProxy                              | 
       | IfcRelCoversBldgElements              | 
       | IfcRelCoversSpaces                    | 
       | IfcSlabElementedCase                  | 
       | IfcSlabStandardCase                   | 
-      | IfcStyleAssignmentSelect              |
       | IfcTextLiteral                        | 
       | IfcWallElementedCase                  | 
       | IfcWallStandardCase                   | 
@@ -94,7 +91,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given An IFC model
     Given A model with Schema "IFC2X3"
 
-    Then There must be less than 1 instance(s) of <Entity>
+    Then There must be less than 1 instance(s) of <Entity> excluding subtypes
 
     Examples:
       |   Entity                   | 

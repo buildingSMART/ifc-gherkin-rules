@@ -12,8 +12,8 @@ def create_testfiles(schema, current_schema_identifiers):
     fail_or_pass = 'pass' if schema in current_schema_identifiers else 'fail'
     file.write(f"{fail_or_pass}-ifc001-{schema}.ifc")
 
-current_schema_identifiers = ["IFC4X3_ADD1", "IFC2X3"]
-all_identifiers = ['IFC4X3_ADD2', 'IFC2X3', 'IFC4X3', 'IFC4X3_ADD1', 'IFC2X3_ADD1', 'IFC4X3_TC1']
+current_schema_identifiers = ["IFC4X3_ADD2", "IFC2X3"]
+all_identifiers = ['IFC4X3_ADD2', 'IFC2X3', 'IFC4X3', 'IFC4X3_ADD2', 'IFC2X3_ADD1', 'IFC4X3_TC1']
 
 for schema_identifier in all_identifiers:
     create_testfiles(schema_identifier, current_schema_identifiers)

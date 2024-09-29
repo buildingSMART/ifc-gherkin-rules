@@ -13,8 +13,8 @@ The rule verifies that closed shells and closed facesets edges are referenced co
 
     Examples:
       | Statement |
-      | Every edge must be referenced exactly 2 times by the loops of the face |
-      | Every oriented edge must be referenced exactly 1 times by the loops of the face |
+      | Every edge must be referenced exactly 2 time(s) by the loops of the face |
+      | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
 
 
     Scenario Outline: Check constraints for FaceSets; TriangulatedFaceSet and PolygonalFaceSet
@@ -26,7 +26,7 @@ The rule verifies that closed shells and closed facesets edges are referenced co
 
       Examples:
         | FaceSetType              | Statement                                                           |
-        | IfcTriangulatedFaceSet   | Every edge must be referenced exactly 2 times by the loops of the face  |
-        | IfcTriangulatedFaceSet   | Every oriented edge must be referenced exactly 1 time by the loops of the face |
-        | IfcPolygonalFaceSet      | Every edge must be referenced exactly 2 times by the loops of the face  |
-        | IfcPolygonalFaceSet      | Every oriented edge must be referenced exactly 1 time by the loops of the face |
+        | IfcTriangulatedFaceSet   | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
+        | IfcTriangulatedFaceSet   | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
+        | IfcPolygonalFaceSet      | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
+        | IfcPolygonalFaceSet      | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |

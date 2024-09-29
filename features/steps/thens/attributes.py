@@ -127,3 +127,19 @@ def step_impl(context, inst, segment_type, length_attribute):
         raise ValueError(f"Invalid segment_type '{segment_type}'.")
 
 
+@gherkin_ifc.step('The string length must be {constraint} "{num:d}" characters')
+def step_impl(context, inst, constraint, num):
+    if not isinstance(inst, str):
+        yield ValidationOutcome(inst=inst, expected='string', observed=type(inst).__name__, severity=OutcomeSeverity.ERROR)
+    inst = str(inst)
+    op = misc.stmt_to_op(constraint)
+    if not op(len(inst), num):
+        yield ValidationOutcome(inst=inst, expected=num, observed=len(inst), severity=OutcomeSeverity.ERROR) 
+
+
+@gherkin_ifc.step('The characters must be within the official encoding character set')
+def step_impl(context, inst):
+    valid_chars = set("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$")
+    invalid_guid_chars = [char for char in inst if char not in valid_chars]
+    if invalid_guid_chars:
+        yield ValidationOutcome(inst=inst, expected="^[0-9A-Za-z_$]+$", observed=invalid_guid_chars, severity=OutcomeSeverity.ERROR)

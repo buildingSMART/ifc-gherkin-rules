@@ -13,6 +13,11 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Warn if PR is to main
+      if: github.event_name == 'pull_request' && github.base_ref == 'main'
+      run: |
+        echo "::warning::This pull request is targeting the 'main' branch. Please ensure this is intended."
+
     - name: Update submodule
       run: |
         git submodule init && git submodule update --recursive --remote

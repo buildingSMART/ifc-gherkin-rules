@@ -2,9 +2,9 @@
 @ALB
 @version1
 @E00020
-Feature: ALB011 - Congruency and alignment of vertical segment
-  The rule verifies if the congruence of the data provided in IfcAlignmentVerticalSegment attributes according to its 
-  predefined type, as well evaluating the congruency of the attributes in the connection between segments.
+Feature: ALB011 - Alignment vertical segment radius of curvature
+  The rule verifies if the radius of curvature was provided only to the correct type of vertical segment, CIRCULARARC and PARABOLICARC,
+  and validate it based in the 'RadiusOfCurvature = HorizontalLength/(EndGradient-StartGradient)' expression.
   
   Background:
     Given A model with Schema "IFC4.3"
@@ -12,17 +12,17 @@ Feature: ALB011 - Congruency and alignment of vertical segment
     Given A relationship IfcRelNests from IfcAlignmentVertical to IfcAlignmentSegment and following that
     Given Its attribute DesignParameters
 
-   Scenario: Validating the horizontal continuity
-    Given Each instance pair at depth 1
-    Then First instance StartDistAlong + HorizontalLength value must be equal to the second instance StartDistAlong at depth 1
+  #  Scenario: Validating the horizontal continuity
+  #   Given Each instance pair at depth 1
+  #   Then First instance StartDistAlong + HorizontalLength value must be equal to the second instance StartDistAlong at depth 1
 
   Scenario: Validating the absence of curvature radius for constant gradient vertical segment
     Given PredefinedType != 'CIRCULARARC' or 'PARABOLICARC'
     Then The value of attribute RadiusOfCurvature must be empty
 
-  Scenario: Validating the end gradient for constant gradient vertical segment
-    Given PredefinedType = 'CONSTANTGRADIENT'
-    Then EndGradient value must be equal to the expression: StartGradient
+  # Scenario: Validating the end gradient for constant gradient vertical segment
+  #   Given PredefinedType = 'CONSTANTGRADIENT'
+  #   Then EndGradient value must be equal to the expression: StartGradient
 
   Scenario: Validating the radius of curvature value of vertical segment
     Given PredefinedType = 'CIRCULARARC' or 'PARABOLICARC'

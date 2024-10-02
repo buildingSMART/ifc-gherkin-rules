@@ -14,4 +14,4 @@ IfcReferent is associated to IfcAlignment via the IfcRelNests relationship.
       Given A model with Schema "IFC4.3"
       Given An IfcAlignment
       
-      Then A relationship IfcRelNests exists from IfcAlignment to IfcReferent
+      Then A relationship IfcRelNests must exist from IfcAlignment to IfcReferent

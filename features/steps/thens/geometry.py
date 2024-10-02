@@ -2,6 +2,10 @@ import itertools
 import math
 from utils import geometry, ifc
 from validation_handling import full_stack_rule, gherkin_ifc
+import ifcopenshell
+import ifcopenshell.geom
+import numpy
+from rtree import index
 
 from . import ValidationOutcome, OutcomeSeverity
 
@@ -9,11 +13,7 @@ from . import ValidationOutcome, OutcomeSeverity
 @gherkin_ifc.step("There must be no self-intersections for attribute {attr}")
 @full_stack_rule
 def step_impl(context, inst, path=None, attr=None):
-    import ifcopenshell
-    import ifcopenshell.geom
-    import numpy
-    from rtree import index
-
+    
     entity_contexts = ifc.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
     precision = ifc.get_precision_from_contexts(entity_contexts)
 

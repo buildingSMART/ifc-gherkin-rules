@@ -31,6 +31,12 @@ def global_rule(func):
     wrapper.global_rule = True
     return wrapper
 
+def full_stack_rule(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    wrapper.full_stack_rule = True
+    return wrapper
 
 class gherkin_ifc():
     """
@@ -73,12 +79,15 @@ In case the step_type is 'Given', the handle_given function is invoked, and simi
 
 def execute_step(fn):
     is_global_rule = False
+    is_full_stack_rule = False
     while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
         is_global_rule = is_global_rule or getattr(fn, 'global_rule', False)
+        is_full_stack_rule = is_full_stack_rule or getattr(fn, 'full_stack_rule', False)
         fn = fn.__wrapped__
     @wraps(fn)
     def inner(context, **kwargs):
         context.is_global_rule = is_global_rule
+        context.is_full_stack_rule = is_full_stack_rule
 
         """
         This section of code performs two primary checks:
@@ -217,6 +226,17 @@ def handle_then(context, fn, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
             if inst is None:
                 return
+            if context.is_full_stack_rule:
+                x = misc.get_stack_tree(context)[::-1]
+                value_path = []
+                idxs = [current_path[0:i+1] for i in range(len(current_path))]
+                for idx, layer in zip(idxs, x):
+                    v = layer
+                    while idx:
+                        i, *idx = idx
+                        v = v[i]
+                    value_path.append(v)
+                kwargs = kwargs | {'path': value_path}
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
 #TODO: refactor into a more general solution that works for all rules

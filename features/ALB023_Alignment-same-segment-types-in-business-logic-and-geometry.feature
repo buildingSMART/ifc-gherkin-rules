@@ -1,6 +1,5 @@
 @implementer-agreement
 @ALB
-@POS
 @version2
 @E00040
 Feature: ALB023 - Alignment same segment types in business logic and geometry

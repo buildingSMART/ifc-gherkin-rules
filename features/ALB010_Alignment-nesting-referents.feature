@@ -1,7 +1,5 @@
 @industry-practice
 @ALB
-@POS
-@RFT
 @version1
 @E00100
 Feature: ALB010 - Alignment Nesting Referents

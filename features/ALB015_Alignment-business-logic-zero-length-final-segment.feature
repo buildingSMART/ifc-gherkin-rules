@@ -1,6 +1,5 @@
 @implementer-agreement
 @ALB
-@POS
 @version2
 @E00020
 Feature: ALB015 - Alignment business logic zero length final segment

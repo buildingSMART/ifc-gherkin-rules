@@ -1,6 +1,5 @@
 @implementer-agreement
 @ALB
-@POS
 @version1
 @E00010
 Feature: ALB021 - Alignment overall agreement of business logic and geometry

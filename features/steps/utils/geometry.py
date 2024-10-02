@@ -181,7 +181,7 @@ def alignment_segment_angular_difference(
 
 
 def compare_with_precision(value_1, value_2, precision, comparison_operator):
-    '''Compare the value_1 with value_2 according to a comparison operator.
+    '''Compare the value_1 with value_2 according to a comparison operator, considering a precision tolerance.
     
     The valid comparison operators are:
         'equal to';

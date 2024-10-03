@@ -42,17 +42,9 @@ def before_feature(context, feature):
             }
         protocol_errors = protocol.enforce(convention_attrs)
         for error in protocol_errors:
-            validation_outcome = ValidationOutcome(
-            outcome_code=ValidationOutcomeCode.EXECUTED,
-            observed=error,
-            expected=error,
-            feature=context.feature.name,
-            feature_version=1,
-            severity=OutcomeSeverity.ERROR,
-        )
-            context.protocol_errors.append(validation_outcome)
+            context.protocol_errors.append(error)
 
-    context.gherkin_outcomes = context.protocol_errors
+    context.gherkin_outcomes = []
         
 
 def before_scenario(context, scenario):
@@ -131,3 +123,7 @@ def after_feature(context, feature):
         outcomes_bytes = outcomes_json_str.encode("utf-8") 
         for formatter in filter(lambda f: hasattr(f, "embedding"), context._runner.formatters):
             formatter.embedding(mime_type="application/json", data=outcomes_bytes, target='feature', attribute_name='validation_outcomes')
+
+            # embed protocol errors
+            protocol_errors_bytes = json.dumps(context.protocol_errors).encode("utf-8")
+            formatter.embedding(mime_type="application/json", data=protocol_errors_bytes, target='feature', attribute_name='protocol_errors') 

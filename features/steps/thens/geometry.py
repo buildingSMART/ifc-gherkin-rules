@@ -205,10 +205,17 @@ def step_impl(context, inst: ifcopenshell.entity_instance, path=None, attr:str =
                     # be parallel and cross
                     if info.is_parallel:
                         if not within_precision_range(ps, qs, precision):
-                            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+                            yield ValidationOutcome(
+                                inst=inst,
+                                observed=f"Invalid neighbours\n{ps}\nand\n{qs}",
+                                severity=OutcomeSeverity.ERROR
+                            )
                 else:
                     if info.distance < precision:
-                        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+                        yield ValidationOutcome(
+                            inst=inst,
+                            observed=f"Invalid intersection between\n{ps}\nand\n{qs}",
+                            severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("It must have no duplicate points {clause} first and last point")

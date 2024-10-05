@@ -188,7 +188,11 @@ def main():
         f.createIfcShapeRepresentation(f.by_type('IfcRepresentationContext')[0], 'Body', 'SweptSolid', [ext])
 
         fail_or_pass = "fail" if not isv else "pass"
-        f.write(f'{fail_or_pass}-gem010-IfcArbitraryClosedProfileDef-{shp_name}-{fn.__name__}.ifc')
+        model_file_name = f'{fail_or_pass}-swe001-IfcArbitraryClosedProfileDef-{shp_name}-{fn.__name__}.ifc'
+        header = f.wrapped_data.header
+        header.file_name.name = model_file_name
+
+        f.write(model_file_name)
     for fn, shp in itertools.product((poly, indexed), (rect, zigzag, parallel_rect, parallel_concave, concave_parallel_crossing, concave_parallel_crossing, concave_parallel_almost_crossing, concave_non_parallel_crossing, single_point_touching, rect_redundant, rect_colinear_cross, rect_near_colinear_cross)):
         process(fn, shp)
     for shp in (pizza, intersecting_arc, non_intersecting_tangent):

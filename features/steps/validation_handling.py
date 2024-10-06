@@ -20,7 +20,7 @@ DECORATORS FOR STEPS
 def global_rule(func):
     """
     Use this decorator when the rule applies to the whole stack instead of a single instance.
-    For instance 
+    For instance
     @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
     @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity} {tail:SubtypeHandling}')
     @global_rule
@@ -43,11 +43,11 @@ class gherkin_ifc():
             return step(step_text)(execute_step(func))
 
         return wrapped_step
-    
+
 
 def register_enum_type(cls):
     """
-    Use this decorator to register an enum type for behave, e.g. 
+    Use this decorator to register an enum type for behave, e.g.
     @register_enum_type
     class SubtypeHandling(Enum):
         INCLUDE = "including subtypes"
@@ -65,20 +65,69 @@ def generate_error_message(context, errors):
     assert not errors, "Errors occured:\n{}".format([str(error) for error in errors])
 
 
+def get_optional_fields(result, fields):
+    """
+    Extracts optional fields from a result object.
+
+    :param result: The result object to extract fields from.
+    :param fields: A list of field names to check in the result object.
+    :return: A dictionary with the fields found in the result object.
+    """
+    return {field: getattr(result, field) for field in fields if hasattr(result, field)}
+
+
+def get_stack_tree(context):
+    """Returns the stack tree of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
+    return list(
+        filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+
+
+def check_layer_for_entity_instance(i, stack_tree):
+    for layer in stack_tree:
+        if len(layer) > i and layer[i] and isinstance(layer[i], ifcopenshell.entity_instance):
+            return layer[i]
+    return None
+
+
+def flatten_list_of_lists(lst):
+    result = []
+    for item in lst:
+        if isinstance(item, list):
+            result.extend(flatten_list_of_lists(item))
+        else:
+            result.append(item)
+    return result
+
+
+def handle_nested(instance):
+    if isinstance(instance, tuple):
+        return
+
+
+def is_list_of_tuples_or_none(var):
+    return isinstance(var, list) and all(item is None or isinstance(item, tuple) for item in var)
+
+
 """
 Core validation handling functions operate as follows: 
 The execute_step function is triggered by the gherkin_ifc decorator and manages the logic for each step. 
 In case the step_type is 'Given', the handle_given function is invoked, and similarly, the handle_then function is called when the step_type is 'Then'. 
 """
 
+
 def execute_step(fn):
     is_global_rule = False
-    while hasattr(fn, '__wrapped__'): # unwrap the function if it is wrapped by a decorator in casse of catching multiple string platterns
+    is_full_stack_rule = False
+    while hasattr(fn, '__wrapped__'):
+        # unwrap the function if it is wrapped by a decorator in case of catching multiple string platterns
         is_global_rule = is_global_rule or getattr(fn, 'global_rule', False)
+        is_full_stack_rule = is_full_stack_rule or getattr(fn, 'full_stack_rule', False)
         fn = fn.__wrapped__
+
     @wraps(fn)
     def inner(context, **kwargs):
         context.is_global_rule = is_global_rule
+        context.is_full_stack_rule = is_full_stack_rule
 
         """
         This section of code performs two primary checks:
@@ -117,6 +166,7 @@ def execute_step(fn):
 
     return inner
 
+
 def handle_given(context, fn, **kwargs):
     """
     'Given' statements include four distinct functionalities.
@@ -125,7 +175,7 @@ def handle_given(context, fn, **kwargs):
     3) Filter the set of IfcAlignment based on a value ('Given attribute == X' -> [IfcAlignm, None, IfcAlignm])
     4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
     """
-    if not 'inst' in inspect.getargs(fn.__code__).args:
+    if 'inst' not in inspect.getargs(fn.__code__).args:
         gen = fn(context, **kwargs)
         if gen: # (2) Set initial set of instances
             insts = list(gen)
@@ -135,7 +185,7 @@ def handle_given(context, fn, **kwargs):
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
         context._push('attribute') # for attribute stacking
-        if 'at depth 1' in context.step.name: 
+        if 'at depth 1' in context.step.name:
             #todo @gh develop a more standardize approach
             context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=1, **kwargs)))
         else:
@@ -145,6 +195,7 @@ def handle_given(context, fn, **kwargs):
 def apply_operation(fn, inst, context, **kwargs):
     results = fn(context, inst, **kwargs)  
     return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
+
 
 def map_given_state(values, fn, context, depth=0, **kwargs):
     def is_nested(val):
@@ -166,60 +217,48 @@ def map_given_state(values, fn, context, depth=0, **kwargs):
         return None if values is None else apply_operation(fn, values, context, **kwargs)
 
 
-def handle_given(context, fn, **kwargs):
-    """
-    'Given' statements include four distinct functionalities.
-    1) Set file-wide context.applicable. No further steps (given or then) have to be executed when context.applicability is set to False
-    2) Set an initial set of instances ('Given an IfcAlignment' -> [IfcAlignm, IfcAlignm, IfcAlign])
-    3) Filter the set of IfcAlignment based on a value ('Given attribute == X' -> [IfcAlignm, None, IfcAlignm])
-    4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
-    """
-
-    if not 'inst' in inspect.getargs(fn.__code__).args:
-        gen = fn(context, **kwargs)
-        if gen: # (2) Set initial set of instances
-            insts = list(gen)
-            context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
-            pass
-        else:
-            pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
-    else:
-        context._push('attribute') # for attribute stacking
-        if 'at depth 1' in context.step.name: 
-            #todo @gh develop a more standardize approach
-            context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=1, **kwargs)))
-        else:
-            context.instances = map_given_state(context.instances, fn, context, **kwargs)
-
 def handle_then(context, fn, **kwargs):
     instances = getattr(context, 'instances', None) or (context.model.by_type(kwargs.get('entity')) if 'entity' in kwargs else [])
 
-    # if 'instances' are not actual ifcopenshell.entity_instance objects, but e.g. tuple of string values then get the actual instances from the stack tree
+    # if 'instances' are not actual ifcopenshell.entity_instance objects, but e.g. tuple of string values then
+    # get the actual instances from the stack tree
     activation_instances = misc.do_try(lambda: misc.get_stack_tree(context)[-1], instances)
 
-    #ensure the rule is not activated when there are no instances
-    #in case there are no instances but the rule is applicable (e.g. SPS001), then the rule is still activated and will return either a pass or an error
+    # ensure the rule is not activated when there are no instances
+    # in case there are no instances but the rule is applicable (e.g. SPS001),
+    # then the rule is still activated and will return either a pass or an error
     is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
     if is_activated:
         context.gherkin_outcomes.append(
-        ValidationOutcome(
-        outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
-        observed=None,
-        expected=None,
-        feature=context.feature.name,
-        feature_version=misc.define_feature_version(context),
-        severity=OutcomeSeverity.EXECUTED,
-        validation_task_id=context.validation_task_id
+            ValidationOutcome(
+                outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
+                observed=None,
+                expected=None,
+                feature=context.feature.name,
+                feature_version=misc.define_feature_version(context),
+                severity=OutcomeSeverity.EXECUTED,
+                validation_task_id=context.validation_task_id
+            )
         )
-    )
 
     def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
             if inst is None:
                 return
+            if context.is_full_stack_rule:
+                x = get_stack_tree(context)[::-1]
+                value_path = []
+                idxs = [current_path[0:i+1] for i in range(len(current_path))]
+                for idx, layer in zip(idxs, x):
+                    v = layer
+                    while idx:
+                        i, *idx = idx
+                        v = v[i]
+                    value_path.append(v)
+                kwargs = kwargs | {'path': value_path}
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
-#TODO: refactor into a more general solution that works for all rules
+# TODO: refactor into a more general solution that works for all rules
             if "GEM051" in context.feature.name and context.is_global_rule:
                 activation_inst = activation_instances[0]
             if isinstance(activation_inst, ifcopenshell.file):
@@ -248,7 +287,7 @@ def handle_then(context, fn, **kwargs):
                     else validation_outcome.expected)
 
                 context.gherkin_outcomes.append(validation_outcome)
-            
+
             # Currently, we should not inject passed outcomes for each individual instance to the databse
             # if not step_results:
 
@@ -290,9 +329,17 @@ def handle_then(context, fn, **kwargs):
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
 
 
+def full_stack_rule(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    wrapper.full_stack_rule = True
+    return wrapper
+
+
 def safe_method_call(obj, method_name, default=None ):
     """
-    used to retrieve an instance_id, this is normally done by calling the method on the instance. 
+    used to retrieve an instance_id, this is normally done by calling the method on the instance.
     However, if the method does not exist, the default (blank) value is returned
     """
     method = getattr(obj, method_name, None)

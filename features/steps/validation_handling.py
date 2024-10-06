@@ -31,6 +31,12 @@ def global_rule(func):
     wrapper.global_rule = True
     return wrapper
 
+def full_stack_rule(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    wrapper.full_stack_rule = True
+    return wrapper
 
 class gherkin_ifc():
     """
@@ -63,49 +69,6 @@ def generate_error_message(context, errors):
     Miscellaneous errors also are also printed to the console this way.
     """
     assert not errors, "Errors occured:\n{}".format([str(error) for error in errors])
-
-
-def get_optional_fields(result, fields):
-    """
-    Extracts optional fields from a result object.
-
-    :param result: The result object to extract fields from.
-    :param fields: A list of field names to check in the result object.
-    :return: A dictionary with the fields found in the result object.
-    """
-    return {field: getattr(result, field) for field in fields if hasattr(result, field)}
-
-
-def get_stack_tree(context):
-    """Returns the stack tree of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
-    return list(
-        filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
-
-
-def check_layer_for_entity_instance(i, stack_tree):
-    for layer in stack_tree:
-        if len(layer) > i and layer[i] and isinstance(layer[i], ifcopenshell.entity_instance):
-            return layer[i]
-    return None
-
-
-def flatten_list_of_lists(lst):
-    result = []
-    for item in lst:
-        if isinstance(item, list):
-            result.extend(flatten_list_of_lists(item))
-        else:
-            result.append(item)
-    return result
-
-
-def handle_nested(instance):
-    if isinstance(instance, tuple):
-        return
-
-
-def is_list_of_tuples_or_none(var):
-    return isinstance(var, list) and all(item is None or isinstance(item, tuple) for item in var)
 
 
 """
@@ -246,7 +209,7 @@ def handle_then(context, fn, **kwargs):
             if inst is None:
                 return
             if context.is_full_stack_rule:
-                x = get_stack_tree(context)[::-1]
+                x = misc.get_stack_tree(context)[::-1]
                 value_path = []
                 idxs = [current_path[0:i+1] for i in range(len(current_path))]
                 for idx, layer in zip(idxs, x):

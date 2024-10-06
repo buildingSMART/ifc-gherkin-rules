@@ -1,6 +1,7 @@
 import itertools
 import math
 import ifcopenshell
+import ifcopenshell.guid
 import ifcopenshell.template
 
 # polies
@@ -177,16 +178,28 @@ def main():
         shp_name = [name for name, val in globals().items() if val is shp][0]
         f = ifcopenshell.template.create()
 
+        # add subcontext so that GEM052 warning is not raised
+        f.createIfcGeometricRepresentationSubcontext('Body', 'Model', None, None, None, None, f.by_type('IFCGEOMETRICREPRESENTATIONCONTEXT')[0], 1E-2, 'MODEL_VIEW', None)
+
         # set to radians
         f.by_type('IfcUnitAssignment')[0].Units = f.by_type('IfcUnitAssignment')[0].Units[:-1] + (f[16],)
         f.remove(f[18])
 
         prof = f.createIfcArbitraryClosedProfileDef('AREA', None, fn(f, shp))
         ext = f.createIfcExtrudedAreaSolid(
-            prof, None, f.createIfcDirection((0., 0., 0.)), 1.
+            prof, None, f.createIfcDirection((0., 0., 1.)), 1.
         )
-        f.createIfcShapeRepresentation(f.by_type('IfcRepresentationContext')[0], 'Body', 'SweptSolid', [ext])
+        ext_shape = f.createIfcShapeRepresentation(f.by_type('IfcRepresentationContext')[0], 'Body', 'SweptSolid', [ext])
 
+        prod_def = f.createIfcProductDefinitionShape(None, None, [ext_shape])
+        product = f.createIfcBuildingElementProxy(
+            ifcopenshell.guid.new(),
+            ObjectPlacement=f.createIfcLocalPlacement(
+                RelativePlacement=f.createIfcAxis2Placement3D(
+                    f.createIfcCartesianPoint((0., 0., 0.)))),
+            Name="Proxy",
+            Representation=prod_def
+        )
         fail_or_pass = "fail" if not isv else "pass"
         model_file_name = f'{fail_or_pass}-swe001-IfcArbitraryClosedProfileDef-{shp_name}-{fn.__name__}.ifc'
         header = f.wrapped_data.header

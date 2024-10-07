@@ -166,6 +166,16 @@ def main():
         isv = is_valid(shp)
         shp_name = [name for name, val in globals().items() if val is shp][0]
         f = ifcopenshell.template.create()
+        
+        site = f.createIfcSite(
+            GlobalId=ifcopenshell.guid.new(),
+            OwnerHistory=None,
+            Name="MySite",
+            Description="{ProxySite}",
+            CompositionType="ELEMENT",
+            LandTitleNumber="1234",
+            SiteAddress=None
+        )
 
         # add subcontext so that GEM052 warning is not raised
         f.createIfcGeometricRepresentationSubcontext('Body', 'Model', None, None, None, None, f.by_type('IFCGEOMETRICREPRESENTATIONCONTEXT')[0], 1E-2, 'MODEL_VIEW', None)
@@ -182,12 +192,27 @@ def main():
                 )
             )
         )
+        
+        f.createIfcRelAggregates(
+            GlobalId=ifcopenshell.guid.new(),
+            OwnerHistory=None,
+            Name=None,
+            Description=None,
+            RelatingObject=site,
+            RelatedObjects=(building,)
+        )
+        
+        f.createIfcRelAggregates(
+            GlobalId=ifcopenshell.guid.new(),
+            RelatingObject=f.by_type("IfcProject")[0],
+            RelatedObjects = [site]
+        )
 
         # set to radians
         f.by_type('IfcUnitAssignment')[0].Units = f.by_type('IfcUnitAssignment')[0].Units[:-1] + (f[16],)
         f.remove(f[18])
 
-        tessellated_shape = f.createIfcShapeRepresentation(f.by_type('IfcRepresentationContext')[0], 'Body', 'SweptSolid', [fn(f, shp)])
+        tessellated_shape = f.createIfcShapeRepresentation(f.by_type('IfcRepresentationContext')[0], 'Body', 'SurfaceModel', [fn(f, shp)])
 
         prod_def = f.createIfcProductDefinitionShape(None, None, [tessellated_shape])
         proxy_product = f.createIfcBuildingElementProxy(

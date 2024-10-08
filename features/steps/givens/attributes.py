@@ -10,17 +10,22 @@ from validation_handling import gherkin_ifc, register_enum_type
 from . import ValidationOutcome, OutcomeSeverity
 
 from enum import Enum, auto
+
+
 class FirstOrFinal(Enum):
-  FIRST = auto()
-  FINAL = auto()
+    FIRST = auto()
+    FINAL = auto()
+
 
 class ComparisonOperator (Enum):
     EQUAL = auto()
     NOT_EQUAL = auto()
 
+
 class SubTypeHandling (Enum):
     INCLUDE = auto()
     EXCLUDE = auto()
+
 
 @register_enum_type
 class PrefixCondition(Enum):
@@ -36,6 +41,7 @@ register_type(equal_or_not_equal=TypeBuilder.make_enum({
     "is not": ComparisonOperator.NOT_EQUAL,
     "is": ComparisonOperator.EQUAL,
 }))
+
 
 def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, handling: SubTypeHandling) -> bool:
     """
@@ -55,6 +61,7 @@ def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, hand
         SubTypeHandling.EXCLUDE: lambda inst, entity_type: inst.is_a() == entity_type,
     }
     return handling_functions[handling](inst, entity_type)
+
 
 @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value}")
 @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value} {tail:include_or_exclude_subtypes}")

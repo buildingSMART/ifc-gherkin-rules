@@ -1,6 +1,5 @@
 @implementer-agreement
 @ALB
-@POS
 @version1
 @E00100
 Feature: ALB003 - Alignment Nesting

@@ -199,19 +199,28 @@ def step_impl(context, inst, attribute_compared:str, comparison_op:str, expressi
     except Exception as e:
         raise ValueError(f"Error evaluating expression: {e}")
 
-    # Compare the attribute with the expression value
-    comparison_func = operators.get(comparison_op)
-    if comparison_func:
-        result = comparison_func(attr_compared_value, expression_value)
-        if not result:
+    # Compare the attribute with the expression value, considering the precision
+    entity_contexts = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = geometry.get_precision_from_contexts(entity_contexts)
+
+    try:
+        result = geometry.compare_with_precision(attr_compared_value, expression_value, precision, comparison_op)
+        if result:
+            yield ValidationOutcome(
+                inst=inst,
+                expected=f"A value {comparison_op} {expression_value} with precision {precision}",
+                observed={attr_compared_value},
+                severity=OutcomeSeverity.PASSED,
+            )
+        else:
             yield ValidationOutcome(
                 inst=inst,
                 expected=f"A value {comparison_op} {expression_value}",
                 observed={attr_compared_value},
                 severity=OutcomeSeverity.ERROR,
-                )
-    else:
-        raise ValueError(f"Invalid comparison operator: {comparison_op}")
+            )
+    except ValueError as e:
+        raise ValueError(f"Error during comparison: {e}")
 
 @gherkin_ifc.step('First instance {first_expression} value must be {comparison_op} the second instance {second_expression}')
 @gherkin_ifc.step('First instance {first_expression} value must be {comparison_op} the second instance {second_expression} at depth 1')
@@ -278,16 +287,25 @@ def step_impl(context, inst, first_expression:str, comparison_op:str, second_exp
     except Exception as e:
         raise ValueError(f"Error evaluating expression: {e}")
 
-    # Compare the expression values
-    comparison_func = operators.get(comparison_op)
-    if comparison_func:
-        result = comparison_func(first_expression_value, second_expression_value)
-        if not result:
+    # Compare the attribute with the expression value, considering the precision
+    entity_contexts = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = geometry.get_precision_from_contexts(entity_contexts)
+
+    try:
+        result = geometry.compare_with_precision(first_expression_value, second_expression_value, precision, comparison_op)
+        if result:
+            yield ValidationOutcome(
+                inst=inst,
+                expected=f"A value {comparison_op} {second_expression_value} with precision {precision}",
+                observed=first_expression_value,
+                severity=OutcomeSeverity.PASSED,
+            )
+        else:
             yield ValidationOutcome(
                 inst=inst,
                 expected=f"A value {comparison_op} {second_expression_value}",
                 observed={first_expression_value},
                 severity=OutcomeSeverity.ERROR,
-                )
-    else:
-        raise ValueError(f"Invalid comparison operator: {comparison_op}")
+            )
+    except ValueError as e:
+        raise ValueError(f"Error during comparison: {e}")

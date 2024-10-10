@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition[Alignment-basedReferenceView]'),'2;1');
-FILE_NAME('pass-alb012-correct_radius_parabolic_curve_type.ifc','2024-07-18T15:37:33',('redacted'),('redacted'),'redacted','redacted','');
+FILE_NAME('fail-alb012-scenario01-constant_gradient_with_radius.ifc','2024-07-18T15:37:33',('redacted'),('redacted'),'redacted','redacted','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -113,7 +113,7 @@ DATA;
 #106=IFCALIGNMENTHORIZONTAL('2xHGSjSTHDOuz10zo9imZ$',$,'Horizontal Alignment',$,$,$,$);
 #107=IFCRELNESTS('3mBmExvib60u04Ek8FIcUL',$,$,'Nests horizontal alignment segments with horizontal alignment',#106,(#38,#48,#58,#68,#78,#88,#98));
 #108=IFCCOMPOSITECURVE((#45,#55,#65,#75,#85,#95,#105),.F.);
-#109=IFCALIGNMENTVERTICALSEGMENT($,$,0.,365.76,30.48,0.0175,0.0175,$,.CONSTANTGRADIENT.);
+#109=IFCALIGNMENTVERTICALSEGMENT($,$,0.,365.76,30.48,0.0175,0.0175,200.,.CONSTANTGRADIENT.);
 #110=IFCALIGNMENTSEGMENT('0wiwmz1qT5CguAmO4rZfuD',$,'V1',$,$,#217,#233,#109);
 #111=IFCCARTESIANPOINT((0.,30.48));
 #112=IFCDIRECTION((0.999846863274572,0.0175));

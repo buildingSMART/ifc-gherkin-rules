@@ -1,5 +1,5 @@
 import operator
-
+import ifcopenshell
 
 from utils import misc, system, geometry
 from validation_handling import gherkin_ifc
@@ -134,7 +134,7 @@ def step_impl(context, inst, constraint, num):
     inst = str(inst)
     op = misc.stmt_to_op(constraint)
     if not op(len(inst), num):
-        yield ValidationOutcome(inst=inst, expected=num, observed=len(inst), severity=OutcomeSeverity.ERROR) 
+        yield ValidationOutcome(inst=inst, expected=num, observed=len(inst), severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('The characters must be within the official encoding character set')
@@ -143,3 +143,169 @@ def step_impl(context, inst):
     invalid_guid_chars = [char for char in inst if char not in valid_chars]
     if invalid_guid_chars:
         yield ValidationOutcome(inst=inst, expected="^[0-9A-Za-z_$]+$", observed=invalid_guid_chars, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step('{attribute_compared} value must be {comparison_op} the expression: {expression}')
+def step_impl(context, inst, attribute_compared:str, comparison_op:str, expression:str):
+    '''
+    Compare a attribute to a expression based on attributes.
+
+    The {comparison_op} operator can be 'equal to', 'not equal to', 'greater than', 'less than', 'greater than or equal to', and 'less than or equal to'.
+
+    The {expression} should be composed by attribute values, and use the following operators:
+    + : addition;
+    - : subtraction;
+    * : multiplication;
+    / : division;
+    % : modulus;
+    ** : exponentiation.'''
+
+    operators = {
+        '+' : operator.add,
+        '-' : operator.sub,
+        '*' : operator.mul,
+        '/' : operator.truediv,
+        '%' : operator.mod,
+        '**' : operator.pow,
+        'equal to' : operator.eq,
+        'not equal to' : operator.ne,
+        'greater than' : operator.gt,
+        'less than' : operator.gt,
+        'greater than or equal to' : operator.ge,
+        'less than or equal to' : operator.le,
+    }
+
+    # Get compared attribute value
+
+    attr_compared_value = getattr(inst, attribute_compared, 'Compared attribute not found')
+    if isinstance(attr_compared_value, ifcopenshell.entity_instance):
+        raise Exception('Compared attribute value is an IFC entity')
+
+    # Replace attribute names with attribute values in the expression
+    for string in expression.split():
+        # Checks if the string is not a operator neither parenthesis
+        if string not in [*operators, '(', ')']:
+            if hasattr(inst, string):
+                if not isinstance(getattr(inst, string), ifcopenshell.entity_instance):
+                    expression = expression.replace(string, str(getattr(inst, string)))
+                else:
+                    raise Exception('Expression attribute value is an IFC entity')
+            else:
+                raise Exception('Expression attribute not found')
+
+    # Evaluate the string expression using eval
+    try:
+        expression_value = eval(expression)
+    except Exception as e:
+        raise ValueError(f"Error evaluating expression: {e}")
+
+    # Compare the attribute with the expression value, considering the precision
+    entity_contexts = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = geometry.get_precision_from_contexts(entity_contexts)
+
+    try:
+        result = geometry.compare_with_precision(attr_compared_value, expression_value, precision, comparison_op)
+        if result:
+            yield ValidationOutcome(
+                inst=inst,
+                expected=f"A value {comparison_op} {expression_value} with precision {precision}",
+                observed={attr_compared_value},
+                severity=OutcomeSeverity.PASSED,
+            )
+        else:
+            yield ValidationOutcome(
+                inst=inst,
+                expected=f"A value {comparison_op} {expression_value}",
+                observed={attr_compared_value},
+                severity=OutcomeSeverity.ERROR,
+            )
+    except ValueError as e:
+        raise ValueError(f"Error during comparison: {e}")
+
+@gherkin_ifc.step('First instance {first_expression} value must be {comparison_op} the second instance {second_expression}')
+@gherkin_ifc.step('First instance {first_expression} value must be {comparison_op} the second instance {second_expression} at depth 1')
+def step_impl(context, inst, first_expression:str, comparison_op:str, second_expression:str):
+    '''
+    Compare expressions based on attributes from two different instances.
+
+    The {comparison_op} operator can be 'equal to', 'not equal to', 'greater than', 'less than', 'greater than or equal to', and 'less than or equal to'.
+
+    The {expression} should be composed by attribute values, and use the following operators:
+    + : addition;
+    - : subtraction;
+    * : multiplication;
+    / : division;
+    % : modulus;
+    ** : exponentiation.'''
+
+    operators = {
+        '+' : operator.add,
+        '-' : operator.sub,
+        '*' : operator.mul,
+        '/' : operator.truediv,
+        '%' : operator.mod,
+        '**' : operator.pow,
+        'equal to' : operator.eq,
+        'not equal to' : operator.ne,
+        'greater than' : operator.gt,
+        'less than' : operator.gt,
+        'greater than or equal to' : operator.ge,
+        'less than or equal to' : operator.le,
+    }
+
+    # Get both instances
+    first_instance, second_instance = inst[0], inst[1]
+
+    # Replace attribute names with attribute values in the expression of the first instance
+    for string in first_expression.split():
+        # Checks if the string is not a operator neither parenthesis
+        if string not in [*operators, '(', ')']:
+            if hasattr(first_instance, string):
+                if not isinstance(getattr(first_instance, string), ifcopenshell.entity_instance):
+                    first_expression = first_expression.replace(string, str(getattr(first_instance, string)))
+                else:
+                    raise Exception('Expression attribute value is an IFC entity')
+            else:
+                raise Exception('Expression attribute not found')
+
+    # Replace attribute names with attribute values in the expression of the second instance
+    for string in second_expression.split():
+        # Checks if the string is not a operator neither parenthesis
+        if string not in [*operators, '(', ')']:
+            if hasattr(second_instance, string):
+                if not isinstance(getattr(second_instance, string), ifcopenshell.entity_instance):
+                    second_expression = second_expression.replace(string, str(getattr(second_instance, string)))
+                else:
+                    raise Exception('Expression attribute value is an IFC entity')
+            else:
+                raise Exception('Expression attribute not found')
+
+    # Evaluate the string expressions using eval
+    try:
+        first_expression_value = eval(first_expression)
+        second_expression_value = eval(second_expression)
+    except Exception as e:
+        raise ValueError(f"Error evaluating expression: {e}")
+
+    # Compare the attribute with the expression value, considering the precision
+    entity_contexts = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = geometry.get_precision_from_contexts(entity_contexts)
+
+    try:
+        result = geometry.compare_with_precision(first_expression_value, second_expression_value, precision, comparison_op)
+        if result:
+            yield ValidationOutcome(
+                inst=inst,
+                expected=f"A value {comparison_op} {second_expression_value} with precision {precision}",
+                observed=first_expression_value,
+                severity=OutcomeSeverity.PASSED,
+            )
+        else:
+            yield ValidationOutcome(
+                inst=inst,
+                expected=f"A value {comparison_op} {second_expression_value}",
+                observed={first_expression_value},
+                severity=OutcomeSeverity.ERROR,
+            )
+    except ValueError as e:
+        raise ValueError(f"Error during comparison: {e}")

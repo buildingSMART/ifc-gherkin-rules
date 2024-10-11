@@ -17,4 +17,4 @@ Feature: ALB012 - Alignment vertical segment radius of curvature
 
   Scenario: Validating the radius of curvature for parabolic segments
     Given PredefinedType = 'PARABOLICARC'
-    Then RadiusOfCurvature value must be equal to the expression: HorizontalLength / ( EndGradient - StartGradient )
+    Then The value of attribute RadiusOfCurvature must be equal to the expression: HorizontalLength / ( EndGradient - StartGradient )

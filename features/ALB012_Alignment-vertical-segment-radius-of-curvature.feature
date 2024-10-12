@@ -10,8 +10,9 @@ Feature: ALB012 - Alignment vertical segment radius of curvature
     Given An IfcAlignmentVertical
     Given A relationship IfcRelNests from IfcAlignmentVertical to IfcAlignmentSegment and following that
     Given Its attribute DesignParameters
+    Given Its entity type is 'IfcAlignmentVerticalSegment'
 
-  Scenario: Validating the absence of curvature radius for constant gradient vertical segment
+  Scenario: Validating the absence of curvature radius for specific predefined types of vertical segment
     Given PredefinedType != 'ARC' or 'PARABOLICARC'
     Then The value of attribute RadiusOfCurvature must be empty
 

@@ -224,8 +224,9 @@ def alignment_segment_angular_difference(
     return delta
 
 
-def compare_with_precision(value_1, value_2, precision, comparison_operator):
-    '''Compare the value_1 with value_2 according to a comparison operator, considering a precision tolerance.
+def compare_with_precision(value_1: float, value_2: float, precision: float, comparison_operator: str) -> bool:
+    """
+    Compare the value_1 with value_2 according to a comparison operator, considering a precision tolerance.
     
     The valid comparison operators are:
         'equal to';
@@ -234,18 +235,18 @@ def compare_with_precision(value_1, value_2, precision, comparison_operator):
         'less than';
         'greater than or equal to';
         'less than or equal to'. 
-    '''
+    """
     if comparison_operator == 'equal to':
-        return math.isclose(value_1, value_2, abs_tol=precision)
+        return math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
     elif comparison_operator == 'not equal to':
-        return not math.isclose(value_1, value_2, abs_tol=precision)
+        return not math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
     elif comparison_operator == 'greater than':
-        return value_1 > value_2 and not math.isclose(value_1, value_2, abs_tol=precision)
+        return value_1 > value_2 and not math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
     elif comparison_operator == 'less than':
-        return value_1 < value_2 and not math.isclose(value_1, value_2, abs_tol=precision)
+        return value_1 < value_2 and not math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
     elif comparison_operator == 'greater than or equal to':
-        return value_1 > value_2 or math.isclose(value_1, value_2, abs_tol=precision)
+        return value_1 > value_2 or math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
     elif comparison_operator == 'less than or equal to':
-        return value_1 < value_2 or math.isclose(value_1, value_2, abs_tol=precision)
+        return value_1 < value_2 or math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
     else:
         raise ValueError(f"Invalid comparison operator: {comparison_operator}")

@@ -7,7 +7,7 @@ import ifcopenshell.entity_instance
 import ifcopenshell.util.unit
 
 from utils import ifc43x_alignment_validation as ifc43
-from utils import geometry
+from utils.geometry import AlignmentSegmentContinuityCalculation
 from utils import ifc
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
@@ -377,6 +377,12 @@ def step_impl(context, inst, continuity_type):
     for previous, current in inst:
         entity_contexts = ifc.recurrently_get_entity_attr(context, current, 'IfcRepresentation', 'ContextOfItems')
         precision = ifc.get_precision_from_contexts(entity_contexts)
+        continuity_calc = AlignmentSegmentContinuityCalculation(
+            previous_segment=previous,
+            segment_to_analyze=current,
+            length_unit_scale_factor=length_unit_scale_factor,
+        )
+        continuity_calc.run()
 
         # calculate number of significant figures to display
         # use the precision of the geometric context plus one additional digit to accommodate rounding
@@ -387,19 +393,11 @@ def step_impl(context, inst, continuity_type):
 
         if (continuity_type == "position") and (current.Transition in position_transition_codes):
             expected = precision
-            observed = geometry.alignment_segment_positional_difference(
-                length_unit_scale_factor,
-                previous,
-                current
-            )
+            observed = continuity_calc.positional_difference
 
         elif (continuity_type == "tangency") and (current.Transition in tangency_transition_codes):
             expected = math.atan2(precision, current.SegmentLength.wrappedValue)
-            observed = geometry.alignment_segment_angular_difference(
-                length_unit_scale_factor,
-                previous,
-                current
-            )
+            observed = continuity_calc.directional_difference
         else:
             return
 
@@ -415,5 +413,6 @@ def step_impl(context, inst, continuity_type):
                     "observed": observed,
                     "num_digits": display_sig_figs,
                     "context": f"calculated deviation in {continuity_type.lower()}",
+                    "continuity_details": continuity_calc.to_dict(),
                 },
                 severity=OutcomeSeverity.WARNING)

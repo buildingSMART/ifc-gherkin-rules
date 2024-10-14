@@ -236,8 +236,8 @@ class AlignmentSegmentContinuityCalculation:
         because ifcopenshell.entity_instances are of type SwigPyObject which cannot be pickled
         """
         return {
-            "previous_segment": str(self.previous_segment),
-            "segment_to_analyze": str(self.segment_to_analyze),
+            "previous_segment": f"#{self.previous_segment.id()}={self.previous_segment.is_a()}",
+            "segment_to_analyze": f"#{self.segment_to_analyze.id()}={self.segment_to_analyze.is_a()}",
             "length_unit_scale_factor": self.length_unit_scale_factor,
             "preceding_end_point": tuple(self.preceding_end_point),
             "preceding_end_direction": self.preceding_end_direction,

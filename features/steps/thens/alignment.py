@@ -393,11 +393,11 @@ def step_impl(context, inst, continuity_type):
 
         if (continuity_type == "position") and (current.Transition in position_transition_codes):
             expected = precision
-            observed = continuity_calc.positional_difference
+            observed = continuity_calc.positional_difference()
 
         elif (continuity_type == "tangency") and (current.Transition in tangency_transition_codes):
             expected = math.atan2(precision, current.SegmentLength.wrappedValue)
-            observed = continuity_calc.directional_difference
+            observed = continuity_calc.directional_difference()
         else:
             return
 

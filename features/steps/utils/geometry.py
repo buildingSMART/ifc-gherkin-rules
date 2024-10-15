@@ -185,8 +185,6 @@ class AlignmentSegmentContinuityCalculation:
     preceding_end_direction: float = None
     current_start_point: tuple = None
     current_start_direction: float = None
-    positional_difference: float = None
-    directional_difference: float = None
 
     def _calculate_positional_difference(self) -> None:
 
@@ -202,10 +200,6 @@ class AlignmentSegmentContinuityCalculation:
         s1 = current_start_transform[3][1] / self.length_unit_scale_factor
         self.current_start_point = (s0, s1)
 
-        self.positional_difference = math.dist(
-            self.preceding_end_point, self.current_start_point)
-
-
     def _calculate_directional_difference(self) -> None:
         u = abs(float(self.previous_segment.SegmentLength.wrappedValue)) * self.length_unit_scale_factor
         prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
@@ -219,14 +213,23 @@ class AlignmentSegmentContinuityCalculation:
         curr_j = current_start_transform[0][1]
         self.current_start_direction = math.atan2(curr_j, curr_i)
 
-        self.directional_difference = abs(self.current_start_direction - self.preceding_end_direction)
-
     def run(self) -> None:
         """
         Run the calculation
         """
         self._calculate_positional_difference()
         self._calculate_directional_difference()
+
+    def positional_difference(self) -> float:
+        """
+        Total absolute difference between end point of previous segment
+        and start point of segment being analyzed.
+        """
+        return math.dist(
+            self.preceding_end_point, self.current_start_point)
+
+    def directional_difference(self) -> float:
+        return abs(self.current_start_direction - self.preceding_end_direction)
 
     def to_dict(self) -> Dict:
         """
@@ -243,6 +246,4 @@ class AlignmentSegmentContinuityCalculation:
             "preceding_end_direction": self.preceding_end_direction,
             "current_start_point": tuple(self.current_start_point),
             "current_start_direction": self.current_start_direction,
-            "positional_difference": self.positional_difference,
-            "directional_difference": self.directional_difference,
         }

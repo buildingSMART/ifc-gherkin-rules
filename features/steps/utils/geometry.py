@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import operator
 import math
+from typing import Dict
 
 import numpy as np
 
@@ -12,6 +13,7 @@ from .misc import is_a
 from .ifc import get_precision_from_contexts, recurrently_get_entity_attr
 
 GEOM_TOLERANCE = 1E-12
+
 
 
 def get_edges(file, inst, sequence_type=frozenset, oriented=False):
@@ -162,12 +164,11 @@ def evaluate_segment(segment: ifcopenshell.entity_instance, dist_along: float) -
 
     return np.array(prev_trans_matrix, dtype=np.float64).T
 
-
-def alignment_segment_positional_difference(
-        length_unit_scale_factor: float, previous_segment: ifcopenshell.entity_instance,
-        segment_to_analyze: ifcopenshell.entity_instance):
+@dataclass
+class AlignmentSegmentContinuityCalculation:
     """
-    Use ifcopenshell to determine the difference in cartesian position between segments of an IfcAlignment.
+    Use ifcopenshell to determine the difference in cartesian position and tangent direction
+    between segments of an IfcAlignment.
     The expected entity type is either `IfcCurveSegment` or `IfcCompositeCurveSegment`.
 
     :param length_unit_scale_factor: Scale factor between the project units and metric units used internally by
@@ -177,48 +178,72 @@ def alignment_segment_positional_difference(
     :param segment_to_analyze: The segment under analysis.  The calculated end point of the previous segment will be
     compared to the calculated start point of this segment.
     """
+    previous_segment: ifcopenshell.entity_instance
+    segment_to_analyze: ifcopenshell.entity_instance
+    length_unit_scale_factor: float
+    preceding_end_point: tuple = None
+    preceding_end_direction: float = None
+    current_start_point: tuple = None
+    current_start_direction: float = None
 
-    u = abs(previous_segment.SegmentLength.wrappedValue) * length_unit_scale_factor
-    prev_end_transform = evaluate_segment(segment=previous_segment, dist_along=u)
-    current_start_transform = evaluate_segment(segment=segment_to_analyze, dist_along=0.0)
+    def _calculate_positional_difference(self) -> None:
 
-    e0 = prev_end_transform[3][0] / length_unit_scale_factor
-    e1 = prev_end_transform[3][1] / length_unit_scale_factor
-    preceding_end = (e0, e1)
+        u = abs(self.previous_segment.SegmentLength.wrappedValue) * self.length_unit_scale_factor
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+        current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
-    s0 = current_start_transform[3][0] / length_unit_scale_factor
-    s1 = current_start_transform[3][1] / length_unit_scale_factor
-    current_start = (s0, s1)
+        e0 = prev_end_transform[3][0] / self.length_unit_scale_factor
+        e1 = prev_end_transform[3][1] / self.length_unit_scale_factor
+        self.preceding_end_point = (e0, e1)
 
-    return math.dist(preceding_end, current_start)
+        s0 = current_start_transform[3][0] / self.length_unit_scale_factor
+        s1 = current_start_transform[3][1] / self.length_unit_scale_factor
+        self.current_start_point = (s0, s1)
 
+    def _calculate_directional_difference(self) -> None:
+        u = abs(float(self.previous_segment.SegmentLength.wrappedValue)) * self.length_unit_scale_factor
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+        current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
-def alignment_segment_angular_difference(
-        length_unit_scale_factor: float, previous_segment: ifcopenshell.entity_instance,
-        segment_to_analyze: ifcopenshell.entity_instance):
-    """
-    Use ifcopenshell to determine the difference in tangent direction angle between segments of an IfcAlignment.
-    The expected entity type is either `IfcCurveSegment` or `IfcCompositeCurveSegment`.
+        prev_i = prev_end_transform[0][0]
+        prev_j = prev_end_transform[0][1]
+        self.preceding_end_direction = math.atan2(prev_j, prev_i)
 
-    :param length_unit_scale_factor: Scale factor between the project units and metric units used internally by
-    ifcopenshell
-    :param previous_segment: The segment that precede the segment being analyzed.  The ending direction of this segment
-    will be determined via ifcopenshell geometry calculations.
-    :param segment_to_analyze: The segment under analysis.  The calculated ending direction of the previous segment
-    will be compared to the calculated starting direction of this segment.
-    """
-    u = abs(float(previous_segment.SegmentLength.wrappedValue)) * length_unit_scale_factor
-    prev_end_transform = evaluate_segment(segment=previous_segment, dist_along=u)
-    current_start_transform = evaluate_segment(segment=segment_to_analyze, dist_along=0.0)
+        curr_i = current_start_transform[0][0]
+        curr_j = current_start_transform[0][1]
+        self.current_start_direction = math.atan2(curr_j, curr_i)
 
-    prev_i = prev_end_transform[0][0]
-    prev_j = prev_end_transform[0][1]
-    preceding_end_direction = math.atan2(prev_j, prev_i)
+    def run(self) -> None:
+        """
+        Run the calculation
+        """
+        self._calculate_positional_difference()
+        self._calculate_directional_difference()
 
-    curr_i = current_start_transform[0][0]
-    curr_j = current_start_transform[0][1]
-    current_start_direction = math.atan2(curr_j, curr_i)
+    def positional_difference(self) -> float:
+        """
+        Total absolute difference between end point of previous segment
+        and start point of segment being analyzed.
+        """
+        return math.dist(
+            self.preceding_end_point, self.current_start_point)
 
-    delta = abs(current_start_direction - preceding_end_direction)
+    def directional_difference(self) -> float:
+        return abs(self.current_start_direction - self.preceding_end_direction)
 
-    return delta
+    def to_dict(self) -> Dict:
+        """
+        Serialize dataclass to a dictionary
+
+        This method is required because dataclasses.asdict() will fail
+        because ifcopenshell.entity_instances are of type SwigPyObject which cannot be pickled
+        """
+        return {
+            "previous_segment": f"#{self.previous_segment.id()}={self.previous_segment.is_a()}",
+            "segment_to_analyze": f"#{self.segment_to_analyze.id()}={self.segment_to_analyze.is_a()}",
+            "length_unit_scale_factor": self.length_unit_scale_factor,
+            "preceding_end_point": tuple(self.preceding_end_point),
+            "preceding_end_direction": self.preceding_end_direction,
+            "current_start_point": tuple(self.current_start_point),
+            "current_start_direction": self.current_start_direction,
+        }

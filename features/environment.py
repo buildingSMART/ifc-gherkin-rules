@@ -42,21 +42,12 @@ def before_feature(context, feature):
             }
         protocol_errors = protocol.enforce(convention_attrs)
         for error in protocol_errors:
-            validation_outcome = ValidationOutcome(
-            outcome_code=ValidationOutcomeCode.EXECUTED,
-            observed=error,
-            expected=error,
-            feature=context.feature.name,
-            feature_version=1,
-            severity=OutcomeSeverity.ERROR,
-        )
-            context.protocol_errors.append(validation_outcome)
+            context.protocol_errors.append(error)
+
+    context.gherkin_outcomes = []
         
 
 def before_scenario(context, scenario):
-    context.gherkin_outcomes = []
-    for protocol_error in context.protocol_errors:
-        context.gherkin_outcomes.append(protocol_error)
     context.applicable = True
 
 def before_step(context, step):
@@ -68,9 +59,14 @@ def get_validation_outcome_hash(obj):
 def after_scenario(context, scenario):
     # Given steps may introduce an arbitrary amount of stackframes.
     # we need to clean them up before behave starts appending new ones.
+    old_outcomes = getattr(context, 'gherkin_outcomes', [])
     while context._stack[0].get('@layer') == 'attribute':
         context._pop()
+    # preserve the outcomes to be serialized to DB in after_feature()
+    context.gherkin_outcomes = old_outcomes
 
+
+def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         from validation_results import OutcomeSeverity, ModelInstance, ValidationTask
@@ -81,20 +77,15 @@ def after_scenario(context, scenario):
             if failed_outcomes:
                 unique_outcomes = set() # TODO __hash__ + __eq__ will be better
                 unique_objects = [obj for obj in failed_outcomes if get_validation_outcome_hash(obj) not in unique_outcomes and (unique_outcomes.add(get_validation_outcome_hash(obj)) or True)]
-                return unique_objects
-
+                yield from unique_objects
             else:
                 outcome_counts = Counter(outcome.severity for outcome in context.gherkin_outcomes)
-
                 for severity in [OutcomeSeverity.PASSED, OutcomeSeverity.EXECUTED, OutcomeSeverity.NOT_APPLICABLE]:
                     if outcome_counts[severity] > 0:
-                        for outcome in context.gherkin_outcomes:
-                            if outcome.severity == severity:
-                                return [outcome]
+                        yield next(outcome for outcome in context.gherkin_outcomes if outcome.severity == severity)
+                        break
 
-            return []
-
-        outcomes_to_save = reduce_db_outcomes(context.gherkin_outcomes)
+        outcomes_to_save = list(reduce_db_outcomes(context.gherkin_outcomes))
 
         if outcomes_to_save and context.validation_task_id is not None:
             retrieved_task = ValidationTask.objects.get(id=context.validation_task_id)
@@ -132,3 +123,7 @@ def after_scenario(context, scenario):
         outcomes_bytes = outcomes_json_str.encode("utf-8") 
         for formatter in filter(lambda f: hasattr(f, "embedding"), context._runner.formatters):
             formatter.embedding(mime_type="application/json", data=outcomes_bytes, target='feature', attribute_name='validation_outcomes')
+
+            # embed protocol errors
+            protocol_errors_bytes = json.dumps(context.protocol_errors).encode("utf-8")
+            formatter.embedding(mime_type="application/json", data=protocol_errors_bytes, target='feature', attribute_name='protocol_errors') 

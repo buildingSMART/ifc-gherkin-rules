@@ -128,6 +128,11 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                 except KeyError:
                     el_list = []
                 for el in el_list:
+                    protocol_errors = json.loads(base64.b64decode(el.get('protocol_errors', [{}])[0].get('data', '')).decode('utf-8')) if el.get('protocol_errors') else []
+                    if protocol_errors:
+                        yield {
+                            'protocol_errors': protocol_errors,
+                        }
                     scenario_validation_outcomes = json.loads(base64.b64decode(el.get('validation_outcomes', [{}])[0].get('data', '')).decode('utf-8')) if el.get('validation_outcomes') else []
                     scenario_info = {
                         'scenario_name': el['name'],

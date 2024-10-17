@@ -98,8 +98,8 @@ def test_invocation(filename):
         tabulate_results = [
             (
                 f"{outcome.get('feature')} - v{outcome.get('feature_version')}", # Feature
-                outcome.get('scenario_name'), # Scenario 
-                outcome.get('step_names')[-1], # Last Step
+                outcome.get('scenario'), # Scenario 
+                outcome.get('last_step'), # Last Step
                 outcome.get('instance_id'), # Instance
                 f"Expected : {outcome.get('expected')}, Observed : {outcome.get('observed')}", # Message
                 outcome.get('outcome_code') # Code

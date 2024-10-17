@@ -232,6 +232,7 @@ def handle_then(context, fn, **kwargs):
                 displayed_inst_override_trigger = "and display entity instance"
                 displayed_inst_override = displayed_inst_override_trigger in context.step.name.lower()
                 inst_to_display = inst if displayed_inst_override else activation_inst
+                instance_id = safe_method_call(inst_to_display, 'id', None)
 
                 validation_outcome = ValidationOutcome(
                     outcome_code=get_outcome_code(result, context),
@@ -240,7 +241,7 @@ def handle_then(context, fn, **kwargs):
                     feature=context.feature.name,
                     feature_version=misc.define_feature_version(context),
                     severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                    instance_id=safe_method_call(inst_to_display, 'id', None),
+                    instance_id=instance_id,
                     validation_task_id=context.validation_task_id
                 )
                 # suppress the 'display_entity' trigger text if it is used as part of the expected value
@@ -250,6 +251,7 @@ def handle_then(context, fn, **kwargs):
                     else validation_outcome.expected)
 
                 context.gherkin_outcomes.append(validation_outcome)
+                context.instance_outcome_state[len(context.gherkin_outcomes)] = instance_id
 
             # Currently, we should not inject passed outcomes for each individual instance to the databse
             # if not step_results:

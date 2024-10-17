@@ -45,6 +45,10 @@ def before_feature(context, feature):
             context.protocol_errors.append(error)
 
     context.gherkin_outcomes = []
+    
+    # display the correct scenario and insanity related to the gherkin outcome in the behave console & ci/cd report
+    context.scenario_outcome_state= {}
+    context.instance_outcome_state = {} 
         
 
 def before_scenario(context, scenario):
@@ -64,6 +68,9 @@ def after_scenario(context, scenario):
         context._pop()
     # preserve the outcomes to be serialized to DB in after_feature()
     context.gherkin_outcomes = old_outcomes
+    context.scenario_outcome_state[len(context.gherkin_outcomes)] = {'scenario': scenario.name,
+                                                     'last_step': scenario.steps[-1]}
+    
 
 
 def after_feature(context, feature):
@@ -119,6 +126,11 @@ def after_feature(context, feature):
 
     else: # invoked via console or CI/CD pipeline
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]
+        for idx, outcome in enumerate(outcomes):
+            sls = find_scenario_for_outcome(context, idx + 1)
+            outcome['scenario'] = sls['scenario']
+            outcome['last_step'] = sls['last_step'].name
+            outcome['instance_id'] = context.instance_outcome_state.get(idx+1, '')
         outcomes_json_str = json.dumps(outcomes) #ncodes to utf-8 
         outcomes_bytes = outcomes_json_str.encode("utf-8") 
         for formatter in filter(lambda f: hasattr(f, "embedding"), context._runner.formatters):
@@ -127,3 +139,11 @@ def after_feature(context, feature):
             # embed protocol errors
             protocol_errors_bytes = json.dumps(context.protocol_errors).encode("utf-8")
             formatter.embedding(mime_type="application/json", data=protocol_errors_bytes, target='feature', attribute_name='protocol_errors') 
+            
+            
+def find_scenario_for_outcome(context, outcome_index):
+    previous_count = 0
+    for count, scenario in context.scenario_outcome_state.items():
+        if previous_count < outcome_index <= count:
+            return scenario
+        previous_count = count

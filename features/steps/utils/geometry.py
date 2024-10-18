@@ -183,10 +183,12 @@ class AlignmentSegmentContinuityCalculation:
     length_unit_scale_factor: float
     preceding_end_point: tuple = None
     preceding_end_direction: float = None
+    preceding_end_gradient: float = None
     current_start_point: tuple = None
     current_start_direction: float = None
+    current_start_gradient: float = None
 
-    def _calculate_positional_difference(self) -> None:
+    def _calculate_positions(self) -> None:
 
         u = abs(self.previous_segment.SegmentLength.wrappedValue) * self.length_unit_scale_factor
         prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
@@ -200,7 +202,7 @@ class AlignmentSegmentContinuityCalculation:
         s1 = current_start_transform[3][1] / self.length_unit_scale_factor
         self.current_start_point = (s0, s1)
 
-    def _calculate_directional_difference(self) -> None:
+    def _calculate_directions(self) -> None:
         u = abs(float(self.previous_segment.SegmentLength.wrappedValue)) * self.length_unit_scale_factor
         prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
@@ -208,17 +210,19 @@ class AlignmentSegmentContinuityCalculation:
         prev_i = prev_end_transform[0][0]
         prev_j = prev_end_transform[0][1]
         self.preceding_end_direction = math.atan2(prev_j, prev_i)
+        self.preceding_end_gradient = float(prev_j / prev_i)
 
         curr_i = current_start_transform[0][0]
         curr_j = current_start_transform[0][1]
         self.current_start_direction = math.atan2(curr_j, curr_i)
+        self.current_start_gradient = float(curr_j / curr_i)
 
     def run(self) -> None:
         """
         Run the calculation
         """
-        self._calculate_positional_difference()
-        self._calculate_directional_difference()
+        self._calculate_positions()
+        self._calculate_directions()
 
     def positional_difference(self) -> float:
         """
@@ -229,7 +233,18 @@ class AlignmentSegmentContinuityCalculation:
             self.preceding_end_point, self.current_start_point)
 
     def directional_difference(self) -> float:
+        """
+        Total absolute difference between end direction (radians) of previous segment
+        and start direction of segment being analyzed.
+        """
         return abs(self.current_start_direction - self.preceding_end_direction)
+
+    def gradient_difference(self) -> float:
+        """
+        Total absolute difference between end gradient (unit-less m/m or ft/ft) of previous segment
+        and start gradient of segment being analyzed.
+        """
+        return abs(self.current_start_gradient - self.preceding_end_gradient)
 
     def to_dict(self) -> Dict:
         """

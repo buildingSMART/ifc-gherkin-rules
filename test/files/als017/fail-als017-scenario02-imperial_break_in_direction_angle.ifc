@@ -259,5 +259,13 @@ DATA;
 #252=IFCSITE('2yTTT3FfXApBD9cGGp3m3r',$,'Site of Bridge 3',$,$,$,$,$,$,$,$,$,$,$);
 #253=IFCRELREFERENCEDINSPATIALSTRUCTURE('2yHFTnkCH0yeQEKpzJcoDh',$,$,'Alignments referenced into the spatial structure of Bridge Site 3',(#245),#252);
 #254=IFCRELAGGREGATES('1lgBZbq31DJxpXuomkg8Ql',$,$,'Bridge sites aggregated into the overall project',#1,(#248,#250,#252));
+
+#353=IFCPOINTBYDISTANCEEXPRESSION(IFCLENGTHMEASURE(0.0),$,$,$,#206);
+#354=IFCDIRECTION((0.0,0.0,1.0));
+#355=IFCDIRECTION((1.0,0.0,0.0));
+#356=IFCAXIS2PLACEMENTLINEAR(#353,#354,#355);
+#357=IFCLINEARPLACEMENT(#19,#356,$);
+#358=IFCREFERENT('2zixUIGIj7BAK8Y9gLlzR8',$,'100+00.00',$,$,#357,$,.STATION.);
+#27847=IFCRELNESTS('0BpmB07SP9FOzMnuR714Dq',$,$,'Nests referent with the alignment',#245,(#358));
 ENDSEC;
 END-ISO-10303-21;

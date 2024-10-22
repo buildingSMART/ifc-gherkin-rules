@@ -50,9 +50,12 @@ def test_invocation(filename):
         print('The Gherkin tests did not run for the specified test file, and the JSON report is empty. Please review the test file for any errors.')
 
     rule_is_disabled = feature_info['rule_is_disabled']
-    protocol_errors = next((d for d in gherkin_results if 'protocol_errors' in d), None)
 
-    validation_outcomes = [d for d in gherkin_results[1:] if 'protocol_errors' not in d]
+    ci_cd_checks = {'protocol_errors': [], 'caught_exceptions': []}
+    for i in ci_cd_checks.keys():
+        ci_cd_checks[i] = next((d for d in gherkin_results if i in d), None)
+        
+    validation_outcomes = [d for d in gherkin_results[1:] if all(key not in d for key in ci_cd_checks.keys())]
 
     error_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] in ['Error', 'Warning']]
     activating_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] == 'Executed']
@@ -79,6 +82,7 @@ def test_invocation(filename):
         # did not result in an actionable set of instances at the time of the first then step.
         
         #first, check if there are no protocol errors
+        protocol_errors = ci_cd_checks['protocol_errors']
         if protocol_errors:
             red_text = "\033[91m"
             reset_text = "\033[0m"
@@ -86,6 +90,21 @@ def test_invocation(filename):
             print(tabulate.tabulate([[error] for error in protocol_errors['protocol_errors']], headers=['Details'], tablefmt='fancy_grid'))
             assert False # table should be printed before the assertion
         
+        caught_exceptions = ci_cd_checks['caught_exceptions']
+        if caught_exceptions:
+            caught_exceptions = caught_exceptions['caught_exceptions']
+            red_text = "\033[91m"
+            reset_text = "\033[0m"
+            print(f'{red_text}\n\nWARNING: The following caught exceptions have been found:{reset_text}')
+
+            table_data = [
+                [exc['feature'], exc['step'], exc['error_type'], exc['location']]
+                for exc in caught_exceptions
+            ]
+            
+            headers = ['Feature', 'Step', 'Error Type', 'Location']
+            print(tabulate.tabulate(table_data, headers=headers, tablefmt='fancy_grid'))
+            assert False
         
         if base.startswith('fail'):
             assert len(error_outcomes) > 0

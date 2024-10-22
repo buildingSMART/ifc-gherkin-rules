@@ -3,11 +3,11 @@ from behave.model import Scenario
 from collections import Counter
 import os
 from rule_creation_protocol import protocol
+from features.exception_logger import ExceptionSummary
 import json
 
 from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
-
 
 model_cache = {}
 def read_model(fn):
@@ -27,7 +27,7 @@ def before_feature(context, feature):
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
 
-    context.protocol_errors = []
+    context.protocol_errors, context.caught_exceptions = [], []
     if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
         ifc_filename_incl_path = context.config.userdata.get('input')
         convention_attrs = {
@@ -59,6 +59,10 @@ def get_validation_outcome_hash(obj):
 def after_scenario(context, scenario):
     # Given steps may introduce an arbitrary amount of stackframes.
     # we need to clean them up before behave starts appending new ones.
+    
+    if context.failed:
+        context.caught_exceptions.append(ExceptionSummary.from_context(context))
+    
     old_outcomes = getattr(context, 'gherkin_outcomes', [])
     while context._stack[0].get('@layer') == 'attribute':
         context._pop()
@@ -127,3 +131,7 @@ def after_feature(context, feature):
             # embed protocol errors
             protocol_errors_bytes = json.dumps(context.protocol_errors).encode("utf-8")
             formatter.embedding(mime_type="application/json", data=protocol_errors_bytes, target='feature', attribute_name='protocol_errors') 
+            
+            # embed catched exceptions
+            caught_exceptions_bytes = json.dumps([exc.to_dict() for exc in context.caught_exceptions]).encode("utf-8")
+            formatter.embedding(mime_type="application/json", data=caught_exceptions_bytes, target='feature', attribute_name='caught_exceptions')

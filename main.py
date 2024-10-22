@@ -128,11 +128,18 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                 except KeyError:
                     el_list = []
                 for el in el_list:
-                    protocol_errors = json.loads(base64.b64decode(el.get('protocol_errors', [{}])[0].get('data', '')).decode('utf-8')) if el.get('protocol_errors') else []
+                    
+                    protocol_errors = decode_and_load_data(el, 'protocol_errors')
                     if protocol_errors:
                         yield {
                             'protocol_errors': protocol_errors,
                         }
+                    caught_exceptions = decode_and_load_data(el, 'caught_exceptions')
+                    if caught_exceptions:
+                        yield {
+                            'caught_exceptions': caught_exceptions,
+                        }
+                        
                     scenario_validation_outcomes = json.loads(base64.b64decode(el.get('validation_outcomes', [{}])[0].get('data', '')).decode('utf-8')) if el.get('validation_outcomes') else []
                     scenario_info = {
                         'scenario_name': el['name'],
@@ -142,3 +149,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                         yield validation_outcome | scenario_info
     os.close(fd)
     os.unlink(jsonfn)
+
+def decode_and_load_data(element, key):
+    """" Decode base64 encoded data and load it as json """
+    return json.loads(base64.b64decode(element.get(key, [{}])[0].get('data', '')).decode('utf-8')) if element.get(key) else []

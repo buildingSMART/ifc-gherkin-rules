@@ -68,7 +68,7 @@ def generate_error_message(context, errors):
     Function to trigger the behave error mechanism so that the JSON output is generated correctly.
     Miscellaneous errors also are also printed to the console this way.
     """
-    assert not errors, "Errors occured:\n{}".format([str(error) for error in errors])
+    assert not errors, "Behave errors occured:\n{}".format([str(error) for error in errors])
 
 
 """

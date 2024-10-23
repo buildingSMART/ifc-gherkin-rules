@@ -86,7 +86,7 @@ def test_invocation(filename):
         if protocol_errors:
             red_text = "\033[91m"
             reset_text = "\033[0m"
-            print(f'{red_text}\n\nWARNING: The following protocol errors have been found:{reset_text}')
+            print(f'{red_text}\n\nWARNING: The following protocol errors were caught:{reset_text}')
             print(tabulate.tabulate([[error] for error in protocol_errors], headers=['Details'], tablefmt='fancy_grid'))
             assert False # table should be printed before the assertion
         
@@ -94,7 +94,7 @@ def test_invocation(filename):
         if caught_exceptions:
             red_text = "\033[91m"
             reset_text = "\033[0m"
-            print(f'{red_text}\n\nWARNING: The following caught exceptions have been found:{reset_text}')
+            print(f'{red_text}\n\nWARNING: The following exceptions were caught:{reset_text}')
             
             def wrap_text(text, width):
                 return '\n'.join(text[i:i+width] for i in range(0, len(text), width))

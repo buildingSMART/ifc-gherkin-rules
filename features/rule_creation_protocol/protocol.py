@@ -283,11 +283,11 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
         
 
-        """Check if test file start with pass or fail"""
+        """Check if test file start with a valid prefix"""
         if result not in ('pass', 'fail', 'na'):
             raise ProtocolError(
                 value=value,
-                message=f"Name of the result file must start with 'pass', 'fail' or 'na'. In that case name starts with: {result}"
+                message=f"Name of the test file must start with 'pass', 'fail', or 'na'. This file name starts with: {result}"
             )
 
         """Check if a second part of the test file is a rule code"""

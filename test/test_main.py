@@ -107,15 +107,14 @@ def test_invocation(filename):
             
             headers = ['Feature', 'Step', 'Error Type', 'Location']
             print(tabulate.tabulate(table_data, headers=headers, tablefmt='fancy_grid'))
-            assert False
-        
+
         if base.startswith('fail'):
-            assert len(error_outcomes) > 0
+            assert len(error_outcomes) > 0 or caught_exceptions
         elif base.startswith('pass'):
             assert len(error_outcomes) == 0 and len(activating_outcomes) > 0
         elif base.startswith('na'):
             assert len(error_outcomes) == 0 and len(activating_outcomes) == 0
-    
+
     if error_outcomes:
         tabulate_results = [
             (

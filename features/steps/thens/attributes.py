@@ -221,12 +221,14 @@ def step_impl(context, inst, constraint, num):
     inst = str(inst)
     op = misc.stmt_to_op(constraint)
     if not op(len(inst), num):
-        yield ValidationOutcome(inst=inst, expected=num, observed=len(inst), severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected={'length':num, 'expected_or_observed':'expected'}, observed={'length': len(inst), 'expected_or_observed':'observed', 'inst':inst}, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step('The characters must be within the official encoding character set')
 def step_impl(context, inst):
     valid_chars = set("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$")
+    if not isinstance(inst, str):
+        return
     invalid_guid_chars = [char for char in inst if char not in valid_chars]
     if invalid_guid_chars:
-        yield ValidationOutcome(inst=inst, expected="^[0-9A-Za-z_$]+$", observed=invalid_guid_chars, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected={'invalid_guid_chars': "0-9, A-Z, a-z, _, $", 'expected_or_observed':'expected'}, observed={'invalid_guid_chars': invalid_guid_chars, 'expected_or_observed':'observed','inst':inst}, severity=OutcomeSeverity.ERROR)

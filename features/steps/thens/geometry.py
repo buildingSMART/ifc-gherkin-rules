@@ -161,7 +161,9 @@ def step_impl(context, inst: ifcopenshell.entity_instance, path=None, attr:str =
         # can get false positive intersection outcomes (near sharp corners). But also not too
         # large because that can also result into false positives (when multiple curves are
         # close)
-        deflection = min(precision * 10, 0.01)
+        # We should not go below 1.e-4 though (1/10 of a mm) because of memory and performance
+        # issues.
+        deflection = max(min(precision * 10, 0.01),1.e-4)
         try:
             settings = ifcopenshell.geom.settings(MESHER_LINEAR_DEFLECTION=deflection)
         except:

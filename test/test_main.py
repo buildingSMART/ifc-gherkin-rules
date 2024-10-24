@@ -50,9 +50,12 @@ def test_invocation(filename):
         print('The Gherkin tests did not run for the specified test file, and the JSON report is empty. Please review the test file for any errors.')
 
     rule_is_disabled = feature_info['rule_is_disabled']
-    protocol_errors = next((d for d in gherkin_results if 'protocol_errors' in d), None)
 
-    validation_outcomes = [d for d in gherkin_results[1:] if 'protocol_errors' not in d]
+    ci_cd_checks = {'protocol_errors': [], 'caught_exceptions': []}
+    for i in ci_cd_checks.keys():
+        ci_cd_checks[i] = next((d[i] for d in gherkin_results if i in d), None)
+        
+    validation_outcomes = [d for d in gherkin_results[1:] if all(key not in d for key in ci_cd_checks.keys())]
 
     error_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] in ['Error', 'Warning']]
     activating_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] == 'Executed']
@@ -79,21 +82,39 @@ def test_invocation(filename):
         # did not result in an actionable set of instances at the time of the first then step.
         
         #first, check if there are no protocol errors
+        protocol_errors = ci_cd_checks['protocol_errors']
         if protocol_errors:
             red_text = "\033[91m"
             reset_text = "\033[0m"
-            print(f'{red_text}\n\nWARNING: The following protocol errors have been found:{reset_text}')
-            print(tabulate.tabulate([[error] for error in protocol_errors['protocol_errors']], headers=['Details'], tablefmt='fancy_grid'))
+            print(f'{red_text}\n\nWARNING: The following protocol errors were caught:{reset_text}')
+            print(tabulate.tabulate([[error] for error in protocol_errors], headers=['Details'], tablefmt='fancy_grid'))
             assert False # table should be printed before the assertion
         
-        
+        caught_exceptions = ci_cd_checks['caught_exceptions']
+        if caught_exceptions:
+            red_text = "\033[91m"
+            reset_text = "\033[0m"
+            print(f'{red_text}\n\nWARNING: The following exceptions were caught:{reset_text}')
+            
+            def wrap_text(text, width):
+                return '\n'.join(text[i:i+width] for i in range(0, len(text), width))
+
+            table_data = [
+                [wrap_text(exc['feature'], 40), wrap_text(exc['step'], 40), exc['error_type'], wrap_text(exc['location'], 60)]
+                for exc in caught_exceptions
+            ]
+
+            
+            headers = ['Feature', 'Step', 'Error Type', 'Location']
+            print(tabulate.tabulate(table_data, headers=headers, tablefmt='fancy_grid'))
+
         if base.startswith('fail'):
-            assert len(error_outcomes) > 0
+            assert len(error_outcomes) > 0 or caught_exceptions
         elif base.startswith('pass'):
             assert len(error_outcomes) == 0 and len(activating_outcomes) > 0
         elif base.startswith('na'):
             assert len(error_outcomes) == 0 and len(activating_outcomes) == 0
-    
+
     if error_outcomes:
         tabulate_results = [
             (

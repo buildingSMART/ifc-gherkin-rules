@@ -133,9 +133,10 @@ def after_feature(context, feature):
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]
         for idx, outcome in enumerate(outcomes):
             sls = find_scenario_for_outcome(context, idx + 1)
-            outcome['scenario'] = sls['scenario']
-            outcome['last_step'] = sls['last_step'].name
-            outcome['instance_id'] = context.instance_outcome_state.get(idx+1, '')
+            if sls is not None:
+                outcome['scenario'] = sls['scenario']
+                outcome['last_step'] = sls['last_step'].name
+                outcome['instance_id'] = context.instance_outcome_state.get(idx + 1, '')
         outcomes_json_str = json.dumps(outcomes) #ncodes to utf-8 
         outcomes_bytes = outcomes_json_str.encode("utf-8") 
         for formatter in filter(lambda f: hasattr(f, "embedding"), context._runner.formatters):

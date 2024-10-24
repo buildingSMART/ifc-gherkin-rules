@@ -126,12 +126,8 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
                             yield {key: data}
                         
                     scenario_validation_outcomes = json.loads(base64.b64decode(el.get('validation_outcomes', [{}])[0].get('data', '')).decode('utf-8')) if el.get('validation_outcomes') else []
-                    scenario_info = {
-                        'scenario_name': el['name'],
-                        'step_names': [step['name'] for step in el['steps']]
-                    }
                     for validation_outcome in scenario_validation_outcomes:
-                        yield validation_outcome | scenario_info
+                        yield validation_outcome 
     os.close(fd)
     os.unlink(jsonfn)
 

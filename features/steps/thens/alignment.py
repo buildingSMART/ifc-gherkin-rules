@@ -370,6 +370,10 @@ def step_impl(context, inst, continuity_type):
     position_transition_codes = ["CONTINUOUS", "CONTSAMEGRADIENT", "CONTSAMEGRADIENTSAMECURVATURE"]
     tangency_transition_codes = ["CONTSAMEGRADIENT", "CONTSAMEGRADIENTSAMECURVATURE"]
 
+    # accommodate both 'vertical gradient' and 'cant gradient' as continuity type
+    if "gradient" in continuity_type:
+        continuity_type = "gradient"
+
     length_unit_scale_factor = ifcopenshell.util.unit.calculate_unit_scale(
         ifc_file=context.model,
         unit_type="LENGTHUNIT"
@@ -398,6 +402,10 @@ def step_impl(context, inst, continuity_type):
         elif (continuity_type == "tangency") and (current.Transition in tangency_transition_codes):
             expected = math.atan2(precision, current.SegmentLength.wrappedValue)
             observed = continuity_calc.directional_difference()
+
+        elif (continuity_type == "gradient") and (current.Transition in tangency_transition_codes):
+            expected = precision
+            observed = continuity_calc.gradient_difference()
         else:
             return
 

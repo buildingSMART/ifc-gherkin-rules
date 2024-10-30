@@ -215,7 +215,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcGeographicElementType        | "SOIL_BORING_POINT"            |
       | IfcSpace                        | "INTERNAL" or "EXTERNAL"       |
       | IfcSpaceType                    | "INTERNAL" or "EXTERNAL"       |
-      | IfcStructuralLoadGroup          | "LOAD_COMBINATION"             |
+      | IfcStructuralLoadGroup          | "LOAD_COMBINATION_GROUP"             |
       | IfcWall                         | "POLYGONAL" or "STANDARD"      |
       | IfcWallType                     | "POLYGONAL" or "STANDARD"      |
 
@@ -231,7 +231,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
     Examples:
       | Entity                   |  Value                                       |
-      | IfcStructuralLoadGroup   | "LOAD_COMBINATION"                           | 
+      | IfcStructuralLoadGroup   | "LOAD_COMBINATION_GROUP"                           | 
       | IfcWall                  | "POLYGONAL" or "STANDARD" or "ELEMENTEDWALL" |
       | IfcWallType              | "POLYGONAL" or "STANDARD" or "ELEMENTEDWALL" |
 

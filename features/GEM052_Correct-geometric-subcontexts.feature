@@ -24,8 +24,8 @@ Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
 
         Examples: 
             | schema | source |
-            | IFC4.3 | valid_RepresentationIdentifier_IFC4.3.csv |
-            | IFC4   | valid_RepresentationIdentifier_IFC4.csv |
+            | IFC4.3 | valid_RepresentationIdentifier.csv |
+            | IFC4   | valid_RepresentationIdentifier.csv |
 
 
     Scenario: Context identifier must not be empty

@@ -1,0 +1,6 @@
+Vertex,topological vertex representation
+Edge,topological edge representation
+Path,topological path representation
+Face,topological face representation
+Shell,topological shell representation
+Undefined,no constraints imposed

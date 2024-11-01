@@ -47,7 +47,7 @@ def before_feature(context, feature):
     context.gherkin_outcomes = []
     
     # display the correct scenario and insanity related to the gherkin outcome in the behave console & ci/cd report
-    context.scenario_outcome_state= {}
+    context.scenario_outcome_state= []
     context.instance_outcome_state = {} 
         
 
@@ -131,12 +131,8 @@ def after_feature(context, feature):
 
     else: # invoked via console or CI/CD pipeline
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]
-        for idx, outcome in enumerate(outcomes):
-            sls = find_scenario_for_outcome(context, idx + 1)
-            if sls is not None:
-                outcome['scenario'] = sls['scenario']
-                outcome['last_step'] = sls['last_step'].name
-                outcome['instance_id'] = context.instance_outcome_state.get(idx + 1, '')
+        update_outcomes_with_scenario_data(context, outcomes)
+
         outcomes_json_str = json.dumps(outcomes) #ncodes to utf-8 
         outcomes_bytes = outcomes_json_str.encode("utf-8") 
         for formatter in filter(lambda f: hasattr(f, "embedding"), context._runner.formatters):
@@ -151,11 +147,12 @@ def after_feature(context, feature):
             caught_exceptions_bytes = json.dumps([exc.to_dict() for exc in context.caught_exceptions]).encode("utf-8")
             formatter.embedding(mime_type="application/json", data=caught_exceptions_bytes, target='feature', attribute_name='caught_exceptions')
 
-            
-def find_scenario_for_outcome(context, outcome_index):
-    previous_count = 0
-    for count, scenario in context.scenario_outcome_state.items():
-        if previous_count < outcome_index <= count:
-            return scenario
-        previous_count = count
 
+def update_outcomes_with_scenario_data(context, outcomes):
+    for outcome_index, outcome in enumerate(outcomes):
+        sls = next((data for idx, data in context.scenario_outcome_state if idx == outcome_index), None)
+        
+        if sls is not None:
+            outcome['scenario'] = sls['scenario']
+            outcome['last_step'] = sls['last_step'].name
+            outcome['instance_id'] = sls.get('instance_id')

@@ -229,3 +229,10 @@ def step_impl(context, inst, ff : FirstOrFinal):
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):
     yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
+
+@gherkin_ifc.step('Each instance pair at depth 1')
+def step_impl(context, inst):
+    pairs = list()
+    for i in range(0, len(inst) - 1):
+        pairs.append([inst[i], inst[i+1]])
+    yield ValidationOutcome(instance_id = [pairs], severity=OutcomeSeverity.PASSED)

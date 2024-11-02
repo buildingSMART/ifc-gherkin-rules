@@ -68,7 +68,7 @@ def generate_error_message(context, errors):
     Function to trigger the behave error mechanism so that the JSON output is generated correctly.
     Miscellaneous errors also are also printed to the console this way.
     """
-    assert not errors, "Errors occured:\n{}".format([str(error) for error in errors])
+    assert not errors, "Behave errors occured:\n{}".format([str(error) for error in errors])
 
 
 """
@@ -251,7 +251,7 @@ def handle_then(context, fn, **kwargs):
                     else validation_outcome.expected)
 
                 context.gherkin_outcomes.append(validation_outcome)
-                context.instance_outcome_state[len(context.gherkin_outcomes)] = instance_id
+                context.scenario_outcome_state.append((len(context.gherkin_outcomes)-1, {'scenario': context.scenario.name, 'last_step': context.scenario.steps[-1], 'instance_id': instance_id}))
 
             # Currently, we should not inject passed outcomes for each individual instance to the databse
             # if not step_results:

@@ -15,7 +15,6 @@ from .ifc import get_precision_from_contexts, recurrently_get_entity_attr
 GEOM_TOLERANCE = 1E-12
 
 
-
 def get_edges(file, inst, sequence_type=frozenset, oriented=False):
     edge_type = tuple if oriented else frozenset
 
@@ -262,3 +261,32 @@ class AlignmentSegmentContinuityCalculation:
             "current_start_point": tuple(self.current_start_point),
             "current_start_direction": self.current_start_direction,
         }
+
+
+def compare_with_precision(value_1: float, value_2: float, precision: float, comparison_operator: str) -> bool:
+    """
+    Compare the value_1 with value_2 according to a comparison operator, considering a precision tolerance.
+
+    The valid comparison operators are:
+        'equal to';
+        'not equal to';
+        'greater than';
+        'less than';
+        'greater than or equal to';
+        'less than or equal to'.
+    """
+    match comparison_operator:
+        case 'equal to':
+            return math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
+        case 'not equal to':
+            return not math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
+        case 'greater than':
+            return value_1 > value_2 and not math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
+        case 'less than':
+            return value_1 < value_2 and not math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
+        case 'greater than or equal to':
+            return value_1 > value_2 or math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
+        case 'less than or equal to':
+            return value_1 < value_2 or math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
+        case _:
+            raise ValueError(f"Invalid comparison operator: {comparison_operator}")

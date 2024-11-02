@@ -3,11 +3,11 @@ from behave.model import Scenario
 from collections import Counter
 import os
 from rule_creation_protocol import protocol
+from features.exception_logger import ExceptionSummary
 import json
 
 from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
-
 
 model_cache = {}
 def read_model(fn):
@@ -27,7 +27,7 @@ def before_feature(context, feature):
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
 
-    context.protocol_errors = []
+    context.protocol_errors, context.caught_exceptions = [], []
     if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
         ifc_filename_incl_path = context.config.userdata.get('input')
         convention_attrs = {
@@ -47,7 +47,7 @@ def before_feature(context, feature):
     context.gherkin_outcomes = []
     
     # display the correct scenario and insanity related to the gherkin outcome in the behave console & ci/cd report
-    context.scenario_outcome_state= {}
+    context.scenario_outcome_state= []
     context.instance_outcome_state = {} 
         
 
@@ -63,6 +63,11 @@ def get_validation_outcome_hash(obj):
 def after_scenario(context, scenario):
     # Given steps may introduce an arbitrary amount of stackframes.
     # we need to clean them up before behave starts appending new ones.
+    
+    if context.failed:
+        if not 'Behave errors' in context.step.error_message: #exclude behave output from exception logging
+            context.caught_exceptions.append(ExceptionSummary.from_context(context))
+    
     old_outcomes = getattr(context, 'gherkin_outcomes', [])
     while context._stack[0].get('@layer') == 'attribute':
         context._pop()
@@ -126,11 +131,8 @@ def after_feature(context, feature):
 
     else: # invoked via console or CI/CD pipeline
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]
-        for idx, outcome in enumerate(outcomes):
-            sls = find_scenario_for_outcome(context, idx + 1)
-            outcome['scenario'] = sls['scenario']
-            outcome['last_step'] = sls['last_step'].name
-            outcome['instance_id'] = context.instance_outcome_state.get(idx+1, '')
+        update_outcomes_with_scenario_data(context, outcomes)
+
         outcomes_json_str = json.dumps(outcomes) #ncodes to utf-8 
         outcomes_bytes = outcomes_json_str.encode("utf-8") 
         for formatter in filter(lambda f: hasattr(f, "embedding"), context._runner.formatters):
@@ -140,10 +142,17 @@ def after_feature(context, feature):
             protocol_errors_bytes = json.dumps(context.protocol_errors).encode("utf-8")
             formatter.embedding(mime_type="application/json", data=protocol_errors_bytes, target='feature', attribute_name='protocol_errors') 
             
-            
-def find_scenario_for_outcome(context, outcome_index):
-    previous_count = 0
-    for count, scenario in context.scenario_outcome_state.items():
-        if previous_count < outcome_index <= count:
-            return scenario
-        previous_count = count
+
+            # embed catched exceptions
+            caught_exceptions_bytes = json.dumps([exc.to_dict() for exc in context.caught_exceptions]).encode("utf-8")
+            formatter.embedding(mime_type="application/json", data=caught_exceptions_bytes, target='feature', attribute_name='caught_exceptions')
+
+
+def update_outcomes_with_scenario_data(context, outcomes):
+    for outcome_index, outcome in enumerate(outcomes):
+        sls = next((data for idx, data in context.scenario_outcome_state if idx == outcome_index), None)
+        
+        if sls is not None:
+            outcome['scenario'] = sls['scenario']
+            outcome['last_step'] = sls['last_step'].name
+            outcome['instance_id'] = sls.get('instance_id')

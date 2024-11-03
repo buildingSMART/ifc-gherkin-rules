@@ -10,7 +10,8 @@ Feature: VER000 - Versioning and revision control
 
     Scenario Outline: Check for activation
 
-        Given an IfcOwnerHistory
+        Given an IfcRoot
+        Given its attribute OwnerHistory
         Given its attribute <attribute>
 
         Then The IFC model contains information on the selected functional part

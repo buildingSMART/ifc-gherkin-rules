@@ -14,18 +14,13 @@ Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
         Then HasSubContexts = not empty
 
 
-    Scenario Outline: Constraints on context identifier 
+    Scenario: Constraints on context identifier 
 
-        Given a model with Schema "<schema>"
+        Given a model with Schema "IFC4.3" or "IFC4"
         Given An IfcGeometricRepresentationSubContext
         Given Its attribute ContextIdentifier
 
-        Then The values must be in '<source>'
-
-        Examples: 
-            | schema | source |
-            | IFC4.3 | valid_RepresentationIdentifier.csv |
-            | IFC4   | valid_RepresentationIdentifier.csv |
+        Then The values must be in 'valid_ShapeRepresentationIdentifier.csv'
 
 
     Scenario: Context identifier must not be empty

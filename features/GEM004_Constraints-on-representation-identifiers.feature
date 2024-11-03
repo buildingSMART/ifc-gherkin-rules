@@ -12,7 +12,7 @@ The rule verifies that shape representations adhere to the permissible values ou
     Given Its attribute Representations
     Given Its attribute RepresentationIdentifier
 
-    Then The values must be in 'valid_RepresentationIdentifier.csv'
+    Then The values must be in 'valid_ShapeRepresentationIdentifier.csv'
   
 
   Scenario: Shape Representation Type must be valid
@@ -23,7 +23,7 @@ The rule verifies that shape representations adhere to the permissible values ou
     Given Its entity type is 'IfcShapeRepresentation'
     Given Its attribute RepresentationType
     
-    Then The values must be in 'valid_RepresentationType.csv'
+    Then The values must be in 'valid_ShapeRepresentationType.csv'
 
 
   Scenario: Topology Representation Type must be valid

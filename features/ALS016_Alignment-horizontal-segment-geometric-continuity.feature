@@ -15,12 +15,12 @@ Background:
 
   Given A model with Schema "IFC4.3"
   Given An IfcAlignment
-  Given Its attribute Representation
-  Given Its attribute Representations
+  Given its attribute "Representation"
+  Given its attribute "Representations"
   Given RepresentationType = 'Curve2D'
   Given All referenced instances
   Given Its Entity Type is 'IfcCompositeCurve'
-  Given Its attribute Segments
+  Given its attribute "Segments"
   Given Its Entity Type is 'IfcCurveSegment'
   Given The values grouped pairwise at depth 1
 

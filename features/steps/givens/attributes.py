@@ -1,5 +1,4 @@
 import ast
-import itertools
 import operator
 
 import ifcopenshell
@@ -8,6 +7,8 @@ from utils import geometry, ifc, misc
 from parse_type import TypeBuilder
 from validation_handling import gherkin_ifc, register_enum_type
 from . import ValidationOutcome, OutcomeSeverity
+from functools import reduce
+from pyparsing import quotedString, Word, alphas, oneOf, infixNotation, opAssoc
 
 from enum import Enum, auto
 
@@ -31,7 +32,7 @@ class SubTypeHandling (Enum):
 class PrefixCondition(Enum):
     STARTS = "starts"
     DOES_NOT_START = "does not start"
-
+    
 
 register_type(include_or_exclude_subtypes=TypeBuilder.make_enum({"including subtypes": SubTypeHandling.INCLUDE, "excluding subtypes": SubTypeHandling.EXCLUDE }))
 register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
@@ -148,10 +149,43 @@ def step_impl(context, file_or_model, field, values):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
+operator_mapping = {
+    'and': operator.and_, 
+    'or': operator.or_
+} # should we do this in some central place?
 
-@gherkin_ifc.step('Its attribute {attribute}')
-def step_impl(context, inst, attribute, tail="single"):
-    yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity=OutcomeSeverity.PASSED)
+def parse_attributes_and_operators(text):
+
+    attribute = quotedString | Word(alphas)
+    operators = oneOf("and or")
+    
+    parsed_result = infixNotation(attribute, [
+        (operators, 2, opAssoc.LEFT),
+    ]).parseString(text.replace('"', ''), parseAll=True)
+
+    for item in parsed_result.asList():
+        if isinstance(item, list):
+            attributes = item[0::2]
+            operators = set(operator_mapping[i] for i in item[1::2])
+            assert len(operators) == 1, 'only one operator [and/or] allowed in expression'
+            op = list(operators)[0]
+        else: # if there is only a single attribute, both operators work
+            attributes, operator = [item], operator.and_
+
+    return attributes, op
+
+
+@gherkin_ifc.step('Its attribute "{attribute}"')
+@gherkin_ifc.step('Its attribute "{attribute}" exists')
+def step_impl(context, inst, attribute):
+    if 'exists' in context.step.name:
+        attributes, op = parse_attributes_and_operators(attribute)
+        if reduce(op, (bool(getattr(inst, attr, False)) for attr in attributes)):
+            yield ValidationOutcome(instance_id = inst, severity=OutcomeSeverity.PASSED)
+        else:
+            yield ValidationOutcome(instance_id = inst, expected=attributes, observed='not all required attributes are present', severity=OutcomeSeverity.ERROR)
+    else:
+        yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity=OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step("Its {attribute} attribute {prefix_condition:PrefixCondition} with {prefix}")

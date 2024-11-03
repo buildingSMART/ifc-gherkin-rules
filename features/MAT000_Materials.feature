@@ -12,9 +12,9 @@ Feature: MAT000 - Materials
 
         Given A model with Schema "IFC4.3" or "IFC4"
         Given an IfcObjectDefinition
-        Given its attribute HasAssociations
+        Given its attribute "HasAssociations"
         Given its entity type is 'IfcRelAssociatesMaterial'
-        Given its attribute RelatingMaterial
+        Given its attribute "RelatingMaterial"
         Given its entity type is 'IfcMaterialDefinition' including subtypes
 
         Then The IFC model contains information on materials assigned to elements
@@ -24,7 +24,7 @@ Feature: MAT000 - Materials
 
         Given A model with Schema "IFC2X3"
         Given an IfcObjectDefinition
-        Given its attribute HasAssociations
+        Given its attribute "HasAssociations"
         Given its entity type is 'IfcRelAssociatesMaterial'
 
         Then The IFC model contains information on materials assigned to elements

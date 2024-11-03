@@ -14,7 +14,7 @@ Feature: PJS003 - Globally Unique Identifiers
 
   Scenario Outline: Valid globally unique identifiers
     Given An IfcRoot
-    Given Its attribute GlobalId 
+    Given Its attribute "GlobalId" 
 
     Then <Constraint>
 

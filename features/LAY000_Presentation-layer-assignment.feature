@@ -12,9 +12,9 @@ Feature: LAY000 - Presentation Layer Assignment
     Scenario: Layer assignment to representation
 
         Given an IfcProduct
-        Given its attribute Representation
-        Given its attribute Representations
-        Given its attribute LayerAssignments
+        Given its attribute "Representation"
+        Given its attribute "Representations"
+        Given its attribute "LayerAssignments"
 
         Then The IFC model contains information on the selected functional part
 
@@ -22,10 +22,10 @@ Feature: LAY000 - Presentation Layer Assignment
     Scenario: Layer assignment to representation items
 
         Given an IfcProduct
-        Given its attribute Representation
-        Given its attribute Representations
-        Given its attribute Items
-        Given its attribute LayerAssignment
+        Given its attribute "Representation"
+        Given its attribute "Representations"
+        Given its attribute "Items"
+        Given its attribute "LayerAssignment"
 
         Then The IFC model contains information on the selected functional part
         

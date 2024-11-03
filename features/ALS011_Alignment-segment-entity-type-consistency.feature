@@ -11,7 +11,7 @@ Feature: ALS011 - Alignment segment entity type consistency
 Scenario Outline: Consistent entity types used
 
   Given an <entity>
-  Given its attribute Segments
+  Given its attribute "Segments"
   Given its entity type
 
   Then The values must be identical at depth 1
@@ -26,7 +26,7 @@ Scenario Outline: Consistent entity types used
 Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
 
   Given an <entity>
-  Given its attribute Segments
+  Given its attribute "Segments"
   Given its entity type
 
   Then The value must be "IfcCurveSegment"

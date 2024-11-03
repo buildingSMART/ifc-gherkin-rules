@@ -12,9 +12,9 @@ Feature: ASM000 - Composed elements
     Scenario: Check for activation
 
     Given an IfcElement
-    Given its attribute Decomposes
+    Given its attribute "Decomposes"
     Given its entity type is 'IfcRelAggregates'
-    Given its attribute RelatingObject
+    Given its attribute "RelatingObject"
     Given its entity type is 'IfcElement' including subtypes
 
     Then The IFC model contains information on the selected functional part

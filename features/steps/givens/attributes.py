@@ -170,7 +170,7 @@ def parse_attributes_and_operators(text):
             assert len(operators) == 1, 'only one operator [and/or] allowed in expression'
             op = list(operators)[0]
         else: # if there is only a single attribute, both operators work
-            attributes, operator = [item], operator.and_
+            attributes, op = [item], operator.and_
 
     return attributes, op
 

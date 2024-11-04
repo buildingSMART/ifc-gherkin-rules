@@ -7,16 +7,29 @@ Feature: CTX000 - Presentation colours and textures
     The rule verifies the presence of IFC entities used to assign colour, texture and other presentation appearance information to objects.
     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product_Shape/Product_Geometry_Colour/content.html
 
-    Scenario Outline: Check for activation
+    Scenario Outline: Check for activation - RepresenationItem attributes
 
-        Given an <entity type>
-        Given its attribute <attribute> 
+        Given an IfcRepresentationItem
+        Given Its attribute <attribute>
 
         Then The IFC model contains information on the selected functional part
 
         Examples:
-            | entity type | attribute |
-            | IfcSolidModel | StyledByItem |
-            | IfcTessellatedFaceSet | StyledByItem |
-            | IfcTessellatedFaceSet | HasColours |
+            | attribute | 
+            | StyledByItem |
+            | HasColours | 
+    
+
+    Scenario: Check for activation - Styled Materials 
+
+        Given an IfcRoot
+        Given its attribute HasAssociations
+        Given all referenced instances 
+        Given its entity type is 'IfcMaterial'
+        Given its attribute HasRepresentation
+        Given its attribute Representations 
+        Given its attribute Items 
+        Given its entity type is 'IfcStyledItem'
+
+        Then The IFC model contains information on the selected functional part
 

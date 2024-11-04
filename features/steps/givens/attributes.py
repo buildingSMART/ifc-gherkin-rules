@@ -1,5 +1,4 @@
 import ast
-import itertools
 import operator
 
 import ifcopenshell
@@ -8,7 +7,6 @@ from utils import geometry, ifc, misc
 from parse_type import TypeBuilder
 from validation_handling import gherkin_ifc, register_enum_type
 from . import ValidationOutcome, OutcomeSeverity
-
 from enum import Enum, auto
 
 

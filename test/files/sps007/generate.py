@@ -73,23 +73,23 @@ def generate_03():
     f.write('pass-sps007-scenario03-aggregated_part_not_in_spatial_containment.ifc')
 
 
-def generate_04():
-    f = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD2")
-    project = f.createIfcProject(make_id())
-    site = f.createIfcSite(make_id())
-    building = f.createIfcBuilding(make_id())
-    storey = f.createIfcBuildingStorey(make_id())
+# def generate_04():
+#     f = ifcopenshell.template.create(schema_identifier="IFC4X3_ADD2")
+#     project = f.createIfcProject(make_id())
+#     site = f.createIfcSite(make_id())
+#     building = f.createIfcBuilding(make_id())
+#     storey = f.createIfcBuildingStorey(make_id())
 
-    # f.createIfcRelAggregates(make_id(), RelatingObject=project, RelatedObjects=[site])
-    f.createIfcRelContainedInSpatialStructure(make_id(), RelatingStructure=site, RelatedElements=[building])
-    f.createIfcRelContainedInSpatialStructure(make_id(), RelatingStructure=building, RelatedElements=[storey])
+#     # f.createIfcRelAggregates(make_id(), RelatingObject=project, RelatedObjects=[site])
+#     f.createIfcRelContainedInSpatialStructure(make_id(), RelatingStructure=site, RelatedElements=[building])
+#     f.createIfcRelContainedInSpatialStructure(make_id(), RelatingStructure=building, RelatedElements=[storey])
 
-    opening_element = f.createIfcOpeningElement(make_id())
-    f.write('fail-sps007-scenario04-ifc_opening_not_part_of_spatial_containment.ifc')
+#     opening_element = f.createIfcOpeningElement(make_id())
+#     f.write('fail-sps007-scenario04-ifc_opening_not_part_of_spatial_containment.ifc')
 
-    f.createIfcRelContainedInSpatialStructure(make_id(), RelatingStructure=storey, RelatedElements=[opening_element])
+#     f.createIfcRelContainedInSpatialStructure(make_id(), RelatingStructure=storey, RelatedElements=[opening_element])
 
-    f.write("pass-sps007-scenario04-opening_part_of_spatial_containment.ifc")
+#     f.write("pass-sps007-scenario04-opening_part_of_spatial_containment.ifc")
 
 
 def generate_05():
@@ -100,11 +100,11 @@ def generate_05():
 
     alignment = f.createIfcAlignment(make_id())
 
-    f.write('pass-sps007-scenario05-alignment_not_in_spatial_containment.ifc')
+    f.write('pass-sps007-scenario04-alignment_not_in_spatial_containment.ifc')
 
     f.createIfcRelContainedInSpatialStructure(make_id(), RelatingStructure=storey, RelatedElements=[alignment])
 
-    f.write('fail-sps007-scenario05-alignment_in_spatial_structure.ic')
+    f.write('fail-sps007-scenario04-alignment_in_spatial_structure.ic')
 
 
 
@@ -112,6 +112,6 @@ def generate_05():
 generate_01()
 generate_02()
 generate_03()
-generate_04()
+# generate_04()
 generate_05()
 

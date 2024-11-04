@@ -1,5 +1,5 @@
 @IFC
-@version3
+@version5
 @E00030
 @implementer-agreement
 Feature: IFC102 - Absence of deprecated entities
@@ -215,13 +215,11 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcGeographicElementType        | "SOIL_BORING_POINT"            |
       | IfcSpace                        | "INTERNAL" or "EXTERNAL"       |
       | IfcSpaceType                    | "INTERNAL" or "EXTERNAL"       |
-      | IfcStructuralLoadGroup          | "LOAD_COMBINATION"             |
       | IfcWall                         | "POLYGONAL" or "STANDARD"      |
       | IfcWallType                     | "POLYGONAL" or "STANDARD"      |
 
 
   Scenario Outline: Check for deprecated enumerated values - IFC4
-    # IfcStructuralLoadGroup: IfcLoadGroupTypeEnum
     # IfcWall: IfcWallTypeEnum
 
     Given A model with Schema "IFC4"
@@ -231,7 +229,6 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
     Examples:
       | Entity                   |  Value                                       |
-      | IfcStructuralLoadGroup   | "LOAD_COMBINATION"                           | 
       | IfcWall                  | "POLYGONAL" or "STANDARD" or "ELEMENTEDWALL" |
       | IfcWallType              | "POLYGONAL" or "STANDARD" or "ELEMENTEDWALL" |
 

@@ -65,8 +65,12 @@ def after_scenario(context, scenario):
     # we need to clean them up before behave starts appending new ones.
     
     if context.failed:
-        if not 'Behave errors' in context.step.error_message: #exclude behave output from exception logging
-            context.caught_exceptions.append(ExceptionSummary.from_context(context))
+        execution_mode = context.config.userdata.get('execution_mode')
+        if execution_mode and execution_mode == 'ExecutionMode.TESTING':
+            if not 'Behave errors' in context.step.error_message: #exclude behave output from exception logging
+                context.caught_exceptions.append(ExceptionSummary.from_context(context))
+        elif execution_mode and execution_mode == ExecutionMode.PRODUCTION:
+            pass # send emails to vs team
     
     old_outcomes = getattr(context, 'gherkin_outcomes', [])
     while context._stack[0].get('@layer') == 'attribute':

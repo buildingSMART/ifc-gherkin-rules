@@ -35,8 +35,8 @@ def before_feature(context, feature):
             'feature_name': context.feature.name,
             'feature_filename' : os.path.basename(context.feature.filename),
             'description': '\n'.join(context.feature.description),
-            'tags': context.tags, 
-            'location': context.feature.location.filename, 
+            'tags': context.tags,
+            'location': context.feature.location.filename,
             'steps': [{'keyword': step.keyword, 'name': step.name} for scenario in context.feature.scenarios for step in scenario.steps],
             'filename' : ifc_filename_incl_path # filename that comes directly from 'main.py'
             }
@@ -45,11 +45,11 @@ def before_feature(context, feature):
             context.protocol_errors.append(error)
 
     context.gherkin_outcomes = []
-    
+
     # display the correct scenario and insanity related to the gherkin outcome in the behave console & ci/cd report
     context.scenario_outcome_state= []
-    context.instance_outcome_state = {} 
-        
+    context.instance_outcome_state = {}
+
 
 def before_scenario(context, scenario):
     context.applicable = True
@@ -63,19 +63,22 @@ def get_validation_outcome_hash(obj):
 def after_scenario(context, scenario):
     # Given steps may introduce an arbitrary amount of stackframes.
     # we need to clean them up before behave starts appending new ones.
-    
+
     if context.failed:
         if not 'Behave errors' in context.step.error_message: #exclude behave output from exception logging
             context.caught_exceptions.append(ExceptionSummary.from_context(context))
-    
+
     old_outcomes = getattr(context, 'gherkin_outcomes', [])
     while context._stack[0].get('@layer') == 'attribute':
         context._pop()
     # preserve the outcomes to be serialized to DB in after_feature()
     context.gherkin_outcomes = old_outcomes
-    context.scenario_outcome_state[len(context.gherkin_outcomes)] = {'scenario': scenario.name,
-                                                     'last_step': scenario.steps[-1]}
-    
+    context.scenario_outcome_state.append(
+        {
+        'scenario': scenario.name,
+        'last_step': scenario.steps[-1],
+        }
+   )
 
 
 def after_feature(context, feature):
@@ -133,17 +136,17 @@ def after_feature(context, feature):
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]
         update_outcomes_with_scenario_data(context, outcomes)
 
-        outcomes_json_str = json.dumps(outcomes) #ncodes to utf-8 
-        outcomes_bytes = outcomes_json_str.encode("utf-8") 
+        outcomes_json_str = json.dumps(outcomes) # encodes to utf-8
+        outcomes_bytes = outcomes_json_str.encode("utf-8")
         for formatter in filter(lambda f: hasattr(f, "embedding"), context._runner.formatters):
             formatter.embedding(mime_type="application/json", data=outcomes_bytes, target='feature', attribute_name='validation_outcomes')
 
             # embed protocol errors
             protocol_errors_bytes = json.dumps(context.protocol_errors).encode("utf-8")
-            formatter.embedding(mime_type="application/json", data=protocol_errors_bytes, target='feature', attribute_name='protocol_errors') 
-            
+            formatter.embedding(mime_type="application/json", data=protocol_errors_bytes, target='feature', attribute_name='protocol_errors')
 
-            # embed catched exceptions
+
+            # embed caught exceptions
             caught_exceptions_bytes = json.dumps([exc.to_dict() for exc in context.caught_exceptions]).encode("utf-8")
             formatter.embedding(mime_type="application/json", data=caught_exceptions_bytes, target='feature', attribute_name='caught_exceptions')
 
@@ -151,7 +154,7 @@ def after_feature(context, feature):
 def update_outcomes_with_scenario_data(context, outcomes):
     for outcome_index, outcome in enumerate(outcomes):
         sls = next((data for idx, data in context.scenario_outcome_state if idx == outcome_index), None)
-        
+
         if sls is not None:
             outcome['scenario'] = sls['scenario']
             outcome['last_step'] = sls['last_step'].name

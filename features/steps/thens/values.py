@@ -29,7 +29,7 @@ def step_impl(context, inst, i, csv_file):
         return []
 
     dirname = os.path.dirname(__file__)
-    filename = Path(dirname).parent.parent / "resources" / f"{csv_file}.csv"
+    filename =  Path(dirname).parent.parent / "resources" / f"{context.model.schema}" /f"{csv_file}.csv"
     valid_values = [row[0] for row in csv.reader(open(filename))]
 
     def is_valid_instance(instance):

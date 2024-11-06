@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION (('ViewDefinition [Alignment-basedReferenceView]'), '2;1');
-FILE_NAME ('pass-als017-scenario01-continuous_metric.ifc', '2024-06-13T10:24:35', (), (), 'redacted', 'redacted', $);
+FILE_NAME ('pass-als017-scenario01-continuous_metric.ifc', '2024-06-13T10:24:35', (''), (''), 'redacted', 'redacted', $);
 FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

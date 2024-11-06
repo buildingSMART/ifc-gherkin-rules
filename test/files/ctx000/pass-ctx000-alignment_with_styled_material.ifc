@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION (('ViewDefinition [Alignment-basedReferenceView]'), '2;1');
-FILE_NAME ('pass-als011-scenario02-correct_types.ifc', '2024-06-13T10:24:35', (), (), 'redacted', 'redacted', $);
+FILE_NAME ('pass-ctx000-alignment_with_styled_material.ifc', '2024-06-13T10:24:35', (), (), 'redacted', 'redacted', $);
 FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

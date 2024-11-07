@@ -151,7 +151,7 @@ def after_feature(context, feature):
 def update_outcomes_with_scenario_data(context, outcomes):
     for outcome_index, outcome in enumerate(outcomes):
         sls = next((data for idx, data in context.scenario_outcome_state if idx == outcome_index), None)
-        
+
         if sls is not None:
             outcome['scenario'] = sls['scenario']
             outcome['last_step'] = sls['last_step'].name

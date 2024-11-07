@@ -158,10 +158,11 @@ def evaluate_segment(segment: ifcopenshell.entity_instance, dist_along: float) -
     """
     s = ifcos_geom.settings()
     pwf = wrapper.map_shape(s, segment.wrapped_data)
+    pwf_evaluator = wrapper.piecewise_function_evaluator(pwf, s)
 
-    prev_trans_matrix = pwf.evaluate(dist_along)
+    segment_trans_mtx = pwf_evaluator.evaluate(dist_along)
 
-    return np.array(prev_trans_matrix, dtype=np.float64).T
+    return np.array(segment_trans_mtx, dtype=np.float64).T
 
 @dataclass
 class AlignmentSegmentContinuityCalculation:
@@ -190,6 +191,19 @@ class AlignmentSegmentContinuityCalculation:
     def _calculate_positions(self) -> None:
 
         u = abs(self.previous_segment.SegmentLength.wrappedValue) * self.length_unit_scale_factor
+        # for linear segments on vertical alignments (IfcGradientCurve) and cant alignments (IfcSegmentedReferenceCurve)
+        # we need to project the total segment length to the x-axis, i.e. the "distance along" axis
+        if self.previous_segment.ParentCurve.is_a().upper() == "IFCLINE":
+            if (self.previous_segment.UsingCurves[0].is_a().upper() == "IFCGRADIENTCURVE" ) or (
+                self.previous_segment.UsingCurves[0].is_a().upper() == "IFCSEGMENTEDREFERENCECURVE"):
+                    # ensure direction ratios have been normalized
+                    x_comp, y_comp = self.previous_segment.Placement.RefDirection.DirectionRatios
+                    divisor = math.sqrt(x_comp ** 2 + y_comp ** 2)
+                    x_comp /= divisor
+                    y_comp /= divisor
+                    # adjust u so that it is based on the total "distance along" of the segment,
+                    # not the total length of the segment (which includes an additional amount for the change in elevation)
+                    u *= x_comp
         prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
@@ -258,8 +272,10 @@ class AlignmentSegmentContinuityCalculation:
             "length_unit_scale_factor": self.length_unit_scale_factor,
             "preceding_end_point": tuple(self.preceding_end_point),
             "preceding_end_direction": self.preceding_end_direction,
+            "preceding_end_gradient": self.preceding_end_gradient,
             "current_start_point": tuple(self.current_start_point),
             "current_start_direction": self.current_start_direction,
+            "current_start_gradient": self.current_start_gradient,
         }
 
 

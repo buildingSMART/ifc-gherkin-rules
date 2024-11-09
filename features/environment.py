@@ -64,21 +64,21 @@ def after_scenario(context, scenario):
     # Given steps may introduce an arbitrary amount of stackframes.
     # we need to clean them up before behave starts appending new ones.
     
-    if context.failed:
-        execution_mode = context.config.userdata.get('execution_mode')
-        if execution_mode and execution_mode == 'ExecutionMode.TESTING':
-            if not 'Behave errors' in context.step.error_message: #exclude behave output from exception logging
+    execution_mode = context.config.userdata.get('execution_mode')
+    if execution_mode and execution_mode == 'ExecutionMode.TESTING':
+        if context.failed:
+            if context.step.error_message and not 'Behave errors' in context.step.error_message: #exclude behave output from exception logging
                 context.caught_exceptions.append(ExceptionSummary.from_context(context))
-        elif execution_mode and execution_mode == ExecutionMode.PRODUCTION:
-            pass # send emails to vs team
+        context.scenario_outcome_state.append((len(context.gherkin_outcomes)-1, {'scenario': context.scenario.name, 'last_step': context.scenario.steps[-1]}))
+    elif execution_mode and execution_mode == 'ExecutionMode.PRODUCTION':
+        if context.failed:
+            pass # write message to VS team
     
     old_outcomes = getattr(context, 'gherkin_outcomes', [])
     while context._stack[0].get('@layer') == 'attribute':
         context._pop()
     # preserve the outcomes to be serialized to DB in after_feature()
     context.gherkin_outcomes = old_outcomes
-    context.scenario_outcome_state[len(context.gherkin_outcomes)] = {'scenario': scenario.name,
-                                                     'last_step': scenario.steps[-1]}
     
 
 
@@ -155,7 +155,7 @@ def after_feature(context, feature):
 def update_outcomes_with_scenario_data(context, outcomes):
     for outcome_index, outcome in enumerate(outcomes):
         sls = next((data for idx, data in context.scenario_outcome_state if idx == outcome_index), None)
-        
+
         if sls is not None:
             outcome['scenario'] = sls['scenario']
             outcome['last_step'] = sls['last_step'].name

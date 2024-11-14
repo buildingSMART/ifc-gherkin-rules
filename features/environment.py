@@ -1,4 +1,5 @@
 import ifcopenshell
+import ifcopenshell.simple_spf
 from behave.model import Scenario
 from collections import Counter
 import os
@@ -10,17 +11,20 @@ from validation_results import ValidationOutcome, ValidationOutcomeCode, Outcome
 from main import ExecutionMode
 
 model_cache = {}
-def read_model(fn):
+def read_model(fn, pure):
     if cached := model_cache.get(fn):
         return cached
-    model_cache[fn] = ifcopenshell.open(fn)
-    return model_cache[fn]
+    if pure:
+        model_cache[(fn, pure)] = ifcopenshell.simple_spf.open(fn)
+    else:
+        model_cache[(fn, pure)] = ifcopenshell.open(fn)
+    return model_cache[(fn, pure)]
 
 def before_feature(context, feature):
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
 
-    context.model = read_model(context.config.userdata["input"])
+    context.model = read_model(context.config.userdata["input"], context.config.userdata.get("purepythonparser", False))
     try:
         context.validation_task_id = context.config.userdata["task_id"]
     except KeyError: # run via console, task_id not provided

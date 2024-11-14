@@ -361,7 +361,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
                 return context.step.name
         case str():
             if context.config.userdata.get("purepythonparser", False):
-                return {'entity': data}
+                return {'schema_identifier': data}
             elif data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:
                 return {'entity': data} # e.g. 'the type must be IfcCompositeCurve'
             else:

@@ -23,8 +23,8 @@ def read_model(fn, pure):
 def before_feature(context, feature):
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
-
-    context.model = read_model(context.config.userdata["input"], context.config.userdata.get("purepythonparser", False))
+    
+    context.model = read_model(context.config.userdata["input"], context.config.userdata.get('purepythonparser', 'false').lower() == 'true')
     try:
         context.validation_task_id = context.config.userdata["task_id"]
     except KeyError: # run via console, task_id not provided

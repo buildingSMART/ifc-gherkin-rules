@@ -8,7 +8,7 @@ The rule verifies that a geometric context is present in the model, that its att
 
     Scenario Outline: Agreement on having at least one geometric representation context
 
-      Given A model with Schema "<Schema>"
+      Given A model with Schema <Schema>
       Given An <Entity>
       Given Its attribute RepresentationContexts
 
@@ -16,22 +16,20 @@ The rule verifies that a geometric context is present in the model, that its att
       Then Its entity type is 'IfcGeometricRepresentationContext' including subtypes
 
       Examples:
-        | Schema  | Entity     |
-        | IFC2X3  | IfcProject |
-        | IFC4    | IfcContext |
-        | IFC4.3  | IfcContext |
+        | Schema               | Entity     |
+        | "IFC2X3"             | IfcProject |
+        | "IFC4.3" or "IFC4"   | IfcContext |
 
 
     Scenario Outline: Agreement on correct context types
 
-      Given A model with Schema "<Schema>"
+      Given A model with Schema <Schema>
       Given An <Entity>
       Given Its attribute RepresentationContexts
       
       Then ContextType = "Model" or "Plan" or "NotDefined"
 
       Examples:
-        | Schema  | Entity     |
-        | IFC2X3  | IfcProject |
-        | IFC4    | IfcContext |
-        | IFC4.3  | IfcContext |
+        | Schema               | Entity     |
+        | "IFC2X3"             | IfcProject |
+        | "IFC4.3" or "IFC4"   | IfcContext |

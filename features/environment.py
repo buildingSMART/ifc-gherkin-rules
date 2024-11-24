@@ -119,12 +119,12 @@ def after_feature(context, feature):
                         )
                         outcomes_instances_to_save.append(instance)
 
-                ModelInstance.objects.bulk_create(outcomes_instances_to_save, ignore_conflicts=True) # ignore conflicts with existing
-                model_instances = dict(ModelInstance.objects.filter(model_id=model_id).values_list('stepfile_id', 'id')) # retrieve all
-                
-                # look up actual FK's
-                for outcome in outcomes_to_save:
-                    if outcome.instance_id:
+                if stepfile_ids:
+                    ModelInstance.objects.bulk_create(outcomes_instances_to_save, ignore_conflicts=True) # ignore conflicts with existing
+                    model_instances = dict(ModelInstance.objects.filter(model_id=model_id).values_list('stepfile_id', 'id')) # retrieve all
+                    
+                    # look up actual FK's
+                    for outcome in [o for o in outcomes_to_save if o.instance_id]:
                         outcome.instance_id = model_instances[outcome.instance_id]
 
                 ValidationOutcome.objects.bulk_create(outcomes_to_save)

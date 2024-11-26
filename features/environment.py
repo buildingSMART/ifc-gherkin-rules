@@ -112,12 +112,11 @@ def after_feature(context, feature):
 
                 stepfile_ids = sorted(set(o.instance_id for o in outcomes_to_save if o.instance_id))
                 for stepfile_id in stepfile_ids:
-                    if stepfile_id:
-                        instance = ModelInstance(
-                            stepfile_id=stepfile_id,
-                            model_id=model_id
-                        )
-                        outcomes_instances_to_save.append(instance)
+                  instance = ModelInstance(
+                      stepfile_id=stepfile_id,
+                      model_id=model_id
+                  )
+                  outcomes_instances_to_save.append(instance)
 
                 if stepfile_ids:
                     ModelInstance.objects.bulk_create(outcomes_instances_to_save, ignore_conflicts=True) # ignore conflicts with existing

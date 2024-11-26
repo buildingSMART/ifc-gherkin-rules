@@ -110,7 +110,7 @@ def after_feature(context, feature):
                 task = ValidationTask.objects.get(id=context.validation_task_id)
                 model_id = task.request.model.id
 
-                stepfile_ids = sorted(set(o.instance_id for o in outcomes_to_save))
+                stepfile_ids = sorted(set(o.instance_id for o in outcomes_to_save if o.instance_id))
                 for stepfile_id in stepfile_ids:
                     if stepfile_id:
                         instance = ModelInstance(

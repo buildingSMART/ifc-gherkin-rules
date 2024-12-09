@@ -188,23 +188,35 @@ class AlignmentSegmentContinuityCalculation:
     current_start_direction: float = None
     current_start_gradient: float = None
 
-    def _calculate_positions(self) -> None:
+    def _get_u_at_end(self):
+        """
+        Get the value of u corresponding to the end of the previous segment
+        """
+        alignment_rep_type = self.previous_segment.UsingCurves[0].is_a().upper()
+        match alignment_rep_type:
+            case "IFCCOMPOSITECURVE":
+                # Horizontal representation - use the SegmentLength directly
+                u = abs(self.previous_segment.SegmentLength.wrappedValue)
+            case "IFCGRADIENTCURVE" | "IFCSEGMENTEDREFERENCECURVE":
+                # for vertical and cant representations (IfcGradientCurve and IfcSegmentedReferenceCurve),
+                # u should be the total distance traversed by the segment along the base curve
+                # (length of the segment projected to the "Distance Along" x-axis).
+                # The actual distance along the parent curve (e.g. IfcLine, IfcCircle, IfcPolynomialCurve, etc.) will be longer.
+                # Therefore, we will get the projected distance based on the placements of the two segments.
+                u = abs(self.segment_to_analyze.Placement.Location.Coordinates[0] - \
+                    self.previous_segment.Placement.Location.Coordinates[0])
+            case _:
+                # This case should never be reached.
+                # If it is reached, the gherkin rule should fail.
+                # Using a length of 0.0 will force a comparison of the start of the previous segment to the start of the following segment
+                # which should always return a failing result.
+                u = 0.0
 
-        u = abs(self.previous_segment.SegmentLength.wrappedValue) * self.length_unit_scale_factor
-        # for linear segments on vertical alignments (IfcGradientCurve) and cant alignments (IfcSegmentedReferenceCurve)
-        # we need to project the total segment length to the x-axis, i.e. the "distance along" axis
-        if self.previous_segment.ParentCurve.is_a().upper() == "IFCLINE":
-            if (self.previous_segment.UsingCurves[0].is_a().upper() == "IFCGRADIENTCURVE" ) or (
-                self.previous_segment.UsingCurves[0].is_a().upper() == "IFCSEGMENTEDREFERENCECURVE"):
-                    # ensure direction ratios have been normalized
-                    x_comp, y_comp = self.previous_segment.Placement.RefDirection.DirectionRatios
-                    divisor = math.sqrt(x_comp ** 2 + y_comp ** 2)
-                    x_comp /= divisor
-                    y_comp /= divisor
-                    # adjust u so that it is based on the total "distance along" of the segment,
-                    # not the total length of the segment (which includes an additional amount for the change in elevation)
-                    u *= x_comp
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+        # for all cases, adjust from model units to SI units for ifcopenshell calc
+        return u * self.length_unit_scale_factor
+
+    def _calculate_positions(self) -> None:
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
         e0 = prev_end_transform[3][0] / self.length_unit_scale_factor
@@ -216,8 +228,7 @@ class AlignmentSegmentContinuityCalculation:
         self.current_start_point = (s0, s1)
 
     def _calculate_directions(self) -> None:
-        u = abs(float(self.previous_segment.SegmentLength.wrappedValue)) * self.length_unit_scale_factor
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
         prev_i = prev_end_transform[0][0]

@@ -188,8 +188,10 @@ class AlignmentSegmentContinuityCalculation:
     current_start_direction: float = None
     current_start_gradient: float = None
 
-    def _calculate_positions(self) -> None:
-
+    def _get_u_at_end(self):
+        """
+        Get the value of u corresponding to the end of the previous segment
+        """
         alignment_rep_type = self.previous_segment.UsingCurves[0].is_a().upper()
         match alignment_rep_type:
             case "IFCCOMPOSITECURVE":
@@ -200,20 +202,21 @@ class AlignmentSegmentContinuityCalculation:
                 # u should be the total distance traversed by the segment along the base curve
                 # (length of the segment projected to the "Distance Along" x-axis).
                 # The actual distance along the parent curve (e.g. IfcLine, IfcCircle, IfcPolynomialCurve, etc.) will be longer.
-                # Therefore we will get the projected distance based on the placements of the two segments.
-                u = self.segment_to_analyze.Placement.Location.Coordinates[0] - self.previous_segment.Placement.Location.Coordinates[0]
+                # Therefore, we will get the projected distance based on the placements of the two segments.
+                u = abs(self.segment_to_analyze.Placement.Location.Coordinates[0] - \
+                    self.previous_segment.Placement.Location.Coordinates[0])
             case _:
-                # IfcCurveSegment can only be used with these three representation entities,
-                # so this case should never be reached.
+                # This case should never be reached.
                 # If it is reached, the gherkin rule should fail.
                 # Using a length of 0.0 will force a comparison of the start of the previous segment to the start of the following segment
                 # which should always return a failing result.
                 u = 0.0
 
         # for all cases, adjust from model units to SI units for ifcopenshell calc
-        u *= self.length_unit_scale_factor
+        return u * self.length_unit_scale_factor
 
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+    def _calculate_positions(self) -> None:
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
         e0 = prev_end_transform[3][0] / self.length_unit_scale_factor
@@ -225,8 +228,7 @@ class AlignmentSegmentContinuityCalculation:
         self.current_start_point = (s0, s1)
 
     def _calculate_directions(self) -> None:
-        u = abs(float(self.previous_segment.SegmentLength.wrappedValue)) * self.length_unit_scale_factor
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
         prev_i = prev_end_transform[0][0]

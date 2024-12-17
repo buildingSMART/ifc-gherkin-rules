@@ -2,6 +2,7 @@ __pycache__
 /.vscode
 /.conda
 /.idea
+**/.dev
 ifc-gherkin.db
 worker_db.sqlite3
 test/out/svg

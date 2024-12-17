@@ -3,11 +3,11 @@ from behave.model import Scenario
 from collections import Counter
 import os
 from rule_creation_protocol import protocol
+from features.exception_logger import ExceptionSummary
 import json
 
 from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
-
 
 model_cache = {}
 def read_model(fn):
@@ -27,7 +27,7 @@ def before_feature(context, feature):
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
 
-    context.protocol_errors = []
+    context.protocol_errors, context.caught_exceptions = [], []
     if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
         ifc_filename_incl_path = context.config.userdata.get('input')
         convention_attrs = {
@@ -47,7 +47,7 @@ def before_feature(context, feature):
     context.gherkin_outcomes = []
     
     # display the correct scenario and insanity related to the gherkin outcome in the behave console & ci/cd report
-    context.scenario_outcome_state= {}
+    context.scenario_outcome_state= []
     context.instance_outcome_state = {} 
         
 
@@ -63,13 +63,22 @@ def get_validation_outcome_hash(obj):
 def after_scenario(context, scenario):
     # Given steps may introduce an arbitrary amount of stackframes.
     # we need to clean them up before behave starts appending new ones.
+    
+    execution_mode = context.config.userdata.get('execution_mode')
+    if execution_mode and execution_mode == 'ExecutionMode.TESTING':
+        if context.failed:
+            if context.step.error_message and not 'Behave errors' in context.step.error_message: #exclude behave output from exception logging
+                context.caught_exceptions.append(ExceptionSummary.from_context(context))
+        context.scenario_outcome_state.append((len(context.gherkin_outcomes)-1, {'scenario': context.scenario.name, 'last_step': context.scenario.steps[-1]}))
+    elif execution_mode and execution_mode == 'ExecutionMode.PRODUCTION':
+        if context.failed:
+            pass # write message to VS team
+    
     old_outcomes = getattr(context, 'gherkin_outcomes', [])
     while context._stack[0].get('@layer') == 'attribute':
         context._pop()
     # preserve the outcomes to be serialized to DB in after_feature()
     context.gherkin_outcomes = old_outcomes
-    context.scenario_outcome_state[len(context.gherkin_outcomes)] = {'scenario': scenario.name,
-                                                     'last_step': scenario.steps[-1]}
     
 
 
@@ -77,6 +86,7 @@ def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         from validation_results import OutcomeSeverity, ModelInstance, ValidationTask
+        from django.db import transaction
 
         def reduce_db_outcomes(feature_outcomes):
 
@@ -93,44 +103,35 @@ def after_feature(context, feature):
                         break
 
         outcomes_to_save = list(reduce_db_outcomes(context.gherkin_outcomes))
+        outcomes_instances_to_save = list()
 
-        if outcomes_to_save and context.validation_task_id is not None:
-            retrieved_task = ValidationTask.objects.get(id=context.validation_task_id)
-            retrieved_model = retrieved_task.request.model
-            retrieved_model_id = retrieved_model.id
+        if outcomes_to_save:
+            with transaction.atomic():
+                task = ValidationTask.objects.get(id=context.validation_task_id)
+                model_id = task.request.model.id
 
-            def get_or_create_instance_when_set(spf_id):
-                if not spf_id:
-                    return None
-                # @todo see if we can change this into a bulk insert as well
-                # with bulk_create(ignore_conflicts=True). There appear to be
-                # quite some caveats regarding this though...
-                instance, _created = ModelInstance.objects.get_or_create(
-                    stepfile_id=spf_id,
-                    model_id=retrieved_model_id
-                )
-                return instance.id
+                stepfile_ids = sorted(set(o.instance_id for o in outcomes_to_save if o.instance_id))
+                for stepfile_id in stepfile_ids:
+                  instance = ModelInstance(
+                      stepfile_id=stepfile_id,
+                      model_id=model_id
+                  )
+                  outcomes_instances_to_save.append(instance)
 
-            spf_ids = sorted(set(o.instance_id for o in outcomes_to_save))
-            instances_in_db = list(map(get_or_create_instance_when_set, spf_ids))
-            inst_id_mapping = dict(zip(spf_ids, instances_in_db))
+                if stepfile_ids:
+                    ModelInstance.objects.bulk_create(outcomes_instances_to_save, ignore_conflicts=True) # ignore conflicts with existing
+                    model_instances = dict(ModelInstance.objects.filter(model_id=model_id).values_list('stepfile_id', 'id')) # retrieve all
+                    
+                    # look up actual FK's
+                    for outcome in [o for o in outcomes_to_save if o.instance_id]:
+                        outcome.instance_id = model_instances[outcome.instance_id]
 
-            for outcome in outcomes_to_save:
-                # Previously we have the current model SPF id in the instance_id
-                # field. This needs to be updated to an actual foreign key into
-                # our ModelInstances table.
-                if outcome.instance_id:
-                    outcome.instance_id = inst_id_mapping[outcome.instance_id]
-
-            ValidationOutcome.objects.bulk_create(outcomes_to_save)
+                ValidationOutcome.objects.bulk_create(outcomes_to_save)
 
     else: # invoked via console or CI/CD pipeline
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]
-        for idx, outcome in enumerate(outcomes):
-            sls = find_scenario_for_outcome(context, idx + 1)
-            outcome['scenario'] = sls['scenario']
-            outcome['last_step'] = sls['last_step'].name
-            outcome['instance_id'] = context.instance_outcome_state.get(idx+1, '')
+        update_outcomes_with_scenario_data(context, outcomes)
+
         outcomes_json_str = json.dumps(outcomes) #ncodes to utf-8 
         outcomes_bytes = outcomes_json_str.encode("utf-8") 
         for formatter in filter(lambda f: hasattr(f, "embedding"), context._runner.formatters):
@@ -140,10 +141,17 @@ def after_feature(context, feature):
             protocol_errors_bytes = json.dumps(context.protocol_errors).encode("utf-8")
             formatter.embedding(mime_type="application/json", data=protocol_errors_bytes, target='feature', attribute_name='protocol_errors') 
             
-            
-def find_scenario_for_outcome(context, outcome_index):
-    previous_count = 0
-    for count, scenario in context.scenario_outcome_state.items():
-        if previous_count < outcome_index <= count:
-            return scenario
-        previous_count = count
+
+            # embed catched exceptions
+            caught_exceptions_bytes = json.dumps([exc.to_dict() for exc in context.caught_exceptions]).encode("utf-8")
+            formatter.embedding(mime_type="application/json", data=caught_exceptions_bytes, target='feature', attribute_name='caught_exceptions')
+
+
+def update_outcomes_with_scenario_data(context, outcomes):
+    for outcome_index, outcome in enumerate(outcomes):
+        sls = next((data for idx, data in context.scenario_outcome_state if idx == outcome_index), None)
+
+        if sls is not None:
+            outcome['scenario'] = sls['scenario']
+            outcome['last_step'] = sls['last_step'].name
+            outcome['instance_id'] = sls.get('instance_id')

@@ -20,18 +20,21 @@ register_type(relating_or_related=TypeBuilder.make_enum(dict(map(lambda x: (x, x
 def step_impl(context, entity_opt_stmt, insts=False):
     within_model = (insts == 'instances')  # True for given statement containing {insts}
 
-    entity2 = pyparsing.Word(pyparsing.alphas)('entity')
-    sub_stmts = ['with subtypes', 'without subtypes', pyparsing.LineEnd()]
-    incl_sub_stmt = functools.reduce(operator.or_, [misc.rtrn_pyparse_obj(i) for i in sub_stmts])('include_subtypes')
-    grammar = entity2 + incl_sub_stmt
-    parse = grammar.parseString(entity_opt_stmt)
-    entity = parse['entity']
-    include_subtypes = misc.do_try(lambda: not 'without' in parse['include_subtypes'], True)
+    if entity_opt_stmt == "entity instance":
+        instances = list(context.model)
+    else:
+        entity2 = pyparsing.Word(pyparsing.alphas)('entity')
+        sub_stmts = ['with subtypes', 'without subtypes', pyparsing.LineEnd()]
+        incl_sub_stmt = functools.reduce(operator.or_, [misc.rtrn_pyparse_obj(i) for i in sub_stmts])('include_subtypes')
+        grammar = entity2 + incl_sub_stmt
+        parse = grammar.parseString(entity_opt_stmt)
+        entity = parse['entity']
+        include_subtypes = misc.do_try(lambda: not 'without' in parse['include_subtypes'], True)
 
-    try:
-        instances = context.model.by_type(entity, include_subtypes)
-    except:
-        instances = []
+        try:
+            instances = context.model.by_type(entity, include_subtypes)
+        except:
+            instances = []
 
     context.within_model = getattr(context, 'within_model', True) and within_model
     if instances:
@@ -74,3 +77,16 @@ def step_impl(context, inst):
     # Note that this includes `inst` as the first element in this list
     instances = context.model.traverse(inst)
     yield ValidationOutcome(instance_id=instances, severity=OutcomeSeverity.PASSED)
+
+"""
+@gherkin_ifc.step("its entity type is {entity}")
+def step_impl(context, inst, entity):
+    negate = False
+    entity = entity.split(' ')
+    if entity[0] == 'not':
+        negate = not negate
+        entity = entity[1:]
+    entity = entity[0]
+    if inst.is_a(entity):
+        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+"""

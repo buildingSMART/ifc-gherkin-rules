@@ -77,16 +77,3 @@ def step_impl(context, inst):
     # Note that this includes `inst` as the first element in this list
     instances = context.model.traverse(inst)
     yield ValidationOutcome(instance_id=instances, severity=OutcomeSeverity.PASSED)
-
-"""
-@gherkin_ifc.step("its entity type is {entity}")
-def step_impl(context, inst, entity):
-    negate = False
-    entity = entity.split(' ')
-    if entity[0] == 'not':
-        negate = not negate
-        entity = entity[1:]
-    entity = entity[0]
-    if inst.is_a(entity):
-        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
-"""

@@ -31,6 +31,14 @@ def recursive_flatten(lst):
     return flattened_list
 
 
+def iflatten(any):
+    if isinstance(any, (tuple, list)):
+        for v in any:
+            yield from iflatten(v)
+    else:
+        yield any
+
+
 def do_try(fn, default=None):
     try:
         return fn()

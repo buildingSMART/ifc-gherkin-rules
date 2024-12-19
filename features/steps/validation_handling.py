@@ -65,10 +65,9 @@ def register_enum_type(cls):
 
 def generate_error_message(context, errors):
     """
-    Function to trigger the behave error mechanism so that the JSON output is generated correctly.
-    Miscellaneous errors also are also printed to the console this way.
+    Function to trigger the behave error mechanism by raising an exception so that errors are printed to the console.
     """
-    assert not errors, "Behave errors occured:\n{}".format([str(error) for error in errors])
+    assert not errors, "Errors occured:" + ''.join(f'\n - {error}' for error in errors)
 
 
 """

@@ -78,13 +78,13 @@ def step_impl(context, inst, constraint, num=None):
                 continue
             if constraint == 'identical':
                 if not all([values[0] == i for i in values]):
-                    yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, observed = values, severity=OutcomeSeverity.ERROR)
             if constraint == 'unique':
                 seen = set()
                 duplicates = [x for x in values if x in seen or seen.add(x)]
                 if not duplicates:
                     continue
-                yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, observed = values, severity=OutcomeSeverity.ERROR)
 
 
 def recursive_unpack_value(item):

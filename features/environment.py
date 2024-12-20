@@ -153,5 +153,5 @@ def update_outcomes_with_scenario_data(context, outcomes):
 
         if sls is not None:
             outcome['scenario'] = sls['scenario']
-            outcome['last_step'] = sls['last_step'].name
+            outcome['last_step'] = sls['last_step'].name.replace(' at depth 1', '')
             outcome['instance_id'] = sls.get('instance_id')

@@ -1,5 +1,5 @@
 @IFC
-@version5
+@version1
 @E00030
 @implementer-agreement
 Feature: IFC105 - Resource entities need to be referenced by rooted entity

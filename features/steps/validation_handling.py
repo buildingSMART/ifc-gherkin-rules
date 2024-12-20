@@ -360,7 +360,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
                 # step name is a good proxy for expected, but not for observed
                 return context.step.name
         case str():
-            if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:
+            if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema_identifier).entities()]:
                 return {'entity': data} # e.g. 'the type must be IfcCompositeCurve'
             else:
                 return {'value': data} # e.g. "The value must be 'Body'"

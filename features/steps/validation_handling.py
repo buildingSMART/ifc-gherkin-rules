@@ -358,7 +358,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
                 return None
             else:
                 # step name is a good proxy for expected, but not for observed
-                return context.step.name
+                return context.step.name.replace(' at depth 1', '')
         case str():
             if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema_identifier).entities()]:
                 return {'entity': data} # e.g. 'the type must be IfcCompositeCurve'

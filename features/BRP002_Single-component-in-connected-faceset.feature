@@ -1,6 +1,6 @@
 @informal-proposition
 @GEM
-@version2
+@version1
 @E00050
 Feature: BRP002 - Single component in connected faceset
 The rule verifies that for connected facesets (open- and closed shells) their union of the domains of the faces and their bounding loops shall be arcwise connected.
@@ -8,4 +8,5 @@ The rule verifies that for connected facesets (open- and closed shells) their un
   Scenario: IfcConnectedFaceSet components
 
     Given An IfcConnectedFaceSet
-      Then all edges must form a single connected component
+
+    Then all edges must form a single connected component

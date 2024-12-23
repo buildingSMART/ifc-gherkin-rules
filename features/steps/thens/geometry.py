@@ -232,3 +232,36 @@ def step_impl(context, inst: ifcopenshell.entity_instance, clause: str):
             if math.dist(points_coordinates[i], points_coordinates[j]) < precision:
                 yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
                                         severity=OutcomeSeverity.ERROR)
+
+
+
+
+@gherkin_ifc.step("the boundaries of the face must conform to the implicit plane fitted through the boundary points")
+def step_impl(context, inst: ifcopenshell.entity_instance):
+    import mpmath as mp
+    mp.prec = 128
+
+    representation_context = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = mp.mpf(geometry.get_precision_from_contexts(representation_context))
+
+    outer = [b for b in inst.Bounds if b.is_a('IfcFaceOuterBound')]
+    inner = [b for b in inst.Bounds if not b.is_a('IfcFaceOuterBound')]
+    if len(outer) != 1:
+        # @todo this should probably be a rule: only in rare cases a face should not have an outer bound (like, infinite or periodic faces),
+        # but for the scope of this rule that does not exist.
+        return
+    outer = outer[0]
+    loop = outer.Bound
+    if not loop.is_a('IfcPolyLoop'):
+        # @todo double check whether this is guaranteed by schema
+        return
+    points = [tuple(map(mp.mpf, p.Coordinates)) for p in loop.Polygon]
+    plane = geometry.estimate_plane_through_points(points)
+    if max(plane.distance(p) for p in points) > precision:
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+    for ib in inner:
+        # @nb yes we do use the same points, outer bound establishes the plane
+        loop = ib.Bound
+        points = [tuple(map(mp.mpf, p.Coordinates)) for p in loop.Polygon]
+        if max(plane.distance(p) for p in points) > precision:
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)

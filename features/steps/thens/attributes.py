@@ -64,7 +64,7 @@ def step_impl(context, inst, attribute, expected_entity_type):
 @gherkin_ifc.step('The value of attribute {attribute} must be {value_or_comparison_op}')
 @gherkin_ifc.step('The value of attribute {attribute} must be {value_or_comparison_op} {display_entity:display_entity}')
 @gherkin_ifc.step('The value of attribute {attribute} must be {value_or_comparison_op} the expression: {expression}')
-@gherkin_ifc.step('The value must be {value_or_comparison_op}')
+@gherkin_ifc.step('The resulting value must be {value_or_comparison_op}')
 def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, expression:str=None, display_entity=0):
     """
     Compare an attribute to an expression based on attributes.

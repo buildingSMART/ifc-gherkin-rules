@@ -232,3 +232,17 @@ def step_impl(context, inst: ifcopenshell.entity_instance, clause: str):
             if math.dist(points_coordinates[i], points_coordinates[j]) < precision:
                 yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
                                         severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("It must have no consecutive points that are coincident after taking the Precision factor into account")
+def step_impl(context, inst: ifcopenshell.entity_instance):
+    # @nb a crucial difference with the clause above used on Polyline/-loop is that it compares all points, not only
+    # consecutive points. Also this version does not take into account whether the curve is closed or not because
+    # with the optional Segments=None there is no way to close the curve by means of referencing the same point (index).
+    entity_contexts = ifc.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = ifc.get_precision_from_contexts(entity_contexts)
+    points_coordinates = geometry.get_points(inst)
+    for i, j in [(i-1, i) for i in range(1, len(points_coordinates))]:
+        if math.dist(points_coordinates[i], points_coordinates[j]) < precision:
+                yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
+                                        severity=OutcomeSeverity.ERROR)

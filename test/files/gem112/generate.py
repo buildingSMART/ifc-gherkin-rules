@@ -62,7 +62,22 @@ fail_arc_dup = [
     (0,1),(1,2,3),(3,0)
 ]
 
-cases = ['pass_rect', 'pass_arc', 'fail_rect_dup', 'fail_rect_eps', 'fail_arc_eps', 'fail_arc_dup']
+pass_no_segments = [
+    (0.0, 0.0),
+    (1.0, 0.0),
+    (1.0, 1.0),
+    (0.0, 1.0)
+],None
+
+fail_no_segments = [
+    (0.0, 0.0),
+    (1.0, 0.0),
+    (1.0, 1.e-6),
+    (1.0, 1.0),
+    (0.0, 1.0)
+],None
+
+cases = ['pass_rect', 'pass_arc', 'fail_rect_dup', 'fail_rect_eps', 'fail_arc_eps', 'fail_arc_dup', 'pass_no_segments', 'fail_no_segments']
 for case in cases:
     pf, reason = case.split('_', 1)
     f = ifcopenshell.template.create()
@@ -76,7 +91,7 @@ for case in cases:
             return f.createIfcLineIndex((tup))
         if len(tup) == 3:
             return f.createIfcArcIndex((tup))
-    segments = list(map(create_segment, edges))
+    segments = list(map(create_segment, edges)) if edges else edges
     crv = f.createIfcIndexedPolyCurve(plist, segments, None)
     rep = f.createIfcShapeRepresentation(ctx, 'FootPrint', 'Curve2D', [crv])
     pds = f.createIfcProductDefinitionShape(Representations=[rep])

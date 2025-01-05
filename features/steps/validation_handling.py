@@ -134,9 +134,9 @@ def handle_given(context, fn, **kwargs):
     """
     'Given' statements include four distinct functionalities.
     1) Set file-wide context.applicable. No further steps (given or then) have to be executed when context.applicability is set to False
-    2) Set an initial set of instances ('Given an IfcAlignment' -> [IfcAlignm, IfcAlignm, IfcAlign])
+    2) Set an initial set of instances ('Given an .IfcAlignment.' -> [IfcAlignm, IfcAlignm, IfcAlign])
     3) Filter the set of IfcAlignment based on a value ('Given attribute == X' -> [IfcAlignm, None, IfcAlignm])
-    4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
+    4) Set instances to a given attribute ('Given Its attribute .Representation.') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
     """
     if 'inst' not in inspect.getargs(fn.__code__).args:
         gen = fn(context, **kwargs)

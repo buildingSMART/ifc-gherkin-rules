@@ -81,9 +81,9 @@ Feature: ALS005 - Alignment shape representation
 
   Background: 
     Given a model with Schema "IFC4.3"
-    Given an IfcAlignment
-    Given Its attribute Representation
-    Given its attribute Representations
+    Given an .IfcAlignment.
+    Given Its attribute .Representation.
+    Given Its attribute .Representations.
 
   Scenario: Agreement on each IfcAlignment using correct representation - Value 
 

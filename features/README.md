@@ -302,7 +302,7 @@ in earlier schema versions.
 
 ```
 Given A model with Schema "IFC4.3"
-Given An IfcAlignment
+Given an .IfcAlignment.
 Then ...
 ```
 

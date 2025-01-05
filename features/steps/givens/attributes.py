@@ -67,7 +67,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
     """
     Note that the following statements are acceptable:
     - Attribute = empty
-    - Attribute = not empty
+    - Attribute is *not empty*
     - Attribute is empty
 
     However, please avoid using:

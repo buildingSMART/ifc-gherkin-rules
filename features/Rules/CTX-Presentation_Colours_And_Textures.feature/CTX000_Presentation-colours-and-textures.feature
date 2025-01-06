@@ -26,7 +26,7 @@ Feature: CTX000 - Presentation colours and textures
         Given its attribute .HasAssociations.
         Given all referenced instances 
         Given [Its type] is .IfcMaterial.
-        Given its attribute HasRepresentation
+        Given its attribute .HasRepresentation.
         Given Its attribute .Representations. 
         Given its attribute .Items. 
         Given [Its type] is .IfcStyledItem.

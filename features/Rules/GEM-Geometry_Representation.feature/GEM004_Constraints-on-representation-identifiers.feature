@@ -10,7 +10,7 @@ The rule verifies that shape representations adhere to the permissible values ou
     Given an .IfcProduct.
     Given Its attribute .Representation.
     Given Its attribute .Representations.
-    Given Its attribute RepresentationIdentifier.
+    Given Its attribute .RepresentationIdentifier.
 
     Then The values must be in 'valid_ShapeRepresentationIdentifier.csv'
   

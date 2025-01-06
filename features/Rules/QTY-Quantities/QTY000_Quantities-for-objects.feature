@@ -10,10 +10,10 @@ Feature: QTY000 - Quantities for Objects
 
     Scenario: Check for activation
 
-    Given an IfcObject
-    Given its attribute IsDefinedBy
+    Given an .IfcObject.
+    Given its attribute .IsDefinedBy.
     Given [Its type] is 'IfcRelDefinesByProperties'
-    Given its attribute RelatingPropertyDefinition
+    Given its attribute .RelatingPropertyDefinition.
     Given [Its type] is 'IfcElementQuantity'
 
     Then The IFC model contains information on quantities of elements

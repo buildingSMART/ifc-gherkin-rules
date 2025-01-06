@@ -9,7 +9,7 @@ Feature: VRT000 - Virtual Elements
 
     Scenario: Check for activation
 
-        Given an IfcVirtualElement
+        Given an .IfcVirtualElement.
         
         Then The IFC model contains information on the selected functional part
 

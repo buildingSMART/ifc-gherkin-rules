@@ -17,7 +17,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema "IFC4.3"
     Given An IFC model
 
-    Then There must be less than 1 instance(s) of .<Entity>. &excluding subtypes&
+    Then There must be *less than* 1 instance(s) of ..<Entity>.. &excluding subtypes&
 
     Examples:
       | Entity                                | 
@@ -51,7 +51,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given An IFC model
     Given A model with Schema "IFC4"
 
-    Then There must be less than 1 instance(s) of <Entity> &excluding subtypes&
+    Then There must be *less than* 1 instance(s) of .<Entity>. &excluding subtypes&
 
     Examples:
       | Entity                                |
@@ -91,7 +91,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given An IFC model
     Given A model with Schema "IFC2X3"
 
-    Then There must be less than 1 instance(s) of <Entity> &excluding subtypes&
+    Then There must be *less than* 1 instance(s) of .<Entity>. &excluding subtypes&
 
     Examples:
       |   Entity                   | 
@@ -106,9 +106,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario Outline: Check for deprecated attributes - IFC4.3
 
     Given A model with Schema "IFC4.3"
-    Given an <Entity>
+    Given an .<Entity>.
 
-    Then <Attribute> = empty
+    Then <Attribute> is *empty*
 
     Examples: 
       | Entity                    | Attribute                      | 
@@ -140,9 +140,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario Outline: Check for deprecated attributes - IFC4
 
     Given A model with Schema "IFC4"
-    Given an <Entity>
+    Given an .<Entity>.
 
-    Then <Attribute> = empty
+    Then <Attribute> is *empty*
 
     Examples:
       | Entity                        | Attribute                     |
@@ -180,9 +180,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario Outline: Check for deprecated attributes - IFC2X3  
 
       Given A model with Schema "IFC2X3"
-      Given an <Entity>
+      Given an .<Entity>.
 
-      Then <Attribute> = empty
+      Then <Attribute> is *empty*
 
     Examples:
       | Entity                        | Attribute                     |
@@ -199,9 +199,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     # IfcWall: IfcWallTypeEnum
 
     Given A model with Schema "IFC4.3"
-    Given an <Entity>
+    Given an .<Entity>.
 
-    Then PredefinedType is not <Value>
+    Then .PredefinedType. is not <Value>
 
     Examples:
       | Entity                          |        Value                   |
@@ -223,9 +223,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     # IfcWall: IfcWallTypeEnum
 
     Given A model with Schema "IFC4"
-    Given an <Entity>
+    Given an .<Entity>.
 
-    Then PredefinedType is not <Value>
+    Then .PredefinedType. is not <Value>
 
     Examples:
       | Entity                   |  Value                                       |
@@ -237,9 +237,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     # IfcOwnerHistory: IfcChangeActionEnum
 
     Given A model with Schema "IFC2X3"
-    Given an <Entity>
+    Given an .<Entity>.
 
-    Then <Attribute> is not <Value>
+    Then .<Attribute>. is not <Value>
 
     Examples:
       | Entity                   | Attribute            |         Value                                |
@@ -249,9 +249,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4.3
 
     Given A model with Schema "IFC4.3"
-    Given an <Entity>
+    Given an .<Entity>.
 
-    Then its type is not "<Entity>" &excluding subtypes&
+    Then [Its type] is not .<Entity>. &excluding subtypes&
 
     Examples:
       | Entity                     | 
@@ -268,9 +268,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
 
     Given A model with Schema "IFC4"
-    Given an <Entity>
+    Given an .<Entity>.
 
-    Then its type is not "<Entity>" &excluding subtypes&
+    Then [Its type] is not .<Entity>. &excluding subtypes&
 
     Examples:
       | Entity                     | 
@@ -287,9 +287,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC2X3
 
     Given A model with Schema "IFC2X3"
-    Given an <Entity>
+    Given an .<Entity>.
 
-    Then its type is not "<Entity>" &excluding subtypes&
+    Then [Its type] is not .<Entity>. &excluding subtypes&
 
     Examples:
       | Entity                     | 
@@ -302,25 +302,25 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario: Check for deprecated attribute values - IFC4.3
 
     Given A model with Schema "IFC4.3"
-    Given an IfcShapeRepresentation
+    Given an .IfcShapeRepresentation.
 
-    Then RepresentationType is not "PointCloud"
+    Then .RepresentationType. is not "PointCloud"
 
 
   Scenario: Check for deprecated property set - IFC4.3
 
     Given A model with Schema "IFC4.3"
-    Given an IfcPropertySet
+    Given an .IfcPropertySet.
 
-    Then Name is not 'Pset_Draughting'
+    Then .Name. is not 'Pset_Draughting'
 
 
   Scenario: Check for deprecated property set - IFC4
 
     Given A model with Schema "IFC4"
-    Given an IfcPropertySet
+    Given an .IfcPropertySet.
 
-    Then Name is not 'Pset_Draughting'
+    Then .Name. is not 'Pset_Draughting'
 
 
   Scenario: Check for deprecated property set - IFC2X3
@@ -328,4 +328,4 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema "IFC2X3"
     Given an IfcPropertySet
 
-    Then Name is not 'Pset_Draughting'
+    Then .Name. is not 'Pset_Draughting'

@@ -10,10 +10,10 @@ Feature: POR000 - Port Connectivity and Nesting
 
     Scenario: Check for activation
 
-    Given an IfcDistributionPort
-    Given its attribute ConnectedFrom
+    Given an .IfcDistributionPort.
+    Given its attribute .ConnectedFrom.
     Given [Its type] is 'IfcRelConnectsPorts'
-    Given its attribute RelatingPort
+    Given its attribute .RelatingPort.
     Given [Its type] is 'IfcDistributionPort'
 
     Then The IFC model contains information on port connectivity and nesting

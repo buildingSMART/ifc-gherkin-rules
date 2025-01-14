@@ -2,7 +2,7 @@
 @GEM
 @version1
 Feature: GEM112 - No duplicated points within an indexed poly curve
-The rule verifies, that all the indexed poly curves will have no duplicate points.
+The rule verifies that all the indexed poly curves will have no duplicate points.
 
   @E00050
   Scenario: Agreement on no duplicated points within an indexed poly curve

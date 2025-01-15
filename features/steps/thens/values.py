@@ -59,8 +59,8 @@ def step_impl(context, inst, constraint, num):
             yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("The values must be {constraint:unique_or_identical} at depth 1")
-def step_impl(context, inst, constraint, num=None):
+@gherkin_ifc.step("The values must be {constraint:unique_or_identical} at depth {depth_level:d}")
+def step_impl(context, inst, constraint, depth_level=None):
     if not inst:
         return
 

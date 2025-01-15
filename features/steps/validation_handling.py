@@ -169,7 +169,7 @@ def map_given_state(values, fn, context, depth=0, **kwargs):
         if depth == 0:
             return not is_nested(values)
         else:
-            return is_nested(values) and any(should_apply(v, depth-1) for v in values)
+            return is_nested(values) and all(should_apply(v, depth-1) for v in values if v is not None)
 
     if should_apply(values, depth):
         return None if values is None else apply_operation(fn, values, context, **kwargs)
@@ -276,7 +276,7 @@ def handle_then(context, fn, **kwargs):
             if depth == 0:
                 return not is_nested(items)
             else:
-                return is_nested(items) and any(not should_apply(v, depth-1) for v in items)
+                return is_nested(items) and all(should_apply(v, depth-1) for v in items if v is not None)
 
         if context.is_global_rule:
             return apply_then_operation(fn, [items], context, current_path=None, **kwargs)

@@ -12,9 +12,9 @@ from . import ValidationOutcome, OutcomeSeverity
 
 from parse_type import TypeBuilder
 from utils import misc
-register_type(unique_or_identical=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("be unique", "be identical"))))) # todo @gh remove 'be' from enum values
-register_type(value_or_type=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("value", "type"))))) # todo @gh remove 'be' from enum values
-register_type(values_or_types=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("values", "types"))))) # todo @gh remove 'be' from enum values
+register_type(unique_or_identical=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("unique", "identical")))))
+register_type(value_or_type=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("value", "type")))))
+register_type(values_or_types=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("values", "types")))))
 
 def apply_is_a(inst):
     if isinstance(inst, (list, tuple)):
@@ -59,32 +59,20 @@ def step_impl(context, inst, constraint, num):
             yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("The {value} must {constraint:unique_or_identical}")
-@gherkin_ifc.step("The values must {constraint:unique_or_identical}")
-@gherkin_ifc.step("The values must {constraint:unique_or_identical} at depth 1")
+@gherkin_ifc.step("The values must be {constraint:unique_or_identical} at depth 1")
 def step_impl(context, inst, constraint, num=None):
+    if not inst:
+        return
 
-    within_model = getattr(context, 'within_model', False)
+    if constraint == 'identical':
+        if not all([inst[0] == i for i in inst]):
+            yield ValidationOutcome(inst=inst, expected= constraint, observed = inst, severity=OutcomeSeverity.ERROR)
 
-    #to account for order-dependency of removing characters from constraint
-    while constraint.startswith('be ') or constraint.startswith('in '):
-        constraint = constraint[3:]
-
-    instances = [context.instances] if within_model else context.instances
-
-    if constraint in ('identical', 'unique'):
-        for i, values in enumerate(instances):
-            if not values:
-                continue
-            if constraint == 'identical':
-                if not all([values[0] == i for i in values]):
-                    yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
-            if constraint == 'unique':
-                seen = set()
-                duplicates = [x for x in values if x in seen or seen.add(x)]
-                if not duplicates:
-                    continue
-                yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
+    if constraint == 'unique':
+        seen = set()
+        duplicates = [x for x in inst if x in seen or seen.add(x)]
+        if duplicates:
+            yield ValidationOutcome(inst=inst, expected= constraint, observed = inst, severity=OutcomeSeverity.ERROR)
 
 
 def recursive_unpack_value(item):

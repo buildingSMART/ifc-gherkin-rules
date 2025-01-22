@@ -28,10 +28,7 @@ def step_impl(context, entity_opt_stmt, insts=False):
     entity = parse['entity']
     include_subtypes = misc.do_try(lambda: not 'without' in parse['include_subtypes'], True)
 
-    try:
-        instances = context.model.by_type(entity, include_subtypes)
-    except:
-        instances = []
+    instances = context.model.by_type(entity, include_subtypes) or []
 
     context.within_model = getattr(context, 'within_model', True) and within_model
     if instances:

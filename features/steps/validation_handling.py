@@ -1,5 +1,6 @@
 import functools
 import json
+import re
 from utils import misc
 from functools import wraps
 import ifcopenshell
@@ -148,9 +149,9 @@ def handle_given(context, fn, **kwargs):
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
         context._push('attribute') # for attribute stacking
-        if 'at depth 1' in context.step.name:
-            #todo @gh develop a more standardize approach
-            context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=1, **kwargs)))
+        depth = next(map(int, re.findall('at depth (\d+)$', context.step.name)), 0)
+        if depth:
+            context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=depth, **kwargs)))
         else:
             context.instances = map_given_state(context.instances, fn, context, **kwargs)
 
@@ -167,9 +168,8 @@ def map_given_state(values, fn, context, depth=0, **kwargs):
     def should_apply(values, depth):
         if depth == 0:
             return not is_nested(values)
-        elif depth == 1:
-            return is_nested(values) and all(not is_nested(v) for v in values)
-        return False
+        else:
+            return is_nested(values) and all(should_apply(v, depth-1) for v in values if v is not None)
 
     if should_apply(values, depth):
         return None if values is None else apply_operation(fn, values, context, **kwargs)
@@ -275,9 +275,8 @@ def handle_then(context, fn, **kwargs):
         def should_apply(items, depth):
             if depth == 0:
                 return not is_nested(items)
-            elif depth == 1:
-                return is_nested(items) and all(not is_nested(v) for v in items)
-            return False
+            else:
+                return is_nested(items) and all(should_apply(v, depth-1) for v in items if v is not None)
 
         if context.is_global_rule:
             return apply_then_operation(fn, [items], context, current_path=None, **kwargs)
@@ -293,7 +292,8 @@ def handle_then(context, fn, **kwargs):
     # so we take note of the outcomes that already existed. This is necessary since we accumulate
     # outcomes per feature and no longer per scenario.
     num_preexisting_outcomes = len(context.gherkin_outcomes)
-    map_then_state(instances, fn, context, depth = 1 if 'at depth 1' in context.step.name.lower() else 0, **kwargs)
+    depth = next(map(int, re.findall('at depth (\d+)$', context.step.name)), 0)
+    map_then_state(instances, fn, context, depth = depth, **kwargs)
 
     # evokes behave error
     generate_error_message(context, [gherkin_outcome for gherkin_outcome in context.gherkin_outcomes[num_preexisting_outcomes:] if gherkin_outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]])
@@ -360,7 +360,9 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
                 # step name is a good proxy for expected, but not for observed
                 return context.step.name
         case str():
-            if data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:
+            if context.config.userdata.get("purepythonparser", False):
+                return {'schema_identifier': data}
+            elif data in [x.name() for x in ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema).entities()]:
                 return {'entity': data} # e.g. 'the type must be IfcCompositeCurve'
             else:
                 return {'value': data} # e.g. "The value must be 'Body'"

@@ -75,39 +75,39 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
     """
     start_value = value
     pred = operator.eq
+
+    def negate(fn):
+        def inner(*args):
+            return not fn(*args)
+        return inner
+
     if value == 'empty':
         value = ()
     elif value == 'not empty':
         value = ()
         pred = operator.ne
-    elif comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
-        pred = operator.ne
-        try:
-            value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
-        except ValueError:
-            print('ValueError: entity must be typed in quotes')
     else:
         try:
             value = ast.literal_eval(value)
         except ValueError:
             # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
             value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
-            pred = misc.reverse_operands(operator.contains)
+            pred = operator.contains
 
-    entity_is_applicable = False
+    if comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
+        pred = negate(pred)
+
     observed_v = ()
     if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
         observed_v = misc.do_try(lambda : inst.is_a(), ())
-        values = {value} if isinstance(value, str) else value
-        if any(pred(check_entity_type(inst, v, tail), True) for v in values):
-            entity_is_applicable = True
+        if isinstance(value, set):
+            values = [check_entity_type(inst, v, tail) for v in value]
+        else:
+            values = check_entity_type(inst, value, tail)
+        entity_is_applicable = pred(values, True)
     else:
         observed_v = getattr(inst, attribute, ()) or ()
-        if comparison_op.name == 'NOT_EQUAL':
-            if all(pred(observed_v, v) for v in value):
-                entity_is_applicable = True
-        elif pred(observed_v, value):
-            entity_is_applicable = True
+        entity_is_applicable = pred(value, observed_v)
 
     if entity_is_applicable:
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)

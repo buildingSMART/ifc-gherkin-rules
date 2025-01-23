@@ -1,4 +1,5 @@
 import operator
+import re
 import ifcopenshell
 
 from utils import misc, system, geometry
@@ -63,7 +64,8 @@ def step_impl(context, inst, attribute, expected_entity_type):
 @gherkin_ifc.step('The value of attribute {attribute} must be {value_or_comparison_op}')
 @gherkin_ifc.step('The value of attribute {attribute} must be {value_or_comparison_op} {display_entity:display_entity}')
 @gherkin_ifc.step('The value of attribute {attribute} must be {value_or_comparison_op} the expression: {expression}')
-def step_impl(context, inst, attribute:str, value_or_comparison_op:str, expression:str=None, display_entity=0):
+@gherkin_ifc.step('The resulting value must be {value_or_comparison_op}')
+def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, expression:str=None, display_entity=0):
     """
     Compare an attribute to an expression based on attributes.
 
@@ -78,6 +80,14 @@ def step_impl(context, inst, attribute:str, value_or_comparison_op:str, expressi
     ** : exponentiation.
     """
 
+    binary_operators = {
+        'equal to' : operator.eq,
+        'not equal to' : operator.ne,
+        'greater than' : operator.gt,
+        'less than' : operator.lt,
+        'greater than or equal to' : operator.ge,
+        'less than or equal to' : operator.le,
+    }
     operators = {
         '+' : operator.add,
         '-' : operator.sub,
@@ -85,12 +95,7 @@ def step_impl(context, inst, attribute:str, value_or_comparison_op:str, expressi
         '/' : operator.truediv,
         '%' : operator.mod,
         '**' : operator.pow,
-        'equal to' : operator.eq,
-        'not equal to' : operator.ne,
-        'greater than' : operator.gt,
-        'less than' : operator.gt,
-        'greater than or equal to' : operator.ge,
-        'less than or equal to' : operator.le,
+        **binary_operators
     }
 
     if expression is not None:
@@ -162,10 +167,17 @@ def step_impl(context, inst, attribute:str, value_or_comparison_op:str, expressi
             opts = value_or_comparison_op.split(' or ')
             value_or_comparison_op = tuple(opts)
             pred = misc.reverse_operands(operator.contains)
+        elif m := re.match(rf"^({'|'.join(binary_operators.keys())})\s+(\d+(\.\d+)?)$", value_or_comparison_op):
+            pred_str, val_str, *_ = m.groups()
+            value_or_comparison_op = float(val_str)
+            pred = binary_operators[pred_str]
 
         if isinstance(inst, (tuple, list)):
             inst = inst[0]
-        attribute_value = getattr(inst, attribute, 'Attribute not found')
+        if attribute is None:
+            attribute_value = inst
+        else:
+            attribute_value = getattr(inst, attribute, 'Attribute not found')
         if attribute_value is None:
             attribute_value = ()
         if inst is None:

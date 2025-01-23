@@ -10,6 +10,7 @@ from . import ValidationOutcome, OutcomeSeverity
 import ifcopenshell.geom
 import numpy as np
 import rtree.index
+import networkx as nx
 
 # 'Mapping' is new functionality in IfcOpenShell v0.8 that allows us to inspect interpreted
 # segments without depending on OpenCASCADE. Hypothetically using Eigen with an arbitrary
@@ -249,3 +250,14 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
             if l.distance(b) < precision:
                 yield ValidationOutcome(inst=inst, observed=str(seg),
                                         severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("all edges must form a single connected component")
+def step_impl(context, inst: ifcopenshell.entity_instance):
+    G = nx.Graph()
+    G.add_edges_from(geometry.get_edges(
+        context.model, inst
+    ))
+    n_components = len(list(nx.connected_components(G)))
+    if n_components != 1:
+        yield ValidationOutcome(inst=inst, observed=n_components, severity=OutcomeSeverity.ERROR)

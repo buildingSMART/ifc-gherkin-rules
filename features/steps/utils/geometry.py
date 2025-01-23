@@ -1,7 +1,11 @@
 from dataclasses import dataclass
 import operator
 import math
+<<<<<<< HEAD
 from typing import Dict, Optional
+=======
+from typing import Dict, Tuple
+>>>>>>> development
 
 import numpy as np
 import mpmath as mp
@@ -379,3 +383,25 @@ def estimate_plane_through_points(points) -> Optional[Plane]:
     d = -(Nx*x_avg + Ny*y_avg + Nz*z_avg)
     
     return Plane(Nx, Ny, Nz, d)
+
+
+class Line:
+    """
+    Represents a line a + d*b where a is a position and b a normalized unit vector
+    """
+    a: Tuple[mp.mpf]
+    b: Tuple[mp.mpf]
+
+    def distance(self, point: Tuple[mp.mpf]) -> mp.mpf:
+        v = [p - ai for p, ai in zip(point, self.a)]
+        dot_prod = mp.fsum([x * y for x, y in zip(v, self.b)])
+        proj = [dot_prod * bi for bi in self.b]
+        dist_vec = [vi - pi for vi, pi in zip(v, proj)]
+        return mp.sqrt(mp.fsum([x*x for x in dist_vec]))
+
+    @staticmethod
+    def from_points(a, b):
+        a, b = (tuple(map(mp.mpf, p)) for p in (a,b))
+        l = mp.sqrt(mp.fsum([x*x for x in b]))
+        b = [x / l for x in b]
+        return Line(a, b)

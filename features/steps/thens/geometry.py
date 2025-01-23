@@ -234,6 +234,24 @@ def step_impl(context, inst: ifcopenshell.entity_instance, clause: str):
                 yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
                                         severity=OutcomeSeverity.ERROR)
 
+@gherkin_ifc.step("It must have no arc segments that use colinear points after taking the Precision factor into account")
+def step_impl(context, inst: ifcopenshell.entity_instance):
+    import mpmath as mp
+    mp.prec = 128
+
+    representation_context = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = mp.mpf(geometry.get_precision_from_contexts(representation_context))
+
+    for seg in (inst.Segments or ()):
+        ps = inst.Points.CoordList
+        if seg.is_a('IfcArcIndex') and len(seg[0]) == 3 and all((i >= 1) and ((i - 1) < len(ps)) for i in seg[0]):
+            a, b, c = (ps[i-1] for i in seg[0])
+            l = geometry.Line.from_points(a, c)
+            if l.distance(b) < precision:
+                yield ValidationOutcome(inst=inst, observed=str(seg),
+                                        severity=OutcomeSeverity.ERROR)
+
+
 @gherkin_ifc.step("all edges must form a single connected component")
 def step_impl(context, inst: ifcopenshell.entity_instance):
     G = nx.Graph()

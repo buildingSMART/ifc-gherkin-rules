@@ -6,11 +6,15 @@ Feature: LIP002 - Linear placement fallback coordinates
   and that the provided values correspond to the calculated placement defined by the RelativePlacement attribute
 
   Background:
-    Given A model with Schema "IFC4X3_ADD2"
+    Given A model with Schema "IFC4.3"
     Given An IfcLinearPlacement
-    Given Its attribute CartesianPosition
 
     Scenario: Confirm the presence of CartesianPosition
 
+      Given Its attribute CartesianPosition
       Then Assert existence
+
+    Scenario: Confirm the values of CartesianPosition
+
+      Then .CartesianPosition. must be *equal to* "the calculated linear placement"
 

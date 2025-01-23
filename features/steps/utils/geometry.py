@@ -1,11 +1,7 @@
 from dataclasses import dataclass
 import operator
 import math
-<<<<<<< HEAD
-from typing import Dict, Optional
-=======
-from typing import Dict, Tuple
->>>>>>> development
+from typing import Dict, Optional, Tuple
 
 import numpy as np
 import mpmath as mp

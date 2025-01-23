@@ -1,4 +1,3 @@
-@disabled
 @informal-proposition
 @TAS
 @version1

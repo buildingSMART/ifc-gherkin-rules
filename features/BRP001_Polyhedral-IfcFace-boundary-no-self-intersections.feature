@@ -1,4 +1,3 @@
-@disabled
 @informal-proposition
 @GEM
 @BRP

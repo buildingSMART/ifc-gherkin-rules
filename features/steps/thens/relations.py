@@ -389,3 +389,12 @@ def step_impl(context, inst, table):
                 # not a universal error. This is more IDS territory.
                 # if not values:
                 #     yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':None}, severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step('it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly')
+def step_impl(context, inst):
+    # context.visited_instances is set in the gherkin statement:
+    # 'Given a traversal over the full model originating from subtypes of IfcRoot'
+    assert hasattr(context, 'visited_instances')
+
+    if inst not in context.visited_instances:
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)

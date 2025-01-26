@@ -251,7 +251,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema "IFC4.3"
     Given an <Entity>
 
-    Then its type is not <Entity> excluding subtypes
+    Then its type is not "<Entity>" excluding subtypes
 
     Examples:
       | Entity                     | 
@@ -270,7 +270,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema "IFC4"
     Given an <Entity>
 
-    Then its type is not <Entity> excluding subtypes
+    Then its type is not "<Entity>" excluding subtypes
 
     Examples:
       | Entity                     | 
@@ -289,7 +289,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema "IFC2X3"
     Given an <Entity>
 
-    Then its type is not <Entity> excluding subtypes
+    Then its type is not "<Entity>" excluding subtypes
 
     Examples:
       | Entity                     | 

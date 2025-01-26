@@ -158,10 +158,10 @@ def evaluate_segment(segment: ifcopenshell.entity_instance, dist_along: float) -
     :param dist_along: The distance along this segment at the point of interest (point to be calculated)
     """
     s = ifcos_geom.settings()
-    pwf = wrapper.map_shape(s, segment.wrapped_data)
-    pwf_evaluator = wrapper.piecewise_function_evaluator(pwf, s)
+    seg_function = wrapper.map_shape(s, segment.wrapped_data)
+    seg_evaluator = wrapper.function_item_evaluator(s, seg_function)
 
-    segment_trans_mtx = pwf_evaluator.evaluate(dist_along)
+    segment_trans_mtx = seg_evaluator.evaluate(dist_along)
 
     return np.array(segment_trans_mtx, dtype=np.float64).T
 
@@ -193,27 +193,12 @@ class AlignmentSegmentContinuityCalculation:
         """
         Get the value of u corresponding to the end of the previous segment
         """
-        alignment_rep_type = self.previous_segment.UsingCurves[0].is_a().upper()
-        match alignment_rep_type:
-            case "IFCCOMPOSITECURVE":
-                # Horizontal representation - use the SegmentLength directly
-                u = abs(self.previous_segment.SegmentLength.wrappedValue)
-            case "IFCGRADIENTCURVE" | "IFCSEGMENTEDREFERENCECURVE":
-                # for vertical and cant representations (IfcGradientCurve and IfcSegmentedReferenceCurve),
-                # u should be the total distance traversed by the segment along the base curve
-                # (length of the segment projected to the "Distance Along" x-axis).
-                # The actual distance along the parent curve (e.g. IfcLine, IfcCircle, IfcPolynomialCurve, etc.) will be longer.
-                # Therefore, we will get the projected distance based on the placements of the two segments.
-                u = abs(self.segment_to_analyze.Placement.Location.Coordinates[0] - \
-                    self.previous_segment.Placement.Location.Coordinates[0])
-            case _:
-                # This case should never be reached.
-                # If it is reached, the gherkin rule should fail.
-                # Using a length of 0.0 will force a comparison of the start of the previous segment to the start of the following segment
-                # which should always return a failing result.
-                u = 0.0
+        s = ifcos_geom.settings()
+        seg_function = wrapper.map_shape(s, self.previous_segment.wrapped_data)
 
-        # for all cases, adjust from model units to SI units for ifcopenshell calc
+        u = seg_function.length() / self.length_unit_scale_factor
+
+        # adjust from model units to SI units for ifcopenshell calc
         return u * self.length_unit_scale_factor
 
     def _calculate_positions(self) -> None:

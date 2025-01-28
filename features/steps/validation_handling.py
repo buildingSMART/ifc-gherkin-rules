@@ -203,7 +203,7 @@ def handle_then(context, fn, **kwargs):
             )
         )
 
-    def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
+    def map_then_state(items, fn, context, current_path=[], depth=0, current_depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
             if inst is None:
                 return
@@ -277,13 +277,15 @@ def handle_then(context, fn, **kwargs):
             else:
                 return is_nested(items) and all(should_apply(v, depth-1) for v in items if v is not None)
 
+        # debugging:
+        print(' '*current_depth,current_depth,':',items)
+
         if context.is_global_rule:
             return apply_then_operation(fn, [items], context, current_path=None, **kwargs)
-        elif should_apply(items, depth):
+        elif depth == current_depth:
             return apply_then_operation(fn, items, context, current_path, **kwargs)
-        elif is_nested(items):
-            new_depth = depth if depth > 0 else 0
-            return type(items)(map_then_state(v, fn, context, current_path + [i], new_depth, **kwargs) for i, v in enumerate(items))
+        elif depth > current_depth:
+            return type(items)(map_then_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(items))
         else:
             return apply_then_operation(fn, items, context, current_path = None, **kwargs)
 

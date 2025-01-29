@@ -42,22 +42,23 @@ def step_impl(context, inst, relationship, table):
             # raise Exception(f'Entity {entity} was not found in the {table}')
             continue
 
-        applicable_entity = ifc.order_by_ifc_inheritance(applicable_entities, base_class_last = True)[0]
-        expected_relationship_objects = aggregated_table[applicable_entity]
+        # For all applicable entities (could be multiple e.g IfcRoad, IfcFacility) we union the allowed types
+        expected_relationship_objects = sorted(set(functools.reduce(operator.or_, map(set, [aggregated_table[e] for e in applicable_entities]))))
         try:
             relation = getattr(inst, stmt_to_op[relationship], True)[0]
         except IndexError: # no relationship found for the entity
             if is_required:
                 yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, severity=OutcomeSeverity.ERROR)
             continue
+
         relationship_objects = getattr(relation, relationship_tbl_header, True)
         if not isinstance(relationship_objects, tuple):
             relationship_objects = (relationship_objects,)
 
-
         for relationship_object in relationship_objects:
             is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
+                # related object not of the correct type
                 yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, observed=relationship_object, severity=OutcomeSeverity.ERROR)
 
 

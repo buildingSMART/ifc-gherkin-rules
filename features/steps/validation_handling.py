@@ -68,6 +68,7 @@ def generate_error_message(context, errors):
     """
     Function to trigger the behave error mechanism by raising an exception so that errors are printed to the console.
     """
+    context.intentional_error_occured = True
     assert not errors, "Errors occured:" + ''.join(f'\n - {error}' for error in errors)
 
 

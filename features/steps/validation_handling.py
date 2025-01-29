@@ -203,7 +203,7 @@ def handle_then(context, fn, **kwargs):
             )
         )
 
-    def map_then_state(items, fn, context, current_path=[], depth=0, current_depth=0, **kwargs):
+    def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
             if inst is None:
                 return
@@ -282,9 +282,9 @@ def handle_then(context, fn, **kwargs):
 
         if context.is_global_rule:
             return apply_then_operation(fn, [items], context, current_path=None, **kwargs)
-        elif depth == current_depth:
+        elif (depth is None and should_apply(items, 0)) or depth == current_depth:
             return apply_then_operation(fn, items, context, current_path, **kwargs)
-        elif depth > current_depth:
+        elif depth is None or depth > current_depth:
             return type(items)(map_then_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(items))
         else:
             return apply_then_operation(fn, items, context, current_path = None, **kwargs)
@@ -293,7 +293,7 @@ def handle_then(context, fn, **kwargs):
     # so we take note of the outcomes that already existed. This is necessary since we accumulate
     # outcomes per feature and no longer per scenario.
     num_preexisting_outcomes = len(context.gherkin_outcomes)
-    depth = next(map(int, re.findall('at depth (\d+)$', context.step.name)), 0)
+    depth = next(map(int, re.findall('at depth (\d+)$', context.step.name)), None)
     map_then_state(instances, fn, context, depth = depth, **kwargs)
 
     # evokes behave error

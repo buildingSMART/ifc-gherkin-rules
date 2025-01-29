@@ -111,7 +111,7 @@ def test_invocation(filename):
         if base.startswith('fail'):
             assert len(error_outcomes) > 0
         elif base.startswith('pass'):
-            assert len(error_outcomes) == 0 and len(activating_outcomes) and not caught_exceptions > 0
+            assert len(error_outcomes) == 0 and len(activating_outcomes) and not caught_exceptions
         elif base.startswith('na'):
             assert len(error_outcomes) == 0 and len(activating_outcomes) == 0 and not caught_exceptions
 

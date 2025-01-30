@@ -150,7 +150,7 @@ def step_impl(context, file_or_model, field, values):
 
 @gherkin_ifc.step('a traversal over the full model originating from subtypes of {entity}')
 def step_impl(context, entity):
-    WHITELISTED_INVERSES = {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment'}
+    WHITELISTED_INVERSES = {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment', 'HasSubContexts'}
     schema = ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema_identifier)
     @functools.cache
     def names(entity_type):

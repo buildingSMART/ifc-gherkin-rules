@@ -7,7 +7,7 @@ FILE_NAME ('pass-sps002-road_facilitypart.ifc', '2023-03-14T15:36:48', ('redacte
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
-#1= IFCAPPLICATION(#2,'1.0.0.0','ggRhinoIFC - Geometry Gym Plug-in for Rhino3d','ggRhinoIFC');
+#1= IFCAPPLICATION(#2,'1.0.0.0','redacted','redacted');
 #2= IFCORGANIZATION($,'Geometry Gym Pty Ltd',$,$,$);
 #3= IFCPERSONANDORGANIZATION(#4,#5,$);
 #4= IFCPERSON('Jon','Jon',$,$,$,$,$,$);

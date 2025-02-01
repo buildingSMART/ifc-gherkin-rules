@@ -431,23 +431,43 @@ def step_impl(context, inst, continuity_type):
 @gherkin_ifc.step('.{schema_construct}. must be *equal to* "the calculated linear placement"')
 def step_impl(context, inst, schema_construct):
     attribute_value = getattr(inst, schema_construct)
-    settings = ifcopenshell.geom.settings()
-    cartesian_position_matrix = ifcopenshell.geom.create_shape(settings, attribute_value).matrix
-    linear_placement_matrix = ifcopenshell.geom.create_shape(settings, inst).matrix
-    xcp, ycp = cartesian_position_matrix[12], cartesian_position_matrix[13]
-    xlp, ylp = linear_placement_matrix[12], linear_placement_matrix[13]
-
-    relative_placement = inst.PlacementRelTo
-    if relative_placement is not None:
-        relative_matrix = ifcopenshell.geom.create_shape(settings, relative_placement).matrix
-        xr, yr = relative_matrix[12], relative_matrix[13]
-        xcp += xr
-        ycp += yr
-
-    x_check = compare_with_precision(xcp, xlp, 1e-4, "equal to")
-    y_check = compare_with_precision(ycp, ylp, 1e-4, "equal to")
-    if not (x_check & y_check):
-        yield ValidationOutcome(
-            inst=inst,
-            severity=OutcomeSeverity.WARNING
+    if attribute_value is None:
+        yield(
+            ValidationOutcome(
+                inst=inst,
+                severity=OutcomeSeverity.WARNING,
+            )
         )
+    else:
+
+        settings = ifcopenshell.geom.settings()
+        cartesian_position_matrix = ifcopenshell.geom.create_shape(settings, attribute_value).matrix
+        linear_placement_matrix = ifcopenshell.geom.create_shape(settings, inst).matrix
+        xcp, ycp = cartesian_position_matrix[12], cartesian_position_matrix[13]
+        xlp, ylp = linear_placement_matrix[12], linear_placement_matrix[13]
+
+        relative_placement = inst.PlacementRelTo
+        if relative_placement is not None:
+            relative_matrix = ifcopenshell.geom.create_shape(settings, relative_placement).matrix
+            xr, yr = relative_matrix[12], relative_matrix[13]
+            xcp += xr
+            ycp += yr
+
+        x_check = compare_with_precision(xcp, xlp, 1e-4, "equal to")
+        y_check = compare_with_precision(ycp, ylp, 1e-4, "equal to")
+        if not (x_check & y_check):
+            yield ValidationOutcome(
+                inst=inst,
+                severity=OutcomeSeverity.WARNING,
+                expected={
+                    "expected": [xlp, ylp],
+                    "num_digits": 4,
+                    "context": "position"
+                },
+                observed={
+                    "observed": [xcp, ycp],
+                    "num_digits": 4,
+                    "context": None,
+                    "continuity_details": None
+                },
+            )

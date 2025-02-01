@@ -2,7 +2,7 @@ ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
 FILE_NAME(
-/* name */ 'pass-lip002-metric.ifc',
+/* name */ 'fail-lip002-metric_wrong_value.ifc',
 /* time_stamp */ '2025-01-27T13:49:48',
 /* author */ ('redacted'),
 /* organization */ ('redacted'),
@@ -428,7 +428,7 @@ DATA;
 #424= IFCPROPERTYSET('3$oK3Flj5EswmfRiLLaQS9',$,'LandXML Features [AeccDbAlignment]',$,(#127,#128));
 #425= IFCRELDEFINESBYPROPERTIES('0W9x2dArL0wua2qmcSVCa6',$,$,$,(#129),#424);
 #426= IFCREFERENT('3sS_one8LkencTnx0hiMBa',$,'BP: 0+000.00',$,$,#434,#1098,.REFERENCEMARKER.);
-#428= IFCCARTESIANPOINT((289.12031,0.1582,0.0));
+#428= IFCCARTESIANPOINT((10.01,20.02,0.0));
 #429= IFCAXIS2PLACEMENT3D(#428,$,$);
 #430= IFCPOINTBYDISTANCEEXPRESSION(IFCLENGTHMEASURE(0.0),$,$,$,#404);
 #431= IFCAXIS2PLACEMENTLINEAR(#430,#433,#432);

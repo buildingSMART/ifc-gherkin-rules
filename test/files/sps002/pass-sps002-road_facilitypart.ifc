@@ -11,7 +11,7 @@ DATA;
 #2= IFCORGANIZATION($,'Geometry Gym Pty Ltd',$,$,$);
 #3= IFCPERSONANDORGANIZATION(#4,#5,$);
 #4= IFCPERSON('redacted','redacted',$,$,$,$,$,$);
-#5= IFCORGANIZATION($,'Geometry Gym Pty Ltd',$,$,$);
+#5= IFCORGANIZATION($,'redacted',$,$,$);
 #6= IFCOWNERHISTORY(#3,#1,$,.ADDED.,1418084874,$,$,1418084874);
 #7= IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,0.0001,#8,#10);
 #8= IFCAXIS2PLACEMENT3D(#9,$,$);

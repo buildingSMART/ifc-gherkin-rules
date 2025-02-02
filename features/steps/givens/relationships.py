@@ -32,9 +32,9 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
     related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
     relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
 
-    relationships = [i for i in context.model.get_inverse(inst) if i.is_a(relationship)]
+    relationships = [i for i in context.model.get_inverse(inst, with_attribute_indices=True, allow_duplicate=True) if i[0].is_a(relationship)]
 
-    for rel in relationships:
+    for rel, attribute_index in relationships:
         attr_to_entity = relating_attr_matrix.get(rel.is_a())
         attr_to_other = {0: v for k, v in related_attr_matrix.items() if rel.is_a(k)}.get(0)
 
@@ -48,19 +48,21 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
             if not isinstance(val, (list, tuple)):
                 val = [val]
             return val
+        
+        rel_attribute_names = [a.name() for a in rel.wrapped_data.declaration().as_entity().all_attributes()]
+        rel_attribute_name = rel_attribute_names[attribute_index]
 
         for other in other_entity.split(' or '):
-            to_entity = set(make_aggregate(getattr(rel, attr_to_entity)))
             try:
                 to_other = list(filter(lambda i: i.is_a(other), make_aggregate(getattr(rel, attr_to_other))))
             except RuntimeError:
                 yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 
-            if v := {inst} & to_entity:
+            if rel_attribute_name == attr_to_entity:
                 if tail:
                     instances.extend(to_other)
                 else:
-                    instances.extend(v)
+                    instances.append(inst)
 
 
     if instances:

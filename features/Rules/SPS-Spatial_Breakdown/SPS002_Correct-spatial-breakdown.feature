@@ -1,6 +1,6 @@
 @implementer-agreement
 @SPS
-@version2
+@version3
 @E00100
 Feature: SPS002 - Correct spatial breakdown
 The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.

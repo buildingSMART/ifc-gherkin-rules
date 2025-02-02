@@ -7,9 +7,9 @@ The rule verifies that Shape Representation identifier is unique within the prod
 
   Scenario: A Shape Representation identifier must not be used twice within the product representation of an IfcProduct element
 
-    Given An .IfcProduct.
-    Given Its attribute .Representation.
-    Given Its attribute .Representations.
-    Given Its attribute .RepresentationIdentifier.
+    Given An IfcProduct
+    Given Its attribute Representation
+    Given Its attribute Representations
+    Given its attribute RepresentationIdentifier
 
-    Then The values must be *unique*
+    Then The values must be unique at depth 1

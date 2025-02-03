@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALS
-@version1
+@version2
 Feature: ALS004 - Alignment segment shape representation
 The rule verifies that each IfcAlignmentSegment uses correct representation.
 
@@ -29,4 +29,4 @@ The rule verifies that each IfcAlignmentSegment uses correct representation.
         Scenario: Agreement on each IfcAlignmentSegment using correct representation items - Type
 
             Given Its attribute Items 
-            Then  The value must be "IfcCurveSegment"
+            Then  Its Entity Type is 'IfcCurveSegment'

@@ -1,4 +1,5 @@
 import ifcopenshell
+import ifcopenshell.simple_spf
 from behave.model import Scenario
 from collections import Counter
 import os
@@ -10,17 +11,20 @@ from validation_results import ValidationOutcome, ValidationOutcomeCode, Outcome
 from main import ExecutionMode
 
 model_cache = {}
-def read_model(fn):
+def read_model(fn, pure):
     if cached := model_cache.get(fn):
         return cached
-    model_cache[fn] = ifcopenshell.open(fn)
-    return model_cache[fn]
+    if pure:
+        model_cache[(fn, pure)] = ifcopenshell.simple_spf.open(fn)
+    else:
+        model_cache[(fn, pure)] = ifcopenshell.open(fn)
+    return model_cache[(fn, pure)]
 
 def before_feature(context, feature):
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
-
-    context.model = read_model(context.config.userdata["input"])
+    
+    context.model = read_model(context.config.userdata["input"], context.config.userdata.get('purepythonparser', 'false').lower() == 'true')
     try:
         context.validation_task_id = context.config.userdata["task_id"]
     except KeyError: # run via console, task_id not provided
@@ -86,6 +90,7 @@ def after_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION': # DB interaction only needed during production run, not in testing
         from validation_results import OutcomeSeverity, ModelInstance, ValidationTask
+        from django.db import transaction
 
         def reduce_db_outcomes(feature_outcomes):
 
@@ -102,36 +107,30 @@ def after_feature(context, feature):
                         break
 
         outcomes_to_save = list(reduce_db_outcomes(context.gherkin_outcomes))
+        outcomes_instances_to_save = list()
 
-        if outcomes_to_save and context.validation_task_id is not None:
-            retrieved_task = ValidationTask.objects.get(id=context.validation_task_id)
-            retrieved_model = retrieved_task.request.model
-            retrieved_model_id = retrieved_model.id
+        if outcomes_to_save:
+            with transaction.atomic():
+                task = ValidationTask.objects.get(id=context.validation_task_id)
+                model_id = task.request.model.id
 
-            def get_or_create_instance_when_set(spf_id):
-                if not spf_id:
-                    return None
-                # @todo see if we can change this into a bulk insert as well
-                # with bulk_create(ignore_conflicts=True). There appear to be
-                # quite some caveats regarding this though...
-                instance, _created = ModelInstance.objects.get_or_create(
-                    stepfile_id=spf_id,
-                    model_id=retrieved_model_id
-                )
-                return instance.id
+                stepfile_ids = sorted(set(o.instance_id for o in outcomes_to_save if o.instance_id))
+                for stepfile_id in stepfile_ids:
+                  instance = ModelInstance(
+                      stepfile_id=stepfile_id,
+                      model_id=model_id
+                  )
+                  outcomes_instances_to_save.append(instance)
 
-            spf_ids = sorted(set(o.instance_id for o in outcomes_to_save))
-            instances_in_db = list(map(get_or_create_instance_when_set, spf_ids))
-            inst_id_mapping = dict(zip(spf_ids, instances_in_db))
+                if stepfile_ids:
+                    ModelInstance.objects.bulk_create(outcomes_instances_to_save, ignore_conflicts=True) # ignore conflicts with existing
+                    model_instances = dict(ModelInstance.objects.filter(model_id=model_id).values_list('stepfile_id', 'id')) # retrieve all
+                    
+                    # look up actual FK's
+                    for outcome in [o for o in outcomes_to_save if o.instance_id]:
+                        outcome.instance_id = model_instances[outcome.instance_id]
 
-            for outcome in outcomes_to_save:
-                # Previously we have the current model SPF id in the instance_id
-                # field. This needs to be updated to an actual foreign key into
-                # our ModelInstances table.
-                if outcome.instance_id:
-                    outcome.instance_id = inst_id_mapping[outcome.instance_id]
-
-            ValidationOutcome.objects.bulk_create(outcomes_to_save)
+                ValidationOutcome.objects.bulk_create(outcomes_to_save)
 
     else: # invoked via console or CI/CD pipeline
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]

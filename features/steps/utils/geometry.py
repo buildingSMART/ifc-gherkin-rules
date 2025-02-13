@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 import operator
 import math
-from typing import Dict
+from typing import Dict, Tuple
 
 import numpy as np
+import mpmath as mp
 
 import ifcopenshell.entity_instance
 import ifcopenshell.geom as ifcos_geom
@@ -157,10 +158,10 @@ def evaluate_segment(segment: ifcopenshell.entity_instance, dist_along: float) -
     :param dist_along: The distance along this segment at the point of interest (point to be calculated)
     """
     s = ifcos_geom.settings()
-    pwf = wrapper.map_shape(s, segment.wrapped_data)
-    pwf_evaluator = wrapper.piecewise_function_evaluator(pwf, s)
+    seg_function = wrapper.map_shape(s, segment.wrapped_data)
+    seg_evaluator = wrapper.function_item_evaluator(s, seg_function)
 
-    segment_trans_mtx = pwf_evaluator.evaluate(dist_along)
+    segment_trans_mtx = seg_evaluator.evaluate(dist_along)
 
     return np.array(segment_trans_mtx, dtype=np.float64).T
 
@@ -188,23 +189,20 @@ class AlignmentSegmentContinuityCalculation:
     current_start_direction: float = None
     current_start_gradient: float = None
 
-    def _calculate_positions(self) -> None:
+    def _get_u_at_end(self):
+        """
+        Get the value of u corresponding to the end of the previous segment
+        """
+        s = ifcos_geom.settings()
+        seg_function = wrapper.map_shape(s, self.previous_segment.wrapped_data)
 
-        u = abs(self.previous_segment.SegmentLength.wrappedValue) * self.length_unit_scale_factor
-        # for linear segments on vertical alignments (IfcGradientCurve) and cant alignments (IfcSegmentedReferenceCurve)
-        # we need to project the total segment length to the x-axis, i.e. the "distance along" axis
-        if self.previous_segment.ParentCurve.is_a().upper() == "IFCLINE":
-            if (self.previous_segment.UsingCurves[0].is_a().upper() == "IFCGRADIENTCURVE" ) or (
-                self.previous_segment.UsingCurves[0].is_a().upper() == "IFCSEGMENTEDREFERENCECURVE"):
-                    # ensure direction ratios have been normalized
-                    x_comp, y_comp = self.previous_segment.Placement.RefDirection.DirectionRatios
-                    divisor = math.sqrt(x_comp ** 2 + y_comp ** 2)
-                    x_comp /= divisor
-                    y_comp /= divisor
-                    # adjust u so that it is based on the total "distance along" of the segment,
-                    # not the total length of the segment (which includes an additional amount for the change in elevation)
-                    u *= x_comp
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+        u = seg_function.length() / self.length_unit_scale_factor
+
+        # adjust from model units to SI units for ifcopenshell calc
+        return u * self.length_unit_scale_factor
+
+    def _calculate_positions(self) -> None:
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
         e0 = prev_end_transform[3][0] / self.length_unit_scale_factor
@@ -216,8 +214,7 @@ class AlignmentSegmentContinuityCalculation:
         self.current_start_point = (s0, s1)
 
     def _calculate_directions(self) -> None:
-        u = abs(float(self.previous_segment.SegmentLength.wrappedValue)) * self.length_unit_scale_factor
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
         prev_i = prev_end_transform[0][0]
@@ -306,3 +303,25 @@ def compare_with_precision(value_1: float, value_2: float, precision: float, com
             return value_1 < value_2 or math.isclose(value_1, value_2, rel_tol=0., abs_tol=precision)
         case _:
             raise ValueError(f"Invalid comparison operator: {comparison_operator}")
+
+@dataclass
+class Line:
+    """
+    Represents a line a + d*b where a is a position and b a normalized unit vector
+    """
+    a: Tuple[mp.mpf]
+    b: Tuple[mp.mpf]
+
+    def distance(self, point: Tuple[mp.mpf]) -> mp.mpf:
+        v = [p - ai for p, ai in zip(point, self.a)]
+        dot_prod = mp.fsum([x * y for x, y in zip(v, self.b)])
+        proj = [dot_prod * bi for bi in self.b]
+        dist_vec = [vi - pi for vi, pi in zip(v, proj)]
+        return mp.sqrt(mp.fsum([x*x for x in dist_vec]))
+
+    @staticmethod
+    def from_points(a, b):
+        a, b = (tuple(map(mp.mpf, p)) for p in (a,b))
+        l = mp.sqrt(mp.fsum([x*x for x in b]))
+        b = [x / l for x in b]
+        return Line(a, b)

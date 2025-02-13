@@ -1,4 +1,5 @@
 import ast
+import functools
 import operator
 
 import ifcopenshell
@@ -75,39 +76,39 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
     """
     start_value = value
     pred = operator.eq
+
+    def negate(fn):
+        def inner(*args):
+            return not fn(*args)
+        return inner
+
     if value == 'empty':
         value = ()
     elif value == 'not empty':
         value = ()
         pred = operator.ne
-    elif comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
-        pred = operator.ne
-        try:
-            value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
-        except ValueError:
-            print('ValueError: entity must be typed in quotes')
     else:
         try:
             value = ast.literal_eval(value)
         except ValueError:
             # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
             value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
-            pred = misc.reverse_operands(operator.contains)
+            pred = operator.contains
 
-    entity_is_applicable = False
+    if comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
+        pred = negate(pred)
+
     observed_v = ()
     if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
         observed_v = misc.do_try(lambda : inst.is_a(), ())
-        values = {value} if isinstance(value, str) else value
-        if any(pred(check_entity_type(inst, v, tail), True) for v in values):
-            entity_is_applicable = True
+        if isinstance(value, set):
+            values = [check_entity_type(inst, v, tail) for v in value]
+        else:
+            values = check_entity_type(inst, value, tail)
+        entity_is_applicable = pred(values, True)
     else:
         observed_v = getattr(inst, attribute, ()) or ()
-        if comparison_op.name == 'NOT_EQUAL':
-            if all(pred(observed_v, v) for v in value):
-                entity_is_applicable = True
-        elif pred(observed_v, value):
-            entity_is_applicable = True
+        entity_is_applicable = pred(value, observed_v)
 
     if entity_is_applicable:
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
@@ -146,6 +147,34 @@ def step_impl(context, file_or_model, field, values):
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
+
+@gherkin_ifc.step('a traversal over the full model originating from subtypes of {entity}')
+def step_impl(context, entity):
+    WHITELISTED_INVERSES = {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment', 'HasSubContexts'}
+    schema = ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema_identifier)
+    @functools.cache
+    def names(entity_type):
+        decl = schema.declaration_by_name(entity_type)
+        if isinstance(decl, ifcopenshell.ifcopenshell_wrapper.entity):
+            non_derived_forward_attributes = map(operator.itemgetter(1), filter(lambda t: not t[0], zip(decl.derived(), decl.all_attributes())))
+            whitelisted_inverse_attributes = filter(lambda attr: attr.name() in WHITELISTED_INVERSES, decl.all_inverse_attributes())
+            return {a.name() for a in [*non_derived_forward_attributes, *whitelisted_inverse_attributes]}
+        else:
+            return set()
+
+    visited = set()
+    def visit(inst, path=None):
+        if inst in visited:
+            return
+        visited.add(inst)
+        for attr in names(inst.is_a()):
+            for ref in filter(lambda inst: isinstance(inst, ifcopenshell.entity_instance), misc.iflatten(getattr(inst, attr))):
+                visit(ref, (path or ()) + (inst, attr,))
+
+    for inst in context.model.by_type(entity):
+        visit(inst)
+
+    context.visited_instances = visited
 
 @gherkin_ifc.step('Its attribute {attribute}')
 def step_impl(context, inst, attribute, tail="single"):

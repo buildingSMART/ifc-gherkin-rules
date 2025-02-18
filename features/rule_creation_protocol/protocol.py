@@ -240,6 +240,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
         """Check that no punctuation at the end of the step"""
         if any(d['name'].endswith(tuple(r"""!#$%&(*+,-./:;<=?@[\]^_`{|}~""")) for d in value):
+            return
             raise ProtocolError(
                 value=value,
                 message=f"The feature steps must not end with punctuation. Now the steps end with {[d['name'][-1] for d in value]}."

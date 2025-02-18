@@ -17,8 +17,8 @@ The rule verifies that a geometric context is present in the model, that its att
 
       Examples:
         | Schema               | Entity     |
-        | "IFC2X3"             | IfcProject |
-        | "IFC4.3" or "IFC4"   | IfcContext |
+        | 'IFC2X3'             | IfcProject |
+        | 'IFC4.3' or 'IFC4'   | IfcContext |
 
 
     Scenario Outline: Agreement on correct context types
@@ -27,9 +27,9 @@ The rule verifies that a geometric context is present in the model, that its att
       Given An <Entity>
       Given Its attribute RepresentationContexts
       
-      Then ContextType = "Model" or "Plan" or "NotDefined"
+      Then ContextType = 'Model' or 'Plan' or 'NotDefined'
 
       Examples:
         | Schema               | Entity     |
-        | "IFC2X3"             | IfcProject |
-        | "IFC4.3" or "IFC4"   | IfcContext |
+        | 'IFC2X3'             | IfcProject |
+        | 'IFC4.3' or 'IFC4'   | IfcContext |

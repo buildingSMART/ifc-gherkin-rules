@@ -118,7 +118,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
                                 observed = 'empty' if observed_v == () else observed_v, severity = OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('{attr} forms {closed_or_open} curve')
+@gherkin_ifc.step("{attr} forms {closed_or_open} curve")
 def step_impl(context, inst, attr, closed_or_open):
     assert closed_or_open in ('a closed', 'an open')
     should_be_closed = closed_or_open == 'a closed'
@@ -131,7 +131,7 @@ def step_impl(context, inst, attr, closed_or_open):
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
 
 
-@gherkin_ifc.step('A {file_or_model} with {field} "{values}"')
+@gherkin_ifc.step("A {file_or_model} with {field} '{values}'")
 def step_impl(context, file_or_model, field, values):
     values = misc.strip_split(values, strp='"', splt=' or ')
     values = ['ifc4x3' if i.lower() == 'ifc4.3' else i for i in values]  # change to IFC4X3 to check in IfcOpenShell
@@ -143,12 +143,12 @@ def step_impl(context, file_or_model, field, values):
     elif field == "Schema":
         applicable = context.model.schema.lower() in values
     else:
-        raise NotImplementedError(f'A file with "{field}" is not implemented')
+        raise NotImplementedError(f"A file with '{field}' is not implemented")
 
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 
-@gherkin_ifc.step('a traversal over the full model originating from subtypes of {entity}')
+@gherkin_ifc.step("a traversal over the full model originating from subtypes of {entity}")
 def step_impl(context, entity):
     WHITELISTED_INVERSES = {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment', 'HasSubContexts', 'HasProperties', 'HasRepresentation'}
     schema = ifcopenshell.ifcopenshell_wrapper.schema_by_name(context.model.schema_identifier)
@@ -176,7 +176,7 @@ def step_impl(context, entity):
 
     context.visited_instances = visited
 
-@gherkin_ifc.step('Its attribute {attribute}')
+@gherkin_ifc.step("Its attribute {attribute}")
 def step_impl(context, inst, attribute, tail="single"):
     yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity=OutcomeSeverity.PASSED)
 
@@ -245,8 +245,8 @@ def step_impl(context, inst, prefix_condition, prefix):
         yield ValidationOutcome(instance_id=inst, expected=expected, observed=inst[0], severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('Its {ff:first_or_final} element')
-@gherkin_ifc.step('Its {ff:first_or_final} element at depth 1')
+@gherkin_ifc.step("Its {ff:first_or_final} element")
+@gherkin_ifc.step("Its {ff:first_or_final} element at depth 1")
 def step_impl(context, inst, ff : FirstOrFinal):
     if ff == FirstOrFinal.FINAL:
         yield ValidationOutcome(instance_id = inst[-1], severity=OutcomeSeverity.PASSED)
@@ -257,7 +257,7 @@ def step_impl(context, inst, ff : FirstOrFinal):
 def step_impl(context):
     yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
 
-@gherkin_ifc.step('Each instance pair at depth 1')
+@gherkin_ifc.step("Each instance pair at depth 1")
 def step_impl(context, inst):
     pairs = list()
     for i in range(0, len(inst) - 1):

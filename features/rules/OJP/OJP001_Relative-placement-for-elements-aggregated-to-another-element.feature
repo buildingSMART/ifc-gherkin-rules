@@ -9,7 +9,7 @@ with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the contai
   @E00010
   Scenario: Agreement on the relative placement of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
 
-      Given A model with Schema "IFC2X3" or "IFC4"
+      Given A model with Schema 'IFC2X3' or 'IFC4'
       Given An IfcElement
       Given A relationship IfcRelAggregates from IfcElement to IfcElement and following that
 
@@ -18,7 +18,7 @@ with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the contai
   @E00060
   Scenario: Agreement on the container attributes of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
 
-      Given A model with Schema "IFC2X3" or "IFC4"
+      Given A model with Schema 'IFC2X3' or 'IFC4'
       Given An IfcElement
       Given A relationship IfcRelAggregates from IfcElement to IfcElement and following that
 

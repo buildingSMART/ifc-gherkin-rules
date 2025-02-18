@@ -9,7 +9,7 @@ IfcReferent is associated to IfcAlignment via the IfcRelNests relationship.
 
   Scenario: Agreement on each IfcAlignment nesting at least one IfcReferent
 
-      Given A model with Schema "IFC4.3"
+      Given A model with Schema 'IFC4.3'
       Given An IfcAlignment
       
       Then A relationship IfcRelNests must exist from IfcAlignment to IfcReferent

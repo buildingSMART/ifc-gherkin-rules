@@ -29,7 +29,7 @@ Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGra
   Given its attribute Segments
   Given its entity type
 
-  Then The value must be "IfcCurveSegment"
+  Then The value must be 'IfcCurveSegment'
 
   Examples:
     | entity |

@@ -7,7 +7,7 @@ Feature: ALB022 - Alignment agreement on number of segments
   the number of segments in the representation must correspond to the number of segments indicated by the business logic.
 
 Background: Validating overall agreement on number of segments
-  Given A model with Schema "IFC4.3"
+  Given A model with Schema 'IFC4.3'
 
 Scenario: Validating the same number of segments for horizontal layout and representation
   Given An IfcAlignmentHorizontal

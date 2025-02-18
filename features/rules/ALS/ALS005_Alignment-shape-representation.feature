@@ -5,7 +5,7 @@ Feature: ALS005 - Alignment shape representation
 The rule verifies that each IfcAlignment uses correct representation.
 
   Background:
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
     Given An IfcAlignment
     Given Its attribute Representation
     Given Its attribute Representations

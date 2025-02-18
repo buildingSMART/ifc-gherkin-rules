@@ -8,7 +8,7 @@ Feature: ALB002 - Alignment Layout Verification
 
   Background:
 
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
 
 @E00100
   Scenario Outline: Agreement on nested attributes of IfcAlignment

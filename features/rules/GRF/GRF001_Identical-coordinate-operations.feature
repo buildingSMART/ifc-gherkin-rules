@@ -10,7 +10,7 @@ Currently, for GRF001, this is only permitted if (1) there is a single context o
 
   Scenario: IfcGeometricRepresentationContext
 
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
     Given All instances of IfcGeometricRepresentationContext without subtypes
     Given Its Attribute HasCoordinateOperation
     Given Its values excluding SourceCRS

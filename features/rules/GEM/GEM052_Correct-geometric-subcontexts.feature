@@ -8,7 +8,7 @@ Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
 
     Scenario: Each geometric context must have a subcontext
 
-        Given a model with Schema "IFC4.3" or "IFC4"
+        Given a model with Schema 'IFC4.3' or 'IFC4'
         Given an IfcGeometricRepresentationContext without subtypes
     
         Then HasSubContexts = not empty
@@ -16,7 +16,7 @@ Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
 
     Scenario: Constraints on context identifier 
 
-        Given a model with Schema "IFC4.3" or "IFC4"
+        Given a model with Schema 'IFC4.3' or 'IFC4'
         Given An IfcGeometricRepresentationSubContext
         Given Its attribute ContextIdentifier
 
@@ -25,7 +25,7 @@ Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
 
     Scenario: Context identifier must not be empty
 
-        Given a model with Schema "IFC4.3" or "IFC4"
+        Given a model with Schema 'IFC4.3' or 'IFC4'
         Given An IfcGeometricRepresentationSubContext
         
         Then ContextIdentifier = not empty

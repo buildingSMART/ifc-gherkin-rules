@@ -178,7 +178,7 @@ def ala003_activation_inst(inst, context) -> Union[ifcopenshell.entity_instance 
 
 
 @gherkin_ifc.step(
-    'A representation by {ifc_rep_criteria} requires the {existence:absence_or_presence} of {entities} in the business logic')
+    "A representation by {ifc_rep_criteria} requires the {existence:absence_or_presence} of {entities} in the business logic")
 def step_impl(context, inst, ifc_rep_criteria, existence, entities):
     align = ifc43.entities.Alignment().from_entity(inst)
     match (ifc_rep_criteria, existence, entities):
@@ -235,7 +235,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
 
 
 @gherkin_ifc.step(
-    'The representation must have the correct number of segments indicated by the layout')
+    "The representation must have the correct number of segments indicated by the layout")
 def step_impl(context, inst):
     for rel in inst.Nests:
         ent = rel.RelatingObject
@@ -277,7 +277,7 @@ def step_impl(context, inst):
                                             severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('Each segment must have the same geometry type as its corresponding {activation_phrase}')
+@gherkin_ifc.step("Each segment must have the same geometry type as its corresponding {activation_phrase}")
 def step_impl(context, inst, activation_phrase):
     if inst is not None:
         # retrieve activation instance entity from the attribute stack
@@ -361,7 +361,7 @@ def step_impl(context, inst, activation_phrase):
                     )
 
 
-@gherkin_ifc.step('Each segment must have geometric continuity in {continuity_type}')
+@gherkin_ifc.step("Each segment must have geometric continuity in {continuity_type}")
 def step_impl(context, inst, continuity_type):
     """
     Assess geometric continuity between alignment segments for ALS016, ALS017, and ALS018

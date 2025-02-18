@@ -7,7 +7,7 @@ Feature: ALB021 - Alignment overall agreement of business logic and geometry
   the representation entity type must correspond to the layouts present in the business logic.
 
 Background: Validating overall agreement on presence of cant in business logic
-  Given A model with Schema "IFC4.3"
+  Given A model with Schema 'IFC4.3'
   Given An IfcAlignment
 
 Scenario: Validating the presence of cant layout for IfcSegmentedReferenceCurve

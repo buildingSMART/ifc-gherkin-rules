@@ -14,7 +14,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario Outline: Check for deprecated entities - IFC4.3
 
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
     Given An IFC model
 
     Then There must be less than 1 instance(s) of <Entity> excluding subtypes
@@ -49,7 +49,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario Outline: Check for deprecated entities - IFC4
 
     Given An IFC model
-    Given A model with Schema "IFC4"
+    Given A model with Schema 'IFC4'
 
     Then There must be less than 1 instance(s) of <Entity> excluding subtypes
 
@@ -89,7 +89,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
   Scenario Outline: Check for deprecated entities - IFC2X3
 
     Given An IFC model
-    Given A model with Schema "IFC2X3"
+    Given A model with Schema 'IFC2X3'
 
     Then There must be less than 1 instance(s) of <Entity> excluding subtypes
 
@@ -105,7 +105,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario Outline: Check for deprecated attributes - IFC4.3
 
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
     Given an <Entity>
 
     Then <Attribute> = empty
@@ -139,7 +139,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario Outline: Check for deprecated attributes - IFC4
 
-    Given A model with Schema "IFC4"
+    Given A model with Schema 'IFC4'
     Given an <Entity>
 
     Then <Attribute> = empty
@@ -179,7 +179,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario Outline: Check for deprecated attributes - IFC2X3  
 
-      Given A model with Schema "IFC2X3"
+      Given A model with Schema 'IFC2X3'
       Given an <Entity>
 
       Then <Attribute> = empty
@@ -198,60 +198,60 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     # IfcSpace: IfcSpaceTypeEnum
     # IfcWall: IfcWallTypeEnum
 
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
     Given an <Entity>
 
     Then PredefinedType is not <Value>
 
     Examples:
       | Entity                          |        Value                   |
-      | IfcBuildingElementProxy         | "PROVISIONFORSPACE"            |
-      | IfcBuildingElementProxy         | "PROVISIONFORVOID"             |
-      | IfcFireSuppressionTerminal      | "SPRINKLERDEFLECTOR"           |
-      | IfcFireSuppressionTerminalType  | "SPRINKLERDEFLECTOR"           |
-      | IfcCableCarrierFitting          | "TEE" or "CROSS" or "REDUCER"  |
-      | IfcCableCarrierFittingType      | "TEE" or "CROSS" or "REDUCER"  |
-      | IfcGeographicElement            | "SOIL_BORING_POINT"            |
-      | IfcGeographicElementType        | "SOIL_BORING_POINT"            |
-      | IfcSpace                        | "INTERNAL" or "EXTERNAL"       |
-      | IfcSpaceType                    | "INTERNAL" or "EXTERNAL"       |
-      | IfcWall                         | "POLYGONAL" or "STANDARD"      |
-      | IfcWallType                     | "POLYGONAL" or "STANDARD"      |
+      | IfcBuildingElementProxy         | 'PROVISIONFORSPACE'            |
+      | IfcBuildingElementProxy         | 'PROVISIONFORVOID'            |
+      | IfcFireSuppressionTerminal      | 'SPRINKLERDEFLECTOR'          |
+      | IfcFireSuppressionTerminalType  | 'SPRINKLERDEFLECTOR'           |
+      | IfcCableCarrierFitting          | 'TEE' or 'CROSS' or 'REDUCER'  |
+      | IfcCableCarrierFittingType      | 'TEE' or 'CROSS' or 'REDUCER'  |
+      | IfcGeographicElement            | 'SOIL_BORING_POINT'            |
+      | IfcGeographicElementType        | 'SOIL_BORING_POINT'            |
+      | IfcSpace                        | 'INTERNAL' or 'EXTERNAL'       |
+      | IfcSpaceType                    | 'INTERNAL' or 'EXTERNAL'       |
+      | IfcWall                         | 'POLYGONAL' or 'STANDARD'      |
+      | IfcWallType                     | 'POLYGONAL' or 'STANDARD'      |
 
 
   Scenario Outline: Check for deprecated enumerated values - IFC4
     # IfcWall: IfcWallTypeEnum
 
-    Given A model with Schema "IFC4"
+    Given A model with Schema 'IFC4'
     Given an <Entity>
 
     Then PredefinedType is not <Value>
 
     Examples:
       | Entity                   |  Value                                       |
-      | IfcWall                  | "POLYGONAL" or "STANDARD" or "ELEMENTEDWALL" |
-      | IfcWallType              | "POLYGONAL" or "STANDARD" or "ELEMENTEDWALL" |
+      | IfcWall                  | 'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL' |
+      | IfcWallType              | 'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL' |
 
 
   Scenario Outline: Check for deprecated enumerated values - IFC2X3
     # IfcOwnerHistory: IfcChangeActionEnum
 
-    Given A model with Schema "IFC2X3"
+    Given A model with Schema 'IFC2X3'
     Given an <Entity>
 
     Then <Attribute> is not <Value>
 
     Examples:
       | Entity                   | Attribute            |         Value                                |
-      | IfcOwnerHistory          | ChangeAction         | "MODIFIEDADDED" or "MODIFIEDDELETED"         |
+      | IfcOwnerHistory          | ChangeAction         | 'MODIFIEDADDED' or 'MODIFIEDDELETED'         |
 
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4.3
 
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
     Given an <Entity>
 
-    Then its type is not "<Entity>" excluding subtypes
+    Then its type is not '<Entity>' excluding subtypes
 
     Examples:
       | Entity                     | 
@@ -267,10 +267,10 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
 
-    Given A model with Schema "IFC4"
+    Given A model with Schema 'IFC4'
     Given an <Entity>
 
-    Then its type is not "<Entity>" excluding subtypes
+    Then its type is not '<Entity>' excluding subtypes
 
     Examples:
       | Entity                     | 
@@ -286,10 +286,10 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC2X3
 
-    Given A model with Schema "IFC2X3"
+    Given A model with Schema 'IFC2X3'
     Given an <Entity>
 
-    Then its type is not "<Entity>" excluding subtypes
+    Then its type is not '<Entity>' excluding subtypes
 
     Examples:
       | Entity                     | 
@@ -301,15 +301,15 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario: Check for deprecated attribute values - IFC4.3
 
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
     Given an IfcShapeRepresentation
 
-    Then RepresentationType is not "PointCloud"
+    Then RepresentationType is not 'PointCloud'
 
 
   Scenario: Check for deprecated property set - IFC4.3
 
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
     Given an IfcPropertySet
 
     Then Name is not 'Pset_Draughting'
@@ -317,7 +317,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario: Check for deprecated property set - IFC4
 
-    Given A model with Schema "IFC4"
+    Given A model with Schema 'IFC4'
     Given an IfcPropertySet
 
     Then Name is not 'Pset_Draughting'
@@ -325,7 +325,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario: Check for deprecated property set - IFC2X3
 
-    Given A model with Schema "IFC2X3"
+    Given A model with Schema 'IFC2X3'
     Given an IfcPropertySet
 
     Then Name is not 'Pset_Draughting'

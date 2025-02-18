@@ -7,7 +7,7 @@ The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a 
 
   Background:
 
-    Given A model with Schema "IFC4.3"
+    Given A model with Schema 'IFC4.3'
     Given an IfcCableSegment
 
   @E00100
@@ -20,5 +20,5 @@ The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a 
   
     Given There exists a relationship IfcRelNests from IfcAlignment to IfcDistributionPort and following that
     Given Its attribute FlowDirection
-    Then at least "1" value must be "SOURCE"
-    Then at least "1" value must be "SINK"
+    Then at least '1' value must be 'SOURCE'
+    Then at least '1' value must be 'SINK'

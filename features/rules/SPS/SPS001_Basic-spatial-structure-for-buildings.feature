@@ -6,8 +6,8 @@ Feature: SPS001 - Basic spatial structure for buildings
 The rule verifies that there's maximum one instance of IfcSite and at least one instance of IfcBuilding as part of the spatial structure.
 
   Background:
-    Given A file with Model View Definition "CoordinationView"
-    Given A file with Schema "IFC2X3"
+    Given A file with Model View Definition 'CoordinationView'
+    Given A file with Schema 'IFC2X3'
 
 
   Scenario: Agreement141 - Agreement on having maximum of one instance of IfcSite

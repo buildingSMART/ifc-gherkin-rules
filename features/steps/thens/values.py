@@ -41,8 +41,8 @@ def step_impl(context, inst, i, csv_file):
     if not is_valid_instance(inst):
         yield ValidationOutcome(inst=inst, expected=valid_values, observed=inst, severity=OutcomeSeverity.ERROR)
 
-@gherkin_ifc.step('At least "{num:d}" value must {constraint}')
-@gherkin_ifc.step('At least "{num:d}" values must {constraint}')
+@gherkin_ifc.step("At least '{num:d}' value must {constraint}")
+@gherkin_ifc.step("At least '{num:d}' values must {constraint}")
 def step_impl(context, inst, constraint, num):
     stack_tree = list(
         filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
@@ -94,7 +94,7 @@ def recursive_unpack_value(item):
     return item
 
 
-@gherkin_ifc.step('The {i:value_or_type} must be "{value}"')
+@gherkin_ifc.step("The {i:value_or_type} must be '{value}'")
 def step_impl(context, inst, i, value):
     values = [v.lower() for v in misc.strip_split(value, strp='"', splt=' or ')]
     inst = recursive_unpack_value(inst)
@@ -105,7 +105,7 @@ def step_impl(context, inst, i, value):
         yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('All {i:values_or_types} must be "{value}"')
+@gherkin_ifc.step("All {i:values_or_types} must be '{value}.")
 def step_impl(context, inst, i, value):
     number_of_unique_values = len(set(inst))
     if number_of_unique_values > 1: # if there are more than 1 values, the 'All' predicament is impossible to fulfill

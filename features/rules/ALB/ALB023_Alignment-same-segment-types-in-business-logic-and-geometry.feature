@@ -7,7 +7,7 @@ Feature: ALB023 - Alignment same segment types in business logic and geometry
   the geometry type of each segments in the business logic must be the same as its corresponding segment in the representation.
 
 Background: Validating schema version
-  Given A model with Schema "IFC4.3"
+  Given A model with Schema 'IFC4.3'
 
 Scenario: Validating the same geometry types for representation of the alignment
   Given An IfcAlignment

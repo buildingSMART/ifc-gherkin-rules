@@ -133,7 +133,7 @@ def step_impl(context, inst, attr, closed_or_open):
 
 @gherkin_ifc.step("A {file_or_model} with {field} '{values}'")
 def step_impl(context, file_or_model, field, values):
-    values = misc.strip_split(values, strp='"', splt=' or ')
+    values = misc.strip_split(values, strp="'", splt=' or ')
     values = ['ifc4x3' if i.lower() == 'ifc4.3' else i for i in values]  # change to IFC4X3 to check in IfcOpenShell
     if field == "Model View Definition":
         conditional_lowercase = lambda s: s.lower() if s else None

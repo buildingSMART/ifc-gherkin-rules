@@ -12,7 +12,7 @@ Feature: ALS017 - Alignment vertical segment geometric continuity
   Background:
 
     Given A model with Schema 'IFC4.3'
-    Given An IfcAlignment
+    Given An .IfcAlignment.
     Given Its attribute Representation
     Given Its attribute Representations
     Given RepresentationType = 'Curve3D'

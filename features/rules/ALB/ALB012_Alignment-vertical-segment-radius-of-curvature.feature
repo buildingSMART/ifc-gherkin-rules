@@ -7,7 +7,7 @@ Feature: ALB012 - Alignment vertical segment radius of curvature
 
   Background:
     Given A model with Schema 'IFC4.3'
-    Given An IfcAlignmentVertical
+    Given An .IfcAlignmentVertical.
     Given A relationship IfcRelNests from IfcAlignmentVertical to IfcAlignmentSegment and following that
     Given Its attribute DesignParameters
     Given Its entity type is 'IfcAlignmentVerticalSegment'

@@ -14,7 +14,7 @@ Feature: ALS016 - Alignment horizontal segment geometric continuity
 Background:
 
   Given A model with Schema 'IFC4.3'
-  Given An IfcAlignment
+  Given An .IfcAlignment.
   Given Its attribute Representation
   Given Its attribute Representations
   Given RepresentationType = 'Curve2D'

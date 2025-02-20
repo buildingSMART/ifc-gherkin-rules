@@ -13,25 +13,25 @@ Feature: ALB002 - Alignment Layout Verification
 @E00100
   Scenario Outline: Agreement on nested attributes of IfcAlignment
 
-    Given an <AlignmentType>
+    Given an .<entity>.
 
     Then it must be nested by <VerticalNesting> instance(s) of IfcAlignmentVertical
     Then it must be nested by <HorizontalNesting> instance(s) of IfcAlignmentHorizontal
     Then it must be nested by <CantNesting> instance(s) of IfcAlignmentCant
 
       Examples:
-      | AlignmentType | HorizontalNesting | VerticalNesting | CantNesting |
+      | entity | HorizontalNesting | VerticalNesting | CantNesting |
       | IfcAlignment  | exactly 1         | at most 1       | at most 1   |
 
 @E00100
   Scenario Outline: Agreement on attributes being nested within a decomposition relationship
 
-    Given an <AlignmentComponentType>
+    Given an .<entity>.
 
     Then It must nest only 1 instance(s) of IfcAlignment
 
       Examples:
-      | AlignmentComponentType  |
+      | entity                  |
       | IfcAlignmentHorizontal  |
       | IfcAlignmentVertical    |
       | IfcAlignmentCant        |
@@ -39,12 +39,12 @@ Feature: ALB002 - Alignment Layout Verification
 @E00100
   Scenario Outline: Agreement of structure of alignment segments
 
-    Given an <AlignmentComponentType>
+    Given an .<entity>.
 
     Then It is nested by a list of only instance(s) of IfcAlignmentSegment
 
       Examples:
-      | AlignmentComponentType  |
+      | entity                  |
       | IfcAlignmentHorizontal  |
       | IfcAlignmentVertical    |
       | IfcAlignmentCant        |
@@ -52,13 +52,13 @@ Feature: ALB002 - Alignment Layout Verification
 @E00010
   Scenario Outline: Agreement of the segments of alignment
 
-    Given an IfcAlignmentSegment
-    Given The element nests an <AlignmentComponentType>
+    Given an .IfcAlignmentSegment.
+    Given The element nests an <entity>
 
     Then The type of attribute DesignParameters must be <SegmentType>
 
       Examples:
-      | AlignmentComponentType  | SegmentType                       |
+      | entity                  | SegmentType                       |
       | IfcAlignmentHorizontal  | IfcAlignmentHorizontalSegment     |
       | IfcAlignmentVertical    | IfcAlignmentVerticalSegment       |
       | IfcAlignmentCant        | IfcAlignmentCantSegment           |

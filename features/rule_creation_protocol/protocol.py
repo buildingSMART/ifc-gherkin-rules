@@ -238,14 +238,6 @@ class RuleCreationConventions(ConfiguredBaseModel):
                 message=f"The expected keywords used in the feature file are 'Given', 'Then' and 'And'. Now {[d['keyword'] for d in value]} are used."
             )
 
-        """Check that no punctuation at the end of the step"""
-        if any(d['name'].endswith(tuple(r"""!#$%&(*+,-./:;<=?@[\]^_`{|}~""")) for d in value):
-            return
-            raise ProtocolError(
-                value=value,
-                message=f"The feature steps must not end with punctuation. Now the steps end with {[d['name'][-1] for d in value]}."
-            )
-
         """Check that 'shall' is not used"""
         if any('shall' in d['name'].lower() for d in value):
             raise ProtocolError(
@@ -265,7 +257,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
 
         normalized_path = os.path.normpath(value)
         """Check if test file is located in the ifc-gherkin-rules\\test\\files directory"""
-        if not (('ifc-gherkin-rules\\test\\files\\' in normalized_path) or ('ifc-gherkin-rules/test/files/' in normalized_path)):
+        if not (('test\\files\\' in normalized_path) or ('test/files/' in normalized_path)):
             raise ProtocolError(
                 value=value,
                 message=f"The test files are to be placed in the ifc-gherkin-rules/test/files/ directory. Currently it's placed: {normalized_path}"

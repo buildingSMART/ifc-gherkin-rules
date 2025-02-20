@@ -9,6 +9,6 @@ In this case, only the parent alignment shall be related to the project.
   Scenario: Agreement on each IfcAlignment being aggregated to IfcProject
 
       Given A model with Schema 'IFC4.3'
-      Given An IfcAlignment
+      Given an .IfcAlignment.
 
       Then It must be aggregated to IfcProject directly or indirectly

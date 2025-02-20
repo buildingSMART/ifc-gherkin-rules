@@ -7,6 +7,6 @@ The rule verifies that for connected facesets (open- and closed shells) their un
 
   Scenario: IfcConnectedFaceSet components
 
-    Given An IfcConnectedFaceSet
+    Given An .IfcConnectedFaceSet.
 
     Then all edges must form a single connected component

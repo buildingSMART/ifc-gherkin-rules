@@ -8,7 +8,7 @@ The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a 
   Background:
 
     Given A model with Schema 'IFC4.3'
-    Given an IfcCableSegment
+    Given an .IfcCableSegment.
 
   @E00100
   Scenario: Agreement on IfcCableSegment having ports

@@ -11,7 +11,7 @@ Feature: MAT000 - Materials
     Scenario: Check for activation of Materials - IFC4 & IFC4.3
 
         Given A model with Schema 'IFC4.3' or 'IFC4'
-        Given an IfcObjectDefinition
+        Given an .IfcObjectDefinition.
         Given its attribute HasAssociations
         Given its entity type is 'IfcRelAssociatesMaterial'
         Given its attribute RelatingMaterial
@@ -23,7 +23,7 @@ Feature: MAT000 - Materials
     Scenario: Check for activation of Materials - IFC2X3
 
         Given A model with Schema 'IFC2X3'
-        Given an IfcObjectDefinition
+        Given an .IfcObjectDefinition.
         Given its attribute HasAssociations
         Given its entity type is 'IfcRelAssociatesMaterial'
 

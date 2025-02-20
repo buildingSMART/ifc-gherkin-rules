@@ -7,7 +7,7 @@ The rule verifies that shape representations adhere to the permissible values ou
 
   Scenario: Shape Representation Identifier must be valid
 
-    Given An IfcProduct
+    Given An .IfcProduct.
     Given Its attribute Representation
     Given Its attribute Representations
     Given Its attribute RepresentationIdentifier
@@ -17,7 +17,7 @@ The rule verifies that shape representations adhere to the permissible values ou
 
   Scenario: Shape Representation Type must be valid
 
-    Given An IfcProduct
+    Given An .IfcProduct.
     Given Its attribute Representation
     Given Its attribute Representations
     Given Its entity type is 'IfcShapeRepresentation'
@@ -28,7 +28,7 @@ The rule verifies that shape representations adhere to the permissible values ou
 
   Scenario: Topology Representation Type must be valid
 
-      Given An IfcProduct
+      Given An .IfcProduct.
       Given Its attribute Representation
       Given Its attribute Representations
       Given Its entity type is 'IfcTopologyRepresentation'

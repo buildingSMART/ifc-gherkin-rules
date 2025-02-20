@@ -10,7 +10,7 @@ Feature: POR000 - Port Connectivity and Nesting
 
     Scenario: Check for activation
 
-    Given an IfcDistributionPort
+    Given an .IfcDistributionPort.
     Given its attribute ConnectedFrom
     Given its entity type is 'IfcRelConnectsPorts'
     Given its attribute RelatingPort

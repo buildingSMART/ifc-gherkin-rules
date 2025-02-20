@@ -11,7 +11,7 @@ Feature: CLS000 - Classification Association
 
     Scenario: Check for activation of Classification Association
 
-    Given an IfcObjectDefinition
+    Given an .IfcObjectDefinition.
     Given its attribute HasAssociations
     Given its entity type is 'IfcRelAssociatesClassification'
     Given its attribute RelatingClassification

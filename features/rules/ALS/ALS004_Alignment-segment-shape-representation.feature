@@ -6,7 +6,7 @@ The rule verifies that each IfcAlignmentSegment uses correct representation.
 
     Background:
         Given A model with Schema 'IFC4.3'
-        Given An IfcAlignmentSegment
+        Given An .IfcAlignmentSegment.
         Given Its attribute Representation
         Given Its attribute Representations 
 

@@ -9,7 +9,7 @@ The rule verifies that a geometric context is present in the model, that its att
     Scenario Outline: Agreement on having at least one geometric representation context
 
       Given A model with Schema <Schema>
-      Given An <Entity>
+      Given An .<Entity>.
       Given Its attribute RepresentationContexts
 
       Then Assert existence
@@ -24,7 +24,7 @@ The rule verifies that a geometric context is present in the model, that its att
     Scenario Outline: Agreement on correct context types
 
       Given A model with Schema <Schema>
-      Given An <Entity>
+      Given An .<Entity>.
       Given Its attribute RepresentationContexts
       
       Then ContextType = 'Model' or 'Plan' or 'NotDefined'

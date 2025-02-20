@@ -15,7 +15,6 @@ from . import ValidationOutcome, OutcomeSeverity
 register_type(relating_or_related=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("relating", "related")))))
 
 
-@gherkin_ifc.step("An {entity_opt_stmt}")
 @gherkin_ifc.step("All {insts} of {entity_opt_stmt}")
 def step_impl(context, entity_opt_stmt, insts=False):
     within_model = (insts == 'instances')  # True for given statement containing {insts}

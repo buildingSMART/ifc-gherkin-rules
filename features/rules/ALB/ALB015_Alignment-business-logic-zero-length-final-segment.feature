@@ -8,7 +8,7 @@ Feature: ALB015 - Alignment business logic zero length final segment
 
   Scenario: Validating final segment of horizontal alignment business logic
     Given A model with Schema 'IFC4.3'
-    Given An IfcAlignmentHorizontal
+    Given An .IfcAlignmentHorizontal.
     Given A relationship IfcRelNests from IfcAlignmentHorizontal to IfcAlignmentSegment and following that
     Given Its final element at depth 1
     Given Its attribute DesignParameters
@@ -16,7 +16,7 @@ Feature: ALB015 - Alignment business logic zero length final segment
 
   Scenario: Validating final segment of vertical alignment business logic
     Given A model with Schema 'IFC4.3'
-    Given An IfcAlignmentVertical
+    Given An .IfcAlignmentVertical.
     Given A relationship IfcRelNests from IfcAlignmentVertical to IfcAlignmentSegment and following that
     Given Its final element at depth 1
     Given Its attribute DesignParameters
@@ -24,7 +24,7 @@ Feature: ALB015 - Alignment business logic zero length final segment
 
   Scenario: Validating final segment of cant alignment business logic
     Given A model with Schema 'IFC4.3'
-    Given An IfcAlignmentCant
+    Given An .IfcAlignmentCant.
     Given A relationship IfcRelNests from IfcAlignmentCant to IfcAlignmentSegment and following that
     Given Its final element at depth 1
     Given Its attribute DesignParameters

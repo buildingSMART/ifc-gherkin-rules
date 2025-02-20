@@ -14,9 +14,32 @@ Additionally, step implementations will be re-grouped by domain, rather than
 This will aid greatly in reducing the overall number of code lines currently being managed
 for similar logic.
 
+## Background
+
+`Given its attribute X must start with Y or Z`
+
+Is almost the same as
+
+`Given its attribute X`
+`Its value must start with Y or Z`
+
+However, when navigating the context stack and there is a subsequent step,
+it is sometimes preferable to include the statement within a single step.
+
+For example:
+
+(1) `Given an entity IfcBuildingStorey`
+(2) `Given its attribute X must start with Y or Z`
+(3) `Given its relating Wall`
+(4) `Then Some condiion`
+
+In this case, it is challenging to split step (2) into two separate steps and then return to the
+relating Wall (step 3) of the entity in step (1). This is because the instances in the context will be
+the content of the attribute X of IfcBuildingStorey rather than the storey itself."
+
 ## Basics
 
-Doubles quotes must always be used at the start and end of gherkin matching statements.
+Double quotes must always be used at the start and end of gherkin matching statements.
 (`black` will reformat single quotes to double quotes)
 
 Single quotes should only be used in any matching or control sub-parts.
@@ -32,10 +55,12 @@ The type of attribute .Items. must be .IfcCurveSegment.
 
 These are groups of terms that are interchanged based on whether they will be used for a Given or Then.
 
-| Construct | Given  | Then       |
-|-----------|--------|------------|
-| Equality  | is     | must be    |
-| Existence | exists | must exist |
+| Construct                 | Given       | Then            |
+|---------------------------|-------------|-----------------|
+| Equality                  | is          | must be         |
+| Existence                 | exists      | must exist      |
+| Beginning string matching | starts with | must start with |
+| Ending string matching    | ends with   | must end with   |
 
 ## Control characters
 
@@ -43,14 +68,6 @@ These are groups of terms that are interchanged based on whether they will be us
 
 Not used.
 They are used by gherkin for Example tables
-
-## Square brackets '[]'
-
-Prose used for matching
-
-```
-Then [its type] is not .IfcWall.
-```
 
 ## Single quotes `'`
 
@@ -69,43 +86,29 @@ See above - only used at beginning and end of an implementation step
 
 Use for any reserved keyword in the schema, including types.
 
-## Binary and unary operators - Asterisk `*`
+### Modifiers (Custom Enums) - Underscore `_`
 
-- binary and unary operators
-  - see `comparisons` implemented by Fernando
-    - 
-
-- equal to
-
-### Modifiers (Custom Enums) - Ampersand `&`
-
-definite TODO: gater all of the custom registered types in one spot! we have a lot of duplication
+definite TODO: gather all the custom registered types in one spot! we have a lot of duplication
 
 possible TODO: rewrite as string enums with the literal values, or decorate with @register_enum_type
 
-| class              | defined in        | opt1    | opt 2          | Notes |
-|--------------------|-------------------|---------|----------------|-------|
-| FirstOrFinal       | givens/attributes | FIRST   | FINAL          |       | 
-| ComparisonOperator | givens/attributes | EQUAL   | NOT_EQUAL      |       | 
-| SubtypeHandling    | givens/attributes | INCLUDE | EXCLUDE        |       | 
-| PrefixCondition    | givens/attributes | STARTS  | DOES_NOT_START |       | 
+| class              | defined in        | opt1               | opt 2              | Notes                    |
+|--------------------|-------------------|--------------------|--------------------|--------------------------|
+| FirstOrFinal       | givens/attributes | FIRST              | FINAL              |                          | 
+| ComparisonOperator | givens/attributes | EQUAL              | NOT_EQUAL          |                          | 
+| SubtypeHandling    | givens/attributes | INCLUDING_SUBTYPES | EXCLUDING_SUBTYPES | is in givens/entity also | 
+| PrefixCondition    | givens/attributes | STARTS             | DOES_NOT_START     |                          | 
+| UniqueOrIdentical  | thens/values      | UNIQUE             | IDENTICAL          |                          | 
+| ValueOrType        | thens/values      | VALUE              | TYPE               |                          | 
+| ValuesOrTypes      | thens/values      | VALUES             | TYPES              |                          | 
 
-#### FirstOrFinal
+## Binary and unary operators - Asterisk `*`
 
-- &first&
-- &final&
+- binary and unary operators
+  - see `comparisons` in thens/attributes.py
 
-#### Comparison Operator
+- equal to
 
-- &equal to&
-- &not equal to&
+## Square brackets '[]'
 
-#### Subtype handling
-
-- &including subtypes&
-- &excluding subtypes&
-
-#### Prefix Conditions
-
-- &starts&
-- &does not start&
+Prose used for matching

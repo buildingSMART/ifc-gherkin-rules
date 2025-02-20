@@ -10,7 +10,7 @@ Feature: BLT002 - Correct use of partitioning type attributes for windows
 
 Scenario Outline: Correct values for PartitioningType and UserDefinedPartitioningType
 
-  Given an <entity>
+  Given an .<entity>.
   Given UserDefinedPartitioningType = not empty
   Given IsTypedBy = empty
 
@@ -24,7 +24,7 @@ Scenario Outline: Correct values for PartitioningType and UserDefinedPartitionin
 
 Scenario: Correct IfcPartitioningType with relating type object
 
-  Given an IfcWindow
+  Given an .IfcWindow.
   Given a relationship IfcRelDefinesByType to IfcWindow from IfcWindowType
 
   Then PartitioningType is empty

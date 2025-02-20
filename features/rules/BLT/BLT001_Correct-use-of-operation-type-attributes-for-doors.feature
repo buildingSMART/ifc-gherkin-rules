@@ -10,7 +10,7 @@ Feature: BLT001 - Correct use of operation type attributes for doors
 
 Scenario Outline: Correct values for OperationType and UserDefinedOperationType
 
-  Given an <entity>
+  Given an .<entity>.
   Given UserDefinedOperationType = not empty
   Given IsTypedBy = empty
 
@@ -24,7 +24,7 @@ Scenario Outline: Correct values for OperationType and UserDefinedOperationType
 
 Scenario: Correct IfcOperationType with relating type object
 
-  Given an IfcDoor
+  Given an .IfcDoor.
   Given a relationship IfcRelDefinesByType to IfcDoor from IfcDoorType
 
   Then OperationType is empty

@@ -6,7 +6,7 @@ The rule verifies that IfcAlignmentVertical is represented correctly with repres
 
   Background:
     Given A model with Schema 'IFC4.3'
-    Given An IfcAlignmentVertical
+    Given An .IfcAlignmentVertical.
     Given Its attribute Representation
     Given Its attribute Representations
 

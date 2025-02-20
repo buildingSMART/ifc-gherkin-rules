@@ -10,7 +10,7 @@ Feature: LIP000 - Linear Placement
 
     Scenario: Check for activation
 
-    Given an IfcProduct
+    Given an .IfcProduct.
     Given its attribute ObjectPlacement
     Given its entity type is 'IfcLinearPlacement'
 

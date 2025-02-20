@@ -7,7 +7,7 @@ The rule verifies that closed shells and closed facesets edges are referenced co
 
   Scenario Outline: IfcClosedShell
 
-    Given An IfcClosedShell
+    Given An .IfcClosedShell.
 
     Then <Statement>
 
@@ -19,13 +19,13 @@ The rule verifies that closed shells and closed facesets edges are referenced co
 
     Scenario Outline: Check constraints for FaceSets; TriangulatedFaceSet and PolygonalFaceSet
     
-      Given An <FaceSetType>
+      Given An .<entity>.
       And Closed = True
 
       Then <Statement>
 
       Examples:
-        | FaceSetType              | Statement                                                           |
+        | entity                   | Statement                                                           |
         | IfcTriangulatedFaceSet   | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
         | IfcTriangulatedFaceSet   | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
         | IfcPolygonalFaceSet      | Every edge must be referenced exactly 2 time(s) by the loops of the face  |

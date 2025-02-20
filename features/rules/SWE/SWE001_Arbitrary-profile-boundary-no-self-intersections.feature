@@ -9,14 +9,14 @@ geometrical sweeps such as extrusions.
 
   Scenario: Validating that IfcArbitraryClosedProfileDef instances do not have self-intersections in their boundaries
 
-    Given An IfcArbitraryClosedProfileDef
+    Given An .IfcArbitraryClosedProfileDef.
     Given Its attribute OuterCurve
 
     Then There must be no self-intersections
 
   Scenario: Validating that IfcArbitraryProfileDefWithVoids instances do not have self-intersections in their inner boundaries
 
-    Given An IfcArbitraryClosedProfileDef
+    Given An .IfcArbitraryClosedProfileDef.
     Given Its attribute InnerCurves
 
     Then There must be no self-intersections

@@ -9,7 +9,7 @@ ends with a discontinuous segment with length = 0.
 
 Background: Validating final segment of alignment geometry (representation).
   Given A model with Schema 'IFC4.3'
-  Given An IfcAlignment
+  Given An .IfcAlignment.
   Given Its attribute Representation
   Given Its attribute Representations
   Given its attribute Items

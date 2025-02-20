@@ -10,7 +10,7 @@ Feature: QTY000 - Quantities for Objects
 
     Scenario: Check for activation
 
-    Given an IfcObject
+    Given an .IfcObject.
     Given its attribute IsDefinedBy
     Given its entity type is 'IfcRelDefinesByProperties'
     Given its attribute RelatingPropertyDefinition

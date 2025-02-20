@@ -7,5 +7,5 @@ The rule verifies that all the three points of any IfcArcIndex segment of an Ifc
   @E00050
   Scenario: No poly curve arcs using colinear points
 
-    Given An IfcIndexedPolyCurve
+    Given An .IfcIndexedPolyCurve.
     Then It must have no arc segments that use colinear points after taking the Precision factor into account

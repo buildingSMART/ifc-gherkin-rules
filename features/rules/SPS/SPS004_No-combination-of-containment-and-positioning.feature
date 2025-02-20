@@ -9,7 +9,7 @@ The rule verifies that each IfcProduct can either be contained in one and only o
   Scenario: Agreement on elements being contained cannot be positioned
 
     Given A model with Schema 'IFC4.3'
-    Given An IfcProduct
+    Given An .IfcProduct.
     Given ContainedInStructure = not empty
 
     Then The value of attribute PositionedRelativeTo must be empty
@@ -18,7 +18,7 @@ The rule verifies that each IfcProduct can either be contained in one and only o
   Scenario: Agreement on elements being positioned cannot be contained
 
     Given A model with Schema 'IFC4.3'
-    Given An IfcProduct
+    Given An .IfcProduct.
     Given PositionedRelativeTo = not empty
 
     Then The value of attribute ContainedInStructure must be empty

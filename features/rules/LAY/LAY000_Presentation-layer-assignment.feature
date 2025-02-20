@@ -11,7 +11,7 @@ Feature: LAY000 - Presentation Layer Assignment
 
     Scenario: Layer assignment to representation
 
-        Given an IfcProduct
+        Given an .IfcProduct.
         Given its attribute Representation
         Given its attribute Representations
         Given its attribute LayerAssignments
@@ -21,7 +21,7 @@ Feature: LAY000 - Presentation Layer Assignment
 
     Scenario: Layer assignment to representation items
 
-        Given an IfcProduct
+        Given an .IfcProduct.
         Given its attribute Representation
         Given its attribute Representations
         Given its attribute Items

@@ -8,7 +8,7 @@ Feature: ALB030 - Alignment local placement
 
   Scenario: Every instance of IfcAlignment must have an ObjectPlacement of type IfcLocalPlacement
     Given A model with Schema 'IFC4.3'
-    Given An IfcAlignment
+    Given An .IfcAlignment.
     Given Its attribute ObjectPlacement 
     
     Then Its Entity Type is 'IfcLocalPlacement'

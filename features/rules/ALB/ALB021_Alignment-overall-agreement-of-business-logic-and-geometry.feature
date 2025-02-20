@@ -8,7 +8,7 @@ Feature: ALB021 - Alignment overall agreement of business logic and geometry
 
 Background: Validating overall agreement on presence of cant in business logic
   Given A model with Schema 'IFC4.3'
-  Given An IfcAlignment
+  Given An .IfcAlignment.
 
 Scenario: Validating the presence of cant layout for IfcSegmentedReferenceCurve
   Then  A representation by IfcSegmentedReferenceCurve requires the presence of IfcAlignmentCant in the business logic

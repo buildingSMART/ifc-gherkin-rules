@@ -9,7 +9,7 @@ Feature: ANN000 - Annotations
 
     Scenario: Check for activation
 
-    Given an IfcAnnotation
+    Given an .IfcAnnotation.
     Given its attribute Representation
     Given its attribute Representations
     Given RepresentationIdentifier is 'Annotation'

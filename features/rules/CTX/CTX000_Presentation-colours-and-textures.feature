@@ -9,7 +9,7 @@ Feature: CTX000 - Presentation colours and textures
 
     Scenario Outline: Check for activation - RepresentationItem attributes
 
-        Given an IfcRepresentationItem
+        Given an .IfcRepresentationItem.
         Given Its attribute <attribute>
 
         Then The IFC model contains information on the selected functional part
@@ -22,7 +22,7 @@ Feature: CTX000 - Presentation colours and textures
 
     Scenario: Check for activation - Styled Materials 
 
-        Given an IfcRoot
+        Given an .IfcRoot.
         Given its attribute HasAssociations
         Given all referenced instances 
         Given its entity type is 'IfcMaterial'

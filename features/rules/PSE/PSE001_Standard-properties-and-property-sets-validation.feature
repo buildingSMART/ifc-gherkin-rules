@@ -6,7 +6,7 @@ Feature: PSE001 - Standard properties and property sets validation
 The rule verifies that each IfcPropertySet starting with Pset is defined correctly.
   
   Background:
-   Given An IfcPropertySet
+   Given An .IfcPropertySet.
    Given its Name attribute starts with Pset
 
 

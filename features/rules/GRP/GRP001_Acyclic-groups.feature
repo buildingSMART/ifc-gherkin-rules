@@ -7,6 +7,6 @@ The rule verifies that an IfcGroup does not reference itself, not even through i
 
   Scenario: Agreement on IfcGroup (and hence systems) being acyclic
 
-    Given an IfcGroup
+    Given an .IfcGroup.
     
     Then It must not be referenced by itself directly or indirectly

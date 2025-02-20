@@ -6,7 +6,7 @@ The rule verifies that IfcAlignmentCant is represented correctly with representa
 
 Background:
     Given A model with Schema 'IFC4.3'
-    Given An IfcAlignmentCant
+    Given An .IfcAlignmentCant.
     Given Its attribute Representation
     Given Its attribute Representations
 

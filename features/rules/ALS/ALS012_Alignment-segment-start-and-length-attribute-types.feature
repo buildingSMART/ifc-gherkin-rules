@@ -11,7 +11,7 @@ Feature: ALS012 - Alignment segment start and length attribute types
 
 Scenario Outline: Correct entity type used for SegmentStart and Segment Length
   Given A model with Schema 'IFC4.3'
-  Given An IfcAlignment
+  Given An .IfcAlignment.
   Given Its attribute Representation
   Given Its attribute Representations
   Given All referenced instances

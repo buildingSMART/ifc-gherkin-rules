@@ -8,7 +8,7 @@ Feature: SPA000 - Spaces Information
 
     Scenario Outline: Check for activation of Spaces Information
 
-    Given an <Entity>
+    Given an .<Entity>.
 
     Then The IFC model contains information on spaces information
 

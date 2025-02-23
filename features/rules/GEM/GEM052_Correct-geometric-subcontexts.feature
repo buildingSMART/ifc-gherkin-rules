@@ -18,7 +18,7 @@ Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
 
         Given a model with Schema 'IFC4.3' or 'IFC4'
         Given An .IfcGeometricRepresentationSubContext.
-        Given Its attribute ContextIdentifier
+        Given Its attribute .ContextIdentifier.
 
         Then The values must be in 'valid_ShapeRepresentationIdentifier.csv'
 

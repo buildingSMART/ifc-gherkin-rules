@@ -11,8 +11,8 @@ IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) me
   Scenario: Validating that polyhedral IfcFace instances do not have self-intersections in their boundaries
 
     Given An .IfcFace.
-    Given Its attribute Bounds
-    Given Its attribute Bound
+    Given Its attribute .Bounds.
+    Given Its attribute .Bound.
     Given Its Entity Type is 'IfcPolyLoop'
      
     Then There must be no self-intersections

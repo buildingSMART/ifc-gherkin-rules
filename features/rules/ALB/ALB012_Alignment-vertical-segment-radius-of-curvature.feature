@@ -9,7 +9,7 @@ Feature: ALB012 - Alignment vertical segment radius of curvature
     Given A model with Schema 'IFC4.3'
     Given An .IfcAlignmentVertical.
     Given A relationship IfcRelNests from IfcAlignmentVertical to IfcAlignmentSegment and following that
-    Given Its attribute DesignParameters
+    Given Its attribute .DesignParameters.
     Given Its entity type is 'IfcAlignmentVerticalSegment'
 
   Scenario: Validating the absence of curvature radius for specific predefined types of vertical segment

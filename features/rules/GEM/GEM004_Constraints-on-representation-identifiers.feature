@@ -8,9 +8,9 @@ The rule verifies that shape representations adhere to the permissible values ou
   Scenario: Shape Representation Identifier must be valid
 
     Given An .IfcProduct.
-    Given Its attribute Representation
-    Given Its attribute Representations
-    Given Its attribute RepresentationIdentifier
+    Given Its attribute .Representation.
+    Given Its attribute .Representations.
+    Given Its attribute .RepresentationIdentifier.
 
     Then The values must be in 'valid_ShapeRepresentationIdentifier.csv'
   
@@ -18,10 +18,10 @@ The rule verifies that shape representations adhere to the permissible values ou
   Scenario: Shape Representation Type must be valid
 
     Given An .IfcProduct.
-    Given Its attribute Representation
-    Given Its attribute Representations
+    Given Its attribute .Representation.
+    Given Its attribute .Representations.
     Given Its entity type is 'IfcShapeRepresentation'
-    Given Its attribute RepresentationType
+    Given Its attribute .RepresentationType.
     
     Then The values must be in 'valid_ShapeRepresentationType.csv'
 
@@ -29,9 +29,9 @@ The rule verifies that shape representations adhere to the permissible values ou
   Scenario: Topology Representation Type must be valid
 
       Given An .IfcProduct.
-      Given Its attribute Representation
-      Given Its attribute Representations
+      Given Its attribute .Representation.
+      Given Its attribute .Representations.
       Given Its entity type is 'IfcTopologyRepresentation'
-      Given Its attribute RepresentationType
+      Given Its attribute .RepresentationType.
       
       Then The values must be in 'valid_TopologyRepresentationType.csv'

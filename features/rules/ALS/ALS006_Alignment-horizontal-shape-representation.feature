@@ -7,8 +7,8 @@ The rule verifies that IfcAlignmentHorizontal is represented correctly with repr
   Background:
     Given A model with Schema 'IFC4.3'
     Given An .IfcAlignmentHorizontal.
-    Given Its attribute Representation
-    Given Its attribute Representations
+    Given Its attribute .Representation.
+    Given Its attribute .Representations.
 
   @E00020
   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation - Value

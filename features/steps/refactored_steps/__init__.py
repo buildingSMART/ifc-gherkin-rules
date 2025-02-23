@@ -1,3 +1,0 @@
-from validation_results import ValidationOutcome
-
-OutcomeSeverity = ValidationOutcome.OutcomeSeverity

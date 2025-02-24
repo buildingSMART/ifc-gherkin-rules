@@ -1,17 +1,11 @@
 import operator
 from utils import misc
 from validation_handling import gherkin_ifc, global_rule, register_enum_type
+from registered_literal_enums import SubTypeHandling
 
 from . import ValidationOutcome, OutcomeSeverity
 
 from enum import Enum
-
-
-@register_enum_type
-class SubtypeHandling(Enum):
-    INCLUDE = "including subtypes"
-    EXCLUDE = "excluding subtypes"
-
 
 @gherkin_ifc.step("There must be one {representation_id} shape representation")
 def step_impl(context, inst, representation_id):
@@ -29,7 +23,7 @@ def get_entities_in_model(context, constraint, entity, tail):
     return misc.do_try(
         lambda: (
             context.model.by_type(entity)
-            if tail == SubtypeHandling.INCLUDE
+            if tail == SubTypeHandling.INCLUDE
             else context.model.by_type(entity, include_subtypes=False)
         ),
         (),  # return empty tuple for deleted entities, e.g. in IFC102
@@ -37,10 +31,10 @@ def get_entities_in_model(context, constraint, entity, tail):
 
 
 @gherkin_ifc.step(
-    "There must be {constraint} {num:d} instance(s) of {entity} {tail:SubtypeHandling}"
+    "There must be {constraint} {num:d} instance(s) of {entity} {tail:SubTypeHandling}"
 )
 @global_rule
-def step_impl(context, inst, constraint, num, entity, tail=SubtypeHandling.INCLUDE):
+def step_impl(context, inst, constraint, num, entity, tail=SubTypeHandling.INCLUDE):
     op = misc.stmt_to_op(constraint)
     instances_in_model = get_entities_in_model(context, constraint, entity, tail)
     if not op(len(instances_in_model), num):
@@ -51,7 +45,7 @@ def step_impl(context, inst, constraint, num, entity, tail=SubtypeHandling.INCLU
 
 @gherkin_ifc.step("There must be {constraint} {num:d} instance(s) of {entity}")
 @global_rule
-def step_impl(context, inst, constraint, num, entity, tail=SubtypeHandling.INCLUDE):
+def step_impl(context, inst, constraint, num, entity, tail=SubTypeHandling.INCLUDE):
     op = misc.stmt_to_op(constraint)
     instances_in_model = get_entities_in_model(context, constraint, entity, tail)
     if not op(len(instances_in_model), num):

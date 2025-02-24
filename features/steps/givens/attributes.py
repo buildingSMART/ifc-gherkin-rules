@@ -6,14 +6,10 @@ import ifcopenshell
 from behave import register_type
 from utils import geometry, ifc, misc
 from parse_type import TypeBuilder
-from validation_handling import gherkin_ifc, register_enum_type
+from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 from enum import Enum, auto
-
-
-class FirstOrFinal(Enum):
-    FIRST = auto()
-    FINAL = auto()
+from registered_literal_enums import PrefixCondition, FirstOrFinal
 
 
 class ComparisonOperator (Enum):
@@ -26,14 +22,7 @@ class SubTypeHandling (Enum):
     EXCLUDE = auto()
 
 
-@register_enum_type
-class PrefixCondition(Enum):
-    STARTS = "starts"
-    DOES_NOT_START = "does not start"
-
-
 register_type(include_or_exclude_subtypes=TypeBuilder.make_enum({"including subtypes": SubTypeHandling.INCLUDE, "excluding subtypes": SubTypeHandling.EXCLUDE }))
-register_type(first_or_final=TypeBuilder.make_enum({"first": FirstOrFinal.FIRST, "final": FirstOrFinal.FINAL }))
 register_type(equal_or_not_equal=TypeBuilder.make_enum({
     "=": ComparisonOperator.EQUAL,
     "!=": ComparisonOperator.NOT_EQUAL,
@@ -215,9 +204,9 @@ def step_impl(context, inst, prefix_condition, prefix):
         yield ValidationOutcome(instance_id=inst, expected=expected, observed=inst[0], severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("Its {ff:first_or_final} element")
-@gherkin_ifc.step("Its {ff:first_or_final} element at depth 1")
-def step_impl(context, inst, ff : FirstOrFinal):
+@gherkin_ifc.step("Its {ff:FirstOrFinal} element")
+@gherkin_ifc.step("Its {ff:FirstOrFinal} element at depth 1")
+def step_impl(context, inst, ff):
     if ff == FirstOrFinal.FINAL:
         yield ValidationOutcome(instance_id = inst[-1], severity=OutcomeSeverity.PASSED)
     elif ff == FirstOrFinal.FIRST:

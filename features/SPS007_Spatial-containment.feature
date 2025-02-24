@@ -34,7 +34,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
     
     
     Scenario: All other IFC entities must not be contained within a spatial structure
-        Given An IfcRoot
+        Given An IfcProduct
         Given Its Type is not 'IfcElement' including subtypes
         Given Its Type is not 'IfcGrid'
         Given Its Type is not 'IfcAnnotation'

@@ -3,18 +3,7 @@ import operator
 import pyparsing
 
 from validation_handling import gherkin_ifc
-
-from parse_type import TypeBuilder
-from behave import register_type
-
 from . import ValidationOutcome, OutcomeSeverity
-
-
-register_type(nested_sentences=TypeBuilder.make_enum(
-    dict(map(lambda x: (x, x), ("must nest only 1",
-                                "must not a list of only",
-                                "is nested by only 1",
-                                "is nested by a list of only")))))
 
 
 @gherkin_ifc.step("It must be nested by {constraint} {num:d} instance(s) of {other_entity}")

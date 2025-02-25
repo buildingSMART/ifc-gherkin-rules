@@ -6,12 +6,7 @@ from validation_handling import gherkin_ifc
 import json
 import os
 from utils import ifc, misc, system
-from parse_type import TypeBuilder
-from behave import register_type
 from . import ValidationOutcome, OutcomeSeverity
-
-
-register_type(aggregated_or_contained_or_positioned=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained", "positioned")))))
 
 @gherkin_ifc.step("It must be {relationship} as per {table}")
 def step_impl(context, inst, relationship, table):

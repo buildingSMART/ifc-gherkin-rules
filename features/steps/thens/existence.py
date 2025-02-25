@@ -1,11 +1,8 @@
 import operator
 from utils import misc
-from validation_handling import gherkin_ifc, global_rule, register_enum_type
-from registered_literal_enums import SubTypeHandling
+from validation_handling import gherkin_ifc, global_rule
 
 from . import ValidationOutcome, OutcomeSeverity
-
-from enum import Enum
 
 @gherkin_ifc.step("There must be one {representation_id} shape representation")
 def step_impl(context, inst, representation_id):
@@ -23,7 +20,7 @@ def get_entities_in_model(context, constraint, entity, tail):
     return misc.do_try(
         lambda: (
             context.model.by_type(entity)
-            if tail == SubTypeHandling.INCLUDE
+            if tail == "including subtypes"
             else context.model.by_type(entity, include_subtypes=False)
         ),
         (),  # return empty tuple for deleted entities, e.g. in IFC102
@@ -31,10 +28,10 @@ def get_entities_in_model(context, constraint, entity, tail):
 
 
 @gherkin_ifc.step(
-    "There must be {constraint} {num:d} instance(s) of {entity} {tail:SubTypeHandling}"
+    "There must be {constraint} {num:d} instance(s) of {entity} {tail:include_or_exclude_subtypes}"
 )
 @global_rule
-def step_impl(context, inst, constraint, num, entity, tail=SubTypeHandling.INCLUDE):
+def step_impl(context, inst, constraint, num, entity, tail="including subtypes"):
     op = misc.stmt_to_op(constraint)
     instances_in_model = get_entities_in_model(context, constraint, entity, tail)
     if not op(len(instances_in_model), num):
@@ -45,7 +42,7 @@ def step_impl(context, inst, constraint, num, entity, tail=SubTypeHandling.INCLU
 
 @gherkin_ifc.step("There must be {constraint} {num:d} instance(s) of {entity}")
 @global_rule
-def step_impl(context, inst, constraint, num, entity, tail=SubTypeHandling.INCLUDE):
+def step_impl(context, inst, constraint, num, entity, tail="including subtypes"):
     op = misc.stmt_to_op(constraint)
     instances_in_model = get_entities_in_model(context, constraint, entity, tail)
     if not op(len(instances_in_model), num):

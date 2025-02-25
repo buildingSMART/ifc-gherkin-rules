@@ -9,7 +9,6 @@ import inspect
 from operator import attrgetter
 import ast
 from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode
-from behave import register_type
 
 from behave.runner import Context
 from typing import Any
@@ -23,7 +22,7 @@ def global_rule(func):
     Use this decorator when the rule applies to the whole stack instead of a single instance.
     For instance
     @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
-    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity} {tail:SubtypeHandling}')
+    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity} {tail:include_or_exclude_subtypes}')
     @global_rule
     """
     @functools.wraps(func)
@@ -50,18 +49,6 @@ class gherkin_ifc():
             return step(step_text)(execute_step(func))
 
         return wrapped_step
-
-
-def register_enum_type(cls):
-    """
-    Use this decorator to register an enum type for behave, e.g.
-    @register_enum_type
-    class SubtypeHandling(Enum):
-        INCLUDE = "including subtypes"
-        EXCLUDE = "excluding subtypes"
-    """
-    register_type(**{cls.__name__: cls})
-    return cls
 
 
 def generate_error_message(context, errors):

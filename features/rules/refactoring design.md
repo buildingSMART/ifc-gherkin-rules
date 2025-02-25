@@ -92,6 +92,10 @@ definite TODO: gather all the custom registered types in one spot! we have a lot
 
 possible TODO: rewrite as string enums with the literal values, or decorate with @register_enum_type
 
+(gh) this is now defined in registered_type_definitions.json and steps/__init__.py
+
+TODO: Write some proper documentation
+
 | class              | defined in        | opt1               | opt 2              | Notes                    |
 |--------------------|-------------------|--------------------|--------------------|--------------------------|
 | FirstOrFinal       | givens/attributes | FIRST              | FINAL              |                          | 

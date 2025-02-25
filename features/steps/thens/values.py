@@ -2,19 +2,12 @@ import csv
 import ifcopenshell
 import os
 
-from behave import register_type
 from pathlib import Path
 
 from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
-
-
-from parse_type import TypeBuilder
 from utils import misc
-register_type(unique_or_identical=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("unique", "identical")))))
-register_type(value_or_type=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("value", "type")))))
-register_type(values_or_types=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("values", "types")))))
 
 def apply_is_a(inst):
     if isinstance(inst, (list, tuple)):

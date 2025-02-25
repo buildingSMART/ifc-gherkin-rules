@@ -1,6 +1,5 @@
 import math
 
-from behave import register_type
 from typing import Dict, List, Union, Optional
 
 import ifcopenshell.entity_instance
@@ -11,11 +10,6 @@ from utils.geometry import AlignmentSegmentContinuityCalculation
 from utils import ifc
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
-
-from parse_type import TypeBuilder
-
-register_type(absence_or_presence=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("presence", "absence")))))
-
 
 def is_3d(entity: ifcopenshell.entity_instance) -> bool:
     """

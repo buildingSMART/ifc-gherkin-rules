@@ -1,37 +1,13 @@
 import ast
-import functools
 import operator
 
 import ifcopenshell
-from behave import register_type
 from utils import geometry, ifc, misc
-from parse_type import TypeBuilder
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
-from enum import Enum, auto
-from registered_literal_enums import PrefixCondition, FirstOrFinal
 
 
-class ComparisonOperator (Enum):
-    EQUAL = auto()
-    NOT_EQUAL = auto()
-
-
-class SubTypeHandling (Enum):
-    INCLUDE = auto()
-    EXCLUDE = auto()
-
-
-register_type(include_or_exclude_subtypes=TypeBuilder.make_enum({"including subtypes": SubTypeHandling.INCLUDE, "excluding subtypes": SubTypeHandling.EXCLUDE }))
-register_type(equal_or_not_equal=TypeBuilder.make_enum({
-    "=": ComparisonOperator.EQUAL,
-    "!=": ComparisonOperator.NOT_EQUAL,
-    "is not": ComparisonOperator.NOT_EQUAL,
-    "is": ComparisonOperator.EQUAL,
-}))
-
-
-def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, handling: SubTypeHandling) -> bool:
+def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, tail) -> bool:
     """
     Check if the instance is of a specific entity type or its subtype.
     INCLUDE will evaluate to True if inst is a subtype of entity_type while the second function for EXCLUDE will evaluate to True only for an exact type match
@@ -39,21 +15,21 @@ def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, hand
     Parameters:
     inst (ifcopenshell.entity_instance): The instance to check.
     entity_type (str): The entity type to check against.
-    handling (SubTypeHandling): Determines whether to include subtypes or not.
+    tail: Determines whether to include subtypes or not.
 
     Returns:
     bool: True if the instance matches the entity type criteria, False otherwise.
     """
     handling_functions = {
-        SubTypeHandling.INCLUDE: lambda inst, entity_type: inst.is_a(entity_type),
-        SubTypeHandling.EXCLUDE: lambda inst, entity_type: inst.is_a() == entity_type,
+        "including subtypes": lambda inst, entity_type: inst.is_a(entity_type),
+        "excluding subtypes": lambda inst, entity_type: inst.is_a() == entity_type,
     }
-    return handling_functions[handling](inst, entity_type)
+    return handling_functions[tail](inst, entity_type)
 
 
 @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value}")
 @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value} {tail:include_or_exclude_subtypes}")
-def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandling.EXCLUDE):
+def step_impl(context, inst, comparison_op, attribute, value, tail="excluding subtypes"):
     """
     Note that the following statements are acceptable:
     - Attribute = empty
@@ -84,7 +60,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
             value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
             pred = operator.contains
 
-    if comparison_op == ComparisonOperator.NOT_EQUAL: # avoid using != together with (not)empty stmt
+    if comparison_op in {"is not", "!="}: # avoid using != together with (not)empty stmt
         pred = negate(pred)
 
     observed_v = ()
@@ -103,7 +79,7 @@ def step_impl(context, inst, comparison_op, attribute, value, tail=SubTypeHandli
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
     else: # in case of a Then statement
         yield ValidationOutcome(instance_id=inst,
-                                expected = f"{'not ' if comparison_op == ComparisonOperator.NOT_EQUAL or 'not' in start_value else ''}{'empty' if value == () else value}", 
+                                expected = f"{'not ' if comparison_op in {'is not', '!='} or 'not' in start_value else ''}{'empty' if value == () else value}", 
                                 observed = 'empty' if observed_v == () else observed_v, severity = OutcomeSeverity.ERROR)
 
 
@@ -137,10 +113,7 @@ def step_impl(context, file_or_model, field, values):
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 
-
-
-
-@gherkin_ifc.step("Its {attribute} attribute {prefix_condition:PrefixCondition} with {prefix}")
+@gherkin_ifc.step("Its {attribute} attribute {prefix_condition:prefix_condition} with {prefix}")
 def step_impl(context, inst, attribute, prefix_condition, prefix):
     """
     '
@@ -174,27 +147,27 @@ def step_impl(context, inst, attribute, prefix_condition, prefix):
         return
     
     condition_met = (
-        (prefix_condition == PrefixCondition.STARTS and attribute_value.startswith(prefixes)) or
-        (prefix_condition == PrefixCondition.DOES_NOT_START and not attribute_value.startswith(prefixes))
+        (prefix_condition == "starts"and attribute_value.startswith(prefixes)) or
+        (prefix_condition == "does not start" and not attribute_value.startswith(prefixes))
     )
 
     if condition_met:
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
     else:
-        expected = prefixes if prefix_condition == PrefixCondition.STARTS else f'not {prefixes}'
+        expected = prefixes if prefix_condition == "starts" else f'not {prefixes}'
         yield ValidationOutcome(instance_id=inst, expected=expected, observed=attribute_value, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("Its value {prefix_condition:PrefixCondition} with {prefix}")
+@gherkin_ifc.step("Its value {prefix_condition:prefix_condition} with {prefix}")
 def step_impl(context, inst, prefix_condition, prefix):
     prefixes = tuple(prefix.split(' or '))
     inst = str(inst)
     starts_with = inst.startswith(prefixes)
 
-    if prefix_condition == PrefixCondition.STARTS:
+    if prefix_condition == "starts":
         condition_met = starts_with
         expected = prefixes
-    elif prefix_condition == PrefixCondition.DOES_NOT_START:
+    elif prefix_condition == "does not start":
         condition_met = not starts_with
         expected = f'not {prefixes}'
 
@@ -204,12 +177,12 @@ def step_impl(context, inst, prefix_condition, prefix):
         yield ValidationOutcome(instance_id=inst, expected=expected, observed=inst[0], severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("Its {ff:FirstOrFinal} element")
-@gherkin_ifc.step("Its {ff:FirstOrFinal} element at depth 1")
+@gherkin_ifc.step("Its {ff:first_or_final} element")
+@gherkin_ifc.step("Its {ff:first_or_final} element at depth 1")
 def step_impl(context, inst, ff):
-    if ff == FirstOrFinal.FINAL:
+    if ff == "final":
         yield ValidationOutcome(instance_id = inst[-1], severity=OutcomeSeverity.PASSED)
-    elif ff == FirstOrFinal.FIRST:
+    elif ff == "first":
         yield ValidationOutcome(instance_id = inst[0], severity=OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("An IFC model")

@@ -7,12 +7,6 @@ from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
-
-from behave import register_type
-from parse_type import TypeBuilder
-register_type(display_entity=TypeBuilder.make_enum({"": 0, "and display entity instance": 1 }))
-
-
 @gherkin_ifc.step("The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship")
 def step_impl(context, inst, entity, other_entity, relationship):
     related_attr_matrix, relating_attr_matrix = system.load_attribute_matrix(
@@ -65,7 +59,7 @@ def step_impl(context, inst, attribute, expected_entity_type):
 @gherkin_ifc.step("The value of attribute {attribute} must be {value_or_comparison_op} {display_entity:display_entity}")
 @gherkin_ifc.step("The value of attribute {attribute} must be {value_or_comparison_op} the expression: {expression}")
 @gherkin_ifc.step("The resulting value must be {value_or_comparison_op}")
-def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, expression:str=None, display_entity=0):
+def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, expression:str=None, display_entity=" "):
     """
     Compare an attribute to an expression based on attributes.
 

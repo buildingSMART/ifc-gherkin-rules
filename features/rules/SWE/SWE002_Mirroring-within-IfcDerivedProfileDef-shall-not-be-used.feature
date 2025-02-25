@@ -21,7 +21,7 @@ altogether.
 
     Given An .<entity>.
     Given Its attribute .<attribute>.
-    Given Its entity type is 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef'
+    Given [Its entity type] ^is^ 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef'
     Given Its attribute .Operator.
     Given The determinant of the placement matrix
     

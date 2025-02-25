@@ -11,7 +11,7 @@ Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
         Given a model with Schema 'IFC4.3' or 'IFC4'
         Given an .IfcGeometricRepresentationContext. ^without subtypes^
     
-        Then HasSubContexts = not empty
+        Then .HasSubContexts. ^is not^ empty
 
 
     Scenario: Constraints on context identifier 
@@ -28,4 +28,4 @@ Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
         Given a model with Schema 'IFC4.3' or 'IFC4'
         Given An .IfcGeometricRepresentationSubContext.
         
-        Then ContextIdentifier = not empty
+        Then .ContextIdentifier. ^is not^ empty

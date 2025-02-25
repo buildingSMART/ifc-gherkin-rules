@@ -11,10 +11,10 @@ Feature: BLT002 - Correct use of partitioning type attributes for windows
 Scenario Outline: Correct values for PartitioningType and UserDefinedPartitioningType
 
   Given an .<entity>.
-  Given UserDefinedPartitioningType = not empty
-  Given IsTypedBy = empty
+  Given .UserDefinedPartitioningType. ^is not^ empty
+  Given .IsTypedBy. ^is^ empty
 
-  Then PartitioningType = 'USERDEFINED'
+  Then .PartitioningType. ^is^ 'USERDEFINED'
 
   Examples:
     | entity | 
@@ -27,4 +27,4 @@ Scenario: Correct IfcPartitioningType with relating type object
   Given an .IfcWindow.
   Given a relationship IfcRelDefinesByType to IfcWindow from IfcWindowType
 
-  Then PartitioningType is empty
+  Then .PartitioningType. ^is^ empty

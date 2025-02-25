@@ -20,7 +20,7 @@ The rule verifies that closed shells and closed facesets edges are referenced co
     Scenario Outline: Check constraints for FaceSets; TriangulatedFaceSet and PolygonalFaceSet
     
       Given An .<entity>.
-      And Closed = True
+      Given .Closed. ^is^ True
 
       Then <Statement>
 

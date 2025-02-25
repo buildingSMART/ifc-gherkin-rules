@@ -12,9 +12,9 @@ Feature: POR000 - Port Connectivity and Nesting
 
     Given an .IfcDistributionPort.
     Given its attribute .ConnectedFrom.
-    Given its entity type is 'IfcRelConnectsPorts'
+    Given [its entity type] ^is^ 'IfcRelConnectsPorts'
     Given its attribute .RelatingPort.
-    Given its entity type is 'IfcDistributionPort'
+    Given [its entity type] ^is^ 'IfcDistributionPort'
 
     Then The IFC model contains information on port connectivity and nesting
 

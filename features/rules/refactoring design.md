@@ -1,5 +1,7 @@
 # Design document for steps refactoring
 
+(Q1 2025)
+
 Goals:
 
 - Remove redundant implementations
@@ -62,6 +64,7 @@ These are groups of terms that are interchanged based on whether they will be us
 | Beginning string matching | starts with | must start with |
 | Ending string matching    | ends with   | must end with   |
 
+
 ## Control characters
 
 ## Angle brackets `<>`
@@ -86,25 +89,18 @@ See above - only used at beginning and end of an implementation step
 
 Use for any reserved keyword in the schema, including types.
 
-### Modifiers (Custom Enums) - Underscore `_`
+### Modifiers (Custom Enums) - Caret `^`
 
-definite TODO: gather all the custom registered types in one spot! we have a lot of duplication
+Prior to this refactor, there were enums registered in multiple places and with varying implementation.
 
-possible TODO: rewrite as string enums with the literal values, or decorate with @register_enum_type
+They have been centralized and are now defined in `registered_type_definitions.json`.
+They are registered in `steps/__init__.py` so that they are universally available and not tied to
+any particular step implementation module.
 
-(gh) this is now defined in registered_type_definitions.json and steps/__init__.py
-
-TODO: Write some proper documentation
 
 | class              | defined in        | opt1               | opt 2              | Notes                    |
 |--------------------|-------------------|--------------------|--------------------|--------------------------|
-| FirstOrFinal       | givens/attributes | FIRST              | FINAL              |                          | 
 | ComparisonOperator | givens/attributes | EQUAL              | NOT_EQUAL          |                          | 
-| SubtypeHandling    | givens/attributes | INCLUDING_SUBTYPES | EXCLUDING_SUBTYPES | is in givens/entity also | 
-| PrefixCondition    | givens/attributes | STARTS             | DOES_NOT_START     |                          | 
-| UniqueOrIdentical  | thens/values      | UNIQUE             | IDENTICAL          |                          | 
-| ValueOrType        | thens/values      | VALUE              | TYPE               |                          | 
-| ValuesOrTypes      | thens/values      | VALUES             | TYPES              |                          | 
 
 ## Binary and unary operators - Asterisk `*`
 
@@ -116,3 +112,14 @@ TODO: Write some proper documentation
 ## Square brackets '[]'
 
 Prose used for matching
+
+This can be used when a step implementation uses schema constructs
+as well as other matching text in the same statements.
+
+For example, the following two lines use the same step implementation:
+
+```gherkin
+Given .Closed. ^is^ True
+
+Given [Its entity type] ^is^ 'IfcAlignmentVerticalSegment'
+```

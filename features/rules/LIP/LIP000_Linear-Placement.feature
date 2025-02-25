@@ -12,7 +12,7 @@ Feature: LIP000 - Linear Placement
 
     Given an .IfcProduct.
     Given its attribute .ObjectPlacement.
-    Given its entity type is 'IfcLinearPlacement'
+    Given [its entity type] ^is^ 'IfcLinearPlacement'
 
     Then The IFC model contains information on the selected functional part
 

@@ -15,11 +15,11 @@ Feature: ALS017 - Alignment vertical segment geometric continuity
     Given An .IfcAlignment.
     Given Its attribute .Representation.
     Given Its attribute .Representations.
-    Given RepresentationType = 'Curve3D'
+    Given .RepresentationType. ^is^ 'Curve3D'
     Given All referenced instances
-    Given Its Entity Type is 'IfcGradientCurve'
+    Given [Its Entity Type] ^is^ 'IfcGradientCurve'
     Given Its attribute .Segments.
-    Given Its Entity Type is 'IfcCurveSegment'
+    Given [Its Entity Type] ^is^ 'IfcCurveSegment'
     Given The values grouped pairwise at depth 1
 
   Scenario: Geometric continuity in position

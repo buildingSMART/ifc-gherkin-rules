@@ -3,6 +3,7 @@ from pathlib import Path
 from behave import register_type
 from parse_type import TypeBuilder
 
+# register types for handling substitution options such as "first" and "final"
 json_file = Path(__file__).parent / "registered_type_definitions.json"
 with open(json_file, "r", encoding="utf-8") as file:
     type_definitions = json.load(file)

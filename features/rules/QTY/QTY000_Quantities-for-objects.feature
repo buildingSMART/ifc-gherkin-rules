@@ -12,9 +12,9 @@ Feature: QTY000 - Quantities for Objects
 
     Given an .IfcObject.
     Given its attribute .IsDefinedBy.
-    Given its entity type is 'IfcRelDefinesByProperties'
+    Given [its entity type] ^is^ 'IfcRelDefinesByProperties'
     Given its attribute .RelatingPropertyDefinition.
-    Given its entity type is 'IfcElementQuantity'
+    Given [its entity type] ^is^ 'IfcElementQuantity'
 
     Then The IFC model contains information on quantities of elements
 

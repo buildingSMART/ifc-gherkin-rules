@@ -18,6 +18,6 @@ IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) me
 
     Given An .IfcPolygonalFaceSet.
     Given Its attribute .Faces.
-    Given Its Entity Type is 'IfcIndexedPolygonalFaceWithVoids'
+    Given [Its Entity Type] ^is^ 'IfcIndexedPolygonalFaceWithVoids'
 
     Then There must be no self-intersections for attribute InnerCoordIndices

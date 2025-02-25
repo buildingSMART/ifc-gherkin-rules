@@ -8,6 +8,6 @@ The rule verifies that IfcElement that are aggregated in another IfcElement must
   Scenario: Agreement on aggregated elements not being contained
 
     Given An .IfcElement.
-    Given Decomposes = not empty
+    Given .Decomposes. ^is not^ empty
     
     Then The value of attribute ContainedInStructure must be empty

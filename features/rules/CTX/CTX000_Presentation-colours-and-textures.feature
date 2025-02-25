@@ -25,11 +25,11 @@ Feature: CTX000 - Presentation colours and textures
         Given an .IfcRoot.
         Given its attribute .HasAssociations.
         Given all referenced instances 
-        Given its entity type is 'IfcMaterial'
+        Given [its entity type] ^is^ 'IfcMaterial'
         Given its attribute .HasRepresentation.
         Given its attribute .Representations.
         Given its attribute .Items.
-        Given its entity type is 'IfcStyledItem'
+        Given [its entity type] ^is^ 'IfcStyledItem'
 
         Then The IFC model contains information on the selected functional part
 

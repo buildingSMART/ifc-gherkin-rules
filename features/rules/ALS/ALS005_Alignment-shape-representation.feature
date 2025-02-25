@@ -20,14 +20,14 @@ The rule verifies that each IfcAlignment uses correct representation.
   @E00010
   Scenario: Agreement on each IfcAlignment using correct representation - Type = 'Axis'
 
-    Given RepresentationIdentifier = 'Axis'
+    Given .RepresentationIdentifier. ^is^ 'Axis'
     Then The value of attribute RepresentationType must be Curve3D
 
 
   @E00010
   Scenario: Agreement on each IfcAlignment using correct representation - Type = 'FootPrint'
 
-    Given RepresentationIdentifier = 'FootPrint'
+    Given .RepresentationIdentifier. ^is^ 'FootPrint'
     Then The value of attribute RepresentationType must be Curve2D
 
 

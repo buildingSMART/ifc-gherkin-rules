@@ -28,12 +28,12 @@ def get_entities_in_model(context, constraint, entity, include_or_exclude_subtyp
 
 
 @gherkin_ifc.step(
-    "There must be {constraint} {num:d} instance(s) of {entity} {include_or_exclude_subtypes:include_or_exclude_subtypes}"
+    "There must be {constraint} {num:d} instance(s) of {entity} ^{subtype_handling:include_or_exclude_subtypes}^"
 )
 @global_rule
-def step_impl(context, inst, constraint, num, entity, include_or_exclude_subtypes="including subtypes"):
+def step_impl(context, inst, constraint, num, entity, subtype_handling="including subtypes"):
     op = misc.stmt_to_op(constraint)
-    instances_in_model = get_entities_in_model(context, constraint, entity, include_or_exclude_subtypes)
+    instances_in_model = get_entities_in_model(context, constraint, entity, subtype_handling)
     if not op(len(instances_in_model), num):
         yield ValidationOutcome(
             inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR

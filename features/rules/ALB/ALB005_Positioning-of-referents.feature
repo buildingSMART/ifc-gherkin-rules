@@ -10,6 +10,6 @@ The rule verifies that IfcReferents (typed POSITION or STATION) linked to IfcAli
 
       Given A model with Schema 'IFC4.3'
       Given an .IfcReferent.
-      Given PredefinedType = 'POSITION' or 'STATION'
+      Given .PredefinedType. ^=^ 'POSITION' or 'STATION'
 
       Then It must be positioned to IfcAlignment directly

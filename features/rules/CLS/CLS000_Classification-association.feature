@@ -13,9 +13,9 @@ Feature: CLS000 - Classification Association
 
     Given an .IfcObjectDefinition.
     Given its attribute .HasAssociations.
-    Given its entity type is 'IfcRelAssociatesClassification'
+    Given [its entity type] ^is^ 'IfcRelAssociatesClassification'
     Given its attribute .RelatingClassification.
-    Given its entity type is 'IfcClassificationReference'
+    Given [its entity type] ^is^ 'IfcClassificationReference'
 
     Then The IFC model contains information on the selected functional part
 

@@ -172,20 +172,20 @@ def ala003_activation_inst(inst, context) -> Union[ifcopenshell.entity_instance 
 
 
 @gherkin_ifc.step(
-    "A representation by {ifc_rep_criteria} requires the {existence:absence_or_presence} of {entities} in the business logic")
-def step_impl(context, inst, ifc_rep_criteria, existence, entities):
+    "A representation by .{ifc_rep_criteria}. requires the ^{existence:absence_or_presence}^ of .{logic_entity}. in the business logic")
+def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):
     align = ifc43.entities.Alignment().from_entity(inst)
-    match (ifc_rep_criteria, existence, entities):
+    match (ifc_rep_criteria, existence, logic_entity):
         case ("IfcSegmentedReferenceCurve", "presence", "IfcAlignmentCant"):
             if align.segmented_reference_curve is not None:
                 if align.cant is None:
-                    yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                    yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
                                             severity=OutcomeSeverity.ERROR)
 
         case ("IfcGradientCurve", "presence", "IfcAlignmentVertical"):
             if align.gradient_curve is not None:
                 if align.vertical is None:
-                    yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                    yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
                                             severity=OutcomeSeverity.ERROR)
 
         case ("3D IfcIndexedPolyCurve", "presence", "IfcAlignmentVertical"):
@@ -194,7 +194,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
                 for item in shape_rep.Items:
                     if (item.is_a().upper() == "IFCINDEXEDPOLYCURVE") and (is_3d(item)):
                         if align.vertical is None:
-                            yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                            yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
                                                     severity=OutcomeSeverity.ERROR)
 
         case ("3D IfcPolyline", "presence", "IfcAlignmentVertical"):
@@ -203,7 +203,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
                 for item in shape_rep.Items:
                     if (item.is_a().upper() == "IFCPOLYLINE") and (is_3d(item)):
                         if align.vertical is None:
-                            yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                            yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
                                                     severity=OutcomeSeverity.ERROR)
 
         case ("IfcCompositeCurve as Axis", "absence", "IfcAlignmentVertical and IfcAlignmentCant"):
@@ -214,7 +214,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
                             shape_rep.RepresentationIdentifier == "Axis"):
                         if (align.vertical is not None) or (align.cant is not None):
                             yield ValidationOutcome(inst=inst, expected=None,
-                                                    observed="', '".join(entities.split(" and ")),
+                                                    observed="', '".join(logic_entity.split(" and ")),
                                                     severity=OutcomeSeverity.ERROR)
 
         case ("IfcGradientCurve", "absence", "IfcAlignmentCant"):
@@ -224,7 +224,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
                     if item.is_a().upper() == "IFCGRADIENTCURVE":
                         if align.cant is not None:
                             yield ValidationOutcome(inst=inst, expected=None,
-                                                    observed=entities,
+                                                    observed=logic_entity,
                                                     severity=OutcomeSeverity.ERROR)
 
 

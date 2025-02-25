@@ -13,9 +13,9 @@ Feature: ASM000 - Composed elements
 
     Given an .IfcElement.
     Given its attribute .Decomposes.
-    Given its entity type is 'IfcRelAggregates'
+    Given [its entity type] ^is^ 'IfcRelAggregates'
     Given its attribute .RelatingObject.
-    Given its entity type is 'IfcElement' including subtypes
+    Given [its entity type] ^is^ 'IfcElement' ^including subtypes^
 
     Then The IFC model contains information on the selected functional part
 

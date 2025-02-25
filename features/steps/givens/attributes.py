@@ -1,86 +1,8 @@
-import ast
-import operator
-
 import ifcopenshell
 from utils import geometry, ifc, misc
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
-
-def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, include_or_exclude_subtypes) -> bool:
-    """
-    Check if the instance is of a specific entity type or its subtype.
-    INCLUDE will evaluate to True if inst is a subtype of entity_type while the second function for EXCLUDE will evaluate to True only for an exact type match
-
-    Parameters:
-    inst (ifcopenshell.entity_instance): The instance to check.
-    entity_type (str): The entity type to check against.
-    include_or_exclude_subtypes: Determines whether to include subtypes or not.
-
-    Returns:
-    bool: True if the instance matches the entity type criteria, False otherwise.
-    """
-    handling_functions = {
-        "including subtypes": lambda inst, entity_type: inst.is_a(entity_type),
-        "excluding subtypes": lambda inst, entity_type: inst.is_a() == entity_type,
-    }
-    return handling_functions[include_or_exclude_subtypes](inst, entity_type)
-
-
-@gherkin_ifc.step("{attribute} {equal_or_not_equal:equal_or_not_equal} {value}")
-@gherkin_ifc.step("{attribute} {equal_or_not_equal:equal_or_not_equal} {value} {include_or_exclude_subtypes:include_or_exclude_subtypes}")
-def step_impl(context, inst, equal_or_not_equal, attribute, value, include_or_exclude_subtypes="excluding subtypes"):
-    """
-    Note that the following statements are acceptable:
-    - Attribute = empty
-    - Attribute = not empty
-    - Attribute is empty
-
-    However, please avoid using:
-    - Attribute is not empty
-    """
-    start_value = value
-    pred = operator.eq
-
-    def negate(fn):
-        def inner(*args):
-            return not fn(*args)
-        return inner
-
-    if value == 'empty':
-        value = ()
-    elif value == 'not empty':
-        value = ()
-        pred = operator.ne
-    else:
-        try:
-            value = ast.literal_eval(value)
-        except ValueError:
-            # Check for multiple values, for example `PredefinedType = 'POSITION' or 'STATION'`.
-            value = set(map(ast.literal_eval, map(str.strip, value.split(' or '))))
-            pred = operator.contains
-
-    if equal_or_not_equal in {"is not", "!="}: # avoid using != together with (not)empty stmt
-        pred = negate(pred)
-
-    observed_v = ()
-    if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func
-        observed_v = misc.do_try(lambda : inst.is_a(), ())
-        if isinstance(value, set):
-            values = [check_entity_type(inst, v, include_or_exclude_subtypes) for v in value]
-        else:
-            values = check_entity_type(inst, value, include_or_exclude_subtypes)
-        entity_is_applicable = pred(values, True)
-    else:
-        observed_v = getattr(inst, attribute, ()) or ()
-        entity_is_applicable = pred(value, observed_v)
-
-    if entity_is_applicable:
-        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
-    else: # in case of a Then statement
-        yield ValidationOutcome(instance_id=inst,
-                                expected = f"{'not ' if equal_or_not_equal in {'is not', '!='} or 'not' in start_value else ''}{'empty' if value == () else value}", 
-                                observed = 'empty' if observed_v == () else observed_v, severity = OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("{attr} forms {closed_or_open} curve")

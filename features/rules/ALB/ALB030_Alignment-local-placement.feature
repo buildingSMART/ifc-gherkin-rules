@@ -11,4 +11,4 @@ Feature: ALB030 - Alignment local placement
     Given An .IfcAlignment.
     Given Its attribute .ObjectPlacement.
     
-    Then Its Entity Type is 'IfcLocalPlacement'
+    Then [Its Entity Type] ^is^ 'IfcLocalPlacement'

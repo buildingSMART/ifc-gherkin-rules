@@ -11,19 +11,19 @@ Background: Validating overall agreement on presence of cant in business logic
   Given An .IfcAlignment.
 
 Scenario: Validating the presence of cant layout for IfcSegmentedReferenceCurve
-  Then  A representation by IfcSegmentedReferenceCurve requires the presence of IfcAlignmentCant in the business logic
+  Then  A representation by .IfcSegmentedReferenceCurve. requires the ^presence^ of .IfcAlignmentCant. in the business logic
 
 Scenario: Validating the presence of vertical layout for IfcGradientCurve
-  Then  A representation by IfcGradientCurve requires the presence of IfcAlignmentVertical in the business logic
+  Then  A representation by .IfcGradientCurve. requires the ^presence^ of .IfcAlignmentVertical. in the business logic
 
 Scenario: Validating the presence of vertical layout for 3D IfcIndexedPolyCurve
-  Then A representation by 3D IfcIndexedPolyCurve requires the presence of IfcAlignmentVertical in the business logic
+  Then A representation by .3D IfcIndexedPolyCurve. requires the ^presence^ of .IfcAlignmentVertical. in the business logic
 
 Scenario: Validating the presence of vertical layout for 3D IfcPolyline
-  Then A representation by 3D IfcPolyline requires the presence of IfcAlignmentVertical in the business logic
+  Then A representation by .3D IfcPolyline. requires the ^presence^ of .IfcAlignmentVertical. in the business logic
 
 Scenario: Validating the absence of vertical and cant layout for IfcCompositeCurve as Axis
-  Then A representation by IfcCompositeCurve as Axis requires the absence of IfcAlignmentVertical and IfcAlignmentCant in the business logic
+  Then A representation by .IfcCompositeCurve as Axis. requires the ^absence^ of .IfcAlignmentVertical and IfcAlignmentCant. in the business logic
 
 Scenario: Validating the absence of cant layout for IfcGradientCurve
-  Then A representation by IfcGradientCurve requires the absence of IfcAlignmentCant in the business logic
+  Then A representation by .IfcGradientCurve. requires the ^absence^ of .IfcAlignmentCant. in the business logic

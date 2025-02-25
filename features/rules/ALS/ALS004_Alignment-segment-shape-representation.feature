@@ -12,21 +12,19 @@ The rule verifies that each IfcAlignmentSegment uses correct representation.
 
 
         @E00020
-        Scenario: Agreement on each IfcAlignmentSegment using correct representation - Value
+        Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationIdentifier
 
-            Given Its attribute .RepresentationIdentifier.
-            Then The value must be 'Axis'
+            Then .RepresentationIdentifier. ^is^ 'Axis'
 
         
         @E00020
-        Scenario: Agreement on each IfcAlignmentSegment using correct representation - Type
+        Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationType
 
-            Given Its attribute .RepresentationType.
-            Then The value must be 'Segment'
+            Then .RepresentationType. ^is^ 'Segment'
 
 
         @E00010
-        Scenario: Agreement on each IfcAlignmentSegment using correct representation items - Type
+        Scenario: Agreement on each IfcAlignmentSegment using correct entity type for Items
 
             Given Its attribute .Items.
-            Then  The value must be 'IfcCurveSegment'
+            Then [Its entity type] ^is^ 'IfcCurveSegment'

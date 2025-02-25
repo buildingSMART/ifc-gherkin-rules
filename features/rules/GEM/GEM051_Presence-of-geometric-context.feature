@@ -13,7 +13,7 @@ The rule verifies that a geometric context is present in the model, that its att
       Given Its attribute .RepresentationContexts.
 
       Then Assert existence
-      Then Its entity type is 'IfcGeometricRepresentationContext' including subtypes
+      Then [Its entity type] ^is^ 'IfcGeometricRepresentationContext' ^including subtypes^
 
       Examples:
         | Schema               | Entity     |

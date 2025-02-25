@@ -12,6 +12,11 @@ while this rule specifically checks for generic or custom cases where 'Pset' is 
    Given its Name attribute starts with r"^(?!Pset_)[Pp][Ss][Ee][Tt]\w*"
 
 
+  Scenario: IfcPropertySet Name
+  
+    Then The IfcPropertySet Name attribute value must use predefined values according to the "pset_definitions" table
+
+    
   Scenario: Property Name
 
       Then Each associated IfcProperty must be named according to the property set definitions table "pset_definitions"

@@ -9,6 +9,7 @@ from parse_type import TypeBuilder
 from validation_handling import gherkin_ifc, register_enum_type
 from . import ValidationOutcome, OutcomeSeverity
 from enum import Enum, auto
+import re
 
 
 class FirstOrFinal(Enum):
@@ -182,7 +183,8 @@ def step_impl(context, inst, attribute, tail="single"):
 
 
 @gherkin_ifc.step("Its {attribute} attribute {prefix_condition:PrefixCondition} with {prefix}")
-def step_impl(context, inst, attribute, prefix_condition, prefix):
+@gherkin_ifc.step('Its {attribute} attribute {prefix_condition:PrefixCondition} with r"{regex_pattern}"')
+def step_impl(context, inst, attribute, prefix_condition, prefix=None, regex_pattern=None):
     """
     '
     Given its attribute X must start with Y or Z
@@ -207,17 +209,26 @@ def step_impl(context, inst, attribute, prefix_condition, prefix):
     relating Wall (step 3) of the entity in step (1). This is because the instances in the context will be 
     the content of the attribute X of IfcBuildingStorey rather than the storey itself."
     """
-    prefixes = tuple(prefix.split(' or '))
-    attribute_value = str(getattr(inst, attribute, ''))
-
     if not hasattr(inst, attribute):
         yield ValidationOutcome(instance_id=inst, expected=attribute, observed='not {attribute}', severity=OutcomeSeverity.ERROR)
         return
     
-    condition_met = (
-        (prefix_condition == PrefixCondition.STARTS and attribute_value.startswith(prefixes)) or
-        (prefix_condition == PrefixCondition.DOES_NOT_START and not attribute_value.startswith(prefixes))
-    )
+    attribute_value = str(getattr(inst, attribute, ''))
+    
+    if prefix:
+        prefixes = tuple(prefix.split(' or '))
+        
+        condition_met = (
+            (prefix_condition == PrefixCondition.STARTS and attribute_value.startswith(prefixes)) or
+            (prefix_condition == PrefixCondition.DOES_NOT_START and not attribute_value.startswith(prefixes))
+        )
+        
+    if regex_pattern: #e.g. its Name attribute starts with r"^(?!Pset_)[Pp][Ss][Ee][Tt]\w*"
+        pattern = re.compile(regex_pattern)
+        condition_met = (
+            (prefix_condition == PrefixCondition.STARTS and pattern.match(attribute_value)) or
+            (prefix_condition == PrefixCondition.DOES_NOT_START and not pattern.match(attribute_value))
+        )
 
     if condition_met:
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)

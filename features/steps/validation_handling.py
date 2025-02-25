@@ -42,7 +42,7 @@ class gherkin_ifc():
     """
     Use this decorator before every step definition instead of @given and @then
     For instance;
-    @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value}")
+    @gherkin_ifc.step("{attribute} {equal_or_not_equal:equal_or_not_equal} {value}")
     """
     def step(step_text):
         def wrapped_step(func):

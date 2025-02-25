@@ -65,18 +65,16 @@ def step_impl(context, inst, relating):
 
 
 
-@gherkin_ifc.step("It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}")
-def step_impl(context, inst, decision, relationship, preposition, other_entity, condition, *args):
+@gherkin_ifc.step("It {decision} be {aggregated_or_contained_or_positioned:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}")
+def step_impl(context, inst, decision, aggregated_or_contained_or_positioned, preposition, other_entity, condition, *args):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
 
-    acceptable_relationships = {
+    relationship_mapping = {
         'aggregated': ['Decomposes', 'RelatingObject'],
         'contained': ['ContainedInStructure', 'RelatingStructure'],
         'positioned': ['PositionedRelativeTo', 'RelatingPositioningElement']
     }
-
-    assert relationship in acceptable_relationships
 
     acceptable_conditions = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
     assert condition in acceptable_conditions
@@ -89,8 +87,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
         check_directness = False
 
 
-    other_entity_reference = acceptable_relationships[relationship][0]  # eg Decomposes
-    other_entity_relation = acceptable_relationships[relationship][1]  # eg RelatingObject
+    other_entity_reference = relationship_mapping[aggregated_or_contained_or_positioned][0]  # eg Decomposes
+    other_entity_relation = relationship_mapping[aggregated_or_contained_or_positioned][1]  # eg RelatingObject
 
     if check_directness:
         observed_directness = set()

@@ -15,12 +15,12 @@ def step_impl(context, inst, representation_id):
             yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
 
 
-def get_entities_in_model(context, constraint, entity, tail):
+def get_entities_in_model(context, constraint, entity, include_or_exclude_subtypes):
     # the @global_rule decorator doesn't work with in combination with multiple decorators, hence the helper function
     return misc.do_try(
         lambda: (
             context.model.by_type(entity)
-            if tail == "including subtypes"
+            if include_or_exclude_subtypes == "including subtypes"
             else context.model.by_type(entity, include_subtypes=False)
         ),
         (),  # return empty tuple for deleted entities, e.g. in IFC102
@@ -28,12 +28,12 @@ def get_entities_in_model(context, constraint, entity, tail):
 
 
 @gherkin_ifc.step(
-    "There must be {constraint} {num:d} instance(s) of {entity} {tail:include_or_exclude_subtypes}"
+    "There must be {constraint} {num:d} instance(s) of {entity} {include_or_exclude_subtypes:include_or_exclude_subtypes}"
 )
 @global_rule
-def step_impl(context, inst, constraint, num, entity, tail="including subtypes"):
+def step_impl(context, inst, constraint, num, entity, include_or_exclude_subtypes="including subtypes"):
     op = misc.stmt_to_op(constraint)
-    instances_in_model = get_entities_in_model(context, constraint, entity, tail)
+    instances_in_model = get_entities_in_model(context, constraint, entity, include_or_exclude_subtypes)
     if not op(len(instances_in_model), num):
         yield ValidationOutcome(
             inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR
@@ -42,9 +42,9 @@ def step_impl(context, inst, constraint, num, entity, tail="including subtypes")
 
 @gherkin_ifc.step("There must be {constraint} {num:d} instance(s) of {entity}")
 @global_rule
-def step_impl(context, inst, constraint, num, entity, tail="including subtypes"):
+def step_impl(context, inst, constraint, num, entity, include_or_exclude_subtypes="including subtypes"):
     op = misc.stmt_to_op(constraint)
-    instances_in_model = get_entities_in_model(context, constraint, entity, tail)
+    instances_in_model = get_entities_in_model(context, constraint, entity, include_or_exclude_subtypes)
     if not op(len(instances_in_model), num):
         yield ValidationOutcome(
             inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR

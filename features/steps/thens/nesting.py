@@ -29,8 +29,8 @@ def step_impl(context, inst, other_entities):
         yield ValidationOutcome(inst=inst, observed=entity, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("It {fragment:nested_sentences} instance(s) of {other_entity}")
-def step_impl(context, inst, fragment, other_entity):
+@gherkin_ifc.step("It {nested_sentences:nested_sentences} instance(s) of {other_entity}")
+def step_impl(context, inst, nested_sentences, other_entity):
     reltype_to_extr = {'must nest': {'attribute': 'Nests', 'object_placement': 'RelatingObject', 'error_log_txt': 'nesting'},
                        'is nested by': {'attribute': 'IsNestedBy', 'object_placement': 'RelatedObjects', 'error_log_txt': 'nested by'}}
     conditions = ['only 1', 'a list of only']
@@ -39,7 +39,7 @@ def step_impl(context, inst, fragment, other_entity):
     relationship_type = functools.reduce(operator.or_, [pyparsing.CaselessKeyword(i[0]) for i in reltype_to_extr.items()])('relationship_type')
 
     grammar = relationship_type + condition  # e.g. each entity 'is nested by(relationship_type)' 'a list of only (condition)' instance(s) of other entity
-    parse = grammar.parseString(fragment)
+    parse = grammar.parseString(nested_sentences)
 
     relationship_type = parse['relationship_type']
     condition = parse['condition']

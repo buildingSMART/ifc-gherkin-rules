@@ -52,20 +52,20 @@ def step_impl(context, inst, constraint, num):
             yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("The values must be {constraint:unique_or_identical} at depth {depth_level:d}")
-def step_impl(context, inst, constraint, depth_level=None):
+@gherkin_ifc.step("The values must be {unique_or_identical:unique_or_identical} at depth {depth_level:d}")
+def step_impl(context, inst, unique_or_identical, depth_level=None):
     if not inst:
         return
 
-    if constraint == 'identical':
+    if unique_or_identical == 'identical':
         if not all([inst[0] == i for i in inst]):
-            yield ValidationOutcome(inst=inst, expected= constraint, observed = inst, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected= unique_or_identical, observed = inst, severity=OutcomeSeverity.ERROR)
 
-    if constraint == 'unique':
+    if unique_or_identical == 'unique':
         seen = set()
         duplicates = [x for x in inst if x in seen or seen.add(x)]
         if duplicates:
-            yield ValidationOutcome(inst=inst, expected= constraint, observed = inst, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(inst=inst, expected= unique_or_identical, observed = inst, severity=OutcomeSeverity.ERROR)
 
 
 def recursive_unpack_value(item):

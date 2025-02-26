@@ -7,13 +7,7 @@ from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
-
-from behave import register_type
-from parse_type import TypeBuilder
-register_type(display_entity=TypeBuilder.make_enum({"": 0, "and display entity instance": 1 }))
-
-
-@gherkin_ifc.step('The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship')
+@gherkin_ifc.step("The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship")
 def step_impl(context, inst, entity, other_entity, relationship):
     related_attr_matrix, relating_attr_matrix = system.load_attribute_matrix(
         "related_entity_attributes.csv"), system.load_attribute_matrix("relating_entity_attributes.csv")
@@ -39,13 +33,13 @@ def step_impl(context, inst, entity, other_entity, relationship):
                     yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed="Not found", severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('The relative placement of that {entity} must be provided by an {other_entity} entity')
+@gherkin_ifc.step("The relative placement of that {entity} must be provided by an {other_entity} entity")
 def step_impl(context, inst, entity, other_entity):
     if not misc.do_try(lambda: inst.ObjectPlacement.is_a(other_entity), False):
         yield ValidationOutcome(inst=inst, expected=other_entity, observed=inst.ObjectPlacement, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('The type of attribute {attribute} must be {expected_entity_type}')
+@gherkin_ifc.step("The type of attribute {attribute} must be {expected_entity_type}")
 def step_impl(context, inst, attribute, expected_entity_type):
     expected_entity_types = tuple(map(str.strip, expected_entity_type.split(' or ')))
     related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
@@ -61,11 +55,11 @@ def step_impl(context, inst, attribute, expected_entity_type):
         yield from errors
 
 
-@gherkin_ifc.step('The value of attribute {attribute} must be {value_or_comparison_op}')
-@gherkin_ifc.step('The value of attribute {attribute} must be {value_or_comparison_op} {display_entity:display_entity}')
-@gherkin_ifc.step('The value of attribute {attribute} must be {value_or_comparison_op} the expression: {expression}')
-@gherkin_ifc.step('The resulting value must be {value_or_comparison_op}')
-def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, expression:str=None, display_entity=0):
+@gherkin_ifc.step("The value of attribute {attribute} must be {value_or_comparison_op}")
+@gherkin_ifc.step("The value of attribute {attribute} must be {value_or_comparison_op} {display_entity:display_entity}")
+@gherkin_ifc.step("The value of attribute {attribute} must be {value_or_comparison_op} the expression: {expression}")
+@gherkin_ifc.step("The resulting value must be {value_or_comparison_op}")
+def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, expression:str=None, display_entity=" "):
     """
     Compare an attribute to an expression based on attributes.
 
@@ -191,9 +185,9 @@ def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, exp
                 severity=OutcomeSeverity.ERROR
             )
 
-@gherkin_ifc.step('The {field} of the {file_or_model} must be "{values}"')
+@gherkin_ifc.step("The {field} of the {file_or_model} must be '{values}'")
 def step_impl(context, inst, field, file_or_model, values):
-    values = misc.strip_split(values, strp='"', splt=' or ')
+    values = misc.strip_split(values, strp="'", splt=" or ")
     if field == "Schema Identifier":
         s = context.model.schema_identifier
         if not s.lower() in values:
@@ -204,7 +198,7 @@ def step_impl(context, inst, field, file_or_model, values):
             yield ValidationOutcome(inst=inst, expected=[v.upper() for v in values], observed=misc.do_try(s.upper(), s), severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('The {length_attribute} of the {segment_type} must be 0')
+@gherkin_ifc.step("The {length_attribute} of the {segment_type} must be 0")
 def step_impl(context, inst, segment_type, length_attribute):
     business_logic_types = [f"IFCALIGNMENT{_}SEGMENT" for _ in ["HORIZONTAL", "VERTICAL", "CANT"]]
     if segment_type == "segment":
@@ -226,7 +220,7 @@ def step_impl(context, inst, segment_type, length_attribute):
         raise ValueError(f"Invalid segment_type '{segment_type}'.")
 
 
-@gherkin_ifc.step('The string length must be {constraint} "{num:d}" characters')
+@gherkin_ifc.step("The string length must be {constraint} '{num:d}' characters")
 def step_impl(context, inst, constraint, num):
     if not isinstance(inst, str):
         yield ValidationOutcome(inst=inst, expected='string', observed=type(inst).__name__, severity=OutcomeSeverity.ERROR)
@@ -236,7 +230,7 @@ def step_impl(context, inst, constraint, num):
         yield ValidationOutcome(inst=inst, expected={'length':num, 'expected_or_observed':'expected'}, observed={'length': len(inst), 'expected_or_observed':'observed', 'inst':inst}, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('The characters must be within the official encoding character set')
+@gherkin_ifc.step("The characters must be within the official encoding character set")
 def step_impl(context, inst):
     valid_chars = set("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$")
     if not isinstance(inst, str):

@@ -69,19 +69,21 @@ def test_invocation(filename):
 
 
     if not rule_is_disabled:
-        # Because we only run unit-testfiles on the feature they are created for,
-        # it means that if there is one mention of a disabled rule it applies to the
-        # testfile as well and nothing needs to be printed.
-        # Errors and warnings come from exceptions raised in Python and are
-        # propagated by the logger. Pass results are emitted in the run() loop
-        # when inspecting the json log from behave, when there have been no
-        # errors, warnings or activating outcomes. This flag is
-        # based on whether a then step is executed over a prior selected set of instances or applicable
-        # state originating from given steps. Therefore when results without disabled messages
-        # is empty, it means that the rule has not been activated. I.e given statements
-        # did not result in an actionable set of instances at the time of the first then step.
+        """
+        Because we only run unit-testfiles on the feature they are created for,
+        it means that if there is one mention of a disabled rule it applies to the
+        testfile as well and nothing needs to be printed.
+        Errors and warnings come from exceptions raised in Python and are
+        propagated by the logger. Pass results are emitted in the run() loop
+        when inspecting the json log from behave, when there have been no
+        errors, warnings or activating outcomes. This flag is
+        based on whether a then step is executed over a prior selected set of instances or applicable
+        state originating from given steps. Therefore when results without disabled messages
+        is empty, it means that the rule has not been activated. I.e given statements
+        did not result in an actionable set of instances at the time of the first then step.
+        """
         
-        #first, check if there are no protocol errors
+        # first, check if there are no protocol errors
         protocol_errors = ci_cd_checks['protocol_errors']
         if protocol_errors:
             red_text = "\033[91m"

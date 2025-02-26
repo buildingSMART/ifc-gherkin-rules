@@ -1,13 +1,8 @@
 from utils import system
-from behave import register_type
-from parse_type import TypeBuilder
 
 from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
-
-register_type(from_to=TypeBuilder.make_enum({"from": 0, "to": 1 }))
-register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and following that": 1 }))
 
 
 @gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
@@ -16,7 +11,7 @@ register_type(maybe_and_following_that=TypeBuilder.make_enum({"": 0, "and follow
 @gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
 @gherkin_ifc.step('A *{required}* relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
 @gherkin_ifc.step('A *{required}* relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
-def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tail=0, required=False):
+def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tail=" ", required=False):
     """""
     Reference to tfk ALB999 rule https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
     """
@@ -41,7 +36,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
         assert attr_to_entity
         assert attr_to_other
 
-        if dir1:
+        if dir1 == "to":
             attr_to_entity, attr_to_other = attr_to_other, attr_to_entity
 
         def make_aggregate(val):
@@ -59,7 +54,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
                 yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 
             if rel_attribute_name == attr_to_entity:
-                if tail:
+                if tail.strip():
                     instances.extend(to_other)
                 else:
                     instances.append(inst)

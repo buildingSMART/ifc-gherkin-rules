@@ -6,15 +6,10 @@ from validation_handling import gherkin_ifc
 import json
 import os
 from utils import ifc, misc, system
-from parse_type import TypeBuilder
-from behave import register_type
 from . import ValidationOutcome, OutcomeSeverity
 import re
 
-
-register_type(aggregated_or_contained_or_positioned=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained", "positioned")))))
-
-@gherkin_ifc.step('It must be {relationship} as per {table}')
+@gherkin_ifc.step("It must be {relationship} as per {table}")
 def step_impl(context, inst, relationship, table):
     stmt_to_op_forward = {'aggregated': 'Decomposes'}
     stmt_to_op_reversed = {'aggregated': 'IsDecomposedBy'}
@@ -63,7 +58,7 @@ def step_impl(context, inst, relationship, table):
                 yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, observed=relationship_object, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('It must be assigned to the {relating}')
+@gherkin_ifc.step("It must be assigned to the {relating}")
 def step_impl(context, inst, relating):
     for rel in getattr(inst, 'Decomposes', []):
         if not rel.RelatingObject.is_a(relating):
@@ -71,18 +66,16 @@ def step_impl(context, inst, relating):
 
 
 
-@gherkin_ifc.step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
-def step_impl(context, inst, decision, relationship, preposition, other_entity, condition, *args):
+@gherkin_ifc.step("It {decision} be {aggregated_or_contained_or_positioned:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}")
+def step_impl(context, inst, decision, aggregated_or_contained_or_positioned, preposition, other_entity, condition, *args):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
 
-    acceptable_relationships = {
+    relationship_mapping = {
         'aggregated': ['Decomposes', 'RelatingObject'],
         'contained': ['ContainedInStructure', 'RelatingStructure'],
         'positioned': ['PositionedRelativeTo', 'RelatingPositioningElement']
     }
-
-    assert relationship in acceptable_relationships
 
     acceptable_conditions = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
     assert condition in acceptable_conditions
@@ -95,8 +88,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
         check_directness = False
 
 
-    other_entity_reference = acceptable_relationships[relationship][0]  # eg Decomposes
-    other_entity_relation = acceptable_relationships[relationship][1]  # eg RelatingObject
+    other_entity_reference = relationship_mapping[aggregated_or_contained_or_positioned][0]  # eg Decomposes
+    other_entity_relation = relationship_mapping[aggregated_or_contained_or_positioned][1]  # eg RelatingObject
 
     if check_directness:
         observed_directness = set()
@@ -140,7 +133,7 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
                             expected = None,
                             severity=OutcomeSeverity.ERROR)
 
-@gherkin_ifc.step('It must not be referenced by itself directly or indirectly')
+@gherkin_ifc.step("It must not be referenced by itself directly or indirectly")
 def step_impl(context, inst):
     relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
 
@@ -154,7 +147,7 @@ def step_impl(context, inst):
     if inst in get_memberships(inst):
         yield ValidationOutcome(inst=inst, expected=None, observed = None, severity=OutcomeSeverity.ERROR)
 
-@gherkin_ifc.step('The current directional relationship must not contain multiple entities at depth 1')
+@gherkin_ifc.step("The current directional relationship must not contain multiple entities at depth 1")
 def step_impl(context, inst):
     if not isinstance(inst, (list, ifcopenshell.entity_instance)): #ifcopenshell packs multiple relationships into tuples, so a list indicates we are validating instances, not the relationships within them.
         if misc.do_try(lambda: all((any([isinstance(i, ifcopenshell.entity_instance) for i in inst]), len(inst) > 1)), False):
@@ -227,11 +220,12 @@ def normalize_pset(name: str) -> str:
 
     return name
 
-@gherkin_ifc.step('The IfcPropertySet Name attribute value must use predefined values according to the "{table}" table')
-@gherkin_ifc.step('The IfcPropertySet must be assigned according to the property set definitions table "{table}"')
-@gherkin_ifc.step('Each associated IfcProperty must be named according to the property set definitions table "{table}"')
-@gherkin_ifc.step('Each associated IfcProperty must be of type according to the property set definitions table "{table}"')
-@gherkin_ifc.step('Each associated IfcProperty value must be of data type according to the property set definitions table "{table}"')
+  
+@gherkin_ifc.step("The IfcPropertySet Name attribute value must use predefined values according to the '{table}' table")
+@gherkin_ifc.step("The IfcPropertySet must be assigned according to the property set definitions table '{table}'")
+@gherkin_ifc.step("Each associated IfcProperty must be named according to the property set definitions table '{table}'")
+@gherkin_ifc.step("Each associated IfcProperty must be of type according to the property set definitions table '{table}'")
+@gherkin_ifc.step("Each associated IfcProperty value must be of data type according to the property set definitions table '{table}'")
 def step_impl(context, inst, table):
 
     property_set_definitions = get_pset_definitions(context, table)
@@ -413,7 +407,7 @@ def step_impl(context, inst, table):
                 # if not values:
                 #     yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':None}, severity=OutcomeSeverity.ERROR)
 
-@gherkin_ifc.step('it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly')
+@gherkin_ifc.step("it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly")
 def step_impl(context, inst):
     # context.visited_instances is set in the gherkin statement:
     # 'Given a traversal over the full model originating from subtypes of IfcRoot'

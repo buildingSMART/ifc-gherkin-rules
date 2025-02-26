@@ -22,7 +22,7 @@ def collect_test_files(top_order_string = False, insert_args = False):
 
     test_files = []
     for code in rule_codes:
-        paths = glob.glob(os.path.join(os.path.dirname(__file__), "files/", code.lower(), "*.ifc"))
+        paths = glob.glob(os.path.join(os.path.dirname(__file__), "files/", code[:3].upper(), code.lower(), "*.ifc"))
         if not paths:
             print(f"No IFC files were found for the following rule code: {code}. Please provide test files or verify the input.")
         test_files.extend(paths)

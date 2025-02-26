@@ -27,7 +27,7 @@ The rule verifies that a geometric context is present in the model, that its att
       Given An .<Entity>.
       Given Its attribute .RepresentationContexts.
       
-      Then ContextType = 'Model' or 'Plan' or 'NotDefined'
+      Then .ContextType. ^is^ 'Model' or 'Plan' or 'NotDefined'
 
       Examples:
         | Schema               | Entity     |

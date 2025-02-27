@@ -6,3 +6,4 @@ __pycache__
 ifc-gherkin.db
 worker_db.sqlite3
 test/out/svg
+.env

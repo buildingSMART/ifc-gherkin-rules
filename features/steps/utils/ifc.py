@@ -1,4 +1,5 @@
 from .misc import do_try
+import ifcopenshell
 
 
 def condition(inst, representation_id, representation_type):
@@ -63,3 +64,22 @@ def recurrently_get_entity_attr(ifc_context, inst, entity_to_look_for, attr_to_g
             else:
                 recurrently_get_entity_attr(ifc_context, inv_item, entity_to_look_for, attr_to_get, attr_found)
     return attr_found
+
+def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, include_or_exclude_subtypes) -> bool:
+    """
+    Check if the instance is of a specific entity type or its subtype.
+    INCLUDE will evaluate to True if inst is a subtype of entity_type while the second function for EXCLUDE will evaluate to True only for an exact type match
+
+    Parameters:
+    inst (ifcopenshell.entity_instance): The instance to check.
+    entity_type (str): The entity type to check against.
+    include_or_exclude_subtypes: Determines whether to include subtypes or not.
+
+    Returns:
+    bool: True if the instance matches the entity type criteria, False otherwise.
+    """
+    handling_functions = {
+        "including subtypes": lambda inst, entity_type: inst.is_a(entity_type),
+        "excluding subtypes": lambda inst, entity_type: inst.is_a() == entity_type,
+    }
+    return handling_functions[include_or_exclude_subtypes](inst, entity_type)

@@ -1,4 +1,4 @@
-import ifcopenshell
+import re
 from utils import geometry, ifc, misc
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
@@ -71,8 +71,8 @@ def step_impl(context, inst, attribute, prefix_condition, prefix=None, regex_pat
         prefixes = tuple(prefix.split(' or '))
         
         condition_met = (
-            (prefix_condition == PrefixCondition.STARTS and attribute_value.startswith(prefixes)) or
-            (prefix_condition == PrefixCondition.DOES_NOT_START and not attribute_value.startswith(prefixes))
+            (prefix_condition == "starts" and attribute_value.startswith(prefixes)) or
+            (prefix_condition == "does not start" and not attribute_value.startswith(prefixes))
         )
         
     if regex_pattern: #e.g. its Name attribute starts with r"^(?!Pset_)[Pp][Ss][Ee][Tt]\w*"

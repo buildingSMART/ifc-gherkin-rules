@@ -9,5 +9,6 @@ the Precision factor of the applicable geometric context.
   @E00050
   Scenario: Agreement on no duplicated points within an indexed poly curve
 
-    Given An IfcIndexedPolyCurve
+    Given An .IfcIndexedPolyCurve.
+
     Then It must have no consecutive points that are coincident after taking the Precision factor into account

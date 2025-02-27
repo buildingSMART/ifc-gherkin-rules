@@ -7,6 +7,7 @@ import json
 import os
 from utils import ifc, misc, system
 from . import ValidationOutcome, OutcomeSeverity
+import re
 
 @gherkin_ifc.step("It must be {relationship} as per {table}")
 def step_impl(context, inst, relationship, table):
@@ -198,6 +199,27 @@ def get_pset_definitions(context, table):
     return {d['property_set_name']: d for d in tbl}
 
 
+def normalize_pset(name: str) -> str:
+    """
+    Normalizes variations of 'Pset' to ensure consistent formatting.
+    Converts "Pset followed by a symbol or letter" into "Pset_"
+
+    Examples:
+    - "Pset.WallCommon" → "Pset_WallCommon"
+    - "Pset-WallCommon" → "Pset_WallCommon"
+    - "Pset WallCommon" → "Pset_WallCommon"
+    - "PsetWallCommon" → "Pset_WallCommon"
+    - "pset_WallCommon" → "Pset_WallCommon" (fix capitalization)
+    """
+
+    name = re.sub(r'^[Pp][Ss][Ee][Tt]', "Pset", name)
+
+    if name.startswith("Pset_"):
+        return name
+    name = re.sub(r"^Pset[\W]?", "Pset_", name)
+
+    return name
+
 @gherkin_ifc.step("The IfcPropertySet Name attribute value must use predefined values according to the '{table}' table")
 @gherkin_ifc.step("The IfcPropertySet must be assigned according to the property set definitions table '{table}'")
 @gherkin_ifc.step("Each associated IfcProperty must be named according to the property set definitions table '{table}'")
@@ -251,7 +273,7 @@ def step_impl(context, inst, table):
 
         return accepted_values
 
-    name = getattr(inst, 'Name', 'Attribute not found')
+    name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
 
 
     if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:

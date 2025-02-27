@@ -13,6 +13,8 @@ import ifcopenshell.ifcopenshell_wrapper as wrapper
 from .misc import is_a
 from .ifc import get_precision_from_contexts, recurrently_get_entity_attr
 
+Point3d = tuple[mp.mpf, mp.mpf, mp.mpf] | tuple[float, float, float]
+
 GEOM_TOLERANCE = 1E-12
 
 
@@ -308,6 +310,7 @@ def compare_with_precision(value_1: float, value_2: float, precision: float, com
         case _:
             raise ValueError(f"Invalid comparison operator: {comparison_operator}")
 
+
 @dataclass
 class Plane:
     """
@@ -319,7 +322,7 @@ class Plane:
     c: mp.mpf
     d: mp.mpf
 
-    def distance(self, point):
+    def distance(self, point : Point3d):
         """
         Returns the perpendicular distance from 'point' to this plane.
         Since (a, b, c) is normalized, denominator is 1.
@@ -327,7 +330,7 @@ class Plane:
         x, y, z = point
         return mp.fabs(self.a*x + self.b*y + self.c*z + self.d)
     
-def newells_algorithm(points):
+def newells_algorithm(points : list[Point3d]):
     """
     Compute an *unnormalized* normal for a polygon using Newell's algorithm.
     points: list of (x, y, z) in mpmath.mpf
@@ -346,7 +349,7 @@ def newells_algorithm(points):
     
     return Nx, Ny, Nz
 
-def estimate_plane_through_points(points) -> Optional[Plane]:
+def estimate_plane_through_points(points : list[Point3d]) -> Optional[Plane]:
     """
     Creates a Plane dataclass (ax + by + cz + d = 0) from a list of 3D points
     using Newell's algorithm and the average of the points for d.
@@ -358,6 +361,7 @@ def estimate_plane_through_points(points) -> Optional[Plane]:
     
     # 2) Compute the average point (reference)
     num_pts = len(points)
+
     x_avg = mp.fsum([points[i][0] for i in range(num_pts)]) / num_pts
     y_avg = mp.fsum([points[i][1] for i in range(num_pts)]) / num_pts
     z_avg = mp.fsum([points[i][2] for i in range(num_pts)]) / num_pts
@@ -365,8 +369,7 @@ def estimate_plane_through_points(points) -> Optional[Plane]:
     # 3) Normalize the normal
     mag = mp.sqrt(Nx**2 + Ny**2 + Nz**2)
     if mag == mp.mpf('0'):
-        # Degenerate case: normal is zero (collinear or all identical points)
-        # Decide how you want to handle this. For now, just return a zero plane.
+        # Degenerate case: normal is zero (collinear or all identical points). Return None
         return None
     
     Nx /= mag

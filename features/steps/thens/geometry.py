@@ -277,17 +277,25 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
         # @todo this should probably be a rule: only in rare cases a face should not have an outer bound (like, infinite or periodic faces),
         # but for the scope of this rule that does not exist.
         return
+
     outer = outer[0]
     loop = outer.Bound
     if not loop.is_a('IfcPolyLoop'):
-        # @todo double check whether this is guaranteed by schema
+        # This rule is only for polygonal faces.
         return
+
     points = [tuple(map(mp.mpf, p.Coordinates)) for p in loop.Polygon]
     plane = geometry.estimate_plane_through_points(points)
+
+    if plane is None:
+        # Plane can be None in case of degeneracies. To be implemented as an additional rule.
+        return
+
     if max(plane.distance(p) for p in points) > precision:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
     for ib in inner:
-        # @nb yes we do use the same points, outer bound establishes the plane
+        # @nb yes we do use the same plane for inner bounds, outer bound establishes the plane,
+        # inner bounds need to conform to that.
         loop = ib.Bound
         points = [tuple(map(mp.mpf, p.Coordinates)) for p in loop.Polygon]
         if max(plane.distance(p) for p in points) > precision:

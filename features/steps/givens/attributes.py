@@ -1,5 +1,4 @@
 import re
-import ifcopenshell
 from utils import geometry, ifc, misc
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
@@ -63,7 +62,6 @@ def step_impl(context, inst, attribute, prefix_condition, prefix=None, regex_pat
     relating Wall (step 3) of the entity in step (1). This is because the instances in the context will be 
     the content of the attribute X of IfcBuildingStorey rather than the storey itself."
     """
-
     if not hasattr(inst, attribute):
         yield ValidationOutcome(instance_id=inst, expected=attribute, observed=f"not {attribute}", severity=OutcomeSeverity.ERROR)
         return

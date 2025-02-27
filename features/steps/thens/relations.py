@@ -199,7 +199,6 @@ def get_pset_definitions(context, table):
     return {d['property_set_name']: d for d in tbl}
 
 
-
 def normalize_pset(name: str) -> str:
     """
     Normalizes variations of 'Pset' to ensure consistent formatting.

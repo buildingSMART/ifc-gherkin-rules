@@ -34,8 +34,8 @@ def step_impl(context, file_or_model, field, values):
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 
-@gherkin_ifc.step("Its {attribute} attribute {prefix_condition:PrefixCondition} with {prefix}")
-@gherkin_ifc.step('Its {attribute} attribute {prefix_condition:PrefixCondition} with r"{regex_pattern}"')
+@gherkin_ifc.step("Its {attribute} attribute {prefix_condition:prefix_condition} with {prefix}")
+@gherkin_ifc.step('Its {attribute} attribute {prefix_condition:prefix_condition} with r"{regex_pattern}"')
 def step_impl(context, inst, attribute, prefix_condition, prefix=None, regex_pattern=None):
     """
     '

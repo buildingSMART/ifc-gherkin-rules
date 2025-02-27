@@ -71,8 +71,9 @@ def after_scenario(context, scenario):
     execution_mode = context.config.userdata.get('execution_mode')
     if execution_mode and execution_mode == 'ExecutionMode.TESTING':
         if context.failed:
-            if context.step.error_message and not 'Behave errors' in context.step.error_message: #exclude behave output from exception logging
+            if context.step.error_message and not getattr(context, 'intentional_error_occured', False): #exclude behave output from exception logging
                 context.caught_exceptions.append(ExceptionSummary.from_context(context))
+                context.intentional_error_occured = False
         context.scenario_outcome_state.append((len(context.gherkin_outcomes)-1, {'scenario': context.scenario.name, 'last_step': context.scenario.steps[-1]}))
     elif execution_mode and execution_mode == 'ExecutionMode.PRODUCTION':
         if context.failed:

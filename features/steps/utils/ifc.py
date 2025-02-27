@@ -50,17 +50,6 @@ def instance_getter(i, representation_id, representation_type, negative=False):
         if condition(i, representation_id, representation_type):
             return i
 
-def order_by_ifc_inheritance(instances, base_class_last):
-    import ifcopenshell
-    ifc = ifcopenshell.file(schema='IFC4X3')
-    inheritance_nr = {}
-    for instance in instances:
-        ifc_instance = ifc.create_entity(instance)
-        result = sum(1 for str_instance in instances if ifc_instance.is_a(str_instance))
-        inheritance_nr[instance] = result
-    inheritance_nr = dict(sorted(inheritance_nr.items(), key=lambda item: item[1], reverse=base_class_last))
-    return list(inheritance_nr.keys())
-
 
 def recurrently_get_entity_attr(ifc_context, inst, entity_to_look_for, attr_to_get, attr_found=None):
     if attr_found is None:

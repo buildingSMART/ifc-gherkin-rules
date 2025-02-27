@@ -20,15 +20,17 @@ register_type(relating_or_related=TypeBuilder.make_enum(dict(map(lambda x: (x, x
 def step_impl(context, entity_opt_stmt, insts=False):
     within_model = (insts == 'instances')  # True for given statement containing {insts}
 
-    entity2 = pyparsing.Word(pyparsing.alphas)('entity')
-    sub_stmts = ['with subtypes', 'without subtypes', pyparsing.LineEnd()]
-    incl_sub_stmt = functools.reduce(operator.or_, [misc.rtrn_pyparse_obj(i) for i in sub_stmts])('include_subtypes')
-    grammar = entity2 + incl_sub_stmt
-    parse = grammar.parseString(entity_opt_stmt)
-    entity = parse['entity']
-    include_subtypes = misc.do_try(lambda: not 'without' in parse['include_subtypes'], True)
-
-    instances = context.model.by_type(entity, include_subtypes) or []
+    if entity_opt_stmt == "entity instance":
+        instances = list(context.model)
+    else:
+        entity2 = pyparsing.Word(pyparsing.alphas)('entity')
+        sub_stmts = ['with subtypes', 'without subtypes', pyparsing.LineEnd()]
+        incl_sub_stmt = functools.reduce(operator.or_, [misc.rtrn_pyparse_obj(i) for i in sub_stmts])('include_subtypes')
+        grammar = entity2 + incl_sub_stmt
+        parse = grammar.parseString(entity_opt_stmt)
+        entity = parse['entity']
+        include_subtypes = misc.do_try(lambda: not 'without' in parse['include_subtypes'], True)
+        instances = context.model.by_type(entity, include_subtypes) or []
 
     context.within_model = getattr(context, 'within_model', True) and within_model
     if instances:

@@ -6,6 +6,8 @@ import os
 from rule_creation_protocol import protocol
 from features.exception_logger import ExceptionSummary
 import json
+import time
+import logging
 
 from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
@@ -20,6 +22,30 @@ def read_model(fn, pure):
         model_cache[(fn, pure)] = ifcopenshell.open(fn)
     return model_cache[(fn, pure)]
 
+
+def print_directory_tree(start_path, level=0):
+    """
+    Recursively print the directory tree starting from the given path.
+    """
+    for item in os.listdir(start_path):
+        item_path = os.path.join(start_path, item)
+        print("    " * level + f"|-- {item}")
+        if os.path.isdir(item_path):
+            print_directory_tree(item_path, level + 1)
+
+
+
+def set_logger(context):
+    logger = logging.getLogger("gherkin_rules")
+    if not logger.handlers:
+        base_name = os.path.basename(context.config.userdata.get('input'))
+        file_handler = logging.FileHandler(os.path.join(os.getenv("LOG_FOLDER"), f"gherkin_environment-{os.path.splitext(base_name)[0]}.log"))
+        file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+        logger.addHandler(file_handler)
+    
+    return logger
+    
+
 def before_feature(context, feature):
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
@@ -30,6 +56,10 @@ def before_feature(context, feature):
     except KeyError: # run via console, task_id not provided
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
+    
+    context.feature_start_time = time.process_time()
+    logger = set_logger(context)
+    logger.info(f"Feature '{feature.name}' started at process time: {context.feature_start_time}")
 
     context.protocol_errors, context.caught_exceptions = [], []
     if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
@@ -131,6 +161,10 @@ def after_feature(context, feature):
                         outcome.instance_id = model_instances[outcome.instance_id]
 
                 ValidationOutcome.objects.bulk_create(outcomes_to_save)
+        end_time = time.process_time()
+        elapsed_time = end_time - context.feature_start_time
+        logger = set_logger(context)
+        logger.info(f"Feature '{feature.name}' completed. Elapsed process time: {elapsed_time:.2f} seconds.")
 
     else: # invoked via console or CI/CD pipeline
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]

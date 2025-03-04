@@ -268,6 +268,9 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
     G.add_edges_from(geometry.get_edges(
         context.model, inst
     ))
+    G.add_edges_from(geometry.get_loop_connectivity(
+        context.model, inst
+    ))
     n_components = len(list(nx.connected_components(G)))
     if n_components != 1:
         yield ValidationOutcome(inst=inst, observed=n_components, severity=OutcomeSeverity.ERROR)

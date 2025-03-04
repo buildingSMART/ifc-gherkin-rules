@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import itertools
 import operator
 import math
 from typing import Dict, Tuple
@@ -14,6 +15,53 @@ from .misc import is_a
 from .ifc import get_precision_from_contexts, recurrently_get_entity_attr
 
 GEOM_TOLERANCE = 1E-12
+
+
+def get_loop_connectivity(file, inst, sequence_type=frozenset, oriented=False):
+    # For BRP002 we cannot only consider edge connectivity. Outer bounds are
+    # also connected to their inner bounds by means of the mass of the face.
+    # For this purpose we create fake edges between an arbitrary vertex of
+    # all 2-combinations of loops within the total set of face bounds.
+    # This should only be used in a topological context and not in a geometric
+    # one as the generated fake edges will likely intersect with other
+    # geometry.
+
+    edge_type = tuple if oriented else frozenset
+
+    def inner():
+        loop_verts = []
+        if inst.is_a("IfcConnectedFaceSet"):
+            for face in inst.CfsFaces:
+                loop_verts.append([])
+                loops = [b.Bound for b in face.Bounds if b.Bound.is_a('IfcPolyLoop')]
+                for lp in loops:
+                    coords = list(map(operator.attrgetter("Coordinates"), lp.Polygon))
+                    loop_verts[-1].append(coords[0])
+                bounds_with_edge_loops = filter(lambda b: b.Bound.is_a('IfcEdgeLoop'), face.Bounds)
+                for bnd in bounds_with_edge_loops:
+                    for ed in bnd.Bound.EdgeList:
+                        coords = [
+                            ed.EdgeElement.EdgeStart.VertexGeometry.Coordinates,
+                            ed.EdgeElement.EdgeEnd.VertexGeometry.Coordinates,
+                        ]
+                        loop_verts[-1].append(coords[0])
+        elif inst.is_a("IfcTriangulatedFaceSet"):
+            # triangulated data cannot have inner loops
+            pass
+        elif inst.is_a("IfcPolygonalFaceSet"):
+            coords = inst.Coordinates.CoordList
+            for f in inst.Faces:
+                loop_verts.append([])
+                def get_coords(loop):
+                    return list(map(lambda i: coords[i - 1], loop))
+                loop_verts[-1].append(get_coords(f.CoordIndex)[0])
+                if f.is_a("IfcIndexedPolygonalFaceWithVoids"):
+                    for inner in f.InnerCoordIndices:
+                        loop_verts[-1].append(get_coords(inner))
+
+        for lv in loop_verts:
+            yield from map(edge_type, itertools.combinations(lv, 2))
+    return sequence_type(inner())
 
 
 def get_edges(file, inst, sequence_type=frozenset, oriented=False):

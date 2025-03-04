@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import itertools
 import operator
 import math
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 import numpy as np
 import mpmath as mp
@@ -13,6 +13,8 @@ import ifcopenshell.ifcopenshell_wrapper as wrapper
 
 from .misc import is_a
 from .ifc import get_precision_from_contexts, recurrently_get_entity_attr
+
+Point3d = tuple[mp.mpf, mp.mpf, mp.mpf] | tuple[float, float, float]
 
 GEOM_TOLERANCE = 1E-12
 
@@ -352,7 +354,80 @@ def compare_with_precision(value_1: float, value_2: float, precision: float, com
         case _:
             raise ValueError(f"Invalid comparison operator: {comparison_operator}")
 
+
 @dataclass
+class Plane:
+    """
+    Represents a plane ax + by + cz + d = 0,
+    where (a, b, c) is a *normalized* normal vector.
+    """
+    a: mp.mpf
+    b: mp.mpf
+    c: mp.mpf
+    d: mp.mpf
+
+    def distance(self, point : Point3d):
+        """
+        Returns the perpendicular distance from 'point' to this plane.
+        Since (a, b, c) is normalized, denominator is 1.
+        """
+        x, y, z = point
+        return mp.fabs(self.a*x + self.b*y + self.c*z + self.d)
+    
+def newells_algorithm(points : list[Point3d]):
+    """
+    Compute an *unnormalized* normal for a polygon using Newell's algorithm.
+    points: list of (x, y, z) in mpmath.mpf
+    Returns: (Nx, Ny, Nz) as mpmath.mpf.
+    """
+    Nx, Ny, Nz = (mp.mpf(0) for _ in range(3))
+    num_pts = len(points)
+    
+    for i in range(num_pts):
+        x_i, y_i, z_i = points[i]
+        x_next, y_next, z_next = points[(i + 1) % num_pts]
+        
+        Nx += (y_i - y_next) * (z_i + z_next)
+        Ny += (z_i - z_next) * (x_i + x_next)
+        Nz += (x_i - x_next) * (y_i + y_next)
+    
+    return Nx, Ny, Nz
+
+def estimate_plane_through_points(points : list[Point3d]) -> Optional[Plane]:
+    """
+    Creates a Plane dataclass (ax + by + cz + d = 0) from a list of 3D points
+    using Newell's algorithm and the average of the points for d.
+    
+    Returns a Plane with normalized (a, b, c).
+    """
+    # 1) Compute the polygon's normal with Newell's algorithm
+    Nx, Ny, Nz = newells_algorithm(points)
+    
+    # 2) Compute the average point (reference)
+    num_pts = len(points)
+
+    x_avg = mp.fsum([points[i][0] for i in range(num_pts)]) / num_pts
+    y_avg = mp.fsum([points[i][1] for i in range(num_pts)]) / num_pts
+    z_avg = mp.fsum([points[i][2] for i in range(num_pts)]) / num_pts
+        
+    # 3) Normalize the normal
+    mag = mp.sqrt(Nx**2 + Ny**2 + Nz**2)
+    if mag == mp.mpf('0'):
+        # Degenerate case: normal is zero (collinear or all identical points). Return None
+        return None
+    
+    Nx /= mag
+    Ny /= mag
+    Nz /= mag
+    
+    # 4) Compute d so that plane passes through the average point:
+    #    plane is Nx*x + Ny*y + Nz*z + d = 0
+    #    => d = - (Nx*x_avg + Ny*y_avg + Nz*z_avg)
+    d = -(Nx*x_avg + Ny*y_avg + Nz*z_avg)
+    
+    return Plane(Nx, Ny, Nz, d)
+
+
 class Line:
     """
     Represents a line a + d*b where a is a position and b a normalized unit vector

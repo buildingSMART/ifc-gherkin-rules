@@ -1,5 +1,4 @@
-import re
-from utils import geometry, ifc, misc
+from utils import geometry, ifc, misc, attributes
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
@@ -35,9 +34,21 @@ def step_impl(context, file_or_model, field, values):
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 
+@gherkin_ifc.step("Its value {regex_condition:regex_condition} to the expression /{regex_pattern}/")
+def step_impl(context, inst, regex_condition, regex_pattern):
+
+    if attributes.condition_met(
+        value = inst, 
+        condition = regex_condition,
+        expected=regex_pattern
+    ):
+        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+    else:
+        yield ValidationOutcome(instance_id=inst, expected=regex_pattern, observed=inst, severity=OutcomeSeverity.ERROR)
+
+
 @gherkin_ifc.step("Its {attribute} attribute {prefix_condition:prefix_condition} with {prefix}")
-@gherkin_ifc.step("Its {attribute} attribute {prefix_condition:prefix_condition} with r'{regex_pattern}'")
-def step_impl(context, inst, attribute, prefix_condition, prefix=None, regex_pattern=None):
+def step_impl(context, inst, attribute, prefix_condition, prefix):
     """
     '
     Given its attribute X must start with Y or Z
@@ -68,22 +79,13 @@ def step_impl(context, inst, attribute, prefix_condition, prefix=None, regex_pat
 
     attribute_value = str(getattr(inst, attribute, ''))
 
-    if prefix:
-        prefixes = tuple(prefix.split(' or '))
+    prefixes = misc.strip_split(prefix, splt=' or ', lower=False)
 
-        condition_met = (
-                (prefix_condition == "starts" and attribute_value.startswith(prefixes)) or
-                (prefix_condition == "does not start" and not attribute_value.startswith(prefixes))
-        )
-
-    if regex_pattern:  # e.g. its Name attribute starts with r'^(?!Pset_)[Pp][Ss][Ee][Tt]\w*'
-        pattern = re.compile(regex_pattern)
-        condition_met = (
-                (prefix_condition == "starts" and pattern.match(attribute_value)) or
-                (prefix_condition == "does not start" and not pattern.match(attribute_value))
-        )
-
-    if condition_met:
+    if attributes.condition_met(
+        value = attribute_value,
+        condition = prefix_condition, 
+        expected=prefixes
+    ):
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
     else:
         expected = prefixes if prefix_condition == "starts" else f'not {prefixes}'
@@ -92,21 +94,17 @@ def step_impl(context, inst, attribute, prefix_condition, prefix=None, regex_pat
 
 @gherkin_ifc.step("Its value {prefix_condition:prefix_condition} with {prefix}")
 def step_impl(context, inst, prefix_condition, prefix):
-    prefixes = tuple(prefix.split(' or '))
-    inst = str(inst)
-    starts_with = inst.startswith(prefixes)
+    prefixes = misc.strip_split(prefix, splt=' or ', lower=False) # allow for multiple values, e.g. str must not start with "0 or 1 or 2 or 3" (PSJ003)
 
-    if prefix_condition == "starts":
-        condition_met = starts_with
-        expected = prefixes
-    elif prefix_condition == "does not start":
-        condition_met = not starts_with
-        expected = f'not {prefixes}'
-
-    if condition_met:
+    if attributes.condition_met(
+        value = inst,
+        condition = prefix_condition, 
+        expected=prefixes
+    ):
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
     else:
-        yield ValidationOutcome(instance_id=inst, expected=expected, observed=inst[0], severity=OutcomeSeverity.ERROR)
+        expected = prefixes if prefix_condition == "starts" else f'not {prefixes}'
+        yield ValidationOutcome(instance_id=inst, expected=expected, observed=inst, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("Its {first_or_final:first_or_final} element")

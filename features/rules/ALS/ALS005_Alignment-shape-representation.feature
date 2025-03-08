@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALS
-@version1
+@version2
 Feature: ALS005 - Alignment shape representation
 The rule verifies that each IfcAlignment uses correct representation.
 
@@ -14,24 +14,36 @@ The rule verifies that each IfcAlignment uses correct representation.
   @E00020
   Scenario: Agreement on each IfcAlignment using correct representation - Value
 
-    Then The value of attribute RepresentationIdentifier must be FootPrint or Axis
+    Then .RepresentationIdentifier. ^is^ 'FootPrint' or 'Axis'
 
 
   @E00010
-  Scenario: Agreement on each IfcAlignment using correct representation - Type = 'Axis'
+  Scenario: Agreement on each IfcAlignment using correct representation - horizontal only
 
     Given .RepresentationIdentifier. ^is^ 'Axis'
-    Then The value of attribute RepresentationType must be Curve3D
+    Given .RepresentationType. ^is^ 'Curve2D'
+    Given Its attribute .Items.
+    Then [Its entity type] ^is^ 'IfcCompositeCurve'
 
 
   @E00010
-  Scenario: Agreement on each IfcAlignment using correct representation - Type = 'FootPrint'
+  Scenario: Agreement on each IfcAlignment using correct representation - vertical or cant
+
+    Given .RepresentationIdentifier. ^is^ 'Axis'
+    Given .RepresentationType. ^is^ 'Curve3D'
+    Given Its attribute .Items.
+    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve'
+
+
+  @E00010
+  Scenario: Agreement on each IfcAlignment using correct representation - identifier = 'FootPrint'
 
     Given .RepresentationIdentifier. ^is^ 'FootPrint'
-    Then The value of attribute RepresentationType must be Curve2D
+    Then .RepresentationType. ^is^ 'Curve2D'
 
 
   @E00010
   Scenario: Agreement on each IfcAlignment using correct representation items - Type
 
-    Then The type of attribute Items must be IfcGradientCurve or IfcSegmentedReferenceCurve or IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline or IfcOffsetCurveByDistance
+    Given Its attribute .Items.
+    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistance'

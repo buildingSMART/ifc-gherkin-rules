@@ -36,10 +36,13 @@ def print_directory_tree(start_path, level=0):
 
 
 def set_logger(context):
+    """
+    The logger is used in PROD, the setup is in the DJANGO core/settings.py.
+    """
     logger = logging.getLogger("gherkin_rules")
     if not logger.handlers:
         base_name = os.path.basename(context.config.userdata.get('input'))
-        file_handler = logging.FileHandler(os.path.join(os.getenv("LOG_FOLDER"), f"gherkin_environment-{os.path.splitext(base_name)[0]}.log"))
+        file_handler = logging.FileHandler(os.path.join(os.getenv("LOG_FOLDER", os.path.join(os.path.dirname(os.getcwd()), 'logs')), f"gherkin_environment-{os.path.splitext(base_name)[0]}.log"))
         file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
         logger.addHandler(file_handler)
     

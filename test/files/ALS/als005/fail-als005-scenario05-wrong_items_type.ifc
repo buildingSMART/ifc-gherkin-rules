@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION (('ViewDefinition [Ifc4X3NotAssigned]'), '2;1');
-FILE_NAME ('sectioned-solid-horizontal.ifc', '2021-05-31T10:35:59', (), (), 'redacted', $, $);
+FILE_DESCRIPTION (('ViewDefinition [ReferenceView]'), '2;1');
+FILE_NAME ('fail-als005-scenario05-wrong_items_type.ifc', '2021-05-31T10:35:59', (''), (''), 'redacted', '', '');
 FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;
 
@@ -106,7 +106,6 @@ DATA;
 #101 = IFCCARTESIANPOINT((0., 0.));
 #102 = IFCVECTOR(#103, 1.);
 #103 = IFCDIRECTION((1., 0.));
-/* tfk: remove the footprint representation for now in #1002 */
 #104 = IFCPRODUCTDEFINITIONSHAPE($, $, (#106));
 #105 = IFCGEOMETRICREPRESENTATIONSUBCONTEXT('Axis', 'Model', *, *, *, *, #13, $, .MODEL_VIEW., $);
 #106 = IFCSHAPEREPRESENTATION(#105, 'Axis', 'Curve3D', (#81));
@@ -122,11 +121,10 @@ DATA;
 #119 = IFCAXIS2PLACEMENTLINEAR(#120, $, $);
 #120 = IFCPOINTBYDISTANCEEXPRESSION(IFCLENGTHMEASURE(600.), $, $, $, #79);
 #127 = IFCSHAPEREPRESENTATION(#17, 'Body', 'AdvancedSweptSolid', (#116));
-#128 = IFCRELCONTAINEDINSPATIALSTRUCTURE('0de2EMoG5C3AvNHWz3ILSb', #1, 'Container', 'Container to Contained', (#29, #107), #24);
+#128 = IFCRELCONTAINEDINSPATIALSTRUCTURE('0de2EMoG5C3AvNHWz3ILSb', #1, 'Container', 'Container to Contained', (#107), #24);
 #129 = IFCRELAGGREGATES('0PN7lKNInB_OsofZN8N0Nn', #1, 'Project Container', 'Project to Spatial Element', #7, (#24));
 
 #1001 = IFCGEOMETRICREPRESENTATIONSUBCONTEXT('FootPrint', 'Model', *, *, *, *, #13, $, .MODEL_VIEW., $);
-#1002 = IFCSHAPEREPRESENTATION(#1001, 'FootPrint', 'Curve2D', (#54));
 
 #1101 = IFCALIGNMENTSEGMENT('1lqBKv7Xz1Hx2tmPCGtaIa', #1, $, $, $, #1501, #1631, #1102);
 #1102 = IFCALIGNMENTHORIZONTALSEGMENT($, $, #1103, -0.95, 0., 0., 0., $, .LINE.);
@@ -162,9 +160,6 @@ DATA;
 #2103 = IFCDIRECTION((9.99999901234583E-1, 4.44444400554072E-4));
 #2104 = IFCAXIS2PLACEMENT2D(#2102, #2103);
 #2105 = IFCLINE(#85, #86);
-#2106 = IFCCARTESIANPOINT((0., 0.));
-#2107 = IFCVECTOR(#2108, 1.);
-#2108 = IFCDIRECTION((1., 0.));
 
 #2501 = IFCLOCALPLACEMENT($, #2502);
 #2502 = IFCAXIS2PLACEMENT3D(#2503, $, $);

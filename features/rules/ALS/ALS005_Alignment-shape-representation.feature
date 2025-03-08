@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALS
-@version1
+@version2
 Feature: ALS005 - Alignment shape representation
 The rule verifies that each IfcAlignment uses correct representation.
 
@@ -18,14 +18,23 @@ The rule verifies that each IfcAlignment uses correct representation.
 
 
   @E00010
-  Scenario: Agreement on each IfcAlignment using correct representation - Type = 'Axis'
+  Scenario: Agreement on each IfcAlignment using correct representation - horizontal only
 
     Given .RepresentationIdentifier. ^is^ 'Axis'
-    Then The value of attribute RepresentationType must be Curve3D
+    Given .RepresentationType. ^is^ 'Curve2D'
+    Then The type of attribute Items must be IfcCompositeCurve
 
 
   @E00010
-  Scenario: Agreement on each IfcAlignment using correct representation - Type = 'FootPrint'
+  Scenario: Agreement on each IfcAlignment using correct representation - vertical or cant
+
+    Given .RepresentationIdentifier. ^is^ 'Axis'
+    Given .RepresentationType. ^is^ 'Curve3D'
+    Then The type of attribute Items must be IfcGradientCurve or IfcSegmentedReferenceCurve
+
+
+  @E00010
+  Scenario: Agreement on each IfcAlignment using correct representation - identifier = 'FootPrint'
 
     Given .RepresentationIdentifier. ^is^ 'FootPrint'
     Then The value of attribute RepresentationType must be Curve2D

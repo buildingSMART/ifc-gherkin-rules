@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION (('ViewDefinition [Ifc4X3NotAssigned]'), '2;1');
-FILE_NAME ('sectioned-solid-horizontal.ifc', '2021-05-31T10:35:59', (), (), 'redacted', $, $);
+FILE_NAME ('fail-als005-scenario04-wrong_representationtype_value.ifc', '2021-05-31T10:35:59', (), (), 'redacted', $, $);
 FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;
 
@@ -109,7 +109,7 @@ DATA;
 /* tfk: remove the footprint representation for now in #1002 */
 #104 = IFCPRODUCTDEFINITIONSHAPE($, $, (#106));
 #105 = IFCGEOMETRICREPRESENTATIONSUBCONTEXT('Axis', 'Model', *, *, *, *, #13, $, .MODEL_VIEW., $);
-#106 = IFCSHAPEREPRESENTATION(#105, 'Axis', 'Curve2D', (#79));
+#106 = IFCSHAPEREPRESENTATION(#105, 'FootPrint', 'Curve3D', (#79));
 #107 = IFCBUILTELEMENT('3k7$iV7T92$R$xNE9oe5R8', #1, 'SimpleProfile', $, $, #108, #115, $);
 #108 = IFCLOCALPLACEMENT(#25, #114);
 #109 = IFCDIRECTION((0., 0., 1.));

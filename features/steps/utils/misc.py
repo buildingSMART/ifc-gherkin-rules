@@ -134,10 +134,16 @@ def stmt_to_op(statement):
     return stmts_to_op[statement]
 
 
-def strip_split(stmt, strp=' ', splt=','):
-    return list(
-        map(lambda s: s.strip(strp), stmt.lower().split(splt))
-    )
+def strip_split(stmt, strp=' ', splt=',', lower=True):
+    """
+    Splits a string by a delimiter, strips unwanted characters from each part, 
+    and optionally converts it to lowercase.
+
+    Returns a tuple for efficient iteration and compatibility 
+    with methods like `startswith()`, which accept tuples for multi-value checks.
+    """
+    return tuple(s.strip(strp) for s in (stmt.lower() if lower else stmt).split(splt))
+
 
 
 def unpack_sequence_of_entities(instances):

@@ -134,7 +134,7 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
     return sequence_type(inner())
 
 
-def get_points(inst, return_type='coord'):
+def get_points(inst, return_type='coord', include_arc_midpoints=True):
     if inst.is_a().startswith('IfcCartesianPointList'):
         return inst.CoordList
     elif inst.is_a('IfcPolyline'):
@@ -147,6 +147,25 @@ def get_points(inst, return_type='coord'):
             return [p.Coordinates for p in inst.Polygon]
         elif return_type == 'points':
             return inst.Polygon
+    elif inst.is_a('IfcIndexedPolyCurve'):
+        if inst.Segments:
+            ps = inst.Points[0]
+            if include_arc_midpoints:
+                gen = [s[0] for s in inst.Segments]
+            else:
+                gen = [(s[0], s[-1]) for s in [s[0] for s in inst.Segments]]
+            def join():
+                # remove the head to tail connected indices
+                # this is asserted as a rule in the schema:
+                #  - IfcConsecutiveSegments
+                for a, b in itertools.pairwise(gen):
+                    if a[-1] == b[0]:
+                        yield from a[:-1]
+                yield from gen[-1]
+            joined = list(join())
+            return [ps[i-1] for i in joined if i >= 1 and i - 1 < len(ps)]
+        else:
+            return get_points(inst.Points)
     else:
         raise NotImplementedError(f'get_points() not implemented on {inst.is_a}')
 

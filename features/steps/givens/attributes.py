@@ -1,5 +1,4 @@
-import ifcopenshell
-from utils import geometry, ifc, misc
+from utils import geometry, ifc, misc, attributes
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
@@ -35,6 +34,19 @@ def step_impl(context, file_or_model, field, values):
     context.applicable = getattr(context, 'applicable', True) and applicable
 
 
+@gherkin_ifc.step("Its value {regex_condition:regex_condition} to the expression /{regex_pattern}/")
+def step_impl(context, inst, regex_condition, regex_pattern):
+
+    if attributes.condition_met(
+        value = inst, 
+        condition = regex_condition,
+        expected=regex_pattern
+    ):
+        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+    else:
+        yield ValidationOutcome(instance_id=inst, expected=regex_pattern, observed=inst, severity=OutcomeSeverity.ERROR)
+
+
 @gherkin_ifc.step("Its {attribute} attribute {prefix_condition:prefix_condition} with {prefix}")
 def step_impl(context, inst, attribute, prefix_condition, prefix):
     """
@@ -55,25 +67,25 @@ def step_impl(context, inst, attribute, prefix_condition, prefix):
     (1)Given an entity IfcBuildingStorey
     (2)Given its attribute X must start with Y or Z
     (3)Given its relating Wall
-    (4)Then Some condiion
+    (4)Then Some condition
     '
     In this case, it is challenging to split step (2) into two separate steps and then return to the 
     relating Wall (step 3) of the entity in step (1). This is because the instances in the context will be 
     the content of the attribute X of IfcBuildingStorey rather than the storey itself."
     """
-    prefixes = tuple(prefix.split(' or '))
+    if not hasattr(inst, attribute):
+        yield ValidationOutcome(instance_id=inst, expected=attribute, observed=f"not {attribute}", severity=OutcomeSeverity.ERROR)
+        return
+
     attribute_value = str(getattr(inst, attribute, ''))
 
-    if not hasattr(inst, attribute):
-        yield ValidationOutcome(instance_id=inst, expected=attribute, observed='not {attribute}', severity=OutcomeSeverity.ERROR)
-        return
-    
-    condition_met = (
-        (prefix_condition == "starts"and attribute_value.startswith(prefixes)) or
-        (prefix_condition == "does not start" and not attribute_value.startswith(prefixes))
-    )
+    prefixes = misc.strip_split(prefix, splt=' or ', lower=False)
 
-    if condition_met:
+    if attributes.condition_met(
+        value = attribute_value,
+        condition = prefix_condition, 
+        expected=prefixes
+    ):
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
     else:
         expected = prefixes if prefix_condition == "starts" else f'not {prefixes}'
@@ -82,21 +94,17 @@ def step_impl(context, inst, attribute, prefix_condition, prefix):
 
 @gherkin_ifc.step("Its value {prefix_condition:prefix_condition} with {prefix}")
 def step_impl(context, inst, prefix_condition, prefix):
-    prefixes = tuple(prefix.split(' or '))
-    inst = str(inst)
-    starts_with = inst.startswith(prefixes)
+    prefixes = misc.strip_split(prefix, splt=' or ', lower=False) # allow for multiple values, e.g. str must not start with "0 or 1 or 2 or 3" (PSJ003)
 
-    if prefix_condition == "starts":
-        condition_met = starts_with
-        expected = prefixes
-    elif prefix_condition == "does not start":
-        condition_met = not starts_with
-        expected = f'not {prefixes}'
-
-    if condition_met:
+    if attributes.condition_met(
+        value = inst,
+        condition = prefix_condition, 
+        expected=prefixes
+    ):
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
     else:
-        yield ValidationOutcome(instance_id=inst, expected=expected, observed=inst[0], severity=OutcomeSeverity.ERROR)
+        expected = prefixes if prefix_condition == "starts" else f'not {prefixes}'
+        yield ValidationOutcome(instance_id=inst, expected=expected, observed=inst, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("Its {first_or_final:first_or_final} element")

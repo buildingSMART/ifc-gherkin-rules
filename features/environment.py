@@ -48,7 +48,7 @@ def set_logger(context):
         gherkin_log_folder = os.getenv("GHERKIN_LOG_FOLDER", "/gherkin_logs")  
         os.makedirs(gherkin_log_folder, exist_ok=True) 
         base_name = os.path.basename(context.config.userdata.get('input'))
-        log_file = os.path.join(gherkin_log_folder, f"gherkin_environment{os.path.splitext(base_name)[0]}_{worker_id}.log")  
+        log_file = os.path.join(gherkin_log_folder, f"gherkin_environment-{os.path.splitext(base_name)[0]}_{worker_id}.log")  
 
         file_handler = logging.FileHandler(log_file)
         file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))

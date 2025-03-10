@@ -8,7 +8,7 @@ import ifcopenshell.util.unit
 from utils import ifc43x_alignment_validation as ifc43
 from utils.geometry import AlignmentSegmentContinuityCalculation
 from utils import ifc
-from validation_handling import gherkin_ifc
+from validation_handling import full_stack_rule, gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
 def is_3d(entity: ifcopenshell.entity_instance) -> bool:
@@ -157,20 +157,6 @@ def pretty_print_expected_geometry_types(exp: List[Dict]) -> Union[str, None]:
     return ", ".join(pretty)
 
 
-def ala003_activation_inst(inst, context) -> Union[ifcopenshell.entity_instance | None]:
-    """
-    Used in ALA003 as reverse traversal of graph to locate the correct business logic entity
-    """
-    for candidate in context._stack[2]["instances"]:
-        if candidate is None:
-            return None
-        else:
-            for rep in candidate.Representations:
-                for item in rep.Items:
-                    if item.id() == inst.id():
-                        return candidate.ShapeOfProduct[0]
-
-
 @gherkin_ifc.step(
     "A representation by .{ifc_rep_criteria}. requires the ^{existence:absence_or_presence}^ of .{logic_entity}. in the business logic")
 def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):
@@ -271,11 +257,12 @@ def step_impl(context, inst):
                                             severity=OutcomeSeverity.ERROR)
 
 
+@full_stack_rule
 @gherkin_ifc.step("Each segment must have the same geometry type as its corresponding {activation_phrase}")
-def step_impl(context, inst, activation_phrase):
+def step_impl(context, inst, path, activation_phrase):
     if inst is not None:
         # retrieve activation instance entity from the attribute stack
-        activation_ent = ala003_activation_inst(inst, context)
+        activation_ent = path[0]
         if activation_ent is not None:
 
             if activation_ent.is_a().upper() == "IFCALIGNMENT":

@@ -195,15 +195,13 @@ def handle_then(context, fn, **kwargs):
             if inst is None:
                 return
             if context.is_full_stack_rule:
-                x = misc.get_stack_tree(context)[::-1]
                 value_path = []
-                idxs = [current_path[0:i+1] for i in range(len(current_path))]
-                for idx, layer in zip(idxs, x):
-                    v = layer
-                    while idx:
-                        i, *idx = idx
-                        v = v[i]
-                    value_path.append(v)
+                for val in misc.get_stack_tree(context)[::-1]:
+                    i = 0
+                    while not should_apply(val, 0):
+                        val = val[current_path[i]]
+                        i += 1
+                    value_path.append(val)
                 kwargs = kwargs | {'path': value_path}
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]

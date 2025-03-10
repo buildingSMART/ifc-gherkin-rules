@@ -189,8 +189,8 @@ def upper_case_if_string(v):
 
 
 @functools.cache
-def get_pset_definitions(context, table):
-    schema_specific_path = system.get_abs_path(f"resources/{context.model.schema.upper()}/{table}.csv")
+def get_pset_definitions(schema, table):
+    schema_specific_path = system.get_abs_path(f"resources/{schema.upper()}/{table}.csv")
 
     if os.path.exists(schema_specific_path):
         tbl_path = schema_specific_path

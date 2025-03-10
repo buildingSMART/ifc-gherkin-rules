@@ -186,7 +186,9 @@ def upper_case_if_string(v):
         return v.upper()
     except:
         return v
-    
+
+
+@functools.cache
 def get_pset_definitions(context, table):
     schema_specific_path = system.get_abs_path(f"resources/{context.model.schema.upper()}/{table}.csv")
 
@@ -197,6 +199,65 @@ def get_pset_definitions(context, table):
     
     tbl = system.get_csv(tbl_path, return_type='dict')
     return {d['property_set_name']: d for d in tbl}
+
+class always_equal_dict(dict):
+    """
+    Just to accept as an argument to functools.cache, make sure that
+    other arguments are present to differentiate cache entries.
+    >>> {always_equal_dict({}): 1} | {always_equal_dict({'a':1}):2}   
+    {{}: 2}
+    """
+    def __hash__(self):
+        return 0
+    def __eq__(self, _):
+        return True
+
+@functools.cache
+def establish_accepted_pset_values(name : str, _schema : str, _table : str, property_set_definitions : always_equal_dict):
+    # _schema and _table are only for cache key, property_set_definitions is derived from _schema, _table,
+    # but unhashable because it's a dict
+    def make_obj(s):
+        if s:
+            return json.loads(s.replace("'", '"'))
+        else:
+            return ''
+
+    try:
+        property_set_attr = property_set_definitions[name]
+    except KeyError:  # Pset_ not found in template
+        property_set_attr = ''
+        return property_set_attr
+
+    accepted_values = {}
+    accepted_values['template_type'] = property_set_attr.get('template_type', '')
+
+    accepted_values['property_names'] = []
+    accepted_values['property_types'] = []
+    accepted_values['data_types'] = []
+
+    for property_def in make_obj(property_set_attr['property_definitions']):
+        accepted_values['property_names'].append(property_def['property_name'])
+        accepted_values['property_types'].append(property_def['property_type'])
+        accepted_values['data_types'].append(property_def['data_type'])
+
+    accepted_values['applicable_entities'] = [s.split('/')[0] for s in make_obj(property_set_attr['applicable_entities'])]
+
+    # in the ifc2x3 data, predefined type restrictions are imposed as:
+    # | | | applicable_type_value                     | | 
+    # | | | {entity}.PredefinedType={predefinedtype}  | |
+    if property_set_attr['applicable_type_value'] and '.PredefinedType=' in property_set_attr['applicable_type_value']:
+        ptype = property_set_attr['applicable_type_value'].split('.PredefinedType=')[1].upper()
+        accepted_values['applicable_entities_with_predefined_types'] = list(zip(
+            accepted_values['applicable_entities'],
+            (ptype for _ in itertools.count())
+        ))
+    else:
+        # in the ifc4 data, predefined type restrictions are imposed as:
+        # | | | applicable_entities                                                     | | 
+        # | | | ['{entity}','{entity}/{predefinedtype}','{entity2}/{predefinedtype2}']  | |
+        accepted_values['applicable_entities_with_predefined_types'] = [((ab[0], ab[1].upper()) if len(ab) == 2 else (ab[0], None)) for ab in (s.split('/') for s in make_obj(property_set_attr['applicable_entities']))]
+
+    return accepted_values
 
 
 def normalize_pset(name: str) -> str:
@@ -227,60 +288,16 @@ def normalize_pset(name: str) -> str:
 @gherkin_ifc.step("Each associated IfcProperty value must be of data type according to the property set definitions table '{table}'")
 def step_impl(context, inst, table):
 
-    property_set_definitions = get_pset_definitions(context, table)
-
-    def establish_accepted_pset_values(name, property_set_definitions):
-        def make_obj(s):
-            if s:
-                return json.loads(s.replace("'", '"'))
-            else:
-                return ''
-
-        try:
-            property_set_attr = property_set_definitions[name]
-        except KeyError:  # Pset_ not found in template
-            property_set_attr = ''
-            return property_set_attr
-
-        accepted_values = {}
-        accepted_values['template_type'] = property_set_attr.get('template_type', '')
-
-        accepted_values['property_names'] = []
-        accepted_values['property_types'] = []
-        accepted_values['data_types'] = []
-
-        for property_def in make_obj(property_set_attr['property_definitions']):
-            accepted_values['property_names'].append(property_def['property_name'])
-            accepted_values['property_types'].append(property_def['property_type'])
-            accepted_values['data_types'].append(property_def['data_type'])
-
-        accepted_values['applicable_entities'] = [s.split('/')[0] for s in make_obj(property_set_attr['applicable_entities'])]
-
-        # in the ifc2x3 data, predefined type restrictions are imposed as:
-        # | | | applicable_type_value                     | | 
-        # | | | {entity}.PredefinedType={predefinedtype}  | |
-        if property_set_attr['applicable_type_value'] and '.PredefinedType=' in property_set_attr['applicable_type_value']:
-            ptype = property_set_attr['applicable_type_value'].split('.PredefinedType=')[1].upper()
-            accepted_values['applicable_entities_with_predefined_types'] = list(zip(
-                accepted_values['applicable_entities'],
-                (ptype for _ in itertools.count())
-            ))
-        else:
-            # in the ifc4 data, predefined type restrictions are imposed as:
-            # | | | applicable_entities                                                     | | 
-            # | | | ['{entity}','{entity}/{predefinedtype}','{entity2}/{predefinedtype2}']  | |
-            accepted_values['applicable_entities_with_predefined_types'] = [((ab[0], ab[1].upper()) if len(ab) == 2 else (ab[0], None)) for ab in (s.split('/') for s in make_obj(property_set_attr['applicable_entities']))]
-
-        return accepted_values
-
+    property_set_definitions = get_pset_definitions(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
 
 
     if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:
         if name not in property_set_definitions.keys():
             yield ValidationOutcome(inst=inst, observed = {'value':name}, severity=OutcomeSeverity.ERROR)
+        return
 
-    accepted_values = establish_accepted_pset_values(name, property_set_definitions)
+    accepted_values = establish_accepted_pset_values(name, context.model.schema, table, always_equal_dict(property_set_definitions))
 
     if accepted_values:  # If not it's a custom Pset_ prefixed attribute, e.g. Pset_Mywall (no need for further Pset_ checks),
 

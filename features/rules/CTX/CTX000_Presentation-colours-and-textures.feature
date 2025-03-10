@@ -1,6 +1,6 @@
 @implementer-agreement
 @CTX
-@version1
+@version2
 @E00020
 
 Feature: CTX000 - Presentation colours and textures
@@ -22,8 +22,10 @@ Feature: CTX000 - Presentation colours and textures
 
     Scenario: Check for activation - Styled Materials 
 
-        Given an .IfcRoot.
+        Given an .IfcObjectDefinition.
         Given its attribute .HasAssociations.
+        Given [its entity type] ^is^ 'IfcRelAssociatesMaterial'
+        Given its attribute .RelatingMaterial.
         Given all referenced instances 
         Given [its entity type] ^is^ 'IfcMaterial'
         Given its attribute .HasRepresentation.

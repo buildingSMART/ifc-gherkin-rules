@@ -45,7 +45,7 @@ def set_logger(context):
 
     if not logger.handlers:
         worker_id = socket.gethostname()  
-        gherkin_log_folder = os.getenv("GHERKIN_LOG_FOLDER", "/gherkin_logs")  
+        gherkin_log_folder = os.getenv("GHERKIN_LOG_FOLDER", os.path.join(os.path.dirname(os.getcwd()), '.dev/gherkin_logs'))  
         os.makedirs(gherkin_log_folder, exist_ok=True) 
         base_name = os.path.basename(context.config.userdata.get('input'))
         log_file = os.path.join(gherkin_log_folder, f"gherkin_environment-{os.path.splitext(base_name)[0]}_{worker_id}.log")  

@@ -1,6 +1,6 @@
 @implementer-agreement
 @SPS
-@version3
+@version4
 @E00040
 
 Feature: SPS007 - Spatial Containment

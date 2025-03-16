@@ -70,9 +70,7 @@ def before_feature(context, feature):
     execution_mode = context.config.userdata.get('execution_mode')
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION':
         context.feature_start_time = time.process_time()
-        logger = set_logger(context)
-        logger.info(f"Feature '{feature.name}' started at process time: {context.feature_start_time}")
-
+        
     context.protocol_errors, context.caught_exceptions = [], []
     if context.config.userdata.get('execution_mode') and eval(context.config.userdata.get('execution_mode')) == ExecutionMode.TESTING:
         ifc_filename_incl_path = context.config.userdata.get('input')

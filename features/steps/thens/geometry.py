@@ -244,6 +244,21 @@ def step_impl(context, inst: ifcopenshell.entity_instance, clause: str):
                 yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
                                         severity=OutcomeSeverity.ERROR)
 
+
+@gherkin_ifc.step("It must have no consecutive points that are coincident after taking the Precision factor into account")
+def step_impl(context, inst: ifcopenshell.entity_instance):
+    # @nb a crucial difference with the clause above used on Polyline/-loop is that it compares all points, not only
+    # consecutive points. Also this version does not take into account whether the curve is closed or not because
+    # with the optional Segments=None there is no way to close the curve by means of referencing the same point (index).
+    entity_contexts = ifc.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = ifc.get_precision_from_contexts(entity_contexts)
+    points_coordinates = geometry.get_points(inst)
+    for i, j in [(i-1, i) for i in range(1, len(points_coordinates))]:
+        if math.dist(points_coordinates[i], points_coordinates[j]) < precision:
+                yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
+                                        severity=OutcomeSeverity.ERROR)
+
+
 @gherkin_ifc.step("It must have no arc segments that use colinear points after taking the Precision factor into account")
 def step_impl(context, inst: ifcopenshell.entity_instance):
     import mpmath as mp
@@ -268,6 +283,48 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
     G.add_edges_from(geometry.get_edges(
         context.model, inst
     ))
+    G.add_edges_from(geometry.get_loop_connectivity(
+        context.model, inst
+    ))
     n_components = len(list(nx.connected_components(G)))
     if n_components != 1:
         yield ValidationOutcome(inst=inst, observed=n_components, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("the boundaries of the face must conform to the implicit plane fitted through the boundary points")
+def step_impl(context, inst: ifcopenshell.entity_instance):
+    import mpmath as mp
+    mp.prec = 128
+
+    representation_context = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = mp.mpf(geometry.get_precision_from_contexts(representation_context))
+
+    outer = [b for b in inst.Bounds if b.is_a('IfcFaceOuterBound')]
+    inner = [b for b in inst.Bounds if not b.is_a('IfcFaceOuterBound')]
+    if len(outer) != 1:
+        # @todo this should probably be a rule: only in rare cases a face should not have an outer bound (like, infinite or periodic faces),
+        # but for the scope of this rule that does not exist.
+        return
+
+    outer = outer[0]
+    loop = outer.Bound
+    if not loop.is_a('IfcPolyLoop'):
+        # This rule is only for polygonal faces.
+        return
+
+    points = [tuple(map(mp.mpf, p.Coordinates)) for p in loop.Polygon]
+    plane = geometry.estimate_plane_through_points(points)
+
+    if plane is None:
+        # Plane can be None in case of degeneracies. To be implemented as an additional rule.
+        return
+
+    if max(plane.distance(p) for p in points) > precision:
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+    for ib in inner:
+        # @nb yes we do use the same plane for inner bounds, outer bound establishes the plane,
+        # inner bounds need to conform to that.
+        loop = ib.Bound
+        points = [tuple(map(mp.mpf, p.Coordinates)) for p in loop.Polygon]
+        if max(plane.distance(p) for p in points) > precision:
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)

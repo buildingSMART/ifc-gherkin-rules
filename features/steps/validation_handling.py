@@ -9,7 +9,6 @@ import inspect
 from operator import attrgetter
 import ast
 from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode
-from behave import register_type
 
 from behave.runner import Context
 from typing import Any
@@ -23,7 +22,7 @@ def global_rule(func):
     Use this decorator when the rule applies to the whole stack instead of a single instance.
     For instance
     @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
-    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity} {tail:SubtypeHandling}')
+    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity} {tail:include_or_exclude_subtypes}')
     @global_rule
     """
     @functools.wraps(func)
@@ -43,25 +42,13 @@ class gherkin_ifc():
     """
     Use this decorator before every step definition instead of @given and @then
     For instance;
-    @gherkin_ifc.step("{attribute} {comparison_op:equal_or_not_equal} {value}")
+    @gherkin_ifc.step("{attribute} {equal_or_not_equal:equal_or_not_equal} {value}")
     """
     def step(step_text):
         def wrapped_step(func):
             return step(step_text)(execute_step(func))
 
         return wrapped_step
-
-
-def register_enum_type(cls):
-    """
-    Use this decorator to register an enum type for behave, e.g.
-    @register_enum_type
-    class SubtypeHandling(Enum):
-        INCLUDE = "including subtypes"
-        EXCLUDE = "excluding subtypes"
-    """
-    register_type(**{cls.__name__: cls})
-    return cls
 
 
 def generate_error_message(context, errors):
@@ -208,15 +195,13 @@ def handle_then(context, fn, **kwargs):
             if inst is None:
                 return
             if context.is_full_stack_rule:
-                x = misc.get_stack_tree(context)[::-1]
                 value_path = []
-                idxs = [current_path[0:i+1] for i in range(len(current_path))]
-                for idx, layer in zip(idxs, x):
-                    v = layer
-                    while idx:
-                        i, *idx = idx
-                        v = v[i]
-                    value_path.append(v)
+                for val in misc.get_stack_tree(context)[::-1]:
+                    i = 0
+                    while not should_apply(val, 0):
+                        val = val[current_path[i]]
+                        i += 1
+                    value_path.append(val)
                 kwargs = kwargs | {'path': value_path}
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]

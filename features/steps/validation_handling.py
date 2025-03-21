@@ -135,7 +135,7 @@ def handle_given(context, fn, **kwargs):
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
         context._push('attribute') # for attribute stacking
-        depth = next(map(int, re.findall('at depth (\d+)$', context.step.name)), 0)
+        depth = next(map(int, re.findall(r'at depth (\d+)$', context.step.name)), 0)
         if depth:
             context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=depth, **kwargs)))
         else:

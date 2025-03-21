@@ -5,12 +5,12 @@ from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
 
-@gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
-@gherkin_ifc.step('A relationship {relationship} exists {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
-@gherkin_ifc.step('A relationship {relationship} must exist {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
-@gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
-@gherkin_ifc.step('A *{required}* relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
-@gherkin_ifc.step('A *{required}* relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
+@gherkin_ifc.step('A relationship .{relationship}. {dir1:from_to} {entity} {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship}. exists {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship}. must exist {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}. {tail:maybe_and_following_that}')
+@gherkin_ifc.step('A *{required}* relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A *{required}* relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}. {tail:maybe_and_following_that}')
 def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tail=" ", required=False):
     """""
     Reference to tfk ALB999 rule https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
@@ -54,7 +54,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
                 yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 
             if rel_attribute_name == attr_to_entity:
-                if tail.strip():
+                if str(tail).strip():
                     instances.extend(to_other)
                 else:
                     instances.append(inst)
@@ -67,7 +67,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
 
     
 
-@gherkin_ifc.step("The element {relationship_type} an {entity}")
+@gherkin_ifc.step("The element ^{relationship_type}^ an .{entity}.")
 def step_impl(context, inst, relationship_type, entity):
     reltype_to_extr = {'nests': {'attribute': 'Nests', 'object_placement': 'RelatingObject'},
                        'is nested by': {'attribute': 'IsNestedBy', 'object_placement': 'RelatedObjects'}}

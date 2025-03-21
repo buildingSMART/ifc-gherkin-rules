@@ -27,6 +27,6 @@ Scenario Outline: Correct values for OperationType and UserDefinedOperationType
 Scenario: Correct IfcOperationType with relating type object
 
   Given an .IfcDoor.
-  Given a relationship IfcRelDefinesByType to IfcDoor from IfcDoorType
+  Given a relationship .IfcRelDefinesByType. to .IfcDoor. from .IfcDoorType.
 
   Then .OperationType. ^is^ empty

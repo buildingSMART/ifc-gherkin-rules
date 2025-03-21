@@ -27,6 +27,6 @@ Scenario Outline: Correct values for PartitioningType and UserDefinedPartitionin
 Scenario: Correct IfcPartitioningType with relating type object
 
   Given an .IfcWindow.
-  Given a relationship IfcRelDefinesByType to IfcWindow from IfcWindowType
+  Given a relationship .IfcRelDefinesByType. to .IfcWindow. from .IfcWindowType.
 
   Then .PartitioningType. ^is^ empty

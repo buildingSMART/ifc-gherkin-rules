@@ -28,7 +28,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
     
     Scenario: Entities that are an aggregated part of another element must not also be part of a spatial structure
         Given an .IfcElement.
-        Given a relationship IfcRelAggregates to IfcElement from IfcElement
+        Given a relationship .IfcRelAggregates. to .IfcElement. from .IfcElement.
 
         Then .ContainedInStructure. ^is^ empty
     

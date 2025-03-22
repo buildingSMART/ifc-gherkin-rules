@@ -10,8 +10,9 @@ IfcReferent is associated to IfcAlignment via the IfcRelNests relationship.
   Scenario: Agreement on each IfcAlignment nesting at least one IfcReferent when not re-using horizontal layout
 
       Given A model with Schema 'IFC4.3'
-      Given an .IfcAlignment.
-      Given A relationship .IfcRelNests. from .IfcAlignment. to .IfcAlignmentHorizontal.
+      Given an .IfcAlignmentHorizontal.
+      Given its attribute .Nests.
+      Given its attribute .RelatedObjects.
 
-      Then A relationship .IfcRelNests. must exist from .IfcAlignment. to .IfcReferent.
+      Then .IfcAlignmentHorizontal. must be paired with .IfcReferent.
 

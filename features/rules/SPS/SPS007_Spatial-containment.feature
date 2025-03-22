@@ -1,20 +1,24 @@
 @implementer-agreement
 @SPS
-@version4
+@version5
 @E00040
 
 Feature: SPS007 - Spatial Containment
 The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment
 
-    Scenario Outline: Instances of IfcAnnotation and IfcGrid must be contained within a spatial structure
 
-        Given an .<entity>.
-        Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialElement.
+    Scenario: Instances of IfcGrid must be contained within a spatial structure
 
-        Examples:
-            | entity        |
-            | IfcGrid       |
-            | IfcAnnotation |
+        Given an .IfcGrid.
+        Then a relationship IfcRelContainedInSpatialStructure must exist to IfcGrid from IfcSpatialElement
+
+
+    Scenario: Instances of IfcAnnotation must be contained within a spatial structure, except when the annotation is already a hosted eleent
+
+        Given an .IfcAnnotation.
+        Given A relationship IfcRelNests does not exist to IfcAnnotation from IfcAnnotation
+
+        Then a relationship IfcRelContainedInSpatialStructure must exist to IfcAnnotation from IfcSpatialElement
 
     
     Scenario: Instances of IfcElement must be part of a spatial structure, with certain exceptions

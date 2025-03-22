@@ -9,7 +9,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
     Scenario Outline: Instances of IfcAnnotation and IfcGrid must be contained within a spatial structure
 
         Given an .<entity>.
-        Then a *required* relationship IfcRelContainedInSpatialStructure to IfcElement from IfcSpatialElement
+        Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialElement.
 
         Examples:
             | entity        |
@@ -23,7 +23,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
         Given [Its Type] ^is not^ 'IfcFeatureElement' ^including subtypes^
         Given .Decomposes. ^is^ empty
 
-        Then a *required* relationship IfcRelContainedInSpatialStructure to IfcElement from IfcSpatialElement
+        Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialElement.
 
     
     Scenario: Entities that are an aggregated part of another element must not also be part of a spatial structure

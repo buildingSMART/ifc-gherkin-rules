@@ -111,11 +111,11 @@ def test_invocation(filename):
             print(tabulate.tabulate(table_data, headers=headers, tablefmt='fancy_grid'))
 
         if base.startswith('fail'):
-            assert len(error_outcomes) > 0 or caught_exceptions
+            assert len(error_outcomes) > 0
         elif base.startswith('pass'):
-            assert len(error_outcomes) == 0 and len(activating_outcomes) > 0
+            assert len(error_outcomes) == 0 and len(activating_outcomes) and not caught_exceptions
         elif base.startswith('na'):
-            assert len(error_outcomes) == 0 and len(activating_outcomes) == 0
+            assert len(error_outcomes) == 0 and len(activating_outcomes) == 0 and not caught_exceptions
 
     if error_outcomes:
         tabulate_results = [

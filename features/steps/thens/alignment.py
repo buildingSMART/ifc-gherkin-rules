@@ -406,23 +406,3 @@ def step_impl(context, inst, continuity_type):
                     "continuity_details": continuity_calc.to_dict(),
                 },
                 severity=OutcomeSeverity.WARNING)
-
-@gherkin_ifc.step(".IfcAlignmentHorizontal. must be paired with .IfcReferent.")
-def step_impl(context, inst):
-    instances = iflatten(context._stack[0]["instances"])
-    has_horizontal = False
-    has_referent = False
-    for inst in instances:
-        entity_type = inst.is_a().upper()
-        if not has_horizontal:
-            has_horizontal = entity_type == "IFCALIGNMENTHORIZONTAL"
-        if not has_referent:
-            has_referent = entity_type == "IFCREFERENT"
-        if has_horizontal and has_referent:
-            break
-    if not (has_horizontal and has_referent):
-        yield ValidationOutcome(
-            inst=inst,
-            expected="IfcAlignmentHorizontal and IfcReferent",
-            observed=f"{'IfcAlignmentHorizontal' if has_horizontal else None}, {'IfcReferent' if has_referent else None}",
-            severity=OutcomeSeverity.ERROR)

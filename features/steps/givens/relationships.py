@@ -28,6 +28,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
     related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
     relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
 
+    inverses = context.model.get_inverse(inst, with_attribute_indices=True, allow_duplicate=True)
     relationships = [i for i in context.model.get_inverse(inst, with_attribute_indices=True, allow_duplicate=True) if i[0].is_a(relationship)]
 
     for rel, attribute_index in relationships:

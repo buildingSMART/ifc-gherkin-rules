@@ -7,12 +7,12 @@ The rule verifies that each horizontal alignment nests at least one IfcReferent,
 These can be used as semantic entities holding information about locations along the alignment. 
 IfcReferent is associated to IfcAlignment via the IfcRelNests relationship.
 
-  Scenario: Agreement on each IfcAlignment nesting at least one IfcReferent when not re-using horizontal layout
+  Scenario: Agreement on each IfcAlignment nesting at least one IfcReferent when that alignment nests an IfcAlignmentHorizontal
 
       Given A model with Schema 'IFC4.3'
       Given an .IfcAlignmentHorizontal.
       Given its attribute .Nests.
-      Given its attribute .RelatedObjects.
+      Given its attribute .RelatingObject.
 
-      Then .IfcAlignmentHorizontal. must be paired with .IfcReferent.
+      Then a relationship .IfcRelNests. must exist from .IfcAlignment. to .IfcReferent.
 

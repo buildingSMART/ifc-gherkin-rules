@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-alb010-alignment_with_children.ifc','2025-03-01T12:48:04-08:00',(''),(''),'redacted','redacted','Nobody');
+FILE_NAME('pass-alb010-alignment_with_children.ifc','2025-03-01T12:48:04-08:00',(''),(''), 'IfcOpenShell 0.0.0', 'IfcOpenShell Contributors - Bonsai - 0.8.2-alpha','Nobody');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

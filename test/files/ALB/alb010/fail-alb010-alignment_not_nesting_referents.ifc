@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition[DesignTransferView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('fail-alb010-alignment_not_nesting_referents.ifc','2025-03-01T12:46:21-08:00',(''),(''),'IfcOpenShell 0.0.0','IfcOpenShell Contributors - Bonsai - 0.8.2-alpha','Nobody');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

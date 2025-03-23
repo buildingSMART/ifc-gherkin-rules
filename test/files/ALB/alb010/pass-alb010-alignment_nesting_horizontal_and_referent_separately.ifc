@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition[DesignTransferView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('pass-alb010-alignment_nesting_horizontal_and_referent_separately.ifc','2025-03-01T12:46:21-08:00',(''),(''),'IfcOpenShell 0.0.0','IfcOpenShell Contributors - Bonsai - 0.8.2-alpha','Nobody');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
@@ -73,7 +73,7 @@ DATA;
 #81=IFCALIGNMENTSEGMENT('3Eu2TX2gz02e4aPeFVpEvM',$,$,$,$,$,$,#80);
 
 #82=IFCRELNESTS('0GNcKmKff3rxzt7U2Y0oyC',$,$,$,#67,(#68));
-#8200=IFCRELNESTS('0GNcKmKff3rxzt7U2Y0oyC',$,$,$,#67,(#123));
+#8200=IFCRELNESTS('0GAcKmKff3rxzt7U2Y0eye',$,$,$,#67,(#123));
 
 
 #86=IFCCARTESIANPOINT((0.,0.,0.));

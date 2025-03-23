@@ -1,6 +1,5 @@
 import math
 
-from behave import register_type
 from typing import Dict, List, Union, Optional
 
 import ifcopenshell.entity_instance
@@ -10,14 +9,8 @@ import ifcopenshell.geom
 from utils import ifc43x_alignment_validation as ifc43
 from utils.geometry import AlignmentSegmentContinuityCalculation, compare_with_precision
 from utils import ifc
-from validation_handling import gherkin_ifc
+from validation_handling import full_stack_rule, gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
-
-from parse_type import TypeBuilder
-
-
-register_type(absence_or_presence=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("presence", "absence")))))
-
 
 def is_3d(entity: ifcopenshell.entity_instance) -> bool:
     """
@@ -165,35 +158,21 @@ def pretty_print_expected_geometry_types(exp: List[Dict]) -> Union[str, None]:
     return ", ".join(pretty)
 
 
-def ala003_activation_inst(inst, context) -> Union[ifcopenshell.entity_instance | None]:
-    """
-    Used in ALA003 as reverse traversal of graph to locate the correct business logic entity
-    """
-    for candidate in context._stack[2]["instances"]:
-        if candidate is None:
-            return None
-        else:
-            for rep in candidate.Representations:
-                for item in rep.Items:
-                    if item.id() == inst.id():
-                        return candidate.ShapeOfProduct[0]
-
-
 @gherkin_ifc.step(
-    'A representation by {ifc_rep_criteria} requires the {existence:absence_or_presence} of {entities} in the business logic')
-def step_impl(context, inst, ifc_rep_criteria, existence, entities):
+    "A representation by .{ifc_rep_criteria}. requires the ^{existence:absence_or_presence}^ of .{logic_entity}. in the business logic")
+def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):
     align = ifc43.entities.Alignment().from_entity(inst)
-    match (ifc_rep_criteria, existence, entities):
+    match (ifc_rep_criteria, existence, logic_entity):
         case ("IfcSegmentedReferenceCurve", "presence", "IfcAlignmentCant"):
             if align.segmented_reference_curve is not None:
                 if align.cant is None:
-                    yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                    yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
                                             severity=OutcomeSeverity.ERROR)
 
         case ("IfcGradientCurve", "presence", "IfcAlignmentVertical"):
             if align.gradient_curve is not None:
                 if align.vertical is None:
-                    yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                    yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
                                             severity=OutcomeSeverity.ERROR)
 
         case ("3D IfcIndexedPolyCurve", "presence", "IfcAlignmentVertical"):
@@ -202,7 +181,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
                 for item in shape_rep.Items:
                     if (item.is_a().upper() == "IFCINDEXEDPOLYCURVE") and (is_3d(item)):
                         if align.vertical is None:
-                            yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                            yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
                                                     severity=OutcomeSeverity.ERROR)
 
         case ("3D IfcPolyline", "presence", "IfcAlignmentVertical"):
@@ -211,7 +190,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
                 for item in shape_rep.Items:
                     if (item.is_a().upper() == "IFCPOLYLINE") and (is_3d(item)):
                         if align.vertical is None:
-                            yield ValidationOutcome(inst=inst, expected=entities, observed=None,
+                            yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
                                                     severity=OutcomeSeverity.ERROR)
 
         case ("IfcCompositeCurve as Axis", "absence", "IfcAlignmentVertical and IfcAlignmentCant"):
@@ -222,7 +201,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
                             shape_rep.RepresentationIdentifier == "Axis"):
                         if (align.vertical is not None) or (align.cant is not None):
                             yield ValidationOutcome(inst=inst, expected=None,
-                                                    observed="', '".join(entities.split(" and ")),
+                                                    observed="', '".join(logic_entity.split(" and ")),
                                                     severity=OutcomeSeverity.ERROR)
 
         case ("IfcGradientCurve", "absence", "IfcAlignmentCant"):
@@ -232,12 +211,12 @@ def step_impl(context, inst, ifc_rep_criteria, existence, entities):
                     if item.is_a().upper() == "IFCGRADIENTCURVE":
                         if align.cant is not None:
                             yield ValidationOutcome(inst=inst, expected=None,
-                                                    observed=entities,
+                                                    observed=logic_entity,
                                                     severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step(
-    'The representation must have the correct number of segments indicated by the layout')
+    "The representation must have the correct number of segments indicated by the layout")
 def step_impl(context, inst):
     for rel in inst.Nests:
         ent = rel.RelatingObject
@@ -279,11 +258,12 @@ def step_impl(context, inst):
                                             severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('Each segment must have the same geometry type as its corresponding {activation_phrase}')
-def step_impl(context, inst, activation_phrase):
+@full_stack_rule
+@gherkin_ifc.step("Each segment must have the same geometry type as its corresponding {activation_phrase}")
+def step_impl(context, inst, path, activation_phrase):
     if inst is not None:
         # retrieve activation instance entity from the attribute stack
-        activation_ent = ala003_activation_inst(inst, context)
+        activation_ent = path[0]
         if activation_ent is not None:
 
             if activation_ent.is_a().upper() == "IFCALIGNMENT":
@@ -363,7 +343,7 @@ def step_impl(context, inst, activation_phrase):
                     )
 
 
-@gherkin_ifc.step('Each segment must have geometric continuity in {continuity_type}')
+@gherkin_ifc.step("Each segment must have geometric continuity in {continuity_type}")
 def step_impl(context, inst, continuity_type):
     """
     Assess geometric continuity between alignment segments for ALS016, ALS017, and ALS018
@@ -428,7 +408,7 @@ def step_impl(context, inst, continuity_type):
                 severity=OutcomeSeverity.WARNING)
 
 
-@gherkin_ifc.step('.{schema_construct}. must be *equal to* "the calculated linear placement"')
+@gherkin_ifc.step(".{schema_construct}. must be *equal to* [the calculated linear placement]")
 def step_impl(context, inst, schema_construct):
     attribute_value = getattr(inst, schema_construct)
     if attribute_value is None:

@@ -1,0 +1,17 @@
+{
+    "unique_or_identical": ["unique", "identical"],
+    "value_or_type": ["value", "type"],
+    "values_or_types": ["values", "types"],
+    "from_to": ["from", "to"],
+    "exist_or_not_exist": ["exists", "must exist", "does not exist"],
+    "include_or_exclude_subtypes": ["including subtypes", "excluding subtypes"],
+    "first_or_final": ["first", "final"],
+    "absence_or_presence": ["absence", "presence"],
+    "equal_or_not_equal": ["=", "!=", "is not", "is"],
+    "nested_sentences": ["must nest only 1", "must not a list of only", "is nested by only 1", "is nested by a list of only"],
+    "aggregated_or_contained_or_positioned": ["aggregated", "contained", "positioned"],
+    "prefix_condition": ["starts", "does not start", "must not start"],
+    "regex_condition": ["conforms", "does not conform", "must not conform"],
+    "maybe_and_following_that": [" ", "and following that"],
+    "display_entity": [" ", "and display entity instance"]
+}

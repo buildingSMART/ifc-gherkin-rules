@@ -1,4 +1,5 @@
 from .misc import do_try
+import ifcopenshell
 
 
 def condition(inst, representation_id, representation_type):
@@ -50,17 +51,6 @@ def instance_getter(i, representation_id, representation_type, negative=False):
         if condition(i, representation_id, representation_type):
             return i
 
-def order_by_ifc_inheritance(instances, base_class_last):
-    import ifcopenshell
-    ifc = ifcopenshell.file(schema='IFC4X3')
-    inheritance_nr = {}
-    for instance in instances:
-        ifc_instance = ifc.create_entity(instance)
-        result = sum(1 for str_instance in instances if ifc_instance.is_a(str_instance))
-        inheritance_nr[instance] = result
-    inheritance_nr = dict(sorted(inheritance_nr.items(), key=lambda item: item[1], reverse=base_class_last))
-    return list(inheritance_nr.keys())
-
 
 def recurrently_get_entity_attr(ifc_context, inst, entity_to_look_for, attr_to_get, attr_found=None):
     if attr_found is None:
@@ -74,3 +64,22 @@ def recurrently_get_entity_attr(ifc_context, inst, entity_to_look_for, attr_to_g
             else:
                 recurrently_get_entity_attr(ifc_context, inv_item, entity_to_look_for, attr_to_get, attr_found)
     return attr_found
+
+def check_entity_type(inst: ifcopenshell.entity_instance, entity_type: str, include_or_exclude_subtypes) -> bool:
+    """
+    Check if the instance is of a specific entity type or its subtype.
+    INCLUDE will evaluate to True if inst is a subtype of entity_type while the second function for EXCLUDE will evaluate to True only for an exact type match
+
+    Parameters:
+    inst (ifcopenshell.entity_instance): The instance to check.
+    entity_type (str): The entity type to check against.
+    include_or_exclude_subtypes: Determines whether to include subtypes or not.
+
+    Returns:
+    bool: True if the instance matches the entity type criteria, False otherwise.
+    """
+    handling_functions = {
+        "including subtypes": lambda inst, entity_type: inst.is_a(entity_type),
+        "excluding subtypes": lambda inst, entity_type: inst.is_a() == entity_type,
+    }
+    return handling_functions[include_or_exclude_subtypes](inst, entity_type)

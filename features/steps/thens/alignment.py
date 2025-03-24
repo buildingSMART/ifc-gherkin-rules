@@ -416,6 +416,8 @@ def step_impl(context, inst, schema_construct):
             ValidationOutcome(
                 inst=inst,
                 severity=OutcomeSeverity.WARNING,
+                expected=f"A value for {schema_construct}",
+                observed="None",
             )
         )
     else:
@@ -447,7 +449,6 @@ def step_impl(context, inst, schema_construct):
                 observed={
                     "observed": [xcp, ycp],
                     "num_digits": 4,
-                    "context": None,
-                    "continuity_details": None
+                    "context": "position",
                 },
             )

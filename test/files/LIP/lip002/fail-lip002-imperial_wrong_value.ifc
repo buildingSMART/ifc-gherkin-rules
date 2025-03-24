@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME('fail-lip002-imperial_wrong_value.ifc','2024-12-04T12:39:19',('civilx64'),('redacted'),'redacted','redacted','None');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('fail-lip002-imperial_wrong_value.ifc','2024-12-04T12:39:19',('redacted'),('redacted'),'preprocessor 0.0.0','Company - Product - 0.0.0','None');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

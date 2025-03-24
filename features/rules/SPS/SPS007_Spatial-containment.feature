@@ -13,7 +13,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
         Then a relationship IfcRelContainedInSpatialStructure must exist to IfcGrid from IfcSpatialElement
 
 
-    Scenario: Instances of IfcAnnotation must be contained within a spatial structure, except when the annotation is already a hosted eleent
+    Scenario: Instances of IfcAnnotation must be contained within a spatial structure, except when the annotation is nested under another annotation
 
         Given an .IfcAnnotation.
         Given A relationship IfcRelNests does not exist to IfcAnnotation from IfcAnnotation

@@ -262,7 +262,7 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
 @gherkin_ifc.step("It must have no arc segments that use colinear points after taking the Precision factor into account")
 def step_impl(context, inst: ifcopenshell.entity_instance):
     import mpmath as mp
-    mp.prec = 128
+    mp.mp.prec = 128
 
     representation_context = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
     precision = mp.mpf(geometry.get_precision_from_contexts(representation_context))

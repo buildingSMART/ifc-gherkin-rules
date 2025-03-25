@@ -14,5 +14,5 @@ IfcReferent is associated to IfcAlignment via the IfcRelNests relationship.
       Given its attribute .Nests.
       Given its attribute .RelatingObject.
 
-      Then a relationship .IfcRelNests. must exist from .IfcAlignment. to .IfcReferent.
+      Then a relationship .IfcRelNests. ^must exist^ from .IfcAlignment. to .IfcReferent.
 

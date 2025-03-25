@@ -6,9 +6,9 @@ from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step('A relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
-@gherkin_ifc.step('A relationship .{relationship} {exist_or_not_exist:exist_or_not_exist} {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
-@gherkin_ifc.step('A relationship .{relationship}. {exist_or_not_exist:exist_or_not_exist} {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
-@gherkin_ifc.step('A relationship .{relationship}. {exist_or_not_exist:exist_or_not_exist} {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship} ^{exist_or_not_exist:exist_or_not_exist}^ {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship}. ^{exist_or_not_exist:exist_or_not_exist}^ {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship}. ^{exist_or_not_exist:exist_or_not_exist}^ {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
 @gherkin_ifc.step('A relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}. {tail:maybe_and_following_that}')
 @gherkin_ifc.step('A *{required}* relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
 @gherkin_ifc.step('A *{required}* relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}. {tail:maybe_and_following_that}')

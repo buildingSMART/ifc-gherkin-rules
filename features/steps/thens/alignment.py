@@ -8,7 +8,6 @@ import ifcopenshell.util.unit
 from utils import ifc43x_alignment_validation as ifc43
 from utils.geometry import AlignmentSegmentContinuityCalculation
 from utils import ifc
-from utils.misc import iflatten
 from validation_handling import full_stack_rule, gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 

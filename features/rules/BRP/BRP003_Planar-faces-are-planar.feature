@@ -1,7 +1,7 @@
 @informal-proposition
 @GEM
 @BRP
-@version1
+@version2
 @E00050
 Feature: BRP003 - Planar faces are planar
 The rule verifies that polygonal faces of open and closed shells, which do not have an explicit underlying surface geometry, are planar within the tolerance measure set in the geometric representation context.

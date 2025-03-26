@@ -9,6 +9,5 @@ The rule verifies the presence of an object placement to define the overall loca
 
       Given An .IfcObject.
       Given Its attribute .ObjectPlacement.
-      Given [Its entity type] ^is^ 'IfcLocalPlacement'
 
       Then The IFC model contains information on the selected functional part

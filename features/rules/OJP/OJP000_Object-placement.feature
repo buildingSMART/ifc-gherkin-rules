@@ -2,8 +2,7 @@
 @OJP
 @version1
 Feature: OJP000 - Object placement
-The rule verifies the presence of an object placement to define the overall context and directory of objects within the model. 
-Among others, the context definition includes default units and geometric representation context for shape representations.
+The rule verifies the presence of an object placement to define the overall local coordinate system and placement of the product in space
 
   @E00010
   Scenario: Check for activation . 

@@ -5,22 +5,22 @@ from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
 
-@gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
-@gherkin_ifc.step('A relationship {relationship} {exist_or_not_exist:exist_or_not_exist} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
-@gherkin_ifc.step('A relationship {relationship} {exist_or_not_exist:exist_or_not_exist} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
-@gherkin_ifc.step('A relationship {relationship} {exist_or_not_exist:exist_or_not_exist} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
-@gherkin_ifc.step('A relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
-@gherkin_ifc.step('A *{required}* relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity}')
-@gherkin_ifc.step('A *{required}* relationship {relationship} {dir1:from_to} {entity} {dir2:from_to} {other_entity} {tail:maybe_and_following_that}')
+@gherkin_ifc.step('A relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship} ^{exist_or_not_exist:exist_or_not_exist}^ {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship}. ^{exist_or_not_exist:exist_or_not_exist}^ {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship}. ^{exist_or_not_exist:exist_or_not_exist}^ {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}. {tail:maybe_and_following_that}')
+@gherkin_ifc.step('A *{required}* relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A *{required}* relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}. {tail:maybe_and_following_that}')
 def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tail=False, exist_or_not_exist='exists', required=False):
     """""
     Reference to tfk ALB999 rule https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
     """
     assert dir1 != dir2
-        
-    required = exist_or_not_exist != "does not exist" 
+
+    required = exist_or_not_exist != "does not exist"
     if exist_or_not_exist == 'must exist':
-        tail=True # output the other entity 
+        tail=True # output the other entity
 
     instances = []
     filename_related_attr_matrix = system.get_abs_path(f"resources/**/related_entity_attributes.csv")
@@ -28,6 +28,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
     related_attr_matrix = system.get_csv(filename_related_attr_matrix, return_type='dict')[0]
     relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type='dict')[0]
 
+    inverses = context.model.get_inverse(inst, with_attribute_indices=True, allow_duplicate=True)
     relationships = [i for i in context.model.get_inverse(inst, with_attribute_indices=True, allow_duplicate=True) if i[0].is_a(relationship)]
 
     for rel, attribute_index in relationships:
@@ -55,7 +56,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
                 yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 
             if rel_attribute_name == attr_to_entity:
-                if tail: 
+                if tail:
                     instances.extend(to_other)
                 else:
                     instances.append(inst)
@@ -66,7 +67,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
 
     
 
-@gherkin_ifc.step("The element {relationship_type} an {entity}")
+@gherkin_ifc.step("The element ^{relationship_type}^ an .{entity}.")
 def step_impl(context, inst, relationship_type, entity):
     reltype_to_extr = {'nests': {'attribute': 'Nests', 'object_placement': 'RelatingObject'},
                        'is nested by': {'attribute': 'IsNestedBy', 'object_placement': 'RelatedObjects'}}

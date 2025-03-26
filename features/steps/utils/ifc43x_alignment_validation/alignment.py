@@ -303,8 +303,9 @@ class ValidationGraph:
                         parent_curve_label += f"\nConstantTerm:{parent_curve.ConstantTerm}"
 
                     case "IfcPolynomialCurve":
+                        values = [f"{x:.4f}" for x in parent_curve.CoefficientsX]
                         parent_curve_label = (
-                            f"CoefficientsX:{parent_curve.CoefficientsX:.4f}"
+                            f"CoefficientsX:{values}"
                         )
                         parent_curve_label += f"\nCoefficientsY:{parent_curve.CoefficientsY}"
                         parent_curve_label += f"\nCoefficientsZ:{parent_curve.CoefficientsZ}"

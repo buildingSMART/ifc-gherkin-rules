@@ -5,8 +5,7 @@
 
 Feature: BBX000 - Bounding Box
 The rule verifies the presence of an orthogonal box, 
-oriented parallel to the axes of the object coordinate system in which it is defined and containing a geometry object, 
-which defines the spatial extent of the latter.
+oriented parallel to the axes of the object coordinate system which defines the spatial extent of the latter.
 
 Scenario: Check for activation - Entity instances
 

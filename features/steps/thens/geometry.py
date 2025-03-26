@@ -11,6 +11,7 @@ import ifcopenshell.geom
 import numpy as np
 import rtree.index
 import networkx as nx
+import mpmath as mp
 
 # 'Mapping' is new functionality in IfcOpenShell v0.8 that allows us to inspect interpreted
 # segments without depending on OpenCASCADE. Hypothetically using Eigen with an arbitrary
@@ -261,7 +262,6 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
 
 @gherkin_ifc.step("It must have no arc segments that use colinear points after taking the Precision factor into account")
 def step_impl(context, inst: ifcopenshell.entity_instance):
-    import mpmath as mp
     mp.mp.prec = 128
 
     representation_context = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
@@ -293,7 +293,6 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
 
 @gherkin_ifc.step("the boundaries of the face must conform to the implicit plane fitted through the boundary points")
 def step_impl(context, inst: ifcopenshell.entity_instance):
-    import mpmath as mp
     mp.mp.prec = 128
 
     representation_context = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')

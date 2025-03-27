@@ -1,3 +1,4 @@
+import typing
 from .misc import do_try
 import ifcopenshell
 
@@ -11,15 +12,30 @@ def condition(inst, representation_id, representation_type):
         return any([repre.RepresentationIdentifier == representation_id and repre.RepresentationType in representation_type for repre in do_try(lambda: inst.Representation.Representations, [])])
 
 
-def get_precision_from_contexts(entity_contexts, func_to_return=max, default_precision=1e-05):
+def get_precision_from_contexts(entity_contexts : typing.Sequence[ifcopenshell.entity_instance], func_to_return : typing.Callable = max, default_precision : float = 1e-05, return_in_m : bool = False):
+    """Determine the precision from a sequence of IfcGeometricRepresentationContext
+
+    Args:
+        entity_contexts (typing.Sequence[ifcopenshell.entity_instance]): Set of instances (typically returned by recurrently_get_entity_attr() to traverse upwards from a representation item to its context)
+        func_to_return (typing.Callable, optional): The aggregate function to apply when multiple distinct precision values are found. Defaults to max().
+        default_precision (float, optional): The default precision value when no values are found in the model. Defaults to 1e-05.
+        return_in_m (bool, optional): Precision is a length measure so the length unit factor should be applied to it when comparing the value to values in meters (such as the ifcopenshell.geom defaults). Defaults to False.
+
+    Returns:
+        float: Precision value
+    """
     precisions = []
     if not entity_contexts:
         return default_precision
+    if return_in_m:
+        unit_scale = ifcopenshell.util.unit.calculate_unit_scale(next(iter(entity_contexts)).file)
+    else:
+        unit_scale = 1.
     for entity_context in entity_contexts:
         if entity_context.is_a('IfcGeometricRepresentationSubContext'):
             precision = get_precision_from_contexts([entity_context.ParentContext])
         elif entity_context.is_a('IfcGeometricRepresentationContext') and entity_context.Precision:
-            return entity_context.Precision
+            return entity_context.Precision * unit_scale
         else:
             continue
         precisions.append(precision)

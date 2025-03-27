@@ -145,7 +145,7 @@ def step_impl(context, inst: ifcopenshell.entity_instance, path=None, attr:str =
     """
 
     entity_contexts = ifc.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
-    precision = ifc.get_precision_from_contexts(entity_contexts)
+    precision = ifc.get_precision_from_contexts(entity_contexts, return_in_m=True)
 
     p = rtree.index.Property()
     p.dimension = 3

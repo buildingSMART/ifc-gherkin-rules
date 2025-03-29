@@ -1,5 +1,4 @@
 @informal-proposition
-@GEM
 @BRP
 @version2
 @E00050

@@ -4,7 +4,7 @@
 @E00020
 
 Feature: BLT000 - Built Elements
-The rule verifies the presence of various building and infrastructure elements,
+The rule verifies the presence of IFC entities used to represent various building and infrastructure elements,
 including walls, floors, roofs, stairs, doors, windows, columns, road pavements, bridge decks, railway track elements, etc.
 
 Scenario: Check for activation - IFC4X3

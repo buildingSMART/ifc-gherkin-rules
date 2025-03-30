@@ -2,7 +2,7 @@
 @OJP
 @version1
 Feature: OJP000 - Object placement
-The rule verifies the presence of an object placement to define the overall local coordinate system and placement of the product in space
+The rule verifies the presence of IFC entities used to define the placement of objects
 
   @E00010
   Scenario: Check for activation . 

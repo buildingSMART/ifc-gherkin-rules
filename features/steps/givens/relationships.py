@@ -54,7 +54,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
                 yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 
             if rel_attribute_name == attr_to_entity:
-                if tail.strip():
+                if str(tail).strip():
                     instances.extend(to_other)
                 else:
                     instances.append(inst)

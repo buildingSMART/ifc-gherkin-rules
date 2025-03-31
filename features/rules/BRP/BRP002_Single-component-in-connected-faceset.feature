@@ -1,5 +1,5 @@
 @informal-proposition
-@GEM
+@BRP
 @version2
 @E00050
 Feature: BRP002 - Single component in connected faceset

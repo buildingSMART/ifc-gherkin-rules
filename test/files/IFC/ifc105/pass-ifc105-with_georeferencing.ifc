@@ -1,19 +1,8 @@
 ISO-10303-21;
 HEADER;
- 
-FILE_DESCRIPTION(
-/* description */ ('GeoReference'),
-/* implementation level */ '2;1');
-FILE_NAME(
-/* name */ 'pass-ifc105-with_referencing.ifc',
-/* time_stamp */ '2017-07-10T15:03:00',
-/* author */ ('redacted'),
-/* organization */ ('redacted'),
-/* preprocessor_version */ 'redacted',
-/* originating_system */ '',
-/* authorisation */ 'none');
- 
-FILE_SCHEMA (('IFC4X3_ADD2'));
+FILE_DESCRIPTION(('GeoReference'),'2;1');
+FILE_NAME('pass-ifc105-with_georeferencing.ifc','2017-07-10T15:03:00',('redacted'),('redacted'),'redacted','','none');
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
 /* Geographic reference*/

@@ -2,10 +2,8 @@ ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('pass-lip002-metric.ifc','2025-01-27T13:49:48',('redacted'),('redacted'),'preprocessor 0.0.0','Company - Product - 0.0.0','None');
-
-FILE_SCHEMA (('IFC4X3_ADD2'));
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
-
 DATA;
 #5= IFCLOCALPLACEMENT($,#20);
 #6= IFCSITE('03OU1oq552qe55gLytkbde',$,'UnknownName',$,$,#5,$,$,$,$,$,$,$,$);
@@ -6591,5 +6589,4 @@ DATA;
 #6634= IFCSHAPEREPRESENTATION(#1096,'Annotation','Annotation2D',(#5179,#5907));
 #6635= IFCPRODUCTDEFINITIONSHAPE($,$,(#6634));
 ENDSEC;
-
 END-ISO-10303-21;

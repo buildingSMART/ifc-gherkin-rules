@@ -5,7 +5,7 @@ ISO-10303-21;
 /*  IFC-Requirement: ALS-004; Alignment segment shape representation in IFC */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('fail-als004-scenario01-wrong-items-type.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Pass File Production', 'Python+IfcOpenShell');
+FILE_NAME('fail-als004-scenario03-wrong_items_type.ifc','2023-03-14T15:36:48',('bSI Railway Room - Technical Services'),('aIFC4Rail'),'Automatic Pass File Production','Python+IfcOpenShell');
 FILE_SCHEMA(('IFC4x3_ADD2'));
 ENDSEC;
 DATA;

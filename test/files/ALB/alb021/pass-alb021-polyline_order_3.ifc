@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME( 'pass-alb021-polyline_order_3.ifc', '2023-10-21T13:41:35', ('redacted'), ('Unknown'), 'GeometryGymIFCcore v0.2.19.0 by Geometry Gym Pty Ltd built 2023-09-25T03:29:16', 'Civil 3D 2023 IfcInfra Plugin v13.5.60.0', 'None');
+FILE_NAME('pass-alb021-polyline_order_3.ifc','2023-10-21T13:41:35',('redacted'),('Unknown'),'GeometryGymIFCcore v0.2.19.0 by Geometry Gym Pty Ltd built 2023-09-25T03:29:16','Civil 3D 2023 IfcInfra Plugin v13.5.60.0','None');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -947,7 +947,5 @@ DATA;
 #133782=IFCCARTESIANPOINT((1110.0889,1366.3398,753.2962));
 #133783=IFCCARTESIANPOINT((1088.1969,1411.2757,753.2779));
 #133784=IFCCARTESIANPOINT((1070.1938,1457.9061,753.5685));
-
-
 ENDSEC;
 END-ISO-10303-21;

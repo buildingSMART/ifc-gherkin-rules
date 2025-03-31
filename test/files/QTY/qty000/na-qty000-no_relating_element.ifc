@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('','2024-08-19T19:17:19',(''),(''),'IfcOpenShell-0.7.11-d51fa2c5f','IfcOpenShell-0.7.11-d51fa2c5f','');
+FILE_NAME('na-qty000-no_relating_element.ifc','2024-08-19T19:17:19',(''),(''),'IfcOpenShell-0.7.11-d51fa2c5f','IfcOpenShell-0.7.11-d51fa2c5f','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

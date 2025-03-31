@@ -1,10 +1,9 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION((''),'2;1');
-FILE_NAME('building_service_element_air-terminal-type.ifc','2011-11-11T21:50:39',(''),(''),'Constructivity 0.9.1','Constructivity 0.9.1','');
+FILE_NAME('pass-swe002-building_service_element_air_terminal_type.ifc','2011-11-11T21:50:39',(''),(''),'Constructivity 0.9.1','Constructivity 0.9.1','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
-
 DATA;
 
 /* ================================================================================ */
@@ -235,7 +234,5 @@ DATA;
 #1505= IFCPROPERTYENUMERATEDVALUE('AssemblyPlace',$,(IFCLABEL('FACTORY')),#1487);
 #1506= IFCPROPERTYSET('2LM02K5dbFiBVTpfUgOnl4',#209,'Pset_ManufacturerTypeInformation',$,(#1499,#1500,#1501,#1502,#1503,#1504,#1505));
 #1508= IFCRELDEFINESBYTEMPLATE('1gZFqTeWDCiPFdVEDktMyc',#209,$,$,(#1506),#1489);
-
 ENDSEC;
-
 END-ISO-10303-21;

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('','2024-06-17T10:14:03',(''),(''),'IfcOpenShell-v0.7.0-f7c03db75','IfcOpenShell-v0.7.0-f7c03db75','');
+FILE_NAME('fail-ifc102-ifc2x3_deprecated_attribute_element_IfcFillAreaStyleHatching_attribute_PointOfReferenceHatchLine.ifc','2024-06-17T10:14:03',(''),(''),'IfcOpenShell-v0.7.0-f7c03db75','IfcOpenShell-v0.7.0-f7c03db75','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

@@ -1,9 +1,7 @@
 ISO-10303-21;
-/*  Testfile: fail-alb004-not-aggregated-to-ifcproject.ifc */
-/*  IFC-Requirement: alb004; Inorrect spatial behaviour */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('fail-alb004-not-aggregated-to-ifcproject.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Python+IfcOpenShell', 'BC-002; incorrect spatial behaviour','');
+FILE_NAME('fail-alb004-not_aggregated_to_ifcproject.ifc','2023-03-14T15:36:48',('bSI Railway Room - Technical Services'),('aIFC4Rail'),'Python+IfcOpenShell','BC-002; incorrect spatial behaviour','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

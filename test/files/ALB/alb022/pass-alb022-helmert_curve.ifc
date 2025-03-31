@@ -1,8 +1,8 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION (('ViewDefinition [CoordinationView]'), '2;1');
-FILE_NAME ('pass-alb022-helmert_curve.ifc', '2022-02-22T22:00:00', ('redacted'), ('redacted'), 'redacted', 'redacted', '');
-FILE_SCHEMA (('IFC4X3_ADD2'));
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_NAME('pass-alb022-helmert_curve.ifc','2022-02-22T22:00:00',('redacted'),('redacted'),'redacted','redacted','');
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
 #1 = IFCPROJECT('1FNFy8AJeHwwz7wDZHIYIu', #3, 'IFC Rail Referencedata', 'Rail alignment sample', $, 'Longname', 'Design', $, #9);

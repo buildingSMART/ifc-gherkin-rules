@@ -3,8 +3,8 @@
 @version1
 @E00020
 
-Feature: BBX001 - Correct Shape Representation Type and Identifier
-The rule verifies that when a shape representation has a RepresentationIdentifier of 'Box', its RepresentationType is 'BoundingBox', and vice versa. 
+Feature: BBX001 - Bounding Box Shape Representation
+The rule verifies the correct use of Bounding Box as shape representation. 
 
 Background: 
     Given an .IfcProduct. 
@@ -12,14 +12,14 @@ Background:
     Given Its attribute .Representations.
 
 
-    Scenario: Correct Shape Representation Type
+    Scenario: Correct Type
         
         Given .RepresentationIdentifier. ^is^ 'Box'
-        
+
         Then .RepresentationType. ^is^ 'BoundingBox'
         
 
-    Scenario: Correct Shape Representation Identifier
+    Scenario: Correct Identifier
 
         Given .RepresentationType. ^is^ 'BoundingBox'
         

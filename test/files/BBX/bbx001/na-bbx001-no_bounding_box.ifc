@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('na-bbx001-no_bounding_box.ifc','2024-07-28T20:26:00',(''),(''),'IfcOpenShell-0.7.11-d51fa2c5f','IfcOpenShell-0.7.11-d51fa2c5f','');
+FILE_DESCRIPTION(('ViewDefinition[Alignment-basedReferenceView]'),'2;1');
+FILE_NAME('na-bbx001-no_bounding_box.ifc', '2022-09-16T10:35:07', ('Evandro Alfieri'), ('buildingSMART Int.'), 'MyToolboxName Version 1.0', 'Acme Inc. - TNT BIM 2025 - 25.1.0.0', 'none');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

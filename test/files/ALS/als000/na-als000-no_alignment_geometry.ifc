@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME('na-als000-no_alignment_geometry.ifc','2025-03-01T12:48:04-08:00',(''),(''),'IfcOpenShell 0.0.0','Bonsai 0.8.2-alpha250225-a20a8a6','Nobody');
+FILE_NAME('na-als000-no_alignment_geometry.ifc','2025-03-01T12:48:04-08:00',(''),(''),'IfcOpenShell 0.0.0','IfcOpenShell contributors - Bonsai - 0.8.2-alpha250225','Nobody');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -95,7 +95,7 @@ DATA;
 #103=IFCALIGNMENT('3eeTefx8D3Ahjhz3G2kDlX',$,'Child of None',$,$,#110,#182,$);
 #104=IFCRELNESTS('2wVQsdRoPARQ$HGD5YUBrc',$,$,$,#103,(#83));
 #105=IFCRELAGGREGATES('1QE_QULOD2YvLoipgnVjqg',$,$,$,#67,(#103,#106));
-#106=IFCALIGNMENT('3S1W8htiD4UATXqphOP_82',$,'Child of None',$,$,#110,#217,$);
+#106=IFCALIGNMENT('3S1W8htiD4UATXqphOP_82',$,'Child of None',$,$,#110,$,$);
 #107=IFCRELNESTS('2o_B3p1Or0IQQmTjJNku8C',$,$,$,#106,(#93));
 #108=IFCCARTESIANPOINT((0.,0.));
 #109=IFCAXIS2PLACEMENT2D(#108,$);

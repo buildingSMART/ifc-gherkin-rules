@@ -3,7 +3,7 @@
 @version1
 @E00020
 
-Feature: ALB - Alignment layout
+Feature: ALB000 - Alignment layout
     The rule verifies the presence of IFC entities used to define the business logic, or layout, of an alignment.
     IfcAlignment can be nested by instances of IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent, or "child" instances of IfcAlignment.
     However, IfcAlignmentHorizontal is always present in any definition of an alignment layout, regardless of the presence or absence of other related entities.

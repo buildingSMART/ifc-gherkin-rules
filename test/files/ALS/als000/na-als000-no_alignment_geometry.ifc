@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME('na-als000-no_alignment_geometry.ifc','2025-03-01T12:48:04-08:00',(''),(''),'IfcOpenShell 0.0.0','IfcOpenShell contributors - Bonsai - 0.8.2-alpha250225','Nobody');
+FILE_DESCRIPTION(('ViewDefinition[Alignment-basedView]'),'2;1');
+FILE_NAME('na-als000-no_alignment_geometry.ifc', '2022-09-16T10:35:07', ('Evandro Alfieri'), ('buildingSMART Int.'), 'IfcOpenShell 0.0.0', 'IfcOpenShell contributors - Bonsai - 0.8.2-alpha250225', 'Nobody');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

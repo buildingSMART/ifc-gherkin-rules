@@ -151,6 +151,9 @@ def after_feature(context, feature):
 
         if outcomes_to_save:
             with transaction.atomic():
+
+                DJANGO_DB_BULK_CREATE_BATCH_SIZE = int(os.environ.get("DJANGO_DB_BULK_CREATE_BATCH_SIZE", 1000))
+
                 task = ValidationTask.objects.get(id=context.validation_task_id)
                 model_id = task.request.model.id
 
@@ -163,14 +166,14 @@ def after_feature(context, feature):
                   outcomes_instances_to_save.append(instance)
 
                 if stepfile_ids:
-                    ModelInstance.objects.bulk_create(outcomes_instances_to_save, ignore_conflicts=True) # ignore conflicts with existing
+                    ModelInstance.objects.bulk_create(outcomes_instances_to_save, batch_size=DJANGO_DB_BULK_CREATE_BATCH_SIZE, ignore_conflicts=True) # ignore conflicts with existing
                     model_instances = dict(ModelInstance.objects.filter(model_id=model_id).values_list('stepfile_id', 'id')) # retrieve all
                     
                     # look up actual FK's
                     for outcome in [o for o in outcomes_to_save if o.instance_id]:
                         outcome.instance_id = model_instances[outcome.instance_id]
 
-                ValidationOutcome.objects.bulk_create(outcomes_to_save)
+                ValidationOutcome.objects.bulk_create(outcomes_to_save, batch_size=DJANGO_DB_BULK_CREATE_BATCH_SIZE)
         end_time = time.process_time()
         elapsed_time = end_time - context.feature_start_time
         logger = set_logger(context)

@@ -1,10 +1,9 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION (('ViewDefinition [ReferenceView]'), '2;1');
-FILE_NAME ('fail-als005-scenario04-wrong_representationtype_value.ifc', '2021-05-31T10:35:59', (''), (''), 'redacted', '', '');
-FILE_SCHEMA (('IFC4X3_ADD2'));
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('fail-als005-scenario04-wrong_representationtype_value.ifc','2021-05-31T10:35:59',(''),(''),'redacted','','');
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
-
 DATA;
 #1 = IFCOWNERHISTORY(#2, #6, $, .NOCHANGE., $, $, $, 1622457359);
 #2 = IFCPERSONANDORGANIZATION(#3, #4, $);
@@ -175,6 +174,5 @@ DATA;
 #2632 = IFCSHAPEREPRESENTATION(#105, 'Axis', 'Segment', (#2101));
 
 #3000 = IFCRELAGGREGATES('0mRn50inT2pf1XqujacVu9', #1, 'Project Container 2', 'Project to Alignment', #7, (#29));
-
 ENDSEC;
 END-ISO-10303-21;

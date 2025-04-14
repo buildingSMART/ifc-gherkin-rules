@@ -1,18 +1,9 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [notYetAssigned]'),'2;1');
-FILE_NAME(
-/* name */ 'polygonal-faceset-cube.ifc',
-/* time_stamp */ '2016-05-26T17:38:29',
-/* author */ ('jonm'),
-/* organization */ ('Geometry Gym'),
-/* preprocessor_version */ 'GeomGymIFC by Geometry Gym Pty Ltd',
-/* originating_system */ 'ggRhinoIFC - Grasshopper3d Plug-in by Geometry Gym Pty Ltd',
-/* authorization */ 'None');
-
-FILE_SCHEMA (('IFC4'));
+FILE_NAME('fail-gem001-triangulated_faceset_edge_count_fail.ifc','2016-05-26T17:38:29',('jonm'),('Geometry Gym'),'GeomGymIFC by Geometry Gym Pty Ltd','ggRhinoIFC - Grasshopper3d Plug-in by Geometry Gym Pty Ltd','None');
+FILE_SCHEMA(('IFC4'));
 ENDSEC;
-
 DATA;
 #1= IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,0.01,#3,$);
 #2= IFCCARTESIANPOINT((0.0,0.0,0.0));
@@ -73,7 +64,4 @@ DATA;
 #3066= IFCRELAGGREGATES('1jnXpsMarCZQ$Xxt61uMb4',#3054,'Project Container','Project Container for Buildings',#3061,(#3048));
 #3070= IFCAXIS2PLACEMENT3D(#2,$,$);
 ENDSEC;
-
 END-ISO-10303-21;
-
-

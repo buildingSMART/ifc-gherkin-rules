@@ -1,8 +1,8 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION (('ViewDefinition [Alignment-basedReferenceView]'), '2;1');
-FILE_NAME ('pass-alb022-segment_count_h+v.ifc', '2023-07-11T10:16:10', ('redacted'), ('redacted'), 'redacted', 'redacted', 'redacted');
-FILE_SCHEMA (('IFC4X3_ADD2'));
+FILE_DESCRIPTION(('ViewDefinition [Alignment-basedReferenceView]'),'2;1');
+FILE_NAME('pass-alb022-segment_count_h+v.ifc','2023-07-11T10:16:10',('redacted'),('redacted'),'redacted','redacted','redacted');
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
 #1 = IFCOWNERHISTORY(#2, #6, .READWRITE., .NOCHANGE., $, $, $, 1689070570);
@@ -465,6 +465,5 @@ DATA;
 #6207 = IFCCARTESIANPOINT((0., 0.));
 #6208 = IFCVECTOR(#6209, 1.);
 #6209 = IFCDIRECTION((1., 0.));
-
 ENDSEC;
 END-ISO-10303-21;

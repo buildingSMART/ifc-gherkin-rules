@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition[CoordinationView]'),'2;1');
-FILE_NAME('C:/Example/Path/Example_File.IFC','2024-07-04T11:07:30',(''),(''),'Example IFC','Example Architecture','');
+FILE_NAME('na-lay000-no_layer.ifc','2024-07-04T11:07:30',(''),(''),'Example IFC','Example Architecture','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition[Alignment-basedReferenceView]'),'2;1');
-FILE_NAME('fail-alb012-incorrect_radius_parabolic_curve_type.ifc','2024-07-18T15:37:33',('redacted'),('redacted'),'redacted','redacted','');
+FILE_NAME('fail-alb012-scenario02-incorrect_radius_parabolic_curve_type.ifc','2024-07-18T15:37:33',('redacted'),('redacted'),'redacted','redacted','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

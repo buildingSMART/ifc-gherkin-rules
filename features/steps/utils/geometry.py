@@ -1,7 +1,8 @@
 from dataclasses import dataclass
+import itertools
 import operator
 import math
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 import numpy as np
 import mpmath as mp
@@ -13,7 +14,56 @@ import ifcopenshell.ifcopenshell_wrapper as wrapper
 from .misc import is_a
 from .ifc import get_precision_from_contexts, recurrently_get_entity_attr
 
+Point3d = tuple[mp.mpf, mp.mpf, mp.mpf] | tuple[float, float, float]
+
 GEOM_TOLERANCE = 1E-12
+
+
+def get_loop_connectivity(file, inst, sequence_type=frozenset, oriented=False):
+    # For BRP002 we cannot only consider edge connectivity. Outer bounds are
+    # also connected to their inner bounds by means of the mass of the face.
+    # For this purpose we create fake edges between an arbitrary vertex of
+    # all 2-combinations of loops within the total set of face bounds.
+    # This should only be used in a topological context and not in a geometric
+    # one as the generated fake edges will likely intersect with other
+    # geometry.
+
+    edge_type = tuple if oriented else frozenset
+
+    def inner():
+        loop_verts = []
+        if inst.is_a("IfcConnectedFaceSet"):
+            for face in inst.CfsFaces:
+                loop_verts.append([])
+                loops = [b.Bound for b in face.Bounds if b.Bound.is_a('IfcPolyLoop')]
+                for lp in loops:
+                    coords = list(map(operator.attrgetter("Coordinates"), lp.Polygon))
+                    loop_verts[-1].append(coords[0])
+                bounds_with_edge_loops = filter(lambda b: b.Bound.is_a('IfcEdgeLoop'), face.Bounds)
+                for bnd in bounds_with_edge_loops:
+                    for ed in bnd.Bound.EdgeList:
+                        coords = [
+                            ed.EdgeElement.EdgeStart.VertexGeometry.Coordinates,
+                            ed.EdgeElement.EdgeEnd.VertexGeometry.Coordinates,
+                        ]
+                        loop_verts[-1].append(coords[0])
+        elif inst.is_a("IfcTriangulatedFaceSet"):
+            # triangulated data cannot have inner loops
+            pass
+        elif inst.is_a("IfcPolygonalFaceSet"):
+            coords = inst.Coordinates.CoordList
+            for f in inst.Faces:
+                loop_verts.append([])
+                def get_coords(loop):
+                    return list(map(lambda i: coords[i - 1], loop))
+                loop_verts[-1].append(get_coords(f.CoordIndex)[0])
+                if f.is_a("IfcIndexedPolygonalFaceWithVoids"):
+                    for inner in f.InnerCoordIndices:
+                        loop_verts[-1].append(get_coords(inner))
+
+        for lv in loop_verts:
+            yield from map(edge_type, itertools.combinations(lv, 2))
+    return sequence_type(inner())
 
 
 def get_edges(file, inst, sequence_type=frozenset, oriented=False):
@@ -84,7 +134,7 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
     return sequence_type(inner())
 
 
-def get_points(inst, return_type='coord'):
+def get_points(inst, return_type='coord', include_arc_midpoints=True):
     if inst.is_a().startswith('IfcCartesianPointList'):
         return inst.CoordList
     elif inst.is_a('IfcPolyline'):
@@ -97,6 +147,25 @@ def get_points(inst, return_type='coord'):
             return [p.Coordinates for p in inst.Polygon]
         elif return_type == 'points':
             return inst.Polygon
+    elif inst.is_a('IfcIndexedPolyCurve'):
+        if inst.Segments:
+            ps = inst.Points[0]
+            if include_arc_midpoints:
+                gen = [s[0] for s in inst.Segments]
+            else:
+                gen = [(s[0], s[-1]) for s in [s[0] for s in inst.Segments]]
+            def join():
+                # remove the head to tail connected indices
+                # this is asserted as a rule in the schema:
+                #  - IfcConsecutiveSegments
+                for a, b in itertools.pairwise(gen):
+                    if a[-1] == b[0]:
+                        yield from a[:-1]
+                yield from gen[-1]
+            joined = list(join())
+            return [ps[i-1] for i in joined if i >= 1 and i - 1 < len(ps)]
+        else:
+            return get_points(inst.Points)
     else:
         raise NotImplementedError(f'get_points() not implemented on {inst.is_a}')
 
@@ -158,10 +227,10 @@ def evaluate_segment(segment: ifcopenshell.entity_instance, dist_along: float) -
     :param dist_along: The distance along this segment at the point of interest (point to be calculated)
     """
     s = ifcos_geom.settings()
-    pwf = wrapper.map_shape(s, segment.wrapped_data)
-    pwf_evaluator = wrapper.piecewise_function_evaluator(pwf, s)
+    seg_function = wrapper.map_shape(s, segment.wrapped_data)
+    seg_evaluator = wrapper.function_item_evaluator(s, seg_function)
 
-    segment_trans_mtx = pwf_evaluator.evaluate(dist_along)
+    segment_trans_mtx = seg_evaluator.evaluate(dist_along)
 
     return np.array(segment_trans_mtx, dtype=np.float64).T
 
@@ -189,23 +258,20 @@ class AlignmentSegmentContinuityCalculation:
     current_start_direction: float = None
     current_start_gradient: float = None
 
-    def _calculate_positions(self) -> None:
+    def _get_u_at_end(self):
+        """
+        Get the value of u corresponding to the end of the previous segment
+        """
+        s = ifcos_geom.settings()
+        seg_function = wrapper.map_shape(s, self.previous_segment.wrapped_data)
 
-        u = abs(self.previous_segment.SegmentLength.wrappedValue) * self.length_unit_scale_factor
-        # for linear segments on vertical alignments (IfcGradientCurve) and cant alignments (IfcSegmentedReferenceCurve)
-        # we need to project the total segment length to the x-axis, i.e. the "distance along" axis
-        if self.previous_segment.ParentCurve.is_a().upper() == "IFCLINE":
-            if (self.previous_segment.UsingCurves[0].is_a().upper() == "IFCGRADIENTCURVE" ) or (
-                self.previous_segment.UsingCurves[0].is_a().upper() == "IFCSEGMENTEDREFERENCECURVE"):
-                    # ensure direction ratios have been normalized
-                    x_comp, y_comp = self.previous_segment.Placement.RefDirection.DirectionRatios
-                    divisor = math.sqrt(x_comp ** 2 + y_comp ** 2)
-                    x_comp /= divisor
-                    y_comp /= divisor
-                    # adjust u so that it is based on the total "distance along" of the segment,
-                    # not the total length of the segment (which includes an additional amount for the change in elevation)
-                    u *= x_comp
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+        u = seg_function.length() / self.length_unit_scale_factor
+
+        # adjust from model units to SI units for ifcopenshell calc
+        return u * self.length_unit_scale_factor
+
+    def _calculate_positions(self) -> None:
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
         e0 = prev_end_transform[3][0] / self.length_unit_scale_factor
@@ -217,8 +283,7 @@ class AlignmentSegmentContinuityCalculation:
         self.current_start_point = (s0, s1)
 
     def _calculate_directions(self) -> None:
-        u = abs(float(self.previous_segment.SegmentLength.wrappedValue)) * self.length_unit_scale_factor
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=u)
+        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
         current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
 
         prev_i = prev_end_transform[0][0]
@@ -308,7 +373,80 @@ def compare_with_precision(value_1: float, value_2: float, precision: float, com
         case _:
             raise ValueError(f"Invalid comparison operator: {comparison_operator}")
 
+
 @dataclass
+class Plane:
+    """
+    Represents a plane ax + by + cz + d = 0,
+    where (a, b, c) is a *normalized* normal vector.
+    """
+    a: mp.mpf
+    b: mp.mpf
+    c: mp.mpf
+    d: mp.mpf
+
+    def distance(self, point : Point3d):
+        """
+        Returns the perpendicular distance from 'point' to this plane.
+        Since (a, b, c) is normalized, denominator is 1.
+        """
+        x, y, z = point
+        return mp.fabs(self.a*x + self.b*y + self.c*z + self.d)
+    
+def newells_algorithm(points : list[Point3d]):
+    """
+    Compute an *unnormalized* normal for a polygon using Newell's algorithm.
+    points: list of (x, y, z) in mpmath.mpf
+    Returns: (Nx, Ny, Nz) as mpmath.mpf.
+    """
+    Nx, Ny, Nz = (mp.mpf(0) for _ in range(3))
+    num_pts = len(points)
+    
+    for i in range(num_pts):
+        x_i, y_i, z_i = points[i]
+        x_next, y_next, z_next = points[(i + 1) % num_pts]
+        
+        Nx += (y_i - y_next) * (z_i + z_next)
+        Ny += (z_i - z_next) * (x_i + x_next)
+        Nz += (x_i - x_next) * (y_i + y_next)
+    
+    return Nx, Ny, Nz
+
+def estimate_plane_through_points(points : list[Point3d]) -> Optional[Plane]:
+    """
+    Creates a Plane dataclass (ax + by + cz + d = 0) from a list of 3D points
+    using Newell's algorithm and the average of the points for d.
+    
+    Returns a Plane with normalized (a, b, c).
+    """
+    # 1) Compute the polygon's normal with Newell's algorithm
+    Nx, Ny, Nz = newells_algorithm(points)
+    
+    # 2) Compute the average point (reference)
+    num_pts = len(points)
+
+    x_avg = mp.fsum([points[i][0] for i in range(num_pts)]) / num_pts
+    y_avg = mp.fsum([points[i][1] for i in range(num_pts)]) / num_pts
+    z_avg = mp.fsum([points[i][2] for i in range(num_pts)]) / num_pts
+        
+    # 3) Normalize the normal
+    mag = mp.sqrt(Nx**2 + Ny**2 + Nz**2)
+    if mag == mp.mpf('0'):
+        # Degenerate case: normal is zero (collinear or all identical points). Return None
+        return None
+    
+    Nx /= mag
+    Ny /= mag
+    Nz /= mag
+    
+    # 4) Compute d so that plane passes through the average point:
+    #    plane is Nx*x + Ny*y + Nz*z + d = 0
+    #    => d = - (Nx*x_avg + Ny*y_avg + Nz*z_avg)
+    d = -(Nx*x_avg + Ny*y_avg + Nz*z_avg)
+    
+    return Plane(Nx, Ny, Nz, d)
+
+
 class Line:
     """
     Represents a line a + d*b where a is a position and b a normalized unit vector

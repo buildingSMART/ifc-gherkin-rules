@@ -6,14 +6,10 @@ from validation_handling import gherkin_ifc
 import json
 import os
 from utils import ifc, misc, system
-from parse_type import TypeBuilder
-from behave import register_type
 from . import ValidationOutcome, OutcomeSeverity
+import re
 
-
-register_type(aggregated_or_contained_or_positioned=TypeBuilder.make_enum(dict(map(lambda x: (x, x), ("aggregated", "contained", "positioned")))))
-
-@gherkin_ifc.step('It must be {relationship} as per {table}')
+@gherkin_ifc.step("It must be {relationship} as per {table}")
 def step_impl(context, inst, relationship, table):
     stmt_to_op_forward = {'aggregated': 'Decomposes'}
     stmt_to_op_reversed = {'aggregated': 'IsDecomposedBy'}
@@ -42,26 +38,27 @@ def step_impl(context, inst, relationship, table):
             # raise Exception(f'Entity {entity} was not found in the {table}')
             continue
 
-        applicable_entity = ifc.order_by_ifc_inheritance(applicable_entities, base_class_last = True)[0]
-        expected_relationship_objects = aggregated_table[applicable_entity]
+        # For all applicable entities (could be multiple e.g IfcRoad, IfcFacility) we union the allowed types
+        expected_relationship_objects = sorted(set(functools.reduce(operator.or_, map(set, [aggregated_table[e] for e in applicable_entities]))))
         try:
             relation = getattr(inst, stmt_to_op[relationship], True)[0]
         except IndexError: # no relationship found for the entity
             if is_required:
                 yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, severity=OutcomeSeverity.ERROR)
             continue
+
         relationship_objects = getattr(relation, relationship_tbl_header, True)
         if not isinstance(relationship_objects, tuple):
             relationship_objects = (relationship_objects,)
 
-
         for relationship_object in relationship_objects:
             is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
+                # related object not of the correct type
                 yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, observed=relationship_object, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step('It must be assigned to the {relating}')
+@gherkin_ifc.step("It must be assigned to the {relating}")
 def step_impl(context, inst, relating):
     for rel in getattr(inst, 'Decomposes', []):
         if not rel.RelatingObject.is_a(relating):
@@ -69,18 +66,16 @@ def step_impl(context, inst, relating):
 
 
 
-@gherkin_ifc.step('It {decision} be {relationship:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}')
-def step_impl(context, inst, decision, relationship, preposition, other_entity, condition, *args):
+@gherkin_ifc.step("It {decision} be {aggregated_or_contained_or_positioned:aggregated_or_contained_or_positioned} {preposition} {other_entity} {condition}")
+def step_impl(context, inst, decision, aggregated_or_contained_or_positioned, preposition, other_entity, condition, *args):
     acceptable_decisions = ['must', 'must not']
     assert decision in acceptable_decisions
 
-    acceptable_relationships = {
+    relationship_mapping = {
         'aggregated': ['Decomposes', 'RelatingObject'],
         'contained': ['ContainedInStructure', 'RelatingStructure'],
         'positioned': ['PositionedRelativeTo', 'RelatingPositioningElement']
     }
-
-    assert relationship in acceptable_relationships
 
     acceptable_conditions = ['directly', 'indirectly', 'directly or indirectly', 'indirectly or directly']
     assert condition in acceptable_conditions
@@ -93,8 +88,8 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
         check_directness = False
 
 
-    other_entity_reference = acceptable_relationships[relationship][0]  # eg Decomposes
-    other_entity_relation = acceptable_relationships[relationship][1]  # eg RelatingObject
+    other_entity_reference = relationship_mapping[aggregated_or_contained_or_positioned][0]  # eg Decomposes
+    other_entity_relation = relationship_mapping[aggregated_or_contained_or_positioned][1]  # eg RelatingObject
 
     if check_directness:
         observed_directness = set()
@@ -138,7 +133,7 @@ def step_impl(context, inst, decision, relationship, preposition, other_entity, 
                             expected = None,
                             severity=OutcomeSeverity.ERROR)
 
-@gherkin_ifc.step('It must not be referenced by itself directly or indirectly')
+@gherkin_ifc.step("It must not be referenced by itself directly or indirectly")
 def step_impl(context, inst):
     relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
 
@@ -152,7 +147,7 @@ def step_impl(context, inst):
     if inst in get_memberships(inst):
         yield ValidationOutcome(inst=inst, expected=None, observed = None, severity=OutcomeSeverity.ERROR)
 
-@gherkin_ifc.step('The current directional relationship must not contain multiple entities at depth 1')
+@gherkin_ifc.step("The current directional relationship must not contain multiple entities at depth 1")
 def step_impl(context, inst):
     if not isinstance(inst, (list, ifcopenshell.entity_instance)): #ifcopenshell packs multiple relationships into tuples, so a list indicates we are validating instances, not the relationships within them.
         if misc.do_try(lambda: all((any([isinstance(i, ifcopenshell.entity_instance) for i in inst]), len(inst) > 1)), False):
@@ -191,9 +186,11 @@ def upper_case_if_string(v):
         return v.upper()
     except:
         return v
-    
-def get_pset_definitions(context, table):
-    schema_specific_path = system.get_abs_path(f"resources/{context.model.schema.upper()}/{table}.csv")
+
+
+@functools.cache
+def get_pset_definitions(schema, table):
+    schema_specific_path = system.get_abs_path(f"resources/{schema.upper()}/{table}.csv")
 
     if os.path.exists(schema_specific_path):
         tbl_path = schema_specific_path
@@ -203,68 +200,104 @@ def get_pset_definitions(context, table):
     tbl = system.get_csv(tbl_path, return_type='dict')
     return {d['property_set_name']: d for d in tbl}
 
+class always_equal_dict(dict):
+    """
+    Just to accept as an argument to functools.cache, make sure that
+    other arguments are present to differentiate cache entries.
+    >>> {always_equal_dict({}): 1} | {always_equal_dict({'a':1}):2}   
+    {{}: 2}
+    """
+    def __hash__(self):
+        return 0
+    def __eq__(self, _):
+        return True
 
-@gherkin_ifc.step('The IfcPropertySet Name attribute value must use predefined values according to the "{table}" table')
-@gherkin_ifc.step('The IfcPropertySet must be assigned according to the property set definitions table "{table}"')
-@gherkin_ifc.step('Each associated IfcProperty must be named according to the property set definitions table "{table}"')
-@gherkin_ifc.step('Each associated IfcProperty must be of type according to the property set definitions table "{table}"')
-@gherkin_ifc.step('Each associated IfcProperty value must be of data type according to the property set definitions table "{table}"')
+@functools.cache
+def establish_accepted_pset_values(name : str, _schema : str, _table : str, property_set_definitions : always_equal_dict):
+    # _schema and _table are only for cache key, property_set_definitions is derived from _schema, _table,
+    # but unhashable because it's a dict
+    def make_obj(s):
+        if s:
+            return json.loads(s.replace("'", '"'))
+        else:
+            return ''
+
+    try:
+        property_set_attr = property_set_definitions[name]
+    except KeyError:  # Pset_ not found in template
+        property_set_attr = ''
+        return property_set_attr
+
+    accepted_values = {}
+    accepted_values['template_type'] = property_set_attr.get('template_type', '')
+
+    accepted_values['property_names'] = []
+    accepted_values['property_types'] = []
+    accepted_values['data_types'] = []
+
+    for property_def in make_obj(property_set_attr['property_definitions']):
+        accepted_values['property_names'].append(property_def['property_name'])
+        accepted_values['property_types'].append(property_def['property_type'])
+        accepted_values['data_types'].append(property_def['data_type'])
+
+    accepted_values['applicable_entities'] = [s.split('/')[0] for s in make_obj(property_set_attr['applicable_entities'])]
+
+    # in the ifc2x3 data, predefined type restrictions are imposed as:
+    # | | | applicable_type_value                     | | 
+    # | | | {entity}.PredefinedType={predefinedtype}  | |
+    if property_set_attr['applicable_type_value'] and '.PredefinedType=' in property_set_attr['applicable_type_value']:
+        ptype = property_set_attr['applicable_type_value'].split('.PredefinedType=')[1].upper()
+        accepted_values['applicable_entities_with_predefined_types'] = list(zip(
+            accepted_values['applicable_entities'],
+            (ptype for _ in itertools.count())
+        ))
+    else:
+        # in the ifc4 data, predefined type restrictions are imposed as:
+        # | | | applicable_entities                                                     | | 
+        # | | | ['{entity}','{entity}/{predefinedtype}','{entity2}/{predefinedtype2}']  | |
+        accepted_values['applicable_entities_with_predefined_types'] = [((ab[0], ab[1].upper()) if len(ab) == 2 else (ab[0], None)) for ab in (s.split('/') for s in make_obj(property_set_attr['applicable_entities']))]
+
+    return accepted_values
+
+
+def normalize_pset(name: str) -> str:
+    """
+    Normalizes variations of 'Pset' to ensure consistent formatting.
+    Converts "Pset followed by a symbol or letter" into "Pset_"
+
+    Examples:
+    - "Pset.WallCommon" → "Pset_WallCommon"
+    - "Pset-WallCommon" → "Pset_WallCommon"
+    - "Pset WallCommon" → "Pset_WallCommon"
+    - "PsetWallCommon" → "Pset_WallCommon"
+    - "pset_WallCommon" → "Pset_WallCommon" (fix capitalization)
+    """
+
+    name = re.sub(r'^[Pp][Ss][Ee][Tt]', "Pset", name)
+
+    if name.startswith("Pset_"):
+        return name
+    name = re.sub(r"^Pset[\W]?", "Pset_", name)
+
+    return name
+
+@gherkin_ifc.step("The IfcPropertySet Name attribute value must use predefined values according to the '{table}' table")
+@gherkin_ifc.step("The IfcPropertySet must be assigned according to the property set definitions table '{table}'")
+@gherkin_ifc.step("Each associated IfcProperty must be named according to the property set definitions table '{table}'")
+@gherkin_ifc.step("Each associated IfcProperty must be of type according to the property set definitions table '{table}'")
+@gherkin_ifc.step("Each associated IfcProperty value must be of data type according to the property set definitions table '{table}'")
 def step_impl(context, inst, table):
 
-    property_set_definitions = get_pset_definitions(context, table)
-
-    def establish_accepted_pset_values(name, property_set_definitions):
-        def make_obj(s):
-            if s:
-                return json.loads(s.replace("'", '"'))
-            else:
-                return ''
-
-        try:
-            property_set_attr = property_set_definitions[name]
-        except KeyError:  # Pset_ not found in template
-            property_set_attr = ''
-            return property_set_attr
-
-        accepted_values = {}
-        accepted_values['template_type'] = property_set_attr.get('template_type', '')
-
-        accepted_values['property_names'] = []
-        accepted_values['property_types'] = []
-        accepted_values['data_types'] = []
-
-        for property_def in make_obj(property_set_attr['property_definitions']):
-            accepted_values['property_names'].append(property_def['property_name'])
-            accepted_values['property_types'].append(property_def['property_type'])
-            accepted_values['data_types'].append(property_def['data_type'])
-
-        accepted_values['applicable_entities'] = [s.split('/')[0] for s in make_obj(property_set_attr['applicable_entities'])]
-
-        # in the ifc2x3 data, predefined type restrictions are imposed as:
-        # | | | applicable_type_value                     | | 
-        # | | | {entity}.PredefinedType={predefinedtype}  | |
-        if property_set_attr['applicable_type_value'] and '.PredefinedType=' in property_set_attr['applicable_type_value']:
-            ptype = property_set_attr['applicable_type_value'].split('.PredefinedType=')[1].upper()
-            accepted_values['applicable_entities_with_predefined_types'] = list(zip(
-                accepted_values['applicable_entities'],
-                (ptype for _ in itertools.count())
-            ))
-        else:
-            # in the ifc4 data, predefined type restrictions are imposed as:
-            # | | | applicable_entities                                                     | | 
-            # | | | ['{entity}','{entity}/{predefinedtype}','{entity2}/{predefinedtype2}']  | |
-            accepted_values['applicable_entities_with_predefined_types'] = [((ab[0], ab[1].upper()) if len(ab) == 2 else (ab[0], None)) for ab in (s.split('/') for s in make_obj(property_set_attr['applicable_entities']))]
-
-        return accepted_values
-
-    name = getattr(inst, 'Name', 'Attribute not found')
+    property_set_definitions = get_pset_definitions(context.model.schema, table)
+    name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
 
 
     if 'IfcPropertySet Name attribute value must use predefined values according' in context.step.name:
         if name not in property_set_definitions.keys():
             yield ValidationOutcome(inst=inst, observed = {'value':name}, severity=OutcomeSeverity.ERROR)
+        return
 
-    accepted_values = establish_accepted_pset_values(name, property_set_definitions)
+    accepted_values = establish_accepted_pset_values(name, context.model.schema, table, always_equal_dict(property_set_definitions))
 
     if accepted_values:  # If not it's a custom Pset_ prefixed attribute, e.g. Pset_Mywall (no need for further Pset_ checks),
 
@@ -390,7 +423,7 @@ def step_impl(context, inst, table):
                 # if not values:
                 #     yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':None}, severity=OutcomeSeverity.ERROR)
 
-@gherkin_ifc.step('it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly')
+@gherkin_ifc.step("it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly")
 def step_impl(context, inst):
     # context.visited_instances is set in the gherkin statement:
     # 'Given a traversal over the full model originating from subtypes of IfcRoot'

@@ -11,6 +11,7 @@ import ifcopenshell.geom
 import numpy as np
 import rtree.index
 import networkx as nx
+import mpmath as mp
 
 # 'Mapping' is new functionality in IfcOpenShell v0.8 that allows us to inspect interpreted
 # segments without depending on OpenCASCADE. Hypothetically using Eigen with an arbitrary
@@ -87,13 +88,16 @@ def extract_points(edge: Union[np.array, ifcopenshell.entity_instance]) -> np.ar
     if isinstance(edge, np.ndarray):
         return edge
     else:
+        # @nb this branch is currently not active, only if we later
+        # decide to set the mapping in ifcopenshell v0.8, in which case we need to
+        # implement support for the various edge curves.
         if edge.basis:
             raise NotImplementedError()
         return np.array([edge.start.coords, edge.end.coords])
 
 
-def calculate_bounding_box(points:np.array, precision: float):
-    return (points.min(axis=0) - precision).tolist() + (points.max(axis=0) + precision).tolist()
+def calculate_bounding_box(points:np.array, tolerance: float):
+    return (points.min(axis=0) - tolerance).tolist() + (points.max(axis=0) + tolerance).tolist()
 
 
 def insert_edges_into_spatial_index(edges, idx: rtree.index, precision: float):
@@ -103,12 +107,20 @@ def insert_edges_into_spatial_index(edges, idx: rtree.index, precision: float):
         idx.insert(i, bounding_box)
 
 
-def within_precision_range(first_edge, second_edge, precision: float) -> bool:
+def test_parallel_neighbour_no_overlap(first_edge, second_edge, precision: float) -> bool:
     """
-    Confirm that neighbours intersect but are not parallel or cross
+    Confirm that parallel neighbours intersect (meet in one point), but do not overlap.
+
+    Start from first point of first_edge and take the length of first_edge
+    as a reference for second point in parametric space of first_edge.
+    Then take both points of second_edge and project to parametric space
+    of first_edge.
+
+    This function assumes that first_edge and second_edge are indeed parallel.
     """
     first_vec = first_edge[1] - first_edge[0]
     first_b = np.linalg.norm(first_vec)
+    first_vec /= first_b
     second_a = (second_edge[0] - first_edge[0]) @ first_vec
     second_b = (second_edge[1] - first_edge[0]) @ first_vec
     if second_a <= precision and second_b <= precision:
@@ -133,12 +145,10 @@ def step_impl(context, inst: ifcopenshell.entity_instance, path=None, attr:str =
     """
 
     entity_contexts = ifc.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
-    precision = ifc.get_precision_from_contexts(entity_contexts)
+    precision = ifc.get_precision_from_contexts(entity_contexts, return_in_m=True)
 
     p = rtree.index.Property()
     p.dimension = 3
-
-    spatial_index = rtree.index.Index(properties=p)
 
     if inst.is_a('IfcIndexedPolygonalFace'):
         # In tessellated items we have a list of coordinates globally defined
@@ -166,7 +176,10 @@ def step_impl(context, inst: ifcopenshell.entity_instance, path=None, attr:str =
         # issues.
         deflection = max(min(precision * 10, 0.01),1.e-4)
         try:
-            settings = ifcopenshell.geom.settings(MESHER_LINEAR_DEFLECTION=deflection)
+            settings = ifcopenshell.geom.settings(
+                MESHER_LINEAR_DEFLECTION=deflection,
+                NO_WIRE_INTERSECTION_CHECK=True
+            )
         except:
             settings = ifcopenshell.geom.settings(
                 INCLUDE_CURVES=True,
@@ -188,17 +201,15 @@ def step_impl(context, inst: ifcopenshell.entity_instance, path=None, attr:str =
     # plt.show()
 
     for edges in bounds:
+        spatial_index = rtree.index.Index(properties=p)
         insert_edges_into_spatial_index(edges, spatial_index, precision)
-        # @nb this branch is currently not active, only if we later
-        # decide to set USE_IFCOPENSHELL_v0_8_MAPPING = True, in which case we need to
-        # implement support for the various edge curves.
 
         # check for intersections
         for i, edge in enumerate(edges):
             ps = extract_points(edge)
-            ps_flat = np.concatenate((ps.min(axis=0), ps.max(axis=0)))
+            ps_bbox = calculate_bounding_box(ps, tolerance=0.)
             neighbours = {(i - 1) % len(edges), (i + 1) % len(edges)}
-            for j in spatial_index.intersection(ps_flat):
+            for j in spatial_index.intersection(ps_bbox):
                 if i <= j:
                     continue
                 qs = extract_points(edges[j])
@@ -207,7 +218,7 @@ def step_impl(context, inst: ifcopenshell.entity_instance, path=None, attr:str =
                     # neighbours should always intersect, but just cannot
                     # be parallel and cross
                     if info.is_parallel:
-                        if not within_precision_range(ps, qs, precision):
+                        if not test_parallel_neighbour_no_overlap(ps, qs, precision):
                             yield ValidationOutcome(
                                 inst=inst,
                                 observed=f"Invalid neighbours\n{ps}\nand\n{qs}",
@@ -234,10 +245,24 @@ def step_impl(context, inst: ifcopenshell.entity_instance, clause: str):
                 yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
                                         severity=OutcomeSeverity.ERROR)
 
+
+@gherkin_ifc.step("It must have no consecutive points that are coincident after taking the Precision factor into account")
+def step_impl(context, inst: ifcopenshell.entity_instance):
+    # @nb a crucial difference with the clause above used on Polyline/-loop is that it compares all points, not only
+    # consecutive points. Also this version does not take into account whether the curve is closed or not because
+    # with the optional Segments=None there is no way to close the curve by means of referencing the same point (index).
+    entity_contexts = ifc.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = ifc.get_precision_from_contexts(entity_contexts)
+    points_coordinates = geometry.get_points(inst)
+    for i, j in [(i-1, i) for i in range(1, len(points_coordinates))]:
+        if math.dist(points_coordinates[i], points_coordinates[j]) < precision:
+                yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
+                                        severity=OutcomeSeverity.ERROR)
+
+
 @gherkin_ifc.step("It must have no arc segments that use colinear points after taking the Precision factor into account")
 def step_impl(context, inst: ifcopenshell.entity_instance):
-    import mpmath as mp
-    mp.prec = 128
+    mp.mp.prec = 128
 
     representation_context = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
     precision = mp.mpf(geometry.get_precision_from_contexts(representation_context))
@@ -258,6 +283,51 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
     G.add_edges_from(geometry.get_edges(
         context.model, inst
     ))
+    G.add_edges_from(geometry.get_loop_connectivity(
+        context.model, inst
+    ))
     n_components = len(list(nx.connected_components(G)))
     if n_components != 1:
         yield ValidationOutcome(inst=inst, observed=n_components, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("the boundaries of the face must conform to the implicit plane fitted through the boundary points")
+def step_impl(context, inst: ifcopenshell.entity_instance):
+    mp.mp.prec = 128
+
+    representation_context = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+    precision = mp.mpf(geometry.get_precision_from_contexts(representation_context))
+
+    outer = [b for b in inst.Bounds if b.is_a('IfcFaceOuterBound')]
+    inner = [b for b in inst.Bounds if not b.is_a('IfcFaceOuterBound')]
+    if len(outer) != 1:
+        # @todo this should probably be a rule: only in rare cases a face should not have an outer bound (like, infinite or periodic faces),
+        # but for the scope of this rule that does not exist.
+        return
+
+    outer = outer[0]
+    loop = outer.Bound
+    if not loop.is_a('IfcPolyLoop'):
+        # This rule is only for polygonal faces.
+        return
+    
+    if len(loop.Polygon) == 3 and len(inner) == 0:
+        # Triangles are always planar, but this is just an optimization
+        return
+
+    points = [tuple(map(mp.mpf, p.Coordinates)) for p in loop.Polygon]
+    plane = geometry.estimate_plane_through_points(points)
+
+    if plane is None:
+        # Plane can be None in case of degeneracies. To be implemented as an additional rule.
+        return
+
+    if max(plane.distance(p) for p in points) > precision:
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+    for ib in inner:
+        # @nb yes we do use the same plane for inner bounds, outer bound establishes the plane,
+        # inner bounds need to conform to that.
+        loop = ib.Bound
+        points = [tuple(map(mp.mpf, p.Coordinates)) for p in loop.Polygon]
+        if max(plane.distance(p) for p in points) > precision:
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)

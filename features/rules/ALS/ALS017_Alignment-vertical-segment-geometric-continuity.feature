@@ -20,7 +20,7 @@ Feature: ALS017 - Alignment vertical segment geometric continuity
     Given [Its Entity Type] ^is^ 'IfcGradientCurve'
     Given Its attribute .Segments.
     Given [Its Entity Type] ^is^ 'IfcCurveSegment'
-    Given The values grouped pairwise at depth 1
+    Given The values grouped pairwise at depth 3
 
   Scenario: Geometric continuity in position
 

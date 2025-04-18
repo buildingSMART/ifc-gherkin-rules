@@ -135,8 +135,8 @@ def handle_given(context, fn, **kwargs):
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
         context._push('attribute') # for attribute stacking
-        depth = next(map(int, re.findall(r'at depth (\d+)$', context.step.name)), 0)
-        if depth:
+        depth = next(map(int, re.findall(r'at depth (\d+)$', context.step.name)), None)
+        if depth is not None:
             context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=depth, **kwargs)))
         else:
             context.instances = map_given_state(context.instances, fn, context, **kwargs)
@@ -147,7 +147,7 @@ def apply_operation(fn, inst, context, **kwargs):
     return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
 
 
-def map_given_state(values, fn, context, depth=0, **kwargs):
+def map_given_state(values, fn, context, depth=None, current_depth=0, **kwargs):
     def is_nested(val):
         return isinstance(val, (tuple, list))
 
@@ -157,11 +157,10 @@ def map_given_state(values, fn, context, depth=0, **kwargs):
         else:
             return is_nested(values) and all(should_apply(v, depth-1) for v in values if v is not None)
 
-    if should_apply(values, depth):
+    if (depth is None and should_apply(values, 0)) or depth == current_depth:
         return None if values is None else apply_operation(fn, values, context, **kwargs)
-    elif is_nested(values):
-        new_depth = depth if depth > 0 else 0
-        return type(values)(map_given_state(v, fn, context, new_depth, **kwargs) for v in values)
+    elif (depth is None or depth > current_depth) and values is not None:
+        return type(values)(map_given_state(v, fn, context, depth, current_depth + 1, **kwargs) for v in values)
     else:
         return None if values is None else apply_operation(fn, values, context, **kwargs)
 
@@ -261,9 +260,6 @@ def handle_then(context, fn, **kwargs):
                 return not is_nested(items)
             else:
                 return is_nested(items) and all(should_apply(v, depth-1) for v in items if v is not None)
-
-        # debugging:
-        print(' '*current_depth,current_depth,':',items)
 
         if context.is_global_rule:
             return apply_then_operation(fn, [items], context, current_path=None, **kwargs)

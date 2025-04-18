@@ -1,6 +1,5 @@
 @disabled
 @informal-proposition
-@GEM
 @BRP
 @version1
 @E00050

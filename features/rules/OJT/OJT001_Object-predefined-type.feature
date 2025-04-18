@@ -23,5 +23,5 @@ Scenario: Validating the proper use of PredefinedType for an Object typed by Ifc
   Given A model with Schema 'IFC4' or 'IFC4.3'
   Given An .IfcTypeObject. ^with subtypes^
   Given Its PredefinedType attribute does not start with NOTDEFINED
-  Given A relationship IfcRelDefinesByType from IfcTypeObject to IfcObject and following that
+  Given A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that
   Then The value of attribute PredefinedType must be empty and display entity instance

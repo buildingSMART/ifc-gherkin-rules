@@ -11,6 +11,6 @@ Feature: PJS002 - Correct elements related to project
 
 Scenario: Validating correct elements relationship from IfcProject
   Given An .IfcProject.
-  Given a relationship IfcRelDeclares from IfcProject to IfcRoot and following that
+  Given a relationship .IfcRelDeclares. from .IfcProject. to .IfcRoot. and following that
 
   Then the type must be in 'valid_ProjectDeclaration.csv'

@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALS
-@version2
+@version3
 @E00020
 Feature: ALS015 - Alignment representation zero length final segment
 

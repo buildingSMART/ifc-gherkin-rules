@@ -19,7 +19,7 @@ def step_impl(context, inst, num, constraint, other_entity):
         yield ValidationOutcome(inst=inst, observed=nested_of_type, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("It [must be nested by only the following entities]: {other_entities}")
+@gherkin_ifc.step("It [must be nested by only the following entities]: .{other_entities}.")
 def step_impl(context, inst, other_entities):
     allowed_entity_types = set(map(str.strip, other_entities.split(',')))
 

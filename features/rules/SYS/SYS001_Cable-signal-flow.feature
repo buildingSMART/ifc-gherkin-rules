@@ -13,7 +13,7 @@ The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a 
   @E00100
   Scenario: Agreement on IfcCableSegment having ports
 
-    Then It must be nested by exactly 2 instance(s) of IfcDistributionPort
+    Then It [must be nested by] ^exactly^ [2] instance(s) of .IfcDistributionPort.
   
   @E00100
   Scenario: Agreement on port directions

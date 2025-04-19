@@ -1,6 +1,8 @@
 @implementer-agreement
 @ALB
 @version1
+@E00100
+
 Feature: ALB002 - Alignment Layout Relationships
   The rule verifies that nesting and decomposition relationships are used correctly with alignment layouts.
 
@@ -9,7 +11,6 @@ Feature: ALB002 - Alignment Layout Relationships
 
     Given A model with Schema 'IFC4.3'
 
-@E00100
   Scenario: IfcAlignment can only be decomposed by other "children" IfcAlignment instances
 
     Given an .IfcAlignment.
@@ -18,19 +19,17 @@ Feature: ALB002 - Alignment Layout Relationships
 
     Then [its entity type] ^is^ 'IfcAlignment'
 
-@E00100
-  Scenario Outline: Horizontal and Vertical layouts must only be used with one IfcAlignment
+  Scenario Outline: Horizontal layouts must only nest a single IfcAlignment
 
     Given an .<entity>.
 
-    Then It must nest only 1 instance(s) of IfcAlignment
+    Then It [must nest only 1] instance(s) of .IfcAlignment.
 
-      Examples:
+    Examples:
       | entity                  |
       | IfcAlignmentHorizontal  |
       | IfcAlignmentVertical    |
 
-@E00100
   Scenario Outline: Agreement of structure of alignment segments
 
     Given an .<entity>.
@@ -45,7 +44,6 @@ Feature: ALB002 - Alignment Layout Relationships
       | IfcAlignmentVertical    |
       | IfcAlignmentCant        |
 
-@E00010
   Scenario Outline: Agreement of the segments of alignment
 
     Given an .IfcAlignmentSegment.

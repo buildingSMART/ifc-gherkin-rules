@@ -6,7 +6,7 @@ from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
 
-@gherkin_ifc.step("It must be nested by {constraint} {num:d} instance(s) of {other_entity}")
+@gherkin_ifc.step("It [must be nested by] ^{constraint}^ [{num:d}] instance(s) of .{other_entity}.")
 def step_impl(context, inst, num, constraint, other_entity):
     stmt_to_op = {'exactly': operator.eq, "at most": operator.le}
     assert constraint in stmt_to_op
@@ -19,7 +19,7 @@ def step_impl(context, inst, num, constraint, other_entity):
         yield ValidationOutcome(inst=inst, observed=nested_of_type, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("It must be nested by only the following entities: {other_entities}")
+@gherkin_ifc.step("It [must be nested by only the following entities]: {other_entities}")
 def step_impl(context, inst, other_entities):
     allowed_entity_types = set(map(str.strip, other_entities.split(',')))
 
@@ -29,7 +29,7 @@ def step_impl(context, inst, other_entities):
         yield ValidationOutcome(inst=inst, observed=entity, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("It {nested_sentences:nested_sentences} instance(s) of {other_entity}")
+@gherkin_ifc.step("It [{nested_sentences:nested_sentences}] instance(s) of .{other_entity}.")
 def step_impl(context, inst, nested_sentences, other_entity):
     reltype_to_extr = {'must nest': {'attribute': 'Nests', 'object_placement': 'RelatingObject', 'error_log_txt': 'nesting'},
                        'is nested by': {'attribute': 'IsNestedBy', 'object_placement': 'RelatedObjects', 'error_log_txt': 'nested by'}}

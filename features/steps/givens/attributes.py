@@ -108,8 +108,8 @@ def step_impl(context, inst, prefix_condition, prefix):
 
 
 @gherkin_ifc.step("Its {first_or_final:first_or_final} element")
-@gherkin_ifc.step("Its {first_or_final:first_or_final} element at depth 1")
-def step_impl(context, inst, first_or_final):
+@gherkin_ifc.step("Its {first_or_final:first_or_final} element at depth {ignored:d}")
+def step_impl(context, inst, first_or_final, ignored=0):
     if first_or_final == "final":
         yield ValidationOutcome(instance_id = inst[-1], severity=OutcomeSeverity.PASSED)
     elif first_or_final == "first":

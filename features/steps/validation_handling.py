@@ -135,8 +135,8 @@ def handle_given(context, fn, **kwargs):
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
         context._push('attribute') # for attribute stacking
-        depth = next(map(int, re.findall(r'at depth (\d+)$', context.step.name)), 0)
-        if depth:
+        depth = next(map(int, re.findall(r'at depth (\d+)$', context.step.name)), None)
+        if depth is not None:
             context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=depth, **kwargs)))
         else:
             context.instances = map_given_state(context.instances, fn, context, **kwargs)
@@ -147,7 +147,7 @@ def apply_operation(fn, inst, context, **kwargs):
     return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
 
 
-def map_given_state(values, fn, context, depth=0, **kwargs):
+def map_given_state(values, fn, context, depth=None, current_depth=0, **kwargs):
     def is_nested(val):
         return isinstance(val, (tuple, list))
 
@@ -157,11 +157,10 @@ def map_given_state(values, fn, context, depth=0, **kwargs):
         else:
             return is_nested(values) and all(should_apply(v, depth-1) for v in values if v is not None)
 
-    if should_apply(values, depth):
+    if (depth is None and should_apply(values, 0)) or depth == current_depth:
         return None if values is None else apply_operation(fn, values, context, **kwargs)
-    elif is_nested(values):
-        new_depth = depth if depth > 0 else 0
-        return type(values)(map_given_state(v, fn, context, new_depth, **kwargs) for v in values)
+    elif (depth is None or depth > current_depth) and values is not None:
+        return type(values)(map_given_state(v, fn, context, depth, current_depth + 1, **kwargs) for v in values)
     else:
         return None if values is None else apply_operation(fn, values, context, **kwargs)
 
@@ -190,7 +189,7 @@ def handle_then(context, fn, **kwargs):
             )
         )
 
-    def map_then_state(items, fn, context, current_path=[], depth=0, **kwargs):
+    def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
             if inst is None:
                 return
@@ -264,11 +263,10 @@ def handle_then(context, fn, **kwargs):
 
         if context.is_global_rule:
             return apply_then_operation(fn, [items], context, current_path=None, **kwargs)
-        elif should_apply(items, depth):
+        elif (depth is None and should_apply(items, 0)) or depth == current_depth:
             return apply_then_operation(fn, items, context, current_path, **kwargs)
-        elif is_nested(items):
-            new_depth = depth if depth > 0 else 0
-            return type(items)(map_then_state(v, fn, context, current_path + [i], new_depth, **kwargs) for i, v in enumerate(items))
+        elif depth is None or depth > current_depth:
+            return type(items)(map_then_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(items))
         else:
             return apply_then_operation(fn, items, context, current_path = None, **kwargs)
 
@@ -276,7 +274,7 @@ def handle_then(context, fn, **kwargs):
     # so we take note of the outcomes that already existed. This is necessary since we accumulate
     # outcomes per feature and no longer per scenario.
     num_preexisting_outcomes = len(context.gherkin_outcomes)
-    depth = next(map(int, re.findall('at depth (\d+)$', context.step.name)), 0)
+    depth = next(map(int, re.findall('at depth (\d+)$', context.step.name)), None)
     map_then_state(instances, fn, context, depth = depth, **kwargs)
 
     # evokes behave error

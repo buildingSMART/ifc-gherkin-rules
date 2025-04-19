@@ -1,6 +1,6 @@
 @industry-practice
 @ALS
-@version1
+@version2
 
 Feature: ALS016 - Alignment horizontal segment geometric continuity
 
@@ -22,7 +22,7 @@ Background:
   Given [Its Entity Type] ^is^ 'IfcCompositeCurve'
   Given Its attribute .Segments.
   Given [Its Entity Type] ^is^ 'IfcCurveSegment'
-  Given The values grouped pairwise at depth 1
+  Given The values grouped pairwise at depth 3
 
 Scenario: Geometric continuity in position
 

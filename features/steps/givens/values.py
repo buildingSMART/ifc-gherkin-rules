@@ -11,8 +11,8 @@ def step_impl(context, inst, excluding=None):
                             severity=OutcomeSeverity.PASSED)
 
 
-@gherkin_ifc.step("The values grouped pairwise at depth 1")
-def step_impl(context, inst):
+@gherkin_ifc.step("The values grouped pairwise at depth {ignored:d}")
+def step_impl(context, inst, ignored=0):
     inst = itertools.pairwise(inst)
     yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
 

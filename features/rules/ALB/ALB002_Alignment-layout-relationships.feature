@@ -46,8 +46,9 @@ Feature: ALB002 - Alignment Layout Relationships
 
   Scenario Outline: Agreement of the segments of alignment
 
-    Given an .IfcAlignmentSegment.
-    Given a relationship .IfcRelNests. from .IfcAlignmentSegment. to .<entity>.
+    Given an .<entity>.
+    Given its attribute .IsNestedBy.
+    Given its attribute .RelatedObjects.
     Given its attribute .DesignParameters.
 
     Then [its entity type] ^is^ '<SegmentType>'

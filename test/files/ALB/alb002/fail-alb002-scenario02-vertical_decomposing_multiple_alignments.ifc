@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME( '20036781_PRALIGN.ifc', '2024-12-04T12:39:19', ('redacted'), ('redacted'), 'redacted', 'redacted - redacted - 3.14159', 'None' );
+FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
+FILE_NAME( 'fail-alb002-scenario02-vertical_decomposing_multiple_alignments.ifc', '2024-12-04T12:39:19', ('redacted'), ('redacted'), 'redacted', 'redacted - redacted - 3.14159', 'None' );
 FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;
 
@@ -425,7 +425,7 @@ DATA;
 #422= IFCPOINTBYDISTANCEEXPRESSION(IFCLENGTHMEASURE(44593.0803913701),$,$,$,#279);
 #423= IFCAXIS2PLACEMENTLINEAR(#422,#304,#303);
 #424= IFCLINEARPLACEMENT(#5,#423,#421);
-#425= IFCREFERENT('3jWAoOXUqlWI7WQdqtfTwt',$,'1770+88.79',$,$,#430,#724,.REFERENCEMARKER.);
+#425= IFCREFERENT('3jWBoOXUqlWI7WQdqtfTwt',$,'1770+88.79',$,$,#430,#724,.REFERENCEMARKER.);
 #426= IFCCARTESIANPOINT((84.45331,50174.68863,0.0));
 #427= IFCAXIS2PLACEMENT3D(#426,$,$);
 #428= IFCPOINTBYDISTANCEEXPRESSION(IFCLENGTHMEASURE(55369.8709196084),$,$,$,#279);

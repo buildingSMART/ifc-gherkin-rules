@@ -1,6 +1,6 @@
 @implementer-agreement
 @GRF
-@version1
+@version2
 @E00050
 Feature: GRF001 - Identical coordinate operations
 The rule verifies that if multiple instances of IfcGeometricRepresentationContext are provided to the IfcProject, 
@@ -15,4 +15,4 @@ Currently, for GRF001, this is only permitted if (1) there is a single context o
     Given Its Attribute .HasCoordinateOperation.
     Given Its values excluding SourceCRS
     
-    Then The values must be identical at depth 2
+    Then The values must be identical at depth 0

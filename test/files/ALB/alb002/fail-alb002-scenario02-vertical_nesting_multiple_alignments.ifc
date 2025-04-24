@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME( 'fail-alb002-scenario02-vertical_decomposing_multiple_alignments.ifc', '2024-12-04T12:39:19', ('redacted'), ('redacted'), 'redacted', 'redacted - redacted - 3.14159', 'None' );
+FILE_NAME( 'fail-alb002-scenario02-vertical_nesting_multiple_alignments.ifc', '2024-12-04T12:39:19', ('redacted'), ('redacted'), 'redacted', 'redacted - redacted - 3.14159', 'None' );
 FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;
 

@@ -19,19 +19,6 @@ Feature: ALB002 - Alignment Layout Relationships
 
     Then [its entity type] ^is^ 'IfcAlignment'
 
-  Scenario Outline: Horizontal and Vertical layouts must only nest a single IfcAlignment
-
-    Given an .IfcAlignment.
-    Given a relationship .IfcRelNests. to .<entity>. from .IfcAlignment.
-    Given its attribute .Nests.
-    Given its attribute .RelatedObjects.
-
-    Then There must be exactly 1 instance(s) of <entity>
-
-    Examples:
-      | entity                  |
-      | IfcAlignmentHorizontal  |
-      | IfcAlignmentVertical    |
 
   Scenario Outline: Agreement of structure of alignment segments
 

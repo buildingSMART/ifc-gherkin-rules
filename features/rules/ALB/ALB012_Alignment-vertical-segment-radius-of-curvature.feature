@@ -14,7 +14,7 @@ Feature: ALB012 - Alignment vertical segment radius of curvature
 
   Scenario: Validating the absence of curvature radius for specific predefined types of vertical segment
     Given .PredefinedType. ^!=^ 'CIRCULARARC' or 'PARABOLICARC'
-    Then The value of attribute .RadiusOfCurvature. must be ^empty^
+    Then The value of attribute .RadiusOfCurvature. must be 'empty'
 
   Scenario: Validating the radius of curvature for parabolic segments
     Given .PredefinedType. ^=^ 'PARABOLICARC'

@@ -12,4 +12,4 @@ The rule verifies that if an IfcElement is positioned in relation to an IfcPosit
     Given An .IfcElement.
     Given PositionedRelativeTo = not empty
     
-    Then The value of attribute ReferencedInStructures must be not empty
+    Then The value of attribute .ReferencedInStructures. must be ^not empty^

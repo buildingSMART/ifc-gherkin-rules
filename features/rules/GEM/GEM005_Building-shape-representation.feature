@@ -14,4 +14,4 @@ The rule verifies that an IfcBuilding has a correct representation
     Given Its attribute .Representation.
     Given Its attribute .Representations.
     
-    Then The value of attribute RepresentationIdentifier must be Body
+    Then The value of attribute .RepresentationIdentifier. must be 'Body'

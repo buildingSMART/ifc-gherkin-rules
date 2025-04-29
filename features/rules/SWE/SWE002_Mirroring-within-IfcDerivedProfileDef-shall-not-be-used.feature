@@ -15,7 +15,7 @@ altogether.
     Given Its attribute .Operator.
     Given The determinant of the placement matrix
 
-    Then The resulting value must be greater than 0
+    Then The resulting value must be ^greater than 0^
 
   Scenario Outline: Tapered sweeps must not use mirroring altogether
 
@@ -25,7 +25,7 @@ altogether.
     Given Its attribute .Operator.
     Given The determinant of the placement matrix
     
-    Then The resulting value must be greater than 0
+    Then The resulting value must be ^greater than 0^
 
       Examples:
         | entity                      | attribute    |

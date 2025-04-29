@@ -1,6 +1,6 @@
 @informal-proposition
 @GEM
-@version1
+@version2
 @E00150
 Feature: GEM002 - Space representation
 The rule verifies that all IfcSpaces have a correct Body shape representation.
@@ -10,7 +10,7 @@ The rule verifies that all IfcSpaces have a correct Body shape representation.
     Given An .IfcSpace.
 
     Then There must be one Body shape representation
-    Then The Body shape representation has RepresentationType "SweptSolid, Clipping, Brep"
+    Then The Body shape representation has RepresentationType "SweptSolid, Clipping, Brep, Tessellation"
     
        
   Scenario: Agreement152_2 - Agreement that all spaces that have a body shape representation type Brep must also have a Footprint representation

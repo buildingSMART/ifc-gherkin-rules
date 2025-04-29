@@ -55,11 +55,12 @@ def step_impl(context, inst, attribute, expected_entity_type):
         yield from errors
 
 
-@gherkin_ifc.step("The value of attribute {attribute} must be {value_or_comparison_op}")
-@gherkin_ifc.step("The value of attribute {attribute} must be {value_or_comparison_op} {display_entity:display_entity}")
-@gherkin_ifc.step("The value of attribute {attribute} must be {value_or_comparison_op} the expression: {expression}")
-@gherkin_ifc.step("The resulting value must be {value_or_comparison_op}")
-def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, expression:str=None, display_entity=" "):
+@gherkin_ifc.step("The value of attribute .{attribute}. must be ^{value_or_comparison_op}^")
+@gherkin_ifc.step("The value of attribute .{attribute}. must be ^{value_or_comparison_op}^ [{display_entity:display_entity}]")
+@gherkin_ifc.step("The value of attribute .{attribute}. must be ^{value_or_comparison_op}^ the expression: [{expression}]")
+@gherkin_ifc.step("The value of attribute .{attribute}. must be ^{value_or_comparison_op}^ the expression: [{expression}] [within a tolerance of] {comparison_tolerance}")
+@gherkin_ifc.step("The resulting value must be ^{value_or_comparison_op}^")
+def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, expression:str=None, display_entity=" ", comparison_tolerance:float=None):
     """
     Compare an attribute to an expression based on attributes.
 
@@ -117,9 +118,13 @@ def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, exp
         except Exception as e:
             raise ValueError(f"Error evaluating expression: {e}")
 
-        # Compare the attribute with the expression value, considering the precision
-        entity_contexts = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
-        precision = geometry.get_precision_from_contexts(entity_contexts)
+        # Compare the attribute with the expression value, considering the specified tolerance or
+        # precision of the applicable geometric context
+        if comparison_tolerance:
+            precision = float(comparison_tolerance)
+        else:
+            entity_contexts = geometry.recurrently_get_entity_attr(context, inst, 'IfcRepresentation', 'ContextOfItems')
+            precision = geometry.get_precision_from_contexts(entity_contexts)
 
         try:
             result = geometry.compare_with_precision(

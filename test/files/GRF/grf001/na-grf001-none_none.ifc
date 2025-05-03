@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('na-grf001-none_none.ifc','2023-01-25T18:40:40',(''),(''),'IfcOpenShell-v0.7.0-6180d73f','IfcOpenShell-v0.7.0-6180d73f','');
+FILE_NAME('na-grf001-none_none.ifc','2023-01-25T18:40:40',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+6180d73f','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME('fail-alb021-scenario01-segmented_reference_curve.ifc','2023-07-11T10:16:10',('redacted'),('redacted'),'redacted','redacted','redacted');
+FILE_NAME('fail-alb021-scenario01-segmented_reference_curve.ifc','2023-07-11T10:16:10',('redacted'),('redacted'),'redacted','redacted - redacted - 3.14159','redacted');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

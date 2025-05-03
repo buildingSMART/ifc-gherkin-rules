@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('pass-blt002-scenario01_correct_Partitioning_type.ifc','2024-09-23T14:37:04',(''),(''),'IfcOpenShell-0.7.11-d51fa2c5f','IfcOpenShell-0.7.11-d51fa2c5f','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

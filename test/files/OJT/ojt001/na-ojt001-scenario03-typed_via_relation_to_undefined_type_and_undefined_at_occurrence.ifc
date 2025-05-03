@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('na-ojt001-scenario03-typed_via_relation_to_undefined_type_and_undefined_at_occurrence.ifc','2024-05-09T17:23:26',(''),(''),'IfcOpenShell v0.8.0-0d3c73de8','IfcOpenShell v0.8.0-0d3c73de8','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

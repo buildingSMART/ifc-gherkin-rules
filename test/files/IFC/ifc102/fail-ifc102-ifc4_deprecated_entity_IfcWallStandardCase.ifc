@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
 FILE_NAME('fail-ifc102-ifc4_deprecated_entity_IfcWallStandardCase.ifc','2024-06-18T10:56:39',(''),(''),'IfcOpenShell-v0.7.0-f7c03db75','IfcOpenShell-v0.7.0-f7c03db75','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;

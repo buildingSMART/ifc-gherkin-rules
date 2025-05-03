@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('pass-sps006-without_position_without_reference.ifc','2023-09-22T09:19:20',(''),(''),'IfcOpenShell-v0.7.0-9cc1f5f0e','IfcOpenShell-v0.7.0-9cc1f5f0e','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

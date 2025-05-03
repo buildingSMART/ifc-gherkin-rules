@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('fail-alb003-scenario01-wrong_layout.ifc','2022-12-20T15:46:15',(''),(''),'IfcOpenShell-v0.7.0-fa6bbf2d','IfcOpenShell-v0.7.0-fa6bbf2d','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

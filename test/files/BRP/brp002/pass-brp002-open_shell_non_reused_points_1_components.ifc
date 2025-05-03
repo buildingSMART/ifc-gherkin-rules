@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
 FILE_NAME('pass-brp002-open_shell_non_reused_points_1_components.ifc','2024-12-22T15:36:51',$,$,'IfcOpenShell 0.7.0','IfcOpenShell 0.7.0','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;

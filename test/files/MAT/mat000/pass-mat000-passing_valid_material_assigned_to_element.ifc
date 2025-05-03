@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('pass-mat000-passing_valid_material_assigned_to_element.ifc','2024-07-29T08:45:36',(''),(''),'IfcOpenShell-0.7.11-d51fa2c5f','IfcOpenShell-0.7.11-d51fa2c5f','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

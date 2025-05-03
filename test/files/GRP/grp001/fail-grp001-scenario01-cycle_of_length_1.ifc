@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('fail-grp001-scenario01-cycle_of_length_1.ifc','2023-09-22T10:46:29',(''),(''),'IfcOpenShell-v0.7.0-64d98f129','IfcOpenShell-v0.7.0-64d98f129','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

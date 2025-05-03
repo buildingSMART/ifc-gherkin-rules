@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('pass-pjs101-correct_presence_project.ifc','2024-06-07T11:32:43',(''),(''),'IfcOpenShell-v0.7.0-f7c03db75','IfcOpenShell-v0.7.0-f7c03db75','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

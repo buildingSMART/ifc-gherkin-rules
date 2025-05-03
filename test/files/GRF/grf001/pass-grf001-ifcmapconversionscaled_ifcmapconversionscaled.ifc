@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('pass-grf001-ifcmapconversionscaled_ifcmapconversionscaled.ifc','2023-01-25T18:40:40',(''),(''),'IfcOpenShell-v0.7.0-6180d73f','IfcOpenShell-v0.7.0-6180d73f','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('fail-als010-helmert_curve.ifc','2024-03-13T07:50:00',('redacted'),('redacted'),'redacted','redacted','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

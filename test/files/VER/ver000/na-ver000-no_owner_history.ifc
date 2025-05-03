@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('na-ver000-no_owner_history.ifc','2024-11-04T15:52:08',(''),(''),'IfcOpenShell-0.8.1-92b63a0ef','IfcOpenShell-0.8.1-92b63a0ef','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

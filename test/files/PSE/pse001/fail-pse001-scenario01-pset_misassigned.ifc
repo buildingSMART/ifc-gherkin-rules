@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('','2022-10-07T13:48:43',(''),(''),'IfcOpenShell v0.7.0-dc67287d','IfcOpenShell v0.7.0-dc67287d','');
+FILE_NAME('fail-pse001-scenario01-pset_misassigned.ifc','2022-10-07T13:48:43',(''),(''),'IfcOpenShell v0.7.0-dc67287d','IfcOpenShell v0.7.0-dc67287d','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;
@@ -29,6 +29,5 @@ DATA;
 #23=IFCREPRESENTATIONCONTEXT($,$);
 #24=IFCBUILDING('21tW_cdjn0gPxSWguaBw8i',#16,$,$,$,$,$,$,.ELEMENT.,$,$,$);
 #25=IFCRELAGGREGATES('0C4VOIgJL68wvcZOfCQvwe', #16, 'Spatial Structure Element Container', 'Spatial Structure Element to Facilities', #1, (#24));
-
 ENDSEC;
 END-ISO-10303-21;

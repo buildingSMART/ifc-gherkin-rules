@@ -2,9 +2,8 @@ ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
 FILE_NAME('pass-alb023-multiple_alignments.ifc','2024-03-25T21:51:20',('redacted'),('Unknown'),'redacted','redacted','None');
-FILE_SCHEMA (('IFC4X3_ADD2'));
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
-
 DATA;
 #1= IFCORGANIZATION($,'Autodesk',$,$,$);
 #2= IFCAPPLICATION(#1,'Civil 3D 2023','Civil 3D','Civil 3D 2023 IfcInfra Plugin v13.5.35.0');
@@ -2497,5 +2496,4 @@ DATA;
 #2506= IFCRELASSOCIATESCLASSIFICATION('2o2hcS4bT18BEC0rYD_vsW',$,$,$,(#2497),#2492);
 #2507= IFCORGANIZATION($,'Unknown',$,$,$);
 ENDSEC;
-
 END-ISO-10303-21;

@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition[Alignment-basedReferenceView-wannabe]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition[Alignment-basedView-wannabe]'),'2;1');
 FILE_NAME('fail-als015-scenario02-continuous_last_segment.ifc','2023-10-12T15:19:11',('redacted'),('redacted'),'IfcOpenShell 0.8.0','BridgeLink:PGSuper Version 8.0.0.4','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

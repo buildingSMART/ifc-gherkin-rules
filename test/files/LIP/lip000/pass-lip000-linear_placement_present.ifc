@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('pass-lip000-linear_placement_present.ifc','2025-01-27T13:49:48',('redacted'),('redacted'),'redacted','redacted','None');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

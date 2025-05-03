@@ -5,7 +5,7 @@ ISO-10303-21;
 /*  Fails in bSI validation service (Gherkin featureset): xxxx1 */
 /*  IFC-Requirement: ALS-003; Alignment cant shape representation in IFC */
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('fail-als008-scenario02-wrong_representationtype_value.ifc','2023-03-14T15:36:48',('bSI Railway Room - Technical Services'),('aIFC4Rail'),'Automatic Failure File Production','Python+IfcOpenShell','BC-002; Stationing on Alignment');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;

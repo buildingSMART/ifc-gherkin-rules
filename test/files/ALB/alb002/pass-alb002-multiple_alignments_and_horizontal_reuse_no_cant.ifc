@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME( '20036781_PRALIGN.ifc', '2024-12-04T12:39:19', ('redacted'), ('redacted'), 'redacted', 'redacted - redacted - 3.14159', 'None' );
+FILE_NAME( 'pass-alb002-multiple_alignments_and_horizontal_reuse_no_cant.ifc', '2024-12-04T12:39:19', ('redacted'), ('redacted'), 'redacted', 'redacted - redacted - 3.14159', 'None' );
 FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;
 

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('pass-gem051-scenario01-ifcproject_includes_context.ifc','2024-06-23T20:38:59',(''),(''),'IfcOpenShell-v0.7.0-f7c03db75','IfcOpenShell-v0.7.0-f7c03db75','');
+FILE_NAME('pass-gem051-scenario01-ifcproject_includes_context.ifc','2024-06-23T20:38:59',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+fa6bbf2d','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

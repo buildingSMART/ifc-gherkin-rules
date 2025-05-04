@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('fail-blt003-scenario01-IfcStair-aggregating-IfcShadingDevice.ifc','2024-01-31T19:56:16',(''),(''),'IfcOpenShell-v0.7.0-6c9e130ca','IfcOpenShell-v0.7.0-6c9e130ca','');
+FILE_NAME('fail-blt003-scenario01-IfcStair-aggregating-IfcShadingDevice.ifc','2024-01-31T19:56:16',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+6c9e130ca','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('fail-gem111-scenario02-duplicate_point_in_polyline_due_to_precision.ifc','2022-12-28T12:36:57',(''),(''),'IfcOpenShell-v0.7.0-fa6bbf2d','IfcOpenShell-v0.7.0-fa6bbf2d','');
+FILE_NAME('fail-gem111-scenario02-duplicate_point_in_polyline_due_to_precision.ifc','2022-12-28T12:36:57',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+fa6bbf2d','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

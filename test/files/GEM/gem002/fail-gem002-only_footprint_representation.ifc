@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('fail-gem002-only_footprint_representation.ifc','2022-11-08T16:50:33',(''),(''),'IfcOpenShell-v0.7.0-fa6bbf2d','IfcOpenShell-v0.7.0-fa6bbf2d','');
+FILE_NAME('fail-gem002-only_footprint_representation.ifc','2022-11-08T16:50:33',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+fa6bbf2d','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

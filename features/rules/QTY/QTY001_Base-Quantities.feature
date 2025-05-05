@@ -2,7 +2,7 @@
 @QTY
 @version1
 @E00020
-Feature: QTY001 - Quantity method of measurement
+Feature: QTY001 - Base Quantities
 The rule verifies that an IfcElementQuantity has the correct method of measurement as per the general agreements
 for IfcElementQuantity documented at:
 https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcElementQuantity.htm

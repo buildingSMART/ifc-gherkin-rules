@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1]'),'2;1');
-FILE_NAME('pass-gem001-beam_straight_i_shape_tessellated.ifc','2016-02-04T08:11:04',('Jon'),('Unknown'),'GeomGymIFC by Geometry Gym Pty Ltd','Unknown Application','None');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('pass-gem001-beam_straight_i_shape_tessellated.ifc','2016-02-04T08:11:04',('Jon'),('Unknown'),'GeomGymIFC by Geometry Gym Pty Ltd','Unknown - Application - v1','None');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('fail-als017-scenario01-imperial_break_in_position.ifc','2024-11-04T10:16:10',(''),(''),'redacted','redacted','redacted');
+FILE_NAME('fail-als017-scenario01-imperial_break_in_position.ifc','2024-11-04T10:16:10',(''),(''),'redacted','redacted - redacted - 3.1459','redacted');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

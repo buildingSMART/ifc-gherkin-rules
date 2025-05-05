@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0]','RevitIdentifiers [ContentGUID: f5ef824e-e1be-47e6-87a5-42f4efaedb30, VersionGUID: 3dcf2aa8-72b7-4546-aac8-4108d2aca504, NumberOfSaves: 9]','CoordinateReference [CoordinateBase: Shared Coordinates, ProjectSite: 2017.03.17_Georeferencement]'),'2;1');
-FILE_NAME('pass-ctx000-styled_solid_model.ifc','2024-10-23T15:51:32+02:00',(''),(''),'IfcOpenShell v0.7.0-476ab506d','BlenderBIM 0.0.230502','');
+FILE_NAME('pass-ctx000-styled_solid_model.ifc','2024-10-23T15:51:32+02:00',(''),(''),'IfcOpenShell v0.7.0-476ab506d','IfcOpenShell Contributors - BlenderBIM - 0.0.230502','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

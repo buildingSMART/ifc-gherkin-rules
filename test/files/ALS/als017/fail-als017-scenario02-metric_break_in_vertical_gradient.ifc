@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('fail-als017-scenario02-metric_break_in_vertical_gradient.ifc','2024-10-19T07:15:33',('redacted'),('Unknown'),'redacted','redacted','None');
+FILE_NAME('fail-als017-scenario02-metric_break_in_vertical_gradient.ifc','2024-10-19T07:15:33',('redacted'),('Unknown'),'redacted','redacted - redacted - 3.4159','None');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('GeoReference'),'2;1');
-FILE_NAME('pass-ifc105-geographic_referencing_gk.ifc','2017-07-10T15:03:00',('redacted'),('redacted'),'redacted','','none');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('pass-ifc105-geographic_referencing_gk.ifc','2017-07-10T15:03:00',('redacted'),('redacted'),'redacted','redacted - redacted - 3.1459','none');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

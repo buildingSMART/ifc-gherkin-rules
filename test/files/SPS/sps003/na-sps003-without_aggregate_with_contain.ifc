@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0]'),'2;1');
 FILE_NAME('na-sps003-without_aggregate_with_contain.ifc','2023-09-21T09:06:06',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+64d98f129','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;

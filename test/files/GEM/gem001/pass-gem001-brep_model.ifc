@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [notYetAssigned]','Comment [manual creation of example file]'),'2;1');
-FILE_NAME('pass-gem001-brep_model.ifc','2012-06-18T18:00:00',('Thomas Liebich'),('buildingSMART International'),'IFC text editor','IFC text editor','reference file created for the IFC4 specification');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]','Comment [manual creation of example file]'),'2;1');
+FILE_NAME('pass-gem001-brep_model.ifc','2012-06-18T18:00:00',('Thomas Liebich'),('buildingSMART International'),'IFC text editor','IFC text editor - IFC text editor - v1','reference file created for the IFC4 specification');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

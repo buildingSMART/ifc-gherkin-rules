@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition[Alignment-basedView]'),'2;1');
-FILE_NAME('pass-alb003-alignment_layout.ifc','2022-11-16T10:37:00',$,$,'(before manual edit) ACCA_IFC.dll Version 500','ACCA usBIM.infra',$);
+FILE_NAME('pass-alb003-alignment_layout.ifc','2022-11-16T10:37:00',(''),(''),'(before manual edit) ACCA_IFC.dll Version 500','ACCA usBIM.infra - ACCA_IFC.dll - v500','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

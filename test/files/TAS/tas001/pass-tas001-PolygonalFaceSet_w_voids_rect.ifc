@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
-FILE_NAME('pass-tas001-PolygonalFaceSet_w_voids_rect.ifc','2024-10-08T20:16:01',(''),(''),'IfcOpenShell-0.7.11-d51fa2c5f','IfcOpenShell-0.7.11-d51fa2c5f','');
+FILE_NAME('pass-tas001-PolygonalFaceSet_w_voids_rect.ifc','2024-10-08T20:16:01',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.11+d51fa2c5f','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

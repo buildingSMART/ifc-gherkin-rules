@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('fail-alb021-scenario04-polyline_order_3.ifc','2023-10-21T13:41:35',('redacted'),('Unknown'),'redacted','redacted','None');
+FILE_NAME('fail-alb021-scenario04-polyline_order_3.ifc','2023-10-21T13:41:35',('redacted'),('Unknown'),'redacted','redacted - redacted - 3.4159','None');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

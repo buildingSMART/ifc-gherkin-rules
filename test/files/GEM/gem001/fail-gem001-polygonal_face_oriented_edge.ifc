@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [notYetAssigned]'),'2;1');
-FILE_NAME('fail-gem001-polygonal_face_oriented_edge.ifc','2016-05-26T17:38:29',('jonm'),('Geometry Gym'),'GeomGymIFC by Geometry Gym Pty Ltd','ggRhinoIFC - Grasshopper3d Plug-in by Geometry Gym Pty Ltd','None');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('fail-gem001-polygonal_face_oriented_edge.ifc','2016-05-26T17:38:29',('jonm'),('Geometry Gym'),'GeomGymIFC by Geometry Gym Pty Ltd','ggRhinoIFC - Grasshopper3d PlugIn by Geometry Gym Pty Ltd - v1','None');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;
@@ -48,7 +48,7 @@ DATA;
 #3049= IFCPERSONANDORGANIZATION(#3050,#3051,$);
 #3050= IFCPERSON('jonm','jonm',$,$,$,$,$,$);
 #3051= IFCORGANIZATION($,'Geometry Gym',$,$,$);
-#3052= IFCAPPLICATION(#3053,'1.4.14.0','ggRhinoIFC - Grasshopper3d Plug-in by Geometry Gym Pty Ltd','ggRhinoIFC');
+#3052= IFCAPPLICATION(#3053,'1.4.14.0','ggRhinoIFC - Grasshopper3d PlugIn by Geometry Gym Pty Ltd - v1','ggRhinoIFC');
 #3053= IFCORGANIZATION($,'Geometry Gym Pty Ltd',$,$,$);
 #3054= IFCOWNERHISTORY(#3049,#3052,$,.ADDED.,1464284014,$,$,1464284014);
 #3055= IFCRELCONTAINEDINSPATIALSTRUCTURE('3_FDRX0_zCNwiRAZP_mk8l',#3054,'Building','Building Container for Elements',(#30),#3048);

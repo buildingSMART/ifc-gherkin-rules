@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-als010-helmert_curve.ifc','2024-03-13T00:00:00',('redacted'),('redacted'),'redacted','redacted','');
+FILE_NAME('pass-als010-helmert_curve.ifc','2024-03-13T00:00:00',('redacted'),('redacted'),'redacted','redacted - redacted - 3.14159','none');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

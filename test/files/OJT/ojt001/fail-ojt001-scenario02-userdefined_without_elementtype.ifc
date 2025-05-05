@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('fail-ojt001-scenario02-userdefined_without_elementtype.ifc','','2024-06-06T12:00:00',(''),'','IfcOpenShell','0.6.0');
+FILE_NAME('fail-ojt001-scenario02-userdefined_without_elementtype.ifc','2025-04-23T15:09:34',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.6.0','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

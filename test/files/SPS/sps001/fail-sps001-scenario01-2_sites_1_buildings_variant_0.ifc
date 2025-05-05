@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('fail-sps001-scenario01-2_sites_1_buildings_variant_0.ifc','2022-07-31T09:43:22',(''),(''),'IfcOpenShell-0.6.0b0','IfcOpenShell-0.6.0b0','');
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0]'),'2;1');
+FILE_NAME('fail-sps001-scenario01-2_sites_1_buildings_variant_0.ifc','2022-07-31T09:43:22',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.6.0+b0','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

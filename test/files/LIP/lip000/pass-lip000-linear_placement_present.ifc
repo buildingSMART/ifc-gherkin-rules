@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-lip000-linear_placement_present.ifc','2025-01-27T13:49:48',('redacted'),('redacted'),'redacted','redacted','None');
+FILE_NAME('pass-lip000-linear_placement_present.ifc','2025-01-27T13:49:48',('redacted'),('redacted'),'redacted','redacted - redacted - 3.14159','None');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

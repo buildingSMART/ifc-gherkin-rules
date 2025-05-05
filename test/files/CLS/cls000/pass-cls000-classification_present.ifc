@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-cls000-classification_present.ifc','2024-03-25T21:51:20',('redacted'),('Unknown'),'GeometryGymIFCcore v0.2.13.0 by Geometry Gym Pty Ltd built 2023-02-23T01:21:04','Civil 3D 2023 IfcInfra Plugin v13.5.35.0','None');
+FILE_NAME('pass-cls000-classification_present.ifc','2024-03-25T21:51:20',('redacted'),('Unknown'),'GeometryGymIFCcore v0.2.13.0 by Geometry Gym Pty Ltd built 2023-02-23T01:21:04','Civil 3D 2023 - IfcInfra Plugin - v13.5.35.0','None');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

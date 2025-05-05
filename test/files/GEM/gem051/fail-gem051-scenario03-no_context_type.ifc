@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0]'),'2;1');
 FILE_NAME('fail-gem051-scenario03-no_context_type.ifc','2024-06-26T08:43:32',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+fa6bbf2d','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;

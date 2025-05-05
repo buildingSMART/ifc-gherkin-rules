@@ -1,12 +1,12 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-alb021-polyline_order_2.ifc','2023-10-21T13:41:35',('redacted'),('Unknown'),'GeometryGymIFCcore v0.2.19.0 by Geometry Gym Pty Ltd built 2023-09-25T03:29:16','Civil 3D 2023 IfcInfra Plugin v13.5.60.0','None');
+FILE_NAME('pass-alb021-polyline_order_2.ifc','2023-10-21T13:41:35',('redacted'),('Unknown'),'GeometryGymIFCcore v0.2.19.0 by Geometry Gym Pty Ltd built 2023-09-25T03:29:16','Civil 3D 2023 - IfcInfra Plugin - v13.5.60.0','None');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
 #1=IFCORGANIZATION($,'Autodesk',$,$,$);
-#2=IFCAPPLICATION(#1,'Civil 3D 2023','Civil 3D','Civil 3D 2023 IfcInfra Plugin v13.5.60.0');
+#2=IFCAPPLICATION(#1,'Civil 3D 2023','Civil 3D','Civil 3D 2023 - IfcInfra Plugin - v13.5.60.0');
 #3=IFCCARTESIANPOINT((0.0,0.0,0.0));
 #4=IFCAXIS2PLACEMENT3D(#3,$,$);
 #5=IFCLOCALPLACEMENT($,#29);

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition[Alignment-basedView]'),'2;1');
-FILE_NAME('na-alb012-incorrect_type_for_DesignParameters_attribute.ifc','2024-07-18T15:37:33',('redacted'),('redacted'),'redacted','redacted','');
+FILE_NAME('na-alb012-incorrect_type_for_DesignParameters_attribute.ifc','2024-07-18T15:37:33',('redacted'),('redacted'),'redacted','redacted - redacted - 3.14159','none');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

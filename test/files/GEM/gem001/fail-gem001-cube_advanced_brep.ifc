@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [notYetAssigned]'),'2;1');
-FILE_NAME('fail-gem001-cube_advanced_brep.ifc','2012-05-31T11:53:44',('Jon'),('Unknown'),'ssiIFC - Grasshopper Plug-in by Geometry Gym Pty Ltd','ssiIFC - Grasshopper Plug-in by Geometry Gym Pty Ltd','None');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('fail-gem001-cube_advanced_brep.ifc','2012-05-31T11:53:44',('Jon'),('Unknown'),'ssiIFC - Grasshopper Plug-in by Geometry Gym Pty Ltd','ggRhinoIFC - Grasshopper3d PlugIn by Geometry Gym Pty Ltd - v1','None');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

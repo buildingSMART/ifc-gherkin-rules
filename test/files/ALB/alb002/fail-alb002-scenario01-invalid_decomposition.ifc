@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME('','2025-04-23T15:09:34',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.8.0+0d3c73de8','');
+FILE_NAME('fail-alb002-scenario01-invalid_decomposition.ifc','2025-04-23T15:09:34',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.8.0+0d3c73de8','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

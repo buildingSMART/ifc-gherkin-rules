@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION((''),'2;1');
-FILE_NAME('fail-gem004-ifc4-solid_as_topology_representation_type.ifc','2023-07-18',(''),(''),'redacted','redacted','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('fail-gem004-ifc4-solid_as_topology_representation_type.ifc','2023-07-08T18:14:41',(''),(''),'redacted','redacted - redacted - 3.14159','none');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

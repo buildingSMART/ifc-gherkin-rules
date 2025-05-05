@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME('na-ann000-annotations_with_different_geometrical_representation.ifc','2023-08-21T16:55:48',('Alfonso D''Urso','alfonso.durso@acca.it'),('ACCA software S.p.A.'),'ACCA_IFC.dll Version 500','ACCA usBIM.infra',$);
+FILE_NAME('na-ann000-annotations_with_different_geometrical_representation.ifc','2023-08-21T16:55:48',('Alfonso D''Urso','alfonso.durso@acca.it'),('ACCA software S.p.A.'),'','ACCA usBIM.infra - ACCA_IFC.dll - v500','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

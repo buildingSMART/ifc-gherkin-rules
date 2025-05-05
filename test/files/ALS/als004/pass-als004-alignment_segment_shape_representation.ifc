@@ -3,7 +3,7 @@ ISO-10303-21;
 /*  IFC-Requirement: als004; Alignment segment shape representation in IFC */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-als004-alignment_segment_shape_representation.ifc','2023-03-14T15:36:48',('bSI Railway Room - Technical Services'),('aIFC4Rail'),'Automatic Pass File Production','Python+IfcOpenShell','BC-002');
+FILE_NAME('pass-als004-alignment_segment_shape_representation.ifc','2023-03-14T15:36:48',('bSI Railway Room - Technical Services'),('aIFC4Rail'),'Automatic Pass File Production','IfcOpenShell contributors - IfcOpenShell - v0.8.1+088bc207a','BC-002');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

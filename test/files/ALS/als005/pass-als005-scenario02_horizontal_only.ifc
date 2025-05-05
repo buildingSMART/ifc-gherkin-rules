@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-als005-scenario02_horizontal_only.ifc','2025-03-01T12:46:21-08:00',(''),(''),'IfcOpenShell 0.0.0','Bonsai 0.8.2-alpha250225-a20a8a6','Nobody');
+FILE_NAME('pass-als005-scenario02_horizontal_only.ifc','2025-03-01T12:46:21-08:00',(''),(''),'IfcOpenShell 0.0.0','IfcOpenShell contributors - Bonsai - 0.8.2-alpha250225','Nobody');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

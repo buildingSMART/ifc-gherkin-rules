@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-als006-alignment_horizontal_shape_representation.ifc','2021-05-31T10:35:59',$,$,'redacted',$,$);
+FILE_NAME('pass-als006-alignment_horizontal_shape_representation.ifc','2021-05-31T10:35:59',(''),(''),'redacted', 'redacted - redacted - 3.14159', 'None');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

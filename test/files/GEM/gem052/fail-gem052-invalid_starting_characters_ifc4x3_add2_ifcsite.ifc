@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION((''),'2;1');
-FILE_NAME('fail-gem052-invalid_starting_characters_ifc4x3_add2_ifcsite.ifc','2024-06-12T09:50:55',(''),(''),'LAB','GMN3DS','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('fail-gem052-invalid_starting_characters_ifc4x3_add2_ifcsite.ifc','2024-06-12T09:50:55',(''),(''),'','LAB - GMN3DS - v0.1','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

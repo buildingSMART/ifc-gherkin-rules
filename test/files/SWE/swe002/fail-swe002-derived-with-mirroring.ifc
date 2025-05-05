@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION((''),'2;1');
-FILE_NAME('fail-swe002-derived-with-mirroring.ifc','2011-11-11T21:50:39',(''),(''),'Constructivity 0.9.1','Constructivity 0.9.1','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('fail-swe002-derived-with-mirroring.ifc','2011-11-11T21:50:39',(''),(''),'', 'Unknown - Constructivity - v0.9.1', '');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

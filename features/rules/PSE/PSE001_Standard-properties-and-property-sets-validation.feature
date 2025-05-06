@@ -12,25 +12,25 @@ The rule verifies that each IfcPropertySet starting with 'Pset_' is defined corr
 
   Scenario: IfcPropertySet Name
 
-    Then The .IfcPropertySet. attribute .Name. must use predefined values according to the 'pset_definitions' table
+    Then The .IfcPropertySet. attribute .Name. must use standard values [according to the table] 'pset_definitions'
 
 
   Scenario: Property Name
 
-      Then Each associated IfcProperty must be named according to the property set definitions table 'pset_definitions'
+      Then Each associated IfcProperty must be named [according to the table] 'pset_definitions'
 
 
   Scenario: PropertySet definitions
 
-      Then The IfcPropertySet must be assigned according to the property set definitions table 'pset_definitions'
+      Then The IfcPropertySet must be related to a valid entity type [according to the table] 'pset_definitions'
 
 
   Scenario: Property Type
 
-      Then Each associated IfcProperty must be of type according to the property set definitions table 'pset_definitions'
+      Then Each associated IfcProperty must be of valid entity type [according to the table] 'pset_definitions'
 
     
   Scenario: Property Data Type      
 
-        Then Each associated IfcProperty value must be of data type according to the property set definitions table 'pset_definitions'
+        Then Each associated IfcProperty value must be of valid data type [according to the table] 'pset_definitions'
 

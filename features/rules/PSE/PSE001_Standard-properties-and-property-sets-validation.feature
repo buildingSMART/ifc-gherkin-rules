@@ -11,8 +11,8 @@ The rule verifies that each IfcPropertySet starting with 'Pset_' is defined corr
 
 
   Scenario: IfcPropertySet Name
-  
-    Then The IfcPropertySet Name attribute value must use predefined values according to the 'pset_definitions' table
+
+    Then The .IfcPropertySet. attribute .Name. must use predefined values according to the 'pset_definitions' table
 
 
   Scenario: Property Name

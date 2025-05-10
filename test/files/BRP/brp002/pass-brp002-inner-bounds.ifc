@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0]'),'2;1');
-FILE_NAME('Untitled.ifc','2025-03-01T21:07:35',(''),(''),'IFC-manager for SketchUp (dev)','SketchUp 2025 (25.0.571)','None');
+FILE_NAME('pass-brp002-inner-bounds.ifc','2025-03-01T21:07:35',(''),(''),'IFC-manager for SketchUp (dev)','Trimble - SketchUp 2025 - 25.0.571','None');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

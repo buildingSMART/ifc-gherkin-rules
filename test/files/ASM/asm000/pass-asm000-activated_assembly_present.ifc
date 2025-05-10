@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition[CoordinationView]'),'2;1');
-FILE_NAME('C:/Example/Path/Example_File.IFC','2024-07-04T11:07:30',(''),(''),'Example IFC','Example Architecture','');
+FILE_DESCRIPTION(('ViewDefinition[CoordinationView_V2.0]'),'2;1');
+FILE_NAME('pass-asm000-activated_assembly_present.ifc','2024-07-04T11:07:30',(''),(''),'Example IFC','Example - Architecture - v1','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;
@@ -9,7 +9,7 @@ DATA;
 #2 = IFCOWNERHISTORY(#3, #6, $, .ADDED., $, $, $, 1717497896);
 #3 = IFCPERSONANDORGANIZATION(#4, #5, $);
 #4 = IFCPERSON($, 'User', 'Example', $, $, $, $, $);
-#5 = IFCORGANIZATION($, 'Example', 'Example Architecture', $, $);
+#5 = IFCORGANIZATION($, 'Example', 'Example - Architecture - v1', $, $);
 #6 = IFCAPPLICATION(#5, '0.10', 'manuell', 'EXA 001');
 #7 = IFCGEOMETRICREPRESENTATIONCONTEXT($, 'Model', 3, 0.00001, #8, $);
 #8 = IFCAXIS2PLACEMENT3D(#9, $, $);

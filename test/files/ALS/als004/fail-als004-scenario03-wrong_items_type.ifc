@@ -4,9 +4,9 @@ ISO-10303-21;
 /*            IfcAlignmentSegment with Items attribute should fail. Injected Defect: IfcShapeRepresentation.Items set to IfcLine instead of IfcCurveSegment */
 /*  IFC-Requirement: ALS-004; Alignment segment shape representation in IFC */
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('fail-als004-scenario01-wrong-items-type.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Automatic Pass File Production', 'Python+IfcOpenShell');
-FILE_SCHEMA(('IFC4x3_ADD2'));
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('fail-als004-scenario03-wrong_items_type.ifc','2023-03-14T15:36:48',('bSI Railway Room - Technical Services'),('aIFC4Rail'),'Automatic Pass File Production','IfcOpenShell contributors - IfcOpenShell - v0.8.1+088bc207a','');
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
 #1=IFCPROJECT('1FNFy8AJeHwwz7wDZHIYIu',#3,'IFC Rail Referencedata - STN01','IFC-Referencefile for bSI Implementerforum testcase STN01',$,'Longname','Design',$,#9);

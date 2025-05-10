@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition[Alignment-basedView]'),'2;1');
-FILE_NAME('PGSuper1.ifc','2025-02-13T16:12:43',('RAB, PE'),('WSDOT'),'IfcOpenShell 0.8.0','BridgeLink:PGSuper Version 8.1.0.1','');
+FILE_NAME('pass-ifc105-pgsuper_materialproperties.ifc','2025-02-13T16:12:43',('RAB, PE'),('WSDOT'),'IfcOpenShell 0.8.0','BridgeLink - PGSuper - 8.1.0.1','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

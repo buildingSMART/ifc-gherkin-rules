@@ -1,8 +1,8 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION (('ViewDefinition [Alignment-basedReferenceView]'), '2;1');
-FILE_NAME ('pass-als012-incorrect_types_not_part_of_alignment.ifc', '2024-06-13T10:24:35', (), (), 'redacted', 'redacted', $);
-FILE_SCHEMA (('IFC4X3_ADD2'));
+FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
+FILE_NAME('pass-als012-incorrect_types_not_part_of_alignment.ifc','2024-06-13T10:24:35',('redacted'),('redacted'),'IfcOpenShell 0.8.0','redacted - redacted - 3.14159','none');
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
 #1 = IFCOWNERHISTORY(#2, #6, .READWRITE., .NOCHANGE., $, $, $, 1718274275);
@@ -407,7 +407,5 @@ DATA;
 #8300=IFCDIRECTION((0.0,0.0,1.0));
 #8400=IFCSHAPEREPRESENTATION(#13,'Body','SweptSolid',(#8200));
 #8500=IFCPRODUCTDEFINITIONSHAPE($,$,(#8100,#8400));
-
-
 ENDSEC;
 END-ISO-10303-21;

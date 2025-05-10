@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('fail-swe001-IfcArbitraryClosedProfileDef-zigzag-indexed.ifc','2024-10-05T20:25:45',(''),(''),'IfcOpenShell-0.7.11-d51fa2c5f','IfcOpenShell-0.7.11-d51fa2c5f','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('fail-swe001-IfcArbitraryClosedProfileDef-zigzag-indexed.ifc','2024-10-05T20:25:45',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.11+d51fa2c5f','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

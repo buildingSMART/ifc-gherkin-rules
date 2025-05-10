@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('','2024-12-28T13:32:55',(''),(''),'IfcOpenShell-0.8.0','IfcOpenShell-0.8.0','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('fail-gem112-rect_eps.ifc','2024-12-28T13:32:55',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.8.0','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

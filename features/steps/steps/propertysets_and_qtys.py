@@ -159,7 +159,7 @@ def step_impl(context, inst, table, inst_type=None):
         yield ValidationOutcome(inst=inst, observed={'value': name}, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("Each associated IfcProperty must be named [according to the table] '{table}'")
+@gherkin_ifc.step("Each associated .{inst_type:property_or_physical_quantity}. must be named [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
     property_set_definitions = get_pset_definitions(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
@@ -265,7 +265,7 @@ def step_impl(context, inst, table, inst_type=None):
                                                 severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("The IfcPropertySet must be related to a valid entity type [according to the table] '{table}'")
+@gherkin_ifc.step("The .{inst_type:property_set_or_element_quantity}. must be related to a valid entity type [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
     property_set_definitions = get_pset_definitions(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
@@ -283,7 +283,7 @@ def step_impl(context, inst, table, inst_type=None):
 
 
 @gherkin_ifc.step(
-    "Each associated IfcProperty must be of valid entity type [according to the table] '{table}'")
+    "Each associated .{inst_type:property_or_physical_quantity}. must be of valid entity type [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
     property_set_definitions = get_pset_definitions(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
@@ -308,7 +308,7 @@ def step_impl(context, inst, table, inst_type=None):
 
 
 @gherkin_ifc.step(
-    "Each associated IfcProperty value must be of valid data type [according to the table] '{table}'")
+    "Each associated .{inst_type:property_or_physical_quantity}. value must be of valid data type [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
     property_set_definitions = get_pset_definitions(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))

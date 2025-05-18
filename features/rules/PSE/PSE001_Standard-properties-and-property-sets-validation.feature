@@ -7,7 +7,7 @@ The rule verifies that each IfcPropertySet starting with 'Pset_' is defined corr
   
   Background:
    Given An .IfcPropertySet.
-   Given its Name attribute starts with Pset_
+   Given its .Name. attribute ^starts^ with 'Pset_'
 
 
   Scenario: IfcPropertySet Name
@@ -17,20 +17,20 @@ The rule verifies that each IfcPropertySet starting with 'Pset_' is defined corr
 
   Scenario: Property Name
 
-      Then Each associated IfcProperty must be named [according to the table] 'pset_definitions'
+      Then Each associated .IfcProperty. must be named [according to the table] 'pset_definitions'
 
 
   Scenario: PropertySet definitions
 
-      Then The IfcPropertySet must be related to a valid entity type [according to the table] 'pset_definitions'
+      Then The .IfcPropertySet. must be related to a valid entity type [according to the table] 'pset_definitions'
 
 
   Scenario: Property Type
 
-      Then Each associated IfcProperty must be of valid entity type [according to the table] 'pset_definitions'
+      Then Each associated .IfcProperty. must be of valid entity type [according to the table] 'pset_definitions'
 
     
   Scenario: Property Data Type      
 
-        Then Each associated IfcProperty value must be of valid data type [according to the table] 'pset_definitions'
+        Then Each associated .IfcProperty. value must be of valid data type [according to the table] 'pset_definitions'
 

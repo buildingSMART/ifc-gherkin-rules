@@ -20,7 +20,7 @@ RESOURCE_PATH_PREFIX = Path("features", "resources")
 @dataclass
 class PropertyDef:
     property_name: str
-    data_type: str
+    property_type: str
 
 
 @dataclass
@@ -68,7 +68,7 @@ def qto_def_from_entity(inst: ifcopenshell.entity_instance) -> QtoDef:
     for prop_def in prop_defs:
         property_def_info.append({
             "property_name": prop_def.Name,
-            "data_type": property_template_type_to_entity_type(prop_def.TemplateType)
+            "property_type": property_template_type_to_entity_type(prop_def.TemplateType)
         })
 
     qto = QtoDef(

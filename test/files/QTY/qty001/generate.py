@@ -11,6 +11,13 @@ from ifcopenshell.api.unit import add_si_unit
 from ifcopenshell.api.pset import add_qto
 from ifcopenshell.api.pset import edit_qto
 
+PASS_FILE = "pass-qty001-correct_method_of_measurement.ifc"
+FAIL_FILE_PREFIX = "fail-qty001-scenario0"
+
+
+def get_qty_instance(file: ifcopenshell.file) -> ifcopenshell.entity_instance:
+    return file.by_type("IfcElementQuantity")[0]
+
 
 def add_units_defs(file: ifcopenshell.file) -> None:
     print("[INFO] adding units definitions...")
@@ -37,22 +44,35 @@ def add_quantity_info(file: ifcopenshell.file):
     })
 
 
+def write_fail_file(file: ifcopenshell.file, index: int, description: str) -> None:
+    out_file = f"{FAIL_FILE_PREFIX}{index}-{description}.ifc"
+    print(f"[INFO] writing {out_file} to file...")
+    file.write(out_file)
+
+
 def generate(model: ifcopenshell.file):
     add_units_defs(model)
     add_quantity_info(model)
-    qty_inst = model.by_type("IfcElementQuantity")[0]
 
+    qty_inst = get_qty_instance(model)
     qty_inst.MethodOfMeasurement = "BaseQuantities"
     print("[INFO] writing passing model to file...")
-    model.write("pass-qty001-correct_method_of_measurement.ifc")
+    model.write(PASS_FILE)
 
+    idx = 1
+    model = ifcopenshell.open(PASS_FILE)
+    qty_inst = get_qty_instance(model)
+    qty_inst.Name = "Qto_DefinitelyNotStandard"
+    write_fail_file(model, idx, description="non_standard_qto_name")
+
+    idx = 5
+    model = ifcopenshell.open(PASS_FILE)
+    qty_inst = get_qty_instance(model)
     qty_inst.MethodOfMeasurement = "Calculated by an intern on an HP 42 calculator"
-    print("[INFO] writing passing model to file...")
-    model.write("fail-qty001-incorrect_method_of_measurement.ifc")
+    write_fail_file(model, idx, description="incorrect_method_of_measurement")
 
 
 if __name__ == "__main__":
-
     print("[INFO] opening sample model...")
     in_file = ifcopenshell.open("reinforcing-assembly.txt")
 

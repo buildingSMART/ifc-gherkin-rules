@@ -6,6 +6,7 @@ import os
 import re
 from typing import List
 
+import ifcopenshell
 from validation_handling import gherkin_ifc
 from utils import ifc, misc, system
 from . import ValidationOutcome, OutcomeSeverity
@@ -13,7 +14,9 @@ from . import ValidationOutcome, OutcomeSeverity
 template_type_to_expected = {
     'PSET_TYPEDRIVENONLY': 'IfcTypeObject',
     'PSET_PERFORMANCEDRIVEN': 'IfcPerformanceHistory',
-    'PSET_OCCURRENCEDRIVEN': 'IfcObject'
+    'PSET_OCCURRENCEDRIVEN': 'IfcObject',
+    'QTO_TYPEDRIVENONLY': 'IfcTypeObject',
+    'QTO_OCCURRENCEDRIVEN': 'IfcObject',
 }
 
 
@@ -34,6 +37,19 @@ def get_predefined_type(inst):
             return _type.ElementType
         else:
             return _type.PredefinedType
+
+
+def get_properties_or_quantities(inst: ifcopenshell.entity_instance) -> List[ifcopenshell.entity_instance]:
+    inst_type = inst.is_a()
+    match inst_type.upper():
+        case "IFCPROPERTYSET":
+            properties = inst.HasProperties
+        case "IFCELEMENTQUANTITY":
+            properties = inst.Quantities
+        case _:
+            properties = []
+
+    return properties
 
 
 def take_first_if_single_length(li: List):
@@ -101,7 +117,8 @@ def establish_accepted_pset_values(name: str, _schema: str, _table: str, propert
     for property_def in make_obj(property_set_attr['property_definitions']):
         accepted_values['property_names'].append(property_def['property_name'])
         accepted_values['property_types'].append(property_def['property_type'])
-        accepted_values['data_types'].append(property_def['data_type'])
+        if name[:5] == "Pset_":
+            accepted_values['data_types'].append(property_def['data_type'])
 
     accepted_values['applicable_entities'] = [s.split('/')[0] for s in
                                               make_obj(property_set_attr['applicable_entities'])]
@@ -159,7 +176,8 @@ def step_impl(context, inst, table, inst_type=None):
         yield ValidationOutcome(inst=inst, observed={'value': name}, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("Each associated .{inst_type:property_or_physical_quantity}. must be named [according to the table] '{table}'")
+@gherkin_ifc.step(
+    "Each associated .{inst_type:property_or_physical_quantity}. must be named [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
     property_set_definitions = get_pset_definitions(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
@@ -223,7 +241,8 @@ def step_impl(context, inst, table, inst_type=None):
         related_objects += inst.DefinesType
         for obj in related_objects:
             if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN',
-                                                                                         'PSET_PERFORMANCEDRIVEN']:
+                                                                                         'PSET_PERFORMANCEDRIVEN',
+                                                                                         'QTO_OCCURRENCEDRIVEN']:
                 yield ValidationOutcome(inst=inst, expected={
                     "entity": template_type_to_expected[accepted_values['template_type']]}, observed=obj,
                                         severity=OutcomeSeverity.ERROR)
@@ -231,7 +250,7 @@ def step_impl(context, inst, table, inst_type=None):
             correct = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities'] if
                        obj.is_a(accepted_object)]
 
-            # Translate occurence to type name for when template is typedriven(override) but applicability only lists occurrence
+            # Translate occurrence to type name for when template is typedriven(override) but applicability only lists occurrence
             def schema_has_declaration_name(s):
                 try:
                     return obj.wrapped_data.declaration().schema().declaration_by_name(s) is not None
@@ -265,7 +284,8 @@ def step_impl(context, inst, table, inst_type=None):
                                                 severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("The .{inst_type:property_set_or_element_quantity}. must be related to a valid entity type [according to the table] '{table}'")
+@gherkin_ifc.step(
+    "The .{inst_type:property_set_or_element_quantity}. must be related to a valid entity type [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
     property_set_definitions = get_pset_definitions(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
@@ -275,7 +295,8 @@ def step_impl(context, inst, table, inst_type=None):
 
     if accepted_values:  # If not it's a custom Pset_ prefixed attribute, e.g. Pset_Mywall (no need for further Pset_ checks),
 
-        properties = inst.HasProperties
+        properties = get_properties_or_quantities(inst)
+
         for prop in properties:
             if prop.Name not in accepted_values['property_names']:
                 yield ValidationOutcome(inst=inst, expected=accepted_values['property_names'],
@@ -295,7 +316,10 @@ def step_impl(context, inst, table, inst_type=None):
 
         accepted_property_name_type_map = dict(
             zip(accepted_values['property_names'], accepted_values['property_types']))
-        for prop in inst.HasProperties:
+
+        properties = get_properties_or_quantities(inst)
+
+        for prop in properties:
 
             try:
                 accepted_property_type = accepted_property_name_type_map[prop.Name]
@@ -320,7 +344,9 @@ def step_impl(context, inst, table, inst_type=None):
         accepted_property_name_datatype_map = dict(
             zip(accepted_values['property_names'], accepted_values['data_types']))
 
-        for prop in inst.HasProperties:
+        properties = get_properties_or_quantities(inst)
+
+        for prop in properties:
             try:
                 accepted_data_type = accepted_property_name_datatype_map[prop.Name]
             except KeyError:  # Custom property name, not matching the Pset_ expected property. Error found in previous step, no need to check more.

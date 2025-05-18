@@ -30,12 +30,8 @@ Scenario: PhysicalQuantity Type
   Then Each associated .IfcPhysicalQuantity. must be of valid entity type [according to the table] 'qto_definitions'
 
 
-Scenario: PhysicalQuantity Data Type
+Scenario: Correct value for Method of Measurement
 
-  Then Each associated .IfcPhysicalQuantity. value must be of valid data type [according to the table] 'qto_definitions'
-
-  Scenario: Correct value for Method of Measurement
-
-    Then The value of attribute .MethodOfMeasurement. must be ^equal to^ 'BaseQuantities'
+  Then The value of attribute .MethodOfMeasurement. must be 'BaseQuantities'
 
 

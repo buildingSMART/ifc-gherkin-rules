@@ -120,6 +120,7 @@ def rtrn_pyparse_obj(i):
 
 def stmt_to_op(statement):
     statement = statement.replace('is', '').strip()
+    statement = statement.lower()
     stmts_to_op = {
         '': operator.eq,  # a == b
         "equal to": operator.eq,  # a == b

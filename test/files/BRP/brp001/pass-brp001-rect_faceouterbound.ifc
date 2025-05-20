@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('pass-brp001-rect_faceouterbound.ifc','2024-09-30T13:53:38',(''),(''),'IfcOpenShell-0.7.9-c18e4ea6c','IfcOpenShell-0.7.9-c18e4ea6c','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('pass-brp001-rect_faceouterbound.ifc','2024-09-30T13:53:38',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.9+c18e4ea6c','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

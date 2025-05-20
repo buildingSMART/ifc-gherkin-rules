@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('','2024-10-23T14:56:11',(''),(''),'IfcOpenShell-0.7.11-d51fa2c5f','IfcOpenShell-0.7.11-d51fa2c5f','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('na-vrt000-no_virtual_element.ifc','2024-10-23T14:56:11',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.11+d51fa2c5f','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

@@ -1,9 +1,7 @@
 ISO-10303-21;
-/*  Testfile: pass-sps002-correct-spatial-breakdown.ifc */
-/*  IFC-Requirement: sps002; Correct spatial breakdown */
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [Ifc4X3NotAssigned]'),'2;1');
-FILE_NAME ('pass-sps002-correct-spatial-breakdown-ifc4.ifc', '2023-03-14T15:36:48', ('bSI Railway Room - Technical Services'), ('aIFC4Rail'), 'Python+IfcOpenShell', 'BC-002; Correct spatial breakdown','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('pass-sps002-correct_spatial_breakdown_parts.ifc','2023-03-14T15:36:48',('bSI Railway Room - Technical Services'),('aIFC4Rail'),'Python+IfcOpenShell','IfcOpenShell contributors - IfcOpenShell - v0.8.1+088bc207a','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -66,5 +64,4 @@ DATA;
 #323= IFCRELAGGREGATES('2G17HB5orFmhdpTVYmbgKX',$,'RailwayContainer','Container for Railway Parts',#321,(#322));
 #324= IFCRELAGGREGATES('2G17HB5orFmhdpTVYmbgCX',$,'RailwayContainer','Container for Railway Parts',#322,(#321));
 ENDSEC;
-
 END-ISO-10303-21;

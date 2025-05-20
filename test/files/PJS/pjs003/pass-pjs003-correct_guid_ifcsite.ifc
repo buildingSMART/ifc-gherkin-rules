@@ -1,11 +1,9 @@
 ISO-10303-21;
 HEADER;
-
-FILE_DESCRIPTION((''),'2;1');
-FILE_NAME('','2024-06-12T09:50:55',(''),(''),'LAB','GMN3DS','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('pass-pjs003-correct_guid_ifcsite.ifc','2024-06-12T09:50:55',(''),(''),'','LAB - GMN3DS - v0.1','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
-
 DATA;
 
 /* PROJECT CONTEXT  */
@@ -30,6 +28,5 @@ DATA;
 
  
 #29990=IFCSITE('14oxcl5LHMZQ6iCWJKpe5w',#2,'SITE_withCorrectGuid',$,$,#31,$,$,.COMPLEX.,$,$,$,$,$);
-
 ENDSEC;
 END-ISO-10303-21;

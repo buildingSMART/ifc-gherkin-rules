@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('','2023-09-21T11:25:23',(''),(''),'IfcOpenShell-v0.7.0-64d98f129','IfcOpenShell-v0.7.0-64d98f129','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('pass-sps004-without_position_with_contain.ifc','2023-09-21T11:25:23',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+64d98f129','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

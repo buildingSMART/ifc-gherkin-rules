@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION (('ViewDefinition [Alignment-basedView]'), '2;1');
-FILE_NAME('pass-alb000-alignment_layout.ifc','2023-10-12T15:19:11',('redacted'),('redacted'),'IfcOpenShell 0.8.0','redacted - redacted - 3.14159','');
+FILE_NAME('pass-alb000-alignment_with_layout.ifc','2023-10-12T15:19:11',('redacted'),('redacted'),'IfcOpenShell 0.8.0','redacted - redacted - 3.14159','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

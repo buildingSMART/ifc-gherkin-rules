@@ -1,8 +1,8 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION (('ViewDefinition [CoordinationView]'), '2;1');
-FILE_NAME ('pass-alb023-helmert_curve.ifc', '2022-02-22T22:00:00', ('IFC Rail Technical Services'), ('buildingSMART International RailwayRoom'), 'RDF Ltd. (https://rdf.bg/)', '2019.1.1995.0', '');
-FILE_SCHEMA (('IFC4X3_ADD2'));
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('pass-alb023-helmert_curve.ifc','2022-02-22T22:00:00',('IFC Rail Technical Services'),('buildingSMART International RailwayRoom'),'RDF Ltd. (https://rdf.bg/)','RFD - RFD - 2019.1.1995.0','');
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
 #1 = IFCPROJECT('1FNFy8AJeHwwz7wDZHIYIu', #3, 'IFC Rail Referencedata', 'Rail alignment sample', $, 'Longname', 'Design', $, #9);
@@ -187,8 +187,5 @@ DATA;
 #9100 = IFCCARTESIANPOINT((0., 0.));
 #9200 = IFCVECTOR(#9300, 1.);
 #9300 = IFCDIRECTION((1., 0.));
-
-
-
 ENDSEC;
 END-ISO-10303-21;

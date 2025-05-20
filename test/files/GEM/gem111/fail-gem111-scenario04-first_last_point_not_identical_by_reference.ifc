@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('fail-gem111-scenario03-first-last-point-not-identical-by-reference.ifc','2022-12-28T12:36:57',(''),(''),'IfcOpenShell-v0.7.0-fa6bbf2d','IfcOpenShell-v0.7.0-fa6bbf2d','');
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0]'),'2;1');
+FILE_NAME('fail-gem111-scenario04-first_last_point_not_identical_by_reference.ifc','2022-12-28T12:36:57',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+fa6bbf2d','');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

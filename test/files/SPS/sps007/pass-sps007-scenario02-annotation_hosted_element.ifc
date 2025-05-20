@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition[Ifc4x3NotAssigned]'),'2;1');
-FILE_NAME('testfile.ifc','2022-09-16T10:35:07',('John Smith'),('buildingSMART Int.'),'MyToolboxName Version 1.0','Acme Inc. - TNT BIM 2025 - 25.1.0.0','');
+FILE_DESCRIPTION(('ViewDefinition[ReferenceView]'),'2;1');
+FILE_NAME('pass-sps007-scenario02-annotation_hosted_element.ifc','2022-09-16T10:35:07',('John Smith'),('buildingSMART Int.'),'MyToolboxName Version 1.0','Acme Inc. - TNT BIM 2025 - 25.1.0.0','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

@@ -1,18 +1,9 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
-FILE_NAME(
-/* name */ '',
-/* time_stamp */ '2014-12-09T00:27:54',
-/* author */ ('Jon'),
-/* organization */ ('Unknown'),
-/* preprocessor_version */ 'ggIFC - Exporter by Geometry Gym Pty Ltd',
-/* originating_system */ 'Geometry Gym Pty Ltd - ggIFC - 1.0.0.0',
-/* authorization */ 'None');
-
-FILE_SCHEMA (('IFC4'));
+FILE_NAME('pass-ifc105-tessellation-with-individual-colors.ifc','2014-12-09T00:27:54',('Jon'),('Unknown'),'ggIFC - Exporter by Geometry Gym Pty Ltd','Geometry Gym Pty Ltd - ggIFC - 1.0.0.0','None');
+FILE_SCHEMA(('IFC4'));
 ENDSEC;
-
 DATA;
 #1= IFCAPPLICATION(#2,'1.0.0.0','ggRhinoIFC - Geometry Gym Plug-in for Rhino3d','ggRhinoIFC');
 #2= IFCORGANIZATION($,'Geometry Gym Pty Ltd',$,$,$);
@@ -47,6 +38,4 @@ DATA;
 #301= IFCPRODUCTDEFINITIONSHAPE($,$,(#302));
 #302= IFCSHAPEREPRESENTATION(#12,'Body','Tessellation',(#201));
 ENDSEC;
-
 END-ISO-10303-21;
-

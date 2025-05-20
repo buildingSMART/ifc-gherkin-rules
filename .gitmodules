@@ -1,3 +1,4 @@
 [submodule "ifc_validation_models"]
 	path = ifc_validation_models
 	url = https://github.com/buildingSMART/ifc-validation-data-model
+	branch = development

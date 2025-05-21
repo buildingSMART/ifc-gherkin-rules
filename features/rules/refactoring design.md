@@ -53,18 +53,6 @@ The value of attribute .RepresentationIdentifier. must be 'Axis'
 The type of attribute .Items. must be .IfcCurveSegment.
 ```
 
-## Swappable statements
-
-These are groups of terms that are interchanged based on whether they will be used for a Given or Then.
-
-| Construct                 | Given       | Then            |
-|---------------------------|-------------|-----------------|
-| Equality                  | is          | must be         |
-| Existence                 | exists      | must exist      |
-| Beginning string matching | starts with | must start with |
-| Ending string matching    | ends with   | must end with   |
-
-
 ## Control characters
 
 ## Angle brackets `<>`
@@ -96,18 +84,6 @@ Prior to this refactor, there were enums registered in multiple places and with 
 They have been centralized and are now defined in `registered_type_definitions.json`.
 They are registered in `steps/__init__.py` so that they are universally available and not tied to
 any particular step implementation module.
-
-
-| class              | defined in        | opt1               | opt 2              | Notes                    |
-|--------------------|-------------------|--------------------|--------------------|--------------------------|
-| ComparisonOperator | givens/attributes | EQUAL              | NOT_EQUAL          |                          | 
-
-## Binary and unary operators - Asterisk `*`
-
-- binary and unary operators
-  - see `comparisons` in thens/attributes.py
-
-- equal to
 
 ## Square brackets '[]'
 

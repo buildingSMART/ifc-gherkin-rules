@@ -47,7 +47,7 @@ def step_impl(context, inst, regex_condition, regex_pattern):
         yield ValidationOutcome(instance_id=inst, expected=regex_pattern, observed=inst, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("Its {attribute} attribute {prefix_condition:prefix_condition} with {prefix}")
+@gherkin_ifc.step("Its .{attribute}. attribute ^{prefix_condition:prefix_condition}^ with '{prefix}'")
 def step_impl(context, inst, attribute, prefix_condition, prefix):
     """
     '

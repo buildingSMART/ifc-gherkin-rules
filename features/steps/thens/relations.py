@@ -163,3 +163,19 @@ def step_impl(context, inst):
 
     if inst not in context.visited_instances:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("^{stmt}^ {num:d} of the following relationships must be non-empty: '{inverse_attrs}'")
+def step_impl(context, inst, num, stmt, inverse_attrs):
+    """_summary_
+    Quite straightforward; the only thing we're checking is the number of non-empty values from a list of attributes.
+    """
+    attrs = [item.strip().strip("'") for item in inverse_attrs.split(',')]
+    count = sum(bool(getattr(inst, attr, None)) for attr in attrs)
+
+    compare = misc.stmt_to_op(stmt)
+    
+    if compare(count, num):
+        yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
+    else: 
+        yield ValidationOutcome(inst=inst, observed = count, severity=OutcomeSeverity.ERROR)

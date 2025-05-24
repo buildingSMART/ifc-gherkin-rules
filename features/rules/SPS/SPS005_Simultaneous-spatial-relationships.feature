@@ -10,4 +10,4 @@ cannot participate in both nesting and aggregating children roles.
 
     Given An .IfcElement.
     
-    Then ^Exactly^ one of the following relationships must be non-empty: 'Nests', 'Decomposes', 'ContainedInStructure', 'AdheresToElement'
+    Then ^Exactly^ 1 of the following relationships must be non-empty: 'Nests', 'Decomposes', 'ContainedInStructure', 'AdheresToElement'

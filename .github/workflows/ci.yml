@@ -32,7 +32,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-        pip install behave pytest tabulate pyparsing sqlalchemy numpy pydantic pydot sqlalchemy_utils django python-dotenv deprecated pandas pyspellchecker rtree lark-parser networkx mpmath shapely
+        pip install behave pytest tabulate pyparsing sqlalchemy numpy pydantic pydot sqlalchemy_utils django python-dotenv deprecated pandas pyspellchecker rtree lark-parser networkx mpmath shapely pyproj
         wget -O /tmp/ifcopenshell_python.zip https://s3.amazonaws.com/ifcopenshell-builds/ifcopenshell-python-`python3 -c 'import sys;print("".join(map(str, sys.version_info[0:2])))'`-v0.8.3-ec13294-linux64.zip
         mkdir -p `python3 -c 'import site; print(site.getusersitepackages())'`
         unzip -d `python3 -c 'import site; print(site.getusersitepackages())'` /tmp/ifcopenshell_python.zip

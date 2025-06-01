@@ -40,6 +40,7 @@ for ent_1, ent_2, variate in itertools.product(entities, entities, (0, 1)):
                     TargetCRS=TargetCRS,
                     Northings=Northings,
                     Eastings=Eastings,
+                    OrthogonalHeight=1,
                     XAxisAbscissa=1,
                     XAxisOrdinate=0
                 )
@@ -177,6 +178,7 @@ for i in range(2):
                     TargetCRS=TargetCRS,
                     Northings=Northings,
                     Eastings=Eastings,
+                    OrthogonalHeight=1,
                     XAxisAbscissa=1,
                     XAxisOrdinate=0,
                     ScaleX = 1,

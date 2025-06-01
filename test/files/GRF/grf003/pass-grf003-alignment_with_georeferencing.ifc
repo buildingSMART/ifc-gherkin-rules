@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME('fail-alb023-scenario02-different_horizontal_segment_geometry_types.ifc','2023-12-31T23:59:59',('redacted'),('redacted'),'redacted','redacted - redacted - 3.14159','redacted');
+FILE_NAME('pass-grf003-alignment_with_georeferencing.ifc','2023-12-31T23:59:59',('redacted'),('redacted'),'redacted','redacted - redacted - 3.14159','redacted');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -3047,13 +3047,12 @@ DATA;
 #3044 = IFCRELAGGREGATES('2C2gCe8fLBH8qUI6jpQ98v', #1, 'Project Container', 'Project to Spatial Element', #7, (#2268));
 #3045 = IFCSIGNALTYPE('08tHBMWRHDiBAH7pFrGVfm', #1, 'Default Signal Type', $, $, $, $, $, $, .VISUAL.);
 #3046 = IFCRELDEFINESBYTYPE('3HRtYOGRf1twGzmyWPnzwc', #1, 'Type Object Relation', 'Type Object Relation', (#3020, #3031), #3045);
-#3047 = IFCRELNESTS('1wV_u4EpX2eRQmudiG$MZe', #1, 'Nests', $, #2278, (#2698, #2712, #2726, #2740, #2754, #2768, #2782, #2796, #2810, #2824, #2838, #2852, #2866, #2880, #2894, #2908, #2922, #2936, #2950, #2964, #2978, #2992, #3006));
 #3048 = IFCRELPOSITIONS('2JQ3DklALExh2$UBCF3cky', #1, 'Positions', $, #2278, (#3020, #3031, #2698, #2712, #2726, #2740, #2754, #2768, #2782, #2796, #2810, #2824, #2838, #2852, #2866, #2880, #2894, #2908, #2922, #2936, #2950, #2964, #2978, #2992, #3006));
 #3049 = IFCRELAGGREGATES('2g_hsY2CXBBuc8$0aOd5Mi', #1, 'Project aggregation', $, #7, (#2278));
 #3050 = IFCMAPCONVERSION(#13, #3051, 0., 0., 0., 1., 0., 1.);
 #3051 = IFCPROJECTEDCRS('EPSG:3065', 'Istituto Geografico Militare 1995 (IGM95)', 'EPSG:4670', 'EPSG:5214', 'UTM', '33N', $);
 
-#4001 = IfcAlignmentSegment('3jQmXjgSLEDBBjEuIhHqVd', #1, 'hA', $, $, #2345, #4101, #4011);
+#4001 = IFCALIGNMENTSEGMENT('3jQmXjgSLEDBBjEuIhHqVd', #1, 'hA', $, $, #2345, #4101, #4011);
 #4011 = IFCALIGNMENTHORIZONTALSEGMENT($, $, #4012, 4.33956866598294E-1, 0., 0., 0., $, .LINE.);
 #4012 = IFCCARTESIANPOINT((453202.524112, 4539831.92869));
 

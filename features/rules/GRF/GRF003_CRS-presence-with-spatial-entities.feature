@@ -5,7 +5,7 @@
 Feature: GRF003 - CRS presence with spatial entities
 The rule verifies that when spatial elements like buildings or alignments are present in a model, proper georeferencing is established using an coordinate reference system. 
 Use of RefLatitude, RefLongitude, or RefElevation on IfcSite does not constitute valid georeferencing on its own. 
-Models containing IfcBuilding or IfcAlignment define a valid IfcProjectedCRS or IfcGeographicCRS.
+Models containing IfcBuilding or IfcAlignment must also contain a IfcProjectedCRS or IfcGeographicCRS.
 
 
   Scenario Outline: CRS required when IfcSite contains geolocation attributes

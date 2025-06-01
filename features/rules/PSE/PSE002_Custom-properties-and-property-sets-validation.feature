@@ -10,6 +10,6 @@ The property sets defined in the IFC specification all start with 'Pset_'
 
       Given An .IfcPropertySet.
       Given Its attribute .Name.
-      Given Its value does not start with Pset_
+      Given Its value ^does not start^ with 'Pset_'
 
       Then Its value must not conform to the expression /^[Pp][Ss][Ee][Tt]/

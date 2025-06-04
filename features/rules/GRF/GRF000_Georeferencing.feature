@@ -8,7 +8,7 @@ The rule verifies the presence of IFC entities used define the geographic locati
 
 Background: 
 
-    Given A model with Schema 'IFC4.3'
+    Given A model with Schema 'IFC4.3' or 'IFC4'
 
 
     Scenario: Georeferencing defined with a reference coordinate system

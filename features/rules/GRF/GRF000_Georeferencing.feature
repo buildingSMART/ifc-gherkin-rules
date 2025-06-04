@@ -3,7 +3,7 @@
 @version1
 @E00050
 Feature: GRF000 - Georeferencing
-The rule verifies the presence of IFC entities used define the geographic location and orientation of the model relative to a reference coordinate system, such as a national or global coordinate system.
+The rule verifies the presence of IFC entities used define the geographic location and orientation of the model relative to a coordinate reference system.
 
 
 Background: 

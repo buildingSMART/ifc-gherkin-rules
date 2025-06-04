@@ -17,18 +17,3 @@ Background:
 
         Then The IFC model contains information on the selected functional part
 
-
-    Scenario Outline: Georeferencing defined on the site
-        
-        Given an .IfcSite.
-        Given .<attribute>. ^is not^ empty
-
-        Then The IFC model contains information on the selected functional part
-
-        Examples: 
-            | attribute    | 
-            | RefLatitude  |
-            | RefLongitude | 
-            | RefElevation |
-
-

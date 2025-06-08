@@ -56,6 +56,7 @@ def step_impl(context, inst, attribute, expected_entity_type):
 
 
 @gherkin_ifc.step("The value of attribute .{attribute}. must be '{value_or_comparison_op}'")
+@gherkin_ifc.step("The value of attribute .{attribute}. must be ^{value_or_comparison_op}^")
 @gherkin_ifc.step("The value of attribute .{attribute}. must be ^{value_or_comparison_op}^ [{display_entity:display_entity}]")
 @gherkin_ifc.step("The value of attribute .{attribute}. must be ^{value_or_comparison_op}^ the expression: [{expression}]")
 @gherkin_ifc.step("The value of attribute .{attribute}. must be ^{value_or_comparison_op}^ the expression: [{expression}] [within a tolerance of] {comparison_tolerance:g}")
@@ -176,7 +177,7 @@ def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, exp
         if attribute is None:
             attribute_value = inst
         else:
-            attribute_value = getattr(inst, attribute, 'Attribute not found')
+            attribute_value = getattr(inst, attribute, ())
         if attribute_value is None:
             attribute_value = ()
         if inst is None:

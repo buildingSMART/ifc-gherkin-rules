@@ -23,7 +23,7 @@ The rule verifies that there's maximum one instance of IfcSite and at least one 
     Given An .IfcSite.
     Given an .IfcBuilding.
     Then It must be assigned to the .IfcSite.
-.
+
 
   Scenario: Agreement142(3) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
 

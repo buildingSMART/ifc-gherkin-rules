@@ -110,7 +110,7 @@ def step_impl(context, inst, i, value):
             inst = misc.do_try(lambda: inst.is_a(), inst)
         if inst != value:
             yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
-            
+
 
 @gherkin_ifc.step("The value must refer to a valid EPSG code")
 @gherkin_ifc.step("The value refers to a valid EPSG code")

@@ -9,7 +9,7 @@ The simple attributes on IfcSite: RefLatitude, RefLongitude and RefElevation are
 
 Background: 
 
-    Given A model with Schema 'IFC4.3' or 'IFC4'
+    Given A model with Schema 'IFC4' or 'IFC4.3'
 
 
     Scenario: Georeferencing defined with a reference coordinate system

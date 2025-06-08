@@ -9,7 +9,7 @@ For reference: https://pyproj4.github.io/pyproj/stable/api/database.html
 
   Background: 
 
-      Given A model with Schema 'IFC4.3' or 'IFC4'
+      Given A model with Schema 'IFC4' or 'IFC4.3'
 
   Scenario Outline: Validate EPSG code in IfcCoordinateReferenceSystem
 

@@ -21,8 +21,8 @@ def global_rule(func):
     """
     Use this decorator when the rule applies to the whole stack instead of a single instance.
     For instance
-    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
-    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity} {tail:include_or_exclude_subtypes}')
+    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of .{entity}.')
+    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of .{entity}. {tail:include_or_exclude_subtypes}')
     @global_rule
     """
     @functools.wraps(func)

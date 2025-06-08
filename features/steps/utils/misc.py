@@ -20,6 +20,22 @@ def reverse_operands(fn):
         return fn(*reversed(args))
     return inner
 
+def negate(fn):
+    """
+    Returns a function that negates the result of the given predicate function.
+
+    Example:
+        >>> import operator
+        >>> not_equal = negate(operator.eq)
+        >>> not_equal(1, 2)
+        True
+        >>> not_equal(1, 1)
+        False
+    """
+    def inner(*args):
+        return not fn(*args)
+    return inner
+
 
 def recursive_flatten(lst):
     flattened_list = []
@@ -144,12 +160,6 @@ def strip_split(stmt, strp=' ', splt=',', lower=True):
     with methods like `startswith()`, which accept tuples for multi-value checks.
     """
     return tuple(s.strip(strp) for s in (stmt.lower() if lower else stmt).split(splt))
-
-
-
-def unpack_sequence_of_entities(instances):
-    # in case of [[inst1, inst2], [inst3, inst4]]
-    return [do_try(lambda: unpack_tuple(inst), None) for inst in instances]
 
 
 def unpack_tuple(tup):

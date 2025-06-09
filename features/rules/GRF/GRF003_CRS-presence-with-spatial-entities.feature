@@ -1,4 +1,5 @@
 @industry-practice
+@no-activation
 @GRF
 @version1
 @E00010

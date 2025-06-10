@@ -177,7 +177,7 @@ def handle_then(context, fn, **kwargs):
     # then the rule is still activated and will return either a pass or an error
     # an exception is when the feature tags contain '@not-activation'
     is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
-    if is_activated and not ('no-activation' in context.tags and context.config.userdata.get('execution_mode') == 'ExecutionMode.PRODUCTION'):
+    if is_activated and not 'no-activation' in context.tags:
         context.gherkin_outcomes.append(
             ValidationOutcome(
                 outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now

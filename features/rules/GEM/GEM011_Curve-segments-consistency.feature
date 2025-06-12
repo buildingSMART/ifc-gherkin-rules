@@ -3,11 +3,11 @@
 @version1
 @E00010
 
-Feature: ALS011 - Alignment segment entity type consistency
+Feature: GEM011 - Curve segments consistency
 
   The rule verifies that the same entity type is used for all segments
   and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve
-  The rule is identical to GEM011, except that it requires the presence of an IfcAlignment.
+  The rule is identical to ALS011, except that it does not require the presence of an IfcAlignment.
 
 
 Background: 

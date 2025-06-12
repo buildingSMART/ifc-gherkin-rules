@@ -10,10 +10,7 @@ https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/I
   Scenario: WKT specification for missing ESPG in the name
 
       Given A model with Schema 'IFC4.3'
-      Given an .IfcProject.
-      Given Its attribute .RepresentationContexts.
-      Given Its attribute .HasCoordinateOperation.
-      Given Its attribute .TargetCRS.
+      Given an .IfcCoordinateReferenceSystem.
       Given Its .Name. attribute ^does not start^ with 'EPSG:'
 
       Then The value of attribute .WellKnownText. must be ^not empty^

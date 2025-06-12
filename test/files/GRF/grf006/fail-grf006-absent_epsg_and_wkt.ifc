@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION (('ViewDefinition[Alignment-basedReferenceView]'), '2;1');
-FILE_NAME ('pass-grf006-absent_epsg_and_wkt.ifc', '2022-11-16T10:37:00', (''), (''), '', 'ACCA usBIM.infra - ACCA_IFC.dll - v500', '');
+FILE_NAME ('fail-grf006-absent_epsg_and_wkt.ifc', '2022-11-16T10:37:00', (''), (''), '', 'ACCA usBIM.infra - ACCA_IFC.dll - v500', '');
 FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

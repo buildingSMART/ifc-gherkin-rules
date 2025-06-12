@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]','RevitIdentifiers [VersionGUID: df331a8b-9c9a-47c2-9551-286f15783e16, NumberOfSaves: 1]','CoordinateReference [CoordinateBase: Shared Coordinates]','ExchangeRequirement [Architecture]'),'2;1');
-FILE_NAME('pass-sps005-250612_wall_with_window.ifc','2025-06-12T21:16:12+10:00',(''),(''),'ODA SDAI 24.6','Autodesk Revit 24.2.0.63 (ENG) - IFC 24.2.0.49','');
+FILE_NAME('pass-sps005-250612_wall_with_window.ifc','2025-06-12T21:16:12+10:00',(''),(''),'ODA SDAI 24.6','Autodesk Revit - 24.2.0.63 (ENG) - 24.2.0.49','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 

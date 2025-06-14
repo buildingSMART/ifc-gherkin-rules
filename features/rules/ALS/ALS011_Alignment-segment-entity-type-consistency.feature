@@ -1,16 +1,16 @@
 @implementer-agreement
 @ALS
-@version1
+@version2
 @E00010
 
 Feature: ALS011 - Alignment segment entity type consistency
 
   The rule verifies that the same entity type is used for all segments
   and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve
-  The rule is identical to GEM011, except that it requires the presence of an IfcAlignment.
+  The rule is similar to GEM011, except that it requires the presence of an IfcAlignment.
 
 
-Background: 
+Background:
   Given a model with Schema 'IFC4.3'
   Given an .IfcAlignment.
   Given its attribute .Representation.
@@ -18,7 +18,7 @@ Background:
   Given its attribute .Items.
 
 
-Scenario Outline: Consistent entity types used
+Scenario Outline: Consistent entity types used - direct representation
 
   Given an .<entity>.
   Given its attribute .Segments.
@@ -31,6 +31,22 @@ Scenario Outline: Consistent entity types used
     | IfcCompositeCurve |
     | IfcGradientCurve  |
     | IfcSegmentedReferenceCurve |
+
+
+  Scenario Outline: Consistent entity types used - capture parent curve in case it is not a direct representation
+
+    Given an .<entity>.
+    Given its attribute .BaseCurve.
+    Given an .<entity_parent>.
+    Given its attribute .Segments.
+    Given its entity type
+
+    Then The values must be identical at depth 1
+
+    Examples:
+      | entity                      |  entity_parent |
+      | IfcGradientCurve            |  IfcCompositeCurve |
+      | IfcSegmentedReferenceCurve  |  IfcCompositeCurve |
 
 
 Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve

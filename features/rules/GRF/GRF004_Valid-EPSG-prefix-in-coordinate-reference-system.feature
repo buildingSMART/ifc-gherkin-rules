@@ -1,4 +1,4 @@
-@implementer_agreement
+@implementer-agreement
 @GRF
 @version1
 @E00500

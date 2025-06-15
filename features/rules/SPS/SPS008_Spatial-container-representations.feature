@@ -17,6 +17,7 @@ Feature: SPS008 - Spatial Container Representations
   Scenario: Instances of IfcSite must not have an independent representation
 
     Given a model with Schema 'IFC4' or 'IFC4.3'
+    Given an .IfcSite.
 
     Then .Representation. ^is^ empty
 

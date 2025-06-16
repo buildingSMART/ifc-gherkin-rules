@@ -8,15 +8,9 @@ The rule verifies that when buildings or alignments are present in a model, prop
 Models containing IfcBuilding or IfcAlignment must also contain a IfcProjectedCRS or IfcGeographicCRS.
 
   
-    Scenario Outline: CRS required when IfcBuilding or IfcAlignment is present
+    Scenario: CRS required when IfcBuilding or IfcAlignment is present
 
     Given a model with Schema 'IFC4.3'
-    Given an .<entity>.
+    Given an .IfcFacility.
 
     Then There must be at least 1 instance(s) of IfcCoordinateReferenceSystem
-
-    Examples:
-        | entity       | 
-        | IfcBuilding  | 
-        | IfcAlignment |
-

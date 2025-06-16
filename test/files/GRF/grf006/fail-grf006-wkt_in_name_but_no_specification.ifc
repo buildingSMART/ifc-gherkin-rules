@@ -909,6 +909,6 @@ DATA;
 #902 = IFCRELAGGREGATES('0C4VOIgJL68wvcZOfCQvwe', #1, 'Spatial Structure Element Container', 'Spatial Structure Element to Facilities', #18, (#897));
 #903 = IFCRELAGGREGATES('3Noebs8BP2SQ0gRQYUa$sD', #1, 'Project Container', 'Project to Spatial Element', #7, (#18));
 #904 = IFCRIGIDOPERATION(#13, #905, IFCLENGTHMEASURE(0.), IFCLENGTHMEASURE(0.), 0.);
-#905 = IFCPROJECTEDCRS('WKT', 'EPSG:6670', 'EPSG:5214', 'UTM', '33N', $);
+#905 = IFCPROJECTEDCRS('WKT', 'EPSG:6670', 'EPSG:5214', 'UTM', '33N', $, $);
 ENDSEC;
 END-ISO-10303-21;

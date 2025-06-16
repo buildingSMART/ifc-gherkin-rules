@@ -4,11 +4,11 @@
 @version1
 @E00010
 Feature: GRF003 - CRS presence with spatial entities
-The rule verifies that when buildings or alignments are present in a model, proper georeferencing is established using a coordinate reference system. 
-Models containing IfcBuilding or IfcAlignment must also contain a IfcProjectedCRS or IfcGeographicCRS.
+The rule verifies that proper georeferencing using a coordinate reference system is established when facilities such as buildings or bridges are present in a model.
+Models containing IfcFacility must contain a IfcProjectedCRS or IfcGeographicCRS.
 
   
-    Scenario: CRS required when IfcBuilding or IfcAlignment is present
+    Scenario: CRS required when IfcFacility is present
 
     Given a model with Schema 'IFC4.3'
     Given an .IfcFacility.

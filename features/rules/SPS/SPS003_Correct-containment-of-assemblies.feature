@@ -10,4 +10,4 @@ The rule verifies that IfcElement that are aggregated in another IfcElement must
     Given An .IfcElement.
     Given .Decomposes. ^is not^ empty
     
-    Then The value of attribute .ContainedInStructure. must be 'empty'
+    Then The value of attribute .ContainedInStructure. must be ^empty^

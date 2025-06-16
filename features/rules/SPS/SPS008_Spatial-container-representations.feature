@@ -4,7 +4,7 @@
 
 Feature: SPS008 - Spatial Container Representations
   The rule verifies that certain spatial containers do not have a geometric representation,
-  but are rather represented via their contained elements.
+  but are rather solely a container for other elements or aggregated into other facility parts.
 
 
   Scenario: Instances of IfcBuildingStorey must not have an independent representation

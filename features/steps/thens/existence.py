@@ -93,7 +93,7 @@ def step_impl(context, inst):
     if not any(misc.recursive_flatten(inst)):
         expected = get_previous_step_before_assertion(context)
         yield ValidationOutcome(
-            instance_id=inst,
+            inst=inst,
             expected=expected,
             observed="Nonexistent",
             severity=OutcomeSeverity.ERROR,

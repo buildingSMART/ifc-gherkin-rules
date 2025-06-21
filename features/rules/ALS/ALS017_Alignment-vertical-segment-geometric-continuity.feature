@@ -1,6 +1,6 @@
 @industry-practice
 @ALS
-@version3
+@version4
 
 Feature: ALS017 - Alignment vertical segment geometric continuity
 

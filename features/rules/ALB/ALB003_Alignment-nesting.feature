@@ -12,4 +12,4 @@ or with Referents (e.g., mileage markers). And not with any other entity.
     Given A model with Schema 'IFC4.3'
     Given an .IfcAlignment.
 
-    Then It must be nested by only the following entities: IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent
+    Then It [must be nested by only the following entities]: .IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent.

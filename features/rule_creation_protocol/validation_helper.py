@@ -50,10 +50,10 @@ class ValidatorHelper():
         # Functional part validity check
         return self.valid_functional_part(code['functional_part'])
     def validate_tags(self, tags):
-        if (rule_type_tags := [t for t in tags if t.lower() in ['implementer-agreement', 'informal-proposition', 'industry-practice', 'critical']]) and len(rule_type_tags) > 1: 
+        if (len(rule_type_tags := [t for t in tags if t.lower() in ['implementer-agreement', 'informal-proposition', 'industry-practice', 'critical', 'normative-rule']]) != 1):
             return { 
                 'value': rule_type_tags, 
-                'message' : "The tags must contain only one tag with a reference to the rule type: normative (ia ip), industry-practice and critical"
+                'message' : "The tags must contain exactly one tag with a reference to the rule type: normative (ia ip), industry-practice or critical"
             }
         functional_part_tags = [tag for tag in tags if tag.isalpha() and len(tag) == 3 and tag.isupper()]
         if not any(value.lower() in self.valid_functional_parts for value in functional_part_tags):

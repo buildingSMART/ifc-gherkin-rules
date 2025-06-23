@@ -12,16 +12,16 @@ Scenario: Validating the proper use of USERDEFINED PredefinedType for an object 
   Given An .IfcObject. ^with subtypes^
   Given .IsTypedBy. ^is^ empty
   Given .PredefinedType. ^is^ 'USERDEFINED'
-  Then The value of attribute ObjectType must be not empty
+  Then The value of attribute .ObjectType. must be 'not empty'
 
 Scenario: Validating the proper use of USERDEFINED PredefinedType for an object typed by IfcTypeObject
   Given An .IfcTypeObject. ^with subtypes^
   Given .PredefinedType. ^is^ 'USERDEFINED'
-  Then The value of attribute ElementType must be not empty
+  Then The value of attribute .ElementType. must be 'not empty'
 
 Scenario: Validating the proper use of PredefinedType for an Object typed by IfcTypeObject
   Given A model with Schema 'IFC4' or 'IFC4.3'
   Given An .IfcTypeObject. ^with subtypes^
-  Given Its PredefinedType attribute does not start with NOTDEFINED
+  Given Its .PredefinedType. attribute ^does not start^ with 'NOTDEFINED'
   Given A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that
-  Then The value of attribute PredefinedType must be empty and display entity instance
+  Then The value of attribute .PredefinedType. must be ^empty^ [and display entity instance]

@@ -169,11 +169,11 @@ If the rule in the feature file applies only to specific IFC version(s) and/or V
 
 ```
 Given A model with Schema "IFC2X3"
-Given A file with Model View Definition "CoordinationView"
+Given A file with Model View Definition "CoordinationViewV_2.0"
 ```
 ```
 Given A model with Schema "IFC2X3" or "IFC4"
-Given A file with Model View Definition "CoordinationView" or "ReferenceView"
+Given A file with Model View Definition "CoordinationViewV_2.0" or "ReferenceView"
 ```
 </details>
 
@@ -270,7 +270,7 @@ Use **must**, not **shall** to impose requirements.[ALB001_Alignment-in-spatial-
 
 ```
 Given A model with Schema "IFC2X3"
-Given A file with Model View Definition "CoordinationView"
+Given A file with Model View Definition "CoordinationViewV_2.0"
 Then There shall be exactly 1 IfcSite element(s)
 ```
 </details>
@@ -278,7 +278,7 @@ Then There shall be exactly 1 IfcSite element(s)
 
 ```
 Given A model with Schema "IFC2X3"
-Given A file with Model View Definition "CoordinationView"
+Given A file with Model View Definition "CoordinationViewV_2.0"
 Then There must be exactly 1 IfcSite element(s)
 ```
 </details>

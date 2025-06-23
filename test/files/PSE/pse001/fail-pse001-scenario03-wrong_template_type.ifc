@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('','2022-10-07T13:48:43',(''),(''),'IfcOpenShell v0.7.0-dc67287d','IfcOpenShell v0.7.0-dc67287d','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('fail-pse001-scenario03-wrong_template_type.ifc','2022-10-07T13:48:43',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+dc67287d','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -15,6 +15,5 @@ DATA;
 #108=IFCPROPERTYSET('116MocU_IDOF8_x3Iqllz0d',$,'Pset_Address',$,(#111));
 #110=IFCPROPERTYENUMERATION('Purpose',$,$);
 #111=IFCPROPERTYENUMERATEDVALUE('Purpose',$,$,#110);
-
 ENDSEC;
 END-ISO-10303-21;

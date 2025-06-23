@@ -1,24 +1,9 @@
 ISO-10303-21;
 HEADER;
-/* NOTE a valid model view name has to be asserted, replacing 'notYetAssigned' ----------------- */
-FILE_DESCRIPTION(
-    ( 'ViewDefinition [notYetAssigned]'
-     ,'Comment [manual creation of example file]'
-	)
-	,'2;1');
-/* NOTE standard header information according to ISO 10303-21 ---------------------------------- */
-FILE_NAME(
-	'basic_shape_Brep.ifc',
-	'2012-06-18T18:00:00',
-	('Thomas Liebich'),
-	('buildingSMART International'),
-	'IFC text editor',
-	'IFC text editor',
-	'reference file created for the IFC4 specification');
-/* NOTE schema name to be replaced with 'IFC4' after the final release  ------------------------ */
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]','Comment [manual creation of example file]'),'2;1');
+FILE_NAME('na-ctx000-non_styled_solid.ifc','2012-06-18T18:00:00',('Thomas Liebich'),('buildingSMART International'),'IFC text editor','IFC text editor - IFC text editor - v1','reference file created for the IFC4 specification');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
-
 DATA;
 /* --------------------------------------------------------------------------------------------- */
 /* general entities required for all IFC data sets, defining the context for the exchange ------ */
@@ -114,7 +99,5 @@ DATA;
 
 /* proxy element assigned to the building ------------------------------------------------------ */
 #10000=IFCRELCONTAINEDINSPATIALSTRUCTURE('2TnxZkTXT08eDuMuhUUFNy',$,'Physical model',$,(#1000),#500);
-
-
 ENDSEC;
 END-ISO-10303-21;

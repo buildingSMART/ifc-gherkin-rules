@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('','2024-06-17T10:00:48',(''),(''),'IfcOpenShell-v0.7.0-f7c03db75','IfcOpenShell-v0.7.0-f7c03db75','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('fail-ifc102-ifc4x3_deprecated_entity_IfcBuildingSystem.ifc','2024-06-17T10:00:48',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+fa6bbf2d','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

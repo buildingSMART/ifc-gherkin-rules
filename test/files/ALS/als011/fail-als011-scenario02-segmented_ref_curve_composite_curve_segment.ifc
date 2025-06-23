@@ -1,8 +1,8 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION (('ViewDefinition [Alignment-basedReferenceView]'), '2;1');
-FILE_NAME ('pass-als011-scenario02-correct_types.ifc', '2024-06-13T10:24:35', (), (), 'redacted', 'redacted', $);
-FILE_SCHEMA (('IFC4X3_ADD2'));
+FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
+FILE_NAME('fail-als011-scenario02-segmented_ref_curve_composite_curve_segment.ifc','2024-06-13T10:24:35',(''),(''),'redacted','redacted - redacted - 3.14159','');
+FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
 #1 = IFCOWNERHISTORY(#2, #6, .READWRITE., .NOCHANGE., $, $, $, 1718274275);

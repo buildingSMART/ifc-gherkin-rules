@@ -1,13 +1,9 @@
 ISO-10303-21;
-
 HEADER;
-
-FILE_DESCRIPTION((''),'2;1');
-FILE_NAME('structural-curve-member.ifc','2023-07-18',(''),(''),'redacted','redacted','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('pass-gem052-structural_curve_member.ifc','2023-07-08T18:14:41',(''),(''),'redacted','redacted - redacted - 3.14159','none');
 FILE_SCHEMA(('IFC4X3_ADD2'));
-
 ENDSEC;
-
 DATA;
 
 /* Owner history user and application */
@@ -268,7 +264,5 @@ DATA;
 #2788= IFCSTRUCTURALLOADCONFIGURATION('Member End Reactions',(#2786,#2787),((0.),(192.)));
 #2789= IFCSTRUCTURALCURVEREACTION('2ssucs0rX8KgBecASOwgSd',#209,$,$,$,$,$,#2788,.GLOBAL_COORDS.,.DISCRETE.);
 #2791= IFCRELCONNECTSSTRUCTURALACTIVITY('1tmGmLIfTFnBfWx$tia32R',#209,$,$,#296,#2789);
-
 ENDSEC;
-
 END-ISO-10303-21;

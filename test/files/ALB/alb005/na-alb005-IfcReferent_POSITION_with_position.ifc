@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
-FILE_NAME('','2023-09-21T12:20:34',(''),(''),'IfcOpenShell-v0.7.0-64d98f129','IfcOpenShell-v0.7.0-64d98f129','');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
+FILE_NAME('na-alb005-IfcReferent_POSITION_with_position.ifc','2023-09-21T12:20:34',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+64d98f129','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

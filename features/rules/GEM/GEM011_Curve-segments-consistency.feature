@@ -1,5 +1,5 @@
 @implementer-agreement
-@ALS
+@GEM
 @version1
 @E00010
 
@@ -12,7 +12,8 @@ Feature: GEM011 - Curve segments consistency
 
 Background: 
   Given a model with Schema 'IFC4.3'
-  Given an .IfcAlignment.
+  Given an .IfcProduct.
+  Given [its entity type] ^is not^ .IfcAlignment.
   Given its attribute .Representation.
   Given its attribute .Representation.
   Given its attribute .Items.

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('','2025-06-19T13:13:25',(''),(''),'IfcOpenShell contributors - IfcOpenShell - v0.8.3+2db6b86','');
+FILE_NAME('fail-als016-scenario02-imperial_break_in_direction_angle.ifc','2025-06-19T13:13:25',(''),(''),'IfcOpenShell contributors - IfcOpenShell - v0.8.3+2db6b86','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

@@ -2,6 +2,7 @@ import csv
 import ifcopenshell
 import os
 from pyproj.database import query_crs_info
+from pyproj import CRS
 
 from pathlib import Path
 
@@ -110,13 +111,3 @@ def step_impl(context, inst, i, value):
             inst = misc.do_try(lambda: inst.is_a(), inst)
         if inst != value:
             yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
-            
-
-@gherkin_ifc.step("The value must refer to a valid EPSG code")
-@gherkin_ifc.step("The value refers to a valid EPSG code")
-def step_impl(context, inst):
-    valid_epsg_codes = {f"EPSG:{crs.code}" for crs in query_crs_info(auth_name="EPSG")}
-    if inst not in valid_epsg_codes:
-        yield ValidationOutcome(inst=inst, observed=inst, severity=OutcomeSeverity.ERROR)
-    else:
-        yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASSED)

@@ -3,8 +3,10 @@
 @version1
 @E00100
 Feature: GRF005 - CRS unit type differences
-The rule verifies that a map conversion scale is explicitly defined and correctly set when the length and/or angle units used in the local engineering coordinate system differ from those in the referenced CRS (Projected or Geographic). 
-If these units differ, assuming a scale of 1.0 would result in incorrect spatial positioning, and the scale must therefore be explicitly provided with the correct value.
+The rule verifies that the Scale attribute of IfcMapConversion is used when the units of the CRS are not identical to the units of the engineering coordinate system.
+If omitted, the value of 1.0 is assumed.
+If the units of the referenced source location engineering coordinate system are different from the units of the referenced target coordinate system,
+then this attribute must be included and must have the value of the scale from the source to the target units
 
 
   Scenario Outline: When the length unit of the Local CRS (from IfcProject) is not equal to the length unit of the Projected CRS, then the IfcMapCOnversion.Scale must be provided and cannot be 1.0

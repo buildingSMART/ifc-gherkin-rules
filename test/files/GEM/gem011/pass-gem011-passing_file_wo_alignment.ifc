@@ -99,7 +99,6 @@ DATA;
 #102=IFCCOMPOSITECURVE((#34,#43,#52,#61,#70,#79,#88,#97),.F.);
 #103=IFCSHAPEREPRESENTATION(#16,'FootPrint','Curve2D',(#102));
 
-
 #244=IFCPRODUCTDEFINITIONSHAPE('Alignment Product Shape Definition',$,(#103));
 #245=IFCBUILTELEMENT('3QMtpiE_n7GAb04Y0E8R05',$,'Placeholder to capture representation by IfcCompositeCurve',$,$,#19,#244,$);
 

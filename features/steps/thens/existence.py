@@ -90,8 +90,7 @@ def get_previous_step_before_assertion(context):
 @global_rule
 def step_impl(context, inst):
 
-    flattened = [item for item in misc.recursive_flatten(inst)]
-    not_empty = [item for item in flattened if item is not None]
+    not_empty = [item for item in misc.recursive_flatten(inst) if item is not None]
 
     if len(not_empty) == 0:
         expected = get_previous_step_before_assertion(context)

@@ -1,5 +1,5 @@
 import functools
-import json
+import math
 import re
 from utils import misc
 from functools import wraps
@@ -328,6 +328,15 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             data = ast.literal_eval(data)
         except (ValueError, SyntaxError):
             pass
+    
+    def ensure_finite_numbers(obj):
+        if isinstance(obj, float) and not math.isfinite(obj):
+            return None                
+        if isinstance(obj, dict):
+            return {k: ensure_finite_numbers(v) for k, v in obj.items()}
+        if isinstance(obj, (list, tuple)):
+            return [ensure_finite_numbers(v) for v in obj]
+        return obj
 
     match data:
         case [_, *__]:
@@ -353,7 +362,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             return {'instance': display_entity_instance(data)}
         case dict():
             # mostly for the pse001 rule, which already yields dicts
-            return data
+            return ensure_finite_numbers(data)
         case set(): # object of type set is not JSONserializable
             return tuple(data)
         case _:

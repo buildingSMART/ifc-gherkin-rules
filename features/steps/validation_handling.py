@@ -331,7 +331,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
     
     def ensure_finite_numbers(obj):
         if isinstance(obj, float) and not math.isfinite(obj):
-            return None                
+            return "infinity"                
         if isinstance(obj, dict):
             return {k: ensure_finite_numbers(v) for k, v in obj.items()}
         if isinstance(obj, (list, tuple)):

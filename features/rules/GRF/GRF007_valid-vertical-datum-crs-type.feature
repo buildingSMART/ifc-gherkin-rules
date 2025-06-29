@@ -7,7 +7,7 @@ The rule verifies that any coordinate reference system (CRS) assigned as a verti
 https://pyproj4.github.io/pyproj/stable/api/crs/crs.html
 
 
-  Scenario: WKT specification for missing ESPG in the name
+  Scenario: WKT specification for missing EPSG in the name
 
       Given A model with Schema 'IFC4' or 'IFC4.3'
       Given an .IfcProjectedCRS.

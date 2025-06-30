@@ -34,7 +34,7 @@ def step_impl(context, inst, i, csv_file):
             return instance in valid_values
 
     if not is_valid_instance(inst):
-        yield ValidationOutcome(inst=inst, expected=valid_values, observed=inst, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, expected=valid_values, observed=inst, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step("At least '{num:d}' value must {constraint}")
 @gherkin_ifc.step("At least '{num:d}' values must {constraint}")
@@ -51,7 +51,7 @@ def step_impl(context, inst, constraint, num):
             if path[0] in values:
                 num_valid += 1
         if num_valid < num:
-            yield ValidationOutcome(inst=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, expected= constraint, observed = f"Not {constraint}", severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("The values must be {unique_or_identical:unique_or_identical} at depth {depth_level:d}")
@@ -61,13 +61,13 @@ def step_impl(context, inst, unique_or_identical, depth_level=None):
 
     if unique_or_identical == 'identical':
         if not all([inst[0] == i for i in inst]):
-            yield ValidationOutcome(inst=inst, expected= unique_or_identical, observed = inst, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, expected= unique_or_identical, observed = inst, severity=OutcomeSeverity.ERROR)
 
     if unique_or_identical == 'unique':
         seen = set()
         duplicates = [x for x in inst if x in seen or seen.add(x)]
         if duplicates:
-            yield ValidationOutcome(inst=inst, expected= unique_or_identical, observed = inst, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, expected= unique_or_identical, observed = inst, severity=OutcomeSeverity.ERROR)
 
 
 def recursive_unpack_value(item):
@@ -97,17 +97,17 @@ def step_impl(context, inst, i, value):
         inst = inst.is_a()  
 
     if inst.lower() not in values:
-        yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("All {i:values_or_types} must be '{value}.")
 def step_impl(context, inst, i, value):
     number_of_unique_values = len(set(inst))
     if number_of_unique_values > 1: # if there are more than 1 values, the 'All' predicament is impossible to fulfill
-        yield ValidationOutcome(inst=inst, expected= value, observed=f"{number_of_unique_values} unique values", severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, expected= value, observed=f"{number_of_unique_values} unique values", severity=OutcomeSeverity.ERROR)
     else:
         inst = recursive_unpack_value(inst)
         if isinstance(inst, ifcopenshell.entity_instance):
             inst = misc.do_try(lambda: inst.is_a(), inst)
         if inst != value:
-            yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)

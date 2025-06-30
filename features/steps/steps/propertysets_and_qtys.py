@@ -173,7 +173,7 @@ def step_impl(context, inst, table, inst_type=None):
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
 
     if name not in property_set_definitions.keys():
-        yield ValidationOutcome(inst=inst, observed={'value': name}, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, observed={'value': name}, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step(
@@ -203,14 +203,14 @@ def step_impl(context, inst, table, inst_type=None):
         related_objects = list(itertools.chain.from_iterable(relation.RelatedObjects for relation in relations))
         for obj in (o for o in related_objects if not o.is_a("IfcTypeObject")):
             if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_TYPEDRIVENONLY']:
-                yield ValidationOutcome(inst=inst, expected={
+                yield ValidationOutcome(instance_id=inst, expected={
                     'entity': template_type_to_expected[accepted_values['template_type']]}, observed=obj,
                                         severity=OutcomeSeverity.ERROR)
 
             correct = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities'] if
                        obj.is_a(accepted_object)]
             if not any(correct):
-                yield ValidationOutcome(inst=inst, expected=accepted_values['applicable_entities'], observed=obj,
+                yield ValidationOutcome(instance_id=inst, expected=accepted_values['applicable_entities'], observed=obj,
                                         severity=OutcomeSeverity.ERROR)
             else:
                 # - when entity validation succeeds we continue to check predefined type
@@ -227,7 +227,7 @@ def step_impl(context, inst, table, inst_type=None):
                     observed_ptype = upper_case_if_string(get_predefined_type(obj))
 
                     if observed_ptype not in allowed_predefined_types_for_matching_entity:
-                        yield ValidationOutcome(inst=inst, expected=take_first_if_single_length(
+                        yield ValidationOutcome(instance_id=inst, expected=take_first_if_single_length(
                             sorted(set(allowed_predefined_types_for_matching_entity))), observed=observed_ptype,
                                                 severity=OutcomeSeverity.ERROR)
 
@@ -243,7 +243,7 @@ def step_impl(context, inst, table, inst_type=None):
             if accepted_values['template_type'] and accepted_values['template_type'] in ['PSET_OCCURRENCEDRIVEN',
                                                                                          'PSET_PERFORMANCEDRIVEN',
                                                                                          'QTO_OCCURRENCEDRIVEN']:
-                yield ValidationOutcome(inst=inst, expected={
+                yield ValidationOutcome(instance_id=inst, expected={
                     "entity": template_type_to_expected[accepted_values['template_type']]}, observed=obj,
                                         severity=OutcomeSeverity.ERROR)
 
@@ -267,7 +267,7 @@ def step_impl(context, inst, table, inst_type=None):
             correct = functools.reduce(operator.add, (correct, correct_type1, correct_type2))
 
             if not any(correct):
-                yield ValidationOutcome(inst=inst, expected=accepted_values['applicable_entities'], observed=obj,
+                yield ValidationOutcome(instance_id=inst, expected=accepted_values['applicable_entities'], observed=obj,
                                         severity=OutcomeSeverity.ERROR)
             else:
                 allowed_predefined_types_for_matching_entity = [ptype.upper() if ptype else None for entity, ptype
@@ -279,7 +279,7 @@ def step_impl(context, inst, table, inst_type=None):
                     observed_ptype = upper_case_if_string(get_predefined_type(obj))
 
                     if observed_ptype not in allowed_predefined_types_for_matching_entity:
-                        yield ValidationOutcome(inst=inst, expected=take_first_if_single_length(
+                        yield ValidationOutcome(instance_id=inst, expected=take_first_if_single_length(
                             sorted(set(allowed_predefined_types_for_matching_entity))), observed=observed_ptype,
                                                 severity=OutcomeSeverity.ERROR)
 
@@ -299,7 +299,7 @@ def step_impl(context, inst, table, inst_type=None):
 
         for prop in properties:
             if prop.Name not in accepted_values['property_names']:
-                yield ValidationOutcome(inst=inst, expected=accepted_values['property_names'],
+                yield ValidationOutcome(instance_id=inst, expected=accepted_values['property_names'],
                                         observed=prop.Name, severity=OutcomeSeverity.ERROR)
 
 
@@ -327,7 +327,7 @@ def step_impl(context, inst, table, inst_type=None):
                 continue
 
             if not prop.is_a(accepted_property_type):
-                yield ValidationOutcome(inst=inst, expected=accepted_property_type, observed=prop,
+                yield ValidationOutcome(instance_id=inst, expected=accepted_property_type, observed=prop,
                                         severity=OutcomeSeverity.ERROR)
 
 
@@ -355,7 +355,7 @@ def step_impl(context, inst, table, inst_type=None):
             if prop.is_a('IfcPropertySingleValue'):
                 values = prop.NominalValue
                 if values and not values.is_a(accepted_data_type['instance'].strip()):
-                    yield ValidationOutcome(inst=inst, expected=accepted_data_type['instance'],
+                    yield ValidationOutcome(instance_id=inst, expected=accepted_data_type['instance'],
                                             observed=values.is_a(), severity=OutcomeSeverity.ERROR)
 
             elif prop.is_a('IfcPropertyEnumeratedValue'):
@@ -363,7 +363,7 @@ def step_impl(context, inst, table, inst_type=None):
                 if values:
                     for value in values:
                         if not value.wrappedValue in accepted_data_type['values']:
-                            yield ValidationOutcome(inst=inst, expected=accepted_data_type['values'],
+                            yield ValidationOutcome(instance_id=inst, expected=accepted_data_type['values'],
                                                     observed=value.wrappedValue, severity=OutcomeSeverity.ERROR)
 
             # @todo other properties such as list/bounded/etc.
@@ -374,4 +374,4 @@ def step_impl(context, inst, table, inst_type=None):
             # @tfk not sure about this one, but for now empty values on a property are probably
             # not a universal error. This is more IDS territory.
             # if not values:
-            #     yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':None}, severity=OutcomeSeverity.ERROR)
+            #     yield ValidationOutcome(instance_id=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':None}, severity=OutcomeSeverity.ERROR)

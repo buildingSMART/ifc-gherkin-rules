@@ -44,7 +44,7 @@ def step_impl(context, inst, relationship, table):
             relation = getattr(inst, stmt_to_op[relationship], True)[0]
         except IndexError: # no relationship found for the entity
             if is_required:
-                yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(instance_id=inst, expected={"oneOf": expected_relationship_objects, "context": context}, severity=OutcomeSeverity.ERROR)
             continue
 
         relationship_objects = getattr(relation, relationship_tbl_header, True)
@@ -55,14 +55,14 @@ def step_impl(context, inst, relationship, table):
             is_correct = any(relationship_object.is_a(expected_relationship_object) for expected_relationship_object in expected_relationship_objects)
             if not is_correct:
                 # related object not of the correct type
-                yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, observed=relationship_object, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(instance_id=inst, expected={"oneOf": expected_relationship_objects, "context": context}, observed=relationship_object, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("It must be assigned to the {relating}")
 def step_impl(context, inst, relating):
     for rel in getattr(inst, 'Decomposes', []):
         if not rel.RelatingObject.is_a(relating):
-            yield ValidationOutcome(inst=inst, expected={"value":relating}, observed =rel.RelatingObject, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, expected={"value":relating}, observed =rel.RelatingObject, severity=OutcomeSeverity.ERROR)
 
 
 
@@ -102,7 +102,7 @@ def step_impl(context, inst, decision, aggregated_or_contained_or_positioned, pr
             if check_directness:
                 observed_directness.update({'directly'})
             if decision == 'must not':
-                yield ValidationOutcome(inst=inst,
+                yield ValidationOutcome(instance_id=inst,
                     observed = None,
                     expected =None, severity=OutcomeSeverity.ERROR)
 
@@ -116,7 +116,7 @@ def step_impl(context, inst, decision, aggregated_or_contained_or_positioned, pr
                         observed_directness.update({'indirectly'})
                         break
                     if decision == 'must not':
-                        outcome = ValidationOutcome(inst=inst,
+                        outcome = ValidationOutcome(instance_id=inst,
                             observed = None,
                             expected = None,
                             severity=OutcomeSeverity.ERROR)
@@ -145,13 +145,13 @@ def step_impl(context, inst):
 
     inv, ent, attr = relationship[inst.is_a()]
     if inst in get_memberships(inst):
-        yield ValidationOutcome(inst=inst, expected=None, observed = None, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, expected=None, observed = None, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step("The current directional relationship must not contain multiple entities at depth 1")
 def step_impl(context, inst):
     if not isinstance(inst, (list, ifcopenshell.entity_instance)): #ifcopenshell packs multiple relationships into tuples, so a list indicates we are validating instances, not the relationships within them.
         if misc.do_try(lambda: all((any([isinstance(i, ifcopenshell.entity_instance) for i in inst]), len(inst) > 1)), False):
-            yield ValidationOutcome(inst=inst, expected=1, observed=[i.is_a() for i in inst], severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, expected=1, observed=[i.is_a() for i in inst], severity=OutcomeSeverity.ERROR)
 
 
 
@@ -162,7 +162,7 @@ def step_impl(context, inst):
     assert hasattr(context, 'visited_instances')
 
     if inst not in context.visited_instances:
-        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("^{stmt}^ {num:d} of the following relationships must be non-empty: '{inverse_attrs}'")
@@ -178,4 +178,4 @@ def step_impl(context, inst, num, stmt, inverse_attrs):
     if compare(count, num):
         yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
     else: 
-        yield ValidationOutcome(inst=inst, observed = count, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, observed = count, severity=OutcomeSeverity.ERROR)

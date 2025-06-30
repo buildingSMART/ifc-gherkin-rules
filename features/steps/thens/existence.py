@@ -12,7 +12,7 @@ def step_impl(context, inst, representation_id):
             inst.Representation.Representations,
         )
         if not present:
-            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
 
 
 def get_entities_in_model(context, constraint, entity, include_or_exclude_subtypes):

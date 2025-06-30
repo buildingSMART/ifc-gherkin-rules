@@ -28,15 +28,15 @@ def step_impl(context, inst, entity, other_entity, relationship):
             entity_obj_placement_rel = getattr(related_obj_placement, "PlacementRelTo", None)
             if relating_obj_placement != entity_obj_placement_rel:
                 if entity_obj_placement_rel:
-                    yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed=entity_obj_placement_rel, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(instance_id=inst, expected=relating_obj_placement, observed=entity_obj_placement_rel, severity=OutcomeSeverity.ERROR)
                 else:
-                    yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed="Not found", severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(instance_id=inst, expected=relating_obj_placement, observed="Not found", severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("The relative placement of that {entity} must be provided by an {other_entity} entity")
 def step_impl(context, inst, entity, other_entity):
     if not misc.do_try(lambda: inst.ObjectPlacement.is_a(other_entity), False):
-        yield ValidationOutcome(inst=inst, expected=other_entity, observed=inst.ObjectPlacement, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, expected=other_entity, observed=inst.ObjectPlacement, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("The type of attribute {attribute} must be {expected_entity_type}")
@@ -48,7 +48,7 @@ def step_impl(context, inst, attribute, expected_entity_type):
     def accumulate_errors(i):
         if i is not None:
             if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
-                misc.map_state(inst, lambda x: errors.append(ValidationOutcome(inst=inst, expected=expected_entity_type, observed=i, severity=OutcomeSeverity.ERROR)))
+                misc.map_state(inst, lambda x: errors.append(ValidationOutcome(instance_id=inst, expected=expected_entity_type, observed=i, severity=OutcomeSeverity.ERROR)))
 
     misc.map_state(related_entity, accumulate_errors)
     if errors:
@@ -182,7 +182,7 @@ def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, exp
             attribute_value = ()
         if inst is None:
             # nothing was activated by the Given criteria
-            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.EXECUTED)
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.EXECUTED)
         elif not pred(attribute_value, value_or_comparison_op):
             yield ValidationOutcome(
                 inst=inst,
@@ -197,11 +197,11 @@ def step_impl(context, inst, field, file_or_model, values):
     if field == "Schema Identifier":
         s = context.model.schema_identifier
         if not s.lower() in values:
-            yield ValidationOutcome(inst=inst, expected=[v.upper() for v in values], observed=misc.do_try(s.upper(), s), severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, expected=[v.upper() for v in values], observed=misc.do_try(s.upper(), s), severity=OutcomeSeverity.ERROR)
     elif field == "Schema" and not context.model.schema in values:
         s = context.model.schema
         if not s.lower() in values:
-            yield ValidationOutcome(inst=inst, expected=[v.upper() for v in values], observed=misc.do_try(s.upper(), s), severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, expected=[v.upper() for v in values], observed=misc.do_try(s.upper(), s), severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("The {length_attribute} of the {segment_type} must be 0")
@@ -212,14 +212,14 @@ def step_impl(context, inst, segment_type, length_attribute):
             length = getattr(inst, length_attribute, )
             length_value = length.wrappedValue
             if abs(length_value) > geometry.GEOM_TOLERANCE:
-                yield ValidationOutcome(inst=inst, expected=0.0, observed=length_value, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(instance_id=inst, expected=0.0, observed=length_value, severity=OutcomeSeverity.ERROR)
         else:
             raise ValueError(f"Invalid length_attribute '{length_attribute}'.")
     elif segment_type.upper() in business_logic_types:
         if (length_attribute == "SegmentLength") or (length_attribute == "HorizontalLength"):
             length = getattr(inst, length_attribute, )
             if abs(length) > geometry.GEOM_TOLERANCE:
-                yield ValidationOutcome(inst=inst, expected=0.0, observed=length, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(instance_id=inst, expected=0.0, observed=length, severity=OutcomeSeverity.ERROR)
         else:
             raise ValueError(f"Invalid length_attribute '{length_attribute}'.")
     else:
@@ -229,11 +229,11 @@ def step_impl(context, inst, segment_type, length_attribute):
 @gherkin_ifc.step("The string length must be {constraint} '{num:d}' characters")
 def step_impl(context, inst, constraint, num):
     if not isinstance(inst, str):
-        yield ValidationOutcome(inst=inst, expected='string', observed=type(inst).__name__, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, expected='string', observed=type(inst).__name__, severity=OutcomeSeverity.ERROR)
     inst = str(inst)
     op = misc.stmt_to_op(constraint)
     if not op(len(inst), num):
-        yield ValidationOutcome(inst=inst, expected={'length':num, 'expected_or_observed':'expected'}, observed={'length': len(inst), 'expected_or_observed':'observed', 'inst':inst}, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, expected={'length':num, 'expected_or_observed':'expected'}, observed={'length': len(inst), 'expected_or_observed':'observed', 'inst':inst}, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("The characters must be within the official encoding character set")
@@ -243,4 +243,4 @@ def step_impl(context, inst):
         return
     invalid_guid_chars = [char for char in inst if char not in valid_chars]
     if invalid_guid_chars:
-        yield ValidationOutcome(inst=inst, expected={'invalid_guid_chars': "0-9, A-Z, a-z, _, $", 'expected_or_observed':'expected'}, observed={'invalid_guid_chars': invalid_guid_chars, 'expected_or_observed':'observed','inst':inst}, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, expected={'invalid_guid_chars': "0-9, A-Z, a-z, _, $", 'expected_or_observed':'expected'}, observed={'invalid_guid_chars': invalid_guid_chars, 'expected_or_observed':'observed','inst':inst}, severity=OutcomeSeverity.ERROR)

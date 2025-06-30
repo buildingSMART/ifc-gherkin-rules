@@ -242,7 +242,7 @@ def step_impl(context, inst: ifcopenshell.entity_instance, clause: str):
         # combinations() produces tuples in a sorted order, first and last item is compared with items 0 and n-1
         if clause == 'including' or (clause == 'excluding' and (i, j) != (0, len(points_coordinates) - 1)):
             if math.dist(points_coordinates[i], points_coordinates[j]) < precision:
-                yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
+                yield ValidationOutcome(instance_id=inst, observed=(points_coordinates[i], points_coordinates[j]),
                                         severity=OutcomeSeverity.ERROR)
 
 
@@ -256,7 +256,7 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
     points_coordinates = geometry.get_points(inst)
     for i, j in [(i-1, i) for i in range(1, len(points_coordinates))]:
         if math.dist(points_coordinates[i], points_coordinates[j]) < precision:
-                yield ValidationOutcome(inst=inst, observed=(points_coordinates[i], points_coordinates[j]),
+                yield ValidationOutcome(instance_id=inst, observed=(points_coordinates[i], points_coordinates[j]),
                                         severity=OutcomeSeverity.ERROR)
 
 
@@ -273,7 +273,7 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
             a, b, c = (ps[i-1] for i in seg[0])
             l = geometry.Line.from_points(a, c)
             if l.distance(b) < precision:
-                yield ValidationOutcome(inst=inst, observed=str(seg),
+                yield ValidationOutcome(instance_id=inst, observed=str(seg),
                                         severity=OutcomeSeverity.ERROR)
 
 
@@ -288,7 +288,7 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
     ))
     n_components = len(list(nx.connected_components(G)))
     if n_components != 1:
-        yield ValidationOutcome(inst=inst, observed=n_components, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, observed=n_components, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("the boundaries of the face must conform to the implicit plane fitted through the boundary points")
@@ -323,11 +323,11 @@ def step_impl(context, inst: ifcopenshell.entity_instance):
         return
 
     if max(plane.distance(p) for p in points) > precision:
-        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
     for ib in inner:
         # @nb yes we do use the same plane for inner bounds, outer bound establishes the plane,
         # inner bounds need to conform to that.
         loop = ib.Bound
         points = [tuple(map(mp.mpf, p.Coordinates)) for p in loop.Polygon]
         if max(plane.distance(p) for p in points) > precision:
-            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+            yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)

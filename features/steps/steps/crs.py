@@ -9,7 +9,7 @@ from . import ValidationOutcome, OutcomeSeverity
 def step_impl(context, inst):
     valid_epsg_codes = {f"EPSG:{crs.code}" for crs in query_crs_info(auth_name="EPSG")}
     if inst not in valid_epsg_codes:
-        yield ValidationOutcome(inst=inst, observed=inst, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, observed=inst, severity=OutcomeSeverity.ERROR)
     else:
         yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
         
@@ -21,5 +21,5 @@ def step_impl(context, inst):
     if crs.is_compound or crs.is_vertical:
         yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
     else:
-        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
     

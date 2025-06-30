@@ -166,13 +166,13 @@ def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):
         case ("IfcSegmentedReferenceCurve", "presence", "IfcAlignmentCant"):
             if align.segmented_reference_curve is not None:
                 if align.cant is None:
-                    yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
+                    yield ValidationOutcome(instance_id=inst, expected=logic_entity, observed=None,
                                             severity=OutcomeSeverity.ERROR)
 
         case ("IfcGradientCurve", "presence", "IfcAlignmentVertical"):
             if align.gradient_curve is not None:
                 if align.vertical is None:
-                    yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
+                    yield ValidationOutcome(instance_id=inst, expected=logic_entity, observed=None,
                                             severity=OutcomeSeverity.ERROR)
 
         case ("3D IfcIndexedPolyCurve", "presence", "IfcAlignmentVertical"):
@@ -181,7 +181,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):
                 for item in shape_rep.Items:
                     if (item.is_a().upper() == "IFCINDEXEDPOLYCURVE") and (is_3d(item)):
                         if align.vertical is None:
-                            yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
+                            yield ValidationOutcome(instance_id=inst, expected=logic_entity, observed=None,
                                                     severity=OutcomeSeverity.ERROR)
 
         case ("3D IfcPolyline", "presence", "IfcAlignmentVertical"):
@@ -190,7 +190,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):
                 for item in shape_rep.Items:
                     if (item.is_a().upper() == "IFCPOLYLINE") and (is_3d(item)):
                         if align.vertical is None:
-                            yield ValidationOutcome(inst=inst, expected=logic_entity, observed=None,
+                            yield ValidationOutcome(instance_id=inst, expected=logic_entity, observed=None,
                                                     severity=OutcomeSeverity.ERROR)
 
         case ("IfcCompositeCurve as Axis", "absence", "IfcAlignmentVertical and IfcAlignmentCant"):
@@ -200,7 +200,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):
                     if (item.is_a().upper() == "IFCCOMPOSITECURVE") and (
                             shape_rep.RepresentationIdentifier == "Axis"):
                         if (align.vertical is not None) or (align.cant is not None):
-                            yield ValidationOutcome(inst=inst, expected=None,
+                            yield ValidationOutcome(instance_id=inst, expected=None,
                                                     observed="', '".join(logic_entity.split(" and ")),
                                                     severity=OutcomeSeverity.ERROR)
 
@@ -210,7 +210,7 @@ def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):
                 for item in shape_rep.Items:
                     if item.is_a().upper() == "IFCGRADIENTCURVE":
                         if align.cant is not None:
-                            yield ValidationOutcome(inst=inst, expected=None,
+                            yield ValidationOutcome(instance_id=inst, expected=None,
                                                     observed=logic_entity,
                                                     severity=OutcomeSeverity.ERROR)
 
@@ -253,7 +253,7 @@ def step_impl(context, inst):
                 if not (logic_only or rep_only):
                     observed_msg = f"{expected_count} segments in business logic and "
                     observed_msg += f"{rep_count} segments in representation"
-                    yield ValidationOutcome(inst=inst, expected="same count of segments",
+                    yield ValidationOutcome(instance_id=inst, expected="same count of segments",
                                             observed=observed_msg,
                                             severity=OutcomeSeverity.ERROR)
 

@@ -12,7 +12,7 @@ def step_impl(context, inst, something, num):
             context.model, inst, Counter, oriented=something == "oriented edge"
         )
     for ed in {ed for ed, cnt in edge_usage.items() if cnt != num}:
-        yield ValidationOutcome(inst=inst, observed=edge_usage[ed], severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(instance_id=inst, observed=edge_usage[ed], severity=OutcomeSeverity.ERROR)
         
 
 @gherkin_ifc.step("Its first and last point must be identical by reference")

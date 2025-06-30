@@ -1,6 +1,8 @@
 import csv
 import ifcopenshell
 import os
+from pyproj.database import query_crs_info
+from pyproj import CRS
 
 from pathlib import Path
 

@@ -9,4 +9,4 @@ Specifically, IFC2x3 TC1 (version 2.3.0.1), IFC4 ADD2 TC1 (version 4.0.2.1), or 
   Scenario: Verifying Current Schema Identifier for IFC version
   
     Given An IFC model
-    Then The Schema Identifier of the model must be 'IFC4X3_ADD2' or 'IFC4' or 'IFC2X3'
+    Then The Schema Identifier of the model must be 'IFC2X3' or 'IFC4' or 'IFC4X3_ADD2'

@@ -18,7 +18,7 @@ The rule verifies that a geometric context is present in the model, that its att
       Examples:
         | Schema               | Entity     |
         | 'IFC2X3'             | IfcProject |
-        | 'IFC4.3' or 'IFC4'   | IfcContext |
+        | 'IFC4' or 'IFC4.3'   | IfcContext |
 
 
     Scenario Outline: Agreement on correct context types
@@ -32,4 +32,4 @@ The rule verifies that a geometric context is present in the model, that its att
       Examples:
         | Schema               | Entity     |
         | 'IFC2X3'             | IfcProject |
-        | 'IFC4.3' or 'IFC4'   | IfcContext |
+        | 'IFC4' or 'IFC4.3'   | IfcContext |

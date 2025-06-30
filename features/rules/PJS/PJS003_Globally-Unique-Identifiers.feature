@@ -22,4 +22,4 @@ Feature: PJS003 - Globally Unique Identifiers
     | Constraint |
     | The string length must be exactly '22' characters |
     | The characters must be within the official encoding character set |
-    | Its value starts with 0 or 1 or 2 or 3 |
+    | Its value ^starts^ with '0' or '1' or '2' or '3' |

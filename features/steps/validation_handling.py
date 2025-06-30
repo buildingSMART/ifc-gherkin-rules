@@ -1,5 +1,5 @@
 import functools
-import json
+import math
 import re
 from utils import misc
 from functools import wraps
@@ -175,8 +175,9 @@ def handle_then(context, fn, **kwargs):
     # ensure the rule is not activated when there are no instances
     # in case there are no instances but the rule is applicable (e.g. SPS001),
     # then the rule is still activated and will return either a pass or an error
+    # an exception is when the feature tags contain '@not-activation'
     is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
-    if is_activated:
+    if is_activated and not 'no-activation' in context.tags:
         context.gherkin_outcomes.append(
             ValidationOutcome(
                 outcome_code=ValidationOutcomeCode.EXECUTED,  # "Executed", but not no error/pass/warning #deactivated for now
@@ -205,7 +206,9 @@ def handle_then(context, fn, **kwargs):
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
 # TODO: refactor into a more general solution that works for all rules
-            if "GEM051" in context.feature.name and context.is_global_rule:
+            if context.is_global_rule and (
+                "GEM051" in context.feature.name or "GRF003" in context.feature.name
+            ):
                 activation_inst = activation_instances[0]
             if isinstance(activation_inst, ifcopenshell.file):
                 activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
@@ -327,6 +330,15 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             data = ast.literal_eval(data)
         except (ValueError, SyntaxError):
             pass
+    
+    def ensure_finite_numbers(obj):
+        if isinstance(obj, float) and not math.isfinite(obj):
+            return "infinity"                
+        if isinstance(obj, dict):
+            return {k: ensure_finite_numbers(v) for k, v in obj.items()}
+        if isinstance(obj, (list, tuple)):
+            return [ensure_finite_numbers(v) for v in obj]
+        return obj
 
     match data:
         case [_, *__]:
@@ -352,7 +364,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             return {'instance': display_entity_instance(data)}
         case dict():
             # mostly for the pse001 rule, which already yields dicts
-            return data
+            return ensure_finite_numbers(data)
         case set(): # object of type set is not JSONserializable
             return tuple(data)
         case _:

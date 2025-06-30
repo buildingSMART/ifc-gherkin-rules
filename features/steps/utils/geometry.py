@@ -232,7 +232,7 @@ def evaluate_segment(segment: ifcopenshell.entity_instance, dist_along: float) -
 
     segment_trans_mtx = seg_evaluator.evaluate(dist_along)
 
-    return np.array(segment_trans_mtx, dtype=np.float64).T
+    return np.array(segment_trans_mtx, dtype=np.float64)
 
 @dataclass
 class AlignmentSegmentContinuityCalculation:
@@ -243,27 +243,26 @@ class AlignmentSegmentContinuityCalculation:
 
     :param length_unit_scale_factor: Scale factor between the project units and metric units used internally by
     ifcopenshell
-    :param previous_segment: The segment that precede the segment being analyzed.  The end point of this segment
-    will be determined via ifcopenshell geometry calculations.
-    :param segment_to_analyze: The segment under analysis.  The calculated end point of the previous segment will be
-    compared to the calculated start point of this segment.
+    :param segment_to_analyze: The segment that is under analysis.  The calculated end point of this segment will be
+    compared to the start point of the following segment.
+    :param following_segment: The segment that follows the segment being analyzed.
     """
-    previous_segment: ifcopenshell.entity_instance
     segment_to_analyze: ifcopenshell.entity_instance
+    following_segment: ifcopenshell.entity_instance
     length_unit_scale_factor: float
-    preceding_end_point: tuple = None
-    preceding_end_direction: float = None
-    preceding_end_gradient: float = None
-    current_start_point: tuple = None
-    current_start_direction: float = None
-    current_start_gradient: float = None
+    current_end_point: tuple = None
+    current_end_direction: float = None
+    current_end_gradient: float = None
+    following_start_point: tuple = None
+    following_start_direction: float = None
+    following_start_gradient: float = None
 
     def _get_u_at_end(self):
         """
-        Get the value of u corresponding to the end of the previous segment
+        Get the value of u corresponding to the end of the current segment
         """
         s = ifcos_geom.settings()
-        seg_function = wrapper.map_shape(s, self.previous_segment.wrapped_data)
+        seg_function = wrapper.map_shape(s, self.segment_to_analyze.wrapped_data)
 
         u = seg_function.length() / self.length_unit_scale_factor
 
@@ -271,30 +270,30 @@ class AlignmentSegmentContinuityCalculation:
         return u * self.length_unit_scale_factor
 
     def _calculate_positions(self) -> None:
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
-        current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
+        current_end_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=self._get_u_at_end())
+        following_start_transform = evaluate_segment(segment=self.following_segment, dist_along=0.0)
 
-        e0 = prev_end_transform[3][0] / self.length_unit_scale_factor
-        e1 = prev_end_transform[3][1] / self.length_unit_scale_factor
-        self.preceding_end_point = (e0, e1)
+        e0 = current_end_transform[0][3] / self.length_unit_scale_factor
+        e1 = current_end_transform[1][3] / self.length_unit_scale_factor
+        self.current_end_point = (e0, e1)
 
-        s0 = current_start_transform[3][0] / self.length_unit_scale_factor
-        s1 = current_start_transform[3][1] / self.length_unit_scale_factor
-        self.current_start_point = (s0, s1)
+        s0 = following_start_transform[0][3] / self.length_unit_scale_factor
+        s1 = following_start_transform[1][3] / self.length_unit_scale_factor
+        self.following_start_point = (s0, s1)
 
     def _calculate_directions(self) -> None:
-        prev_end_transform = evaluate_segment(segment=self.previous_segment, dist_along=self._get_u_at_end())
-        current_start_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=0.0)
+        current_end_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=self._get_u_at_end())
+        following_start_transform = evaluate_segment(segment=self.following_segment, dist_along=0.0)
 
-        prev_i = prev_end_transform[0][0]
-        prev_j = prev_end_transform[0][1]
-        self.preceding_end_direction = math.atan2(prev_j, prev_i)
-        self.preceding_end_gradient = float(prev_j / prev_i)
+        current_i = current_end_transform[0][0]
+        current_j = current_end_transform[1][0]
+        self.current_end_direction = math.atan2(current_j, current_i)
+        self.current_end_gradient = float(current_j / current_i)
 
-        curr_i = current_start_transform[0][0]
-        curr_j = current_start_transform[0][1]
-        self.current_start_direction = math.atan2(curr_j, curr_i)
-        self.current_start_gradient = float(curr_j / curr_i)
+        following_i = following_start_transform[0][0]
+        following_j = following_start_transform[1][0]
+        self.following_start_direction = math.atan2(following_j, following_i)
+        self.following_start_gradient = float(following_j / following_i)
 
     def run(self) -> None:
         """
@@ -305,25 +304,25 @@ class AlignmentSegmentContinuityCalculation:
 
     def positional_difference(self) -> float:
         """
-        Total absolute difference between end point of previous segment
-        and start point of segment being analyzed.
+        Total absolute difference between the end point of the segment being analyzed
+        and the start point of the following segment.
         """
         return math.dist(
-            self.preceding_end_point, self.current_start_point)
+            self.current_end_point, self.following_start_point)
 
     def directional_difference(self) -> float:
         """
-        Total absolute difference between end direction (radians) of previous segment
-        and start direction of segment being analyzed.
+        Total absolute difference between the end direction (radians) of the segment being analyzed
+        and the start direction of the following segment.
         """
-        return abs(self.current_start_direction - self.preceding_end_direction)
+        return abs(self.following_start_direction - self.current_end_direction)
 
     def gradient_difference(self) -> float:
         """
-        Total absolute difference between end gradient (unit-less m/m or ft/ft) of previous segment
-        and start gradient of segment being analyzed.
+        Total absolute difference between the end gradient (unit-less m/m or ft/ft) of the segment being analyzed
+        and the start gradient of the following segment.
         """
-        return abs(self.current_start_gradient - self.preceding_end_gradient)
+        return abs(self.following_start_gradient - self.current_end_gradient)
 
     def to_dict(self) -> Dict:
         """
@@ -333,15 +332,15 @@ class AlignmentSegmentContinuityCalculation:
         because ifcopenshell.entity_instances are of type SwigPyObject which cannot be pickled
         """
         return {
-            "previous_segment": f"#{self.previous_segment.id()}={self.previous_segment.is_a()}",
             "segment_to_analyze": f"#{self.segment_to_analyze.id()}={self.segment_to_analyze.is_a()}",
+            "following_segment": f"#{self.following_segment.id()}={self.following_segment.is_a()}",
             "length_unit_scale_factor": self.length_unit_scale_factor,
-            "preceding_end_point": tuple(self.preceding_end_point),
-            "preceding_end_direction": self.preceding_end_direction,
-            "preceding_end_gradient": self.preceding_end_gradient,
-            "current_start_point": tuple(self.current_start_point),
-            "current_start_direction": self.current_start_direction,
-            "current_start_gradient": self.current_start_gradient,
+            "current_end_point": tuple(self.current_end_point),
+            "current_end_direction": self.current_end_direction,
+            "current_end_gradient": self.current_end_gradient,
+            "following_start_point": tuple(self.following_start_point),
+            "following_start_direction": self.following_start_direction,
+            "following_start_gradient": self.following_start_gradient,
         }
 
 

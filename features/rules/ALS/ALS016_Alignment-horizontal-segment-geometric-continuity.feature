@@ -1,6 +1,6 @@
 @industry-practice
 @ALS
-@version2
+@version3
 
 Feature: ALS016 - Alignment horizontal segment geometric continuity
 
@@ -26,8 +26,8 @@ Background:
 
 Scenario: Geometric continuity in position
 
-  Then Each segment must have geometric continuity in position
+  Then Each segment must have geometric continuity in ^position^
 
 Scenario: Geometric continuity in tangency
 
-  Then Each segment must have geometric continuity in tangency
+  Then Each segment must have geometric continuity in ^tangency^

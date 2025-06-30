@@ -135,15 +135,19 @@ def stmt_to_op(statement):
     return stmts_to_op[statement]
 
 
-def strip_split(stmt, strp=' ', splt=',', lower=True):
+def strip_split(stmt, strp=" '", splt=",", lower=True):
     """
-    Splits a string by a delimiter, strips unwanted characters from each part, 
-    and optionally converts it to lowercase.
+    Splits a string by a delimiter, strips unwanted characters from each part,
+    optionally converts to lowercase, and converts numeric strings to integers.
 
-    Returns a tuple for efficient iteration and compatibility 
-    with methods like `startswith()`, which accept tuples for multi-value checks.
+    Returns a tuple, to use with startswith()
     """
-    return tuple(s.strip(strp) for s in (stmt.lower() if lower else stmt).split(splt))
+    def clean(s):
+        s = s.strip(strp)
+        return int(s) if s.isdigit() else s
+
+    return tuple(clean(s) for s in (stmt.lower() if lower else stmt).split(splt))
+
 
 
 

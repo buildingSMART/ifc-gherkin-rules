@@ -1,6 +1,6 @@
 @industry-practice
 @ALS
-@version3
+@version4
 
 Feature: ALS017 - Alignment vertical segment geometric continuity
 
@@ -24,8 +24,8 @@ Feature: ALS017 - Alignment vertical segment geometric continuity
 
   Scenario: Geometric continuity in position
 
-    Then Each segment must have geometric continuity in position
+    Then Each segment must have geometric continuity in ^position^
 
   Scenario: Geometric continuity in vertical gradient
 
-    Then Each segment must have geometric continuity in vertical gradient
+    Then Each segment must have geometric continuity in ^vertical gradient^

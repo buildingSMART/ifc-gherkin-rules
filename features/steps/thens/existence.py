@@ -28,7 +28,7 @@ def get_entities_in_model(context, constraint, entity, include_or_exclude_subtyp
 
 
 @gherkin_ifc.step(
-    "There must be {constraint} {num:d} instance(s) of {entity} ^{subtype_handling:include_or_exclude_subtypes}^"
+    "There must be {constraint} {num:d} instance(s) of .{entity}. ^{subtype_handling:include_or_exclude_subtypes}^"
 )
 @global_rule
 def step_impl(context, inst, constraint, num, entity, subtype_handling="including subtypes"):
@@ -40,14 +40,28 @@ def step_impl(context, inst, constraint, num, entity, subtype_handling="includin
         )
 
 
-@gherkin_ifc.step("There must be {constraint} {num:d} instance(s) of {entity}")
+@gherkin_ifc.step("There must be {constraint} {num:d} instance(s) of .{entity}.")
 @global_rule
 def step_impl(context, inst, constraint, num, entity, include_or_exclude_subtypes="including subtypes"):
+    """
+    The Given step_impl in combination with 'at least 1' is the equivalent of 'Given an IfcEntity', but without setting new applicable instances. 
+    For example: 
+    Given an IfcWall -> insts = [IfcWall, IfcWall]
+    Given an IfcRoof -> inst = [IfcRoof, IfcRoof]
+    
+    However, 
+    Given an IfcWall -> insts = [IfcWall, IfcWall]
+    Given there must be at least 1 instance(s) of IfcRoof -> inst = [IfcWall, IfcWall]
+    """
     op = misc.stmt_to_op(constraint)
     instances_in_model = get_entities_in_model(context, constraint, entity, include_or_exclude_subtypes)
     if not op(len(instances_in_model), num):
         yield ValidationOutcome(
             inst=inst, observed=instances_in_model, severity=OutcomeSeverity.ERROR
+        )
+    else: 
+        yield ValidationOutcome(
+            instance_id=inst, severity=OutcomeSeverity.PASSED
         )
 
 

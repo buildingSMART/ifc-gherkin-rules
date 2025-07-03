@@ -58,7 +58,7 @@ def step_impl(context, inst, relationship, table):
                 yield ValidationOutcome(inst=inst, expected={"oneOf": expected_relationship_objects, "context": context}, observed=relationship_object, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("It must be assigned to the {relating}")
+@gherkin_ifc.step("It must be assigned to the .{relating}.")
 def step_impl(context, inst, relating):
     for rel in getattr(inst, 'Decomposes', []):
         if not rel.RelatingObject.is_a(relating):

@@ -1,7 +1,7 @@
+@implementer-agreement
 @IFC
 @version3
 @E00030
-@implementer-agreement
 Feature: IFC105 - Resource entities need to be referenced by rooted entity
 
 The rule verifies that resource entities are directly or indirectly related to at least one rooted entity instance by means of forward or a small curated set of inverse attributes.

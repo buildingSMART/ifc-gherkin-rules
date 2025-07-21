@@ -1,6 +1,7 @@
-@BLT
 @industry-practice
+@BLT
 @version2
+@E00160
 
 Feature: BLT003 - Stair decomposition
 

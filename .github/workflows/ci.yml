@@ -32,13 +32,12 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-        pip install behave pytest tabulate pyparsing sqlalchemy numpy pydantic pydot sqlalchemy_utils django python-dotenv deprecated pandas pyspellchecker rtree lark-parser networkx mpmath shapely pyproj==3.7.1
+        find . -name 'requirements.txt' -exec pip install -r {} \;
         wget -O /tmp/ifcopenshell_python.zip https://s3.amazonaws.com/ifcopenshell-builds/ifcopenshell-python-`python3 -c 'import sys;print("".join(map(str, sys.version_info[0:2])))'`-v0.8.3-260bc80-linux64.zip
         mkdir -p `python3 -c 'import site; print(site.getusersitepackages())'`
         unzip -d `python3 -c 'import site; print(site.getusersitepackages())'` /tmp/ifcopenshell_python.zip
     - name: Lint with flake8
       run: |
-        pip install flake8
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide

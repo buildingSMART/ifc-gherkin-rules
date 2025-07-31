@@ -2,7 +2,7 @@
 @ALS
 @version2
 Feature: ALS005 - Alignment shape representation
-The rule verifies that each IfcAlignment uses correct representation.
+  The rule verifies that each IfcAlignment uses correct representation.
 
   Background:
     Given A model with Schema 'IFC4.3'
@@ -46,4 +46,4 @@ The rule verifies that each IfcAlignment uses correct representation.
   Scenario: Agreement on each IfcAlignment using correct representation items - Type
 
     Given Its attribute .Items.
-    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistance'
+    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'

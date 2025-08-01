@@ -106,7 +106,8 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
                         #       order, but since we're not actually building a face, but only counting edge use - which is
                         #       independent of order in the loop - we don't need to apply that.
                         coords.reverse()
-                yield edge_type(coords)
+
+                    yield edge_type(coords)
 
         elif inst.is_a("IfcTriangulatedFaceSet"):
             # @nb to decide: should we return index pairs, or coordinate pairs here?

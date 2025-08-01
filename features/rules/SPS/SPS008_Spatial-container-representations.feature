@@ -1,6 +1,7 @@
 @industry-practice
 @SPS
 @version1
+@E00150
 
 Feature: SPS008 - Spatial Container Representations
   The rule verifies that certain spatial containers do not have a geometric representation,

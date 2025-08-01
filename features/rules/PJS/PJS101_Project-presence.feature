@@ -1,5 +1,5 @@
-@PJS
 @industry-practice
+@PJS
 @version1
 @E00020
 Feature: PJS101 - Project presence

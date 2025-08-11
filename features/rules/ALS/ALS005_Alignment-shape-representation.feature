@@ -24,7 +24,7 @@ Checks for entity types are based upon the supported shape representations of If
     Given .RepresentationIdentifier. ^is^ 'Axis'
     Given .RepresentationType. ^is^ 'Curve2D'
     Given Its attribute .Items.
-    Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline'
+    Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'
 
 
   @E00010

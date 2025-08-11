@@ -3,6 +3,7 @@
 @version3
 Feature: ALS005 - Alignment shape representation
 The rule verifies that each IfcAlignment uses correct representation.
+Checks for entity types are based upon the supported shape representations of IfcAlignment listed in 5.4.3.1.
 
   Background:
     Given A model with Schema 'IFC4.3'
@@ -23,7 +24,7 @@ The rule verifies that each IfcAlignment uses correct representation.
     Given .RepresentationIdentifier. ^is^ 'Axis'
     Given .RepresentationType. ^is^ 'Curve2D'
     Given Its attribute .Items.
-    Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'
+    Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline'
 
 
   @E00010

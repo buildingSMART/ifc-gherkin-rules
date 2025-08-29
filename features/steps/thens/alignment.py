@@ -158,6 +158,30 @@ def pretty_print_expected_geometry_types(exp: List[Dict]) -> Union[str, None]:
     return ", ".join(pretty)
 
 
+@gherkin_ifc.step("An .IfcAlignment. [{additional_prose_matching}]")
+def step_impl(context, additional_prose_matching):
+    instances = context.model.by_type("IfcAlignment", include_subtypes=False)
+
+    match additional_prose_matching:
+        case "with business logic and geometric representation":
+            filtered_instances = list()
+            for align_inst in instances:
+                align = ifc43.entities.Alignment().from_entity(align_inst)
+                if (align.horizontal is not None) and (align.has_representation):
+                    filtered_instances.append(align_inst)
+            instances = filtered_instances
+        case _:
+            pass
+
+    if instances:
+        context.applicable = getattr(context, "applicable", True)
+    else:
+        context.applicable = False
+
+    for inst in instances:
+        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+
+
 @gherkin_ifc.step(
     "A representation by .{ifc_rep_criteria}. requires the ^{existence:absence_or_presence}^ of .{logic_entity}. in the business logic")
 def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):

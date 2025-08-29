@@ -8,7 +8,7 @@ Feature: ALB021 - Alignment overall agreement of business logic and geometry
 
 Background: Selecting an alignment that has both business logic and geometric representation
   Given A model with Schema 'IFC4.3'
-  Given An .IfcAlignment. ^without subtypes^ [with business logic and geometric representation]
+  Given An .IfcAlignment. [with business logic and geometric representation]
 
 Scenario: Validating the presence of cant layout for IfcSegmentedReferenceCurve
   Then  A representation by .IfcSegmentedReferenceCurve. requires the ^presence^ of .IfcAlignmentCant. in the business logic

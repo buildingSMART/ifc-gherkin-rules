@@ -4,6 +4,7 @@ from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("An .{entity_opt_stmt}.")
+@gherkin_ifc.step("An .{entity_opt_stmt}. ^{subtype_handling}^")
 @gherkin_ifc.step("An .{entity_opt_stmt}. ^{subtype_handling}^ [{additional_prose_matching}]")
 def step_impl(context, entity_opt_stmt, subtype_handling=None, additional_prose_matching=None,):
     """
@@ -12,14 +13,14 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None, additional_prose_
     Examples:
         Given an .IfcAlignment.
         Given an .IfcRoot. ^with subtypes^
-        Given an .entity instance.
         Given an .IfcAlignment. [with business logic and geometric representation]
-        
+        Given an .entity instance.
+
     The last example returns everything in the model.
     """
 
     if entity_opt_stmt == "entity instance":
-        original_instances = list(context.model)
+        all_instances = list(context.model)
     else:
         entity = entity_opt_stmt
 
@@ -48,6 +49,8 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None, additional_prose_
             applicable_instances = original_instances
 
 
+    if all_instances:
+        applicable_instances = all_instances
     if applicable_instances:
         context.applicable = getattr(context, 'applicable', True)
     else:

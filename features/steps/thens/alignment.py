@@ -167,7 +167,7 @@ def step_impl(context, additional_prose_matching):
             filtered_instances = list()
             for align_inst in instances:
                 align = ifc43.entities.Alignment().from_entity(align_inst)
-                if (align.horizontal is not None) and (align.has_representation):
+                if align.has_layout and align.has_representation:
                     filtered_instances.append(align_inst)
             instances = filtered_instances
         case _:

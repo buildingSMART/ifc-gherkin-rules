@@ -15,12 +15,9 @@ from validation_results import ValidationOutcome, ValidationOutcomeCode, Outcome
 from main import ExecutionMode
 
 @functools.cache
-def _open_model(fn, pure):
+def read_model(fn, pure):
     return (ifcopenshell.simple_spf.open(fn)
             if pure else ifcopenshell.open(fn))
-
-def read_model(fn, pure):
-    return _open_model(fn, pure)
 
 def print_directory_tree(start_path, level=0):
     """

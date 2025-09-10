@@ -9,6 +9,13 @@ from utils import misc
 
 from ifcopenshell.ifcopenshell_wrapper import named_type, type_declaration, simple_type, entity, aggregation_type, enumeration_type, select_type, attribute, schema_by_name
 
+ENTITY_INSTANCE_TYPES = (ifcopenshell.entity_instance,)
+try:
+    # does not exist yet, but maybe in the future...
+    ENTITY_INSTANCE_TYPES += (ifcopenshell.rocksdb_lazy_instance,)
+except AttributeError as e:
+    pass
+
 @gherkin_ifc.step("a traversal over the full model originating from subtypes of .{entity_name}.")
 def step_impl(context, entity_name):
     WHITELISTED_INVERSES = {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment',
@@ -72,7 +79,7 @@ def step_impl(context, entity_name):
                 val = precomputed_inverses.get(inst, ())
             else:
                 val = getattr(inst, attr)
-            for ref in filter(lambda inst: isinstance(inst, (ifcopenshell.entity_instance, ifcopenshell.rocksdb_lazy_instance)),
+            for ref in filter(lambda inst: isinstance(inst, ENTITY_INSTANCE_TYPES),
                               misc.iflatten(val)):
                 visit(ref, (path or ()) + (inst, attr,))
 

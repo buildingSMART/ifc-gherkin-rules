@@ -125,22 +125,32 @@ def handle_given(context, fn, **kwargs):
     2) Set an initial set of instances ('Given an IfcAlignment' -> [IfcAlignm, IfcAlignm, IfcAlign])
     3) Filter the set of IfcAlignment based on a value ('Given attribute == X' -> [IfcAlignm, None, IfcAlignm])
     4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
-    """
+    """  
     if 'inst' not in inspect.getargs(fn.__code__).args:
         gen = fn(context, **kwargs)
         if gen: # (2) Set initial set of instances
-            insts = list(gen)
-            context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
+            
+            ids = misc.ContiguousSet(
+                map(misc.to_numeric_id, filter(lambda r: r.severity == OutcomeSeverity.PASSED, gen))
+            )
+            ids.commit()
+            context.instances = ids
             pass
         else:
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
     else:
         context._push('attribute') # for attribute stacking
         depth = next(map(int, re.findall(r'at depth (\d+)$', context.step.name)), None)
+        resolved = list(map(lambda x: misc.ContiguousSet._resolve_if_id(context.model, x), context.instances))
         if depth is not None:
-            context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=depth, **kwargs)))
+            context.instances = list(filter(None, map_given_state(resolved, fn, context, depth=depth, **kwargs)))
         else:
-            context.instances = map_given_state(context.instances, fn, context, **kwargs)
+            ids = misc.ContiguousSet(
+                inst.id() if isinstance(inst := r, ifcopenshell.entity_instance) else inst
+                for r in map_given_state(resolved, fn, context, **kwargs)
+            )
+            ids.commit()
+            context.instances = ids
 
 
 def apply_operation(fn, inst, context, **kwargs):

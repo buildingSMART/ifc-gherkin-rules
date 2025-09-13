@@ -112,7 +112,7 @@ def step_impl(context, inst, prose_matching):
     It must be preceded by a 'Given its attribute .IsNestedBy.' step so that all RelatedObjects are passed as a single object.
     """
 
-    valid_combos = misc.strip_split(stmt=prose_matching, strp=", ", splt="or")
+    valid_combos = misc.strip_split(stmt=prose_matching, strp=" ", splt=", or")
 
     preceeding_step_name = get_previous_step(context).upper()
     assert preceeding_step_name == "ITS ATTRIBUTE .ISNESTEDBY."
@@ -132,14 +132,14 @@ def step_impl(context, inst, prose_matching):
 
     observed_combo = str()
     observed_counts = {
-        "H": len(observed_nested_insts.horizontal_layouts),
-        "V": len(observed_nested_insts.vertical_layouts),
-        "C": len(observed_nested_insts.cant_layouts),
-        "R": len(observed_nested_insts.referents),
-        "OTHER": len(observed_nested_insts.other),
+        "horiz": len(observed_nested_insts.horizontal_layouts),
+        "vert": len(observed_nested_insts.vertical_layouts),
+        "cant": len(observed_nested_insts.cant_layouts),
+        "rfnt": len(observed_nested_insts.referents),
+        "other": len(observed_nested_insts.other),
     }
 
-    for abbr in ["H", "V", "C"]:
+    for abbr in ["horiz", "vert", "cant"]:
         if observed_counts[abbr] > 0:
             if len(observed_combo) > 0:
                 observed_combo += " and "

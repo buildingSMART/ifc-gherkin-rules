@@ -15,8 +15,8 @@ from validation_results import ValidationOutcome, ValidationOutcomeCode, Outcome
 from main import ExecutionMode
 
 @functools.cache
-def read_model(fn, pure):
-    return (ifcopenshell.simple_spf.open(fn)
+def read_model(fn, pure, only_header):
+    return (ifcopenshell.simple_spf.open(fn, only_header) #only_header applies to IFC101 (i.e. validate schema identifier)
             if pure else ifcopenshell.open(fn))
 
 def print_directory_tree(start_path, level=0):
@@ -55,7 +55,10 @@ def before_feature(context, feature):
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
     
-    context.model = read_model(context.config.userdata["input"], context.config.userdata.get('purepythonparser', 'false').lower() == 'true')
+    context.model = read_model(
+        context.config.userdata["input"],
+        context.config.userdata.get('purepythonparser', 'false').lower() == 'true',
+        context.config.userdata.get('only_header'))
     try:
         context.validation_task_id = context.config.userdata["task_id"]
     except KeyError: # run via console, task_id not provided

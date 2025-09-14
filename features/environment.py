@@ -58,7 +58,8 @@ def before_feature(context, feature):
     context.model = read_model(
         context.config.userdata["input"],
         context.config.userdata.get('purepythonparser', 'false').lower() == 'true',
-        context.config.userdata.get('only_header'))
+        eval(context.config.userdata.get('only_header', 'false'))
+    )
     try:
         context.validation_task_id = context.config.userdata["task_id"]
     except KeyError: # run via console, task_id not provided

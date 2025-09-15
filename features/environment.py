@@ -16,7 +16,8 @@ from main import ExecutionMode
 
 @functools.cache
 def read_model(fn, pure):
-    return (ifcopenshell.simple_spf.open(fn)
+    # @nb --purepythonparser is only used for @critical rules which is only IFC101 which only looks at the header
+    return (ifcopenshell.simple_spf.open(fn, only_header=True)
             if pure else ifcopenshell.open(fn))
 
 def print_directory_tree(start_path, level=0):

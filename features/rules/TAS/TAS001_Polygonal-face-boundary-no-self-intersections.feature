@@ -1,7 +1,7 @@
 @disabled
 @informal-proposition
 @TAS
-@version1
+@version2
 @E00050
 Feature: TAS001 - Polygonal face boundary no self-intersections
 The rule verifies that IfcFace instances do not have any self-intersections in their boundaries. 

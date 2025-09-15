@@ -2,6 +2,9 @@ import ifcopenshell
 import operator
 import pyparsing
 
+from typing import Iterable, Iterator, Union, Optional
+import numpy as np
+from numbers import Real
 
 def reverse_operands(fn):
     """
@@ -190,3 +193,231 @@ def get_stack_tree(context):
     """Returns the stack tree of the current context. To be used for 'attribute stacking', e.g. in GEM004"""
     return list(
         filter(None, list(map(lambda layer: layer.get('instances'), context._stack))))
+
+TNum = Union[int, float, np.number]
+
+def to_numeric_id(r):
+    inst = r.instance_id
+    return inst.id() if isinstance(inst, ifcopenshell.entity_instance) else inst # add ifcopenshell.rocksdb_lazy_instance too?
+
+class ContiguousSet:
+    """
+    A set-like container for numeric values backed by:
+      - a sorted, contiguous NumPy array (committed data) for memory compactness
+      - a Python set for pending inserts (amortized commits)
+
+    Features
+    --------
+    - Only accepts numeric (int/float/np.number); rejects bool and non-finite values (NaN/Inf).
+    - Membership: O(log n) via binary search on the array.
+    - Iteration yields sorted ascending order without forcing commit.
+    - No remove/discard support
+    - `commit()` merges pending into the array; auto-commit when `pending_max` is reached.
+    """
+
+    __slots__ = ("_arr", "_pending", "_dtype", "_pending_max")
+
+    def __init__(
+        self,
+        data: Optional[Iterable[TNum]] = None,
+        *,
+        dtype: np.dtype = np.int64,
+        pending_max: int = 1024,
+    ) -> None:
+        """
+        Parameters
+        ----------
+        data : optional iterable of numeric
+            Initial values (deduplicated).
+        dtype : NumPy dtype, default float64
+            Storage dtype for the NumPy array.
+        pending_max : int, default 1024
+            Auto-commit threshold for number of pending items.
+        """
+        self._dtype = np.dtype(dtype)
+        self._pending_max = int(pending_max)
+        self._arr = np.ascontiguousarray(np.array([], dtype=self._dtype))
+        self._pending: set = set()
+        if data is not None:
+            self.update(data)
+            self.commit()
+
+    @staticmethod
+    def _is_number(x) -> bool:
+        return isinstance(x, Real) and not isinstance(x, bool)
+
+    def _check_numeric(self, x):
+        if not self._is_number(x):
+            raise TypeError(f"Only numeric (int/float) values allowed, got {type(x).__name__}")
+        # Reject NaN/Inf — they break equality/ordering semantics
+        if not np.isfinite(x):
+            raise ValueError("Values must be finite (no NaN/Inf).")
+
+    def _in_array(self, x: TNum) -> bool:
+        if self._arr.size == 0:
+            return False
+        idx = np.searchsorted(self._arr, x, side="left")
+        return (idx < self._arr.size) and (self._arr[idx] == x)
+
+    def _maybe_autocommit(self) -> None:
+        if len(self._pending) >= self._pending_max:
+            self.commit()
+
+    def add(self, x: TNum) -> None:
+        """Add a numeric value. No effect if it's already present."""
+        self._check_numeric(x)
+        if x in self._pending:
+            return
+        if self._in_array(x):
+            return
+        self._pending.add(x)
+        self._maybe_autocommit()
+
+    def update(self, values: Iterable[TNum]) -> None:
+        """Add many values efficiently (does not force commit)."""
+        new_items = []
+        for v in values:
+            self._check_numeric(v)
+            if (v in self._pending) or self._in_array(v):
+                continue
+            new_items.append(v)
+        if new_items:
+            self._pending.update(new_items)
+            self._maybe_autocommit()
+
+    def commit(self) -> None:
+        """Merge pending items into the contiguous sorted NumPy array."""
+        if not self._pending:
+            return
+        pend_arr = np.fromiter(self._pending, dtype=self._dtype, count=len(self._pending))
+        if self._arr.size == 0:
+            merged = np.unique(pend_arr)
+        else:
+            merged = np.union1d(self._arr, pend_arr)  # sorted, unique
+        self._arr = np.ascontiguousarray(merged.astype(self._dtype, copy=False))
+        self._pending.clear()
+
+    def __contains__(self, x: object) -> bool:
+        if not self._is_number(x):
+            return False
+        return (x in self._pending) or self._in_array(x)
+
+    def __len__(self) -> int:
+        # pending items are maintained disjoint from the array
+        return int(self._arr.size + len(self._pending))
+
+    def __iter__(self) -> Iterator[TNum]:
+        """Iterate in ascending order without forcing a commit."""
+        if not self._pending:
+            # Fast path: just yield the array
+            yield from self._arr.tolist()
+            return
+
+        pend_sorted = sorted(self._pending)
+        i = j = 0
+        n, m = self._arr.size, len(pend_sorted)
+        while i < n and j < m:
+            ai = self._arr[i]
+            bj = pend_sorted[j]
+            if ai < bj:
+                yield ai; i += 1
+            elif bj < ai:
+                yield bj; j += 1
+            else:
+                yield ai; i += 1; j += 1
+        while i < n:
+            yield self._arr[i]; i += 1
+        while j < m:
+            yield pend_sorted[j]; j += 1
+
+    def __repr__(self) -> str:
+        cls = self.__class__.__name__
+        preview = list(self.__iter__())
+        return f"{cls}({preview!r}, dtype={self._dtype!r}, pending={len(self._pending)})"
+
+    def clear(self) -> None:
+        """Remove all items (both committed and pending)."""
+        self._arr = np.ascontiguousarray(np.array([], dtype=self._dtype))
+        self._pending.clear()
+
+    def copy(self) -> "ContiguousSet":
+        """Shallow copy with copies of array & pending set."""
+        new = ContiguousSet(dtype=self._dtype, pending_max=self._pending_max)
+        new._arr = self._arr.copy()
+        new._pending = set(self._pending)
+        return new
+
+    def isdisjoint(self, other: Iterable[TNum]) -> bool:
+        s_other = {x for x in other if self._is_number(x)}
+        if self._pending.intersection(s_other):
+            return False
+        for x in s_other:
+            if self._in_array(x):
+                return False
+        return True
+
+    def issubset(self, other: Iterable[TNum]) -> bool:
+        s_other = {x for x in other if self._is_number(x)}
+        if not self._pending.issubset(s_other):
+            return False
+        for x in self._arr:
+            if x not in s_other:
+                return False
+        return True
+
+    def union(self, other: Iterable[TNum]) -> "ContiguousSet":
+        out = self.copy()
+        out.update(other)
+        return out
+
+    def to_numpy(self, *, commit: bool = False) -> np.ndarray:
+        if commit:
+            self.commit()
+            return self._arr
+        if not self._pending:
+            return self._arr.copy()
+        merged = np.fromiter(self.__iter__(), dtype=self._dtype, count=len(self))
+        return np.ascontiguousarray(merged)
+
+    @property
+    def dtype(self) -> np.dtype:
+        return self._dtype
+    
+    def _resolve_if_id(model, x):
+        if isinstance(x, int) and not isinstance(x, bool):
+            return model.by_id(x)
+        return x
+
+    @property
+    def pending_size(self) -> int:
+        return len(self._pending)
+
+    @property
+    def pending_max(self) -> int:
+        return self._pending_max
+
+    @pending_max.setter
+    def pending_max(self, value: int) -> None:
+        self._pending_max = int(value)
+
+
+import gc
+from types import ModuleType
+
+def is_ifc_entity(o):
+    t = type(o)
+    # looser but reliable: name + module prefix
+    return (t.__name__ == "entity_instance"
+            and isinstance(__import__(t.__module__.split('.')[0]), ModuleType)  # module exists
+            and t.__module__.startswith("ifcopenshell"))
+
+def count_entity_instances():
+    gc.collect()
+    objs = gc.get_objects()
+    return sum(1 for o in objs if is_ifc_entity(o))
+
+# sanity: do these wrappers appear in gc.get_objects?
+def seen_in_gc(objs):
+    gc.collect()
+    ids_in_gc = {id(o) for o in gc.get_objects()}
+    return sum(1 for o in objs if id(o) in ids_in_gc)

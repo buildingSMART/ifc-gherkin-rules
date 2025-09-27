@@ -1,6 +1,6 @@
 @informal-proposition
 @SWE
-@version3
+@version4
 @E00050
 Feature: SWE001 - Arbitrary profile boundary no self-intersections
 The rule verifies that IfcArbitraryClosedProfileDefs and IfcArbitraryProfileDefWithVoids do

@@ -36,7 +36,7 @@ def step_impl(context, entity_opt_stmt, insts=False):
     for inst in instances:
         yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
 
-@gherkin_ifc.step("No {entity}")
+@gherkin_ifc.step("No .{entity}.")
 def step_impl(context, entity):
     if context.model.by_type(entity):
         context.applicable = False

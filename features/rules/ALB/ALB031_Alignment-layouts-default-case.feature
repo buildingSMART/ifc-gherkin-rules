@@ -7,7 +7,7 @@ which represents the default case for nesting alignment layouts.
 Alignment layouts are abbreviated as follows: horiz = IfcAlignmentHorizontal, vert = IfcAlignmentVertical,
 and cant = IfcAlignmentCant
 
-  Scenario: Agreement IfcAlignment layout nesting per 4.1.4.4.1.1.
+  Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.1.
 
       Given A model with Schema 'IFC4.3'
       Given an .IfcAlignment.

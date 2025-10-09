@@ -10,6 +10,6 @@ The rule verifies that if an IfcElement is positioned in relation to an IfcPosit
 
     Given A model with Schema 'IFC4.3'
     Given An .IfcElement.
-    Given PositionedRelativeTo = not empty
+    Given .PositionedRelativeTo. ^is not^ empty
     
     Then The value of attribute .ReferencedInStructures. must be ^not empty^

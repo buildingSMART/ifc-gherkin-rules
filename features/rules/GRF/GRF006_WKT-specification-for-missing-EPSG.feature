@@ -21,13 +21,13 @@ https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/I
   
   Scenario: WKT specification linked to 'WKT' in CRS name 
 
-    Given The value of attribute .Name. is 'WKT'
+    Given .Name. ^is^ 'WKT'
 
     Then The value of attribute .WellKnownText. must be ^not empty^
 
 
   Scenario: WKT attribute linked to specification
 
-    Given The value of attribute .WellKnownText. is ^not empty^
+    Given .WellKnownText. ^is not^ empty
 
     Then The value of attribute .Name. must be 'WKT'

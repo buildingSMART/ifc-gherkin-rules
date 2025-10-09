@@ -18,7 +18,7 @@ The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a 
   @E00100
   Scenario: Agreement on port directions
   
-    Given There exists a relationship .IfcRelNests. from .IfcAlignment. to .IfcDistributionPort. and following that
+    Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcDistributionPort. and following that
     Given Its attribute .FlowDirection.
     Then at least '1' value must be 'SOURCE'
     Then at least '1' value must be 'SINK'

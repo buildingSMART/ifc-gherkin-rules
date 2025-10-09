@@ -127,6 +127,8 @@ def step_impl(context, inst, prose_matching):
                 observed_nested_insts.vertical_layouts.append(nested_inst)
             case "IFCALIGNMENTCANT":
                 observed_nested_insts.cant_layouts.append(nested_inst)
+            case "IFCREFERENT":
+                observed_nested_insts.referents.append(nested_inst)
             case _:
                 observed_nested_insts.other.append(nested_inst)
 
@@ -135,8 +137,6 @@ def step_impl(context, inst, prose_matching):
         "horiz": len(observed_nested_insts.horizontal_layouts),
         "vert": len(observed_nested_insts.vertical_layouts),
         "cant": len(observed_nested_insts.cant_layouts),
-        "rfnt": len(observed_nested_insts.referents),
-        "other": len(observed_nested_insts.other),
     }
 
     for abbr in ["horiz", "vert", "cant"]:
@@ -144,6 +144,9 @@ def step_impl(context, inst, prose_matching):
             if len(observed_combo) > 0:
                 observed_combo += " and "
             observed_combo += f"{observed_counts[abbr]} {abbr.lower()}"
+
+    if observed_combo == "":
+        observed_combo = "no alignment layouts"
 
     if observed_combo not in valid_combos:
         yield ValidationOutcome(

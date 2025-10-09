@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-alb032-correct_reuse_of_horizontal.ifc','2025-10-09T08:17:27',(''),(''),'IfcOpenShell 0.8.0','IfcOpenShell contributors - IfcOpenShell - 0.8.0','');
+FILE_NAME('fail-alb032-1c_only.ifc','2025-10-09T08:17:27',(''),(''),'IfcOpenShell 0.8.0','IfcOpenShell contributors - IfcOpenShell - 0.8.0','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -94,7 +94,7 @@ DATA;
 #91=IFCRELAGGREGATES('2J7KIVy3LB5Ra8oqb1BJTa',$,$,$,#4,(#89,#124,#94));
 #93=IFCPRODUCTDEFINITIONSHAPE($,$,(#21));
 #94=IFCALIGNMENT('1TMhy0lfn9MBAibha3bv6a',$,'Child of Test',$,$,#87,#98,$);
-#95=IFCRELNESTS('0UWVgxGyPDNfL1_U4q_i0X',$,$,$,#94,(#88,#153,#117));
+#95=IFCRELNESTS('0UWVgxGyPDNfL1_U4q_i0X',$,$,$,#94,(#153,#117));
 #96=IFCGRADIENTCURVE((#109),.F.,#17,$);
 #97=IFCSHAPEREPRESENTATION(#16,'Axis','Curve3D',(#96));
 #98=IFCPRODUCTDEFINITIONSHAPE($,$,(#97));

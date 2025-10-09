@@ -11,7 +11,6 @@ and cant = IfcAlignmentCant
 
       Given A model with Schema 'IFC4.3'
       Given an .IfcAlignment.
-      Given .IsDecomposedBy. ^is not^ empty
       Given its attribute .IsDecomposedBy.
       Given its attribute .RelatedObjects.
       Given its attribute .IsNestedBy.

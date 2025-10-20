@@ -134,6 +134,13 @@ def step_impl(context, inst, path, npath, varname1, op, varname2):
         'greater than or equal to' : operator.ge,
         'less than or equal to' : operator.le,
     }
+
+    if path[-2] is None:
+        # This is a bit specific to MPD001, but we do need to distinguish here between
+        # the final attribute value being None vs, some instance earlier being on being
+        # of a different type.
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.NOT_APPLICABLE)
+        return
     
     steps = [l.get('step') for l in context._stack]
     var_lists = [re.findall(r"\[stored as '(\w+)'\]", s.name) if s else None for s in steps]

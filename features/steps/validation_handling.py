@@ -143,12 +143,30 @@ def handle_given(context, fn, **kwargs):
             context.instances = map_given_state(context.instances, fn, context, **kwargs)
 
 
-def apply_operation(fn, inst, context, **kwargs):
-    results = fn(context, inst, **kwargs)  
-    return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
-
-
-def map_given_state(values, fn, context, depth=None, current_depth=0, **kwargs):
+def map_given_state(values, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
+    stack = misc.get_stack_tree(context)[::-1]
+    def apply_operation(fn, inst, context):
+        def get_value_path():
+            value_path = []
+            for val in stack:
+                i = 0
+                while not should_apply(val, 0) and i < len(current_path):
+                    try:
+                        val = val[current_path[i]]
+                    except:
+                        breakpoint()
+                    i += 1
+                value_path.append(val)
+            return value_path
+        if 'path' in inspect.getargs(fn.__code__).args:
+            local_kwargs = kwargs | {
+                'path': get_value_path()
+            }
+        else:
+            local_kwargs = kwargs
+        results = fn(context, inst, **local_kwargs)
+        return misc.do_try(lambda: list(map(lambda i: attrgetter('instance_id')(i) or attrgetter('inst')(i), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
+    
     def is_nested(val):
         return isinstance(val, (tuple, list))
 
@@ -159,9 +177,13 @@ def map_given_state(values, fn, context, depth=None, current_depth=0, **kwargs):
             return is_nested(values) and all(should_apply(v, depth-1) for v in values if v is not None)
 
     if (depth is None and should_apply(values, 0)) or depth == current_depth:
-        return None if values is None else apply_operation(fn, values, context, **kwargs)
+        r = None if values is None else apply_operation(fn, values, context)
+        if depth == 0:
+            return [r]
+        else:
+            return r
     elif (depth is None or depth > current_depth) and values is not None:
-        return type(values)(map_given_state(v, fn, context, depth, current_depth + 1, **kwargs) for v in values)
+        return type(values)(map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(values))
     else:
         return None if values is None else apply_operation(fn, values, context, **kwargs)
 
@@ -193,17 +215,20 @@ def handle_then(context, fn, **kwargs):
 
     def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
-            if inst is None:
+            if inst is None or set(misc.iflatten(inst)) == {None}:
                 return
             if context.is_full_stack_rule:
                 value_path = []
                 for val in misc.get_stack_tree(context)[::-1]:
                     i = 0
-                    while not should_apply(val, 0):
+                    while not should_apply(val, 0) and i < len(current_path):
                         val = val[current_path[i]]
                         i += 1
                     value_path.append(val)
-                kwargs = kwargs | {'path': value_path}
+                if 'path' in inspect.getargs(fn.__code__).args:
+                    kwargs = kwargs | {'path': value_path}
+                if 'npath' in inspect.getargs(fn.__code__).args:
+                    kwargs = kwargs | {'npath': current_path}
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
 # TODO: refactor into a more general solution that works for all rules

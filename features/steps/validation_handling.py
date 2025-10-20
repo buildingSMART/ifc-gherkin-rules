@@ -215,7 +215,12 @@ def handle_then(context, fn, **kwargs):
 
     def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
-            if inst is None or set(misc.iflatten(inst)) == {None}:
+            # @todo this is not very consistent, we don't invoke the then-step on `None`, but we do
+            # on `(None,)` which can happen in case of depth specifiers or global rules.
+            # Currently we do depend on this inconsistency though because otherwise the
+            # 'Assert existence' rules would never be triggered on aggregates of None, which is exactly
+            # what they are supposed to assert.
+            if inst is None:
                 return
             if context.is_full_stack_rule:
                 value_path = []

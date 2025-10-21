@@ -177,15 +177,11 @@ def map_given_state(values, fn, context, current_path=[], depth=None, current_de
             return is_nested(values) and all(should_apply(v, depth-1) for v in values if v is not None)
 
     if (depth is None and should_apply(values, 0)) or depth == current_depth:
-        r = None if values is None else apply_operation(fn, values, context)
-        if depth == 0:
-            return [r]
-        else:
-            return r
+        return None if values is None else apply_operation(fn, values, context)
     elif (depth is None or depth > current_depth) and values is not None:
         return type(values)(map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(values))
     else:
-        return None if values is None else apply_operation(fn, values, context, **kwargs)
+        return None if values is None else apply_operation(fn, values, context)
 
 
 def handle_then(context, fn, **kwargs):

@@ -165,7 +165,7 @@ def map_given_state(values, fn, context, current_path=[], depth=None, current_de
         else:
             local_kwargs = kwargs
         results = fn(context, inst, **local_kwargs)
-        return misc.do_try(lambda: list(map(lambda i: attrgetter('instance_id')(i) or attrgetter('inst')(i), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
+        return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
     
     def is_nested(val):
         return isinstance(val, (tuple, list))
@@ -211,6 +211,8 @@ def handle_then(context, fn, **kwargs):
 
     def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
+            if inst is None:
+                return
             if context.is_full_stack_rule:
                 value_path = []
                 for val in misc.get_stack_tree(context)[::-1]:

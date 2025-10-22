@@ -93,6 +93,7 @@ def parse_catalog_docs(output):
 
 
 def main():
+    print(run("find", cwd=".."))
     usage_output   = run(USAGE_CMD, cwd='..')
     catalog_output = run(CATALOG_CMD, cwd='..')
 

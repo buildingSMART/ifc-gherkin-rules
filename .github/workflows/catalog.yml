@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: |
           set -eux
-          pip install sphinx sphinx_rtd_theme natsort
+          pip install sphinx sphinx_rtd_theme natsort behave
 
       - name: Build docs
         run: |

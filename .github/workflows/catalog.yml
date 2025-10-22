@@ -25,6 +25,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+    - name: Update submodule
+      run: |
+        git submodule init && git submodule update --recursive --remote
 
       - name: Set up Python
         uses: actions/setup-python@v5

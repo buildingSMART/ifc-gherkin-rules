@@ -20,7 +20,9 @@ CATALOG_CMD = [
 ]
 
 def run(cmd, **kwargs):
-    return subprocess.run(cmd, text=True, capture_output=True, **kwargs).stdout
+    proc = subprocess.run(cmd, text=True, capture_output=True, **kwargs)
+    print(proc.stderr)
+    return proc.stdout
 
 def parse_usage(output):
     """

@@ -1,0 +1,52 @@
+name: Build & Deploy Docs (Sphinx → GitHub Pages)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+env:
+  PYTHON_VERSION: "3.11"
+  DOCS_OUTPUT_DIR: "docs/_build/html"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          set -eux
+          pip install sphinx sphinx_rtd_theme natsort
+
+      - name: Build docs
+        run: |
+          set -eux
+          python ./docs/build_docs.py
+          test -d "${{ env.DOCS_OUTPUT_DIR }}"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.DOCS_OUTPUT_DIR }}
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

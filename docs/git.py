@@ -1,0 +1,135 @@
+import os
+import subprocess as sp
+import re
+from pathlib import Path
+import sys
+from natsort import natsorted
+
+def git(*args, cwd):
+    out = sp.run(["git", *args], cwd=cwd, check=True, capture_output=True, text=True)
+    return out.stdout.strip()
+
+def introduced_commit(path, repo):
+    return (git("log", "--follow", "--diff-filter=A", "--format=%H", "-1", "--", path, cwd=repo) or '').strip()
+
+def parents_of(commit, repo):
+    line = git("rev-list", "--parents", "-n", "1", commit, cwd=repo)
+    parts = line.split()
+    return parts[1:] if len(parts) > 1 else []
+
+def diffs_touching_pattern(pathspec, pattern, repo):
+    out = git("log", "-G", pattern, "--format=%H", "--follow", "--", pathspec, cwd=repo)
+    return [l for l in out.splitlines() if l]
+
+def first_parent(commit, repo):
+    line = git("rev-list", "--parents", "-n", "1", commit, cwd=repo)
+    parts = line.split()
+    return parts[1] if len(parts) > 1 else None
+
+def commits_following_renames(path, repo):
+    out = git("log", "--follow", "-M", "--format=%H", "--", path, cwd=repo)
+    return [l for l in out.splitlines() if l]
+
+def parent_path_for_commit(commit, child_path, repo):
+    ns = git("diff-tree", "-M", "--name-status", "-r", commit, cwd=repo)
+    for line in ns.splitlines():
+        if not line or line[0] != "R":
+            continue
+        parts = line.split("\t")
+        if len(parts) == 3:
+            _, oldp, newp = parts
+            if newp == child_path:
+                return oldp
+    return child_path
+
+def blob_diff(parent, parent_path, commit, child_path, repo):
+    if parent:
+        return git("diff", "-U0", f"{parent}:{parent_path}", f"{commit}:{child_path}", cwd=repo)
+    else:
+        return git("show", "-U0", commit, "--", child_path, cwd=repo)
+
+
+def tags_for_commit(commit, repo):
+    return natsorted(git("tag", "--contains", commit, cwd=repo).splitlines())
+
+
+def all_tags(repo):
+    return natsorted(git("tag", "-l", cwd=repo).splitlines())
+
+def version_bumps_from_log(file_path, repo):
+    # scan through log:
+    #  - track renames (--follow) across single file
+    #  - include patch content (-p)
+    #  - minimal context (-U0)
+    log = git("log", "--follow", "-M", "-p", "-U0", "--no-color", "--", file_path, cwd=repo)
+
+    sha = None
+    version_no_before_after = [None, None]
+    current_file = None
+
+    def flush_commit():
+        if all(isinstance(v, int) for v in version_no_before_after):
+            fr, to = version_no_before_after
+            version_no_before_after[:] = None, None
+            return {
+                "commit": sha,
+                "file": current_file,
+                "from": fr,
+                "to": to,
+            }
+
+    for line in log.splitlines():
+        if line.startswith("commit ") and len(line.strip()) == 47:
+            if sha:
+                yield from filter(None, [flush_commit()])
+            sha = line.split()[1]
+            current_file = None
+            continue
+
+        if line.startswith("+++ b/"):
+            current_file = line[6:]
+            continue
+
+        if not current_file or not line or line[0] not in "+-":
+            continue
+
+        if m := re.search(r'@version\s*(\d+)', line):
+            bucket = 0 if line[0] == "-" else 1
+            version_no_before_after[bucket] = int(m.group(1))
+
+    yield from filter(None, [flush_commit()])
+
+
+def process_version_info(path):
+    REPO = ".."
+   
+    tag_ids = dict(map(reversed, enumerate(all_tags(REPO))))
+    version_progression = [0] * len(tag_ids)
+
+    intro = introduced_commit(path, REPO)
+    try:
+        tag = tags_for_commit(intro, REPO)[0]
+    except IndexError as e:
+        tag = None
+    print("Introduced in commit:", intro, tag or 'no tag')
+
+    if tag:
+        # @todo are we sure the introduction is always v1?
+        to_update = version_progression[tag_ids[tag]:]
+        version_progression[tag_ids[tag]:] = [1] * len(to_update)
+
+    print("\nVersion bumps:")        
+    for b in reversed(list(version_bumps_from_log(path, REPO))):
+        try:
+            tag = tags_for_commit(b['commit'], REPO)[0]
+        except IndexError as e:
+            tag = None
+        print(b, tag or 'no tag')
+        if tag:
+            # always overwrite, retain newest
+            to_update = version_progression[tag_ids[tag]:]
+            version_progression[tag_ids[tag]:] = [b['to']] * len(to_update)
+
+    for t, v in zip(all_tags(REPO), version_progression):
+        print(t, f"v{v}" if v else "-")
+        yield t, v or None

@@ -40,8 +40,8 @@ jobs:
       - name: Build docs
         run: |
           set -eux
-          python ./docs/build_docs.py
-          test -d "${{ env.DOCS_OUTPUT_DIR }}"
+          cd docs
+          python build_docs.py
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

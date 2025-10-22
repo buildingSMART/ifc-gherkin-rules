@@ -96,6 +96,8 @@ def main():
     print(run("find", cwd=".."))
     usage_output   = run(USAGE_CMD, cwd='..')
     catalog_output = run(CATALOG_CMD, cwd='..')
+    print(usage_output)
+    print(catalog_output)
 
     steps = parse_usage(usage_output)
     docs_map = parse_catalog_docs(catalog_output)

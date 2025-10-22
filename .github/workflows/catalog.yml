@@ -17,7 +17,7 @@ concurrency:
 
 env:
   PYTHON_VERSION: "3.11"
-  DOCS_OUTPUT_DIR: "docs/_build/html"
+  DOCS_OUTPUT_DIR: "docs/_build"
 
 jobs:
   build:
@@ -35,7 +35,8 @@ jobs:
       - name: Install dependencies
         run: |
           set -eux
-          pip install sphinx sphinx_rtd_theme natsort behave
+          pip install -r requirements.txt
+          pip install sphinx sphinx_rtd_theme natsort
 
       - name: Build docs
         run: |

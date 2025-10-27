@@ -1,8 +1,9 @@
 @implementer-agreement
 @ALS
-@version2
+@version3
 Feature: ALS005 - Alignment shape representation
 The rule verifies that each IfcAlignment uses correct representation.
+Checks for entity types are based upon the supported shape representations of IfcAlignment listed in 5.4.3.1.
 
   Background:
     Given A model with Schema 'IFC4.3'
@@ -23,7 +24,7 @@ The rule verifies that each IfcAlignment uses correct representation.
     Given .RepresentationIdentifier. ^is^ 'Axis'
     Given .RepresentationType. ^is^ 'Curve2D'
     Given Its attribute .Items.
-    Then [Its entity type] ^is^ 'IfcCompositeCurve'
+    Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'
 
 
   @E00010
@@ -32,7 +33,7 @@ The rule verifies that each IfcAlignment uses correct representation.
     Given .RepresentationIdentifier. ^is^ 'Axis'
     Given .RepresentationType. ^is^ 'Curve3D'
     Given Its attribute .Items.
-    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve'
+    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'
 
 
   @E00010
@@ -46,4 +47,4 @@ The rule verifies that each IfcAlignment uses correct representation.
   Scenario: Agreement on each IfcAlignment using correct representation items - Type
 
     Given Its attribute .Items.
-    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistance'
+    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'

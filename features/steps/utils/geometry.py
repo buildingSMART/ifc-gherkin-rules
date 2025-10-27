@@ -106,7 +106,7 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
                         #       order, but since we're not actually building a face, but only counting edge use - which is
                         #       independent of order in the loop - we don't need to apply that.
                         coords.reverse()
-                yield edge_type(coords)
+                    yield edge_type(coords)
 
         elif inst.is_a("IfcTriangulatedFaceSet"):
             # @nb to decide: should we return index pairs, or coordinate pairs here?
@@ -282,18 +282,27 @@ class AlignmentSegmentContinuityCalculation:
         self.following_start_point = (s0, s1)
 
     def _calculate_directions(self) -> None:
+        def _safe_slope(run: float, rise: float, eps: float = GEOM_TOLERANCE) -> float:
+            """
+            Returns rise/run unless run is near zero, in which case returns ±inf.
+            Prevents division-by-zero in gradient calculations.
+            """
+            if abs(run) < eps:                 
+                return math.copysign(math.inf, rise)  
+            return rise / run
+        
         current_end_transform = evaluate_segment(segment=self.segment_to_analyze, dist_along=self._get_u_at_end())
         following_start_transform = evaluate_segment(segment=self.following_segment, dist_along=0.0)
 
         current_i = current_end_transform[0][0]
         current_j = current_end_transform[1][0]
         self.current_end_direction = math.atan2(current_j, current_i)
-        self.current_end_gradient = float(current_j / current_i)
+        self.current_end_gradient = _safe_slope(current_i, current_j)
 
         following_i = following_start_transform[0][0]
         following_j = following_start_transform[1][0]
         self.following_start_direction = math.atan2(following_j, following_i)
-        self.following_start_gradient = float(following_j / following_i)
+        self.current_end_gradient = _safe_slope(current_i, current_j)
 
     def run(self) -> None:
         """

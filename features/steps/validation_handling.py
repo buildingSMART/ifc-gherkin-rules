@@ -8,6 +8,7 @@ from behave import step
 import inspect
 from operator import attrgetter
 import ast
+import numpy as np
 from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode
 
 from behave.runner import Context
@@ -331,13 +332,26 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
         except (ValueError, SyntaxError):
             pass
     
-    def ensure_finite_numbers(obj):
-        if isinstance(obj, float) and not math.isfinite(obj):
-            return "infinity"                
+    def sanitise_for_json(obj):
+        """
+        Replaces NaN with None, ±inf with strings, and converts NumPy arrays
+        to lists, making the object safe for JSON serialization.
+        """
+        if isinstance(obj, (float, np.floating)):
+            x = float(obj)
+            if math.isnan(x):
+                return None # null in db                     
+            if math.isinf(x):
+                return "infinity" if x > 0 else "-infinity"
+            return obj    
+                             
+        if isinstance(obj, np.ndarray):
+            return sanitise_for_json(obj.tolist()) # Walk through nested lists (to.list()) so inf/nan inside get fixed.
         if isinstance(obj, dict):
-            return {k: ensure_finite_numbers(v) for k, v in obj.items()}
+            return {k: sanitise_for_json(v) for k, v in obj.items()}
         if isinstance(obj, (list, tuple)):
-            return [ensure_finite_numbers(v) for v in obj]
+            return [sanitise_for_json(v) for v in obj]
+
         return obj
 
     match data:
@@ -364,7 +378,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             return {'instance': display_entity_instance(data)}
         case dict():
             # mostly for the pse001 rule, which already yields dicts
-            return ensure_finite_numbers(data)
+            return sanitise_for_json(data)
         case set(): # object of type set is not JSONserializable
             return tuple(data)
         case _:

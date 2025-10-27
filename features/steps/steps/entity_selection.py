@@ -13,7 +13,7 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None):
         Given an .IfcAlignment.
         Given an .IfcRoot. with subtypes
         Given an .entity instance.
-        
+
     The last example returns everything in the model.
     """
 

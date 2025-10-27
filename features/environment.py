@@ -2,6 +2,7 @@ import ifcopenshell
 import ifcopenshell.simple_spf
 from behave.model import Scenario
 from collections import Counter
+import functools
 import os
 from rule_creation_protocol import protocol
 from features.exception_logger import ExceptionSummary
@@ -13,16 +14,11 @@ import socket
 from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
 
-model_cache = {}
+@functools.cache
 def read_model(fn, pure):
-    if cached := model_cache.get(fn):
-        return cached
-    if pure:
-        model_cache[(fn, pure)] = ifcopenshell.simple_spf.open(fn)
-    else:
-        model_cache[(fn, pure)] = ifcopenshell.open(fn)
-    return model_cache[(fn, pure)]
-
+    # @nb --purepythonparser is only used for @critical rules which is only IFC101 which only looks at the header
+    return (ifcopenshell.simple_spf.open(fn, only_header=True)
+            if pure else ifcopenshell.open(fn))
 
 def print_directory_tree(start_path, level=0):
     """

@@ -130,7 +130,7 @@ def handle_given(context, fn, **kwargs):
         gen = fn(context, **kwargs)
         if gen: # (2) Set initial set of instances
             insts = list(gen)
-            context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
+            context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
             pass
         else:
             pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
@@ -145,7 +145,7 @@ def handle_given(context, fn, **kwargs):
 
 def apply_operation(fn, inst, context, **kwargs):
     results = fn(context, inst, **kwargs)  
-    return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
+    return misc.do_try(lambda: list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
 
 
 def map_given_state(values, fn, context, depth=None, current_depth=0, **kwargs):

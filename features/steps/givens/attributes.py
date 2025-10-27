@@ -14,7 +14,7 @@ def step_impl(context, inst, attr, closed_or_open):
         inst = getattr(inst, attr, None)
 
     if geometry.is_closed(context, inst) == should_be_closed:
-        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step("A {file_or_model} with {field} '{values}'")
@@ -42,9 +42,9 @@ def step_impl(context, inst, regex_condition, regex_pattern):
         condition = regex_condition,
         expected=regex_pattern
     ):
-        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
     else:
-        yield ValidationOutcome(instance_id=inst, expected=regex_pattern, observed=inst, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected=regex_pattern, observed=inst, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("Its .{attribute}. attribute ^{prefix_condition:prefix_condition}^ with '{prefix}'")
@@ -74,7 +74,7 @@ def step_impl(context, inst, attribute, prefix_condition, prefix):
     the content of the attribute X of IfcBuildingStorey rather than the storey itself."
     """
     if not hasattr(inst, attribute):
-        yield ValidationOutcome(instance_id=inst, expected=attribute, observed=f"not {attribute}", severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected=attribute, observed=f"not {attribute}", severity=OutcomeSeverity.ERROR)
         return
 
     attribute_value = str(getattr(inst, attribute, ''))
@@ -86,10 +86,10 @@ def step_impl(context, inst, attribute, prefix_condition, prefix):
         condition = prefix_condition, 
         expected=prefixes
     ):
-        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
     else:
         expected = prefixes if prefix_condition == "starts" else f'not {prefixes}'
-        yield ValidationOutcome(instance_id=inst, expected=expected, observed=attribute_value, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected=expected, observed=attribute_value, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("Its value ^{prefix_condition:prefix_condition}^ with '{prefix}'")
@@ -101,27 +101,27 @@ def step_impl(context, inst, prefix_condition, prefix):
         condition = prefix_condition, 
         expected=prefixes
     ):
-        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
     else:
         expected = prefixes if prefix_condition == "starts" else f'not {prefixes}'
-        yield ValidationOutcome(instance_id=inst, expected=expected, observed=inst, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst=inst, expected=expected, observed=inst, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("Its {first_or_final:first_or_final} element")
 @gherkin_ifc.step("Its {first_or_final:first_or_final} element at depth {ignored:d}")
 def step_impl(context, inst, first_or_final, ignored=0):
     if first_or_final == "final":
-        yield ValidationOutcome(instance_id = inst[-1], severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst = inst[-1], severity=OutcomeSeverity.PASSED)
     elif first_or_final == "first":
-        yield ValidationOutcome(instance_id = inst[0], severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst = inst[0], severity=OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("An IFC model")
 def step_impl(context):
-    yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
+    yield ValidationOutcome(inst = context.model, severity=OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("Each instance pair at depth 1")
 def step_impl(context, inst):
     pairs = list()
     for i in range(0, len(inst) - 1):
         pairs.append([inst[i], inst[i+1]])
-    yield ValidationOutcome(instance_id = [pairs], severity=OutcomeSeverity.PASSED)
+    yield ValidationOutcome(inst = [pairs], severity=OutcomeSeverity.PASSED)

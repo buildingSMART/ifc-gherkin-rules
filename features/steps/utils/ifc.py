@@ -32,13 +32,9 @@ def get_precision_from_contexts(entity_contexts : typing.Sequence[ifcopenshell.e
     else:
         unit_scale = 1.
     for entity_context in entity_contexts:
-        if entity_context.is_a('IfcGeometricRepresentationSubContext'):
-            precision = get_precision_from_contexts([entity_context.ParentContext])
-        elif entity_context.is_a('IfcGeometricRepresentationContext') and entity_context.Precision:
-            return entity_context.Precision * unit_scale
-        else:
-            continue
-        precisions.append(precision)
+        if entity_context.Precision is not None:
+            precision = entity_context.Precision * unit_scale
+            precisions.append(precision)
     if not precisions:
         return default_precision
     return func_to_return(precisions)

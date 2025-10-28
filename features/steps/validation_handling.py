@@ -151,10 +151,7 @@ def map_given_state(values, fn, context, current_path=[], depth=None, current_de
             for val in stack:
                 i = 0
                 while not should_apply(val, 0) and i < len(current_path):
-                    try:
-                        val = val[current_path[i]]
-                    except:
-                        breakpoint()
+                    val = val[current_path[i]]
                     i += 1
                 value_path.append(val)
             return value_path

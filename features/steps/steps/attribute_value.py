@@ -1,7 +1,7 @@
 import ast
 import operator
 
-from utils import geometry, ifc, misc
+from utils import misc
 from validation_handling import gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
@@ -24,11 +24,6 @@ def step_impl(context, inst, comparison_operator, attribute, value, subtype_hand
     start_value = value
     pred = operator.eq
 
-    def negate(fn):
-        def inner(*args):
-            return not fn(*args)
-        return inner
-
     if value == 'empty':
         value = ()
     elif value == 'not empty':
@@ -43,7 +38,7 @@ def step_impl(context, inst, comparison_operator, attribute, value, subtype_hand
             pred = operator.contains
 
     if comparison_operator in {"is not", "!="}: # avoid using != together with (not)empty stmt
-        pred = negate(pred)
+        pred = misc.negate(pred)
 
     observed_v = ()
     if attribute.lower() in ['its type', 'its entity type']: # it's entity type is a special case using ifcopenshell 'is_a()' func

@@ -158,7 +158,7 @@ def map_given_state(values, fn, context, current_path=[], depth=None, current_de
                     i += 1
                 value_path.append(val)
             return value_path
-        if 'path' in inspect.getargs(fn.__code__).args:
+        if 'path' in inspect.signature(fn).parameters:
             local_kwargs = kwargs | {
                 'path': get_value_path()
             }

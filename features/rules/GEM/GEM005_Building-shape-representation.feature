@@ -1,6 +1,6 @@
 @implementer-agreement
 @GEM
-@version1
+@version2
 @disabled
 @E00020
 Feature: GEM005 - Building shape representation

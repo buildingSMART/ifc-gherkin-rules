@@ -1,6 +1,6 @@
 @implementer-agreement
 @GRF
-@version1
+@version2
 @E00500
 Feature: GRF006 - WKT specification for missing EPSG
 The rule verifies that if an ESPG code does not exist for the coordinate reference system, this CRS shall be further speciied using the IfcWellKnownText entity

@@ -1,6 +1,6 @@
 @informal-proposition
 @SWE
-@version1
+@version2
 @E00050
 Feature: SWE002 - Mirroring within IfcDerivedProfileDef shall not be used
 

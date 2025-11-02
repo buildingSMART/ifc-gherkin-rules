@@ -95,11 +95,8 @@ def parse_catalog_docs(output):
 
 
 def main():
-    print(run("find", cwd=".."))
     usage_output   = run(USAGE_CMD, cwd='..')
     catalog_output = run(CATALOG_CMD, cwd='..')
-    print(usage_output)
-    print(catalog_output)
 
     steps = parse_usage(usage_output)
     docs_map = parse_catalog_docs(catalog_output)
@@ -121,15 +118,18 @@ def main():
 
     all_feature_files = sorted(set(a[2].rsplit(':', 1)[0] for s in steps for a in s['usages']))
 
-    with open("_docs/features/index.rst", "w") as feature_index:
+    with open("_docs/features/index.rst", "w", encoding='utf-8') as feature_index:
         feature_index.write("Validation Service Rule Definitions\n")
         feature_index.write("===================================\n\n")
         feature_index.write(".. toctree::\n\n")
         for feat in all_feature_files:
             base = os.path.basename(feat).rsplit('.', 1)[0]
+            disabled = '@disabled' in open('../'+feat).read()
             feature_index.write(f"  {base}\n")
-            with open(f"_docs/features/{base}.rst", "w") as feature_file:
-                feature_file.write(f"``{base[:6]}`` {base[7:].replace('-', ' ').replace('_', ' ')}\n")
+            with open(f"_docs/features/{base}.rst", "w", encoding='utf-8') as feature_file:
+                WARN = '\\( \u26A0 '
+                END_WARN = '\\) \\(disabled\\)'
+                feature_file.write(f"{WARN if disabled else ''}``{base[:6]}`` {base[7:].replace('-', ' ').replace('_', ' ')}{END_WARN if disabled else ''}\n")
                 feature_file.write(f"{'='*200}\n\n")
                 feature_file.write(f".. parsed-literal::\n\n")
                 for ln, st in enumerate(linecache.getlines('../'+feat), start=1):

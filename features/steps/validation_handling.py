@@ -4,7 +4,7 @@ import re
 from utils import misc
 from functools import wraps
 import ifcopenshell
-from behave import step
+from behave import step, model_core
 import inspect
 from operator import attrgetter
 import ast
@@ -56,8 +56,11 @@ def generate_error_message(context, errors):
     """
     Function to trigger the behave error mechanism by raising an exception so that errors are printed to the console.
     """
-    assert not errors, "Errors occured:" + ''.join(f'\n - {error}' for error in errors)
-
+    if errors:
+        error_str = "Errors occured:" + ''.join(f'\n - {error}' for error in errors)
+        # This appears to be a good combination. context.scenario.set_status() doesn't actually do much.
+        context.step.status = model_core.Status.failed
+        context.scenario.skip(error_str)
 
 """
 Core validation handling functions operate as follows: 
@@ -104,7 +107,7 @@ def execute_step(fn):
             feature=context.feature.name,
             feature_version=misc.define_feature_version(context),
             severity=OutcomeSeverity.NOT_APPLICABLE,
-            validation_task_id=context.validation_task_id
+            # validation_task_id=context.validation_task_id
         )
         context.gherkin_outcomes.append(validation_outcome)
 
@@ -187,11 +190,15 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.EXECUTED,
-                validation_task_id=context.validation_task_id
+                # validation_task_id=context.validation_task_id
             )
         )
 
     def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
+        # max number of errors to accumulate until processing of then step is terminated
+        MAX_ERROR_COUNT=10
+        total_error_count = 0
+
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
             if inst is None:
                 return
@@ -206,7 +213,7 @@ def handle_then(context, fn, **kwargs):
                 kwargs = kwargs | {'path': value_path}
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
-# TODO: refactor into a more general solution that works for all rules
+            # TODO: refactor into a more general solution that works for all rules
             if context.is_global_rule and (
                 "GEM051" in context.feature.name or "GRF003" in context.feature.name
             ):
@@ -221,21 +228,23 @@ def handle_then(context, fn, **kwargs):
                 inst_to_display = inst if displayed_inst_override else activation_inst
                 instance_id = safe_method_call(inst_to_display, 'id', None)
 
+                expected_val = expected_behave_output(context, result.expected)
+                # suppress the 'display_entity' trigger text if it is used as part of the expected value
+                expected_val = (
+                    expected_val.split(displayed_inst_override_trigger)[0].strip()
+                    if displayed_inst_override_trigger in expected_val
+                    else expected_val)
+
                 validation_outcome = ValidationOutcome(
                     outcome_code=get_outcome_code(result, context),
                     observed=expected_behave_output(context, result.observed, is_observed=True),
-                    expected=expected_behave_output(context, result.expected),
+                    expected=expected_val,
                     feature=context.feature.name,
                     feature_version=misc.define_feature_version(context),
                     severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
                     instance_id=instance_id,
-                    validation_task_id=context.validation_task_id
+                    # validation_task_id=context.validation_task_id
                 )
-                # suppress the 'display_entity' trigger text if it is used as part of the expected value
-                validation_outcome.expected = (
-                    validation_outcome.expected.split(displayed_inst_override_trigger)[0].strip()
-                    if displayed_inst_override_trigger in validation_outcome.expected
-                    else validation_outcome.expected)
 
                 context.gherkin_outcomes.append(validation_outcome)
                 context.scenario_outcome_state.append((len(context.gherkin_outcomes)-1, {'scenario': context.scenario.name, 'last_step': context.scenario.steps[-1], 'instance_id': instance_id}))

@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('fail-alb031-multiple_horizontal.ifc','2025-09-25T14:56:19',(''),(''),'IfcOpenShell 0.8.0','IfcOpenShell 0.8.0','');
+FILE_NAME('fail-alb031-multiple_horizontal.ifc','2025-09-25T14:56:19',(''),(''),'IfcOpenShell 0.8.0','IfcOpenShell Contributors - IfcOpenShell - 0.8.0','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

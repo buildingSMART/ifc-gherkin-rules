@@ -42,33 +42,4 @@
 | 82      | IfcRelAggregates       | 1 <-- 4 (parent alignment to project)                       |
 | 91      | IfcRelAggregates       | 4 <-- 89, 124, 94 (children alignments to parent alignment) |
 
-## TODO
-
-- ~~move referent from its own nesting to included with the layouts~~
-- ~~copy current file from fail to pass~~
-- ~~copy for fail combinations~~
-  - ~~1c only~~
-  - ~~1h and 1c~~
-  - ~~1h and 1v~~
-  - ~~1v and 2c~~
-- ~~adjust fail file to have invalid combinations~~
-  - ~~1c only~~
-  - ~~1h and 1c~~
-  - ~~1h and 1v~~
-  - ~~1v and 2c~~
-
-## Nota Bene  
-
-The original unit test data supplied to the development team contained
-multiple `IfcRelNests` instances where `RelatedObjects` consisted solely of `IfcReferent`.
-While this developer understand the motivation behind taking this approach -
-and acknowledge that it appears to be perfectly valid per the IFC 4.3.2.0 spec -
-this developer respectfully disagrees and recommends that `IfcReferent` be included
-as part of a single nesting that includes horizontal, vertical, cant, and referents
-(in that order).
-
-This simplifies implementation by importing tools as they do not need to search across multiple nesting instances
-to gather all information related to a given alignment.
-This also greatly simplifies the implementation of ALB032 in the Validation Service.
-
 

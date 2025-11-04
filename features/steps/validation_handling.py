@@ -107,7 +107,6 @@ def execute_step(fn):
             feature=context.feature.name,
             feature_version=misc.define_feature_version(context),
             severity=OutcomeSeverity.NOT_APPLICABLE,
-            # validation_task_id=context.validation_task_id
         )
         context.gherkin_outcomes.append(validation_outcome)
 
@@ -205,7 +204,6 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.EXECUTED,
-                # validation_task_id=context.validation_task_id
             )
         )
 
@@ -252,16 +250,17 @@ def handle_then(context, fn, **kwargs):
                     expected_val.split(displayed_inst_override_trigger)[0].strip()
                     if displayed_inst_override_trigger in expected_val
                     else expected_val)
-
+                
                 validation_outcome = ValidationOutcome(
                     outcome_code=get_outcome_code(result, context),
                     observed=expected_behave_output(context, result.observed, is_observed=True),
                     expected=expected_val,
                     feature=context.feature.name,
+                    # @todo define_feature_version() better call in before_feature hook?
+                    # @todo or even better, don't store in the dataclass since it will be constant for all outcomes of this feature, within the execution of behave
                     feature_version=misc.define_feature_version(context),
                     severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
                     inst=instance_id,
-                    # validation_task_id=context.validation_task_id
                 )
 
                 context.gherkin_outcomes.append(validation_outcome)
@@ -278,7 +277,6 @@ def handle_then(context, fn, **kwargs):
             #         feature_version=misc.define_feature_version(context),
             #         severity=OutcomeSeverity.PASSED,
             #         inst = safe_method_call(activation_inst, 'id', None),
-            #         validation_task_id=context.validation_task_id
             #     )
             #     context.gherkin_outcomes.append(validation_outcome)
 

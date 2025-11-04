@@ -98,7 +98,7 @@ def before_step(context, step):
     context.step = step
 
 def get_validation_outcome_hash(obj):
-    return obj.severity, obj.outcome_code, obj.instance_id, json.dumps(obj.observed)
+    return obj.severity, obj.outcome_code, obj.inst, json.dumps(obj.observed)
 
 def after_scenario(context, scenario):
     # Given steps may introduce an arbitrary amount of stackframes.
@@ -151,7 +151,7 @@ def after_feature(context, feature):
                 task = ValidationTask.objects.get(id=context.validation_task_id)
                 model_id = task.request.model.id
 
-                stepfile_ids = sorted(set(o.instance_id for o in outcomes_to_save if o.instance_id))
+                stepfile_ids = sorted(set(o.inst for o in outcomes_to_save if o.inst))
                 for stepfile_id in stepfile_ids:
                   instance = ModelInstance(
                       stepfile_id=stepfile_id,
@@ -166,12 +166,12 @@ def after_feature(context, feature):
                     model_instances = dict(ModelInstance.objects.filter(model_id=model_id).values_list('stepfile_id', 'id')) # retrieve all
                     
                     # look up actual FK's
-                    for outcome in [o for o in outcomes_to_save if o.instance_id]:
+                    for outcome in [o for o in outcomes_to_save if o.inst]:
                         # outcomes are frozen dataclasses so we cannot mutate them,
                         # instead we assign to a separate mapping on the side which is read
                         # when the ValidationOutcomeDjango instances are constructed from
                         # ValidationOutcome DTO objects.
-                        outcome_instance_ids[outcome] = model_instances[outcome.instance_id]
+                        outcome_instance_ids[outcome] = model_instances[outcome.inst]
 
                 wrap_id = lambda instance_id_or_none: {} if instance_id_or_none is None else {'instance_id': instance_id_or_none}
                 outcomes_to_save_django = [ValidationOutcomeDjango(**(outc.to_dict(validation_task_public_id=int(context.validation_task_id)) | wrap_id(outcome_instance_ids.get(outc)))) for outc in outcomes_to_save]

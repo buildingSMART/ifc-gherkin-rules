@@ -11,7 +11,7 @@ import time
 import logging
 import socket
 
-from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
+from validation_results import ValidationOutcome, ValidationOutcomeDjango, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
 
 @functools.cache
@@ -161,15 +161,23 @@ def after_feature(context, feature):
                   )
                   outcomes_instances_to_save.append(instance)
 
+                outcome_instance_ids = {}
+
                 if stepfile_ids:
                     ModelInstance.objects.bulk_create(outcomes_instances_to_save, batch_size=DJANGO_DB_BULK_CREATE_BATCH_SIZE, ignore_conflicts=True) # ignore conflicts with existing
                     model_instances = dict(ModelInstance.objects.filter(model_id=model_id).values_list('stepfile_id', 'id')) # retrieve all
                     
                     # look up actual FK's
                     for outcome in [o for o in outcomes_to_save if o.instance_id]:
-                        outcome.instance_id = model_instances[outcome.instance_id]
+                        # outcomes are frozen dataclasses so we cannot mutate them,
+                        # instead we assign to a separate mapping on the side which is read
+                        # when the ValidationOutcomeDjango instances are constructed from
+                        # ValidationOutcome DTO objects.
+                        outcome_instance_ids[outcome] = model_instances[outcome.instance_id]
 
-                ValidationOutcome.objects.bulk_create(outcomes_to_save, batch_size=DJANGO_DB_BULK_CREATE_BATCH_SIZE)
+                wrap_id = lambda instance_id_or_none: {} if instance_id_or_none is None else {'instance_id': instance_id_or_none}
+                outcomes_to_save_django = [ValidationOutcomeDjango(**(outc.to_dict(validation_task_public_id=int(context.validation_task_id)) | wrap_id(outcome_instance_ids.get(outc)))) for outc in outcomes_to_save]
+                ValidationOutcomeDjango.objects.bulk_create(outcomes_to_save_django, batch_size=DJANGO_DB_BULK_CREATE_BATCH_SIZE)
         end_time = time.process_time()
         elapsed_time = end_time - context.feature_start_time
         logger = set_logger(context)

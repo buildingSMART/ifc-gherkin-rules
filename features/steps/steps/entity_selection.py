@@ -39,4 +39,4 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None):
 
     # yield instances
     for inst in instances:
-        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)

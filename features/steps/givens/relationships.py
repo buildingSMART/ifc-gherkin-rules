@@ -51,7 +51,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
             try:
                 to_other = list(filter(lambda i: i.is_a(other), make_aggregate(getattr(rel, attr_to_other))))
             except RuntimeError:
-                yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
 
             if rel_attribute_name == attr_to_entity:
                 if tail:
@@ -60,7 +60,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
                     instances.append(inst)
 
     severity = OutcomeSeverity.PASSED if bool(instances) == required else OutcomeSeverity.ERROR
-    yield ValidationOutcome(instance_id=instances if instances else inst, severity=severity)
+    yield ValidationOutcome(inst=instances if instances else inst, severity=severity)
 
 
     
@@ -72,5 +72,5 @@ def step_impl(context, inst, relationship_type, entity):
     assert relationship_type in reltype_to_extr
     extr = reltype_to_extr[relationship_type]
     if getattr(getattr(inst, extr['attribute'])[0], extr['object_placement']).is_a(entity):
-        yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASSED)
 

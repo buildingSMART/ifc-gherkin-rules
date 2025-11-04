@@ -175,6 +175,6 @@ def step_impl(context, inst, num, stmt, inverse_attrs):
     compare = misc.stmt_to_op(stmt)
     
     if compare(count, num):
-        yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst = context.model, severity=OutcomeSeverity.PASSED)
     else: 
         yield ValidationOutcome(inst=inst, observed = count, severity=OutcomeSeverity.ERROR)

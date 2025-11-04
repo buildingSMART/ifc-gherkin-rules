@@ -150,7 +150,7 @@ class RuleCreationConventions(ConfiguredBaseModel):
             if not len(unique_fp_tags) == 1:
                 raise ProtocolError(
                     value=unique_fp_tags,
-                    message="Functional parts do not match across feature name, feature filename, and IFC input."
+                    message=f"Functional parts do not match across feature name, feature filename, and IFC input: {' '.join(fp_tags_found.values())}"
                 )
             
             validated_tags = validator.validate_tags(values['tags'])

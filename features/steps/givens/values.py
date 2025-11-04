@@ -1,20 +1,20 @@
 import itertools
 
-from validation_handling import gherkin_ifc
+from validation_handling import full_stack_rule, gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("Its values")
 @gherkin_ifc.step("Its values excluding {excluding}")
 def step_impl(context, inst, excluding=None):
-    yield ValidationOutcome(instance_id=inst.get_info(recursive=True, include_identifier=False, ignore=excluding),
+    yield ValidationOutcome(inst=inst.get_info(recursive=True, include_identifier=False, ignore=excluding),
                             severity=OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step("The values grouped pairwise at depth {ignored:d}")
 def step_impl(context, inst, ignored=0):
     inst = itertools.pairwise(inst)
-    yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+    yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
 
 @gherkin_ifc.step("The determinant of the placement matrix")
 def step_impl(context, inst):
@@ -32,4 +32,18 @@ def step_impl(context, inst):
 
     shp = ifcopenshell.ifcopenshell_wrapper.map_shape(ifcopenshell.geom.settings(), inst.wrapped_data)
     d = np.linalg.det(np.array(shp.components))
-    yield ValidationOutcome(instance_id=d, severity=OutcomeSeverity.PASSED)
+    yield ValidationOutcome(inst=d, severity=OutcomeSeverity.PASSED)
+
+
+@gherkin_ifc.step(u"the instances '{n_steps:d}' steps up")
+@full_stack_rule
+def step_impl(context, inst, path, n_steps : int):
+    """Replaces the input instance with the value higher up in the execution. Note that this only applies to input
+    instances that are still present at execution time during the current step, it doesn't overwrite replace the full
+    set of instances from before, only those that are still active currently.
+
+    Args:
+        n_steps (int): Number of steps to look upwards in execution
+    """
+
+    yield ValidationOutcome(instance_id = path[::-1][n_steps-1], severity = OutcomeSeverity.PASSED)

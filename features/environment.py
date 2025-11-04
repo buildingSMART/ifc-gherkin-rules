@@ -136,11 +136,9 @@ def after_feature(context, feature):
                 unique_objects = [obj for obj in failed_outcomes if get_validation_outcome_hash(obj) not in unique_outcomes and (unique_outcomes.add(get_validation_outcome_hash(obj)) or True)]
                 yield from unique_objects
             else:
-                outcome_counts = Counter(outcome.severity for outcome in context.gherkin_outcomes)
                 for severity in [OutcomeSeverity.PASSED, OutcomeSeverity.EXECUTED, OutcomeSeverity.NOT_APPLICABLE]:
-                    if outcome_counts[severity] > 0:
-                        yield next(outcome for outcome in context.gherkin_outcomes if outcome.severity == severity)
-                        break
+                    if outc := next((outcome for outcome in feature_outcomes if outcome.severity == severity), None):
+                        yield outc
 
         outcomes_to_save = list(reduce_db_outcomes(context.gherkin_outcomes))
         outcomes_instances_to_save = list()

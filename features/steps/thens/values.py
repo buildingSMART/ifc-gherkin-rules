@@ -1,4 +1,6 @@
 import csv
+import operator
+import re
 import ifcopenshell
 import os
 from pyproj.database import query_crs_info
@@ -6,7 +8,7 @@ from pyproj import CRS
 
 from pathlib import Path
 
-from validation_handling import gherkin_ifc
+from validation_handling import full_stack_rule, gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 from utils import misc
@@ -111,3 +113,42 @@ def step_impl(context, inst, i, value):
             inst = misc.do_try(lambda: inst.is_a(), inst)
         if inst != value:
             yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("the value '{varname1}' must be ^{op}^ the value '{varname2}'")
+@full_stack_rule
+def step_impl(context, inst, path, npath, varname1, op, varname2):
+    """Compares the value in variable v1 to the value in variable v2
+
+    Args:
+        varname1 (_type_): Left-hand-side variable reference
+        op (_type_): 'equal to' / 'not equal to' / 'greater than' / 'less than' / 'greater than or equal to' / 'less than or equal to'
+        varname2 (_type_): Right-hand-side variable reference
+    """
+
+    binary_operators = {
+        'equal to' : operator.eq,
+        'not equal to' : operator.ne,
+        'greater than' : operator.gt,
+        'less than' : operator.lt,
+        'greater than or equal to' : operator.ge,
+        'less than or equal to' : operator.le,
+    }
+    
+    steps = [l.get('step') for l in context._stack]
+    var_lists = [re.findall(r"\[stored as '(\w+)'\]", s.name) if s else None for s in steps]
+    varnames = [l[0] if l else None for l in var_lists]
+
+    tree = misc.get_stack_tree(context)
+    def get_value(varname):
+        # look up layer in tree based on variable name matched to step text
+        val = tree[varnames.index(varname) - 1]
+        # while numeric path is not depleted, use indices to peek into the appropriate slot
+        p = list(npath)
+        while isinstance(val, (list, tuple)) and p:
+            val = val[p.pop(0)]
+        return val
+
+    v1, v2 = map(get_value, (varname1, varname2))
+    passed = binary_operators[op](v1, v2)
+    yield ValidationOutcome(inst=inst, expected=v2, observed=v1, severity=OutcomeSeverity.PASSED if passed else OutcomeSeverity.ERROR)

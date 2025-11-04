@@ -1,6 +1,6 @@
 @implementer-agreement
 @SPS
-@version1
+@version2
 @disabled
 @E00040
 Feature: SPS004 - No combination of containment and positioning
@@ -10,7 +10,7 @@ The rule verifies that each IfcProduct can either be contained in one and only o
 
     Given A model with Schema 'IFC4.3'
     Given An .IfcProduct.
-    Given ContainedInStructure = not empty
+    Given .ContainedInStructure. ^is not^ empty
 
     Then The value of attribute .PositionedRelativeTo. must be ^empty^
 
@@ -19,6 +19,6 @@ The rule verifies that each IfcProduct can either be contained in one and only o
 
     Given A model with Schema 'IFC4.3'
     Given An .IfcProduct.
-    Given PositionedRelativeTo = not empty
+    Given .PositionedRelativeTo. ^is not^ empty
 
     Then The value of attribute .ContainedInStructure. must be ^empty^

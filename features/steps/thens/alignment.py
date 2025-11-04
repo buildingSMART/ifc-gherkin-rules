@@ -179,7 +179,7 @@ def step_impl(context, additional_prose_matching):
         context.applicable = False
 
     for inst in instances:
-        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step(

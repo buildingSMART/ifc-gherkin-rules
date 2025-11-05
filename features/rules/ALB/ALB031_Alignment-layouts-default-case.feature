@@ -14,5 +14,5 @@ and cant = IfcAlignmentCant
       Given .IsDecomposedBy. ^is^ empty
     Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.
 
-      Then the alignment layouts must include [1 horiz, or 1 horiz and 1 vert, or 1 horiz and 1 vert and 1 cant]
+      Then the alignment layouts must include [1 horiz] or [1 horiz and 1 vert] or [1 horiz and 1 vert and 1 cant]
 

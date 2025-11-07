@@ -11,8 +11,8 @@ and cant = IfcAlignmentCant
 
       Given A model with Schema 'IFC4.3'
       Given an .IfcAlignment.
-        Given A relationship .IfcRelAggregates. ^does not exist^ from .IfcAlignment. to .IfcObject.
-    Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.
+      Given a relationship .IfcRelAggregates. ^does not exist^ from .IfcAlignment. to .IfcObject.
+      Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.
 
       Then the alignment layouts must include [1 horiz] or [1 horiz and 1 vert] or [1 horiz and 1 vert and 1 cant]
 

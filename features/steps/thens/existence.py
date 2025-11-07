@@ -112,12 +112,12 @@ def step_impl(context, inst, prose_matching):
     It must be preceded by a 'Given its attribute .IsNestedBy.' step so that all RelatedObjects are passed as a single object.
     """
 
-    valid_combos = misc.strip_split(stmt=prose_matching, strp=" ", splt=", or")
+    valid_combos = misc.strip_split(stmt=prose_matching, strp=" ", splt="] or [")
 
-    preceeding_step_name = get_previous_step(context).upper()
-    assert preceeding_step_name == "ITS ATTRIBUTE .ISNESTEDBY."
+    preceding_step_name = get_previous_step(context).upper()
+    assert preceding_step_name == "A RELATIONSHIP .IFCRELNESTS. FROM .IFCALIGNMENT. TO .IFCOBJECT."
 
-    related = inst.RelatedObjects
+    related = inst.IsNestedBy[0].RelatedObjects
     observed_nested_insts = ObservedNestedAlignmentInstances()
     for nested_inst in related:
         match nested_inst.is_a().upper():

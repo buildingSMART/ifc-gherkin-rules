@@ -11,9 +11,8 @@ and cant = IfcAlignmentCant
 
       Given A model with Schema 'IFC4.3'
       Given an .IfcAlignment.
-      Given its attribute .IsDecomposedBy.
-      Given its attribute .RelatedObjects.
-      Given its attribute .IsNestedBy.
+      Given a *required* relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that
+      Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.
 
-      Then the alignment layouts must include [1 vert, or 1 vert and 1 cant]
+      Then the alignment layouts must include [1 vert] or [1 vert and 1 cant]
 

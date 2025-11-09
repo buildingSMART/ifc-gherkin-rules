@@ -45,5 +45,4 @@ def step_impl(context, inst, path, n_steps : int):
     Args:
         n_steps (int): Number of steps to look upwards in execution
     """
-
-    yield ValidationOutcome(instance_id = path[::-1][n_steps-1], severity = OutcomeSeverity.PASSED)
+    yield ValidationOutcome(inst = path[::-1][n_steps-1], severity = OutcomeSeverity.PASSED)

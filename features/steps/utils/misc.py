@@ -138,7 +138,7 @@ def stmt_to_op(statement):
     return stmts_to_op[statement]
 
 
-def strip_split(stmt, strp=" '", splt=",", lower=True):
+def strip_split(stmt, strp=" '", splt=",", lower=True, convert_num=True):
     """
     Splits a string by a delimiter, strips unwanted characters from each part,
     optionally converts to lowercase, and converts numeric strings to integers.
@@ -147,7 +147,7 @@ def strip_split(stmt, strp=" '", splt=",", lower=True):
     """
     def clean(s):
         s = s.strip(strp)
-        return int(s) if s.isdigit() else s
+        return int(s) if convert_num and s.isdigit() else s
 
     return tuple(clean(s) for s in (stmt.lower() if lower else stmt).split(splt))
 

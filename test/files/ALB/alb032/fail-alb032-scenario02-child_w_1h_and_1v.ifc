@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('fail-alb032-1h_and_1v.ifc','2025-10-09T08:35:44',(''),(''),'IfcOpenShell 0.8.0','IfcOpenShell contributors - IfcOpenShell - 0.8.0','');
+FILE_NAME('fail-alb032-scenario02-child_w_1h_and_1v.ifc','2025-10-09T08:35:44',(''),(''),'IfcOpenShell 0.8.0','IfcOpenShell contributors - IfcOpenShell - 0.8.0','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -11,7 +11,7 @@ DATA;
 #4=IFCALIGNMENT('31f$nM8PTDru1geqftJimd',$,'Test',$,$,#87,#19,$);
 #5=IFCALIGNMENTHORIZONTAL('3gHujOtKb5AQVLJ2QqUxFV',$,$,$,$,$,$);
 #6=IFCALIGNMENTVERTICAL('2D2eogRz1DrOpCrHSXwRTn',$,$,$,$,$,$);
-#7=IFCRELNESTS('2PluF_s9j6T9kOSUFPC9Q2',$,$,$,#4,(#29,#54));
+#7=IFCRELNESTS('2PluF_s9j6T9kOSUFPC9Q2',$,$,$,#4,(#5,#29,#54));
 #11=IFCCARTESIANPOINT((0.,0.,0.));
 #12=IFCDIRECTION((0.,0.,1.));
 #13=IFCDIRECTION((1.,0.,0.));

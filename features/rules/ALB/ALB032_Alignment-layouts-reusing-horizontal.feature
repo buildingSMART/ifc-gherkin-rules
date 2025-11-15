@@ -13,7 +13,7 @@ Background:
 
 Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.1 for "parent" alignment
 
-    Given a *required* relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment.
+    Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment.
     Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.
     Then the alignment layouts must include [1 horiz]
 

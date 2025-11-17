@@ -1,0 +1,34 @@
+UnitType,Name,ConversionFactor,SIUnitPrefix,SIUnitName,Description
+LENGTHUNIT,inch,25.4,MILLI,METRE
+LENGTHUNIT,foot,304.8,MILLI,METRE
+LENGTHUNIT,US survey foot,304.80060960122,MILLI,METRE,the approximate value of 1200/3937 meters
+LENGTHUNIT,yard,914.,MILLI,METRE
+LENGTHUNIT,mile,1609.,None,METRE
+AREAUNIT,square inch,0.0006452,None,METRE
+AREAUNIT,square foot,0.09290,None,METRE
+AREAUNIT,square yard,0.83612736,None,METRE
+AREAUNIT,acre,4046.86,None,METRE
+AREAUNIT,square mile,2588881.,None,METRE
+VOLUMEUNIT,cubic inch,0.00001639,None,METRE
+VOLUMEUNIT,cubic foot,0.02832,None,METRE
+VOLUMEUNIT,cubic yard,0.7636,None,METRE
+VOLUMEUNIT,litre,0.001,None,METRE
+VOLUMEUNIT,fluid ounce UK,0.0000284130625,None,METRE
+VOLUMEUNIT,fluid ounce US,0.00002957353,None,METRE
+VOLUMEUNIT,pint UK,0.000568,None,METRE
+VOLUMEUNIT,pint US,0.000473,None,METRE
+VOLUMEUNIT,gallon UK,0.004546,None,METRE
+VOLUMEUNIT,gallon US,0.003785,None,METRE
+PLANEANGLEUNIT,degree,π/180,None,RADIAM
+MASSUNIT,ounce,28.35,None,GRAM
+MASSUNIT,pound,0.454,KILO,GRAM
+MASSUNIT,ton UK,1016.0469088,KILO,GRAM,also known as long ton or gross ton or shipper's ton
+MASSUNIT,ton US,907.18474,KILO,GRAM,also known as short ton or net ton
+FORCEUNIT,lbf,4.4482216153,None,NEWTON,also known as pound-force
+FORCEUNIT,kip,4448.2216153,None,NEWTON,also known as kilopound-force
+PRESSUREUNIT,psi,6894.7572932,None,PASCAL,also known as pound-force per square inch
+PRESSUREUNIT,ksi,6894757.2932,None,PASCAL,also known as kilopound-force per square inch
+TIMEUNIT,minute,60.,None,SECOND
+TIMEUNIT,hour,3600.,None,SECOND
+TIMEUNIT,day, 86400.,None,SECOND
+ENERGYUNIT,btu,1055.056,None,JOULE, also known as British Thermal Unit

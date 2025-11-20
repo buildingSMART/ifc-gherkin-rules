@@ -1,4 +1,4 @@
-name: Build & Deploy Docs (Sphinx → GitHub Pages)
+name: Build & Deploy Docs (Sphinx → Intermediate branch → GitHub Pages)
 
 on:
   push:

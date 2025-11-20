@@ -1,0 +1,18 @@
+``OJP000`` Object placement
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@OJP
+   003 | \@version1
+   004 | Feature: OJP000 - Object placement
+   005 | The rule verifies the presence of IFC entities used to define an object placement, which in turns establishes the local coordinate system and spatial position of the product.
+   006 | 
+   007 |   \@E00010
+   008 |   Scenario: Check for activation .
+   009 | 
+   010 |       :doc:`Given An .IfcObject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 |       :doc:`Given Its attribute .ObjectPlacement. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 | 
+   013 |       :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`

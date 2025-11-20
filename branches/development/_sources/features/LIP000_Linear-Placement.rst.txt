@@ -1,0 +1,24 @@
+``LIP000`` Linear Placement
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@LIP
+   003 | \@version1
+   004 | \@E00020
+   005 | 
+   006 | Feature: LIP000 - Linear Placement
+   007 |     The rule verifies the presence of IFC entities used to position elements relative to an IfcLinearPositioningElement
+   008 |     in accordance with the ISO 19148 Linear referencing standard.
+   009 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product\_Shape/Product\_Placement/Product\_Linear\_Placement/content.html
+   010 | 
+   011 |     Scenario: Check for activation
+   012 | 
+   013 |     :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |     :doc:`Given its attribute .ObjectPlacement. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given [its entity type] ^is^ 'IfcLinearPlacement' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   016 | 
+   017 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   018 | 
+   019 | 

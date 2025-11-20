@@ -1,0 +1,36 @@
+``ALS012`` Alignment segment start and length attribute types
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@ALS
+   003 | \@version1
+   004 | \@E00010
+   005 | 
+   006 | Feature: ALS012 - Alignment segment start and length attribute types
+   007 | 
+   008 |   The rule verifies that an alignment segment uses the correct IfcLengthMeasure type
+   009 |   for attributes SegmentStart and SegmentLength.
+   010 |   Ref: [Issue #141](https://github.com/buildingSMART/ifc-gherkin-rules/issues/141)
+   011 | 
+   012 | Scenario Outline: Correct entity type used for SegmentStart and Segment Length
+   013 |   :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   014 |   :doc:`Given An .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   015 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |   :doc:`Given All referenced instances </steps/givensentitiespy_Allreferencedinstances>`
+   018 |   :doc:`Given [Its Entity Type] ^is^ '\<entity\>' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   019 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   020 |   :doc:`Given [Its Entity Type] ^is^ 'IfcCurveSegment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   021 | 
+   022 |   :doc:`Then The type of attribute \<attribute\> must be IfcLengthMeasure </steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type>`
+   023 | 
+   024 |   Examples:
+   025 |     | entity                      | attribute     |
+   026 |     | IfcCompositeCurve           | SegmentStart  |
+   027 |     | IfcCompositeCurve           | SegmentLength |
+   028 |     | IfcGradientCurve            | SegmentStart  |
+   029 |     | IfcGradientCurve            | SegmentLength |
+   030 |     | IfcSegmentedReferenceCurve  | SegmentStart  |
+   031 |     | IfcSegmentedReferenceCurve  | SegmentLength |

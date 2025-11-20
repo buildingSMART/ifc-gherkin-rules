@@ -1,0 +1,26 @@
+``CLS000`` Classification association
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@CLS
+   003 | \@version1
+   004 | \@E00020
+   005 | 
+   006 | Feature: CLS000 - Classification Association
+   007 |     The rule verifies the presence of IFC entities used to classify elements, materials, and systems according to various classification systems,
+   008 |     such as the UNIFORMAT or Omniclass classification systems.
+   009 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object\_Association/Classification\_Association/content.html
+   010 | 
+   011 | 
+   012 |     Scenario: Check for activation of Classification Association
+   013 | 
+   014 |     :doc:`Given an .IfcObjectDefinition. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   015 |     :doc:`Given its attribute .HasAssociations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |     :doc:`Given [its entity type] ^is^ 'IfcRelAssociatesClassification' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 |     :doc:`Given its attribute .RelatingClassification. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   018 |     :doc:`Given [its entity type] ^is^ 'IfcClassificationReference' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   019 | 
+   020 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   021 | 

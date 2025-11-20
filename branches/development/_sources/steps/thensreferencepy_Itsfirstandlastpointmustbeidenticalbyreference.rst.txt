@@ -1,0 +1,11 @@
+Its first and last point must be identical by reference
+=======================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *Its first and last point must be identical by reference*
+
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:38
+
+

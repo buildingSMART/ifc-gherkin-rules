@@ -1,0 +1,19 @@
+``attr`` forms ``closed_or_open`` curve
+=======================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *It forms an open curve*
+
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:20
+
+ - **Given** *It forms a closed curve*
+
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:28
+
+ - **Given** *It forms a closed curve*
+
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:36
+
+

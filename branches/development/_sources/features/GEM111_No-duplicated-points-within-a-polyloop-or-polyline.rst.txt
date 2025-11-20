@@ -1,0 +1,43 @@
+``GEM111`` No duplicated points within a polyloop or polyline
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GEM
+   003 | \@version1
+   004 | Feature: GEM111 - No duplicated points within a polyloop or polyline
+   005 | The rule verifies, that all the polyloops and polylines will have no duplicate points, unless it's the first and last point of a closed polyline.
+   006 | In that case, it must be identical by reference (referencing the same instance), not just having the same coordinates.
+   007 | Two points are considered to be duplicates if the distance between them is less than
+   008 | the Precision factor of the applicable geometric context.
+   009 | 
+   010 |   \@E00050
+   011 |   Scenario: Agreement on no duplicated points within a polyloop
+   012 | 
+   013 |       :doc:`Given An .IfcPolyLoop. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |       :doc:`Then It must have no duplicate points including first and last point </steps/thensgeometrypy_Itmusthavenoduplicatepointsclausefirstandlastpoint>`
+   015 | 
+   016 |   \@E00050
+   017 |   Scenario: Agreement on no duplicated points within a polyline
+   018 | 
+   019 |     :doc:`Given An .IfcPolyLine. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   020 |     :doc:`Given It forms an open curve </steps/givensattributespy_attrformsclosed_or_opencurve>`
+   021 | 
+   022 |     :doc:`Then It must have no duplicate points including first and last point </steps/thensgeometrypy_Itmusthavenoduplicatepointsclausefirstandlastpoint>`
+   023 | 
+   024 |   \@E00050
+   025 |   Scenario: Agreement on no duplicated points within a polyline
+   026 | 
+   027 |     :doc:`Given An .IfcPolyLine. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   028 |     :doc:`Given It forms a closed curve </steps/givensattributespy_attrformsclosed_or_opencurve>`
+   029 | 
+   030 |     :doc:`Then It must have no duplicate points excluding first and last point </steps/thensgeometrypy_Itmusthavenoduplicatepointsclausefirstandlastpoint>`
+   031 | 
+   032 |   \@E00120
+   033 |   Scenario: Agreement on first and last point of IfcPolyline being identical by reference (referencing the same instance of IfcCartesianPoint)
+   034 | 
+   035 |     :doc:`Given An .IfcPolyline. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   036 |     :doc:`Given It forms a closed curve </steps/givensattributespy_attrformsclosed_or_opencurve>`
+   037 | 
+   038 |     :doc:`Then Its first and last point must be identical by reference </steps/thensreferencepy_Itsfirstandlastpointmustbeidenticalbyreference>`

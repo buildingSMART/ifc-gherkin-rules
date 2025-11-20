@@ -1,0 +1,17 @@
+``ALS010`` Alignment segment shape representation has the correct number of items
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALS
+   003 | \@version1
+   004 | \@E00040
+   005 | Feature: ALS010 - Alignment segment shape representation has the correct number of items
+   006 | 
+   007 | The rule verifies that a shape representation of IfcAlignmentSegment has the correct number of items
+   008 | 
+   009 |   Scenario: Agreement on shape representation of IfcAlignmentSegment having the correct number of items
+   010 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |     :doc:`Given An .IfcAlignmentSegment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |     :doc:`Then A representation must have 2 items for PredefinedType of HELMERTCURVE and 1 item for all other values of PredefinedType </steps/thensexistencepy_Arepresentationmusthave2itemsforPredefinedTypeofHELMERTCURVEand1itemforallothervaluesofPredefinedType>`

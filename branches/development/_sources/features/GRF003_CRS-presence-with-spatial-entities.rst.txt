@@ -1,0 +1,28 @@
+``GRF003`` CRS presence with spatial entities
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@industry-practice
+   002 | \@no-activation
+   003 | \@GRF
+   004 | \@version1
+   005 | \@E00010
+   006 | Feature: GRF003 - CRS presence with spatial entities
+   007 | The rule verifies that proper georeferencing using a coordinate reference system is established when facilities such as buildings or bridges are present in a model.
+   008 | Models containing IfcFacility must contain a IfcProjectedCRS or IfcGeographicCRS.
+   009 | 
+   010 | 
+   011 |     Scenario: CRS required when IfcBuilding is present
+   012 | 
+   013 |     :doc:`Given a model with Schema 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   014 |     :doc:`Given an .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   015 | 
+   016 |     :doc:`Then There must be at least 1 instance(s) of IfcProjectedCRS </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+   017 | 
+   018 |     Scenario: CRS required when IfcFacility is present
+   019 | 
+   020 |     :doc:`Given a model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   021 |     :doc:`Given an .IfcFacility. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   022 | 
+   023 |     :doc:`Then There must be at least 1 instance(s) of IfcCoordinateReferenceSystem </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`

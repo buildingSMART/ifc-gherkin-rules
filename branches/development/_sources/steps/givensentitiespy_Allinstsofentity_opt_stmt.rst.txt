@@ -1,0 +1,11 @@
+All ``insts`` of ``entity_opt_stmt``
+====================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *All instances of IfcGeometricRepresentationContext without subtypes*
+
+   :doc:`/features/GRF001_Identical-coordinate-operations`:14
+
+

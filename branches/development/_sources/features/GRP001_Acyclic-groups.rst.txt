@@ -1,0 +1,17 @@
+``GRP001`` Acyclic groups
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GRP
+   003 | \@version1
+   004 | \@E00120
+   005 | Feature: GRP001 - Acyclic groups
+   006 | The rule verifies that an IfcGroup does not reference itself, not even through intermediary entities.
+   007 | 
+   008 |   Scenario: Agreement on IfcGroup (and hence systems) being acyclic
+   009 | 
+   010 |     :doc:`Given an .IfcGroup. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 | 
+   012 |     :doc:`Then It must not be referenced by itself directly or indirectly </steps/thensrelationspy_Itmustnotbereferencedbyitselfdirectlyorindirectly>`

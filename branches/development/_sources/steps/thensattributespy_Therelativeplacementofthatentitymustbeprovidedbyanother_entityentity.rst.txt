@@ -1,0 +1,11 @@
+The relative placement of that ``entity`` must be provided by an ``other_entity`` entity
+========================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The relative placement of that IfcElement must be provided by an IfcLocalPlacement entity*
+
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:16
+
+

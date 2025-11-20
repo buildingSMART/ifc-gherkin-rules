@@ -1,0 +1,20 @@
+the value '``varname1``' must be \ ^\ ``op``\ ^\  the value '``varname2``'
+==========================================================================
+
+.. container:: prewrap
+
+   | Compares the value in variable v1 to the value in variable v2
+   | 
+   | Args:
+   | - varname1 (_type_): Left-hand-side variable reference
+   | - op (_type_): 'equal to' / 'not equal to' / 'greater than' / 'less than' / 'greater than or equal to' / 'less than or equal to'
+   | - varname2 (_type_): Right-hand-side variable reference
+
+Usages:
+~~~~~~~
+
+ - **Then** *the value 'ChildIdentifier' must be ^equal to^ the value 'ParentIdentifier'*
+
+   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:20
+
+

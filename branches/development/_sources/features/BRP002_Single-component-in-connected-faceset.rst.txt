@@ -1,0 +1,17 @@
+``BRP002`` Single component in connected faceset
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@BRP
+   003 | \@version2
+   004 | \@E00050
+   005 | Feature: BRP002 - Single component in connected faceset
+   006 | The rule verifies that for connected facesets (open- and closed shells) their union of the domains of the faces and their bounding loops shall be arcwise connected.
+   007 | 
+   008 |   Scenario: IfcConnectedFaceSet components
+   009 | 
+   010 |     :doc:`Given An .IfcConnectedFaceSet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 | 
+   012 |     :doc:`Then all edges must form a single connected component </steps/thensgeometrypy_alledgesmustformasingleconnectedcomponent>`

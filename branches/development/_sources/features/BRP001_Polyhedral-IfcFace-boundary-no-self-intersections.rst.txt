@@ -1,0 +1,22 @@
+\( ⚠ ``BRP001`` Polyhedral IfcFace boundary no self intersections\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@disabled
+   002 | \@informal-proposition
+   003 | \@BRP
+   004 | \@version2
+   005 | \@E00050
+   006 | Feature: BRP001 - Polyhedral IfcFace boundary no self-intersections
+   007 | The rule verifies that IfcFace instances do not have any self-intersections in their boundaries.
+   008 | IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) mechanism.
+   009 | 
+   010 |   Scenario: Validating that polyhedral IfcFace instances do not have self-intersections in their boundaries
+   011 | 
+   012 |     :doc:`Given An .IfcFace. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     :doc:`Given Its attribute .Bounds. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 |     :doc:`Given Its attribute .Bound. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given [Its Entity Type] ^is^ 'IfcPolyLoop' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   016 | 
+   017 |     :doc:`Then There must be no self-intersections </steps/thensgeometrypy_Theremustbenoselfintersections>`

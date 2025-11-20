@@ -1,0 +1,117 @@
+[``attribute``] \ ^\ ``comparison_operator:equal_or_not_equal``\ ^\  ``value`` \ ^\ ``subtype_handling:include_or_exclude_subtypes``\ ^\ 
+=========================================================================================================================================
+
+.. container:: prewrap
+
+   | Note that the following statements are acceptable:
+   | - Attribute = empty
+   | - Attribute = not empty
+   | - Attribute is empty
+   | 
+   | However, please avoid using:
+   | - Attribute is not empty
+
+Usages:
+~~~~~~~
+
+ - **Given** *[its entity type] ^is^ 'IfcElement' ^including subtypes^*
+
+   :doc:`/features/ASM000_Composed-elements`:18
+
+ - **Then** *[Its entity type] ^is^ 'IfcGeometricRepresentationContext' ^including subtypes^*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:16
+
+ - **Then** *[its type] ^is not^ 'IfcFlowFitting' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:254
+
+ - **Then** *[its type] ^is not^ 'IfcFlowSegment' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:254
+
+ - **Then** *[its type] ^is not^ 'IfcFlowTerminal' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:254
+
+ - **Then** *[its type] ^is not^ 'IfcFlowController' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:254
+
+ - **Then** *[its type] ^is not^ 'IfcFlowMovingDevice' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:254
+
+ - **Then** *[its type] ^is not^ 'IfcFlowStorageDevice' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:254
+
+ - **Then** *[its type] ^is not^ 'IfcFlowTreatmentDevice' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:254
+
+ - **Then** *[its type] ^is not^ 'IfcEnergyConversionDevice' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:254
+
+ - **Then** *[its type] ^is not^ 'IfcFlowFitting' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:273
+
+ - **Then** *[its type] ^is not^ 'IfcFlowSegment' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:273
+
+ - **Then** *[its type] ^is not^ 'IfcFlowTerminal' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:273
+
+ - **Then** *[its type] ^is not^ 'IfcFlowController' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:273
+
+ - **Then** *[its type] ^is not^ 'IfcFlowMovingDevice' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:273
+
+ - **Then** *[its type] ^is not^ 'IfcFlowStorageDevice' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:273
+
+ - **Then** *[its type] ^is not^ 'IfcFlowTreatmentDevice' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:273
+
+ - **Then** *[its type] ^is not^ 'IfcEnergyConversionDevice' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:273
+
+ - **Then** *[its type] ^is not^ 'IfcProductRepresentation' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:292
+
+ - **Then** *[its type] ^is not^ 'IfcRepresentation' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:292
+
+ - **Then** *[its type] ^is not^ 'IfcRepresentationContext' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:292
+
+ - **Then** *[its type] ^is not^ 'IfcRelAssociates' ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:292
+
+ - **Given** *[its entity type] ^is^ 'IfcMaterialDefinition' ^including subtypes^*
+
+   :doc:`/features/MAT000_Materials`:18
+
+ - **Given** *[Its Type] ^is not^ 'IfcFeatureElement' ^including subtypes^*
+
+   :doc:`/features/SPS007_Spatial-containment`:27
+
+ - **Given** *[Its Type] ^is not^ 'IfcElement' ^including subtypes^*
+
+   :doc:`/features/SPS007_Spatial-containment`:42
+
+

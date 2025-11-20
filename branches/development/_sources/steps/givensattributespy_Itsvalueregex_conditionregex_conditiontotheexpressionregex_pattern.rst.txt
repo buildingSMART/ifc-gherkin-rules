@@ -1,0 +1,11 @@
+Its value ``regex_condition:regex_condition`` to the expression /``regex_pattern``/
+===================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *Its value must not conform to the expression /^[Pp][Ss][Ee][Tt]/*
+
+   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:15
+
+

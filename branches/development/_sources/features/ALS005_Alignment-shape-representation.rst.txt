@@ -1,0 +1,55 @@
+``ALS005`` Alignment shape representation
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALS
+   003 | \@version3
+   004 | Feature: ALS005 - Alignment shape representation
+   005 | The rule verifies that each IfcAlignment uses correct representation.
+   006 | Checks for entity types are based upon the supported shape representations of IfcAlignment listed in 5.4.3.1.
+   007 | 
+   008 |   Background:
+   009 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   010 |     :doc:`Given An .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   013 | 
+   014 | 
+   015 |   \@E00020
+   016 |   Scenario: Agreement on each IfcAlignment using correct representation - Value
+   017 | 
+   018 |     :doc:`Then .RepresentationIdentifier. ^is^ 'FootPrint' or 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   019 | 
+   020 | 
+   021 |   \@E00010
+   022 |   Scenario: Agreement on each IfcAlignment using correct representation - horizontal only
+   023 | 
+   024 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   025 |     :doc:`Given .RepresentationType. ^is^ 'Curve2D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   026 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   027 |     :doc:`Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   028 | 
+   029 | 
+   030 |   \@E00010
+   031 |   Scenario: Agreement on each IfcAlignment using correct representation - vertical or cant
+   032 | 
+   033 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   034 |     :doc:`Given .RepresentationType. ^is^ 'Curve3D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   035 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   036 |     :doc:`Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   037 | 
+   038 | 
+   039 |   \@E00010
+   040 |   Scenario: Agreement on each IfcAlignment using correct representation - identifier = 'FootPrint'
+   041 | 
+   042 |     :doc:`Given .RepresentationIdentifier. ^is^ 'FootPrint' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   043 |     :doc:`Then .RepresentationType. ^is^ 'Curve2D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   044 | 
+   045 | 
+   046 |   \@E00010
+   047 |   Scenario: Agreement on each IfcAlignment using correct representation items - Type
+   048 | 
+   049 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   050 |     :doc:`Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`

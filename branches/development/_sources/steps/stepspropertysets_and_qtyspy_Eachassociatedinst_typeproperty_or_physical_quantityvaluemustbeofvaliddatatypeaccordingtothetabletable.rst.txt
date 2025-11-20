@@ -1,0 +1,11 @@
+Each associated \ .\ ``inst_type:property_or_physical_quantity``\ .\  value must be of valid data type [according to the table] '``table``'
+===========================================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *Each associated .IfcProperty. value must be of valid data type [according to the table] 'pset_definitions'*
+
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:35
+
+

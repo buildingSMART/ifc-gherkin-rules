@@ -1,0 +1,20 @@
+``GEM003`` Unique representation identifier
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@GEM
+   003 | \@version1
+   004 | \@E00050
+   005 | Feature: GEM003 - Unique Representation Identifier
+   006 | The rule verifies that Shape Representation identifier is unique within the product representation of an IfcProduct element.
+   007 | 
+   008 |   Scenario: A Shape Representation identifier must not be used twice within the product representation of an IfcProduct element
+   009 | 
+   010 |     :doc:`Given An .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   013 |     :doc:`Given its attribute .RepresentationIdentifier. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 | 
+   015 |     :doc:`Then The values must be unique at depth 1 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`

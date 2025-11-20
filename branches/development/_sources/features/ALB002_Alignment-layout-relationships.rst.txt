@@ -1,0 +1,55 @@
+``ALB002`` Alignment layout relationships
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | \@E00100
+   005 | 
+   006 | Feature: ALB002 - Alignment Layout Relationships
+   007 |   The rule verifies that nesting and decomposition relationships are used correctly with alignment layouts.
+   008 | 
+   009 | 
+   010 |   Background:
+   011 | 
+   012 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   013 | 
+   014 |   Scenario: IfcAlignment can only be decomposed by other "children" IfcAlignment instances
+   015 | 
+   016 |     :doc:`Given an .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   017 |     :doc:`Given its attribute .IsDecomposedBy. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   018 |     :doc:`Given its attribute .RelatedObjects. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   019 | 
+   020 |     :doc:`Then [its entity type] ^is^ 'IfcAlignment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   021 | 
+   022 | 
+   023 |   Scenario Outline: Agreement of structure of alignment segments
+   024 | 
+   025 |     :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   026 |     :doc:`Given its attribute .IsNestedBy. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   027 |     :doc:`Given its attribute .RelatedObjects. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   028 | 
+   029 |     :doc:`Then [its entity type] ^is^ 'IfcAlignmentSegment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   030 | 
+   031 |       Examples:
+   032 |       | entity                  |
+   033 |       | IfcAlignmentHorizontal  |
+   034 |       | IfcAlignmentVertical    |
+   035 |       | IfcAlignmentCant        |
+   036 | 
+   037 |   Scenario Outline: Agreement of the segments of alignment
+   038 | 
+   039 |     :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   040 |     :doc:`Given its attribute .IsNestedBy. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   041 |     :doc:`Given its attribute .RelatedObjects. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   042 |     :doc:`Given its attribute .DesignParameters. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   043 | 
+   044 |     :doc:`Then [its entity type] ^is^ '\<SegmentType\>' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   045 | 
+   046 |       Examples:
+   047 |       | entity                  | SegmentType                       |
+   048 |       | IfcAlignmentHorizontal  | IfcAlignmentHorizontalSegment     |
+   049 |       | IfcAlignmentVertical    | IfcAlignmentVerticalSegment       |
+   050 |       | IfcAlignmentCant        | IfcAlignmentCantSegment           |

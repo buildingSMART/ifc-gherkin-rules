@@ -1,0 +1,18 @@
+``PJS000`` Project
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@PJS
+   003 | \@version1
+   004 | Feature: PJS000 - Project
+   005 | The rule verifies the presence of IFC entities used to define the overall context and a directory of objects contained within.
+   006 | https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project\_Context/content.html
+   007 | 
+   008 |   \@E00010
+   009 |   Scenario: Check for activation.
+   010 | 
+   011 |       :doc:`Given An .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 | 
+   013 |       :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`

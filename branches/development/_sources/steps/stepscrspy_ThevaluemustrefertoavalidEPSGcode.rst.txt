@@ -1,0 +1,19 @@
+The value must refer to a valid EPSG code
+=========================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The value must refer to a valid EPSG code*
+
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:16
+
+ - **Then** *The value must refer to a valid EPSG code*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:20
+
+ - **Then** *The value must refer to a valid EPSG code*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:34
+
+

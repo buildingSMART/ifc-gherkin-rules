@@ -1,0 +1,23 @@
+A relationship \ .\ ``relationship``\ .\  \ ^\ ``exist_or_not_exist:exist_or_not_exist``\ ^\  ``dir1:from_to`` \ .\ ``entity``\ .\  ``dir2:from_to`` \ .\ ``other_entity``\ .\ 
+===============================================================================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *a relationship .IfcRelNests. ^must exist^ from .IfcAlignment. to .IfcReferent.*
+
+   :doc:`/features/ALB010_Alignment-nesting-referents`:17
+
+ - **Then** *a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcGrid. from .IfcSpatialStructureElement.*
+
+   :doc:`/features/SPS007_Spatial-containment`:13
+
+ - **Given** *A relationship .IfcRelNests. ^does not exist^ to .IfcAnnotation. from .IfcAnnotation.*
+
+   :doc:`/features/SPS007_Spatial-containment`:19
+
+ - **Then** *a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcAnnotation. from .IfcSpatialStructureElement.*
+
+   :doc:`/features/SPS007_Spatial-containment`:21
+
+

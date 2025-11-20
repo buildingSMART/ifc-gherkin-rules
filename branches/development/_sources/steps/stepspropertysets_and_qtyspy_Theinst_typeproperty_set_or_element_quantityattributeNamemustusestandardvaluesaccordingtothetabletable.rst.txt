@@ -1,0 +1,15 @@
+The \ .\ ``inst_type:property_set_or_element_quantity``\ .\  attribute \ .\ Name\ .\  must use standard values [according to the table] '``table``'
+===================================================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The .IfcPropertySet. attribute .Name. must use standard values [according to the table] 'pset_definitions'*
+
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:15
+
+ - **Then** *The .IfcElementQuantity. attribute .Name. must use standard values [according to the table] 'qto_definitions'*
+
+   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:15
+
+

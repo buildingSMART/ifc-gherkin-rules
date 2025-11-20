@@ -1,0 +1,22 @@
+\( ⚠ ``GEM005`` Building shape representation\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GEM
+   003 | \@version2
+   004 | \@disabled
+   005 | \@E00020
+   006 | Feature: GEM005 - Building shape representation
+   007 | The rule verifies that an IfcBuilding has a correct representation
+   008 | 
+   009 |   Scenario: Agreement on empty IfcBuilding using correct representation
+   010 | 
+   011 |     :doc:`Given An .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |     :doc:`Given .ContainsElements. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   013 |     :doc:`Given .IsDecomposedBy. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   014 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 | 
+   017 |     :doc:`Then The value of attribute .RepresentationIdentifier. must be 'Body' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`

@@ -1,0 +1,48 @@
+Its \ .\ ``attribute``\ .\  attribute \ ^\ ``prefix_condition:prefix_condition``\ ^\  with '``prefix``'
+=======================================================================================================
+
+.. container:: prewrap
+
+   | '
+   | Given its attribute X must start with Y or Z
+   | '
+   | Is almost the same as
+   | '
+   | Given its attribute X
+   | Its value must start with Y or Z
+   | '
+   | 
+   | However, when navigating the context stack and there is a subsequent step,
+   | it is sometimes preferable to include the statement within a single step.
+   | 
+   | For example;
+   | '
+   | (1)Given an entity IfcBuildingStorey
+   | (2)Given its attribute X must start with Y or Z
+   | (3)Given its relating Wall
+   | (4)Then Some condition
+   | '
+   | In this case, it is challenging to split step (2) into two separate steps and then return to the
+   | relating Wall (step 3) of the entity in step (1). This is because the instances in the context will be
+   | the content of the attribute X of IfcBuildingStorey rather than the storey itself."
+
+Usages:
+~~~~~~~
+
+ - **Given** *Its .Name. attribute ^does not start^ with 'EPSG:'*
+
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:16
+
+ - **Given** *Its .PredefinedType. attribute ^does not start^ with 'NOTDEFINED'*
+
+   :doc:`/features/OJT001_Object-predefined-type`:27
+
+ - **Given** *its .Name. attribute ^starts^ with 'Pset_'*
+
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:10
+
+ - **Given** *its .Name. attribute ^starts^ with 'Qto_'*
+
+   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:10
+
+

@@ -1,0 +1,11 @@
+The ``i:value_or_type`` must be in '``csv_file``\ .\ csv'
+=========================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *the type must be in 'valid_ProjectDeclaration.csv'*
+
+   :doc:`/features/PJS002_Correct-elements-related-to-project`:16
+
+

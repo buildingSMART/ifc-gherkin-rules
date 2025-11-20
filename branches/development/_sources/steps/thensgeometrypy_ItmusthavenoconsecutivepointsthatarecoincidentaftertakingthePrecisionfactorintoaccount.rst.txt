@@ -1,0 +1,11 @@
+It must have no consecutive points that are coincident after taking the Precision factor into account
+=====================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *It must have no consecutive points that are coincident after taking the Precision factor into account*
+
+   :doc:`/features/GEM112_No-duplicated-points-within-an-indexed-poly-curve`:14
+
+

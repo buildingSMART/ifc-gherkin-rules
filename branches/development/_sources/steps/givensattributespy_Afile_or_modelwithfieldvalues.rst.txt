@@ -1,0 +1,311 @@
+A ``file_or_model`` with ``field`` '``values``'
+===============================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *a model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB000_Alignment-layout`:13
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:12
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB003_Alignment-nesting`:12
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB004_Alignment-in-spatial-structure-relationships`:11
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB005_Positioning-of-referents`:11
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB010_Alignment-nesting-referents`:12
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB012_Alignment-vertical-segment-radius-of-curvature`:10
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:10
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:18
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:26
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB021_Alignment-overall-agreement-of-business-logic-and-geometry`:10
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB022_Alignment-agreement-on-number-of-segments`:10
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:10
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB030_Alignment-local-placement`:10
+
+ - **Given** *a model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS000_Alignment-geometry`:13
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS004_Alignment-segment-shape-representation`:8
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:9
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS006_Alignment-horizontal-shape-representation`:8
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:8
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:8
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS010_Alignment-segment-shape-representation-has-the-correct-number-of-items`:10
+
+ - **Given** *a model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:14
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:13
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:11
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:16
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:14
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/BLT000_Built-elements`:12
+
+ - **Given** *A model with Schema 'IFC2X3' or 'IFC4'*
+
+   :doc:`/features/BLT000_Built-elements`:20
+
+ - **Given** *a model with Schema 'IFC4.3'*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:14
+
+ - **Given** *A model with Schema 'IFC2X3'*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:11
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:11
+
+ - **Given** *A model with Schema 'IFC2X3'*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:26
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:26
+
+ - **Given** *a model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GEM052_Correct-geometric-subcontexts`:11
+
+ - **Given** *a model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GEM052_Correct-geometric-subcontexts`:19
+
+ - **Given** *a model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GEM052_Correct-geometric-subcontexts`:28
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GRF000_Georeferencing`:12
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/GRF001_Identical-coordinate-operations`:13
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:12
+
+ - **Given** *a model with Schema 'IFC4'*
+
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:13
+
+ - **Given** *a model with Schema 'IFC4.3'*
+
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:20
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:12
+
+ - **Given** *a Model with Schema 'IFC4.3'*
+
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:10
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:12
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:17
+
+ - **Given** *A model with Schema 'IFC4'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:52
+
+ - **Given** *A model with Schema 'IFC2X3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:92
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
+
+ - **Given** *A model with Schema 'IFC4'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
+
+ - **Given** *A model with Schema 'IFC2X3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:182
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
+
+ - **Given** *A model with Schema 'IFC4'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:225
+
+ - **Given** *A model with Schema 'IFC2X3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:239
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
+
+ - **Given** *A model with Schema 'IFC4'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
+
+ - **Given** *A model with Schema 'IFC2X3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:289
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:304
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:312
+
+ - **Given** *A model with Schema 'IFC4'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:320
+
+ - **Given** *A model with Schema 'IFC2X3'*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:328
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/LIP002_Linear-placement-fallback-coordinates`:9
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/MAT000_Materials`:13
+
+ - **Given** *A model with Schema 'IFC2X3'*
+
+   :doc:`/features/MAT000_Materials`:25
+
+ - **Given** *A model with Schema 'IFC2X3' or 'IFC4'*
+
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:12
+
+ - **Given** *a model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/OJT001_Object-predefined-type`:11
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/OJT001_Object-predefined-type`:25
+
+ - **Given** *A file with Model View Definition 'CoordinationView_V2.0'*
+
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:9
+
+ - **Given** *A file with Schema 'IFC2X3'*
+
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:10
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:11
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:18
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:11
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:20
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/SPS006_Elements-referenced-in-Spatial-structures`:11
+
+ - **Given** *a model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/SPS008_Spatial-container-representations`:19
+
+ - **Given** *a model with Schema 'IFC4.3'*
+
+   :doc:`/features/SPS008_Spatial-container-representations`:27
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/SYS001_Cable-signal-flow`:10
+
+

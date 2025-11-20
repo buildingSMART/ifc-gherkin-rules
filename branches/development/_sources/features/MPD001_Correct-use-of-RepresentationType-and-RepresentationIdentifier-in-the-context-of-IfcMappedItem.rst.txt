@@ -1,0 +1,37 @@
+``MPD001`` Correct use of RepresentationType and RepresentationIdentifier in the context of IfcMappedItem
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@MPD
+   003 | \@version1
+   004 | Feature: MPD001 - Correct use of RepresentationType and RepresentationIdentifier in the context of IfcMappedItem
+   005 | The rule verifies that the shape representations being mapped as part of an IfcMappedItem all have the same
+   006 | RepresentationType and that the RepresentationIdentifier correspond to that of the representation that owns the mapped item.
+   007 | 
+   008 |   \@E00010
+   009 |   Scenario: Agreement on the equality of RepresentationIdentifier
+   010 | 
+   011 |       :doc:`Given an .IfcShapeRepresentation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |       :doc:`Given its attribute .RepresentationIdentifier. [stored as 'ParentIdentifier'] </steps/stepsattribute_selectionpy_Itsattributeattributestoredasvarname>`
+   013 |       :doc:`Given the instances '2' steps up </steps/givensvaluespy_theinstancesn_stepsdstepsup>`
+   014 |       :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |       :doc:`Given [its entity type] ^is^ 'IfcMappedItem' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   016 |       :doc:`Given its attribute .MappingSource. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |       :doc:`Given its attribute .MappedRepresentation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   018 |       :doc:`Given its attribute .RepresentationIdentifier. [stored as 'ChildIdentifier'] </steps/stepsattribute_selectionpy_Itsattributeattributestoredasvarname>`
+   019 | 
+   020 |       :doc:`Then the value 'ChildIdentifier' must be ^equal to^ the value 'ParentIdentifier' </steps/thensvaluespy_thevaluevarname1mustbeopthevaluevarname2>`
+   021 | 
+   022 |   \@E00060
+   023 |   Scenario: Agreement on the equality of RepresentationType
+   024 | 
+   025 |       :doc:`Given an .IfcShapeRepresentation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   026 |       :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   027 |       :doc:`Given [its entity type] ^is^ 'IfcMappedItem' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   028 |       :doc:`Given its attribute .MappingSource. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   029 |       :doc:`Given its attribute .MappedRepresentation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   030 |       :doc:`Given its attribute .RepresentationType. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   031 | 
+   032 |       :doc:`Then the values must be identical at depth 1 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`

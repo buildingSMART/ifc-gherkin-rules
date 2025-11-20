@@ -1,0 +1,19 @@
+It must be ``relationship`` as per ``table``
+============================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *It must be aggregated as per stair_CompositionTable.csv*
+
+   :doc:`/features/BLT003_Stair-decomposition`:13
+
+ - **Then** *It must be aggregated as per spatial_CompositionTable.csv*
+
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:14
+
+ - **Then** *It must be aggregated as per spatial_CompositionTable.csv*
+
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:21
+
+

@@ -1,0 +1,28 @@
+``ALS006`` Alignment horizontal shape representation
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALS
+   003 | \@version1
+   004 | Feature: ALS006 - Alignment horizontal shape representation
+   005 | The rule verifies that IfcAlignmentHorizontal is represented correctly with representation type Curve2D and representation item either IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline.
+   006 | 
+   007 |   Background:
+   008 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   009 |     :doc:`Given An .IfcAlignmentHorizontal. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   010 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   011 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 | 
+   013 |   \@E00020
+   014 |   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation - Value
+   015 | 
+   016 |     :doc:`Then The value of attribute .RepresentationIdentifier. must be 'Axis' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   017 |     :doc:`Then The value of attribute .RepresentationType. must be 'Curve2D' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   018 | 
+   019 | 
+   020 |   \@E00010
+   021 |   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation - Type
+   022 | 
+   023 |     :doc:`Then The type of attribute Items must be IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline </steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type>`

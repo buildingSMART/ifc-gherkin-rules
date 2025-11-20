@@ -1,0 +1,11 @@
+The ``field`` of the ``file_or_model`` must be '``values``'
+===========================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The Schema Identifier of the model must be 'IFC2X3' or 'IFC4' or 'IFC4X3_ADD2'*
+
+   :doc:`/features/IFC101_Only-official-ifc-versions-allowed`:12
+
+

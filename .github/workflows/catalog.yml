@@ -54,11 +54,22 @@ jobs:
           cd docs
           python build_docs.py
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ env.DOCS_OUTPUT_DIR }}
+      # Only compute a destination and deploy for push/tag, not for PRs
+      - name: Compute destination directory
+        # if: github.event_name != 'pull_request'
+        run: |
+          # if [ "$GITHUB_REF_TYPE" = "branch" ]; then
+          #   echo "DEST_DIR=branches/$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+          # elif [ "$GITHUB_REF_TYPE" = "tag" ]; then
+          #   echo "DEST_DIR=tags/$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+          # fi
+          echo "DEST_DIR=branches/development" >> "$GITHUB_ENV"
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy docs to branch in a subdirectory
+        # if: github.event_name != 'pull_request'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: versioned-catalog
+          publish_dir: ${{ env.DOCS_OUTPUT_DIR }}
+          destination_dir: ${{ env.DEST_DIR }}

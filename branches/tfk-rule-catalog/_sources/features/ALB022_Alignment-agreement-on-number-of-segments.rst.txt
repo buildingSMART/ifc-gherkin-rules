@@ -1,0 +1,28 @@
+``ALB022`` Alignment agreement on number of segments
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | \@E00040
+   005 | Feature: ALB022 - Alignment agreement on number of segments
+   006 |   The rule verifies that when an Alignment has both business logic and geometry (representation),
+   007 |   the number of segments in the representation must correspond to the number of segments indicated by the business logic.
+   008 | 
+   009 | Background: Validating overall agreement on number of segments
+   010 |   :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 | 
+   012 | Scenario: Validating the same number of segments for horizontal layout and representation
+   013 |   :doc:`Given An .IfcAlignmentHorizontal. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |   :doc:`Then  The representation must have the correct number of segments indicated by the layout </steps/thensalignmentpy_Therepresentationmusthavethecorrectnumberofsegmentsindicatedbythelayout>`
+   015 | 
+   016 | Scenario: Validating the same number of segments for vertical layout and representation
+   017 |   :doc:`Given An .IfcAlignmentVertical. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   018 |   :doc:`Then  The representation must have the correct number of segments indicated by the layout </steps/thensalignmentpy_Therepresentationmusthavethecorrectnumberofsegmentsindicatedbythelayout>`
+   019 | 
+   020 | Scenario: Validating the same number of segments for cant layout and representation
+   021 |   :doc:`Given An .IfcAlignmentCant. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   022 |   :doc:`Then  The representation must have the correct number of segments indicated by the layout </steps/thensalignmentpy_Therepresentationmusthavethecorrectnumberofsegmentsindicatedbythelayout>`
+   023 | 

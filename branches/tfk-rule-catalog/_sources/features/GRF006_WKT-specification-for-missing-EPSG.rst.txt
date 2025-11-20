@@ -1,0 +1,38 @@
+``GRF006`` WKT specification for missing EPSG
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GRF
+   003 | \@version1
+   004 | \@E00500
+   005 | Feature: GRF006 - WKT specification for missing EPSG
+   006 | The rule verifies that if an ESPG code does not exist for the coordinate reference system, this CRS shall be further speciied using the IfcWellKnownText entity
+   007 | https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcCoordinateReferenceSystem.htm#8.18.3.2.3-Attributes
+   008 | 
+   009 |   Background:
+   010 |     :doc:`Given a Model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |     :doc:`Given an .IfcCoordinateReferenceSystem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 | 
+   013 | 
+   014 |   Scenario: WKT specification for missing ESPG in the name
+   015 | 
+   016 |     :doc:`Given Its .Name. attribute ^does not start^ with 'EPSG:' </steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix>`
+   017 | 
+   018 |     :doc:`Then The value of attribute .WellKnownText. must be ^not empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   019 |     :doc:`Then The value of attribute .Name. must be 'WKT' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   020 | 
+   021 | 
+   022 |   Scenario: WKT specification linked to 'WKT' in CRS name
+   023 | 
+   024 |     Given The value of attribute .Name. is 'WKT'
+   025 | 
+   026 |     :doc:`Then The value of attribute .WellKnownText. must be ^not empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   027 | 
+   028 | 
+   029 |   Scenario: WKT attribute linked to specification
+   030 | 
+   031 |     Given The value of attribute .WellKnownText. is ^not empty^
+   032 | 
+   033 |     :doc:`Then The value of attribute .Name. must be 'WKT' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`

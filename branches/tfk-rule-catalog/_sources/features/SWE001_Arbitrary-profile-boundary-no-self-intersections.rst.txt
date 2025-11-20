@@ -1,0 +1,27 @@
+``SWE001`` Arbitrary profile boundary no self intersections
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@SWE
+   003 | \@version4
+   004 | \@E00050
+   005 | Feature: SWE001 - Arbitrary profile boundary no self-intersections
+   006 | The rule verifies that IfcArbitraryClosedProfileDefs and IfcArbitraryProfileDefWithVoids do
+   007 | not have any self-intersections in their boundaries. Profile definitions are the basis of
+   008 | geometrical sweeps such as extrusions.
+   009 | 
+   010 |   Scenario: Validating that IfcArbitraryClosedProfileDef instances do not have self-intersections in their boundaries
+   011 | 
+   012 |     :doc:`Given An .IfcArbitraryClosedProfileDef. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     :doc:`Given Its attribute .OuterCurve. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 | 
+   015 |     :doc:`Then There must be no self-intersections </steps/thensgeometrypy_Theremustbenoselfintersections>`
+   016 | 
+   017 |   Scenario: Validating that IfcArbitraryProfileDefWithVoids instances do not have self-intersections in their inner boundaries
+   018 | 
+   019 |     :doc:`Given An .IfcArbitraryClosedProfileDef. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   020 |     :doc:`Given Its attribute .InnerCurves. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   021 | 
+   022 |     :doc:`Then There must be no self-intersections </steps/thensgeometrypy_Theremustbenoselfintersections>`

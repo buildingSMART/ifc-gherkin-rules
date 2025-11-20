@@ -1,0 +1,28 @@
+``BLT000`` Built elements
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@BLT
+   003 | \@version1
+   004 | \@E00020
+   005 | 
+   006 | Feature: BLT000 - Built Elements
+   007 | The rule verifies the presence of IFC entities used to represent various building and infrastructure elements,
+   008 | including walls, floors, roofs, stairs, doors, windows, columns, road pavements, bridge decks, railway track elements, etc.
+   009 | 
+   010 | Scenario: Check for activation - IFC4X3
+   011 | 
+   012 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   013 |     :doc:`Given an .IfcBuiltElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 | 
+   015 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   016 | 
+   017 | 
+   018 | Scenario: Check for activation - IFC2X3 or IFC4
+   019 | 
+   020 |     :doc:`Given A model with Schema 'IFC2X3' or 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   021 |     :doc:`Given an .IfcBuildingElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   022 | 
+   023 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`

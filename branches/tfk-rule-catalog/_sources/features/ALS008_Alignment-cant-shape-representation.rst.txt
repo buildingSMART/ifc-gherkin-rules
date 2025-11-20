@@ -1,0 +1,36 @@
+``ALS008`` Alignment cant shape representation
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALS
+   003 | \@version1
+   004 | Feature: ALS008 - Alignment cant shape representation
+   005 | The rule verifies that IfcAlignmentCant is represented correctly with representation type Curve3D and representation item IfcSegmentedReferenceCurve.
+   006 | 
+   007 | Background:
+   008 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   009 |     :doc:`Given An .IfcAlignmentCant. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   010 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   011 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 | 
+   013 |   \@E00020
+   014 |   Scenario: Agreement on each IfcAlignmentCant using correct representation - Value
+   015 | 
+   016 |       :doc:`Given its attribute .RepresentationIdentifier. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |       :doc:`Then The value must be 'Axis' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
+   018 | 
+   019 | 
+   020 |   \@E00020
+   021 |   Scenario: Agreement on each IfcAlignmentCant using correct representation - Type
+   022 | 
+   023 |       :doc:`Given its attribute .RepresentationType. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   024 |       :doc:`Then The value must be 'Curve3D' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
+   025 | 
+   026 | 
+   027 |   \@E00010
+   028 |   Scenario: Agreement on each IfcAlignmentCant using correct representation items - Type
+   029 | 
+   030 |       :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   031 |       :doc:`Then  The type must be 'IfcSegmentedReferenceCurve' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`

@@ -1,0 +1,51 @@
+``SPS007`` Spatial containment
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@SPS
+   003 | \@version6
+   004 | \@E00040
+   005 | 
+   006 | Feature: SPS007 - Spatial Containment
+   007 | The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment
+   008 | 
+   009 | 
+   010 |     Scenario: Instances of IfcGrid must be contained within a spatial structure
+   011 | 
+   012 |         :doc:`Given an .IfcGrid. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |         :doc:`Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcGrid. from .IfcSpatialStructureElement. </steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity>`
+   014 | 
+   015 | 
+   016 |     Scenario: Instances of IfcAnnotation must be contained within a spatial structure, except when the annotation is nested under another annotation
+   017 | 
+   018 |         :doc:`Given an .IfcAnnotation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   019 |         :doc:`Given A relationship .IfcRelNests. ^does not exist^ to .IfcAnnotation. from .IfcAnnotation. </steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity>`
+   020 | 
+   021 |         :doc:`Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcAnnotation. from .IfcSpatialStructureElement. </steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity>`
+   022 | 
+   023 | 
+   024 |     Scenario: Instances of IfcElement must be part of a spatial structure, with certain exceptions
+   025 | 
+   026 |         :doc:`Given an .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   027 |         :doc:`Given [Its Type] ^is not^ 'IfcFeatureElement' ^including subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   028 |         :doc:`Given .Decomposes. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   029 | 
+   030 |         :doc:`Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialStructureElement. </steps/givensrelationshipspy_Arequiredrelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   031 | 
+   032 | 
+   033 |     Scenario: Entities that are an aggregated part of another element must not also be part of a spatial structure
+   034 |         :doc:`Given an .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   035 |         :doc:`Given a relationship .IfcRelAggregates. to .IfcElement. from .IfcElement. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   036 | 
+   037 |         :doc:`Then .ContainedInStructure. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   038 | 
+   039 | 
+   040 |     Scenario: All other IFC entities must not be contained within a spatial structure
+   041 |         :doc:`Given An .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   042 |         :doc:`Given [Its Type] ^is not^ 'IfcElement' ^including subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   043 |         :doc:`Given [Its Type] ^is not^ 'IfcGrid' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   044 |         :doc:`Given [Its Type] ^is not^ 'IfcAnnotation' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   045 | 
+   046 |         :doc:`Then .ContainedInStructure. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`

@@ -1,0 +1,29 @@
+``ALS015`` Alignment representation zero length final segment
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALS
+   003 | \@version3
+   004 | \@E00020
+   005 | Feature: ALS015 - Alignment representation zero length final segment
+   006 | 
+   007 | The rule verifies that the alignment geometry (representation) curve
+   008 | ends with a discontinuous segment with length = 0.
+   009 | 
+   010 | Background: Validating final segment of alignment geometry (representation).
+   011 |   :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |   :doc:`Given An .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |   :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |   :doc:`Given Its final element at depth 3 </steps/givensattributespy_Itsfirst_or_finalfirst_or_finalelementatdepthignoredd>`
+   018 | 
+   019 | Scenario: Validating that the final alignment geometry segment is of length 0.0.
+   020 |   :doc:`Then The SegmentLength of the segment must be 0 </steps/thensattributespy_Thelength_attributeofthesegment_typemustbe0>`
+   021 | 
+   022 | Scenario: Validating that the final alignment geometry segment is discontinuous.
+   023 |   :doc:`Given Its attribute .Transition. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   024 |   :doc:`Then The value must be 'DISCONTINUOUS' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`

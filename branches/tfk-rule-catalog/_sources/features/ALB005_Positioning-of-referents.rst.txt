@@ -1,0 +1,20 @@
+\( ⚠ ``ALB005`` Positioning of referents\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | \@disabled
+   005 | \@E00100
+   006 | Feature: ALB005 - Positioning of referents
+   007 | The rule verifies that IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPositions relationship
+   008 | 
+   009 |   Scenario: Agreement on each IfcAlignment being aggregated to IfcProject and not contained in IfcSpatialElement
+   010 | 
+   011 |       :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |       :doc:`Given an .IfcReferent. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |       :doc:`Given .PredefinedType. ^=^ 'POSITION' or 'STATION' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   014 | 
+   015 |       :doc:`Then It must be positioned to IfcAlignment directly </steps/thensrelationspy_Itdecisionbeaggregated_or_contained_or_positionedaggregated_or_contained_or_positionedprepositionother_entitycondition>`

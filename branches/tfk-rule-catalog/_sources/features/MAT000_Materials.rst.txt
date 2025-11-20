@@ -1,0 +1,36 @@
+``MAT000`` Materials
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@MAT
+   003 | \@version1
+   004 | \@E00020
+   005 | 
+   006 | Feature: MAT000 - Materials
+   007 |     The rule verifies the presence of IFC entities used to define materials assigned to elements.
+   008 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object\_Association/Material\_Association/Material\_Single/content.html
+   009 | 
+   010 | 
+   011 |     Scenario: Check for activation of Materials - IFC4 & IFC4.3
+   012 | 
+   013 |         :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   014 |         :doc:`Given an .IfcObjectDefinition. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   015 |         :doc:`Given its attribute .HasAssociations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |         :doc:`Given [its entity type] ^is^ 'IfcRelAssociatesMaterial' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 |         :doc:`Given its attribute .RelatingMaterial. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   018 |         :doc:`Given [its entity type] ^is^ 'IfcMaterialDefinition' ^including subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   019 | 
+   020 |         :doc:`Then The IFC model contains information on materials assigned to elements </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   021 | 
+   022 | 
+   023 |     Scenario: Check for activation of Materials - IFC2X3
+   024 | 
+   025 |         :doc:`Given A model with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   026 |         :doc:`Given an .IfcObjectDefinition. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   027 |         :doc:`Given its attribute .HasAssociations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   028 |         :doc:`Given [its entity type] ^is^ 'IfcRelAssociatesMaterial' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   029 | 
+   030 |         :doc:`Then The IFC model contains information on materials assigned to elements </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   031 | 

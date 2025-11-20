@@ -1,0 +1,44 @@
+A relationship \ .\ ``relationship``\ .\  ``dir1:from_to`` \ .\ ``entity``\ .\  ``dir2:from_to`` \ .\ ``other_entity``\ .\  ``tail:maybe_and_following_that``
+=============================================================================================================================================================
+
+.. container:: prewrap
+
+   | ""
+   | Reference to tfk ALB999 rule https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
+
+Usages:
+~~~~~~~
+
+ - **Given** *A relationship .IfcRelNests. from .IfcAlignmentVertical. to .IfcAlignmentSegment. and following that*
+
+   :doc:`/features/ALB012_Alignment-vertical-segment-radius-of-curvature`:12
+
+ - **Given** *A relationship .IfcRelNests. from .IfcAlignmentHorizontal. to .IfcAlignmentSegment. and following that*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:12
+
+ - **Given** *A relationship .IfcRelNests. from .IfcAlignmentHorizontal. to .IfcAlignmentSegment. and following that*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:20
+
+ - **Given** *A relationship .IfcRelNests. from .IfcAlignmentCant. to .IfcAlignmentSegment. and following that*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:28
+
+ - **Given** *A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that*
+
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:14
+
+ - **Given** *A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that*
+
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:23
+
+ - **Given** *A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that*
+
+   :doc:`/features/OJT001_Object-predefined-type`:26
+
+ - **Given** *a relationship .IfcRelDeclares. from .IfcProject. to .IfcRoot. and following that*
+
+   :doc:`/features/PJS002_Correct-elements-related-to-project`:14
+
+

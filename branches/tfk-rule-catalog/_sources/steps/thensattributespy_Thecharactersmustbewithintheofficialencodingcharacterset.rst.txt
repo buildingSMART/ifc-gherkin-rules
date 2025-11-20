@@ -1,0 +1,11 @@
+The characters must be within the official encoding character set
+=================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The characters must be within the official encoding character set*
+
+   :doc:`/features/PJS003_Globally-Unique-Identifiers`:19
+
+

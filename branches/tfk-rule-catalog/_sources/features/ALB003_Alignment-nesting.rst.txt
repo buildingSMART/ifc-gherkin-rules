@@ -1,0 +1,20 @@
+``ALB003`` Alignment nesting
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | \@E00100
+   005 | Feature: ALB003 - Alignment Nesting
+   006 | The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts)
+   007 | or with Referents (e.g., mileage markers). And not with any other entity.
+   008 | 
+   009 | 
+   010 |   Scenario: Agreement on nested elements of IfcAlignment
+   011 | 
+   012 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   013 |     :doc:`Given an .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 | 
+   015 |     :doc:`Then It [must be nested by only the following entities]: .IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent. </steps/thensnestingpy_Itmustbenestedbyonlythefollowingentitiesother_entities>`

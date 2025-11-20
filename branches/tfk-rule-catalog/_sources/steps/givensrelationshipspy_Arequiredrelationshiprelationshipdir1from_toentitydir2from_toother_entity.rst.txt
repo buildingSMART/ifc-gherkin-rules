@@ -1,0 +1,16 @@
+A *``required``* relationship \ .\ ``relationship``\ .\  ``dir1:from_to`` \ .\ ``entity``\ .\  ``dir2:from_to`` \ .\ ``other_entity``\ .\ 
+==========================================================================================================================================
+
+.. container:: prewrap
+
+   | ""
+   | Reference to tfk ALB999 rule https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
+
+Usages:
+~~~~~~~
+
+ - **Then** *a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialStructureElement.*
+
+   :doc:`/features/SPS007_Spatial-containment`:30
+
+

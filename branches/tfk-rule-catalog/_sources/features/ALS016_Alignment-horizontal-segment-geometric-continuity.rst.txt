@@ -1,0 +1,38 @@
+``ALS016`` Alignment horizontal segment geometric continuity
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@industry-practice
+   002 | \@ALS
+   003 | \@version3
+   004 | 
+   005 | Feature: ALS016 - Alignment horizontal segment geometric continuity
+   006 | 
+   007 |   The rule verifies that there is geometric continuity between segments in an IfcCompositeCurve.
+   008 |   The calculated end position and tangent vector of segment `n` is compared to the provided placement of segment `n + 1`.
+   009 |   A warning is emitted if the calculated difference is greater than the applicable tolerance.
+   010 |   The tolerance for positional continuity is taken from the precision of the applicable geometric context.
+   011 |   The tolerance for tangential continuity is taken from the precision of the applicable geometric context and
+   012 |   adjusted based on the length of the alignment segment.
+   013 | 
+   014 | Background:
+   015 | 
+   016 |   :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   017 |   :doc:`Given An .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   018 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   019 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   020 |   :doc:`Given .RepresentationType. ^is^ 'Curve2D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   021 |   :doc:`Given All referenced instances </steps/givensentitiespy_Allreferencedinstances>`
+   022 |   :doc:`Given [Its Entity Type] ^is^ 'IfcCompositeCurve' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   023 |   :doc:`Given Its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   024 |   :doc:`Given [Its Entity Type] ^is^ 'IfcCurveSegment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   025 |   :doc:`Given The values grouped pairwise at depth 3 </steps/givensvaluespy_Thevaluesgroupedpairwiseatdepthignoredd>`
+   026 | 
+   027 | Scenario: Geometric continuity in position
+   028 | 
+   029 |   :doc:`Then Each segment must have geometric continuity in ^position^ </steps/thensalignmentpy_Eachsegmentmusthavegeometriccontinuityincontinuity_typecontinuity_type>`
+   030 | 
+   031 | Scenario: Geometric continuity in tangency
+   032 | 
+   033 |   :doc:`Then Each segment must have geometric continuity in ^tangency^ </steps/thensalignmentpy_Eachsegmentmusthavegeometriccontinuityincontinuity_typecontinuity_type>`

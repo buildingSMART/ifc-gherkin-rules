@@ -1,0 +1,42 @@
+``GEM004`` Constraints on representation identifiers
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@GEM
+   003 | \@version3
+   004 | \@E00010
+   005 | Feature: GEM004 - Constraints on representation identifiers
+   006 | The rule verifies that shape representations adhere to the permissible values outlined in the CSV files found in the 'features/resources/{attribute}.csv' folder, as specified in the documentation.
+   007 | 
+   008 |   Scenario: Shape Representation Identifier must be valid
+   009 | 
+   010 |     :doc:`Given An .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   013 |     :doc:`Given Its attribute .RepresentationIdentifier. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 | 
+   015 |     :doc:`Then The values must be in 'valid\_ShapeRepresentationIdentifier.csv' </steps/thensvaluespy_Theivalues_or_typesmustbeincsv_filecsv>`
+   016 | 
+   017 | 
+   018 |   Scenario: Shape Representation Type must be valid
+   019 | 
+   020 |     :doc:`Given An .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   021 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   022 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   023 |     :doc:`Given [Its entity type] ^is^ 'IfcShapeRepresentation' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   024 |     :doc:`Given Its attribute .RepresentationType. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   025 | 
+   026 |     :doc:`Then The values must be in 'valid\_ShapeRepresentationType.csv' </steps/thensvaluespy_Theivalues_or_typesmustbeincsv_filecsv>`
+   027 | 
+   028 | 
+   029 |   Scenario: Topology Representation Type must be valid
+   030 | 
+   031 |       :doc:`Given An .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   032 |       :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   033 |       :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   034 |       :doc:`Given [Its entity type] ^is^ 'IfcTopologyRepresentation' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   035 |       :doc:`Given Its attribute .RepresentationType. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   036 | 
+   037 |       :doc:`Then The values must be in 'valid\_TopologyRepresentationType.csv' </steps/thensvaluespy_Theivalues_or_typesmustbeincsv_filecsv>`

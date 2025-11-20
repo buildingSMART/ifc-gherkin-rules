@@ -1,0 +1,41 @@
+``PSE001`` Standard properties and property sets validation
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@PSE
+   003 | \@version3
+   004 | \@E00020
+   005 | Feature: PSE001 - Standard properties and property sets validation
+   006 | The rule verifies that each IfcPropertySet starting with 'Pset\_' is defined correctly.
+   007 | 
+   008 |   Background:
+   009 |    :doc:`Given An .IfcPropertySet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   010 |    :doc:`Given its .Name. attribute ^starts^ with 'Pset\_' </steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix>`
+   011 | 
+   012 | 
+   013 |   Scenario: IfcPropertySet Name
+   014 | 
+   015 |     :doc:`Then The .IfcPropertySet. attribute .Name. must use standard values [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantityattributeNamemustusestandardvaluesaccordingtothetabletable>`
+   016 | 
+   017 | 
+   018 |   Scenario: Property Name
+   019 | 
+   020 |       :doc:`Then Each associated .IfcProperty. must be named [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbenamedaccordingtothetabletable>`
+   021 | 
+   022 | 
+   023 |   Scenario: PropertySet definitions
+   024 | 
+   025 |       :doc:`Then The .IfcPropertySet. must be related to a valid entity type [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantitymustberelatedtoavalidentitytypeaccordingtothetabletable>`
+   026 | 
+   027 | 
+   028 |   Scenario: Property Type
+   029 | 
+   030 |       :doc:`Then Each associated .IfcProperty. must be of valid entity type [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbeofvalidentitytypeaccordingtothetabletable>`
+   031 | 
+   032 | 
+   033 |   Scenario: Property Data Type
+   034 | 
+   035 |         :doc:`Then Each associated .IfcProperty. value must be of valid data type [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantityvaluemustbeofvaliddatatypeaccordingtothetabletable>`
+   036 | 

@@ -1,0 +1,37 @@
+``BLT001`` Correct use of operation type attributes for doors
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@BLT
+   003 | \@version1
+   004 | \@E00020
+   005 | 
+   006 | Feature: BLT001 - Correct use of operation type attributes for doors
+   007 | 
+   008 |   The rule verifies that attribute UserDefinedOperationType is provided only when
+   009 |   the value of the attribute OperationType is set to USERDEFINED.
+   010 |   Additionally, when an IfcDoor is assigned an IfcDoorType, the type should
+   011 |   dictate the OperationType, and the instance should not override it.
+   012 | 
+   013 | Scenario Outline: Correct values for OperationType and UserDefinedOperationType
+   014 | 
+   015 |   :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   016 |   :doc:`Given .UserDefinedOperationType. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 |   :doc:`Given .IsTypedBy. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   018 | 
+   019 |   :doc:`Then .OperationType. ^is^ 'USERDEFINED' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   020 | 
+   021 |   Examples:
+   022 |     | entity |
+   023 |     | IfcDoor |
+   024 |     | IfcDoorType |
+   025 | 
+   026 | 
+   027 | Scenario: Correct IfcOperationType with relating type object
+   028 | 
+   029 |   :doc:`Given an .IfcDoor. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   030 |   :doc:`Given a relationship .IfcRelDefinesByType. to .IfcDoor. from .IfcDoorType. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   031 | 
+   032 |   :doc:`Then .OperationType. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`

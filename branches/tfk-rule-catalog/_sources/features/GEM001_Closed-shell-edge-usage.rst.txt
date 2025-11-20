@@ -1,0 +1,37 @@
+``GEM001`` Closed shell edge usage
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@GEM
+   003 | \@version3
+   004 | \@E00050
+   005 | Feature: GEM001 - Closed shell edge usage
+   006 | The rule verifies that closed shells and closed facesets edges are referenced correctly.
+   007 | 
+   008 |   Scenario Outline: IfcClosedShell
+   009 | 
+   010 |     :doc:`Given An .IfcClosedShell. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 | 
+   012 |     :doc:`Then \<Statement\> </steps/thensreferencepy_Everysomethingmustbereferencedexactlynumdtimesbytheloopsoftheface>`
+   013 | 
+   014 |     Examples:
+   015 |       | Statement |
+   016 |       | Every edge must be referenced exactly 2 time(s) by the loops of the face |
+   017 |       | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
+   018 | 
+   019 | 
+   020 |     Scenario Outline: Check constraints for FaceSets; TriangulatedFaceSet and PolygonalFaceSet
+   021 | 
+   022 |       :doc:`Given An .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   023 |       :doc:`Given .Closed. ^is^ True </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   024 | 
+   025 |       :doc:`Then \<Statement\> </steps/thensreferencepy_Everysomethingmustbereferencedexactlynumdtimesbytheloopsoftheface>`
+   026 | 
+   027 |       Examples:
+   028 |         | entity                   | Statement                                                           |
+   029 |         | IfcTriangulatedFaceSet   | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
+   030 |         | IfcTriangulatedFaceSet   | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
+   031 |         | IfcPolygonalFaceSet      | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
+   032 |         | IfcPolygonalFaceSet      | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |

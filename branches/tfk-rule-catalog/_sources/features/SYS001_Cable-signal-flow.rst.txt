@@ -1,0 +1,29 @@
+\( ⚠ ``SYS001`` Cable signal flow\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@SYS
+   003 | \@version1
+   004 | \@disabled
+   005 | Feature: SYS001 - Cable signal flow
+   006 | The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a SOURCE, one as a SINK
+   007 | 
+   008 |   Background:
+   009 | 
+   010 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |     :doc:`Given an .IfcCableSegment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 | 
+   013 |   \@E00100
+   014 |   Scenario: Agreement on IfcCableSegment having ports
+   015 | 
+   016 |     :doc:`Then It [must be nested by] ^exactly^ [2] instance(s) of .IfcDistributionPort. </steps/thensnestingpy_Itmustbenestedbyconstraintnumdinstancesofother_entity>`
+   017 | 
+   018 |   \@E00100
+   019 |   Scenario: Agreement on port directions
+   020 | 
+   021 |     Given There exists a relationship .IfcRelNests. from .IfcAlignment. to .IfcDistributionPort. and following that
+   022 |     :doc:`Given Its attribute .FlowDirection. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   023 |     :doc:`Then at least '1' value must be 'SOURCE' </steps/thensvaluespy_Atleastnumdvaluemustconstraint>`
+   024 |     :doc:`Then at least '1' value must be 'SINK' </steps/thensvaluespy_Atleastnumdvaluemustconstraint>`

@@ -1,0 +1,20 @@
+\( ⚠ ``SPS006`` Elements referenced in Spatial structures\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@SPS
+   003 | \@disabled
+   004 | \@version1
+   005 | \@E00040
+   006 | Feature: SPS006 - Elements referenced in Spatial structures
+   007 | The rule verifies that if an IfcElement is positioned in relation to an IfcPositioningElement, then it must be also referenced (instead of contained) into a IfcSpatialStructureElement
+   008 | 
+   009 |   Scenario: Agreement on elements being positioned to be referenced
+   010 | 
+   011 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |     :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     Given PositionedRelativeTo = not empty
+   014 | 
+   015 |     :doc:`Then The value of attribute .ReferencedInStructures. must be ^not empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`

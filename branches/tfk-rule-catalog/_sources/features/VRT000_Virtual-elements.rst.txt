@@ -1,0 +1,21 @@
+``VRT000`` Virtual elements
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@VRT
+   003 | \@version1
+   004 | \@E00020
+   005 | 
+   006 | Feature: VRT000 - Virtual Elements
+   007 |     The rule verifies the presence of IFC entities used to model special elements providing imaginary, placeholder, or provisional areas (e.g. clearance), volumes, and boundaries.
+   008 | 
+   009 | 
+   010 |     Scenario: Check for activation
+   011 | 
+   012 |         :doc:`Given an .IfcVirtualElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 | 
+   014 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   015 | 
+   016 | 

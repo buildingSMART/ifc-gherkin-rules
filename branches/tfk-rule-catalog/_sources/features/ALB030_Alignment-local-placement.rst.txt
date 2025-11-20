@@ -1,0 +1,19 @@
+``ALB030`` Alignment local placement
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | \@E00020
+   005 | Feature: ALB030 - Alignment local placement
+   006 |   The rule verifies that the ObjectPlacement attribute of every instance of IfcAlignment is of type IfcLocalPlacement.
+   007 |   While the schema allows other placement types (Grid or Linear), this rule ensures that IfcLocalPlacement is used for all alignments.
+   008 | 
+   009 |   Scenario: Every instance of IfcAlignment must have an ObjectPlacement of type IfcLocalPlacement
+   010 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |     :doc:`Given An .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |     :doc:`Given Its attribute .ObjectPlacement. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   013 | 
+   014 |     :doc:`Then [Its Entity Type] ^is^ 'IfcLocalPlacement' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`

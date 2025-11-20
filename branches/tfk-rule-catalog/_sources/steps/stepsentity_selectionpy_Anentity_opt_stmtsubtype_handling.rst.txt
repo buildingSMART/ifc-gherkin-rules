@@ -1,0 +1,38 @@
+An \ .\ ``entity_opt_stmt``\ .\  \ ^\ ``subtype_handling``\ ^\ 
+===============================================================
+
+.. container:: prewrap
+
+   | Generic step, typically used as an initial or second Given statement to select entities.
+   | 
+   | Examples:
+   | Given an .IfcAlignment.
+   | Given an .IfcRoot. with subtypes
+   | Given an .entity instance.
+   | 
+   | The last example returns everything in the model.
+
+Usages:
+~~~~~~~
+
+ - **Given** *an .IfcFace. ^without subtypes^*
+
+   :doc:`/features/BRP003_Planar-faces-are-planar`:10
+
+ - **Given** *an .IfcGeometricRepresentationContext. ^without subtypes^*
+
+   :doc:`/features/GEM052_Correct-geometric-subcontexts`:12
+
+ - **Given** *An .IfcObject. ^with subtypes^*
+
+   :doc:`/features/OJT001_Object-predefined-type`:12
+
+ - **Given** *An .IfcTypeObject. ^with subtypes^*
+
+   :doc:`/features/OJT001_Object-predefined-type`:18
+
+ - **Given** *An .IfcTypeObject. ^with subtypes^*
+
+   :doc:`/features/OJT001_Object-predefined-type`:24
+
+

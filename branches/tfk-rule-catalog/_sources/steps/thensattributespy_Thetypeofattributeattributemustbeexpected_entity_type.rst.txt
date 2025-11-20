@@ -1,0 +1,19 @@
+The type of attribute ``attribute`` must be ``expected_entity_type``
+====================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The type of attribute Items must be IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline*
+
+   :doc:`/features/ALS006_Alignment-horizontal-shape-representation`:23
+
+ - **Then** *The type of attribute SegmentStart must be IfcLengthMeasure*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:22
+
+ - **Then** *The type of attribute SegmentLength must be IfcLengthMeasure*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:22
+
+

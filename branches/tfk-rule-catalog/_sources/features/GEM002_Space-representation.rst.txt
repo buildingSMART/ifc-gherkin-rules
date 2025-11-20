@@ -1,0 +1,26 @@
+``GEM002`` Space representation
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@GEM
+   003 | \@version2
+   004 | \@E00150
+   005 | Feature: GEM002 - Space representation
+   006 | The rule verifies that all IfcSpaces have a correct Body shape representation.
+   007 | 
+   008 |   Scenario: Agreement152\_1 - Agreement that all spaces must have a body shape representation
+   009 | 
+   010 |     :doc:`Given An .IfcSpace. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 | 
+   012 |     :doc:`Then There must be one Body shape representation </steps/thensexistencepy_Theremustbeonerepresentation_idshaperepresentation>`
+   013 |     :doc:`Then The Body shape representation has RepresentationType "SweptSolid, Clipping, Brep, Tessellation" </steps/stepsrepresentationpy_Therepresentation_idshaperepresentationhasRepresentationTyperepresentation_type>`
+   014 | 
+   015 | 
+   016 |   Scenario: Agreement152\_2 - Agreement that all spaces that have a body shape representation type Brep must also have a Footprint representation
+   017 | 
+   018 |     :doc:`Given An .IfcSpace. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   019 |     :doc:`Given The Body shape representation has RepresentationType "Brep" </steps/stepsrepresentationpy_Therepresentation_idshaperepresentationhasRepresentationTyperepresentation_type>`
+   020 | 
+   021 |     :doc:`Then There must be one FootPrint shape representation </steps/thensexistencepy_Theremustbeonerepresentation_idshaperepresentation>`

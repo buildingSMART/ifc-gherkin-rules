@@ -1,0 +1,40 @@
+``SWE002`` Mirroring within IfcDerivedProfileDef shall not be used
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@SWE
+   003 | \@version1
+   004 | \@E00050
+   005 | Feature: SWE002 - Mirroring within IfcDerivedProfileDef shall not be used
+   006 | 
+   007 | The rule verifies that the transformation defined in IfcDerivedProfileDef.Operator does not introduce mirroring.
+   008 | The subtype IfcMirroredProfileDef should be used for that. For the tapered sweeps, which tend to rely on
+   009 | IfcDerivedProfileDef, by expressing the tapering operation as a change in profile, mirroring should not be used
+   010 | altogether.
+   011 | 
+   012 |   Scenario: IfcDerivedProfileDef must not use mirroring as there is a dedicated subtype for that
+   013 | 
+   014 |     Given An .IfcDerivedProfileDef. without subtypes
+   015 |     :doc:`Given Its attribute .Operator. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |     :doc:`Given The determinant of the placement matrix </steps/givensvaluespy_Thedeterminantoftheplacementmatrix>`
+   017 | 
+   018 |     :doc:`Then The resulting value must be ^greater than 0^ </steps/thensattributespy_Theresultingvaluemustbevalue_or_comparison_op>`
+   019 | 
+   020 |   Scenario Outline: Tapered sweeps must not use mirroring altogether
+   021 | 
+   022 |     :doc:`Given An .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   023 |     :doc:`Given Its attribute .\<attribute\>. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   024 |     :doc:`Given [Its entity type] ^is^ 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   025 |     :doc:`Given Its attribute .Operator. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   026 |     :doc:`Given The determinant of the placement matrix </steps/givensvaluespy_Thedeterminantoftheplacementmatrix>`
+   027 | 
+   028 |     :doc:`Then The resulting value must be ^greater than 0^ </steps/thensattributespy_Theresultingvaluemustbevalue_or_comparison_op>`
+   029 | 
+   030 |       Examples:
+   031 |         | entity                      | attribute    |
+   032 |         | IfcExtrudedAreaSolidTapered | SweptArea    |
+   033 |         | IfcExtrudedAreaSolidTapered | EndSweptArea |
+   034 |         | IfcRevolvedAreaSolidTapered | SweptArea    |
+   035 |         | IfcRevolvedAreaSolidTapered | EndSweptArea |

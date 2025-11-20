@@ -1,0 +1,11 @@
+The ``entity`` attribute must point to the ``other_entity`` of the container element established with ``relationship`` relationship
+===================================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship*
+
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:25
+
+

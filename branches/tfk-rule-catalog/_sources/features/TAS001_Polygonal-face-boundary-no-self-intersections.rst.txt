@@ -1,0 +1,28 @@
+\( ⚠ ``TAS001`` Polygonal face boundary no self intersections\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@disabled
+   002 | \@informal-proposition
+   003 | \@TAS
+   004 | \@version2
+   005 | \@E00050
+   006 | Feature: TAS001 - Polygonal face boundary no self-intersections
+   007 | The rule verifies that IfcFace instances do not have any self-intersections in their boundaries.
+   008 | IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) mechanism.
+   009 | 
+   010 |   Scenario: Validating that tessellated face instances do not have self-intersections in their boundaries
+   011 | 
+   012 |     :doc:`Given An .IfcPolygonalFaceSet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     :doc:`Given Its attribute .Faces. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 | 
+   015 |     :doc:`Then There must be no self-intersections for attribute CoordIndex </steps/thensgeometrypy_Theremustbenoselfintersectionsforattributeattr>`
+   016 | 
+   017 |   Scenario: Validating that tessellated face instances with voids do not have self-intersections in their inner boundaries
+   018 | 
+   019 |     :doc:`Given An .IfcPolygonalFaceSet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   020 |     :doc:`Given Its attribute .Faces. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   021 |     :doc:`Given [Its Entity Type] ^is^ 'IfcIndexedPolygonalFaceWithVoids' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   022 | 
+   023 |     :doc:`Then There must be no self-intersections for attribute InnerCoordIndices </steps/thensgeometrypy_Theremustbenoselfintersectionsforattributeattr>`

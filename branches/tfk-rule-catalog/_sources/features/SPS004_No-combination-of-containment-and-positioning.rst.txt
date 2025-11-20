@@ -1,0 +1,29 @@
+\( ⚠ ``SPS004`` No combination of containment and positioning\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@SPS
+   003 | \@version1
+   004 | \@disabled
+   005 | \@E00040
+   006 | Feature: SPS004 - No combination of containment and positioning
+   007 | The rule verifies that each IfcProduct can either be contained in one and only one IfcSpatialStructureElement, or contained in one and only one IfcLinearPositioningElement, but not both.
+   008 | 
+   009 |   Scenario: Agreement on elements being contained cannot be positioned
+   010 | 
+   011 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |     :doc:`Given An .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     Given ContainedInStructure = not empty
+   014 | 
+   015 |     :doc:`Then The value of attribute .PositionedRelativeTo. must be ^empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   016 | 
+   017 | 
+   018 |   Scenario: Agreement on elements being positioned cannot be contained
+   019 | 
+   020 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   021 |     :doc:`Given An .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   022 |     Given PositionedRelativeTo = not empty
+   023 | 
+   024 |     :doc:`Then The value of attribute .ContainedInStructure. must be ^empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`

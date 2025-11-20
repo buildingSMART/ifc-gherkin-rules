@@ -1,0 +1,28 @@
+A relationship \ .\ ``relationship``\ .\  ``dir1:from_to`` \ .\ ``entity``\ .\  ``dir2:from_to`` \ .\ ``other_entity``\ .\ 
+===========================================================================================================================
+
+.. container:: prewrap
+
+   | ""
+   | Reference to tfk ALB999 rule https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
+
+Usages:
+~~~~~~~
+
+ - **Given** *a relationship .IfcRelNests. from .IfcAlignment. to .IfcAlignmentHorizontal.*
+
+   :doc:`/features/ALB000_Alignment-layout`:15
+
+ - **Given** *a relationship .IfcRelDefinesByType. to .IfcDoor. from .IfcDoorType.*
+
+   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:30
+
+ - **Given** *a relationship .IfcRelDefinesByType. to .IfcWindow. from .IfcWindowType.*
+
+   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:30
+
+ - **Given** *a relationship .IfcRelAggregates. to .IfcElement. from .IfcElement.*
+
+   :doc:`/features/SPS007_Spatial-containment`:35
+
+

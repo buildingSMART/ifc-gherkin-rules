@@ -1,0 +1,40 @@
+``GEM051`` Presence of geometric context
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@industry-practice
+   002 | \@GEM
+   003 | \@version2
+   004 | \@E00020
+   005 | Feature: GEM051 - Presence of Geometric Context
+   006 | The rule verifies that a geometric context is present in the model, that its attribute ContextType is provided (not empty) and its value is valid.
+   007 | 
+   008 | 
+   009 |     Scenario Outline: Agreement on having at least one geometric representation context
+   010 | 
+   011 |       :doc:`Given A model with Schema \<Schema\> </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |       :doc:`Given An .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |       :doc:`Given Its attribute .RepresentationContexts. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 | 
+   015 |       :doc:`Then Assert existence </steps/thensexistencepy_Assertexistence>`
+   016 |       :doc:`Then [Its entity type] ^is^ 'IfcGeometricRepresentationContext' ^including subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   017 | 
+   018 |       Examples:
+   019 |         | Schema               | Entity     |
+   020 |         | 'IFC2X3'             | IfcProject |
+   021 |         | 'IFC4' or 'IFC4.3'   | IfcContext |
+   022 | 
+   023 | 
+   024 |     Scenario Outline: Agreement on correct context types
+   025 | 
+   026 |       :doc:`Given A model with Schema \<Schema\> </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   027 |       :doc:`Given An .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   028 |       :doc:`Given Its attribute .RepresentationContexts. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   029 | 
+   030 |       :doc:`Then .ContextType. ^is^ 'Model' or 'Plan' or 'NotDefined' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   031 | 
+   032 |       Examples:
+   033 |         | Schema               | Entity     |
+   034 |         | 'IFC2X3'             | IfcProject |
+   035 |         | 'IFC4' or 'IFC4.3'   | IfcContext |

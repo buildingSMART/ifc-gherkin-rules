@@ -1,0 +1,23 @@
+Its value \ ^\ ``prefix_condition:prefix_condition``\ ^\  with '``prefix``'
+===========================================================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *Its value ^starts^ with 'EPSG:'*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:18
+
+ - **Given** *Its value ^starts^ with 'EPSG:'*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:32
+
+ - **Then** *Its value ^starts^ with '0' or '1' or '2' or '3'*
+
+   :doc:`/features/PJS003_Globally-Unique-Identifiers`:19
+
+ - **Given** *Its value ^does not start^ with 'Pset_'*
+
+   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:13
+
+

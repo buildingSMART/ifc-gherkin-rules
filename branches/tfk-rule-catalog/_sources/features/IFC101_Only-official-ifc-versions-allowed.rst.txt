@@ -1,0 +1,17 @@
+``IFC101`` Only official ifc versions allowed
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@critical
+   002 | \@version1
+   003 | \@W00030
+   004 | Feature: IFC101 - Only official IFC versions allowed
+   005 | 
+   006 | The rule verifies that the IFC model has a schema identifier corresponding to any of the official versions released by buildingSMART.
+   007 | Specifically, IFC2x3 TC1 (version 2.3.0.1), IFC4 ADD2 TC1 (version 4.0.2.1), or IFC4.3 ADD2 (version 4.3.2.0).
+   008 | 
+   009 |   Scenario: Verifying Current Schema Identifier for IFC version
+   010 | 
+   011 |     :doc:`Given An IFC model </steps/givensattributespy_AnIFCmodel>`
+   012 |     :doc:`Then The Schema Identifier of the model must be 'IFC2X3' or 'IFC4' or 'IFC4X3\_ADD2' </steps/thensattributespy_Thefieldofthefile_or_modelmustbevalues>`

@@ -1,0 +1,27 @@
+There must be ``constraint`` ``num:d`` instance(s) of ``entity``
+================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *There must be at least 1 instance(s) of IfcProjectedCRS*
+
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:16
+
+ - **Then** *There must be at least 1 instance(s) of IfcCoordinateReferenceSystem*
+
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:23
+
+ - **Then** *There must be exactly 1 instance(s) of IfcProject*
+
+   :doc:`/features/PJS101_Project-presence`:13
+
+ - **Then** *There must be at most 1 instance(s) of IfcSite*
+
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:15
+
+ - **Then** *There must be at least 1 instance(s) of IfcBuilding*
+
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:19
+
+

@@ -1,0 +1,18 @@
+``BLT003`` Stair decomposition
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@BLT
+   002 | \@industry-practice
+   003 | \@version2
+   004 | 
+   005 | Feature: BLT003 - Stair decomposition
+   006 | 
+   007 | The rule verifies that stair elements are properly aggregated in accordance with the Stair Decomposition Table, as outlined in the best practices.
+   008 | The possible allowed breakdown can be found in the csv file in the folder 'features/resources/stair\_DecompositionTable.csv'
+   009 | 
+   010 | Scenario: Agreement on IfcStair being decomposed as per stair composition table.
+   011 | 
+   012 |     :doc:`Given An .IfcStair. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     :doc:`Then It must be aggregated as per stair\_CompositionTable.csv </steps/thensrelationspy_Itmustberelationshipaspertable>`

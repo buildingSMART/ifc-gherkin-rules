@@ -1,0 +1,23 @@
+``BBX000`` Bounding box
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@BBX
+   003 | \@version1
+   004 | \@E00020
+   005 | 
+   006 | Feature: BBX000 - Bounding Box
+   007 | The rule verifies the presence of IFC entities used to define an orthogonal box,
+   008 | oriented parallel to the axes of the object coordinate system which defines the spatial extent of the latter.
+   009 | 
+   010 | 
+   011 | Scenario: Check for activation
+   012 | 
+   013 |     :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |     :doc:`Given .RepresentationType. ^is^ 'BoundingBox' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 | 
+   018 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`

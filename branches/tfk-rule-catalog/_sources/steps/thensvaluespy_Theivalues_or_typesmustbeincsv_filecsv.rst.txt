@@ -1,0 +1,23 @@
+The ``i:values_or_types`` must be in '``csv_file``\ .\ csv'
+===========================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The values must be in 'valid_ShapeRepresentationIdentifier.csv'*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:15
+
+ - **Then** *The values must be in 'valid_ShapeRepresentationType.csv'*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:26
+
+ - **Then** *The values must be in 'valid_TopologyRepresentationType.csv'*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:37
+
+ - **Then** *The values must be in 'valid_ShapeRepresentationIdentifier.csv'*
+
+   :doc:`/features/GEM052_Correct-geometric-subcontexts`:23
+
+

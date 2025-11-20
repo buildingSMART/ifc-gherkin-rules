@@ -1,0 +1,910 @@
+An \ .\ ``entity_opt_stmt``\ .\ 
+================================
+
+.. container:: prewrap
+
+   | Generic step, typically used as an initial or second Given statement to select entities.
+   | 
+   | Examples:
+   | Given an .IfcAlignment.
+   | Given an .IfcRoot. with subtypes
+   | Given an .entity instance.
+   | 
+   | The last example returns everything in the model.
+
+Usages:
+~~~~~~~
+
+ - **Given** *an .IfcAlignment.*
+
+   :doc:`/features/ALB000_Alignment-layout`:14
+
+ - **Given** *an .IfcAlignment.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:16
+
+ - **Given** *an .IfcAlignmentHorizontal.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:25
+
+ - **Given** *an .IfcAlignmentVertical.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:25
+
+ - **Given** *an .IfcAlignmentCant.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:25
+
+ - **Given** *an .IfcAlignmentHorizontal.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:39
+
+ - **Given** *an .IfcAlignmentVertical.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:39
+
+ - **Given** *an .IfcAlignmentCant.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:39
+
+ - **Given** *an .IfcAlignment.*
+
+   :doc:`/features/ALB003_Alignment-nesting`:13
+
+ - **Given** *an .IfcAlignment.*
+
+   :doc:`/features/ALB004_Alignment-in-spatial-structure-relationships`:12
+
+ - **Given** *an .IfcReferent.*
+
+   :doc:`/features/ALB005_Positioning-of-referents`:12
+
+ - **Given** *an .IfcAlignmentHorizontal.*
+
+   :doc:`/features/ALB010_Alignment-nesting-referents`:13
+
+ - **Given** *An .IfcAlignmentVertical.*
+
+   :doc:`/features/ALB012_Alignment-vertical-segment-radius-of-curvature`:11
+
+ - **Given** *An .IfcAlignmentHorizontal.*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:11
+
+ - **Given** *An .IfcAlignmentVertical.*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:19
+
+ - **Given** *An .IfcAlignmentCant.*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:27
+
+ - **Given** *An .IfcAlignmentHorizontal.*
+
+   :doc:`/features/ALB022_Alignment-agreement-on-number-of-segments`:13
+
+ - **Given** *An .IfcAlignmentVertical.*
+
+   :doc:`/features/ALB022_Alignment-agreement-on-number-of-segments`:17
+
+ - **Given** *An .IfcAlignmentCant.*
+
+   :doc:`/features/ALB022_Alignment-agreement-on-number-of-segments`:21
+
+ - **Given** *An .IfcAlignment.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:13
+
+ - **Given** *An .IfcAlignmentHorizontal.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:20
+
+ - **Given** *An .IfcAlignmentVertical.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:27
+
+ - **Given** *An .IfcAlignmentCant.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:34
+
+ - **Given** *An .IfcAlignmentSegment.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:41
+
+ - **Given** *An .IfcAlignment.*
+
+   :doc:`/features/ALB030_Alignment-local-placement`:11
+
+ - **Given** *an .IfcAlignment.*
+
+   :doc:`/features/ALS000_Alignment-geometry`:14
+
+ - **Given** *An .IfcAlignmentSegment.*
+
+   :doc:`/features/ALS004_Alignment-segment-shape-representation`:9
+
+ - **Given** *An .IfcAlignment.*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:10
+
+ - **Given** *An .IfcAlignmentHorizontal.*
+
+   :doc:`/features/ALS006_Alignment-horizontal-shape-representation`:9
+
+ - **Given** *An .IfcAlignmentVertical.*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:9
+
+ - **Given** *An .IfcAlignmentCant.*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:9
+
+ - **Given** *An .IfcAlignmentSegment.*
+
+   :doc:`/features/ALS010_Alignment-segment-shape-representation-has-the-correct-number-of-items`:11
+
+ - **Given** *an .IfcAlignment.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:15
+
+ - **Given** *an .IfcCompositeCurve.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:23
+
+ - **Given** *an .IfcGradientCurve.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:23
+
+ - **Given** *an .IfcSegmentedReferenceCurve.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:23
+
+ - **Given** *an .IfcGradientCurve.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:38
+
+ - **Given** *an .IfcCompositeCurve.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:40
+
+ - **Given** *an .IfcSegmentedReferenceCurve.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:38
+
+ - **Given** *an .IfcGradientCurve.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:54
+
+ - **Given** *an .IfcSegmentedReferenceCurve.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:54
+
+ - **Given** *An .IfcAlignment.*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:14
+
+ - **Given** *An .IfcAlignment.*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:12
+
+ - **Given** *An .IfcAlignment.*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:17
+
+ - **Given** *An .IfcAlignment.*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:15
+
+ - **Given** *an .IfcAnnotation.*
+
+   :doc:`/features/ANN000_Annotations`:12
+
+ - **Given** *an .IfcElement.*
+
+   :doc:`/features/ASM000_Composed-elements`:14
+
+ - **Given** *an .IfcProduct.*
+
+   :doc:`/features/AXG000_Axis-Geometry`:14
+
+ - **Given** *an .IfcProduct.*
+
+   :doc:`/features/BBX000_Bounding-box`:13
+
+ - **Given** *an .IfcProduct.*
+
+   :doc:`/features/BBX001_Bounding-box-shape-representation`:10
+
+ - **Given** *an .IfcBuiltElement.*
+
+   :doc:`/features/BLT000_Built-elements`:13
+
+ - **Given** *an .IfcBuildingElement.*
+
+   :doc:`/features/BLT000_Built-elements`:21
+
+ - **Given** *an .IfcDoor.*
+
+   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:15
+
+ - **Given** *an .IfcDoorType.*
+
+   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:15
+
+ - **Given** *an .IfcDoor.*
+
+   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:29
+
+ - **Given** *an .IfcWindow.*
+
+   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:15
+
+ - **Given** *an .IfcWindowType.*
+
+   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:15
+
+ - **Given** *an .IfcWindow.*
+
+   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:29
+
+ - **Given** *An .IfcStair.*
+
+   :doc:`/features/BLT003_Stair-decomposition`:12
+
+ - **Given** *An .IfcFace.*
+
+   :doc:`/features/BRP001_Polyhedral-IfcFace-boundary-no-self-intersections`:12
+
+ - **Given** *An .IfcConnectedFaceSet.*
+
+   :doc:`/features/BRP002_Single-component-in-connected-faceset`:10
+
+ - **Given** *an .IfcObjectDefinition.*
+
+   :doc:`/features/CLS000_Classification-association`:14
+
+ - **Given** *an .IfcRepresentationItem.*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:12
+
+ - **Given** *an .IfcObjectDefinition.*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:25
+
+ - **Given** *an .IfcProduct.*
+
+   :doc:`/features/GDP000_Grid-placement`:10
+
+ - **Given** *An .IfcClosedShell.*
+
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:10
+
+ - **Given** *An .IfcTriangulatedFaceSet.*
+
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:22
+
+ - **Given** *An .IfcPolygonalFaceSet.*
+
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:22
+
+ - **Given** *An .IfcSpace.*
+
+   :doc:`/features/GEM002_Space-representation`:10
+
+ - **Given** *An .IfcSpace.*
+
+   :doc:`/features/GEM002_Space-representation`:18
+
+ - **Given** *An .IfcProduct.*
+
+   :doc:`/features/GEM003_Unique-representation-identifier`:10
+
+ - **Given** *An .IfcProduct.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:10
+
+ - **Given** *An .IfcProduct.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:20
+
+ - **Given** *An .IfcProduct.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:31
+
+ - **Given** *An .IfcBuilding.*
+
+   :doc:`/features/GEM005_Building-shape-representation`:11
+
+ - **Given** *an .IfcProduct.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:15
+
+ - **Given** *an .IfcCompositeCurve.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:24
+
+ - **Given** *an .IfcGradientCurve.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:24
+
+ - **Given** *an .IfcSegmentedReferenceCurve.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:24
+
+ - **Given** *an .IfcGradientCurve.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:39
+
+ - **Given** *an .IfcSegmentedReferenceCurve.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:39
+
+ - **Given** *An .IfcProject.*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:12
+
+ - **Given** *An .IfcContext.*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:12
+
+ - **Given** *An .IfcProject.*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:27
+
+ - **Given** *An .IfcContext.*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:27
+
+ - **Given** *An .IfcGeometricRepresentationSubContext.*
+
+   :doc:`/features/GEM052_Correct-geometric-subcontexts`:20
+
+ - **Given** *An .IfcGeometricRepresentationSubContext.*
+
+   :doc:`/features/GEM052_Correct-geometric-subcontexts`:29
+
+ - **Given** *An .IfcPolyLoop.*
+
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:13
+
+ - **Given** *An .IfcPolyLine.*
+
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:19
+
+ - **Given** *An .IfcPolyLine.*
+
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:27
+
+ - **Given** *An .IfcPolyline.*
+
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:35
+
+ - **Given** *An .IfcIndexedPolyCurve.*
+
+   :doc:`/features/GEM112_No-duplicated-points-within-an-indexed-poly-curve`:12
+
+ - **Given** *An .IfcIndexedPolyCurve.*
+
+   :doc:`/features/GEM113_Indexed-poly-curve-arcs-must-not-be-defined-using-colinear-points`:10
+
+ - **Given** *An .IfcCoordinateReferenceSystem.*
+
+   :doc:`/features/GRF000_Georeferencing`:17
+
+ - **Given** *An .IfcCoordinateReferenceSystem.*
+
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:13
+
+ - **Given** *an .IfcBuilding.*
+
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:14
+
+ - **Given** *an .IfcFacility.*
+
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:21
+
+ - **Given** *An .IfcCoordinateReferenceSystem.*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:16
+
+ - **Given** *An .IfcProjectedCRS.*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:30
+
+ - **Given** *an .IfcCoordinateReferenceSystem.*
+
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:11
+
+ - **Given** *an .IfcProjectedCRS.*
+
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:13
+
+ - **Given** *an .IfcGroup.*
+
+   :doc:`/features/GRP001_Acyclic-groups`:10
+
+ - **Given** *an .IfcBuilding.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcBuildingStorey.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcFillAreaStyleHatching.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcOrganization.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcPerson.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcPile.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcReinforcingElement.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcRelAssigns.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcSite.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcStairFlight.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcSurfaceStyleRendering.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcSurfaceTexture.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcTendon.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcTextureCoordinateGenerator.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+
+ - **Given** *an .IfcDoorLiningProperties.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcDoorPanelProperties.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcFillAreaStyleHatching.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcReinforcingElement.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcRelAssignsToActor.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcRelAssignsToControl.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcRelAssignsToGroup.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcRelAssignsToGroupByFactor.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcRelAssignsToProcess.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcRelAssignsToProduct.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcRelAssignsToResource.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcStairFlight.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcWindowPanelProperties.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcWindowLiningProperties.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcTendon.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcTendonAnchor.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcTendonType.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+
+ - **Given** *an .IfcFillAreaStyleHatching.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:183
+
+ - **Given** *an .IfcBuildingElementProxy.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcFireSuppressionTerminal.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcFireSuppressionTerminalType.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcCableCarrierFitting.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcCableCarrierFittingType.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcGeographicElement.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcGeographicElementType.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcSpace.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcSpaceType.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcWall.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcWallType.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+
+ - **Given** *an .IfcWall.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:226
+
+ - **Given** *an .IfcWallType.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:226
+
+ - **Given** *an .IfcOwnerHistory.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:240
+
+ - **Given** *an .IfcFlowFitting.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+
+ - **Given** *an .IfcFlowSegment.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+
+ - **Given** *an .IfcFlowTerminal.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+
+ - **Given** *an .IfcFlowController.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+
+ - **Given** *an .IfcFlowMovingDevice.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+
+ - **Given** *an .IfcFlowStorageDevice.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+
+ - **Given** *an .IfcFlowTreatmentDevice.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+
+ - **Given** *an .IfcEnergyConversionDevice.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+
+ - **Given** *an .IfcFlowFitting.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+
+ - **Given** *an .IfcFlowSegment.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+
+ - **Given** *an .IfcFlowTerminal.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+
+ - **Given** *an .IfcFlowController.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+
+ - **Given** *an .IfcFlowMovingDevice.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+
+ - **Given** *an .IfcFlowStorageDevice.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+
+ - **Given** *an .IfcFlowTreatmentDevice.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+
+ - **Given** *an .IfcEnergyConversionDevice.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+
+ - **Given** *an .IfcProductRepresentation.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:290
+
+ - **Given** *an .IfcRepresentation.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:290
+
+ - **Given** *an .IfcRepresentationContext.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:290
+
+ - **Given** *an .IfcRelAssociates.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:290
+
+ - **Given** *an .IfcShapeRepresentation.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:305
+
+ - **Given** *an .IfcPropertySet.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:313
+
+ - **Given** *an .IfcPropertySet.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:321
+
+ - **Given** *an .IfcPropertySet.*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:329
+
+ - **Given** *an .entity instance.*
+
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:14
+
+ - **Given** *an .IfcProduct.*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:14
+
+ - **Given** *an .IfcProduct.*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:24
+
+ - **Given** *an .IfcProduct.*
+
+   :doc:`/features/LIP000_Linear-Placement`:13
+
+ - **Given** *An .IfcLinearPlacement.*
+
+   :doc:`/features/LIP002_Linear-placement-fallback-coordinates`:10
+
+ - **Given** *An .IfcObject.*
+
+   :doc:`/features/LOP000_Local-placement`:11
+
+ - **Given** *an .IfcObjectDefinition.*
+
+   :doc:`/features/MAT000_Materials`:14
+
+ - **Given** *an .IfcObjectDefinition.*
+
+   :doc:`/features/MAT000_Materials`:26
+
+ - **Given** *An .IfcObject.*
+
+   :doc:`/features/OJP000_Object-placement`:10
+
+ - **Given** *An .IfcElement.*
+
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:13
+
+ - **Given** *An .IfcElement.*
+
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:22
+
+ - **Given** *An .IfcProject.*
+
+   :doc:`/features/PJS000_Project`:11
+
+ - **Given** *An .IfcProject.*
+
+   :doc:`/features/PJS002_Correct-elements-related-to-project`:13
+
+ - **Given** *An .IfcRoot.*
+
+   :doc:`/features/PJS003_Globally-Unique-Identifiers`:16
+
+ - **Given** *an .IfcDistributionPort.*
+
+   :doc:`/features/POR000_Port-connectivity-and-nesting`:13
+
+ - **Given** *An .IfcPropertySet.*
+
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:9
+
+ - **Given** *An .IfcPropertySet.*
+
+   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:11
+
+ - **Given** *an .IfcObject.*
+
+   :doc:`/features/QTY000_Quantities-for-objects`:13
+
+ - **Given** *An .IfcElementQuantity.*
+
+   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:9
+
+ - **Given** *an .IfcSpace.*
+
+   :doc:`/features/SPA000_Spaces-information`:11
+
+ - **Given** *an .IfcSpatialZone.*
+
+   :doc:`/features/SPA000_Spaces-information`:11
+
+ - **Given** *An .IfcSite.*
+
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:23
+
+ - **Given** *an .IfcBuilding.*
+
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:24
+
+ - **Given** *An .IfcBuilding.*
+
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:31
+
+ - **Given** *An .IfcSpatialElement.*
+
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:12
+
+ - **Given** *An .IfcProject.*
+
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:19
+
+ - **Given** *An .IfcElement.*
+
+   :doc:`/features/SPS003_Correct-containment-of-assemblies`:10
+
+ - **Given** *An .IfcProduct.*
+
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:12
+
+ - **Given** *An .IfcProduct.*
+
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:21
+
+ - **Given** *An .IfcElement.*
+
+   :doc:`/features/SPS005_Simultaneous-spatial-relationships`:11
+
+ - **Given** *An .IfcElement.*
+
+   :doc:`/features/SPS006_Elements-referenced-in-Spatial-structures`:12
+
+ - **Given** *an .IfcGrid.*
+
+   :doc:`/features/SPS007_Spatial-containment`:12
+
+ - **Given** *an .IfcAnnotation.*
+
+   :doc:`/features/SPS007_Spatial-containment`:18
+
+ - **Given** *an .IfcElement.*
+
+   :doc:`/features/SPS007_Spatial-containment`:26
+
+ - **Given** *an .IfcElement.*
+
+   :doc:`/features/SPS007_Spatial-containment`:34
+
+ - **Given** *An .IfcProduct.*
+
+   :doc:`/features/SPS007_Spatial-containment`:41
+
+ - **Given** *an .IfcBuildingStorey.*
+
+   :doc:`/features/SPS008_Spatial-container-representations`:12
+
+ - **Given** *an .IfcSite.*
+
+   :doc:`/features/SPS008_Spatial-container-representations`:20
+
+ - **Given** *an .IfcBridge.*
+
+   :doc:`/features/SPS008_Spatial-container-representations`:28
+
+ - **Given** *an .IfcMarineFacility.*
+
+   :doc:`/features/SPS008_Spatial-container-representations`:28
+
+ - **Given** *an .IfcRailway.*
+
+   :doc:`/features/SPS008_Spatial-container-representations`:28
+
+ - **Given** *an .IfcRoad.*
+
+   :doc:`/features/SPS008_Spatial-container-representations`:28
+
+ - **Given** *An .IfcArbitraryClosedProfileDef.*
+
+   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:12
+
+ - **Given** *An .IfcArbitraryClosedProfileDef.*
+
+   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:19
+
+ - **Given** *An .IfcExtrudedAreaSolidTapered.*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:22
+
+ - **Given** *An .IfcRevolvedAreaSolidTapered.*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:22
+
+ - **Given** *an .IfcCableSegment.*
+
+   :doc:`/features/SYS001_Cable-signal-flow`:11
+
+ - **Given** *An .IfcPolygonalFaceSet.*
+
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:12
+
+ - **Given** *An .IfcPolygonalFaceSet.*
+
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:19
+
+ - **Given** *an .IfcRoot.*
+
+   :doc:`/features/VER000_Versioning-and-revision-control`:13
+
+ - **Given** *an .IfcVirtualElement.*
+
+   :doc:`/features/VRT000_Virtual-elements`:12
+
+

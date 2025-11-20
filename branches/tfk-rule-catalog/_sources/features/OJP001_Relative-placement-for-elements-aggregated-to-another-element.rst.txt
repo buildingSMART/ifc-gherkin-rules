@@ -1,0 +1,30 @@
+``OJP001`` Relative placement for elements aggregated to another element
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@OJP
+   003 | \@version2
+   004 | Feature: OJP001 - Relative placement for elements aggregated to another element
+   005 | The rule verifies that if an IfcElement is a part of another IfcElement (the container) through the relationship
+   006 | IfcRelAggregates, then the relative placement of that IfcElement shall be provided by an IfcLocalPlacement
+   007 | with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the container element.
+   008 | 
+   009 |   \@E00010
+   010 |   Scenario: Agreement on the relative placement of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
+   011 | 
+   012 |       :doc:`Given A model with Schema 'IFC2X3' or 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   013 |       :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |       :doc:`Given A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
+   015 | 
+   016 |       :doc:`Then The relative placement of that IfcElement must be provided by an IfcLocalPlacement entity </steps/thensattributespy_Therelativeplacementofthatentitymustbeprovidedbyanother_entityentity>`
+   017 | 
+   018 |   \@E00060
+   019 |   Scenario: Agreement on the container attributes of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
+   020 | 
+   021 |       :doc:`Given A model with Schema 'IFC2X3' or 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   022 |       :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   023 |       :doc:`Given A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
+   024 | 
+   025 |       :doc:`Then The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship </steps/thensattributespy_Theentityattributemustpointtotheother_entityofthecontainerelementestablishedwithrelationshiprelationship>`

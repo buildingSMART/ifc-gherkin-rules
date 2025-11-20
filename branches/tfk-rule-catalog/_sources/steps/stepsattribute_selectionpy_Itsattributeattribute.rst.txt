@@ -1,0 +1,611 @@
+Its attribute \ .\ ``attribute``\ .\ 
+=====================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *its attribute .IsDecomposedBy.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:17
+
+ - **Given** *its attribute .RelatedObjects.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:18
+
+ - **Given** *its attribute .IsNestedBy.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:26
+
+ - **Given** *its attribute .RelatedObjects.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:27
+
+ - **Given** *its attribute .IsNestedBy.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:40
+
+ - **Given** *its attribute .RelatedObjects.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:41
+
+ - **Given** *its attribute .DesignParameters.*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:42
+
+ - **Given** *its attribute .Nests.*
+
+   :doc:`/features/ALB010_Alignment-nesting-referents`:14
+
+ - **Given** *its attribute .RelatingObject.*
+
+   :doc:`/features/ALB010_Alignment-nesting-referents`:15
+
+ - **Given** *Its attribute .DesignParameters.*
+
+   :doc:`/features/ALB012_Alignment-vertical-segment-radius-of-curvature`:13
+
+ - **Given** *Its attribute .DesignParameters.*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:14
+
+ - **Given** *Its attribute .DesignParameters.*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:22
+
+ - **Given** *Its attribute .DesignParameters.*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:30
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:14
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:15
+
+ - **Given** *Its attribute .Item.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:16
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:21
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:22
+
+ - **Given** *Its attribute .Items.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:23
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:28
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:29
+
+ - **Given** *Its attribute .Items.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:30
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:35
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:36
+
+ - **Given** *Its attribute .Items.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:37
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:42
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:43
+
+ - **Given** *Its attribute .Items.*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:44
+
+ - **Given** *Its attribute .ObjectPlacement.*
+
+   :doc:`/features/ALB030_Alignment-local-placement`:12
+
+ - **Given** *its attribute .Representation.*
+
+   :doc:`/features/ALS000_Alignment-geometry`:15
+
+ - **Given** *its attribute .Representations.*
+
+   :doc:`/features/ALS000_Alignment-geometry`:16
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALS004_Alignment-segment-shape-representation`:10
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALS004_Alignment-segment-shape-representation`:11
+
+ - **Given** *Its attribute .Items.*
+
+   :doc:`/features/ALS004_Alignment-segment-shape-representation`:29
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:11
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:12
+
+ - **Given** *Its attribute .Items.*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:26
+
+ - **Given** *Its attribute .Items.*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:35
+
+ - **Given** *Its attribute .Items.*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:49
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALS006_Alignment-horizontal-shape-representation`:10
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALS006_Alignment-horizontal-shape-representation`:11
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:10
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:11
+
+ - **Given** *its attribute .Items.*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:17
+
+ - **Given** *its attribute .RepresentationIdentifier.*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:23
+
+ - **Given** *its attribute .RepresentationType.*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:30
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:10
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:11
+
+ - **Given** *its attribute .RepresentationIdentifier.*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:16
+
+ - **Given** *its attribute .RepresentationType.*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:23
+
+ - **Given** *its attribute .Items.*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:30
+
+ - **Given** *its attribute .Representation.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:16
+
+ - **Given** *its attribute .Representation.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:17
+
+ - **Given** *its attribute .Items.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:18
+
+ - **Given** *its attribute .Segments.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:24
+
+ - **Given** *its attribute .BaseCurve.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:39
+
+ - **Given** *its attribute .Segments.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:41
+
+ - **Given** *its attribute .Segments.*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:55
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:15
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:16
+
+ - **Given** *its attribute .Segments.*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:19
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:13
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:14
+
+ - **Given** *its attribute .Items.*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:15
+
+ - **Given** *its attribute .Segments.*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:16
+
+ - **Given** *Its attribute .Transition.*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:23
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:18
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:19
+
+ - **Given** *Its attribute .Segments.*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:23
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:16
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:17
+
+ - **Given** *Its attribute .Segments.*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:21
+
+ - **Given** *its attribute .Representation.*
+
+   :doc:`/features/ANN000_Annotations`:13
+
+ - **Given** *its attribute .Representations.*
+
+   :doc:`/features/ANN000_Annotations`:14
+
+ - **Given** *its attribute .Decomposes.*
+
+   :doc:`/features/ASM000_Composed-elements`:15
+
+ - **Given** *its attribute .RelatingObject.*
+
+   :doc:`/features/ASM000_Composed-elements`:17
+
+ - **Given** *its attribute .Representation.*
+
+   :doc:`/features/AXG000_Axis-Geometry`:15
+
+ - **Given** *its attribute .Representations.*
+
+   :doc:`/features/AXG000_Axis-Geometry`:16
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/BBX000_Bounding-box`:14
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/BBX000_Bounding-box`:15
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/BBX001_Bounding-box-shape-representation`:11
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/BBX001_Bounding-box-shape-representation`:12
+
+ - **Given** *Its attribute .Bounds.*
+
+   :doc:`/features/BRP001_Polyhedral-IfcFace-boundary-no-self-intersections`:13
+
+ - **Given** *Its attribute .Bound.*
+
+   :doc:`/features/BRP001_Polyhedral-IfcFace-boundary-no-self-intersections`:14
+
+ - **Given** *its attribute .HasAssociations.*
+
+   :doc:`/features/CLS000_Classification-association`:15
+
+ - **Given** *its attribute .RelatingClassification.*
+
+   :doc:`/features/CLS000_Classification-association`:17
+
+ - **Given** *Its attribute .StyledByItem.*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:13
+
+ - **Given** *Its attribute .HasColours.*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:13
+
+ - **Given** *its attribute .HasAssociations.*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:26
+
+ - **Given** *its attribute .RelatingMaterial.*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:28
+
+ - **Given** *its attribute .HasRepresentation.*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:31
+
+ - **Given** *its attribute .Representations.*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:32
+
+ - **Given** *its attribute .Items.*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:33
+
+ - **Given** *its attribute .ObjectPlacement.*
+
+   :doc:`/features/GDP000_Grid-placement`:11
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/GEM003_Unique-representation-identifier`:11
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/GEM003_Unique-representation-identifier`:12
+
+ - **Given** *its attribute .RepresentationIdentifier.*
+
+   :doc:`/features/GEM003_Unique-representation-identifier`:13
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:11
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:12
+
+ - **Given** *Its attribute .RepresentationIdentifier.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:13
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:21
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:22
+
+ - **Given** *Its attribute .RepresentationType.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:24
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:32
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:33
+
+ - **Given** *Its attribute .RepresentationType.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:35
+
+ - **Given** *Its attribute .Representation.*
+
+   :doc:`/features/GEM005_Building-shape-representation`:14
+
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/GEM005_Building-shape-representation`:15
+
+ - **Given** *its attribute .Representation.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:17
+
+ - **Given** *its attribute .Representation.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:18
+
+ - **Given** *its attribute .Items.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:19
+
+ - **Given** *its attribute .Segments.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:25
+
+ - **Given** *its attribute .Segments.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:40
+
+ - **Given** *Its attribute .RepresentationContexts.*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:13
+
+ - **Given** *Its attribute .RepresentationContexts.*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:28
+
+ - **Given** *Its attribute .ContextIdentifier.*
+
+   :doc:`/features/GEM052_Correct-geometric-subcontexts`:21
+
+ - **Given** *Its Attribute .HasCoordinateOperation.*
+
+   :doc:`/features/GRF001_Identical-coordinate-operations`:15
+
+ - **Given** *Its attribute .Name.*
+
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:14
+
+ - **Given** *Its attribute .Name.*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:17
+
+ - **Given** *Its attribute .GeodeticDatum.*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:17
+
+ - **Given** *Its attribute .VerticalDatum.*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:31
+
+ - **Given** *Its attribute .VerticalDatum.*
+
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:14
+
+ - **Given** *its attribute .Representation.*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:15
+
+ - **Given** *its attribute .Representations.*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:16
+
+ - **Given** *its attribute .LayerAssignments.*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:17
+
+ - **Given** *its attribute .Representation.*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:25
+
+ - **Given** *its attribute .Representations.*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:26
+
+ - **Given** *its attribute .Items.*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:27
+
+ - **Given** *its attribute .LayerAssignment.*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:28
+
+ - **Given** *its attribute .ObjectPlacement.*
+
+   :doc:`/features/LIP000_Linear-Placement`:14
+
+ - **Given** *Its attribute .ObjectPlacement.*
+
+   :doc:`/features/LOP000_Local-placement`:12
+
+ - **Given** *its attribute .HasAssociations.*
+
+   :doc:`/features/MAT000_Materials`:15
+
+ - **Given** *its attribute .RelatingMaterial.*
+
+   :doc:`/features/MAT000_Materials`:17
+
+ - **Given** *its attribute .HasAssociations.*
+
+   :doc:`/features/MAT000_Materials`:27
+
+ - **Given** *Its attribute .ObjectPlacement.*
+
+   :doc:`/features/OJP000_Object-placement`:11
+
+ - **Given** *Its attribute .GlobalId.*
+
+   :doc:`/features/PJS003_Globally-Unique-Identifiers`:17
+
+ - **Given** *its attribute .ConnectedFrom.*
+
+   :doc:`/features/POR000_Port-connectivity-and-nesting`:14
+
+ - **Given** *its attribute .RelatingPort.*
+
+   :doc:`/features/POR000_Port-connectivity-and-nesting`:16
+
+ - **Given** *Its attribute .Name.*
+
+   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:12
+
+ - **Given** *its attribute .IsDefinedBy.*
+
+   :doc:`/features/QTY000_Quantities-for-objects`:14
+
+ - **Given** *its attribute .RelatingPropertyDefinition.*
+
+   :doc:`/features/QTY000_Quantities-for-objects`:16
+
+ - **Given** *Its attribute .OuterCurve.*
+
+   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:13
+
+ - **Given** *Its attribute .InnerCurves.*
+
+   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:20
+
+ - **Given** *Its attribute .Operator.*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:15
+
+ - **Given** *Its attribute .SweptArea.*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
+
+ - **Given** *Its attribute .Operator.*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:25
+
+ - **Given** *Its attribute .EndSweptArea.*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
+
+ - **Given** *Its attribute .FlowDirection.*
+
+   :doc:`/features/SYS001_Cable-signal-flow`:22
+
+ - **Given** *Its attribute .Faces.*
+
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:13
+
+ - **Given** *Its attribute .Faces.*
+
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:20
+
+ - **Given** *its attribute .OwnerHistory.*
+
+   :doc:`/features/VER000_Versioning-and-revision-control`:14
+
+

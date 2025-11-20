@@ -1,0 +1,189 @@
+[``attribute``] \ ^\ ``comparison_operator:equal_or_not_equal``\ ^\  ``value``
+==============================================================================
+
+.. container:: prewrap
+
+   | Note that the following statements are acceptable:
+   | - Attribute = empty
+   | - Attribute = not empty
+   | - Attribute is empty
+   | 
+   | However, please avoid using:
+   | - Attribute is not empty
+
+Usages:
+~~~~~~~
+
+ - **Then** *[its entity type] ^is^ 'IfcAlignment'*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:20
+
+ - **Then** *[its entity type] ^is^ 'IfcAlignmentSegment'*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:29
+
+ - **Then** *[its entity type] ^is^ 'IfcAlignmentHorizontalSegment'*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:44
+
+ - **Then** *[its entity type] ^is^ 'IfcAlignmentVerticalSegment'*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:44
+
+ - **Then** *[its entity type] ^is^ 'IfcAlignmentCantSegment'*
+
+   :doc:`/features/ALB002_Alignment-layout-relationships`:44
+
+ - **Given** *[Its entity type] ^is^ 'IfcAlignmentVerticalSegment'*
+
+   :doc:`/features/ALB012_Alignment-vertical-segment-radius-of-curvature`:14
+
+ - **Then** *[Its Entity Type] ^is^ 'IfcLocalPlacement'*
+
+   :doc:`/features/ALB030_Alignment-local-placement`:14
+
+ - **Then** *[Its entity type] ^is^ 'IfcCurveSegment'*
+
+   :doc:`/features/ALS004_Alignment-segment-shape-representation`:30
+
+ - **Then** *[Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:27
+
+ - **Then** *[Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:36
+
+ - **Then** *[Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'*
+
+   :doc:`/features/ALS005_Alignment-shape-representation`:50
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcCompositeCurve'*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:18
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcCurveSegment'*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:20
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcGradientCurve'*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:18
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcSegmentedReferenceCurve'*
+
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:18
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcCompositeCurve'*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:22
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcCurveSegment'*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:24
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcGradientCurve'*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:20
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcCurveSegment'*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:22
+
+ - **Given** *[its entity type] ^is^ 'IfcRelAggregates'*
+
+   :doc:`/features/ASM000_Composed-elements`:16
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcPolyLoop'*
+
+   :doc:`/features/BRP001_Polyhedral-IfcFace-boundary-no-self-intersections`:15
+
+ - **Given** *[its entity type] ^is^ 'IfcRelAssociatesClassification'*
+
+   :doc:`/features/CLS000_Classification-association`:16
+
+ - **Given** *[its entity type] ^is^ 'IfcClassificationReference'*
+
+   :doc:`/features/CLS000_Classification-association`:18
+
+ - **Given** *[its entity type] ^is^ 'IfcRelAssociatesMaterial'*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:27
+
+ - **Given** *[its entity type] ^is^ 'IfcMaterial'*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:30
+
+ - **Given** *[its entity type] ^is^ 'IfcStyledItem'*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:34
+
+ - **Given** *[Its entity type] ^is^ 'IfcGridPlacement'*
+
+   :doc:`/features/GDP000_Grid-placement`:12
+
+ - **Given** *[Its entity type] ^is^ 'IfcShapeRepresentation'*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:23
+
+ - **Given** *[Its entity type] ^is^ 'IfcTopologyRepresentation'*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:34
+
+ - **Given** *[its entity type] ^is not^ .IfcAlignment.*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:16
+
+ - **Given** *[its entity type] ^is not^ 'IfcRoot'*
+
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:15
+
+ - **Given** *[its entity type] ^is^ 'IfcLinearPlacement'*
+
+   :doc:`/features/LIP000_Linear-Placement`:15
+
+ - **Given** *[Its entity type] ^is^ 'IfcLocalPlacement'*
+
+   :doc:`/features/LOP000_Local-placement`:13
+
+ - **Given** *[its entity type] ^is^ 'IfcRelAssociatesMaterial'*
+
+   :doc:`/features/MAT000_Materials`:16
+
+ - **Given** *[its entity type] ^is^ 'IfcRelAssociatesMaterial'*
+
+   :doc:`/features/MAT000_Materials`:28
+
+ - **Given** *[its entity type] ^is^ 'IfcRelConnectsPorts'*
+
+   :doc:`/features/POR000_Port-connectivity-and-nesting`:15
+
+ - **Given** *[its entity type] ^is^ 'IfcDistributionPort'*
+
+   :doc:`/features/POR000_Port-connectivity-and-nesting`:17
+
+ - **Given** *[its entity type] ^is^ 'IfcRelDefinesByProperties'*
+
+   :doc:`/features/QTY000_Quantities-for-objects`:15
+
+ - **Given** *[its entity type] ^is^ 'IfcElementQuantity'*
+
+   :doc:`/features/QTY000_Quantities-for-objects`:17
+
+ - **Given** *[Its Type] ^is not^ 'IfcGrid'*
+
+   :doc:`/features/SPS007_Spatial-containment`:43
+
+ - **Given** *[Its Type] ^is not^ 'IfcAnnotation'*
+
+   :doc:`/features/SPS007_Spatial-containment`:44
+
+ - **Given** *[Its entity type] ^is^ 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef'*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:24
+
+ - **Given** *[Its Entity Type] ^is^ 'IfcIndexedPolygonalFaceWithVoids'*
+
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:21
+
+

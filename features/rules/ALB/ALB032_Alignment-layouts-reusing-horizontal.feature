@@ -19,7 +19,12 @@ Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.1 for "parent" 
 
 Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.1 for "child" alignment
 
-    Given a *required* relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that
+    Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that
     Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.
     Then the alignment layouts must include [1 vert] or [1 vert and 1 cant]
+
+Scenario: Alignment aggregation does not go deeper than one level per 4.1.4.4.1.1
+
+  Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that
+  Then a relationship .IfcRelAggregates. ^must not exist^ from .IfcAlignment. to .IfcAlignment.
 

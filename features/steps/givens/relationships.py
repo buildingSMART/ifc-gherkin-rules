@@ -17,7 +17,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
     """
     assert dir1 != dir2
 
-    required = exist_or_not_exist != "does not exist"
+    required = exist_or_not_exist not in ["does not exist", "must not exist"]
     if exist_or_not_exist == 'must exist':
         tail=True # output the other entity
 

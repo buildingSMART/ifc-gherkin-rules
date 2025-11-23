@@ -490,13 +490,18 @@ class PackedSequence:
     - `__getitem__(slice)` → materialises everything, then slices (tuple)
     """
 
-    __slots__ = ("_data", "_struct", "_top_level_count", "_model")
+    __slots__ = ("_data", "_struct", "_top_level_count", "_model", "_last_index",
+        "_last_struct_pos",
+        "_last_value",)
 
     def __init__(self, data: array, struct: array, top_level_count: int, model: Optional[ifcopenshell.file] = None) -> None:
         self._data = data
         self._struct = struct
         self._top_level_count = top_level_count
         self._model = model
+        self._last_index = None
+        self._last_struct_pos = None
+        self._last_value = None
 
     def __len__(self) -> int:
         return self._top_level_count
@@ -594,16 +599,31 @@ class PackedSequence:
         if idx < 0:
             idx += n
         if idx < 0 or idx >= n:
-            breakpoint()
             raise IndexError("index out of range")
+        
+        if idx == self._last_index:
+            return self._last_value
+        elif self._last_index is not None and idx > self._last_index:
+            i = self._last_index + 1
+            pos = self._last_struct_pos
+        else:
+            i = 0
+            pos = 0
 
         pos = 0
-        for i in range(n):
-            if i == idx:
-                value, _ = self._decode_subtree(pos)
-                return self._to_model_instance(value)
+        while i < idx:
             # For all earlier elements, just skip structurally
             pos = self._skip_subtree(pos)
+            i += 1
+
+        if i == idx:
+            value, next_pos = self._decode_subtree(pos)
+
+            self._last_index = i
+            self._last_struct_pos = next_pos
+            self._last_value = value
+
+            return self._to_model_instance(value)
 
         # Shouldn't reach here
         raise IndexError("index out of range")

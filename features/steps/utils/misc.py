@@ -1,8 +1,9 @@
+import warnings
 import ifcopenshell
 import operator
 import pyparsing
 
-from typing import Iterable, Iterator, Union, Optional
+from typing import Iterable, Iterator, Sequence, Union, Optional
 import numpy as np
 from numbers import Real
 
@@ -27,7 +28,7 @@ def reverse_operands(fn):
 def recursive_flatten(lst):
     flattened_list = []
     for item in lst:
-        if isinstance(item, (tuple, list)):
+        if isinstance(item, (tuple, list, PackedSequence)):
             flattened_list.extend(recursive_flatten(item))
         else:
             flattened_list.append(item)
@@ -35,7 +36,7 @@ def recursive_flatten(lst):
 
 
 def iflatten(any):
-    if isinstance(any, (tuple, list)):
+    if isinstance(any, (tuple, list, PackedSequence)):
         for v in any:
             yield from iflatten(v)
     else:
@@ -390,3 +391,235 @@ class ContiguousSet:
     @pending_max.setter
     def pending_max(self, value: int) -> None:
         self._pending_max = int(value)
+
+from array import array
+
+TAG_TUPLE = 0
+TAG_ARRAY = 1
+TAG_SINGULAR_INT = 2
+TAG_NONE = 3
+
+class PackedBuilder:
+    """
+    Streaming builder from an *iterable of nested tuples and/or ints/entity instances*.
+
+    Usage:
+        pb = PackedBuilder()
+        for obj in iterable:   # each obj can be a nested tuple or an int
+            pb.add(obj)
+        packed = pb.finish()   # PackedSequence representing (obj0, obj1, ...)
+    """
+
+    __slots__ = ("data", "struct", "model", "_top_level_count")
+
+    def __init__(self, model=None, data_type_code="q", struct_type_code="I"):
+        self.data = array(data_type_code)
+        self.struct = array(struct_type_code)
+        self._top_level_count = 0
+        self.model = model
+
+    def _build_node(self, obj) -> int:
+        """
+        Append the encoding for `obj` into data/struct.
+        Returns the struct index where this node starts.
+        """
+        # Tuples: either compress as a single array node (pure ints) or
+        # as a general tuple node with children.
+        if isinstance(obj, tuple):
+            # If this is a pure tuple-of-ints (and not empty), compress as one array node.
+            all_int = len(obj) and all(isinstance(x, (int, ifcopenshell.entity_instance)) for x in obj)
+            if all_int:
+                offset = len(self.data)
+                for x in obj:
+                    if isinstance(x, ifcopenshell.entity_instance):
+                        self.data.append(x.id())
+                    else:
+                        self.data.append(x)
+                start = len(self.struct)
+                self.struct.append(TAG_ARRAY)
+                self.struct.append(len(obj))
+                self.struct.append(offset)
+                return start
+
+            # General tuple: TAG_TUPLE, n_children, then children.
+            start = len(self.struct)
+            self.struct.append(TAG_TUPLE)
+            self.struct.append(0)  # placeholder for n_children
+            n_children = 0
+            for child in obj:
+                n_children += 1
+                self._build_node(child)
+            self.struct[start + 1] = n_children
+            return start
+        elif obj is None:
+            start = len(self.struct)
+            self.struct.append(TAG_NONE)
+            return start
+
+        # Bare int → TAG_SINGULAR_INT, offset
+        offset = len(self.data)
+        if isinstance(obj, ifcopenshell.entity_instance):
+            self.data.append(obj.id())
+        else:
+            self.data.append(obj)
+        start = len(self.struct)
+        self.struct.append(TAG_SINGULAR_INT)
+        self.struct.append(offset)
+        return start
+
+    def add(self, obj) -> None:
+        """
+        Add one top-level object from the input stream.
+        Its node is appended to `struct` after any previous ones.
+        """
+        self._build_node(obj)
+        self._top_level_count += 1
+        return self
+
+    def finish(self) -> "PackedSequence":
+        return PackedSequence(self.data, self.struct, self._top_level_count, self.model)
+
+
+class PackedSequence:
+    """
+    Read-only sequence over the packed representation.
+
+    - `__len__` → number of top-level items (implicit outer tuple)
+    - `__iter__` → yields Python values (ints or tuples)
+    - `__getitem__(i)` → returns the i-th top-level item as int/tuple
+    - `__getitem__(slice)` → materialises everything, then slices (tuple)
+    """
+
+    __slots__ = ("_data", "_struct", "_top_level_count", "_model")
+
+    def __init__(self, data: array, struct: array, top_level_count: int, model: Optional[ifcopenshell.file] = None) -> None:
+        self._data = data
+        self._struct = struct
+        self._top_level_count = top_level_count
+        self._model = model
+
+    def __len__(self) -> int:
+        return self._top_level_count
+
+    # ---- core decoder ----
+
+    def _skip_subtree(self, idx: int) -> int:
+        """
+        Given an index into struct pointing at a node,
+        return the index of the next node after its entire subtree.
+
+        This does *not* allocate any Python tuples/ints.
+        """
+        tag = self._struct[idx]
+
+        if tag == TAG_NONE:
+            return idx + 1
+
+        if tag == TAG_ARRAY:
+            # TAG_ARRAY, length, offset
+            return idx + 3
+
+        if tag == TAG_SINGULAR_INT:
+            # TAG_SINGULAR_INT, offset
+            return idx + 2
+
+        if tag == TAG_TUPLE:
+            n = self._struct[idx + 1]
+            j = idx + 2
+            for _ in range(n):
+                j = self._skip_subtree(j)
+            return j
+
+        raise ValueError(f"Unknown tag in struct: {tag!r}")
+
+    def _decode_subtree(self, idx: int):
+        """
+        Decode one node starting at struct[idx].
+
+        Returns: (python_value, next_idx)
+          - python_value is int or (nested) tuple of ints/tuples
+          - next_idx is the index in struct just after this subtree
+        """
+        tag = self._struct[idx]
+
+        if tag == TAG_NONE:
+            return None, idx + 1
+
+        if tag == TAG_ARRAY:
+            length = self._struct[idx + 1]
+            offset = self._struct[idx + 2]
+            value = tuple(self._data[offset + k] for k in range(length))
+            return value, idx + 3
+
+        if tag == TAG_TUPLE:
+            n = self._struct[idx + 1]
+            items = []
+            j = idx + 2
+            for _ in range(n):
+                child_val, j = self._decode_subtree(j)
+                items.append(child_val)
+            return tuple(items), j
+
+        if tag == TAG_SINGULAR_INT:
+            offset = self._struct[idx + 1]
+            value = self._data[offset]
+            return value, idx + 2
+
+        raise ValueError(f"Unknown tag in struct: {tag!r}")
+
+    # ---- iteration & indexing ----
+
+    def _to_model_instance(self, x):
+        if self._model is None:
+            return x
+        elif isinstance(x, tuple):
+            return tuple(self._to_model_instance(y) for y in x)
+        else:
+            return self._model[x]
+
+    def __iter__(self):
+        idx = 0
+        for _ in range(self._top_level_count):
+            value, idx = self._decode_subtree(idx)
+            yield self._to_model_instance(value)
+
+    def __getitem__(self, key):
+        # Slicing: simplest is "materialise, then slice".
+        if isinstance(key, slice):
+            return self.to_tuple()[key]
+
+        # Integer index: stream through until we hit that element.
+        n = self._top_level_count
+        idx = key
+        if idx < 0:
+            idx += n
+        if idx < 0 or idx >= n:
+            breakpoint()
+            raise IndexError("index out of range")
+
+        pos = 0
+        for i in range(n):
+            if i == idx:
+                value, _ = self._decode_subtree(pos)
+                return self._to_model_instance(value)
+            # For all earlier elements, just skip structurally
+            pos = self._skip_subtree(pos)
+
+        # Shouldn't reach here
+        raise IndexError("index out of range")
+
+    # ---- helpers ----
+
+    def to_tuple(self):
+        warnings.warn("Don't do this")
+        """Materialise the implicit outer tuple."""
+        return tuple(self)
+
+    def __repr__(self) -> str:
+        return f"PackedSequence({self.to_tuple()!r})"
+
+def encode_nested_tuples(model: ifcopenshell.file, data:Sequence):
+    builder = PackedBuilder(model=model)
+    for val in data:
+        builder.add(val)
+    return builder.finish()

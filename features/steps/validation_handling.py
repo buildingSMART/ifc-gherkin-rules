@@ -1,6 +1,7 @@
 import functools
 import math
 import re
+from ifc_validation_models.dataclass_compat import FrozenDict
 from utils import misc
 from functools import wraps
 import ifcopenshell
@@ -115,7 +116,7 @@ def execute_step(fn):
         tracemalloc.start()
 
         snap1 = tracemalloc.take_snapshot()
-        print('rss', psutil.Process().memory_info().rss)
+        # print('rss', psutil.Process().memory_info().rss)
 
         if getattr(context, 'applicable', True):
             step_type = context.step.step_type
@@ -124,10 +125,10 @@ def execute_step(fn):
             elif step_type.lower() == 'then':
                 handle_then(context, fn, **kwargs)
 
-        print('rss', psutil.Process().memory_info().rss)
-        snap2 = tracemalloc.take_snapshot()
-        for stat in snap2.compare_to(snap1, 'lineno')[:20]:
-            print(stat)
+        # print('rss', psutil.Process().memory_info().rss)
+        # snap2 = tracemalloc.take_snapshot()
+        # for stat in snap2.compare_to(snap1, 'lineno')[:20]:
+        #     print(stat)
 
     return inner
 
@@ -143,56 +144,70 @@ def handle_given(context, fn, **kwargs):
     if 'inst' not in inspect.getargs(fn.__code__).args:
         gen = fn(context, **kwargs)
         if gen: # (2) Set initial set of instances
-            insts = list(gen)
-            context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
-            pass
-        else:
-            pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
+            try:
+                context.instances = misc.encode_nested_tuples(context.model, map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, gen)))
+            except TypeError:
+                # be sure to create a new generator because the previous will be partially exhausted
+                gen = fn(context, **kwargs)
+                context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, gen)))
     else:
         context._push('attribute') # for attribute stacking
         depth = next(map(int, re.findall(r'at depth (\d+)$', context.step.name)), None)
-        if depth is not None:
-            context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=depth, **kwargs)))
-        else:
-            context.instances = map_given_state(context.instances, fn, context, **kwargs)
+        depth_kwarg = {'depth': depth} if depth is not None else {}
+        
+        try:
+            context.instances = misc.encode_nested_tuples(context.model, iter_given_state(context.instances, fn, context, **depth_kwarg, **kwargs))
+        except TypeError:
+            # not a nested set of entity instances, we need to re-evaluate as soon as we encounter e.g a string/int/pairwise and then
+            # reapply the step as a full in-memory tuple
+            context.instances = map_given_state(context.instances, fn, context, **depth_kwarg, **kwargs)
+
+    print('>', getattr(context, 'instances', ()))
 
 
-def map_given_state(values, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
-    stack = misc.get_stack_tree(context)[::-1]
-    def apply_operation(fn, inst, context):
-        def get_value_path():
-            value_path = []
-            for val in stack:
-                i = 0
-                while not should_apply(val, 0) and i < len(current_path):
-                    val = val[current_path[i]]
-                    i += 1
-                value_path.append(val)
-            return value_path
-        if 'path' in inspect.signature(fn).parameters:
-            local_kwargs = kwargs | {
-                'path': get_value_path()
-            }
-        else:
-            local_kwargs = kwargs
-        results = fn(context, inst, **local_kwargs)
-        return misc.do_try(lambda: list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
-    
-    def is_nested(val):
-        return isinstance(val, (tuple, list))
+def is_nested(val):
+    return isinstance(val, (tuple, list, misc.PackedSequence))
 
-    def should_apply(values, depth):
-        if depth == 0:
-            return not is_nested(values)
-        else:
-            return is_nested(values) and all(should_apply(v, depth-1) for v in values if v is not None)
-
-    if (depth is None and should_apply(values, 0)) or depth == current_depth:
-        return None if values is None else apply_operation(fn, values, context)
-    elif (depth is None or depth > current_depth) and values is not None:
-        return type(values)(map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(values))
+def apply_operation(fn, inst, context, current_path, kwargs):
+    def get_value_path():
+        value_path = []
+        for val in stack:
+            i = 0
+            while is_nested(val) and i < len(current_path):
+                val = val[current_path[i]]
+                i += 1
+            value_path.append(val)
+        return value_path
+    if 'path' in inspect.signature(fn).parameters:
+        stack = misc.get_stack_tree(context)[::-1]
+        local_kwargs = kwargs | {
+            'path': get_value_path()
+        }
     else:
-        return None if values is None else apply_operation(fn, values, context)
+        local_kwargs = kwargs
+    results = fn(context, inst, **local_kwargs)
+    return next(iter(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results))), None)
+
+
+def map_given_state(values, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):   
+    if values is None:
+        return None
+    elif depth == current_depth or (depth is None and not is_nested(values)):
+        # we have arrived at the specified depth, or there is no depth specified and we're at the leaf
+        return apply_operation(fn, values, context, current_path, kwargs)
+    else:
+        return tuple(map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(values))
+
+
+def iter_given_state(values, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
+    if values is None:
+        return None
+    elif depth == current_depth or (depth is None and not is_nested(values)):
+        # we have arrived at the specified depth, or there is no depth specified and we're at the leaf
+        yield apply_operation(fn, values, context, current_path, kwargs)
+    else:
+        for i, v in enumerate(values):
+            yield map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs)
 
 
 def handle_then(context, fn, **kwargs):
@@ -206,7 +221,7 @@ def handle_then(context, fn, **kwargs):
     # in case there are no instances but the rule is applicable (e.g. SPS001),
     # then the rule is still activated and will return either a pass or an error
     # an exception is when the feature tags contain '@not-activation'
-    is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
+    is_activated = any(misc.iflatten(instances)) if instances else context.applicable
     if is_activated and not 'no-activation' in context.tags:
         context.gherkin_outcomes.append(
             ValidationOutcome(
@@ -231,7 +246,7 @@ def handle_then(context, fn, **kwargs):
                 value_path = []
                 for val in misc.get_stack_tree(context)[::-1]:
                     i = 0
-                    while not should_apply(val, 0) and i < len(current_path):
+                    while is_nested(val) and i < len(current_path):
                         val = val[current_path[i]]
                         i += 1
                     value_path.append(val)
@@ -292,22 +307,12 @@ def handle_then(context, fn, **kwargs):
             #     )
             #     context.gherkin_outcomes.append(validation_outcome)
 
-
-        def is_nested(val):
-            return isinstance(val, (tuple, list))
-
-        def should_apply(items, depth):
-            if depth == 0:
-                return not is_nested(items)
-            else:
-                return is_nested(items) and all(should_apply(v, depth-1) for v in items if v is not None)
-
         if context.is_global_rule:
             return apply_then_operation(fn, [items], context, current_path=None, **kwargs)
-        elif (depth is None and should_apply(items, 0)) or depth == current_depth:
+        elif (depth is None and not is_nested(items)) or depth == current_depth:
             return apply_then_operation(fn, items, context, current_path, **kwargs)
         elif depth is None or depth > current_depth:
-            return type(items)(map_then_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(items))
+            return tuple(map_then_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(items))
         else:
             return apply_then_operation(fn, items, context, current_path = None, **kwargs)
 
@@ -416,7 +421,11 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
         case dict():
             # mostly for the pse001 rule, which already yields dicts
             return sanitise_for_json(data)
+        case FrozenDict():
+            return sanitise_for_json(dict(data))
         case set(): # object of type set is not JSONserializable
+            return tuple(data)
+        case frozenset(): # object of type frozenset is not JSONserializable
             return tuple(data)
         case _:
             return {'value': data}

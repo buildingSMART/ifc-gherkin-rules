@@ -111,12 +111,11 @@ def execute_step(fn):
         )
         context.gherkin_outcomes.append(validation_outcome)
 
-        import psutil
-        import tracemalloc
-        tracemalloc.start()
-
-        snap1 = tracemalloc.take_snapshot()
-        print('rss', psutil.Process().memory_info().rss)
+        # import psutil
+        # import tracemalloc
+        # tracemalloc.start()
+        # snap1 = tracemalloc.take_snapshot()
+        # print('rss', psutil.Process().memory_info().rss)
 
         if getattr(context, 'applicable', True):
             step_type = context.step.step_type
@@ -125,10 +124,10 @@ def execute_step(fn):
             elif step_type.lower() == 'then':
                 handle_then(context, fn, **kwargs)
 
-        print('rss', psutil.Process().memory_info().rss)
-        snap2 = tracemalloc.take_snapshot()
-        for stat in snap2.compare_to(snap1, 'lineno')[:20]:
-            print(stat)
+        # print('rss', psutil.Process().memory_info().rss)
+        # snap2 = tracemalloc.take_snapshot()
+        # for stat in snap2.compare_to(snap1, 'lineno')[:20]:
+        #     print(stat)
 
     return inner
 
@@ -234,12 +233,17 @@ def handle_then(context, fn, **kwargs):
             )
         )
 
-    def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
-        # max number of errors to accumulate until processing of then step is terminated
-        MAX_ERROR_COUNT=10
-        total_error_count = 0
+    # max number of errors to accumulate until processing of then step is
+    # truncated by means of returning early in the apply_then_operation() call
+    MAX_OUTCOMES_PER_RULE=int(context.config.userdata.get("MAX_OUTCOMES_PER_RULE", 0))
+    total_outcome_count = 0
 
+    def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
+            nonlocal total_outcome_count
+            if MAX_OUTCOMES_PER_RULE > 0 and total_outcome_count >= MAX_OUTCOMES_PER_RULE:
+                return
+
             if inst is None:
                 return
             if context.is_full_stack_rule:
@@ -265,6 +269,7 @@ def handle_then(context, fn, **kwargs):
                 activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
 
             step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], fn(context, inst=inst, **kwargs) or []))
+            total_outcome_count += len(step_results)
             for result in step_results:
                 displayed_inst_override_trigger = "and display entity instance"
                 displayed_inst_override = displayed_inst_override_trigger in context.step.name.lower()

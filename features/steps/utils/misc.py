@@ -605,8 +605,6 @@ class PackedSequence:
             return self._last_value
         elif self._last_index is not None and idx > self._last_index:
             i = self._last_index + 1
-            if idx != i:
-                breakpoint()
             pos = self._last_struct_pos
         else:
             i = 0

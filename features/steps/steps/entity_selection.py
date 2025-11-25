@@ -20,7 +20,7 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None):
     if entity_opt_stmt == "entity instance":
         instances = context.model
     else:
-        entity = entity_opt_stmt
+        entity = entity_opt_stmt.lower()
 
         match subtype_handling:
             case "without subtypes":
@@ -30,7 +30,9 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None):
             case _:
                 include_subtypes = True
 
-        instances = context.model.by_type(entity, include_subtypes) or []
+        # @todo this better be handled more efficiently in ifcopenshell, but idea here is to prevent
+        # allocating large lists
+        instances = (inst for inst in context.model if ((inst.is_a(entity)) if include_subtypes else (inst.is_a().lower() == entity)))
 
     if instances:
         context.applicable = getattr(context, 'applicable', True)

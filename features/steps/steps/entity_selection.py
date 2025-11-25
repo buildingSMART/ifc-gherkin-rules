@@ -1,3 +1,4 @@
+import itertools
 from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
@@ -34,7 +35,14 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None):
         # allocating large lists
         instances = (inst for inst in context.model if ((inst.is_a(entity)) if include_subtypes else (inst.is_a().lower() == entity)))
 
-    if instances:
+    try:
+        first = next(instances)
+        has_item = True
+        instances = itertools.chain([first], instances)
+    except StopIteration:
+        has_item = False
+
+    if has_item:
         context.applicable = getattr(context, 'applicable', True)
     else:
         context.applicable = False

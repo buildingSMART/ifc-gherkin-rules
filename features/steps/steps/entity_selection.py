@@ -18,7 +18,7 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None):
     """
 
     if entity_opt_stmt == "entity instance":
-        instances = list(context.model)
+        instances = context.model
     else:
         entity = entity_opt_stmt
 

@@ -235,7 +235,7 @@ def handle_then(context, fn, **kwargs):
 
     # max number of errors to accumulate until processing of then step is
     # truncated by means of returning early in the apply_then_operation() call
-    MAX_OUTCOMES_PER_RULE=int(context.config.userdata.get("MAX_OUTCOMES_PER_RULE", 0))
+    MAX_OUTCOMES_PER_RULE=int(context.config.userdata.get("max_outcomes_per_rule", 0))
     total_outcome_count = 0
 
     def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):

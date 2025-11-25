@@ -115,7 +115,7 @@ def execute_step(fn):
         # import tracemalloc
         # tracemalloc.start()
         # snap1 = tracemalloc.take_snapshot()
-        # print('rss', psutil.Process().memory_info().rss)
+        # print('rss', psutil.Process().memory_info().rss, 'peak', psutil.Process().memory_info().peak_wset)
 
         if getattr(context, 'applicable', True):
             step_type = context.step.step_type
@@ -124,7 +124,7 @@ def execute_step(fn):
             elif step_type.lower() == 'then':
                 handle_then(context, fn, **kwargs)
 
-        # print('rss', psutil.Process().memory_info().rss)
+        # print('rss', psutil.Process().memory_info().rss, 'peak', psutil.Process().memory_info().peak_wset)
         # snap2 = tracemalloc.take_snapshot()
         # for stat in snap2.compare_to(snap1, 'lineno')[:20]:
         #     print(stat)

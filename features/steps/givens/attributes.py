@@ -94,8 +94,9 @@ def step_impl(context, inst, attribute, prefix_condition, prefix):
 
 @gherkin_ifc.step("Its value ^{prefix_condition:prefix_condition}^ with '{prefix}'")
 def step_impl(context, inst, prefix_condition, prefix):
-    prefixes = misc.strip_split(prefix, splt=' or ', lower=False) # allow for multiple values, e.g. str must not start with "0 or 1 or 2 or 3" (PSJ003)
-
+    # allow for multiple values, e.g. str must not start with "0 or 1 or 2 or 3" (PSJ003)
+    # convert_num=False: do not convert to integers, because we do a string prefix check
+    prefixes = misc.strip_split(prefix, splt=' or ', lower=False, convert_num=False)
     if attributes.condition_met(
         value = inst,
         condition = prefix_condition, 

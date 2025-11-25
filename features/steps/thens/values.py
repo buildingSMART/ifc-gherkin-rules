@@ -1,4 +1,5 @@
 import csv
+import functools
 import operator
 import re
 import ifcopenshell
@@ -19,15 +20,19 @@ def apply_is_a(inst):
     else:
         return inst.is_a()
 
+@functools.cache
+def read_csv_values(schema, csv_file):
+    dirname = os.path.dirname(__file__)
+    filename =  Path(dirname).parent.parent / "resources" / f"{schema}" /f"{csv_file}.csv"
+    return [row[0] for row in csv.reader(open(filename))]
+
 @gherkin_ifc.step("The {i:value_or_type} must be in '{csv_file}.csv'")
 @gherkin_ifc.step("The {i:values_or_types} must be in '{csv_file}.csv'")
 def step_impl(context, inst, i, csv_file):
     if not inst:
         return []
 
-    dirname = os.path.dirname(__file__)
-    filename =  Path(dirname).parent.parent / "resources" / f"{context.model.schema}" /f"{csv_file}.csv"
-    valid_values = [row[0] for row in csv.reader(open(filename))]
+    valid_values = read_csv_values(context.model.schema, csv_file)
 
     def is_valid_instance(instance):
         if isinstance(instance, ifcopenshell.entity_instance):

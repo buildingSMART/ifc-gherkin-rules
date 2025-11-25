@@ -162,7 +162,7 @@ def handle_given(context, fn, **kwargs):
             # reapply the step as a full in-memory tuple
             context.instances = map_given_state(context.instances, fn, context, **depth_kwarg, **kwargs)
 
-    print('>', getattr(context, 'instances', ()))
+    # print('>', getattr(context, 'instances', ()))
 
 
 def is_nested(val):

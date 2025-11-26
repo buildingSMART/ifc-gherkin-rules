@@ -44,7 +44,8 @@ def step_impl(context, inst, unit_types, comparison_operator, crs_unit_types, cr
     def map_units(units):
         map = {}
         for unit in units:
-            unit_type = getattr(unit, 'UnitType', None)
+            if unit.is_a('IfcNamedUnit')
+                unit_type = unit.UnitType
             if unit_type and unit_type not in map:
                 map[unit_type] = unit
         return map

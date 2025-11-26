@@ -111,23 +111,12 @@ def execute_step(fn):
         )
         context.gherkin_outcomes.append(validation_outcome)
 
-        # import psutil
-        # import tracemalloc
-        # tracemalloc.start()
-        # snap1 = tracemalloc.take_snapshot()
-        # print('rss', psutil.Process().memory_info().rss, 'peak', psutil.Process().memory_info().peak_wset)
-
         if getattr(context, 'applicable', True):
             step_type = context.step.step_type
             if step_type.lower() == 'given': # behave prefers lowercase, but accepts both
                 handle_given(context, fn, **kwargs)
             elif step_type.lower() == 'then':
                 handle_then(context, fn, **kwargs)
-
-        # print('rss', psutil.Process().memory_info().rss, 'peak', psutil.Process().memory_info().peak_wset)
-        # snap2 = tracemalloc.take_snapshot()
-        # for stat in snap2.compare_to(snap1, 'lineno')[:20]:
-        #     print(stat)
 
     return inner
 

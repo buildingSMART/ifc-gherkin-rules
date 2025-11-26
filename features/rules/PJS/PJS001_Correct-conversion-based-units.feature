@@ -11,20 +11,12 @@ Feature: PJS001 - Correct conversion based units
   IFC 2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/FINAL/HTML/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
 
   Background: Selection of conversion-based units in default unit assignment
-    Given an .IfcProject.
-    Given its attribute .UnitsInContext.
     Given an .IfcConversionBasedUnit.
 
-  Scenario: Validating correct names for area, length, and unit
-    Given .UnitType. ^is^ 'AREAUNIT' or 'LENGTHUNIT' or 'VOLUMEUNIT'
-    Given its attribute .Name.
+  Scenario: Validating correct names for area, length, and volume units
+    Given .UnitType. ^is^ 'AREAUNIT' or 'LENGTHUNIT' or 'VOLUMEUNIT' or 'PLANEANGLEUNIT'
+    Then its attribute .Name. must be defined [according to the table] 'valid_ConversionBasedUnits'
 
-    Then the value must be in 'valid_ConversionBasedUnits.csv'
-
-  """
   Scenario: Validating correct conversion factors
-    Given its attribute .ConversionFactor.
-
-    Then the factor must be in 'valid_ConversionBasedUnits.csv'
-  """
+    Then its attribute .ConversionFactor. must be defined [according to the table] 'valid_ConversionBasedUnits'
 

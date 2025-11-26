@@ -14,7 +14,7 @@ then this attribute must be included and must have the value of the scale from t
     Given A model with Schema 'IFC4.3'
     Given An .IfcMapConversion.
     Given There must be at least 1 instance(s) of .<IfcCoordinateReferenceSystem>.
-    Given The <unit> unit(s) of the project ^is not^ equal to the <unit> unit(s) of the .<IfcCoordinateReferenceSystem>.
+    Given The <unit> unit of the project ^is not^ equal to the <unit> unit(s) of the .<IfcCoordinateReferenceSystem>.
     
     Then .Scale. ^is not^ empty
     Then .Scale. ^is not^ 1.0

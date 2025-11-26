@@ -617,17 +617,16 @@ class PackedSequence:
 
         if i == idx:
             value, next_pos = self._decode_subtree(pos)
+            value = self._to_model_instance(value)
 
             self._last_index = i
             self._last_struct_pos = next_pos
             self._last_value = value
 
-            return self._to_model_instance(value)
+            return value
 
-        # Shouldn't reach here
         raise IndexError("index out of range")
 
-    # ---- helpers ----
 
     def to_tuple(self):
         warnings.warn("Don't do this")

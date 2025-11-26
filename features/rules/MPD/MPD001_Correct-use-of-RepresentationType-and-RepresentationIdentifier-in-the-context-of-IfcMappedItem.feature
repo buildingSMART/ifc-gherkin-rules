@@ -5,7 +5,6 @@ Feature: MPD001 - Correct use of RepresentationType and RepresentationIdentifier
 The rule verifies that the shape representations being mapped as part of an IfcMappedItem all have the same
 RepresentationType and that the RepresentationIdentifier correspond to that of the representation that owns the mapped item.
 
-  @E00010
   Scenario: Agreement on the equality of RepresentationIdentifier
 
       Given an .IfcShapeRepresentation.
@@ -19,7 +18,6 @@ RepresentationType and that the RepresentationIdentifier correspond to that of t
       
       Then the value 'ChildIdentifier' must be ^equal to^ the value 'ParentIdentifier'
 
-  @E00060
   Scenario: Agreement on the equality of RepresentationType
 
       Given an .IfcShapeRepresentation.

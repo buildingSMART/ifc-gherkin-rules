@@ -1,7 +1,6 @@
 @implementer-agreement
 @ALS
 @version2
-@E00010
 
 Feature: ALS011 - Alignment segment entity type consistency
 

@@ -1,7 +1,6 @@
 @implementer-agreement
 @GRF
 @version2
-@E00050
 Feature: GRF001 - Identical coordinate operations
 The rule verifies that if multiple instances of IfcGeometricRepresentationContext are provided to the IfcProject, 
 all contexts must share an identical instance of IfcCoordinateOperation, each referring to the same instance of IfcCoordinateReferenceSystem. 

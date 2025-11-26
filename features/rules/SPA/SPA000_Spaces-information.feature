@@ -1,7 +1,6 @@
 @implementer-agreement
 @SPA
 @version1
-@E00020
 
 Feature: SPA000 - Spaces Information
     The rule verifies the presence of IFC entities used to model spaces, such as rooms, hallways, clearance zones, and circulation areas.

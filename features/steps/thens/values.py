@@ -67,7 +67,8 @@ def step_impl(context, inst, unique_or_identical, depth_level=None):
         return
 
     if unique_or_identical == 'identical':
-        if not all([inst[0] == i for i in inst]):
+        flattened = list(filter(None, misc.iflatten(inst)))
+        if not all([flattened[0] == f for f in flattened]):
             yield ValidationOutcome(inst=inst, expected= unique_or_identical, observed = inst, severity=OutcomeSeverity.ERROR)
 
     if unique_or_identical == 'unique':

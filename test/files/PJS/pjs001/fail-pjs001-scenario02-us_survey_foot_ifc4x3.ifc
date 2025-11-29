@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME('fail-pjs001-scenario02_fluid_oz_uk_ifc4x3.ifc','2025-11-18T20:39:40-05:00',(''),(''),'IfcOpenShell 0.0.0','redacted - redacted - 3.14159','Nobody');
+FILE_NAME('fail-pjs001-scenario02-us_survey_foot_ifc4x3.ifc','2025-11-18T20:39:40-05:00',(''),(''),'IfcOpenShell 0.0.0','redacted - redacted - 3.14159','Nobody');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -13,11 +13,11 @@ DATA;
 #6=IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,1.E-05,#5,$);
 #7=IFCGEOMETRICREPRESENTATIONSUBCONTEXT('Body',$,*,*,*,*,#6,$,.MODEL_VIEW.,$);
 
-/* volume unit definition */
-#16=IFCDIMENSIONALEXPONENTS(3,0,0,0,0,0,0);
-#17=IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
-#18=IFCMEASUREWITHUNIT(IFCREAL(28.1337),#17);
-#19=IFCCONVERSIONBASEDUNIT(#16,.VOLUMEUNIT.,'fluid ounce UK',#18);
+/* US survey foot definition */
+#16=IFCDIMENSIONALEXPONENTS(1,0,0,0,0,0,0);
+#17=IFCSIUNIT(*,.LENGTHUNIT.,.MILLI.,.METRE.);
+#18=IFCMEASUREWITHUNIT(IFCREAL(304.8),#17);
+#19=IFCCONVERSIONBASEDUNIT(#16,.LENGTHUNIT.,'US survey foot',#18);
 
 /* unit assignment */
 #20=IFCUNITASSIGNMENT((#19));

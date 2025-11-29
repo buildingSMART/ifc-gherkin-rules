@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0]'),'2;1');
-FILE_NAME('fail-pjs001-scenario02_ft_ifc2x3.ifc','2025-11-18T20:39:40-05:00',(''),(''),'IfcOpenShell 0.0.0','redacted - redacted - 3.14159','Nobody');
+FILE_NAME('fail-pjs001-scenario02-ft_ifc2x3.ifc','2025-11-18T20:39:40-05:00',(''),(''),'IfcOpenShell 0.0.0','redacted - redacted - 3.14159','Nobody');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

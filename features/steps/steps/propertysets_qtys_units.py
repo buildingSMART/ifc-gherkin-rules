@@ -22,7 +22,7 @@ template_type_to_expected = {
     'QTO_OCCURRENCEDRIVEN': 'IfcObject',
 }
 
-@dataclass
+@dataclass(frozen=True,slots=True,kw_only=True,repr=True,eq=True)
 class ConversionBasedUnitDefinition:
     """
     used to hold data from table of conversion-based units defined in the IFC spec
@@ -429,7 +429,7 @@ def step_impl(context, inst, attr_name):
                 inst_si_unit = inst.ConversionFactor.UnitComponent
                 conv_unit_def = ConversionBasedUnitDefinition(**unit_definitions[unit_name])
                 expected_factor = ifcopenshell.util.unit.convert(value=conv_unit_def.ConversionFactor,from_unit=conv_unit_def.SIUnitName,from_prefix=conv_unit_def.SIUnitPrefix,to_unit=inst_si_unit.Name,to_prefix=inst_si_unit.Prefix)
-                if not math.isclose(a=inst_factor, b=expected_factor, rel_tol=1e-06, abs_tol=1e-06):
+                if not math.isclose(a=inst_factor, b=expected_factor, rel_tol=1e-06, abs_tol=0.):
                     yield ValidationOutcome(inst=inst, expected=expected_factor, observed=inst_factor, severity=OutcomeSeverity.ERROR)
             else:
                 print(f"{unit_name=} not found in table")

@@ -39,15 +39,13 @@ class ConversionBasedUnitDefinition:
     Description: str = None
 
 
-@functools.cache
 def load_conversion_unit_def_from_table(table_definition: Dict) -> ConversionBasedUnitDefinition:
     conv_factor = table_definition["ConversionFactor"]
+    si_unit_prefix = table_definition["SIUnitPrefix"]
     if not isinstance(conv_factor, float):
         conv_factor = float(conv_factor)
-    if table_definition['SIUnitPrefix'] == "None":
+    if (si_unit_prefix == "None") or (len(si_unit_prefix) == 0):
         si_unit_prefix = None
-    else:
-        si_unit_prefix = table_definition['SIUnitPrefix']
     if table_definition['Description'] == "None":
         descr = None
     elif table_definition['Description'] and len(table_definition['Description']) == 0:

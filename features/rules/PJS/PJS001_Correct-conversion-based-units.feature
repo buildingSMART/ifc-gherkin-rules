@@ -23,3 +23,20 @@ Feature: PJS001 - Correct conversion based units
   Scenario: Validating correct conversion factors
     Then its attribute .ConversionFactor. must be defined [according to the table] 'valid_ConversionBasedUnits'
 
+  Scenario: Validating that the conversion is based on SI units
+    Given its attribute .ConversionFactor.
+    Given its attribute .UnitComponent.
+    Then [its entity type] ^is^ 'IfcSIUnit'
+
+  Scenario Outline: Validating that the conversion is based on the correct SI unit
+    Given .UnitType. ^is^ '<UnitType>'
+    Given its attribute .ConversionFactor.
+    Given its attribute .UnitComponent.
+    Then the value of attribute .Name. must be '<CorrespondingSIUnit>'
+
+     Examples:
+      | UnitType          | CorrespondingSIUnit   |
+      | AREAUNIT          | SQUARE_METRE          |
+      | LENGTHUNIT        | METRE                 |
+      | VOLUMEUNIT        | CUBIC_METRE           |
+      | PLANEANGLEUNIT    | RADIAN                |

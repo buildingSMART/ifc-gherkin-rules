@@ -22,7 +22,7 @@ template_type_to_expected = {
     'QTO_OCCURRENCEDRIVEN': 'IfcObject',
 }
 
-@dataclass
+@dataclass(frozen=True,slots=True,kw_only=True,repr=True,eq=True)
 class ConversionBasedUnitDefinition:
     """
     used to hold data from table of conversion-based units defined in the IFC spec

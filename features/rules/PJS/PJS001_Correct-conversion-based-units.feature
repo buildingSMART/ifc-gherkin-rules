@@ -10,8 +10,11 @@ Feature: PJS001 - Correct conversion based units
   IFC 4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/FINAL/HTML/schema/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
   IFC 2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/FINAL/HTML/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
 
-  Background: Selection of conversion-based units from model
-    Given an .IfcConversionBasedUnit.
+  Background: Selection of conversion-based units in default unit assignment
+    Given an .IfcProject.
+    Given its attribute .UnitsInContext.
+    Given its attribute .Units.
+    Given [its entity type] ^is^ 'IfcConversionBasedUnit'
 
   Scenario: Validating correct names for area, length, and volume units
     Given .UnitType. ^is^ 'AREAUNIT' or 'LENGTHUNIT' or 'VOLUMEUNIT' or 'PLANEANGLEUNIT'

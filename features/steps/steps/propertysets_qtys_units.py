@@ -6,7 +6,7 @@ import operator
 import os
 import math
 import re
-from typing import List
+from typing import List, Dict
 
 import ifcopenshell
 from ifcopenshell.util.unit import convert
@@ -22,7 +22,8 @@ template_type_to_expected = {
     'QTO_OCCURRENCEDRIVEN': 'IfcObject',
 }
 
-@dataclass(frozen=True,slots=True,kw_only=True,repr=True,eq=True)
+
+@dataclass(frozen=True, slots=True, kw_only=True, repr=True, eq=True)
 class ConversionBasedUnitDefinition:
     """
     used to hold data from table of conversion-based units defined in the IFC spec
@@ -32,24 +33,36 @@ class ConversionBasedUnitDefinition:
     """
     Name: str
     UnitType: str
-    ConversionFactor: str
+    ConversionFactor: float
     SIUnitName: str
     SIUnitPrefix: str = None
     Description: str = None
 
-    def __post_init__(self):
-        # capture π in table definitions
-        if "π" in self.ConversionFactor:
-            denom = self.ConversionFactor.split("/")[-1]
-            self.ConversionFactor = math.pi / float(denom)
-        if not isinstance(self.ConversionFactor, float):
-            self.ConversionFactor = float(self.ConversionFactor)
-        if self.SIUnitPrefix == "None":
-            self.SIUnitPrefix = None
-        if self.Description == "None":
-            self.Description = None
-        if self.Description and len(self.Description) == 0:
-            self.Description = None
+
+@functools.cache
+def load_conversion_unit_def_from_table(table_definition: Dict) -> ConversionBasedUnitDefinition:
+    conv_factor = table_definition["ConversionFactor"]
+    if not isinstance(conv_factor, float):
+        conv_factor = float(conv_factor)
+    if table_definition['SIUnitPrefix'] == "None":
+        si_unit_prefix = None
+    else:
+        si_unit_prefix = table_definition['SIUnitPrefix']
+    if table_definition['Description'] == "None":
+        descr = None
+    elif table_definition['Description'] and len(table_definition['Description']) == 0:
+        descr = None
+    else:
+        descr = table_definition['Description']
+
+    return ConversionBasedUnitDefinition(
+        Name=table_definition["Name"],
+        UnitType=table_definition["UnitType"],
+        ConversionFactor=conv_factor,
+        SIUnitName=table_definition["SIUnitName"],
+        SIUnitPrefix=si_unit_prefix,
+        Description=descr,
+    )
 
 
 @functools.cache
@@ -94,6 +107,7 @@ def upper_case_if_string(v):
     except AttributeError:
         return v
 
+
 @functools.cache
 def get_table_definition(schema, table):
     schema_specific_path = system.get_abs_path(f"resources/{schema.upper()}/{table}.csv")
@@ -104,11 +118,8 @@ def get_table_definition(schema, table):
         tbl_path = system.get_abs_path(f"resources/{table}.csv")
 
     tbl = system.get_csv(tbl_path, return_type='dict')
-    if table == "valid_ConversionBasedUnits":
-        name_key = "Name"
-    else:
-        name_key = "property_set_name"
-    return {d[name_key]: d for d in tbl}
+    return {d["Name"]: d for d in tbl}
+
 
 class AlwaysEqualDict(dict):
     """
@@ -410,6 +421,7 @@ def step_impl(context, inst, table, inst_type=None):
             # if not values:
             #     yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':None}, severity=OutcomeSeverity.ERROR)
 
+
 @gherkin_ifc.step(
     "Its attribute .{attr_name}. must be defined [according to the table] 'valid_ConversionBasedUnits'"
 )
@@ -421,15 +433,22 @@ def step_impl(context, inst, attr_name):
         case "NAME":
             attr_value = getattr(inst, attr_name)
             if attr_value not in accepted_names:
-                yield ValidationOutcome(inst=inst, expected=accepted_names, observed=attr_value, severity=OutcomeSeverity.ERROR)
+                yield ValidationOutcome(inst=inst, expected=accepted_names, observed=attr_value,
+                                        severity=OutcomeSeverity.ERROR)
         case "CONVERSIONFACTOR":
             unit_name = inst.Name
             if unit_name in accepted_names:
                 inst_factor = inst.ConversionFactor.ValueComponent.wrappedValue
                 inst_si_unit = inst.ConversionFactor.UnitComponent
-                conv_unit_def = ConversionBasedUnitDefinition(**unit_definitions[unit_name])
-                expected_factor = ifcopenshell.util.unit.convert(value=conv_unit_def.ConversionFactor,from_unit=conv_unit_def.SIUnitName,from_prefix=conv_unit_def.SIUnitPrefix,to_unit=inst_si_unit.Name,to_prefix=inst_si_unit.Prefix)
+                conv_data = {**unit_definitions[unit_name]}
+                conv_unit_def = load_conversion_unit_def_from_table(conv_data)
+                expected_factor = ifcopenshell.util.unit.convert(value=conv_unit_def.ConversionFactor,
+                                                                 from_unit=conv_unit_def.SIUnitName,
+                                                                 from_prefix=conv_unit_def.SIUnitPrefix,
+                                                                 to_unit=inst_si_unit.Name,
+                                                                 to_prefix=inst_si_unit.Prefix)
                 if not math.isclose(a=inst_factor, b=expected_factor, rel_tol=1e-06, abs_tol=0.):
-                    yield ValidationOutcome(inst=inst, expected=expected_factor, observed=inst_factor, severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected=expected_factor, observed=inst_factor,
+                                            severity=OutcomeSeverity.ERROR)
             else:
                 print(f"{unit_name=} not found in table")

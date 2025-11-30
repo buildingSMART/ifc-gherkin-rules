@@ -1,0 +1,9 @@
+Grid placement (``GDP``)
+========================
+
+The ability to define the placement of a product in relation to a design grid.
+
+.. toctree::
+
+   GDP000_Grid-placement
+

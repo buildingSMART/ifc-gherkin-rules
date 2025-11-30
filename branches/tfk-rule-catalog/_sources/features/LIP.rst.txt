@@ -1,0 +1,10 @@
+Linear placement (``LIP``)
+==========================
+
+The ability to define the placement of a product in relation to a curve.
+
+.. toctree::
+
+   LIP000_Linear-Placement
+   LIP002_Linear-placement-fallback-coordinates
+

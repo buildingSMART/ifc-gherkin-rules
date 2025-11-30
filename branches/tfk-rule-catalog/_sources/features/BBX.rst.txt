@@ -1,0 +1,10 @@
+Bounding box (``BBX``)
+======================
+
+This involves defining an orthogonal box, oriented parallel to the axes of the object coordinate system in which it is defined and containing a geometry object, which defines the spatial extent of the latter.
+
+.. toctree::
+
+   BBX000_Bounding-box
+   BBX001_Bounding-box-shape-representation
+

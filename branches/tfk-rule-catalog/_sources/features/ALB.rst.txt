@@ -1,0 +1,20 @@
+Alignment (``ALB``)
+===================
+
+The ability to define an alignment curve, and its components. These can be used as reference for object placement.
+
+.. toctree::
+
+   ALB000_Alignment-layout
+   ALB002_Alignment-layout-relationships
+   ALB003_Alignment-nesting
+   ALB004_Alignment-in-spatial-structure-relationships
+   ALB005_Positioning-of-referents
+   ALB010_Alignment-nesting-referents
+   ALB012_Alignment-vertical-segment-radius-of-curvature
+   ALB015_Alignment-business-logic-zero-length-final-segment
+   ALB021_Alignment-overall-agreement-of-business-logic-and-geometry
+   ALB022_Alignment-agreement-on-number-of-segments
+   ALB023_Alignment-same-segment-types-in-business-logic-and-geometry
+   ALB030_Alignment-local-placement
+

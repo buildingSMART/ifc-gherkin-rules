@@ -1,0 +1,9 @@
+Presentation layer (``LAY``)
+============================
+
+The ability to assign layers (also known as, CAD layer) to collection of elements. This is used mainly for grouping and visibility control, and in general to organise geometry into groups that may be shown or hidden.
+
+.. toctree::
+
+   LAY000_Presentation-layer-assignment
+

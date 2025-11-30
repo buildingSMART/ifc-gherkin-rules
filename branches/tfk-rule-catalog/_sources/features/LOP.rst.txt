@@ -1,0 +1,9 @@
+Local placement (``LOP``)
+=========================
+
+The ability to define the placement of a product in relation to the placement of another product; or its absolute placement within the geometric representation context of the project.
+
+.. toctree::
+
+   LOP000_Local-placement
+

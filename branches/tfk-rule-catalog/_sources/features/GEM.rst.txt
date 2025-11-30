@@ -1,0 +1,19 @@
+Geometry representation (``GEM``)
+=================================
+
+The ability to represent built elements and spaces using various geometry types, including parametric, mesh, and voxel-based representations.
+
+.. toctree::
+
+   GEM001_Closed-shell-edge-usage
+   GEM002_Space-representation
+   GEM003_Unique-representation-identifier
+   GEM004_Constraints-on-representation-identifiers
+   GEM005_Building-shape-representation
+   GEM011_Curve-segments-consistency
+   GEM051_Presence-of-geometric-context
+   GEM052_Correct-geometric-subcontexts
+   GEM111_No-duplicated-points-within-a-polyloop-or-polyline
+   GEM112_No-duplicated-points-within-an-indexed-poly-curve
+   GEM113_Indexed-poly-curve-arcs-must-not-be-defined-using-colinear-points
+

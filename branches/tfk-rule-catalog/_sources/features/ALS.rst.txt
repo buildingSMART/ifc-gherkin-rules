@@ -1,0 +1,20 @@
+Alignment geometry (``ALS``)
+============================
+
+This involves representing the geometry using a collection of segments that define a linear path in 3D space. This can be useful for representing linear objects such as roads, railways, or pipelines.
+
+.. toctree::
+
+   ALS000_Alignment-geometry
+   ALS004_Alignment-segment-shape-representation
+   ALS005_Alignment-shape-representation
+   ALS006_Alignment-horizontal-shape-representation
+   ALS007_Alignment-vertical-shape-representation
+   ALS008_Alignment-cant-shape-representation
+   ALS010_Alignment-segment-shape-representation-has-the-correct-number-of-items
+   ALS011_Alignment-segment-entity-type-consistency
+   ALS012_Alignment-segment-start-and-length-attribute-types
+   ALS015_Alignment-representation-zero-length-final-segment
+   ALS016_Alignment-horizontal-segment-geometric-continuity
+   ALS017_Alignment-vertical-segment-geometric-continuity
+

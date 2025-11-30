@@ -1,0 +1,9 @@
+Virtual elements (``VRT``)
+==========================
+
+The ability to model special elements providing imaginary, placeholder, or provisional areas (e.g. clearance), volumes, and boundaries.
+
+.. toctree::
+
+   VRT000_Virtual-elements
+

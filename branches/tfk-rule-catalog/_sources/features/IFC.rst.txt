@@ -1,0 +1,11 @@
+IFC (``IFC``)
+=============
+
+Complementary checks to the schema validation, considered prerequisites or fundamental for a valid IFC file. At the moment includes checks on: the validity of the IFC schema version; and the absence of deprecated concepts.
+
+.. toctree::
+
+   IFC101_Only-official-ifc-versions-allowed
+   IFC102_Absence-of-deprecated-entities
+   IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity
+

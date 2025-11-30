@@ -1,0 +1,11 @@
+Boundary Representation (BREP) (``BRP``)
+========================================
+
+This involves representing geometry using a collection of connected surfaces and edges. BREP geometry can be used to represent complex shapes with curved surfaces or unusual topology. BREP geometry can be represented in IFC using IfcFacetedBrep for polygonal meshes or IfcManifoldSolidBrep for more complex solid geometry. These entities can be further described using a collection of geometric representations such as IfcCartesianPoint, IfcPolyLoop, and IfcSurface.
+
+.. toctree::
+
+   BRP001_Polyhedral-IfcFace-boundary-no-self-intersections
+   BRP002_Single-component-in-connected-faceset
+   BRP003_Planar-faces-are-planar
+

@@ -1,0 +1,9 @@
+Spaces (``SPA``)
+================
+
+The ability to model spaces, such as rooms, hallways, clearance zones, and circulation areas.
+
+.. toctree::
+
+   SPA000_Spaces-information
+

@@ -1,0 +1,16 @@
+Spatial breakdown (``SPS``)
+===========================
+
+The ability to define spatial organisation within a building or infrastructure project. This includes the hierarchical relationships between spatial containers, such as buildings within a site, storeys within a building and rooms within a storey.
+
+.. toctree::
+
+   SPS001_Basic-spatial-structure-for-buildings
+   SPS002_Correct-spatial-breakdown
+   SPS003_Correct-containment-of-assemblies
+   SPS004_No-combination-of-containment-and-positioning
+   SPS005_Simultaneous-spatial-relationships
+   SPS006_Elements-referenced-in-Spatial-structures
+   SPS007_Spatial-containment
+   SPS008_Spatial-container-representations
+

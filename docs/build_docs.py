@@ -1,10 +1,25 @@
+import json
 import linecache
 import os
 import shutil
 import subprocess, re
 from collections import defaultdict
+import sys
+
+from paths import (
+    SCRIPT_DIR,
+    REPO_ROOT,
+    DOCS_DIR,
+    FEATURES_DIR,
+    STEPS_DIR,
+    BUILD_DIR,
+    CONF_SRC,
+    FUNCTIONAL_PARTS_JSON,
+)
 
 USAGE_CMD = [
+    sys.executable,
+    "-m",
     "behave",
     "--format=steps.usage",
     "--dry-run",
@@ -12,6 +27,8 @@ USAGE_CMD = [
     "-q",
 ]
 CATALOG_CMD = [
+    sys.executable,
+    "-m",
     "behave",
     "--format=steps.catalog",
     "--dry-run",
@@ -19,8 +36,8 @@ CATALOG_CMD = [
     "-q",
 ]
 
-def run(cmd, **kwargs):
-    proc = subprocess.run(cmd, text=True, capture_output=True, **kwargs)
+def run(cmd):
+    proc = subprocess.run(cmd, text=True, capture_output=True, cwd=REPO_ROOT)
     print(proc.stderr)
     return proc.stdout
 
@@ -93,13 +110,45 @@ def parse_catalog_docs(output):
     return docs
 
 
+def load_functional_parts():
+    """
+    Load functional part metadata from fixtures/functional_parts.json
+    Ideally, the scorecards would load from there
+
+    Expected JSON shape (per entry):
+
+      {
+        "pk": "ALB",
+        "fields": {
+          "name": "Alignment",
+          "description": "...",
+          "created": "...",
+          "parent": "POS",
+          "span": 2,
+          "display_order": 0
+        }
+      }
+    'Parent' and 'created' are ignored for now 
+    to do: also add an 'last updated' based on the last git commit and update the json accordingly?
+    """
+    with open(FUNCTIONAL_PARTS_JSON, encoding="utf-8") as f:
+        data = json.load(f)
+
+    parts = {}
+    for obj in data:
+        code = obj["pk"]
+        fields = obj.get("fields", {})
+        parts[code] = fields
+    return parts
+
 
 def main():
-    usage_output   = run(USAGE_CMD, cwd='..')
-    catalog_output = run(CATALOG_CMD, cwd='..')
+    usage_output  = run(USAGE_CMD)
+    catalog_output = run(CATALOG_CMD)
 
     steps = parse_usage(usage_output)
     docs_map = parse_catalog_docs(catalog_output)
+    functional_parts = load_functional_parts()
 
     by_file = defaultdict(list)
     for s in steps:
@@ -110,41 +159,93 @@ def main():
         for us in s['usages']:
             by_usage[us[2]] = re.sub(r'[^\w]', '', f'{"/".join(s["def_file"].split("/")[2:])}_{s["pattern"]}')
 
-    shutil.rmtree('_docs', ignore_errors=True)
-    
-    os.makedirs("_docs/steps", exist_ok=True)
-    os.makedirs("_docs/features", exist_ok=True)
-    shutil.copyfile('_conf.py', '_docs/conf.py')
+    shutil.rmtree(DOCS_DIR, ignore_errors=True)
+
+    os.makedirs(STEPS_DIR, exist_ok=True)
+    os.makedirs(FEATURES_DIR, exist_ok=True)
+    shutil.copyfile(CONF_SRC, os.path.join(DOCS_DIR, "conf.py"))
 
     all_feature_files = sorted(set(a[2].rsplit(':', 1)[0] for s in steps for a in s['usages']))
 
-    with open("_docs/features/index.rst", "w", encoding='utf-8') as feature_index:
+
+    # ------------------------------------------------------------------
+    # Per-feature pages
+    # ------------------------------------------------------------------
+    for feat in all_feature_files:
+        base = os.path.basename(feat).rsplit('.', 1)[0]
+        
+        disabled = "@disabled" in open(os.path.join(REPO_ROOT, feat), encoding="utf-8").read()
+        with open(os.path.join(FEATURES_DIR, f"{base}.rst"), "w", encoding="utf-8") as feature_file:
+            WARN = '\\( \u26A0 '
+            END_WARN = '\\) \\(disabled\\)'
+            feature_file.write(f"{WARN if disabled else ''}``{base[:6]}`` {base[7:].replace('-', ' ').replace('_', ' ')}{END_WARN if disabled else ''}\n")
+            feature_file.write(f"{'='*200}\n\n")
+            feature_file.write(f".. parsed-literal::\n\n")
+            for ln, st in enumerate(linecache.getlines(os.path.join(REPO_ROOT, feat)), start=1):
+                ref = f"{feat}:{ln}"
+                esc = (
+                    lambda s: s.replace("@", "\\@")
+                    .replace("_", "\\_")
+                    .replace("<", "\\<")
+                    .replace(">", "\\>")
+                )
+                text = esc(st.rstrip())
+                if dd := by_usage.get(ref):
+                    n = len(text)
+                    text = text.lstrip()
+                    ws = " " * (n - len(text))
+                    text = f"{ws}:doc:`{text} </steps/{dd}>`"
+                feature_file.write(f"   {ln:03d} | {text}")
+                feature_file.write("\n")
+
+    # ------------------------------------------------------------------
+    # Group feature bases by functional-part code (first 3 chars, e.g. ALB)
+    # and create one page per functional part.
+    # ------------------------------------------------------------------
+    grouped = defaultdict(list)
+    for feat in all_feature_files:
+        base = os.path.basename(feat).rsplit(".", 1)[0]
+        fp_code = base[:3]
+        grouped[fp_code].append(base)
+
+    def fp_sort_key(fp_code):
+        info = functional_parts.get(fp_code, {})
+        return (info.get("display_order", 9999), fp_code)
+
+    # One .rst file per functional part: Alignment (ALB), etc.
+    for fp_code in sorted(grouped.keys(), key=fp_sort_key):
+        info = functional_parts.get(fp_code, {})
+        name = info.get("name", fp_code)
+        desc = info.get("description", "")
+
+        title = f"{name} (``{fp_code}``)"
+        
+        with open(os.path.join(FEATURES_DIR, f"{fp_code}.rst"), "w", encoding="utf-8") as fp_file:
+            fp_file.write(f"{title}\n")
+            fp_file.write(f"{'=' * len(title)}\n\n")
+
+            if desc:
+                fp_file.write(desc + "\n\n")
+
+            fp_file.write(".. toctree::\n\n")
+            for base in sorted(set(grouped[fp_code])):
+                fp_file.write(f"   {base}\n")
+            fp_file.write("\n")
+
+    # ------------------------------------------------------------------
+    # features/index.rst: toctree of functional-part pages
+    # ------------------------------------------------------------------
+    with open(os.path.join(FEATURES_DIR,"index.rst"), "w", encoding="utf-8") as feature_index:
         feature_index.write("Validation Service Rule Definitions\n")
         feature_index.write("===================================\n\n")
         feature_index.write(".. toctree::\n\n")
-        for feat in all_feature_files:
-            base = os.path.basename(feat).rsplit('.', 1)[0]
-            disabled = '@disabled' in open('../'+feat).read()
-            feature_index.write(f"  {base}\n")
-            with open(f"_docs/features/{base}.rst", "w", encoding='utf-8') as feature_file:
-                WARN = '\\( \u26A0 '
-                END_WARN = '\\) \\(disabled\\)'
-                feature_file.write(f"{WARN if disabled else ''}``{base[:6]}`` {base[7:].replace('-', ' ').replace('_', ' ')}{END_WARN if disabled else ''}\n")
-                feature_file.write(f"{'='*200}\n\n")
-                feature_file.write(f".. parsed-literal::\n\n")
-                for ln, st in enumerate(linecache.getlines('../'+feat), start=1):
-                    ref = f'{feat}:{ln}'
-                    esc = lambda s: s.replace('@', '\\@').replace("_", "\\_").replace("<", "\\<").replace(">", "\\>")
-                    text = esc(st.rstrip())
-                    if dd := by_usage.get(ref):
-                        n = len(text)
-                        text = text.lstrip()
-                        ws = ' ' * (n - len(text))
-                        text = f"{ws}:doc:`{text} </steps/{dd}>`"
-                    feature_file.write(f"   {ln:03d} | {text}")
-                    feature_file.write("\n")
+        for fp_code in sorted(grouped.keys(), key=fp_sort_key):
+            feature_index.write(f"   {fp_code}\n")
 
-    with open("_docs/steps/index.rst", "w") as step_index:
+    # ------------------------------------------------------------------
+    # steps/index.rst
+    # ------------------------------------------------------------------
+    with open(os.path.join(STEPS_DIR,"index.rst"), "w") as step_index:
         step_index.write("Behave Step Implementations\n")
         step_index.write("===========================\n\n")
         step_index.write(".. toctree::\n\n")
@@ -152,7 +253,7 @@ def main():
             fn = re.sub(r'[^\w]', '', f'{"/".join(s["def_file"].split("/")[2:])}_{s["pattern"]}')
             step_index.write(f"  {fn}\n")
         
-            with open(f"_docs/steps/{fn}.rst", "w") as step_doc:
+            with open(os.path.join(STEPS_DIR,f"{fn}.rst"), "w") as step_doc:
                 pat = s['pattern'].replace('{', '``').replace('}', '``')
                 pat = pat.replace(".", "\\ .\\ ")
                 pat = pat.replace("^", "\\ ^\\ ")
@@ -175,7 +276,10 @@ def main():
                     step_doc.write(f" - **{kind}** *{text}*\n\n   :doc:`/features/{os.path.basename(fn).rsplit('.', 1)[0]}`:{ln}\n\n")
                 step_doc.write("\n")
 
-    with open("_docs/index.rst", "w") as main_index:
+    # ------------------------------------------------------------------
+    # main index.rst
+    # ------------------------------------------------------------------
+    with open(os.path.join(DOCS_DIR,"index.rst"), "w") as main_index:
         main_index.write("""
 IFC Gherkin Rules Documentation
 ===============================
@@ -208,7 +312,8 @@ validation service.
                 print(f'     - {"v" if v else ""}{v if v else "n/a"}', file=main_index)
     
     if sb := shutil.which("sphinx-build"):
-        subprocess.run([sb, "_docs", "_build"])
+        subprocess.run([sb, DOCS_DIR,  BUILD_DIR])
+
 
 if __name__ == "__main__":
     main()

@@ -5,7 +5,9 @@ from pathlib import Path
 import sys
 from natsort import natsorted
 
-def git(*args, cwd):
+from paths import REPO_ROOT
+
+def git(*args, cwd=REPO_ROOT):
     out = sp.run(["git", *args], cwd=cwd, check=True, capture_output=True, text=True)
     return out.stdout.strip()
 
@@ -101,14 +103,13 @@ def version_bumps_from_log(file_path, repo):
 
 
 def process_version_info(path):
-    REPO = ".."
    
-    tag_ids = dict(map(reversed, enumerate(all_tags(REPO))))
+    tag_ids = dict(map(reversed, enumerate(all_tags(REPO_ROOT))))
     version_progression = [0] * len(tag_ids)
 
-    intro = introduced_commit(path, REPO)
+    intro = introduced_commit(path, REPO_ROOT)
     try:
-        tag = tags_for_commit(intro, REPO)[0]
+        tag = tags_for_commit(intro, REPO_ROOT)[0]
     except IndexError as e:
         tag = None
     print("Introduced in commit:", intro, tag or 'no tag')
@@ -119,9 +120,9 @@ def process_version_info(path):
         version_progression[tag_ids[tag]:] = [1] * len(to_update)
 
     print("\nVersion bumps:")        
-    for b in reversed(list(version_bumps_from_log(path, REPO))):
+    for b in reversed(list(version_bumps_from_log(path, REPO_ROOT))):
         try:
-            tag = tags_for_commit(b['commit'], REPO)[0]
+            tag = tags_for_commit(b['commit'], REPO_ROOT)[0]
         except IndexError as e:
             tag = None
         print(b, tag or 'no tag')
@@ -130,6 +131,6 @@ def process_version_info(path):
             to_update = version_progression[tag_ids[tag]:]
             version_progression[tag_ids[tag]:] = [b['to']] * len(to_update)
 
-    for t, v in zip(all_tags(REPO), version_progression):
+    for t, v in zip(all_tags(REPO_ROOT), version_progression):
         print(t, f"v{v}" if v else "-")
         yield t, v or None

@@ -12,5 +12,5 @@ STEPS_DIR = os.path.join(DOCS_DIR, "steps")
 BUILD_DIR = os.path.join(SCRIPT_DIR, "_build")
 
 # files
-CONF_SRC = os.path.join(SCRIPT_DIR, "_conf.py")
+CONF_SRC = os.path.join(SCRIPT_DIR, "conf.py")
 FUNCTIONAL_PARTS_JSON = os.path.join(SCRIPT_DIR, "fixtures", "functional_parts.json")

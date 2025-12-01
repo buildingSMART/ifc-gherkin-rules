@@ -102,6 +102,42 @@ def version_bumps_from_log(file_path, repo):
     yield from filter(None, [flush_commit()])
 
 
+def version_events_for_file(path, repo=REPO_ROOT):
+    """
+    Version changes for a rule.
+
+    Each event is a dict:
+      {
+        "version": int,
+        "commit": "sha1...",
+        "tag": "v0.7.8",
+        "date": "YYYY-MM-DD",
+      }
+    """
+    events = []
+
+    for bump in reversed(list(version_bumps_from_log(path, repo))):
+        commit = bump["commit"]
+        to_ver = bump["to"]
+
+        try:
+            tag = tags_for_commit(commit, repo)[0]
+        except IndexError:
+            tag = None
+
+        date = git("show", "-s", "--format=%cd", "--date=short", commit, cwd=repo).strip()
+
+        events.append(
+            {
+                "version": to_ver,
+                "commit": commit,
+                "tag": tag,
+                "date": date,
+            }
+        )
+
+    return events
+
 def process_version_info(path):
    
     tag_ids = dict(map(reversed, enumerate(all_tags(REPO_ROOT))))

@@ -16,6 +16,7 @@ release = '0.7.8'
 
 extensions = [
     'sphinx_rtd_theme',
+    'sphinx.ext.extlinks',
 ]
 
 templates_path = ['_templates']
@@ -29,3 +30,15 @@ html_favicon = '_static/favicon.ico'
 html_theme = 'sphinx_rtd_theme'
 
 myst_links_external_new_tab = True
+
+# -- Custom role for github links -------------------------------------------------
+from docutils import nodes
+from docutils.parsers.rst import roles
+
+def commit_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    sha = text.strip()
+    url = f"https://github.com/buildingSMART/ifc-gherkin-rules/commit/{sha}"
+    node = nodes.reference(rawtext, sha[:8], refuri=url, **options)
+    return [node], []
+
+roles.register_local_role("commit", commit_role)

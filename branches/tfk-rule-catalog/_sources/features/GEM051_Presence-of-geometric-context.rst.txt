@@ -1,4 +1,4 @@
-``GEM051`` Presence of geometric context
+``GEM051`` Presence of geometric context - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -38,3 +38,17 @@
    033 |         | Schema               | Entity     |
    034 |         | 'IFC2X3'             | IfcProject |
    035 |         | 'IFC4' or 'IFC4.3'   | IfcContext |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-08-05
+     - :commit:`c5808bfa00bbfc3cfed53ffc8d92cd3e0ce34491`

@@ -1,4 +1,4 @@
-``ALS005`` Alignment shape representation
+``ALS005`` Alignment shape representation - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -53,3 +53,21 @@
    048 | 
    049 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    050 |     :doc:`Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.1`
+     - 2025-03-08
+     - :commit:`2a11948ed6e598dbe54231ae5246e1fc0b863f28`
+   * - v3
+     - :tag:`v0.7.9`
+     - 2025-08-25
+     - :commit:`376220aa8cbc9fefbd97fbf2abe27f1d072f5132`

@@ -1,4 +1,4 @@
-``ALS004`` Alignment segment shape representation
+``ALS004`` Alignment segment shape representation - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -33,3 +33,17 @@
    028 | 
    029 |             :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    030 |             :doc:`Then [Its entity type] ^is^ 'IfcCurveSegment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.1`
+     - 2025-02-27
+     - :commit:`a900c9723944d2c3998178a8c4c02fb951d19889`

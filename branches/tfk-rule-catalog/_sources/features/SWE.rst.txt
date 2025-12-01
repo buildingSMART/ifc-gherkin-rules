@@ -5,6 +5,8 @@ This involves taking a 2D shape (often called the "profile") and moving it along
 
 .. toctree::
 
+   :titlesonly:
+
    SWE001_Arbitrary-profile-boundary-no-self-intersections
    SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used
 

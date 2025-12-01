@@ -1,4 +1,4 @@
-\( ⚠ ``SPS004`` No combination of containment and positioning\) \(disabled\)
+\( ⚠ ``SPS004`` No combination of containment and positioning - v1\) \(disabled\)
 ========================================================================================================================================================================================================
 
 .. parsed-literal::

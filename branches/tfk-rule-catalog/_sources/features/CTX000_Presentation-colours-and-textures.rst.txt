@@ -1,4 +1,4 @@
-``CTX000`` Presentation colours and textures
+``CTX000`` Presentation colours and textures - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -40,3 +40,17 @@
    035 | 
    036 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
    037 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.1`
+     - 2025-03-10
+     - :commit:`71e902faec41126ac3ad101978db41f6c95355e3`

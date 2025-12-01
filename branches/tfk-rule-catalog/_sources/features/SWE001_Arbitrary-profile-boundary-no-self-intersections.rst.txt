@@ -1,4 +1,4 @@
-``SWE001`` Arbitrary profile boundary no self intersections
+``SWE001`` Arbitrary profile boundary no self intersections - v4
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -25,3 +25,25 @@
    020 |     :doc:`Given Its attribute .InnerCurves. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    021 | 
    022 |     :doc:`Then There must be no self-intersections </steps/thensgeometrypy_Theremustbenoselfintersections>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.12`
+     - 2025-02-12
+     - :commit:`b06b48590861044fdb52e9b5c6850a71409c8bd1`
+   * - v3
+     - :tag:`v0.7.3`
+     - 2025-03-31
+     - :commit:`6a1b8604dcf20ecaf9a6498582f5d4e6d4e91e42`
+   * - v4
+     - :tag:`v0.8.1`
+     - 2025-09-15
+     - :commit:`f44240213e57c425e95e66a407dce9c3543d938e`

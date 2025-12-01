@@ -5,6 +5,8 @@ This involves representing geometry using a collection of connected surfaces and
 
 .. toctree::
 
+   :titlesonly:
+
    BRP001_Polyhedral-IfcFace-boundary-no-self-intersections
    BRP002_Single-component-in-connected-faceset
    BRP003_Planar-faces-are-planar

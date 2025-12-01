@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BRP003 Planar faces are planar &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>BRP003 Planar faces are planar - v2 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Classification reference (CLS)" href="CLS.html" />
-    <link rel="prev" title="BRP002 Single component in connected faceset" href="BRP002_Single-component-in-connected-faceset.html" /> 
+    <link rel="prev" title="BRP002 Single component in connected faceset - v2" href="BRP002_Single-component-in-connected-faceset.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,9 +53,9 @@
 <li class="toctree-l2"><a class="reference internal" href="BBX.html">Bounding box (<code class="docutils literal notranslate"><span class="pre">BBX</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="BLT.html">Built elements (<code class="docutils literal notranslate"><span class="pre">BLT</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="BRP.html">Boundary Representation (BREP) (<code class="docutils literal notranslate"><span class="pre">BRP</span></code>)</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="BRP001_Polyhedral-IfcFace-boundary-no-self-intersections.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">BRP001</span></code> Polyhedral IfcFace boundary no self intersections) (disabled)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BRP002_Single-component-in-connected-faceset.html"><code class="docutils literal notranslate"><span class="pre">BRP002</span></code> Single component in connected faceset</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">BRP003</span></code> Planar faces are planar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BRP001_Polyhedral-IfcFace-boundary-no-self-intersections.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">BRP001</span></code> Polyhedral IfcFace boundary no self intersections - v2) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BRP002_Single-component-in-connected-faceset.html"><code class="docutils literal notranslate"><span class="pre">BRP002</span></code> Single component in connected faceset - v2</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">BRP003</span></code> Planar faces are planar - v2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="CLS.html">Classification reference (<code class="docutils literal notranslate"><span class="pre">CLS</span></code>)</a></li>
@@ -103,7 +103,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="BRP.html">Boundary Representation (BREP) (<code class="docutils literal notranslate"><span class="pre">BRP</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">BRP003</span></code> Planar faces are planar</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">BRP003</span></code> Planar faces are planar - v2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/BRP003_Planar-faces-are-planar.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -113,8 +113,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="brp003-planar-faces-are-planar">
-<h1><code class="docutils literal notranslate"><span class="pre">BRP003</span></code> Planar faces are planar<a class="headerlink" href="#brp003-planar-faces-are-planar" title="Link to this heading"></a></h1>
+  <section id="brp003-planar-faces-are-planar-v2">
+<h1><code class="docutils literal notranslate"><span class="pre">BRP003</span></code> Planar faces are planar - v2<a class="headerlink" href="#brp003-planar-faces-are-planar-v2" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;informal-proposition
 002 | &#64;BRP
 003 | &#64;version2
@@ -126,13 +126,30 @@
 009 |
 010 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling.html"><span class="doc">Given an .IfcFace. ^without subtypes^</span></a>
 011 |     <a class="reference internal" href="../steps/thensgeometrypy_theboundariesofthefacemustconformtotheimplicitplanefittedthroughtheboundarypoints.html"><span class="doc">Then the boundaries of the face must conform to the implicit plane fitted through the boundary points</span></a></pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.7.3">v0.7.3</a></p></td>
+<td><p>2025-03-26</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/bd223025d8e2441af524165c7b9b24f88800449b">bd223025</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="BRP002_Single-component-in-connected-faceset.html" class="btn btn-neutral float-left" title="BRP002 Single component in connected faceset" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="BRP002_Single-component-in-connected-faceset.html" class="btn btn-neutral float-left" title="BRP002 Single component in connected faceset - v2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="CLS.html" class="btn btn-neutral float-right" title="Classification reference (CLS)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

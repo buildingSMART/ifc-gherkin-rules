@@ -5,5 +5,7 @@ This involves representing the geometry using a set of axes, where each axis con
 
 .. toctree::
 
+   :titlesonly:
+
    AXG000_Axis-Geometry
 

@@ -1,4 +1,4 @@
-``SPS002`` Correct spatial breakdown
+``SPS002`` Correct spatial breakdown - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -24,3 +24,21 @@
    019 |     :doc:`Given An .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    020 | 
    021 |     :doc:`Then It must be aggregated as per spatial\_CompositionTable.csv </steps/thensrelationspy_Itmustberelationshipaspertable>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-07-11
+     - :commit:`7686282999419c5449e15dd5b8f2e843e83287c9`
+   * - v3
+     - :tag:`v0.6.11`
+     - 2025-02-01
+     - :commit:`4e1884be5d3315a5f1b7d4fd2b4d309f211d2411`

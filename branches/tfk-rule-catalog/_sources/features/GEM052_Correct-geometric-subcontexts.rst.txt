@@ -1,4 +1,4 @@
-``GEM052`` Correct geometric subcontexts
+``GEM052`` Correct geometric subcontexts - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -34,3 +34,17 @@
    029 |         :doc:`Given An .IfcGeometricRepresentationSubContext. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    030 | 
    031 |         :doc:`Then .ContextIdentifier. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-08-05
+     - :commit:`c5808bfa00bbfc3cfed53ffc8d92cd3e0ce34491`

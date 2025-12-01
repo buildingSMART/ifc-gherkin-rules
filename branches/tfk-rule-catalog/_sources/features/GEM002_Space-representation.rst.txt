@@ -1,4 +1,4 @@
-``GEM002`` Space representation
+``GEM002`` Space representation - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -24,3 +24,17 @@
    019 |     :doc:`Given The Body shape representation has RepresentationType "Brep" </steps/stepsrepresentationpy_Therepresentation_idshaperepresentationhasRepresentationTyperepresentation_type>`
    020 | 
    021 |     :doc:`Then There must be one FootPrint shape representation </steps/thensexistencepy_Theremustbeonerepresentation_idshaperepresentation>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.6`
+     - 2025-04-30
+     - :commit:`fa2476c1bec25fe70c4a8cfc48cf38fc31853752`

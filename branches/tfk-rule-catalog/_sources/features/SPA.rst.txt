@@ -5,5 +5,7 @@ The ability to model spaces, such as rooms, hallways, clearance zones, and circu
 
 .. toctree::
 
+   :titlesonly:
+
    SPA000_Spaces-information
 

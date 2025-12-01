@@ -1,4 +1,4 @@
-``ALB015`` Alignment business logic zero length final segment
+``ALB015`` Alignment business logic zero length final segment - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -34,3 +34,17 @@
    029 |     :doc:`Given Its final element at depth 1 </steps/givensattributespy_Itsfirst_or_finalfirst_or_finalelementatdepthignoredd>`
    030 |     :doc:`Given Its attribute .DesignParameters. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    031 |     :doc:`Then The HorizontalLength of the IfcAlignmentCantSegment must be 0 </steps/thensattributespy_Thelength_attributeofthesegment_typemustbe0>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-04-30
+     - :commit:`321a46ccd808c0b20145458e99965290cc0cc845`

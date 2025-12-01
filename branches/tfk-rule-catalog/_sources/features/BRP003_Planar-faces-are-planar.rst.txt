@@ -1,4 +1,4 @@
-``BRP003`` Planar faces are planar
+``BRP003`` Planar faces are planar - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -14,3 +14,17 @@
    009 | 
    010 |     :doc:`Given an .IfcFace. ^without subtypes^ </steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling>`
    011 |     :doc:`Then the boundaries of the face must conform to the implicit plane fitted through the boundary points </steps/thensgeometrypy_theboundariesofthefacemustconformtotheimplicitplanefittedthroughtheboundarypoints>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.3`
+     - 2025-03-26
+     - :commit:`bd223025d8e2441af524165c7b9b24f88800449b`

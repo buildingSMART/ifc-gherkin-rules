@@ -5,6 +5,8 @@ Complementary checks to the schema validation, considered prerequisites or funda
 
 .. toctree::
 
+   :titlesonly:
+
    IFC101_Only-official-ifc-versions-allowed
    IFC102_Absence-of-deprecated-entities
    IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity

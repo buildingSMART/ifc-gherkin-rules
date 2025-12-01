@@ -5,6 +5,8 @@ This involves representing the geometry using a collection of segments that defi
 
 .. toctree::
 
+   :titlesonly:
+
    ALS000_Alignment-geometry
    ALS004_Alignment-segment-shape-representation
    ALS005_Alignment-shape-representation

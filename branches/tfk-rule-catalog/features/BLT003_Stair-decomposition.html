@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BLT003 Stair decomposition &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>BLT003 Stair decomposition - v2 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Boundary Representation (BREP) (BRP)" href="BRP.html" />
-    <link rel="prev" title="BLT002 Correct use of partitioning type attributes for windows" href="BLT002_Correct-use-of-partitioning-type-attributes-for-windows.html" /> 
+    <link rel="prev" title="BLT002 Correct use of partitioning type attributes for windows - v1" href="BLT002_Correct-use-of-partitioning-type-attributes-for-windows.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,10 +52,10 @@
 <li class="toctree-l2"><a class="reference internal" href="AXG.html">Axis geometry (<code class="docutils literal notranslate"><span class="pre">AXG</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="BBX.html">Bounding box (<code class="docutils literal notranslate"><span class="pre">BBX</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="BLT.html">Built elements (<code class="docutils literal notranslate"><span class="pre">BLT</span></code>)</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="BLT000_Built-elements.html"><code class="docutils literal notranslate"><span class="pre">BLT000</span></code> Built elements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BLT001_Correct-use-of-operation-type-attributes-for-doors.html"><code class="docutils literal notranslate"><span class="pre">BLT001</span></code> Correct use of operation type attributes for doors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BLT002_Correct-use-of-partitioning-type-attributes-for-windows.html"><code class="docutils literal notranslate"><span class="pre">BLT002</span></code> Correct use of partitioning type attributes for windows</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">BLT003</span></code> Stair decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BLT000_Built-elements.html"><code class="docutils literal notranslate"><span class="pre">BLT000</span></code> Built elements - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BLT001_Correct-use-of-operation-type-attributes-for-doors.html"><code class="docutils literal notranslate"><span class="pre">BLT001</span></code> Correct use of operation type attributes for doors - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BLT002_Correct-use-of-partitioning-type-attributes-for-windows.html"><code class="docutils literal notranslate"><span class="pre">BLT002</span></code> Correct use of partitioning type attributes for windows - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">BLT003</span></code> Stair decomposition - v2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="BRP.html">Boundary Representation (BREP) (<code class="docutils literal notranslate"><span class="pre">BRP</span></code>)</a></li>
@@ -104,7 +104,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="BLT.html">Built elements (<code class="docutils literal notranslate"><span class="pre">BLT</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">BLT003</span></code> Stair decomposition</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">BLT003</span></code> Stair decomposition - v2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/BLT003_Stair-decomposition.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -114,8 +114,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="blt003-stair-decomposition">
-<h1><code class="docutils literal notranslate"><span class="pre">BLT003</span></code> Stair decomposition<a class="headerlink" href="#blt003-stair-decomposition" title="Link to this heading"></a></h1>
+  <section id="blt003-stair-decomposition-v2">
+<h1><code class="docutils literal notranslate"><span class="pre">BLT003</span></code> Stair decomposition - v2<a class="headerlink" href="#blt003-stair-decomposition-v2" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;BLT
 002 | &#64;industry-practice
 003 | &#64;version2
@@ -129,13 +129,30 @@
 011 |
 012 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcStair.</span></a>
 013 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustberelationshipaspertable.html"><span class="doc">Then It must be aggregated as per stair_CompositionTable.csv</span></a></pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
+<td><p>2024-08-05</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/f7bf1a277301d9f0fbb3cacb5b97a5b871e488de">f7bf1a27</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="BLT002_Correct-use-of-partitioning-type-attributes-for-windows.html" class="btn btn-neutral float-left" title="BLT002 Correct use of partitioning type attributes for windows" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="BLT002_Correct-use-of-partitioning-type-attributes-for-windows.html" class="btn btn-neutral float-left" title="BLT002 Correct use of partitioning type attributes for windows - v1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="BRP.html" class="btn btn-neutral float-right" title="Boundary Representation (BREP) (BRP)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

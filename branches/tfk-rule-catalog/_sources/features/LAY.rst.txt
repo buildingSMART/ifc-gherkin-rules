@@ -5,5 +5,7 @@ The ability to assign layers (also known as, CAD layer) to collection of element
 
 .. toctree::
 
+   :titlesonly:
+
    LAY000_Presentation-layer-assignment
 

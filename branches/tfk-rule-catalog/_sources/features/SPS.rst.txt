@@ -5,6 +5,8 @@ The ability to define spatial organisation within a building or infrastructure p
 
 .. toctree::
 
+   :titlesonly:
+
    SPS001_Basic-spatial-structure-for-buildings
    SPS002_Correct-spatial-breakdown
    SPS003_Correct-containment-of-assemblies

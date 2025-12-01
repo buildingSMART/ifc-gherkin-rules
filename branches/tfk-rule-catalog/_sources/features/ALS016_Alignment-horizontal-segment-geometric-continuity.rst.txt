@@ -1,4 +1,4 @@
-``ALS016`` Alignment horizontal segment geometric continuity
+``ALS016`` Alignment horizontal segment geometric continuity - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -36,3 +36,21 @@
    031 | Scenario: Geometric continuity in tangency
    032 | 
    033 |   :doc:`Then Each segment must have geometric continuity in ^tangency^ </steps/thensalignmentpy_Eachsegmentmusthavegeometriccontinuityincontinuity_typecontinuity_type>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.5`
+     - 2025-04-23
+     - :commit:`7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5`
+   * - v3
+     - :tag:`v0.7.7`
+     - 2025-06-25
+     - :commit:`113e0f246e0b5c13a2918173bc603e681b0b8701`

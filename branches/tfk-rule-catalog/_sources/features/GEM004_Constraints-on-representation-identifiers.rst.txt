@@ -1,4 +1,4 @@
-``GEM004`` Constraints on representation identifiers
+``GEM004`` Constraints on representation identifiers - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -40,3 +40,21 @@
    035 |       :doc:`Given Its attribute .RepresentationType. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    036 | 
    037 |       :doc:`Then The values must be in 'valid\_TopologyRepresentationType.csv' </steps/thensvaluespy_Theivalues_or_typesmustbeincsv_filecsv>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-04-18
+     - :commit:`be4d7373b16a27c5cfec1830530ff0b233a7dfa4`
+   * - v3
+     - :tag:`v0.6.8`
+     - 2024-10-31
+     - :commit:`ef196247623df681aa64cb82f3efcfc7ca9ec1f9`

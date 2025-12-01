@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PSE001 Standard properties and property sets validation &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>PSE001 Standard properties and property sets validation - v3 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="PSE002 Custom properties and property sets validation" href="PSE002_Custom-properties-and-property-sets-validation.html" />
+    <link rel="next" title="PSE002 Custom properties and property sets validation - v1" href="PSE002_Custom-properties-and-property-sets-validation.html" />
     <link rel="prev" title="Properties for object (PSE)" href="PSE.html" /> 
 </head>
 
@@ -69,8 +69,8 @@
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="POR.html">Ports Connectivity &amp; Nesting (<code class="docutils literal notranslate"><span class="pre">POR</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="PSE.html">Properties for object (<code class="docutils literal notranslate"><span class="pre">PSE</span></code>)</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">PSE001</span></code> Standard properties and property sets validation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PSE002_Custom-properties-and-property-sets-validation.html"><code class="docutils literal notranslate"><span class="pre">PSE002</span></code> Custom properties and property sets validation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">PSE001</span></code> Standard properties and property sets validation - v3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PSE002_Custom-properties-and-property-sets-validation.html"><code class="docutils literal notranslate"><span class="pre">PSE002</span></code> Custom properties and property sets validation - v1</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="QTY.html">Quantities for objects (<code class="docutils literal notranslate"><span class="pre">QTY</span></code>)</a></li>
@@ -102,7 +102,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="PSE.html">Properties for object (<code class="docutils literal notranslate"><span class="pre">PSE</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">PSE001</span></code> Standard properties and property sets validation</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">PSE001</span></code> Standard properties and property sets validation - v3</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/PSE001_Standard-properties-and-property-sets-validation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -112,8 +112,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pse001-standard-properties-and-property-sets-validation">
-<h1><code class="docutils literal notranslate"><span class="pre">PSE001</span></code> Standard properties and property sets validation<a class="headerlink" href="#pse001-standard-properties-and-property-sets-validation" title="Link to this heading"></a></h1>
+  <section id="pse001-standard-properties-and-property-sets-validation-v3">
+<h1><code class="docutils literal notranslate"><span class="pre">PSE001</span></code> Standard properties and property sets validation - v3<a class="headerlink" href="#pse001-standard-properties-and-property-sets-validation-v3" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;PSE
 003 | &#64;version3
@@ -150,6 +150,28 @@
 034 |
 035 |         <a class="reference internal" href="../steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantityvaluemustbeofvaliddatatypeaccordingtothetabletable.html"><span class="doc">Then Each associated .IfcProperty. value must be of valid data type [according to the table] 'pset_definitions'</span></a>
 036 |</pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
+<td><p>2024-05-13</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/8bca3ddaeb5defcc307d9e2aca6a9449363d76c4">8bca3dda</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v3</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.7.1">v0.7.1</a></p></td>
+<td><p>2025-02-27</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/8f4976cba3bc740263ce20838b089f5f896fc813">8f4976cb</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
@@ -157,7 +179,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="PSE.html" class="btn btn-neutral float-left" title="Properties for object (PSE)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="PSE002_Custom-properties-and-property-sets-validation.html" class="btn btn-neutral float-right" title="PSE002 Custom properties and property sets validation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="PSE002_Custom-properties-and-property-sets-validation.html" class="btn btn-neutral float-right" title="PSE002 Custom properties and property sets validation - v1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

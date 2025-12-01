@@ -1,4 +1,4 @@
-``GEM111`` No duplicated points within a polyloop or polyline
+``GEM111`` No duplicated points within a polyloop or polyline - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::

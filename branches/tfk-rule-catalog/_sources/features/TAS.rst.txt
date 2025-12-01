@@ -5,5 +5,7 @@ This involves representing geometry using a collection of interconnected vertice
 
 .. toctree::
 
+   :titlesonly:
+
    TAS001_Polygonal-face-boundary-no-self-intersections
 

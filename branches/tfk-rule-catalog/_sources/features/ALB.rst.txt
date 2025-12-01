@@ -5,6 +5,8 @@ The ability to define an alignment curve, and its components. These can be used 
 
 .. toctree::
 
+   :titlesonly:
+
    ALB000_Alignment-layout
    ALB002_Alignment-layout-relationships
    ALB003_Alignment-nesting

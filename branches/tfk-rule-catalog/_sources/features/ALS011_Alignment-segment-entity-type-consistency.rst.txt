@@ -1,4 +1,4 @@
-``ALS011`` Alignment segment entity type consistency
+``ALS011`` Alignment segment entity type consistency - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -66,3 +66,17 @@
    061 |     | entity            |
    062 |     | IfcGradientCurve  |
    063 |     | IfcSegmentedReferenceCurve |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.7`
+     - 2025-06-25
+     - :commit:`c895611be5667c980b3941b705cfc67e39e18ef7`

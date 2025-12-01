@@ -1,4 +1,4 @@
-``ALS007`` Alignment vertical shape representation
+``ALS007`` Alignment vertical shape representation - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -36,3 +36,21 @@
    031 |       :doc:`Then The value must be 'Curve3D' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
    032 | 
    033 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-02-14
+     - :commit:`93b0770a8c57926ed681b09273c41cdaf62870d6`
+   * - v3
+     - :tag:`v0.6.6`
+     - 2024-04-08
+     - :commit:`722f3e1f08d6a382c215d74e68b68ac603d1f548`

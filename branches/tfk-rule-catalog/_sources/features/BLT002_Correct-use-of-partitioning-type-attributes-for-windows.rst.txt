@@ -1,4 +1,4 @@
-``BLT002`` Correct use of partitioning type attributes for windows
+``BLT002`` Correct use of partitioning type attributes for windows - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::

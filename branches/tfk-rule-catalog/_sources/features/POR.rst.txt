@@ -5,5 +5,7 @@ The ability to define ports (as means for an element to connect to other element
 
 .. toctree::
 
+   :titlesonly:
+
    POR000_Port-connectivity-and-nesting
 

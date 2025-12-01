@@ -1,4 +1,4 @@
-``GRF001`` Identical coordinate operations
+``GRF001`` Identical coordinate operations - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -21,3 +21,17 @@
    016 |     :doc:`Given Its values excluding SourceCRS </steps/givensvaluespy_Itsvaluesexcludingexcluding>`
    017 | 
    018 |     :doc:`Then The values must be identical at depth 0 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.5`
+     - 2025-04-23
+     - :commit:`7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5`

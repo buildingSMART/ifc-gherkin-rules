@@ -5,5 +5,7 @@ The ability to define the placement of a product in relation to the placement of
 
 .. toctree::
 
+   :titlesonly:
+
    LOP000_Local-placement
 

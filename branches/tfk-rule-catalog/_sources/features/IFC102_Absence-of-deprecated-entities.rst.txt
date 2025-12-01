@@ -1,4 +1,4 @@
-``IFC102`` Absence of deprecated entities
+``IFC102`` Absence of deprecated entities - v5
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -334,3 +334,29 @@
    329 |     :doc:`Given an .IfcPropertySet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    330 | 
    331 |     :doc:`Then .Name. ^is not^ 'Pset\_Draughting' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-08-08
+     - :commit:`268f8a0d4c04303d0c8bea9d11f397cb7eaf0c85`
+   * - v3
+     - :tag:`v0.6.7`
+     - 2024-09-20
+     - :commit:`15ca2302f7b989951c90093bf561b0a7390ef0a0`
+   * - v4
+     - :tag:`v0.6.8`
+     - 2024-10-31
+     - :commit:`890fd0eaaff01ee488534f4c2761314690bd473b`
+   * - v5
+     - :tag:`v0.6.8`
+     - 2024-10-31
+     - :commit:`1ea16524353888a587086a0830cba8c6d08b90ec`

@@ -5,5 +5,7 @@ The ability to model elements composed of / constructed by other elements. For e
 
 .. toctree::
 
+   :titlesonly:
+
    ASM000_Composed-elements
 

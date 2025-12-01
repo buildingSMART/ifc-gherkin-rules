@@ -1,4 +1,4 @@
-``PSE001`` Standard properties and property sets validation
+``PSE001`` Standard properties and property sets validation - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -39,3 +39,21 @@
    034 | 
    035 |         :doc:`Then Each associated .IfcProperty. value must be of valid data type [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantityvaluemustbeofvaliddatatypeaccordingtothetabletable>`
    036 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-05-13
+     - :commit:`8bca3ddaeb5defcc307d9e2aca6a9449363d76c4`
+   * - v3
+     - :tag:`v0.7.1`
+     - 2025-02-27
+     - :commit:`8f4976cba3bc740263ce20838b089f5f896fc813`

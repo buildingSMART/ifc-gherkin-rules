@@ -5,5 +5,7 @@ The ability to assign colour, texture and other presentation appearance informat
 
 .. toctree::
 
+   :titlesonly:
+
    CTX000_Presentation-colours-and-textures
 

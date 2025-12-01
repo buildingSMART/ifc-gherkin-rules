@@ -5,6 +5,8 @@ The ability to represent built elements and spaces using various geometry types,
 
 .. toctree::
 
+   :titlesonly:
+
    GEM001_Closed-shell-edge-usage
    GEM002_Space-representation
    GEM003_Unique-representation-identifier

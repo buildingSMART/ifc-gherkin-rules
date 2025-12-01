@@ -5,5 +5,7 @@ The ability to classify elements, materials, and systems according to various cl
 
 .. toctree::
 
+   :titlesonly:
+
    CLS000_Classification-association
 

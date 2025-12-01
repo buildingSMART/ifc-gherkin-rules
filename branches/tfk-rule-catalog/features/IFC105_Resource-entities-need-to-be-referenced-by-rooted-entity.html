@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IFC105 Resource entities need to be referenced by rooted entity &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>IFC105 Resource entities need to be referenced by rooted entity - v3 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Presentation layer (LAY)" href="LAY.html" />
-    <link rel="prev" title="IFC102 Absence of deprecated entities" href="IFC102_Absence-of-deprecated-entities.html" /> 
+    <link rel="prev" title="IFC102 Absence of deprecated entities - v5" href="IFC102_Absence-of-deprecated-entities.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -60,9 +60,9 @@
 <li class="toctree-l2"><a class="reference internal" href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="GRP.html">Groups (<code class="docutils literal notranslate"><span class="pre">GRP</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="IFC101_Only-official-ifc-versions-allowed.html"><code class="docutils literal notranslate"><span class="pre">IFC101</span></code> Only official ifc versions allowed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="IFC102_Absence-of-deprecated-entities.html"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="IFC101_Only-official-ifc-versions-allowed.html"><code class="docutils literal notranslate"><span class="pre">IFC101</span></code> Only official ifc versions allowed - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="IFC102_Absence-of-deprecated-entities.html"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v5</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity - v3</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="LAY.html">Presentation layer (<code class="docutils literal notranslate"><span class="pre">LAY</span></code>)</a></li>
@@ -103,7 +103,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity - v3</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -113,8 +113,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ifc105-resource-entities-need-to-be-referenced-by-rooted-entity">
-<h1><code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity<a class="headerlink" href="#ifc105-resource-entities-need-to-be-referenced-by-rooted-entity" title="Link to this heading"></a></h1>
+  <section id="ifc105-resource-entities-need-to-be-referenced-by-rooted-entity-v3">
+<h1><code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity - v3<a class="headerlink" href="#ifc105-resource-entities-need-to-be-referenced-by-rooted-entity-v3" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;IFC
 002 | &#64;version3
 003 | &#64;E00030
@@ -131,13 +131,40 @@
 014 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .entity instance.</span></a>
 015 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [its entity type] ^is not^ 'IfcRoot'</span></a>
 016 |     <a class="reference internal" href="../steps/thensrelationspy_itmustbereferencedbyanentityinstanceinheritingfromIfcRootdirectlyorindirectly.html"><span class="doc">Then it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly</span></a></pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v1</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.11">v0.6.11</a></p></td>
+<td><p>2024-12-20</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/e9205d7e7b245959287989827ae5691199073c5a">e9205d7e</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.7.0">v0.7.0</a></p></td>
+<td><p>2025-02-15</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/a96f1891eb55eec59cf73842b278c835ef4c72fa">a96f1891</a></p></td>
+</tr>
+<tr class="row-even"><td><p>v3</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.7.1">v0.7.1</a></p></td>
+<td><p>2025-03-04</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/79d0fe87a7752aa7ea2d6ef5fa449f5c630102af">79d0fe87</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="IFC102_Absence-of-deprecated-entities.html" class="btn btn-neutral float-left" title="IFC102 Absence of deprecated entities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="IFC102_Absence-of-deprecated-entities.html" class="btn btn-neutral float-left" title="IFC102 Absence of deprecated entities - v5" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="LAY.html" class="btn btn-neutral float-right" title="Presentation layer (LAY)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

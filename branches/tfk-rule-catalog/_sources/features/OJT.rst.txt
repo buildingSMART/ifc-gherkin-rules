@@ -5,5 +5,7 @@ The ability to define elements (and unfortunately not systems) based on their ty
 
 .. toctree::
 
+   :titlesonly:
+
    OJT001_Object-predefined-type
 

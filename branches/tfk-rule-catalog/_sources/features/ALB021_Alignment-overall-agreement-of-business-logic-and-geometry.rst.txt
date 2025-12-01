@@ -1,4 +1,4 @@
-``ALB021`` Alignment overall agreement of business logic and geometry
+``ALB021`` Alignment overall agreement of business logic and geometry - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -26,3 +26,17 @@
    021 | 
    022 | Scenario: Validating the absence of cant layout for IfcGradientCurve
    023 |   :doc:`Then A representation by .IfcGradientCurve. requires the ^absence^ of .IfcAlignmentCant. in the business logic </steps/thensalignmentpy_Arepresentationbyifc_rep_criteriarequirestheexistenceabsence_or_presenceoflogic_entityinthebusinesslogic>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.8.0`
+     - 2025-08-28
+     - :commit:`9cefddf80b5ba198e769c6717f39ed3737563ac8`

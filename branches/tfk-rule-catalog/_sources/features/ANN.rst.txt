@@ -5,5 +5,7 @@ The ability to add annotations to elements and spaces, such as labels, notes, an
 
 .. toctree::
 
+   :titlesonly:
+
    ANN000_Annotations
 

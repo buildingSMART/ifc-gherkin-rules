@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SWE001 Arbitrary profile boundary no self intersections &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>SWE001 Arbitrary profile boundary no self intersections - v4 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SWE002 Mirroring within IfcDerivedProfileDef shall not be used" href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html" />
+    <link rel="next" title="SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v1" href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html" />
     <link rel="prev" title="Sweeps (i.e. extrusions, lofts, blends) (SWE)" href="SWE.html" /> 
 </head>
 
@@ -73,8 +73,8 @@
 <li class="toctree-l2"><a class="reference internal" href="SPA.html">Spaces (<code class="docutils literal notranslate"><span class="pre">SPA</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SPS.html">Spatial breakdown (<code class="docutils literal notranslate"><span class="pre">SPS</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="SWE.html">Sweeps (i.e. extrusions, lofts, blends) (<code class="docutils literal notranslate"><span class="pre">SWE</span></code>)</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SWE001</span></code> Arbitrary profile boundary no self intersections</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SWE001</span></code> Arbitrary profile boundary no self intersections - v4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used - v1</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="SYS.html">SYS (<code class="docutils literal notranslate"><span class="pre">SYS</span></code>)</a></li>
@@ -102,7 +102,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="SWE.html">Sweeps (i.e. extrusions, lofts, blends) (<code class="docutils literal notranslate"><span class="pre">SWE</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">SWE001</span></code> Arbitrary profile boundary no self intersections</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">SWE001</span></code> Arbitrary profile boundary no self intersections - v4</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/SWE001_Arbitrary-profile-boundary-no-self-intersections.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -112,8 +112,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="swe001-arbitrary-profile-boundary-no-self-intersections">
-<h1><code class="docutils literal notranslate"><span class="pre">SWE001</span></code> Arbitrary profile boundary no self intersections<a class="headerlink" href="#swe001-arbitrary-profile-boundary-no-self-intersections" title="Link to this heading"></a></h1>
+  <section id="swe001-arbitrary-profile-boundary-no-self-intersections-v4">
+<h1><code class="docutils literal notranslate"><span class="pre">SWE001</span></code> Arbitrary profile boundary no self intersections - v4<a class="headerlink" href="#swe001-arbitrary-profile-boundary-no-self-intersections-v4" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;informal-proposition
 002 | &#64;SWE
 003 | &#64;version4
@@ -136,6 +136,33 @@
 020 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .InnerCurves.</span></a>
 021 |
 022 |     <a class="reference internal" href="../steps/thensgeometrypy_Theremustbenoselfintersections.html"><span class="doc">Then There must be no self-intersections</span></a></pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.12">v0.6.12</a></p></td>
+<td><p>2025-02-12</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/b06b48590861044fdb52e9b5c6850a71409c8bd1">b06b4859</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v3</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.7.3">v0.7.3</a></p></td>
+<td><p>2025-03-31</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/6a1b8604dcf20ecaf9a6498582f5d4e6d4e91e42">6a1b8604</a></p></td>
+</tr>
+<tr class="row-even"><td><p>v4</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.8.1">v0.8.1</a></p></td>
+<td><p>2025-09-15</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/f44240213e57c425e95e66a407dce9c3543d938e">f4424021</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
@@ -143,7 +170,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="SWE.html" class="btn btn-neutral float-left" title="Sweeps (i.e. extrusions, lofts, blends) (SWE)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html" class="btn btn-neutral float-right" title="SWE002 Mirroring within IfcDerivedProfileDef shall not be used" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html" class="btn btn-neutral float-right" title="SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -3,5 +3,7 @@ SYS (``SYS``)
 
 .. toctree::
 
+   :titlesonly:
+
    SYS001_Cable-signal-flow
 

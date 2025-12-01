@@ -1,4 +1,4 @@
-``SPS007`` Spatial containment
+``SPS007`` Spatial containment - v6
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -49,3 +49,33 @@
    044 |         :doc:`Given [Its Type] ^is not^ 'IfcAnnotation' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    045 | 
    046 |         :doc:`Then .ContainedInStructure. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-06-12
+     - :commit:`0c778ff7156bbc6631a8a947aa86a7745021c365`
+   * - v3
+     - :tag:`v0.6.8`
+     - 2024-10-23
+     - :commit:`eeaf1ecba4041969673b749659f4efd00dac7b66`
+   * - v4
+     - :tag:`v0.7.1`
+     - 2025-03-11
+     - :commit:`c750a4788f183777aff9eb4611ca6ce584768947`
+   * - v5
+     - :tag:`v0.7.3`
+     - 2025-03-21
+     - :commit:`93e51d68cccb9d5bf4cb2e1c0608bd3669578614`
+   * - v6
+     - :tag:`v0.7.9`
+     - 2025-08-17
+     - :commit:`197ffba5582bf1bd1de4f93bd6096745e2fdc099`

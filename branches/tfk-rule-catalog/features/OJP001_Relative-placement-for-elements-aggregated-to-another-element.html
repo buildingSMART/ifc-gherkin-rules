@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OJP001 Relative placement for elements aggregated to another element &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>OJP001 Relative placement for elements aggregated to another element - v2 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Objects typing (OJT)" href="OJT.html" />
-    <link rel="prev" title="OJP000 Object placement" href="OJP000_Object-placement.html" /> 
+    <link rel="prev" title="OJP000 Object placement - v1" href="OJP000_Object-placement.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -65,8 +65,8 @@
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="OJP000_Object-placement.html"><code class="docutils literal notranslate"><span class="pre">OJP000</span></code> Object placement</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">OJP001</span></code> Relative placement for elements aggregated to another element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="OJP000_Object-placement.html"><code class="docutils literal notranslate"><span class="pre">OJP000</span></code> Object placement - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">OJP001</span></code> Relative placement for elements aggregated to another element - v2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
@@ -102,7 +102,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">OJP001</span></code> Relative placement for elements aggregated to another element</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">OJP001</span></code> Relative placement for elements aggregated to another element - v2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -112,8 +112,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ojp001-relative-placement-for-elements-aggregated-to-another-element">
-<h1><code class="docutils literal notranslate"><span class="pre">OJP001</span></code> Relative placement for elements aggregated to another element<a class="headerlink" href="#ojp001-relative-placement-for-elements-aggregated-to-another-element" title="Link to this heading"></a></h1>
+  <section id="ojp001-relative-placement-for-elements-aggregated-to-another-element-v2">
+<h1><code class="docutils literal notranslate"><span class="pre">OJP001</span></code> Relative placement for elements aggregated to another element - v2<a class="headerlink" href="#ojp001-relative-placement-for-elements-aggregated-to-another-element-v2" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;OJP
 003 | &#64;version2
@@ -139,13 +139,30 @@
 023 |       <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that.html"><span class="doc">Given A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that</span></a>
 024 |
 025 |       <a class="reference internal" href="../steps/thensattributespy_Theentityattributemustpointtotheother_entityofthecontainerelementestablishedwithrelationshiprelationship.html"><span class="doc">Then The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship</span></a></pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
+<td><p>2024-04-30</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/321a46ccd808c0b20145458e99965290cc0cc845">321a46cc</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="OJP000_Object-placement.html" class="btn btn-neutral float-left" title="OJP000 Object placement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="OJP000_Object-placement.html" class="btn btn-neutral float-left" title="OJP000 Object placement - v1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="OJT.html" class="btn btn-neutral float-right" title="Objects typing (OJT)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

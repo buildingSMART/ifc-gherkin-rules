@@ -1,4 +1,4 @@
-\( ⚠ ``SPS006`` Elements referenced in Spatial structures\) \(disabled\)
+\( ⚠ ``SPS006`` Elements referenced in Spatial structures - v1\) \(disabled\)
 ========================================================================================================================================================================================================
 
 .. parsed-literal::

@@ -1,4 +1,4 @@
-``SWE002`` Mirroring within IfcDerivedProfileDef shall not be used
+``SWE002`` Mirroring within IfcDerivedProfileDef shall not be used - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::

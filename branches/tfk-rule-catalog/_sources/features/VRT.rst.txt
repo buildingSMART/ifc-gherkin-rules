@@ -5,5 +5,7 @@ The ability to model special elements providing imaginary, placeholder, or provi
 
 .. toctree::
 
+   :titlesonly:
+
    VRT000_Virtual-elements
 

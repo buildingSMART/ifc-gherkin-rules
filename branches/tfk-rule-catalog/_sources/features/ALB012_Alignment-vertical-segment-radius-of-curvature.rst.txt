@@ -1,4 +1,4 @@
-``ALB012`` Alignment vertical segment radius of curvature
+``ALB012`` Alignment vertical segment radius of curvature - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -25,3 +25,17 @@
    020 |   Scenario: Validating the radius of curvature for parabolic segments
    021 |     :doc:`Given .PredefinedType. ^=^ 'PARABOLICARC' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    022 |     :doc:`Then The value of attribute .RadiusOfCurvature. must be ^equal to^ the expression: [HorizontalLength / ( EndGradient - StartGradient )] [within a tolerance of] 1E-3 </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_optheexpressionexpressionwithinatoleranceofcomparison_toleranceg>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.6`
+     - 2025-04-29
+     - :commit:`b7d7109ae59fac7fe17f0930c5d8d7a93f735938`

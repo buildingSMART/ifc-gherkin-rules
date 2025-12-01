@@ -1,4 +1,4 @@
-``BLT003`` Stair decomposition
+``BLT003`` Stair decomposition - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -16,3 +16,17 @@
    011 | 
    012 |     :doc:`Given An .IfcStair. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    013 |     :doc:`Then It must be aggregated as per stair\_CompositionTable.csv </steps/thensrelationspy_Itmustberelationshipaspertable>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-08-05
+     - :commit:`f7bf1a277301d9f0fbb3cacb5b97a5b871e488de`

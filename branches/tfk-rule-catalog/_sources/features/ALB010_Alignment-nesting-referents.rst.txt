@@ -1,4 +1,4 @@
-``ALB010`` Alignment nesting referents
+``ALB010`` Alignment nesting referents - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -21,3 +21,17 @@
    016 | 
    017 |       :doc:`Then a relationship .IfcRelNests. ^must exist^ from .IfcAlignment. to .IfcReferent. </steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity>`
    018 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.3`
+     - 2025-03-26
+     - :commit:`c4f4fe0179480d9a27e0043c7abcfdcd4f5411bf`

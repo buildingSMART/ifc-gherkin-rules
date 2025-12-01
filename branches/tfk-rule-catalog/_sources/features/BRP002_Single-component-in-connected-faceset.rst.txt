@@ -1,4 +1,4 @@
-``BRP002`` Single component in connected faceset
+``BRP002`` Single component in connected faceset - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -15,3 +15,17 @@
    010 |     :doc:`Given An .IfcConnectedFaceSet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    011 | 
    012 |     :doc:`Then all edges must form a single connected component </steps/thensgeometrypy_alledgesmustformasingleconnectedcomponent>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.1`
+     - 2025-03-04
+     - :commit:`17a9b5d6963adff000d301093172b8b80e604cd9`

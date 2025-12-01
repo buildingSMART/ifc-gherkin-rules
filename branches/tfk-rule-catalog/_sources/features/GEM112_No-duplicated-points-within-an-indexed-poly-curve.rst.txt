@@ -1,4 +1,4 @@
-``GEM112`` No duplicated points within an indexed poly curve
+``GEM112`` No duplicated points within an indexed poly curve - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::

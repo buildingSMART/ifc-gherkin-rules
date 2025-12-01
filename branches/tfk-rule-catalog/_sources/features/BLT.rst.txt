@@ -5,6 +5,8 @@ The ability to model various building and infrastructure elements, including wal
 
 .. toctree::
 
+   :titlesonly:
+
    BLT000_Built-elements
    BLT001_Correct-use-of-operation-type-attributes-for-doors
    BLT002_Correct-use-of-partitioning-type-attributes-for-windows

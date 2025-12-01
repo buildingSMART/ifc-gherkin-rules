@@ -1,4 +1,4 @@
-``IFC105`` Resource entities need to be referenced by rooted entity
+``IFC105`` Resource entities need to be referenced by rooted entity - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -19,3 +19,25 @@
    014 |     :doc:`Given an .entity instance. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    015 |     :doc:`Given [its entity type] ^is not^ 'IfcRoot' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    016 |     :doc:`Then it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly </steps/thensrelationspy_itmustbereferencedbyanentityinstanceinheritingfromIfcRootdirectlyorindirectly>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v1
+     - :tag:`v0.6.11`
+     - 2024-12-20
+     - :commit:`e9205d7e7b245959287989827ae5691199073c5a`
+   * - v2
+     - :tag:`v0.7.0`
+     - 2025-02-15
+     - :commit:`a96f1891eb55eec59cf73842b278c835ef4c72fa`
+   * - v3
+     - :tag:`v0.7.1`
+     - 2025-03-04
+     - :commit:`79d0fe87a7752aa7ea2d6ef5fa449f5c630102af`

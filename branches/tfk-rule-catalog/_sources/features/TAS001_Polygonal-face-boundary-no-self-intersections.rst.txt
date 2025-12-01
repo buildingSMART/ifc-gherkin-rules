@@ -1,4 +1,4 @@
-\( ⚠ ``TAS001`` Polygonal face boundary no self intersections\) \(disabled\)
+\( ⚠ ``TAS001`` Polygonal face boundary no self intersections - v2\) \(disabled\)
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -26,3 +26,17 @@
    021 |     :doc:`Given [Its Entity Type] ^is^ 'IfcIndexedPolygonalFaceWithVoids' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    022 | 
    023 |     :doc:`Then There must be no self-intersections for attribute InnerCoordIndices </steps/thensgeometrypy_Theremustbenoselfintersectionsforattributeattr>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.8.1`
+     - 2025-09-15
+     - :commit:`f44240213e57c425e95e66a407dce9c3543d938e`

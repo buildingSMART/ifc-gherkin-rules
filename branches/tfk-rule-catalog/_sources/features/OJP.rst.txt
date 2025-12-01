@@ -5,6 +5,8 @@ The ability to define the location, orientation, and scale of built elements and
 
 .. toctree::
 
+   :titlesonly:
+
    OJP000_Object-placement
    OJP001_Relative-placement-for-elements-aggregated-to-another-element
 

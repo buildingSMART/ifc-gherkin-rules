@@ -5,5 +5,7 @@ The ability to define materials assigned to elements.
 
 .. toctree::
 
+   :titlesonly:
+
    MAT000_Materials
 

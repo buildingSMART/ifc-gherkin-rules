@@ -1,4 +1,4 @@
-``SPS005`` Simultaneous spatial relationships
+``SPS005`` Simultaneous spatial relationships - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -16,3 +16,17 @@
    011 |     :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    012 | 
    013 |     :doc:`Then ^Exactly^ 1 of the following relationships must be non-empty: 'Nests', 'Decomposes', 'ContainedInStructure', 'AdheresToElement', 'VoidsElements' </steps/thensrelationspy_stmtnumdofthefollowingrelationshipsmustbenonemptyinverse_attrs>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.7`
+     - 2025-06-17
+     - :commit:`696fce830253ae65d0e5878d8ce7991c6dec5254`

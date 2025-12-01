@@ -1,4 +1,4 @@
-``OJT001`` Object predefined type
+``OJT001`` Object predefined type - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -30,3 +30,17 @@
    025 |   :doc:`Given Its .PredefinedType. attribute ^does not start^ with 'NOTDEFINED' </steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix>`
    026 |   :doc:`Given A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
    027 |   :doc:`Then The value of attribute .PredefinedType. must be ^empty^ [and display entity instance] </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_opdisplay_entitydisplay_entity>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-07-10
+     - :commit:`b84422143af4e077d8be670d1710c95563d7ea7d`

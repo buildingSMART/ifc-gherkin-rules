@@ -1,4 +1,4 @@
-``OJP001`` Relative placement for elements aggregated to another element
+``OJP001`` Relative placement for elements aggregated to another element - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -28,3 +28,17 @@
    023 |       :doc:`Given A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
    024 | 
    025 |       :doc:`Then The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship </steps/thensattributespy_Theentityattributemustpointtotheother_entityofthecontainerelementestablishedwithrelationshiprelationship>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-04-30
+     - :commit:`321a46ccd808c0b20145458e99965290cc0cc845`

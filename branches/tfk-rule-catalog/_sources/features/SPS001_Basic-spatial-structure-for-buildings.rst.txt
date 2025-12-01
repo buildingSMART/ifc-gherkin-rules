@@ -1,4 +1,4 @@
-``SPS001`` Basic spatial structure for buildings
+``SPS001`` Basic spatial structure for buildings - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -36,3 +36,17 @@
    031 |   :doc:`Given An .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    032 | 
    033 |   :doc:`Then It must be assigned to the IfcProject </steps/thensrelationspy_Itmustbeassignedtotherelating>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.7.6`
+     - 2025-05-06
+     - :commit:`0160e60749484eb9b451ba689d22be189d78401b`

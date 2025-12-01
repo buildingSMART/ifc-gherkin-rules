@@ -5,6 +5,8 @@ This involves defining an orthogonal box, oriented parallel to the axes of the o
 
 .. toctree::
 
+   :titlesonly:
+
    BBX000_Bounding-box
    BBX001_Bounding-box-shape-representation
 

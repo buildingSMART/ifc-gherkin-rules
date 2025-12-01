@@ -5,5 +5,7 @@ The ability to track changes to building data over time and to maintain a histor
 
 .. toctree::
 
+   :titlesonly:
+
    VER000_Versioning-and-revision-control
 

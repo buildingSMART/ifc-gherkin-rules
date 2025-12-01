@@ -1,4 +1,4 @@
-``ALS015`` Alignment representation zero length final segment
+``ALS015`` Alignment representation zero length final segment - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -27,3 +27,21 @@
    022 | Scenario: Validating that the final alignment geometry segment is discontinuous.
    023 |   :doc:`Given Its attribute .Transition. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    024 |   :doc:`Then The value must be 'DISCONTINUOUS' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-04-30
+     - :commit:`321a46ccd808c0b20145458e99965290cc0cc845`
+   * - v3
+     - :tag:`v0.7.5`
+     - 2025-04-23
+     - :commit:`7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5`

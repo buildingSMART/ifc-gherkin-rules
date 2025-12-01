@@ -1,4 +1,4 @@
-``PJS003`` Globally Unique Identifiers
+``PJS003`` Globally Unique Identifiers - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -28,3 +28,17 @@
    023 |     | The string length must be exactly '22' characters |
    024 |     | The characters must be within the official encoding character set |
    025 |     | Its value ^starts^ with '0' or '1' or '2' or '3' |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-09-25
+     - :commit:`af0dc670ffad555b0200eda14a7d6dbf7d3fbd08`

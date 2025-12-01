@@ -5,5 +5,7 @@ The ability to group objects related by functional or logical criteria. Used, fo
 
 .. toctree::
 
+   :titlesonly:
+
    GRP001_Acyclic-groups
 

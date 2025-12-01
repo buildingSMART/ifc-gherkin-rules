@@ -6,6 +6,13 @@ import subprocess, re
 from collections import defaultdict
 import sys
 
+from git import version_events_for_file
+
+from git import git  # if you export it, or roll a tiny helper
+
+current_branch = git("branch", "--show-current")
+print(f"Building docs for branch: {current_branch!r}") # for ci_cd logging
+
 from paths import (
     SCRIPT_DIR,
     REPO_ROOT,
@@ -171,17 +178,33 @@ def main():
     # ------------------------------------------------------------------
     # Per-feature pages
     # ------------------------------------------------------------------
+    
     for feat in all_feature_files:
         base = os.path.basename(feat).rsplit('.', 1)[0]
         
-        disabled = "@disabled" in open(os.path.join(REPO_ROOT, feat), encoding="utf-8").read()
+        feature_file_path = os.path.join(REPO_ROOT, feat)
+        
+        feature_file_text = open(feature_file_path, encoding="utf-8").read()
+        
+        m_ver = re.search(r"@version\s*(\d+)", feature_file_text)
+        version = int(m_ver.group(1)) if m_ver else None
+        
+        disabled = "@disabled" in feature_file_text
         with open(os.path.join(FEATURES_DIR, f"{base}.rst"), "w", encoding="utf-8") as feature_file:
             WARN = '\\( \u26A0 '
             END_WARN = '\\) \\(disabled\\)'
-            feature_file.write(f"{WARN if disabled else ''}``{base[:6]}`` {base[7:].replace('-', ' ').replace('_', ' ')}{END_WARN if disabled else ''}\n")
+            
+            rule_code = base[:6]
+            rule_title = base[7:].replace("-", " ").replace("_", " ")
+            version_suffix = f" - v{version}" if version is not None else ""
+            feature_file.write(
+                f"{WARN if disabled else ''}"
+                f"``{rule_code}`` {rule_title}{version_suffix}"
+                f"{END_WARN if disabled else ''}\n"
+            )
             feature_file.write(f"{'='*200}\n\n")
             feature_file.write(f".. parsed-literal::\n\n")
-            for ln, st in enumerate(linecache.getlines(os.path.join(REPO_ROOT, feat)), start=1):
+            for ln, st in enumerate(linecache.getlines(feature_file_path), start=1):
                 ref = f"{feat}:{ln}"
                 esc = (
                     lambda s: s.replace("@", "\\@")
@@ -197,6 +220,36 @@ def main():
                     text = f"{ws}:doc:`{text} </steps/{dd}>`"
                 feature_file.write(f"   {ln:03d} | {text}")
                 feature_file.write("\n")
+
+            # -------------------------
+            # Version history section
+            # -------------------------
+            events = version_events_for_file(feat)
+
+            if events:
+                feature_file.write("\n.. rubric:: Version history\n\n")
+                feature_file.write(".. list-table::\n")
+                feature_file.write("   :header-rows: 1\n\n")
+                feature_file.write("   * - Version\n")
+                feature_file.write("     - Tag\n")
+                feature_file.write("     - Date\n")
+                feature_file.write("     - Commit\n")
+                
+                for ev in events:
+                    ver = f"v{ev['version']}"
+                    raw_tag = ev["tag"] or "n/a"
+                    date = ev["date"]
+                    sha = ev["commit"]   
+                    
+                    if raw_tag:
+                        tag_cell = f":tag:`{raw_tag}`"
+                    else:
+                        tag_cell = "n/a"
+
+                    feature_file.write(f"   * - {ver}\n")
+                    feature_file.write(f"     - {tag_cell}\n")
+                    feature_file.write(f"     - {date}\n")
+                    feature_file.write(f"     - :commit:`{sha}`\n")
 
     # ------------------------------------------------------------------
     # Group feature bases by functional-part code (first 3 chars, e.g. ALB)
@@ -228,6 +281,7 @@ def main():
                 fp_file.write(desc + "\n\n")
 
             fp_file.write(".. toctree::\n\n")
+            fp_file.write("   :titlesonly:\n\n")
             for base in sorted(set(grouped[fp_code])):
                 fp_file.write(f"   {base}\n")
             fp_file.write("\n")
@@ -238,7 +292,8 @@ def main():
     with open(os.path.join(FEATURES_DIR,"index.rst"), "w", encoding="utf-8") as feature_index:
         feature_index.write("Validation Service Rule Definitions\n")
         feature_index.write("===================================\n\n")
-        feature_index.write(".. toctree::\n\n")
+        feature_index.write(".. toctree::\n")
+        feature_index.write("   :titlesonly:\n\n")
         for fp_code in sorted(grouped.keys(), key=fp_sort_key):
             feature_index.write(f"   {fp_code}\n")
 

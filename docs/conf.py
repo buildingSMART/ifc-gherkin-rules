@@ -35,10 +35,21 @@ myst_links_external_new_tab = True
 from docutils import nodes
 from docutils.parsers.rst import roles
 
+GITHUB_BASE = "https://github.com/buildingSMART/ifc-gherkin-rules"
+
 def commit_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     sha = text.strip()
-    url = f"https://github.com/buildingSMART/ifc-gherkin-rules/commit/{sha}"
+    url = f"{GITHUB_BASE}/commit/{sha}"
     node = nodes.reference(rawtext, sha[:8], refuri=url, **options)
     return [node], []
 
 roles.register_local_role("commit", commit_role)
+
+def tag_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    tag = text.strip()
+    url = f"{GITHUB_BASE}/releases/tag/{tag}"
+    node = nodes.reference(rawtext, tag, refuri=url, **options)
+    return [node], []
+
+
+roles.register_local_role("tag", tag_role)

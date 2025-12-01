@@ -23,7 +23,7 @@ Scenario Outline: Consistent entity types used - direct representation
   Given its attribute .Segments.
   Given its entity type
 
-  Then The values must be identical at depth 1
+  Then The values must be identical at depth 3
 
   Examples:
     | entity            |
@@ -40,7 +40,7 @@ Scenario Outline: Consistent entity types used - direct representation
     Given its attribute .Segments.
     Given its entity type
 
-    Then The values must be identical at depth 1
+    Then The values must be identical at depth 3
 
     Examples:
       | entity                      |  entity_parent |

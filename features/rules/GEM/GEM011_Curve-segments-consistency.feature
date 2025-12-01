@@ -1,7 +1,6 @@
 @implementer-agreement
 @GEM
-@version1
-@E00010
+@version2
 
 Feature: GEM011 - Curve segments consistency
 
@@ -13,9 +12,9 @@ Feature: GEM011 - Curve segments consistency
 Background: 
   Given a model with Schema 'IFC4.3'
   Given an .IfcProduct.
-  Given [its entity type] ^is not^ .IfcAlignment.
+  Given [its entity type] ^is not^ 'IfcAlignment'
   Given its attribute .Representation.
-  Given its attribute .Representation.
+  Given its attribute .Representations.
   Given its attribute .Items.
 
 
@@ -25,7 +24,7 @@ Scenario Outline: Consistent entity types used
   Given its attribute .Segments.
   Given its entity type
 
-  Then The values must be identical at depth 1
+  Then The values must be identical at depth 3
 
   Examples:
     | entity            |

@@ -63,12 +63,15 @@ def step_impl(context, inst, constraint, num):
 
 @gherkin_ifc.step("The values must be {unique_or_identical:unique_or_identical} at depth {depth_level:d}")
 def step_impl(context, inst, unique_or_identical, depth_level=None):
+    """
+    NOTE: depth_level is not processed via this step implementation but it does affect instance selection
+    within the @gherkin_ifc.step decorator.
+    """
     if not inst:
         return
 
     if unique_or_identical == 'identical':
-        flattened = list(filter(None, misc.iflatten(inst)))
-        if not all([flattened[0] == f for f in flattened]):
+        if not all([inst[0] == i for i in inst]):
             yield ValidationOutcome(inst=inst, expected= unique_or_identical, observed = inst, severity=OutcomeSeverity.ERROR)
 
     if unique_or_identical == 'unique':

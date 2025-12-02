@@ -66,6 +66,7 @@ def step_impl(context, inst, unique_or_identical, depth_level=None):
     """
     NOTE: depth_level is not processed via this step implementation but it does affect instance selection
     within the @gherkin_ifc.step decorator.
+    see validation_handling.py:299
     """
     if not inst:
         return

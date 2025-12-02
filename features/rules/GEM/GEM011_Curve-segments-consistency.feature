@@ -20,7 +20,7 @@ Background:
 
 Scenario Outline: Consistent entity types used
 
-  Given an .<entity>.
+  Given [its entity type] ^is^ '<entity>'
   Given its attribute .Segments.
   Given its entity type
 
@@ -35,7 +35,7 @@ Scenario Outline: Consistent entity types used
 
 Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
 
-  Given an .<entity>.
+  Given [its entity type] ^is^ '<entity>'
   Given its attribute .Segments.
   Given its entity type
 

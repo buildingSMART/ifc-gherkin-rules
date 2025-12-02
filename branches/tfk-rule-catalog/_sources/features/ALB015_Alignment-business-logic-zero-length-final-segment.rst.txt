@@ -44,7 +44,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-01-14
+     - :commit:`bbe4a1544b23ea93d507fba705559d3f2579d218`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB015_Alignment-business-logic-zero-length-final-segment.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-04-30
      - :commit:`321a46ccd808c0b20145458e99965290cc0cc845`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB015_Alignment-business-logic-zero-length-final-segment.feature>`_

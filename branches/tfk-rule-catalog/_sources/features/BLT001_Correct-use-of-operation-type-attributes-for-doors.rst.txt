@@ -35,3 +35,19 @@
    030 |   :doc:`Given a relationship .IfcRelDefinesByType. to .IfcDoor. from .IfcDoorType. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
    031 | 
    032 |   :doc:`Then .OperationType. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-16
+     - :commit:`d196cf976000054a4c2f0f752fa8292ef33e4325`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/BLT001_Correct-use-of-operation-type-attributes-for-doors.feature>`_

@@ -24,3 +24,19 @@
    019 | 
    020 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
    021 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-08-15
+     - :commit:`bcc7cca5f723d58b0dcb11c30f96b37f8b8a818f`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ASM000_Composed-elements.feature>`_

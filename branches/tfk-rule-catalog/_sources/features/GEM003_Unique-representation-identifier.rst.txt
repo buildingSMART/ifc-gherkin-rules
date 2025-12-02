@@ -18,3 +18,19 @@
    013 |     :doc:`Given its attribute .RepresentationIdentifier. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    014 | 
    015 |     :doc:`Then The values must be unique at depth 1 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-02-03
+     - :commit:`a29f8531e0d7cc02f864a1d35155e475803ce04f`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM003_Unique-representation-identifier.feature>`_

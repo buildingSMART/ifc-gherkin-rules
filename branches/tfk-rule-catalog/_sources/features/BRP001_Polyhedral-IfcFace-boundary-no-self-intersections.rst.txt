@@ -30,7 +30,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-10-06
+     - :commit:`86c398383f51316bdb960d41a9b83148da12104a`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/BRP001_Polyhedral-IfcFace-boundary-no-self-intersections.feature>`_
    * - v2
      - :tag:`v0.8.1`
      - 2025-09-15
      - :commit:`f44240213e57c425e95e66a407dce9c3543d938e`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.1/features/rules/BRP/BRP001_Polyhedral-IfcFace-boundary-no-self-intersections.feature>`_

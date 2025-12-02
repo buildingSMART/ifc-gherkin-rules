@@ -16,3 +16,19 @@
    011 |       :doc:`Given Its attribute .ObjectPlacement. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    012 | 
    013 |       :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.3`
+     - 2025-03-24
+     - :commit:`7fc0b6cb845343eaa9dc8b7b99bf8f9d4c699aa9`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/OJP/OJP000_Object-placement.feature>`_

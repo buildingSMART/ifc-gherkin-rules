@@ -26,7 +26,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-02-08
+     - :commit:`b38a59436b449a08394a881700ccde594bb7fa2e`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/BLT003_Stair-decomposition.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-08-05
      - :commit:`f7bf1a277301d9f0fbb3cacb5b97a5b871e488de`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/BLT003_Stair-decomposition.feature>`_

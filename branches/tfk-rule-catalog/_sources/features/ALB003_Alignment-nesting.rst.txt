@@ -18,3 +18,19 @@
    013 |     :doc:`Given an .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    014 | 
    015 |     :doc:`Then It [must be nested by only the following entities]: .IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent. </steps/thensnestingpy_Itmustbenestedbyonlythefollowingentitiesother_entities>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-01-16
+     - :commit:`a714b1fe1d248d1e9088db3432d9d51487c01331`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB003_Alignment-nesting.feature>`_

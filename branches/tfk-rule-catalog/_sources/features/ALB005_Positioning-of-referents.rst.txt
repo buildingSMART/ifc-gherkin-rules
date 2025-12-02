@@ -18,3 +18,19 @@
    013 |       :doc:`Given .PredefinedType. ^=^ 'POSITION' or 'STATION' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    014 | 
    015 |       :doc:`Then It must be positioned to IfcAlignment directly </steps/thensrelationspy_Itdecisionbeaggregated_or_contained_or_positionedaggregated_or_contained_or_positionedprepositionother_entitycondition>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-26
+     - :commit:`c162f04b0b881db11dc7418e6fb677b7d842efeb`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB005_Positioning-of-referents.feature>`_

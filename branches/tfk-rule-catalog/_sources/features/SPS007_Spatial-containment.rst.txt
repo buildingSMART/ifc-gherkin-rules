@@ -59,23 +59,34 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-07
+     - :commit:`c51e52d5fbee0aea5d3641562faf76dfb58fb314`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS007_Spatial-containment.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-06-12
      - :commit:`0c778ff7156bbc6631a8a947aa86a7745021c365`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS007_Spatial-containment.feature>`_
    * - v3
      - :tag:`v0.6.8`
      - 2024-10-23
      - :commit:`eeaf1ecba4041969673b749659f4efd00dac7b66`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/SPS007_Spatial-containment.feature>`_
    * - v4
      - :tag:`v0.7.1`
      - 2025-03-11
      - :commit:`c750a4788f183777aff9eb4611ca6ce584768947`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/SPS/SPS007_Spatial-containment.feature>`_
    * - v5
      - :tag:`v0.7.3`
      - 2025-03-21
      - :commit:`93e51d68cccb9d5bf4cb2e1c0608bd3669578614`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/SPS/SPS007_Spatial-containment.feature>`_
    * - v6
      - :tag:`v0.7.9`
      - 2025-08-17
      - :commit:`197ffba5582bf1bd1de4f93bd6096745e2fdc099`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.9/features/rules/SPS/SPS007_Spatial-containment.feature>`_

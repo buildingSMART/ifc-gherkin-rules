@@ -25,7 +25,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.11`
+     - 2025-01-23
+     - :commit:`567850dc448d43fd25ca3b92965200f93f7813c1`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.11/features/BRP002_Single-component-in-connected-faceset.feature>`_
    * - v2
      - :tag:`v0.7.1`
      - 2025-03-04
      - :commit:`17a9b5d6963adff000d301093172b8b80e604cd9`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/BRP/BRP002_Single-component-in-connected-faceset.feature>`_

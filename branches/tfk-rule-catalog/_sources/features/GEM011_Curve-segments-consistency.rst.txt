@@ -51,3 +51,19 @@
    046 |     | entity            |
    047 |     | IfcGradientCurve  |
    048 |     | IfcSegmentedReferenceCurve |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-21
+     - :commit:`1cd01e0f7c5bf83ecffac0220621353247e8f069`
+     - n/a

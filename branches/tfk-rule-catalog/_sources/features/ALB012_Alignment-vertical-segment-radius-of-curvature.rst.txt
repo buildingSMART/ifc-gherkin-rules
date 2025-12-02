@@ -35,7 +35,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.8`
+     - 2024-10-02
+     - :commit:`99696021c6f9ef0b5e1c4daf6f2d1d857c5b7768`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/ALB012_Alignment-vertical-segment-radius-of-curvature.feature>`_
    * - v2
      - :tag:`v0.7.6`
      - 2025-04-29
      - :commit:`b7d7109ae59fac7fe17f0930c5d8d7a93f735938`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.6/features/rules/ALB/ALB012_Alignment-vertical-segment-radius-of-curvature.feature>`_

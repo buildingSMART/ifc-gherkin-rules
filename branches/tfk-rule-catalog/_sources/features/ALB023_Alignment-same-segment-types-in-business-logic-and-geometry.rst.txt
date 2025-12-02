@@ -61,7 +61,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-04-10
+     - :commit:`73142c07e2af2f94f26f15bb4176f2db6b83ab40`
+     - n/a
    * - v2
      - :tag:`v0.6.6`
      - 2024-06-21
      - :commit:`e7816d59f4499ac8a806be07a5268de1cf086795`
+     - n/a

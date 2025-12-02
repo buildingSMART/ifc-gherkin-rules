@@ -24,3 +24,19 @@
    019 | 
    020 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
    021 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-09-13
+     - :commit:`af63674c2541519e824ac0745de967c4b16c76ab`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/CLS000_Classification-association.feature>`_

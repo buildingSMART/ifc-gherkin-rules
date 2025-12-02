@@ -44,15 +44,24 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.8`
+     - 2024-09-29
+     - :commit:`f9a04f0bfb23bf78d99bf4ccd407896d5b7ebce1`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/ALS017_Alignment-vertical-segment-geometric-continuity.feature>`_
    * - v2
      - :tag:`v0.6.11`
      - 2025-02-04
      - :commit:`ac14bdfdb4deaeb8953deb39516499e6ca7afe09`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.11/features/ALS017_Alignment-vertical-segment-geometric-continuity.feature>`_
    * - v3
      - :tag:`v0.7.5`
      - 2025-04-23
      - :commit:`7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.5/features/rules/ALS/ALS017_Alignment-vertical-segment-geometric-continuity.feature>`_
    * - v4
      - :tag:`v0.7.7`
      - 2025-06-25
      - :commit:`113e0f246e0b5c13a2918173bc603e681b0b8701`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/ALS/ALS017_Alignment-vertical-segment-geometric-continuity.feature>`_

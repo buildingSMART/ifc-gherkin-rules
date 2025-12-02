@@ -17,3 +17,19 @@
    012 |     :doc:`Given Its attribute .ObjectPlacement. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    013 | 
    014 |     :doc:`Then [Its Entity Type] ^is^ 'IfcLocalPlacement' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.8`
+     - 2024-10-21
+     - :commit:`5c0e672eadc6b77075ba4c8f709e5c487b0fb82b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/ALB030_Alignment-local-placement.feature>`_

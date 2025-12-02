@@ -26,3 +26,19 @@
    021 |     :doc:`Given an .IfcFacility. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    022 | 
    023 |     :doc:`Then There must be at least 1 instance(s) of IfcCoordinateReferenceSystem </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.7`
+     - 2025-06-19
+     - :commit:`72606df14e06bf3ac21fd0b04a6d1b8a073040c1`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF003_CRS-presence-with-spatial-entities.feature>`_

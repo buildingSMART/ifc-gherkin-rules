@@ -24,7 +24,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.1`
+     - 2025-03-04
+     - :commit:`fdc56e587102fe20e25811efe9df43c430d202c0`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/BRP/BRP003_Planar-faces-are-planar.feature>`_
    * - v2
      - :tag:`v0.7.3`
      - 2025-03-26
      - :commit:`bd223025d8e2441af524165c7b9b24f88800449b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/BRP/BRP003_Planar-faces-are-planar.feature>`_

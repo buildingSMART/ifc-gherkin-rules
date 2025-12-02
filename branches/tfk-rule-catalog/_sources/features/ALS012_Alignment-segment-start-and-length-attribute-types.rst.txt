@@ -34,3 +34,19 @@
    029 |     | IfcGradientCurve            | SegmentLength |
    030 |     | IfcSegmentedReferenceCurve  | SegmentStart  |
    031 |     | IfcSegmentedReferenceCurve  | SegmentLength |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-28
+     - :commit:`e6280d3556f121d39b2a8f93d3cc9c8eddae7a29`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS012_Alignment-segment-start-and-length-attribute-types.feature>`_

@@ -17,3 +17,19 @@
    012 |       :doc:`Given an .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    013 | 
    014 |       :doc:`Then It must be aggregated to IfcProject directly or indirectly </steps/thensrelationspy_Itdecisionbeaggregated_or_contained_or_positionedaggregated_or_contained_or_positionedprepositionother_entitycondition>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-21
+     - :commit:`05329ef21559fc1de7113626f716ead32a5b0320`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB004_Alignment-in-spatial-structure-relationships.feature>`_

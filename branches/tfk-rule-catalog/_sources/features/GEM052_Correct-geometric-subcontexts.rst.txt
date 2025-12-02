@@ -44,7 +44,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-07-14
+     - :commit:`93adeb8d403b768a607c5d1eebb9ba0338eeeaa3`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM052_Correct-geometric-subcontexts.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-08-05
      - :commit:`c5808bfa00bbfc3cfed53ffc8d92cd3e0ce34491`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM052_Correct-geometric-subcontexts.feature>`_

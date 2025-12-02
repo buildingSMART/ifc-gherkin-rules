@@ -19,3 +19,19 @@
    014 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
    015 | 
    016 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.8`
+     - 2024-11-01
+     - :commit:`c3dd1a7bb7955bfced61b5c3563a80a35439b54a`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/VRT000_Virtual-elements.feature>`_

@@ -36,3 +36,19 @@
    031 |     Given The value of attribute .WellKnownText. is ^not empty^
    032 | 
    033 |     :doc:`Then The value of attribute .Name. must be 'WKT' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.7`
+     - 2025-06-16
+     - :commit:`bcfd8342fddf79fc73858ce6aeb76c70f9761873`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF006_WKT-specification-for-missing-EPSG.feature>`_

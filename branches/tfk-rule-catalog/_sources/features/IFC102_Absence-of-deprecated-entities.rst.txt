@@ -344,19 +344,29 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-14
+     - :commit:`ad635c3e10d2f638ab835724dd59286f32005120`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/IFC102_Absence-of-deprecated-entities.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-08-08
      - :commit:`268f8a0d4c04303d0c8bea9d11f397cb7eaf0c85`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/IFC102_Absence-of-deprecated-entities.feature>`_
    * - v3
      - :tag:`v0.6.7`
      - 2024-09-20
      - :commit:`15ca2302f7b989951c90093bf561b0a7390ef0a0`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/IFC102_Absence-of-deprecated-entities.feature>`_
    * - v4
      - :tag:`v0.6.8`
      - 2024-10-31
      - :commit:`890fd0eaaff01ee488534f4c2761314690bd473b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/IFC102_Absence-of-deprecated-entities.feature>`_
    * - v5
      - :tag:`v0.6.8`
      - 2024-10-31
      - :commit:`1ea16524353888a587086a0830cba8c6d08b90ec`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/IFC102_Absence-of-deprecated-entities.feature>`_

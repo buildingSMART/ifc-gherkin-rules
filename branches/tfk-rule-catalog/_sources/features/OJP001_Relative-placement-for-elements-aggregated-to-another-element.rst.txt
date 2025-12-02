@@ -38,7 +38,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-02-02
+     - :commit:`df2d1a2ab60ac4d483212036ab78f8fa665a332f`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-04-30
      - :commit:`321a46ccd808c0b20145458e99965290cc0cc845`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element.feature>`_

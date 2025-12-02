@@ -34,3 +34,19 @@
    029 | 
    030 |       :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    031 |       :doc:`Then  The type must be 'IfcSegmentedReferenceCurve' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-18
+     - :commit:`734144034ffd50035aed37d78854b7eb3bc718b9`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS008_Alignment-cant-shape-representation.feature>`_

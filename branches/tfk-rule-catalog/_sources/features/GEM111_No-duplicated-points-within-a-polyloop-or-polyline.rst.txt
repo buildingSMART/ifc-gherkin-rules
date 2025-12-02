@@ -41,3 +41,19 @@
    036 |     :doc:`Given It forms a closed curve </steps/givensattributespy_attrformsclosed_or_opencurve>`
    037 | 
    038 |     :doc:`Then Its first and last point must be identical by reference </steps/thensreferencepy_Itsfirstandlastpointmustbeidenticalbyreference>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-02-01
+     - :commit:`5b518b1cea31db8677b171eb41e68cb33403489d`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline.feature>`_

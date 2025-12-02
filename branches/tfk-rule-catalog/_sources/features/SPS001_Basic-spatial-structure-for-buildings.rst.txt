@@ -46,7 +46,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2022-07-31
+     - :commit:`a6aeaec429507e80ceebb769fbe70f25530d61c6`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS001_Basic-spatial-structure-for-buildings.feature>`_
    * - v2
      - :tag:`v0.7.6`
      - 2025-05-06
      - :commit:`0160e60749484eb9b451ba689d22be189d78401b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.6/features/rules/SPS/SPS001_Basic-spatial-structure-for-buildings.feature>`_

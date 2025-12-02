@@ -26,3 +26,19 @@
    021 |   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation - Type
    022 | 
    023 |     :doc:`Then The type of attribute Items must be IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline </steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-18
+     - :commit:`734144034ffd50035aed37d78854b7eb3bc718b9`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS006_Alignment-horizontal-shape-representation.feature>`_

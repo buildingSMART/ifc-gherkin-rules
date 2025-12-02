@@ -27,3 +27,19 @@
    022 |     :doc:`Given Its attribute .FlowDirection. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    023 |     :doc:`Then at least '1' value must be 'SOURCE' </steps/thensvaluespy_Atleastnumdvaluemustconstraint>`
    024 |     :doc:`Then at least '1' value must be 'SINK' </steps/thensvaluespy_Atleastnumdvaluemustconstraint>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-26
+     - :commit:`c1ec315a5bab4c6238b64980d1d0d71222d86971`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SYS001_Cable-signal-flow.feature>`_

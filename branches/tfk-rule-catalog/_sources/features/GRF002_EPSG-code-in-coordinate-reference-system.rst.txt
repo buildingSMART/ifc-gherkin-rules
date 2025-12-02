@@ -19,3 +19,19 @@
    014 |     :doc:`Given Its attribute .Name. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    015 | 
    016 |     :doc:`Then The value must refer to a valid EPSG code </steps/stepscrspy_ThevaluemustrefertoavalidEPSGcode>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.7`
+     - 2025-06-01
+     - :commit:`ef86c9bc61a6df619a2013e60a0053a7925514f5`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF002_EPSG-code-in-coordinate-reference-system.feature>`_

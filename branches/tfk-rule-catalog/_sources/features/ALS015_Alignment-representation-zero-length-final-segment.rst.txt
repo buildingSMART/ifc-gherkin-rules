@@ -37,11 +37,19 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-01-18
+     - :commit:`d065ac56fad9f58fc31d185f573bafa476f57b80`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS015_Alignment-representation-zero-length-final-segment.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-04-30
      - :commit:`321a46ccd808c0b20145458e99965290cc0cc845`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS015_Alignment-representation-zero-length-final-segment.feature>`_
    * - v3
      - :tag:`v0.7.5`
      - 2025-04-23
      - :commit:`7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.5/features/rules/ALS/ALS015_Alignment-representation-zero-length-final-segment.feature>`_

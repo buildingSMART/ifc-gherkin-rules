@@ -34,7 +34,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2022-12-10
+     - :commit:`462daf5ccf032fad7e0d5245825aff4f3604736b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM002_Space-representation.feature>`_
    * - v2
      - :tag:`v0.7.6`
      - 2025-04-30
      - :commit:`fa2476c1bec25fe70c4a8cfc48cf38fc31853752`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.6/features/rules/GEM/GEM002_Space-representation.feature>`_

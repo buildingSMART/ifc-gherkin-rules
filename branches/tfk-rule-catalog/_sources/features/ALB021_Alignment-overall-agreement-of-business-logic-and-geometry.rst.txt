@@ -36,7 +36,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-01-22
+     - :commit:`b3f3302bc9b9ff89f0e8eef4917bcddb012303ff`
+     - n/a
    * - v2
      - :tag:`v0.8.0`
      - 2025-08-28
      - :commit:`9cefddf80b5ba198e769c6717f39ed3737563ac8`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.0/features/rules/ALB/ALB021_Alignment-overall-agreement-of-business-logic-and-geometry.feature>`_

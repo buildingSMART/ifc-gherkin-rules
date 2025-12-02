@@ -20,3 +20,19 @@
    015 | 
    016 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
    017 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.8`
+     - 2024-11-04
+     - :commit:`abde9bbd1bfd12b080b1652552af058f29733f02`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/VER000_Versioning-and-revision-control.feature>`_

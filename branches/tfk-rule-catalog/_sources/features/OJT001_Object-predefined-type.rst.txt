@@ -40,7 +40,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-06
+     - :commit:`816455630f0fdbed987c7f6cb0ed208f25a07015`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJT001_Object-predefined-type.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-07-10
      - :commit:`b84422143af4e077d8be670d1710c95563d7ea7d`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJT001_Object-predefined-type.feature>`_

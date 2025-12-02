@@ -31,7 +31,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-02-03
+     - :commit:`6ccdcc67ad218f07e46f86002779d00b3469c1f7`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GRF001_Identical-coordinate-operations.feature>`_
    * - v2
      - :tag:`v0.7.5`
      - 2025-04-23
      - :commit:`7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.5/features/rules/GRF/GRF001_Identical-coordinate-operations.feature>`_

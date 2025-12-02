@@ -24,7 +24,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.11`
+     - 2025-01-23
+     - :commit:`397dc9fd252eabb80d45ba48d01898e14ed530ca`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.11/features/GEM113_Indexed-poly-curve-arcs-must-not-be-defined-using-colinear-points.feature>`_
    * - v2
      - :tag:`v0.7.3`
      - 2025-03-26
      - :commit:`bd223025d8e2441af524165c7b9b24f88800449b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/GEM/GEM113_Indexed-poly-curve-arcs-must-not-be-defined-using-colinear-points.feature>`_

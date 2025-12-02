@@ -34,11 +34,19 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-21
+     - :commit:`2cf129562fc83bc63cf30b159d240da7120b5070`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS002_Correct-spatial-breakdown.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-07-11
      - :commit:`7686282999419c5449e15dd5b8f2e843e83287c9`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS002_Correct-spatial-breakdown.feature>`_
    * - v3
      - :tag:`v0.6.11`
      - 2025-02-01
      - :commit:`4e1884be5d3315a5f1b7d4fd2b4d309f211d2411`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.11/features/SPS002_Correct-spatial-breakdown.feature>`_

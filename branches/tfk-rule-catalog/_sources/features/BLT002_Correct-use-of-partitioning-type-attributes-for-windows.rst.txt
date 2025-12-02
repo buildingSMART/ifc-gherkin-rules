@@ -35,3 +35,19 @@
    030 |   :doc:`Given a relationship .IfcRelDefinesByType. to .IfcWindow. from .IfcWindowType. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
    031 | 
    032 |   :doc:`Then .PartitioningType. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-09-20
+     - :commit:`e5a6c402b5308e557ce5a5b5299b72f756ea53e6`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows.feature>`_

@@ -76,7 +76,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-21
+     - :commit:`1cd01e0f7c5bf83ecffac0220621353247e8f069`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS011_Alignment-segment-entity-type-consistency.feature>`_
    * - v2
      - :tag:`v0.7.7`
      - 2025-06-25
      - :commit:`c895611be5667c980b3941b705cfc67e39e18ef7`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/ALS/ALS011_Alignment-segment-entity-type-consistency.feature>`_

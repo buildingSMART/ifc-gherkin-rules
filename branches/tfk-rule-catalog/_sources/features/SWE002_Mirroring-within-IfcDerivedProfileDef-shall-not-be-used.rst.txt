@@ -38,3 +38,19 @@
    033 |         | IfcExtrudedAreaSolidTapered | EndSweptArea |
    034 |         | IfcRevolvedAreaSolidTapered | SweptArea    |
    035 |         | IfcRevolvedAreaSolidTapered | EndSweptArea |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.11`
+     - 2025-01-23
+     - :commit:`2a8ba5d3c2bad343dcc486dfa951ee260c7d01a6`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.11/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.feature>`_

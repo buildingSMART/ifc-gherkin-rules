@@ -20,3 +20,19 @@
    015 |       :doc:`Given The value refers to a valid EPSG code </steps/stepscrspy_ThevaluereferstoavalidEPSGcode>`
    016 | 
    017 |       :doc:`Then The CRS should define a vertical component </steps/stepscrspy_TheCRSshoulddefineaverticalcomponent>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.7`
+     - 2025-06-16
+     - :commit:`af8dc3d8f6d7873a07ef394a6a64c3b99111e74d`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF007_valid-vertical-datum-crs-type.feature>`_

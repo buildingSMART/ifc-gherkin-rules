@@ -29,3 +29,19 @@
    024 |         :doc:`Given .RepresentationType. ^is^ 'BoundingBox' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    025 | 
    026 |         :doc:`Then .RepresentationIdentifier. ^is^ 'Box' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.4`
+     - 2025-03-29
+     - :commit:`8d29b04d41160bb2ab4f269ce610e0a207850a47`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.4/features/rules/BBX/BBX001_Bounding-box-shape-representation.feature>`_

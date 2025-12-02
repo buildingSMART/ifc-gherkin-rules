@@ -31,7 +31,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-09-22
+     - :commit:`8e8b1297fbe1fb07b403d55bc1d2ffabca72f70d`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/ALB010_Alignment-nesting-referents.feature>`_
    * - v2
      - :tag:`v0.7.3`
      - 2025-03-26
      - :commit:`c4f4fe0179480d9a27e0043c7abcfdcd4f5411bf`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/ALB/ALB010_Alignment-nesting-referents.feature>`_

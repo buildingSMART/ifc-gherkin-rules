@@ -63,11 +63,19 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-24
+     - :commit:`20a7d571279f7a3c8bb58333f4222e032ca88a4e`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS005_Alignment-shape-representation.feature>`_
    * - v2
      - :tag:`v0.7.1`
      - 2025-03-08
      - :commit:`2a11948ed6e598dbe54231ae5246e1fc0b863f28`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/ALS/ALS005_Alignment-shape-representation.feature>`_
    * - v3
      - :tag:`v0.7.9`
      - 2025-08-25
      - :commit:`376220aa8cbc9fefbd97fbf2abe27f1d072f5132`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.9/features/rules/ALS/ALS005_Alignment-shape-representation.feature>`_

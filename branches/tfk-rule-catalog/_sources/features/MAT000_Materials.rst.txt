@@ -34,3 +34,19 @@
    029 | 
    030 |         :doc:`Then The IFC model contains information on materials assigned to elements </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
    031 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-08-05
+     - :commit:`48d2d8cdf8c979e55b8ea9af21c735891bef7b90`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/MAT000_Materials.feature>`_

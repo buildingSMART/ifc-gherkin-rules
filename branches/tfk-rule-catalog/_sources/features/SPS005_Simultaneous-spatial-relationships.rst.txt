@@ -26,7 +26,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.6`
+     - 2025-05-24
+     - :commit:`0f135fd3799d61326232093b9d5f20b46aad8607`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.6/features/rules/SPS/SPS005_Simultaneous-spatial-relationships.feature>`_
    * - v2
      - :tag:`v0.7.7`
      - 2025-06-17
      - :commit:`696fce830253ae65d0e5878d8ce7991c6dec5254`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/SPS/SPS005_Simultaneous-spatial-relationships.feature>`_

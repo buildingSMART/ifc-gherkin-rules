@@ -29,7 +29,14 @@
      - Tag
      - Date
      - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-14
+     - :commit:`ad85d01ddcf5a7df694a36ba25684fe2e03e10fa`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/PJS002_Correct-elements-related-to-project.feature>`_
    * - v2
      - :tag:`v0.6.6`
      - 2024-08-08
      - :commit:`268f8a0d4c04303d0c8bea9d11f397cb7eaf0c85`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/PJS002_Correct-elements-related-to-project.feature>`_

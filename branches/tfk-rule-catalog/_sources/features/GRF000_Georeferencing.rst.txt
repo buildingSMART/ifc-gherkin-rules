@@ -23,3 +23,19 @@
    018 | 
    019 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
    020 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.7`
+     - 2025-06-09
+     - :commit:`1bce8d5787e2cd541263896da46f4388c535224b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF000_Georeferencing.feature>`_

@@ -40,3 +40,19 @@
    035 |   :doc:`Then The value of attribute .MethodOfMeasurement. must be 'BaseQuantities' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
    036 | 
    037 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.6`
+     - 2025-05-18
+     - :commit:`f5e0df927d656d0a434def14803ab90e48ec1874`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.6/features/rules/QTY/QTY001_Standard-quantities-and-quantity-sets-validation.feature>`_

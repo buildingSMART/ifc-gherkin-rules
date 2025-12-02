@@ -18,3 +18,19 @@
    013 |       :doc:`Given Its value ^does not start^ with 'Pset\_' </steps/givensattributespy_Itsvalueprefix_conditionprefix_conditionwithprefix>`
    014 | 
    015 |       :doc:`Then Its value must not conform to the expression /^[Pp][Ss][Ee][Tt]/ </steps/givensattributespy_Itsvalueregex_conditionregex_conditiontotheexpressionregex_pattern>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.1`
+     - 2025-03-10
+     - :commit:`b227907108eb4ba0646e800e184bdf98633d304a`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/PSE/PSE002_Custom-properties-and-property-sets-validation.feature>`_

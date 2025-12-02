@@ -23,3 +23,19 @@
    018 | 
    019 |     :doc:`Then The IFC model contains information on quantities of elements </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
    020 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-08-19
+     - :commit:`76eeaaff1c1884ef512ffc6d378a7b26c1aa405a`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/QTY000_Quantities-for-objects.feature>`_

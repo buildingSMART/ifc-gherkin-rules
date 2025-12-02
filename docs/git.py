@@ -115,7 +115,21 @@ def version_events_for_file(path, repo=REPO_ROOT):
       }
     """
     events = []
-
+    
+    intro = introduced_commit(path, REPO_ROOT)
+    try:
+        tag = tags_for_commit(intro, repo)[0]
+    except IndexError:
+        tag = None
+    events.append(
+        {
+            "version": 1, # introduction
+            "commit": intro,
+            "tag": tag,
+            "date": git("show", "-s", "--format=%cd", "--date=short", intro, cwd=repo).strip() 
+        }
+    )
+    
     for bump in reversed(list(version_bumps_from_log(path, repo))):
         commit = bump["commit"]
         to_ver = bump["to"]
@@ -125,18 +139,19 @@ def version_events_for_file(path, repo=REPO_ROOT):
         except IndexError:
             tag = None
 
-        date = git("show", "-s", "--format=%cd", "--date=short", commit, cwd=repo).strip()
-
         events.append(
             {
                 "version": to_ver,
                 "commit": commit,
                 "tag": tag,
-                "date": date,
+                "date": git("show", "-s", "--format=%cd", "--date=short", commit, cwd=repo).strip(),
             }
         )
-
     return events
+
+def path_exists_in_ref(ref, path, repo=REPO_ROOT):
+    out = git("ls-tree", ref, "--", path, cwd=repo)
+    return bool(out.strip())
 
 def process_version_info(path):
    

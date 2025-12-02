@@ -6,7 +6,7 @@ import subprocess, re
 from collections import defaultdict
 import sys
 
-from git import version_events_for_file
+from git import version_events_for_file, path_exists_in_ref
 
 from git import git  # if you export it, or roll a tiny helper
 
@@ -234,22 +234,44 @@ def main():
                 feature_file.write("     - Tag\n")
                 feature_file.write("     - Date\n")
                 feature_file.write("     - Commit\n")
+                feature_file.write("     - Rule link\n")
                 
                 for ev in events:
+                    from conf import GITHUB_BASE
                     ver = f"v{ev['version']}"
-                    raw_tag = ev["tag"] or "n/a"
+                    raw_tag = ev["tag"]
                     date = ev["date"]
-                    sha = ev["commit"]   
-                    
+                    sha = ev["commit"]
+
                     if raw_tag:
                         tag_cell = f":tag:`{raw_tag}`"
+
+                        branch_version = raw_tag.lstrip("v")
+
+                        new_layout_path = feat
+                        old_layout_path = os.path.join("features", os.path.basename(feat))
+
+                        if path_exists_in_ref(raw_tag, new_layout_path):
+                            feat_git_url = new_layout_path
+                        elif path_exists_in_ref(raw_tag, old_layout_path):
+                            feat_git_url = old_layout_path
+                        else:
+                            feat_git_url = None
+
+                        if feat_git_url:
+                            rule_url = f"{GITHUB_BASE}/blob/release/{branch_version}/{feat_git_url}"
+                            rule_link_cell = f"`view <{rule_url}>`_"
+                        else:
+                            rule_link_cell = "n/a"
                     else:
                         tag_cell = "n/a"
+                        rule_link_cell = "n/a"
 
                     feature_file.write(f"   * - {ver}\n")
                     feature_file.write(f"     - {tag_cell}\n")
                     feature_file.write(f"     - {date}\n")
                     feature_file.write(f"     - :commit:`{sha}`\n")
+                    feature_file.write(f"     - {rule_link_cell}\n")
 
     # ------------------------------------------------------------------
     # Group feature bases by functional-part code (first 3 chars, e.g. ALB)

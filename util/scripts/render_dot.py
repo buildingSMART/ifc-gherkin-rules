@@ -200,8 +200,6 @@ def process(log_text):
 
         yield scenario, dot_text
 
-        break
-
 
 if __name__ == "__main__":
     assert shutil.which("dot")

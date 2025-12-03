@@ -5,8 +5,7 @@ Feature: LOP000 - Local placement
 The rule verifies the presence of IFC entities used to position a product in relation to the placement of another product; 
 or its absolute placement within the geometric representation context of the project.
 
-  @E00010
-  Scenario: Check for activation . 
+  Scenario: Check for activation .
 
       Given An .IfcObject.
       Given Its attribute .ObjectPlacement.

@@ -1,7 +1,6 @@
 @implementer-agreement
 @LIP
 @version1
-@E00020
 
 Feature: LIP000 - Linear Placement
     The rule verifies the presence of IFC entities used to position elements relative to an IfcLinearPositioningElement

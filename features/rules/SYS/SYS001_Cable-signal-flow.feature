@@ -10,12 +10,10 @@ The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a 
     Given A model with Schema 'IFC4.3'
     Given an .IfcCableSegment.
 
-  @E00100
   Scenario: Agreement on IfcCableSegment having ports
 
     Then It [must be nested by] ^exactly^ [2] instance(s) of .IfcDistributionPort.
   
-  @E00100
   Scenario: Agreement on port directions
   
     Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcDistributionPort. and following that

@@ -1,7 +1,6 @@
 @implementer-agreement
 @GEM
 @version1
-@E00010
 
 Feature: GEM011 - Curve segments consistency
 

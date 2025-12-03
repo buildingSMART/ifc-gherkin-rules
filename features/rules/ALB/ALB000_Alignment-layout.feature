@@ -1,7 +1,6 @@
 @implementer-agreement
 @ALB
 @version1
-@E00020
 
 Feature: ALB000 - Alignment layout
     The rule verifies the presence of IFC entities used to define the business logic, or layout, of an alignment.

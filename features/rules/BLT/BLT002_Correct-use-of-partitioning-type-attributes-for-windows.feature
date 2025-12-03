@@ -1,7 +1,6 @@
 @implementer-agreement
 @BLT
 @version1
-@E00020
 
 Feature: BLT002 - Correct use of partitioning type attributes for windows
 

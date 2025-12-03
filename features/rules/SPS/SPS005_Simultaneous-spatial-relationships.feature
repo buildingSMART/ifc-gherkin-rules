@@ -1,7 +1,6 @@
 @implementer-agreement
 @SPS
 @version2
-@E00040
 Feature: SPS005 - Simultaneous spatial relationships
 The rule verifies that an IfcElement does not simultaneously act as a child in two or more spatial relationships. For example, an element 
 cannot participate in both nesting and aggregating children roles.

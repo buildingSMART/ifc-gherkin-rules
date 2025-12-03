@@ -1,7 +1,6 @@
 @implementer-agreement
 @BBX
 @version1
-@E00020
 
 Feature: BBX000 - Bounding Box
 The rule verifies the presence of IFC entities used to define an orthogonal box, 

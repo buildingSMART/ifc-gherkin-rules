@@ -11,20 +11,17 @@ The rule verifies that IfcAlignmentVertical is represented correctly with repres
     Given Its attribute .Representations.
 
   @version3
-  @E00010
   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
 
     Given its attribute .Items.
     Then  The type must be 'IfcGradientCurve'
 
-  @E00020
   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Value
 
       Given its attribute .RepresentationIdentifier.
       Then The value must be 'Axis'
 
 
-  @E00020
   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
 
       Given its attribute .RepresentationType.

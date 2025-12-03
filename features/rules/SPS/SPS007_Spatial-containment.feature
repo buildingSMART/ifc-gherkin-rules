@@ -1,7 +1,6 @@
 @implementer-agreement
 @SPS
 @version6
-@E00040
 
 Feature: SPS007 - Spatial Containment
 The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment

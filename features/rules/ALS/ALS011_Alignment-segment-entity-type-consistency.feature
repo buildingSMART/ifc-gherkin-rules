@@ -2,6 +2,7 @@
 @ALS
 @version3
 
+
 Feature: ALS011 - Alignment segment entity type consistency
 
   The rule verifies that the same entity type is used for all segments

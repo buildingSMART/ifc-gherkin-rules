@@ -2,7 +2,7 @@
 @GEM
 @version2
 @disabled
-@E00020
+
 Feature: GEM005 - Building shape representation
 The rule verifies that an IfcBuilding has a correct representation
 

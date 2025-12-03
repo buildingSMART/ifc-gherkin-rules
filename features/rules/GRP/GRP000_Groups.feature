@@ -1,7 +1,6 @@
 @implementer-agreement
 @GRP
 @version1
-@E00050
 Feature: GRP000 - Groups
 The rule verifies the presence of IFC entities used to define a group as a logical collection of objects.
 

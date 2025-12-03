@@ -1,7 +1,6 @@
 @implementer-agreement
 @ALB
 @version1
-@E00100
 
 Feature: ALB002 - Alignment Layout Relationships
   The rule verifies that nesting and decomposition relationships are used correctly with alignment layouts.

@@ -1,4 +1,4 @@
-property_set_name,template_type,applicable_entities,applicable_type_value,property_definitions
+Name,template_type,applicable_entities,applicable_type_value,property_definitions
 Qto_ActuatorBaseQuantities,QTO_TYPEDRIVENOVERRIDE,"['IfcActuator', 'IfcActuatorType']","IfcActuator,IfcActuatorType","[{'property_name': 'GrossWeight', 'property_type': 'IfcQuantityWeight'}]"
 Qto_AirTerminalBaseQuantities,QTO_TYPEDRIVENOVERRIDE,"['IfcAirTerminal', 'IfcAirTerminalType']","IfcAirTerminal,IfcAirTerminalType","[{'property_name': 'GrossWeight', 'property_type': 'IfcQuantityWeight'}, {'property_name': 'Perimeter', 'property_type': 'IfcQuantityLength'}, {'property_name': 'TotalSurfaceArea', 'property_type': 'IfcQuantityArea'}]"
 Qto_AirTerminalBoxTypeBaseQuantities,QTO_TYPEDRIVENOVERRIDE,"['IfcAirTerminalBox', 'IfcAirTerminalBoxType']","IfcAirTerminalBox,IfcAirTerminalBoxType","[{'property_name': 'GrossWeight', 'property_type': 'IfcQuantityWeight'}]"

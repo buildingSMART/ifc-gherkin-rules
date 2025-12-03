@@ -1,0 +1,32 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0]'),'2;1');
+FILE_NAME('fail-pjs001-fluid_oz_uk_ifc2x3.ifc','2025-11-18T20:39:40-05:00',(''),(''),'IfcOpenShell 0.0.0','redacted - redacted - 3.14159','Nobody');
+FILE_SCHEMA(('IFC2X3'));
+ENDSEC;
+DATA;
+#1=IFCACTORROLE(.USERDEFINED.,'CONTRIBUTOR',$);
+#2=IFCTELECOMADDRESS(.USERDEFINED.,$,'WEBPAGE',$,$,$,$,'https://ifcopenshell.org');
+#3=IFCORGANIZATION('IfcOpenShell','IfcOpenShell','IfcOpenShell is an open source software library that helps users and software developers to work with IFC data.',(#1),(#2));
+#4=IFCAPPLICATION(#3,'0.0.0','IfcOpenShell','IfcOpenShell');
+#5=IFCPERSON('FW','Whalbanger','Frank',$,$,$,$,$);
+#6=IFCORGANIZATION('SBB','Soggy Bottom Boys',$,$,$);
+#7=IFCPERSONANDORGANIZATION(#5,#6,$);
+#8=IFCOWNERHISTORY(#7,#4,.READWRITE.,.ADDED.,1763516380,#7,#4,1763516380);
+#9=IFCPROJECT('3qYCxaONHFGe86oex3KHpw',#8,'PJS001 Unit Test',$,$,$,$,(#14),#28);
+#10=IFCCARTESIANPOINT((0.,0.,0.));
+#11=IFCDIRECTION((0.,0.,1.));
+#12=IFCDIRECTION((1.,0.,0.));
+#13=IFCAXIS2PLACEMENT3D(#10,#11,#12);
+#14=IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,1.E-05,#13,$);
+#15=IFCGEOMETRICREPRESENTATIONSUBCONTEXT('Body',$,*,*,*,*,#14,$,.MODEL_VIEW.,$);
+
+/* volume unit definition */
+#16=IFCDIMENSIONALEXPONENTS(3,0,0,0,0,0,0);
+#17=IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
+#18=IFCMEASUREWITHUNIT(IFCREAL(0.0000284130625),#17);
+#19=IFCCONVERSIONBASEDUNIT(#16,.VOLUMEUNIT.,'fluid ounce UK',#18);
+
+#28=IFCUNITASSIGNMENT((#19));
+ENDSEC;
+END-ISO-10303-21;

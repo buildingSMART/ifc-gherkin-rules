@@ -1,3 +1,5 @@
+# flake8: noqa
+
 import ast
 from collections import defaultdict
 import os

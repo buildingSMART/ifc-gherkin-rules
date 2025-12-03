@@ -57,8 +57,8 @@ def test_invocation(filename):
         
     validation_outcomes = [d for d in gherkin_results[1:] if all(key not in d for key in ci_cd_checks.keys())]
 
-    error_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] in ['Error', 'Warning']]
-    activating_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'] == 'Executed']
+    error_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'].lower() in ['error', 'warning']]
+    activating_outcomes = [outcome for outcome in validation_outcomes if outcome['severity'].lower() == 'executed']
 
 
     print()

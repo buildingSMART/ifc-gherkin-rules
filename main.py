@@ -38,7 +38,7 @@ def get_commits(cwd, feature_file):
     return subprocess.check_output(['git', 'log', '--pretty=format:%h', feature_file], cwd=cwd).decode('ascii').split('\n')
 
 
-def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None, purepythonparser=False):
+def run(filename, rule_type=RuleType.ALL, max_outcomes: int = 0, with_console_output=False, execution_mode = ExecutionMode.PRODUCTION, task_id = None, purepythonparser=False):
     cwd = os.path.dirname(__file__)
     
     fd, jsonfn = tempfile.mkstemp("pytest.json")
@@ -63,13 +63,14 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
 
     if with_console_output:
         # Sometimes it's easier to see what happens exactly on the console output
-        print('>',*[sys.executable, "-m", "behave", "--no-capture", "-v", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}"])
+        print('>',*[sys.executable, "-m", "behave", "--no-capture", "-v", *feature_filter, *tag_filter, "--define", f"input={os.path.abspath(filename)}","--define", f"max_outcomes_per_rule={max_outcomes}"])
         subprocess.run(
             [
                 sys.executable, "-m", "behave", "--no-capture", "-v",
                 *feature_filter, *tag_filter,
                 "--define", f"input={os.path.abspath(filename)}", 
                 "--define", f"execution_mode={execution_mode}",
+                "--define", f"max_outcomes_per_rule={max_outcomes}",
                 *(["--define", f"task_id={task_id}"] if task_id is not None else []),
             ], 
         cwd=cwd
@@ -88,6 +89,7 @@ def run(filename, rule_type=RuleType.ALL, with_console_output=False, execution_m
             *feature_filter, *tag_filter, 
             "--define", f"input={os.path.abspath(filename)}",
             "--define", f"execution_mode={execution_mode}", 
+            "--define", f"max_outcomes_per_rule={max_outcomes}",
             "--define", f"purepythonparser={purepythonparser}", 
             *(["--define", f"task_id={task_id}"] if task_id is not None else []),
             "-f", "outcome_embedding_json", "-o", jsonfn # save to json file

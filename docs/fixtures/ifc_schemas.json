@@ -1,0 +1,6 @@
+[
+    { "model": "scorecards.ifcschema", "pk": "1", "fields": { "identifier": "IFC2X3",      "name": "IFC 2x3 TC1",    "version": "2.3.0.1",  "iso_publication": "ISO/PAS 16739:2005", "status": "Official", "published": "2007-07",  "created" : "2025-08-01 00:00:00Z" } },
+    { "model": "scorecards.ifcschema", "pk": "2", "fields": { "identifier": "IFC4",        "name": "IFC 4 ADD2 TC1", "version": "4.0.2.1",  "iso_publication": "ISO 16739-1:2018",   "status": "Official", "published": "2013-02",  "created" : "2025-08-01 00:00:00Z" } },
+    { "model": "scorecards.ifcschema", "pk": "3", "fields": { "identifier": "IFC4X3_ADD1", "name": "IFC 4.3 ADD1",   "version": "4.0.1.0",  "iso_publication": "",                   "status": "Retired",  "published": "2015-06",  "created" : "2025-08-01 00:00:00Z", "excluded" : "True", "excluded_reason": "retired" } },
+    { "model": "scorecards.ifcschema", "pk": "4", "fields": { "identifier": "IFC4X3_ADD2", "name": "IFC 4.3 ADD2",   "version": "4.3.2.0",  "iso_publication": "ISO 16739-1:2024",   "status": "Official", "published": "2024-04",  "created" : "2025-08-01 00:00:00Z" } }
+  ]

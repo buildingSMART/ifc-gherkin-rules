@@ -1,0 +1,65 @@
+name: Build & Deploy Docs (Sphinx → Intermediate branch → GitHub Pages)
+
+on:
+  push:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+env:
+  PYTHON_VERSION: "3.11"
+  DOCS_OUTPUT_DIR: "docs/_build"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update submodule
+        run: |
+          git submodule init && git submodule update --recursive --remote
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          set -eux
+          pip install -r requirements.txt
+          pip install sphinx sphinx_rtd_theme natsort
+          wget -O /tmp/ifcopenshell_python.zip https://s3.amazonaws.com/ifcopenshell-builds/ifcopenshell-python-`python3 -c 'import sys;print("".join(map(str, sys.version_info[0:2])))'`-v0.8.3-260bc80-linux64.zip
+          mkdir -p `python3 -c 'import site; print(site.getusersitepackages())'`
+          unzip -d `python3 -c 'import site; print(site.getusersitepackages())'` /tmp/ifcopenshell_python.zip
+
+      - name: Build docs
+        run: |
+          set -eux
+          cd docs
+          python build_docs.py
+
+      - name: Compute destination directory
+        run: |
+          if [ "$GITHUB_REF_TYPE" = "branch" ]; then
+            echo "DEST_DIR=branches/$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+          elif [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            echo "DEST_DIR=tags/$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+          fi
+
+      - name: Deploy docs to branch in a subdirectory
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: versioned-catalog
+          publish_dir: ${{ env.DOCS_OUTPUT_DIR }}
+          destination_dir: ${{ env.DEST_DIR }}

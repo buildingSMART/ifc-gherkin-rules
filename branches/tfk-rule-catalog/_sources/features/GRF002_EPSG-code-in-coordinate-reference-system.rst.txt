@@ -6,19 +6,18 @@
    001 | \@industry-practice
    002 | \@GRF
    003 | \@version1
-   004 | \@E00100
-   005 | Feature: GRF002 - EPSG code in coordinate reference system
-   006 | The rule verifies that the name of the coordinate reference system refers to a valid EPSG code from the official EPSG geodetic parameter dataset.
-   007 | EPSG code validation is performed using the pyproj library, which includes a local copy of the official EPSG dataset (https://epsg.org) maintained by IOGP.
-   008 | https://pyproj4.github.io/pyproj/stable/api/database.html
-   009 | 
-   010 |   Scenario: Validate EPSG code in IfcCoordinateReferenceSystem
-   011 | 
-   012 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   013 |     :doc:`Given An .IfcCoordinateReferenceSystem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   014 |     :doc:`Given Its attribute .Name. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   015 | 
-   016 |     :doc:`Then The value must refer to a valid EPSG code </steps/stepscrspy_ThevaluemustrefertoavalidEPSGcode>`
+   004 | Feature: GRF002 - EPSG code in coordinate reference system
+   005 | The rule verifies that the name of the coordinate reference system refers to a valid EPSG code from the official EPSG geodetic parameter dataset.
+   006 | EPSG code validation is performed using the pyproj library, which includes a local copy of the official EPSG dataset (https://epsg.org) maintained by IOGP.
+   007 | https://pyproj4.github.io/pyproj/stable/api/database.html
+   008 | 
+   009 |   Scenario: Validate EPSG code in IfcCoordinateReferenceSystem
+   010 | 
+   011 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |     :doc:`Given An .IfcCoordinateReferenceSystem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     :doc:`Given Its attribute .Name. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 | 
+   015 |     :doc:`Then The value must refer to a valid EPSG code </steps/stepscrspy_ThevaluemustrefertoavalidEPSGcode>`
 
 .. rubric:: Version history
 

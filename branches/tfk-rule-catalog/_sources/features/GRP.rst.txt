@@ -7,5 +7,6 @@ The ability to group objects related by functional or logical criteria. Used, fo
 
    :titlesonly:
 
+   GRP000_Groups
    GRP001_Acyclic-groups
 

@@ -23,16 +23,24 @@ Usages:
 
    :doc:`/features/GEM052_Correct-geometric-subcontexts`:12
 
+ - **Given** *an .IfcObject. ^including subtypes^*
+
+   :doc:`/features/GRP000_Groups`:9
+
  - **Given** *An .IfcObject. ^with subtypes^*
 
-   :doc:`/features/OJT001_Object-predefined-type`:12
+   :doc:`/features/OJT001_Object-predefined-type`:14
 
  - **Given** *An .IfcTypeObject. ^with subtypes^*
 
-   :doc:`/features/OJT001_Object-predefined-type`:18
+   :doc:`/features/OJT001_Object-predefined-type`:20
 
  - **Given** *An .IfcTypeObject. ^with subtypes^*
 
-   :doc:`/features/OJT001_Object-predefined-type`:24
+   :doc:`/features/OJT001_Object-predefined-type`:26
+
+ - **Given** *An .IfcDerivedProfileDef. ^without subtypes^*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:13
 
 

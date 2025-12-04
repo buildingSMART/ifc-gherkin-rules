@@ -78,6 +78,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -137,23 +138,20 @@
 011 |         <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representations.</span></a>
 012 |
 013 |
-014 |         &#64;E00020
-015 |         Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationIdentifier
-016 |
-017 |             <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .RepresentationIdentifier. ^is^ 'Axis'</span></a>
+014 |         Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationIdentifier
+015 |
+016 |             <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .RepresentationIdentifier. ^is^ 'Axis'</span></a>
+017 |
 018 |
-019 |
-020 |         &#64;E00020
-021 |         Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationType
+019 |         Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationType
+020 |
+021 |             <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .RepresentationType. ^is^ 'Segment'</span></a>
 022 |
-023 |             <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .RepresentationType. ^is^ 'Segment'</span></a>
-024 |
+023 |
+024 |         Scenario: Agreement on each IfcAlignmentSegment using correct entity type for Items
 025 |
-026 |         &#64;E00010
-027 |         Scenario: Agreement on each IfcAlignmentSegment using correct entity type for Items
-028 |
-029 |             <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Items.</span></a>
-030 |             <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then [Its entity type] ^is^ 'IfcCurveSegment'</span></a></pre>
+026 |             <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Items.</span></a>
+027 |             <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then [Its entity type] ^is^ 'IfcCurveSegment'</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

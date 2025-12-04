@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a><ul class="current">
@@ -119,16 +120,15 @@
 <pre class="literal-block">001 | &#64;PJS
 002 | &#64;industry-practice
 003 | &#64;version1
-004 | &#64;E00020
-005 | Feature: PJS101 - Project presence
-006 | The rule verifies that there is exactly one instance of IfcProject.
-007 | While this is a common industry practice, it does not make the IFC model invalid.
-008 | For example, project libraries, including type libraries or property definition libraries, may not necessarily follow this rule.
-009 |
-010 | Scenario: Check project existence
-011 |     <a class="reference internal" href="../steps/givensattributespy_AnIFCmodel.html"><span class="doc">Given an IFC Model</span></a>
-012 |
-013 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be exactly 1 instance(s) of IfcProject</span></a></pre>
+004 | Feature: PJS101 - Project presence
+005 | The rule verifies that there is exactly one instance of IfcProject.
+006 | While this is a common industry practice, it does not make the IFC model invalid.
+007 | For example, project libraries, including type libraries or property definition libraries, may not necessarily follow this rule.
+008 |
+009 | Scenario: Check project existence
+010 |     <a class="reference internal" href="../steps/givensattributespy_AnIFCmodel.html"><span class="doc">Given an IFC Model</span></a>
+011 |
+012 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be exactly 1 instance(s) of IfcProject</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

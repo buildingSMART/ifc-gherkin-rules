@@ -9,11 +9,10 @@
    004 | Feature: GEM113 - Indexed poly curve arcs must not be defined using colinear points
    005 | The rule verifies that all the three points of any IfcArcIndex segment of an IfcIndexedPolyCurve are not colinear after taking the Precision factor into account
    006 | 
-   007 |   \@E00050
-   008 |   Scenario: No poly curve arcs using colinear points
-   009 | 
-   010 |     :doc:`Given An .IfcIndexedPolyCurve. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   011 |     :doc:`Then It must have no arc segments that use colinear points after taking the Precision factor into account </steps/thensgeometrypy_ItmusthavenoarcsegmentsthatusecolinearpointsaftertakingthePrecisionfactorintoaccount>`
+   007 |   Scenario: No poly curve arcs using colinear points
+   008 | 
+   009 |     :doc:`Given An .IfcIndexedPolyCurve. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   010 |     :doc:`Then It must have no arc segments that use colinear points after taking the Precision factor into account </steps/thensgeometrypy_ItmusthavenoarcsegmentsthatusecolinearpointsaftertakingthePrecisionfactorintoaccount>`
 
 .. rubric:: Version history
 

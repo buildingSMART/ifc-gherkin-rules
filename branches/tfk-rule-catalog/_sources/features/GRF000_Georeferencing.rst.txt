@@ -6,23 +6,22 @@
    001 | \@implementer-agreement
    002 | \@GRF
    003 | \@version1
-   004 | \@E00050
-   005 | Feature: GRF000 - Georeferencing
-   006 | The rule verifies the presence of IFC entities used to define the geographic location and orientation of the model relative to a coordinate reference system.
-   007 | The simple attributes on IfcSite: RefLatitude, RefLongitude and RefElevation are not considered proper georeferencing in the context of this rule.
+   004 | Feature: GRF000 - Georeferencing
+   005 | The rule verifies the presence of IFC entities used to define the geographic location and orientation of the model relative to a coordinate reference system.
+   006 | The simple attributes on IfcSite: RefLatitude, RefLongitude and RefElevation are not considered proper georeferencing in the context of this rule.
+   007 | 
    008 | 
-   009 | 
-   010 | Background:
-   011 | 
-   012 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   009 | Background:
+   010 | 
+   011 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 | 
    013 | 
-   014 | 
-   015 |     Scenario: Georeferencing defined with a reference coordinate system
-   016 | 
-   017 |         :doc:`Given An .IfcCoordinateReferenceSystem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   018 | 
-   019 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
-   020 | 
+   014 |     Scenario: Georeferencing defined with a reference coordinate system
+   015 | 
+   016 |         :doc:`Given An .IfcCoordinateReferenceSystem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   017 | 
+   018 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   019 | 
 
 .. rubric:: Version history
 

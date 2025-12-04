@@ -63,7 +63,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GRF002_EPSG-code-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF002</span></code> EPSG code in coordinate reference system - v1</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF003</span></code> CRS presence with spatial entities - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF007_valid-vertical-datum-crs-type.html"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</a></li>
 </ul>
 </li>
@@ -73,6 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -123,25 +124,24 @@
 002 | &#64;no-activation
 003 | &#64;GRF
 004 | &#64;version1
-005 | &#64;E00010
-006 | Feature: GRF003 - CRS presence with spatial entities
-007 | The rule verifies that proper georeferencing using a coordinate reference system is established when facilities such as buildings or bridges are present in a model.
-008 | Models containing IfcFacility must contain a IfcProjectedCRS or IfcGeographicCRS.
+005 | Feature: GRF003 - CRS presence with spatial entities
+006 | The rule verifies that proper georeferencing using a coordinate reference system is established when facilities such as buildings or bridges are present in a model.
+007 | Models containing IfcFacility must contain a IfcProjectedCRS or IfcGeographicCRS.
+008 |
 009 |
-010 |
-011 |     Scenario: CRS required when IfcBuilding is present
-012 |
-013 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4'</span></a>
-014 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcBuilding.</span></a>
-015 |
-016 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at least 1 instance(s) of IfcProjectedCRS</span></a>
-017 |
-018 |     Scenario: CRS required when IfcFacility is present
-019 |
-020 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4.3'</span></a>
-021 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcFacility.</span></a>
-022 |
-023 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at least 1 instance(s) of IfcCoordinateReferenceSystem</span></a></pre>
+010 |     Scenario: CRS required when IfcBuilding is present
+011 |
+012 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4'</span></a>
+013 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcBuilding.</span></a>
+014 |
+015 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at least 1 instance(s) of IfcProjectedCRS</span></a>
+016 |
+017 |     Scenario: CRS required when IfcFacility is present
+018 |
+019 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4.3'</span></a>
+020 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcFacility.</span></a>
+021 |
+022 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at least 1 instance(s) of IfcCoordinateReferenceSystem</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

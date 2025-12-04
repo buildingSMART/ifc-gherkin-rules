@@ -31,18 +31,18 @@ Usages:
 
  - **Given** *Its .Name. attribute ^does not start^ with 'EPSG:'*
 
-   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:16
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:15
 
  - **Given** *Its .PredefinedType. attribute ^does not start^ with 'NOTDEFINED'*
 
-   :doc:`/features/OJT001_Object-predefined-type`:25
+   :doc:`/features/OJT001_Object-predefined-type`:27
 
  - **Given** *its .Name. attribute ^starts^ with 'Pset_'*
 
-   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:10
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:9
 
  - **Given** *its .Name. attribute ^starts^ with 'Qto_'*
 
-   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:10
+   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:9
 
 

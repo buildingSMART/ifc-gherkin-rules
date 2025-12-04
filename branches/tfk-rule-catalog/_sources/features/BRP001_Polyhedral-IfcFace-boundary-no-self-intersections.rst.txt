@@ -7,7 +7,7 @@
    002 | \@informal-proposition
    003 | \@BRP
    004 | \@version2
-   005 | \@E00050
+   005 | 
    006 | Feature: BRP001 - Polyhedral IfcFace boundary no self-intersections
    007 | The rule verifies that IfcFace instances do not have any self-intersections in their boundaries.
    008 | IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) mechanism.

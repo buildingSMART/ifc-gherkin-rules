@@ -6,14 +6,14 @@ Usages:
 
  - **Given** *It forms an open curve*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:20
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:18
 
  - **Given** *It forms a closed curve*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:28
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:25
 
  - **Given** *It forms a closed curve*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:36
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:32
 
 

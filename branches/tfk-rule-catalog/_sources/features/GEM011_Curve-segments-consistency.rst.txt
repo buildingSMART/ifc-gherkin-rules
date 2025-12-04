@@ -6,51 +6,50 @@
    001 | \@implementer-agreement
    002 | \@GEM
    003 | \@version1
-   004 | \@E00010
-   005 | 
-   006 | Feature: GEM011 - Curve segments consistency
-   007 | 
-   008 |   The rule verifies that the same entity type is used for all segments
-   009 |   and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve
-   010 |   The rule is identical to ALS011, except that it does not require the presence of an IfcAlignment.
+   004 | 
+   005 | Feature: GEM011 - Curve segments consistency
+   006 | 
+   007 |   The rule verifies that the same entity type is used for all segments
+   008 |   and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve
+   009 |   The rule is identical to ALS011, except that it does not require the presence of an IfcAlignment.
+   010 | 
    011 | 
-   012 | 
-   013 | Background:
-   014 |   :doc:`Given a model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   015 |   :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   016 |   :doc:`Given [its entity type] ^is not^ .IfcAlignment. </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   012 | Background:
+   013 |   :doc:`Given a model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   014 |   :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   015 |   :doc:`Given [its entity type] ^is not^ .IfcAlignment. </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   016 |   :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    017 |   :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   018 |   :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   019 |   :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   018 |   :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   019 | 
    020 | 
-   021 | 
-   022 | Scenario Outline: Consistent entity types used
-   023 | 
-   024 |   :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   025 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   026 |   :doc:`Given its entity type </steps/givensentitiespy_Itsentitytype>`
-   027 | 
-   028 |   :doc:`Then The values must be identical at depth 1 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`
-   029 | 
-   030 |   Examples:
-   031 |     | entity            |
-   032 |     | IfcCompositeCurve |
-   033 |     | IfcGradientCurve  |
-   034 |     | IfcSegmentedReferenceCurve |
+   021 | Scenario Outline: Consistent entity types used
+   022 | 
+   023 |   :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   024 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   025 |   :doc:`Given its entity type </steps/givensentitiespy_Itsentitytype>`
+   026 | 
+   027 |   :doc:`Then The values must be identical at depth 1 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`
+   028 | 
+   029 |   Examples:
+   030 |     | entity            |
+   031 |     | IfcCompositeCurve |
+   032 |     | IfcGradientCurve  |
+   033 |     | IfcSegmentedReferenceCurve |
+   034 | 
    035 | 
-   036 | 
-   037 | Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
-   038 | 
-   039 |   :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   040 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   041 |   :doc:`Given its entity type </steps/givensentitiespy_Itsentitytype>`
-   042 | 
-   043 |   :doc:`Then The value must be 'IfcCurveSegment' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
-   044 | 
-   045 |   Examples:
-   046 |     | entity            |
-   047 |     | IfcGradientCurve  |
-   048 |     | IfcSegmentedReferenceCurve |
+   036 | Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
+   037 | 
+   038 |   :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   039 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   040 |   :doc:`Given its entity type </steps/givensentitiespy_Itsentitytype>`
+   041 | 
+   042 |   :doc:`Then The value must be 'IfcCurveSegment' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
+   043 | 
+   044 |   Examples:
+   045 |     | entity            |
+   046 |     | IfcGradientCurve  |
+   047 |     | IfcSegmentedReferenceCurve |
 
 .. rubric:: Version history
 

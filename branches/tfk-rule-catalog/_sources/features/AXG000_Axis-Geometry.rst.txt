@@ -6,23 +6,22 @@
    001 | \@implementer-agreement
    002 | \@AXG
    003 | \@version1
-   004 | \@E00020
-   005 | 
-   006 | Feature: AXG000 - Axis Geometry
-   007 |     The rule verifies the presence of IFC entities used to representing the geometry using a set of axes, where each axis consists of a position in 3D space and a direction vector.
-   008 |     This can be useful for representing geometry that follows a certain pattern or direction, such as walls, beams, columns, or other elements.
-   009 |     In IFC, axis geometry can be represented using the IfcCartesianPoint and IfcDirection classes, which define the position and direction of the axes, respectively.
+   004 | 
+   005 | Feature: AXG000 - Axis Geometry
+   006 |     The rule verifies the presence of IFC entities used to representing the geometry using a set of axes, where each axis consists of a position in 3D space and a direction vector.
+   007 |     This can be useful for representing geometry that follows a certain pattern or direction, such as walls, beams, columns, or other elements.
+   008 |     In IFC, axis geometry can be represented using the IfcCartesianPoint and IfcDirection classes, which define the position and direction of the axes, respectively.
+   009 | 
    010 | 
-   011 | 
-   012 |     Scenario: Check for activation
-   013 | 
-   014 |     :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   015 |     :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   016 |     :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   017 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   018 | 
-   019 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
-   020 | 
+   011 |     Scenario: Check for activation
+   012 | 
+   013 |     :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |     :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 | 
+   018 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   019 | 
 
 .. rubric:: Version history
 

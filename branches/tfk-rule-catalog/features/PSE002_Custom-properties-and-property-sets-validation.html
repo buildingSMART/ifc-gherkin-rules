@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -117,18 +118,17 @@
 <pre class="literal-block">001 | &#64;industry-practice
 002 | &#64;PSE
 003 | &#64;version1
-004 | &#64;E00020
-005 | Feature: PSE002 - Custom properties and property sets validation
-006 | The rule verifies that property set names do not start with any upper- and lowercase variation of 'pset' in order to prevent confusion with standardized property sets in the IFC specification.
-007 | The property sets defined in the IFC specification all start with 'Pset_'
-008 |
-009 |     Scenario: Raise a warning for unstandardized property set names
-010 |
-011 |       <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPropertySet.</span></a>
-012 |       <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Name.</span></a>
-013 |       <a class="reference internal" href="../steps/givensattributespy_Itsvalueprefix_conditionprefix_conditionwithprefix.html"><span class="doc">Given Its value ^does not start^ with 'Pset_'</span></a>
-014 |
-015 |       <a class="reference internal" href="../steps/givensattributespy_Itsvalueregex_conditionregex_conditiontotheexpressionregex_pattern.html"><span class="doc">Then Its value must not conform to the expression /^[Pp][Ss][Ee][Tt]/</span></a></pre>
+004 | Feature: PSE002 - Custom properties and property sets validation
+005 | The rule verifies that property set names do not start with any upper- and lowercase variation of 'pset' in order to prevent confusion with standardized property sets in the IFC specification.
+006 | The property sets defined in the IFC specification all start with 'Pset_'
+007 |
+008 |     Scenario: Raise a warning for unstandardized property set names
+009 |
+010 |       <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPropertySet.</span></a>
+011 |       <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Name.</span></a>
+012 |       <a class="reference internal" href="../steps/givensattributespy_Itsvalueprefix_conditionprefix_conditionwithprefix.html"><span class="doc">Given Its value ^does not start^ with 'Pset_'</span></a>
+013 |
+014 |       <a class="reference internal" href="../steps/givensattributespy_Itsvalueregex_conditionregex_conditiontotheexpressionregex_pattern.html"><span class="doc">Then Its value must not conform to the expression /^[Pp][Ss][Ee][Tt]/</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -116,22 +117,21 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;SPA
 003 | &#64;version1
-004 | &#64;E00020
-005 |
-006 | Feature: SPA000 - Spaces Information
-007 |     The rule verifies the presence of IFC entities used to model spaces, such as rooms, hallways, clearance zones, and circulation areas.
-008 |
-009 |     Scenario Outline: Check for activation of Spaces Information
-010 |
-011 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
-012 |
-013 |     <a class="reference internal" href="../steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description.html"><span class="doc">Then The IFC model contains information on spaces information</span></a>
-014 |
-015 |     Examples:
-016 |     | Entity         |
-017 |     | IfcSpace       |
-018 |     | IfcSpatialZone |
-019 |</pre>
+004 |
+005 | Feature: SPA000 - Spaces Information
+006 |     The rule verifies the presence of IFC entities used to model spaces, such as rooms, hallways, clearance zones, and circulation areas.
+007 |
+008 |     Scenario Outline: Check for activation of Spaces Information
+009 |
+010 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+011 |
+012 |     <a class="reference internal" href="../steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description.html"><span class="doc">Then The IFC model contains information on spaces information</span></a>
+013 |
+014 |     Examples:
+015 |     | Entity         |
+016 |     | IfcSpace       |
+017 |     | IfcSpatialZone |
+018 |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

@@ -16,26 +16,23 @@
    011 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    012 | 
    013 |   \@version3
-   014 |   \@E00010
-   015 |   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
-   016 | 
-   017 |     :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   018 |     :doc:`Then  The type must be 'IfcGradientCurve' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
-   019 | 
-   020 |   \@E00020
-   021 |   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Value
-   022 | 
-   023 |       :doc:`Given its attribute .RepresentationIdentifier. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   024 |       :doc:`Then The value must be 'Axis' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
-   025 | 
+   014 |   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
+   015 | 
+   016 |     :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |     :doc:`Then  The type must be 'IfcGradientCurve' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
+   018 | 
+   019 |   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Value
+   020 | 
+   021 |       :doc:`Given its attribute .RepresentationIdentifier. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   022 |       :doc:`Then The value must be 'Axis' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
+   023 | 
+   024 | 
+   025 |   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
    026 | 
-   027 |   \@E00020
-   028 |   Scenario: Agreement on each IfcAlignmentVertical using correct representation - Type
+   027 |       :doc:`Given its attribute .RepresentationType. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   028 |       :doc:`Then The value must be 'Curve3D' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
    029 | 
-   030 |       :doc:`Given its attribute .RepresentationType. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   031 |       :doc:`Then The value must be 'Curve3D' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
-   032 | 
-   033 | 
+   030 | 
 
 .. rubric:: Version history
 

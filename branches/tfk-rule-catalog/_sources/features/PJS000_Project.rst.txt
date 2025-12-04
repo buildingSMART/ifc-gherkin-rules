@@ -10,12 +10,11 @@
    005 | The rule verifies the presence of IFC entities used to define the overall context and a directory of objects contained within.
    006 | https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project\_Context/content.html
    007 | 
-   008 |   \@E00010
-   009 |   Scenario: Check for activation.
-   010 | 
-   011 |       :doc:`Given An .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   012 | 
-   013 |       :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   008 |   Scenario: Check for activation.
+   009 | 
+   010 |       :doc:`Given An .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 | 
+   012 |       :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
 
 .. rubric:: Version history
 

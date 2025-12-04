@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="( ⚠ SPS004 No combination of containment and positioning - v1) (disabled)" href="SPS004_No-combination-of-containment-and-positioning.html" />
+    <link rel="next" title="( ⚠ SPS004 No combination of containment and positioning - v2) (disabled)" href="SPS004_No-combination-of-containment-and-positioning.html" />
     <link rel="prev" title="SPS002 Correct spatial breakdown - v3" href="SPS002_Correct-spatial-breakdown.html" /> 
 </head>
 
@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -75,9 +76,9 @@
 <li class="toctree-l3"><a class="reference internal" href="SPS001_Basic-spatial-structure-for-buildings.html"><code class="docutils literal notranslate"><span class="pre">SPS001</span></code> Basic spatial structure for buildings - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS002_Correct-spatial-breakdown.html"><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown - v3</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SPS003</span></code> Correct containment of assemblies - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS005_Simultaneous-spatial-relationships.html"><code class="docutils literal notranslate"><span class="pre">SPS005</span></code> Simultaneous spatial relationships - v2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS007_Spatial-containment.html"><code class="docutils literal notranslate"><span class="pre">SPS007</span></code> Spatial containment - v6</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS008_Spatial-container-representations.html"><code class="docutils literal notranslate"><span class="pre">SPS008</span></code> Spatial container representations - v1</a></li>
 </ul>
@@ -123,16 +124,15 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;SPS
 003 | &#64;version1
-004 | &#64;E00040
-005 | Feature: SPS003 - Correct containment of assemblies
-006 | The rule verifies that IfcElement that are aggregated in another IfcElement must not be contained using IfcRelContainedInSpatialStructure.
-007 |
-008 |   Scenario: Agreement on aggregated elements not being contained
-009 |
-010 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcElement.</span></a>
-011 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .Decomposes. ^is not^ empty</span></a>
-012 |
-013 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .ContainedInStructure. must be ^empty^</span></a></pre>
+004 | Feature: SPS003 - Correct containment of assemblies
+005 | The rule verifies that IfcElement that are aggregated in another IfcElement must not be contained using IfcRelContainedInSpatialStructure.
+006 |
+007 |   Scenario: Agreement on aggregated elements not being contained
+008 |
+009 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcElement.</span></a>
+010 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .Decomposes. ^is not^ empty</span></a>
+011 |
+012 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .ContainedInStructure. must be ^empty^</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -159,7 +159,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="SPS002_Correct-spatial-breakdown.html" class="btn btn-neutral float-left" title="SPS002 Correct spatial breakdown - v3" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SPS004_No-combination-of-containment-and-positioning.html" class="btn btn-neutral float-right" title="( ⚠ SPS004 No combination of containment and positioning - v1) (disabled)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SPS004_No-combination-of-containment-and-positioning.html" class="btn btn-neutral float-right" title="( ⚠ SPS004 No combination of containment and positioning - v2) (disabled)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

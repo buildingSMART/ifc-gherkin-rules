@@ -11,12 +11,11 @@
    006 | Two points are considered to be duplicates if the distance between them is less than
    007 | the Precision factor of the applicable geometric context.
    008 | 
-   009 |   \@E00050
-   010 |   Scenario: Agreement on no duplicated points within an indexed poly curve
-   011 | 
-   012 |     :doc:`Given An .IfcIndexedPolyCurve. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   013 | 
-   014 |     :doc:`Then It must have no consecutive points that are coincident after taking the Precision factor into account </steps/thensgeometrypy_ItmusthavenoconsecutivepointsthatarecoincidentaftertakingthePrecisionfactorintoaccount>`
+   009 |   Scenario: Agreement on no duplicated points within an indexed poly curve
+   010 | 
+   011 |     :doc:`Given An .IfcIndexedPolyCurve. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 | 
+   013 |     :doc:`Then It must have no consecutive points that are coincident after taking the Precision factor into account </steps/thensgeometrypy_ItmusthavenoconsecutivepointsthatarecoincidentaftertakingthePrecisionfactorintoaccount>`
 
 .. rubric:: Version history
 

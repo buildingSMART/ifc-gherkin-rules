@@ -6,7 +6,7 @@
    001 | \@implementer-agreement
    002 | \@ALB
    003 | \@version2
-   004 | \@E00010
+   004 | 
    005 | Feature: ALB021 - Alignment overall agreement of business logic and geometry
    006 |   The rule verifies that when an Alignment has both business logic and geometry (representation),
    007 |   the representation entity type must correspond to the layouts present in the business logic.

@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a><ul class="current">
@@ -119,19 +120,18 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;PJS
 003 | &#64;version2
-004 | &#64;E00010
-005 | Feature: PJS002 - Correct elements related to project
-006 |
-007 |   The rule verifies that object occurrences (e.g. beams, walls) used within the context of a project
-008 |   are not related to the project using the the declaration relationship.
-009 |   See the Spatial Containment template for relating object occurrences to the spatial structure.
-010 |   <a class="reference external" href="https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Declaration/content.html">https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Declaration/content.html</a>
-011 |
-012 | Scenario: Validating correct elements relationship from IfcProject
-013 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcProject.</span></a>
-014 |   <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that.html"><span class="doc">Given a relationship .IfcRelDeclares. from .IfcProject. to .IfcRoot. and following that</span></a>
-015 |
-016 |   <a class="reference internal" href="../steps/thensvaluespy_Theivalue_or_typemustbeincsv_filecsv.html"><span class="doc">Then the type must be in 'valid_ProjectDeclaration.csv'</span></a></pre>
+004 | Feature: PJS002 - Correct elements related to project
+005 |
+006 |   The rule verifies that object occurrences (e.g. beams, walls) used within the context of a project
+007 |   are not related to the project using the the declaration relationship.
+008 |   See the Spatial Containment template for relating object occurrences to the spatial structure.
+009 |   <a class="reference external" href="https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Declaration/content.html">https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Declaration/content.html</a>
+010 |
+011 | Scenario: Validating correct elements relationship from IfcProject
+012 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcProject.</span></a>
+013 |   <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that.html"><span class="doc">Given a relationship .IfcRelDeclares. from .IfcProject. to .IfcRoot. and following that</span></a>
+014 |
+015 |   <a class="reference internal" href="../steps/thensvaluespy_Theivalue_or_typemustbeincsv_filecsv.html"><span class="doc">Then the type must be in 'valid_ProjectDeclaration.csv'</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

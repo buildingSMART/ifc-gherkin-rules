@@ -6,22 +6,22 @@ Usages:
 
  - **Given** *its entity type*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:25
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:24
 
  - **Given** *its entity type*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:42
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:41
 
  - **Given** *its entity type*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:56
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:55
 
  - **Given** *its entity type*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:26
+   :doc:`/features/GEM011_Curve-segments-consistency`:25
 
  - **Given** *its entity type*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:41
+   :doc:`/features/GEM011_Curve-segments-consistency`:40
 
 

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OJT001 Object predefined type - v2 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>OJT001 Object predefined type - v3 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -64,9 +64,10 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">OJT001</span></code> Object predefined type - v2</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">OJT001</span></code> Object predefined type - v3</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -101,7 +102,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">OJT001</span></code> Object predefined type - v2</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">OJT001</span></code> Object predefined type - v3</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/OJT001_Object-predefined-type.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -111,35 +112,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ojt001-object-predefined-type-v2">
-<h1><code class="docutils literal notranslate"><span class="pre">OJT001</span></code> Object predefined type - v2<a class="headerlink" href="#ojt001-object-predefined-type-v2" title="Link to this heading"></a></h1>
+  <section id="ojt001-object-predefined-type-v3">
+<h1><code class="docutils literal notranslate"><span class="pre">OJT001</span></code> Object predefined type - v3<a class="headerlink" href="#ojt001-object-predefined-type-v3" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;OJT
-003 | &#64;version2
-004 | &#64;E00010
-005 | Feature: OJT001 - Object Predefined Type
-006 |
-007 |   The rule verifies that the attribute 'PredefinedType' for object occurrences
-008 |   is used in accordance with Concept Template 4.1.3.2 - Object Predefined Type.
-009 |   Ref: <a class="reference external" href="https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/concepts/Object_Attributes/Object_Predefined_Type/content.html">https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/concepts/Object_Attributes/Object_Predefined_Type/content.html</a>
-010 |
-011 | Scenario: Validating the proper use of USERDEFINED PredefinedType for an object typed at the occurrence
-012 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling.html"><span class="doc">Given An .IfcObject. ^with subtypes^</span></a>
-013 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .IsTypedBy. ^is^ empty</span></a>
-014 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .PredefinedType. ^is^ 'USERDEFINED'</span></a>
-015 |   <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .ObjectType. must be ^not empty^</span></a>
-016 |
-017 | Scenario: Validating the proper use of USERDEFINED PredefinedType for an object typed by IfcTypeObject
-018 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling.html"><span class="doc">Given An .IfcTypeObject. ^with subtypes^</span></a>
-019 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .PredefinedType. ^is^ 'USERDEFINED'</span></a>
-020 |   <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .ElementType. must be ^not empty^</span></a>
-021 |
-022 | Scenario: Validating the proper use of PredefinedType for an Object typed by IfcTypeObject
-023 |   <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
-024 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling.html"><span class="doc">Given An .IfcTypeObject. ^with subtypes^</span></a>
-025 |   <a class="reference internal" href="../steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix.html"><span class="doc">Given Its .PredefinedType. attribute ^does not start^ with 'NOTDEFINED'</span></a>
-026 |   <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that.html"><span class="doc">Given A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that</span></a>
-027 |   <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_opdisplay_entitydisplay_entity.html"><span class="doc">Then The value of attribute .PredefinedType. must be ^empty^ [and display entity instance]</span></a></pre>
+003 | &#64;version3
+004 | Feature: OJT001 - Object Predefined Type
+005 |
+006 |   The rule verifies that the attribute 'PredefinedType' for object occurrences
+007 |   is used in accordance with Concept Template 4.1.3.2 - Object Predefined Type.
+008 |   Ref: <a class="reference external" href="https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/concepts/Object_Attributes/Object_Predefined_Type/content.html">https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/concepts/Object_Attributes/Object_Predefined_Type/content.html</a>
+009 |
+010 | Background:
+011 |   <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4' or 'IFC4.3'</span></a>
+012 |
+013 | Scenario: Validating the proper use of USERDEFINED PredefinedType for an object typed at the occurrence
+014 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling.html"><span class="doc">Given An .IfcObject. ^with subtypes^</span></a>
+015 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .IsTypedBy. ^is^ empty</span></a>
+016 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .PredefinedType. ^is^ 'USERDEFINED'</span></a>
+017 |   <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .ObjectType. must be ^not empty^</span></a>
+018 |
+019 | Scenario: Validating the proper use of USERDEFINED PredefinedType for an object typed by IfcTypeObject
+020 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling.html"><span class="doc">Given An .IfcTypeObject. ^with subtypes^</span></a>
+021 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .PredefinedType. ^is^ 'USERDEFINED'</span></a>
+022 |   <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .ElementType. must be ^not empty^</span></a>
+023 |
+024 | Scenario: Validating the proper use of PredefinedType for an Object typed by IfcTypeObject
+025 |   <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+026 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling.html"><span class="doc">Given An .IfcTypeObject. ^with subtypes^</span></a>
+027 |   <a class="reference internal" href="../steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix.html"><span class="doc">Given Its .PredefinedType. attribute ^does not start^ with 'NOTDEFINED'</span></a>
+028 |   <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that.html"><span class="doc">Given A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that</span></a>
+029 |   <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_opdisplay_entitydisplay_entity.html"><span class="doc">Then The value of attribute .PredefinedType. must be ^empty^ [and display entity instance]</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -162,6 +165,12 @@
 <td><p>2024-07-10</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/b84422143af4e077d8be670d1710c95563d7ea7d">b8442214</a></p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJT001_Object-predefined-type.feature">view</a></p></td>
+</tr>
+<tr class="row-even"><td><p>v3</p></td>
+<td><p>n/a</p></td>
+<td><p>2025-11-13</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/45a7c1151eb79c95356ea8f208430703df9b6707">45a7c115</a></p></td>
+<td><p>n/a</p></td>
 </tr>
 </tbody>
 </table>

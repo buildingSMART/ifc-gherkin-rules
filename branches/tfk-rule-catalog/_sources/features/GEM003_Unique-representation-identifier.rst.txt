@@ -6,7 +6,7 @@
    001 | \@informal-proposition
    002 | \@GEM
    003 | \@version1
-   004 | \@E00050
+   004 | 
    005 | Feature: GEM003 - Unique Representation Identifier
    006 | The rule verifies that Shape Representation identifier is unique within the product representation of an IfcProduct element.
    007 | 

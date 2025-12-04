@@ -6,34 +6,33 @@
    001 | \@implementer-agreement
    002 | \@LAY
    003 | \@version1
-   004 | \@E00020
-   005 | 
-   006 | Feature: LAY000 - Presentation Layer Assignment
-   007 |     The rule verifies the presence of IFC entities used to assign layers (also known as, CAD layer) to collection of elements.
-   008 |     This is used mainly for grouping and visibility control, and in general to organise geometry into groups that may be shown or hidden.
-   009 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product\_Shape/Product\_Geometry\_Layer/content.html
+   004 | 
+   005 | Feature: LAY000 - Presentation Layer Assignment
+   006 |     The rule verifies the presence of IFC entities used to assign layers (also known as, CAD layer) to collection of elements.
+   007 |     This is used mainly for grouping and visibility control, and in general to organise geometry into groups that may be shown or hidden.
+   008 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product\_Shape/Product\_Geometry\_Layer/content.html
+   009 | 
    010 | 
-   011 | 
-   012 |     Scenario: Layer assignment to representation
-   013 | 
-   014 |         :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   015 |         :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   016 |         :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   017 |         :doc:`Given its attribute .LayerAssignments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   018 | 
-   019 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   011 |     Scenario: Layer assignment to representation
+   012 | 
+   013 |         :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |         :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |         :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |         :doc:`Given its attribute .LayerAssignments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 | 
+   018 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   019 | 
    020 | 
-   021 | 
-   022 |     Scenario: Layer assignment to representation items
-   023 | 
-   024 |         :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   025 |         :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   026 |         :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   027 |         :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   028 |         :doc:`Given its attribute .LayerAssignment. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   029 | 
-   030 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
-   031 | 
+   021 |     Scenario: Layer assignment to representation items
+   022 | 
+   023 |         :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   024 |         :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   025 |         :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   026 |         :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   027 |         :doc:`Given its attribute .LayerAssignment. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   028 | 
+   029 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   030 | 
 
 .. rubric:: Version history
 

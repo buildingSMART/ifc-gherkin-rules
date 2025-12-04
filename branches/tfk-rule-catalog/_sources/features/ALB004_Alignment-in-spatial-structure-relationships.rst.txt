@@ -6,7 +6,7 @@
    001 | \@implementer-agreement
    002 | \@ALB
    003 | \@version1
-   004 | \@E00100
+   004 | 
    005 | Feature: ALB004 - Alignment in spatial structure relationships
    006 | The rule verifies that each IfcAlignment must be related to IfcProject using the IfcRelAggregates relationship - either directly or indirectly. The indirect case is when a child alignment is aggregated to a parent alignment.
    007 | In this case, only the parent alignment shall be related to the project.

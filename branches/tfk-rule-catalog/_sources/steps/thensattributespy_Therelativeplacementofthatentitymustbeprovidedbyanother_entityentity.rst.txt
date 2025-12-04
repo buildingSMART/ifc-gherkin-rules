@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *The relative placement of that IfcElement must be provided by an IfcLocalPlacement entity*
 
-   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:16
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:15
 
 

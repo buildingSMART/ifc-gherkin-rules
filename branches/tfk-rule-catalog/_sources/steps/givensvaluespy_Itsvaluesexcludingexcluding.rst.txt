@@ -6,6 +6,6 @@ Usages:
 
  - **Given** *Its values excluding SourceCRS*
 
-   :doc:`/features/GRF001_Identical-coordinate-operations`:16
+   :doc:`/features/GRF001_Identical-coordinate-operations`:15
 
 

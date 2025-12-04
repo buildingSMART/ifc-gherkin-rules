@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="IFC (IFC)" href="IFC.html" />
-    <link rel="prev" title="Groups (GRP)" href="GRP.html" /> 
+    <link rel="prev" title="GRP000 Groups - v1" href="GRP000_Groups.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -59,6 +59,7 @@
 <li class="toctree-l2"><a class="reference internal" href="GEM.html">Geometry representation (<code class="docutils literal notranslate"><span class="pre">GEM</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="GRP.html">Groups (<code class="docutils literal notranslate"><span class="pre">GRP</span></code>)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="GRP000_Groups.html"><code class="docutils literal notranslate"><span class="pre">GRP000</span></code> Groups - v1</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRP001</span></code> Acyclic groups - v1</a></li>
 </ul>
 </li>
@@ -67,6 +68,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -116,15 +118,14 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;GRP
 003 | &#64;version1
-004 | &#64;E00120
-005 | Feature: GRP001 - Acyclic groups
-006 | The rule verifies that an IfcGroup does not reference itself, not even through intermediary entities.
-007 |
-008 |   Scenario: Agreement on IfcGroup (and hence systems) being acyclic
-009 |
-010 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcGroup.</span></a>
-011 |
-012 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustnotbereferencedbyitselfdirectlyorindirectly.html"><span class="doc">Then It must not be referenced by itself directly or indirectly</span></a></pre>
+004 | Feature: GRP001 - Acyclic groups
+005 | The rule verifies that an IfcGroup does not reference itself, not even through intermediary entities.
+006 |
+007 |   Scenario: Agreement on IfcGroup (and hence systems) being acyclic
+008 |
+009 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcGroup.</span></a>
+010 |
+011 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustnotbereferencedbyitselfdirectlyorindirectly.html"><span class="doc">Then It must not be referenced by itself directly or indirectly</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -150,7 +151,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="GRP.html" class="btn btn-neutral float-left" title="Groups (GRP)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GRP000_Groups.html" class="btn btn-neutral float-left" title="GRP000 Groups - v1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="IFC.html" class="btn btn-neutral float-right" title="IFC (IFC)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

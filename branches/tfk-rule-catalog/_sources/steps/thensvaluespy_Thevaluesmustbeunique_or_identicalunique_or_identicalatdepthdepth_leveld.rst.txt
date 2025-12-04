@@ -6,11 +6,11 @@ Usages:
 
  - **Then** *The values must be identical at depth 1*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:27
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:26
 
  - **Then** *The values must be identical at depth 1*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:44
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:43
 
  - **Then** *The values must be unique at depth 1*
 
@@ -18,10 +18,14 @@ Usages:
 
  - **Then** *The values must be identical at depth 1*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:28
+   :doc:`/features/GEM011_Curve-segments-consistency`:27
 
  - **Then** *The values must be identical at depth 0*
 
-   :doc:`/features/GRF001_Identical-coordinate-operations`:18
+   :doc:`/features/GRF001_Identical-coordinate-operations`:17
+
+ - **Then** *the values must be identical at depth 1*
+
+   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:30
 
 

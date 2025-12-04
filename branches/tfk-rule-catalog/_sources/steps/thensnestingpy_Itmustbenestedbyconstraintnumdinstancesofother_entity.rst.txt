@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *It [must be nested by] ^exactly^ [2] instance(s) of .IfcDistributionPort.*
 
-   :doc:`/features/SYS001_Cable-signal-flow`:16
+   :doc:`/features/SYS001_Cable-signal-flow`:15
 
 

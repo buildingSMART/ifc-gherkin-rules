@@ -6,40 +6,39 @@
    001 | \@implementer-agreement
    002 | \@CTX
    003 | \@version2
-   004 | \@E00020
-   005 | 
-   006 | Feature: CTX000 - Presentation colours and textures
-   007 |     The rule verifies the presence of IFC entities used to assign colour, texture and other presentation appearance information to objects.
-   008 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product\_Shape/Product\_Geometry\_Colour/content.html
-   009 | 
-   010 |     Scenario Outline: Check for activation - RepresentationItem attributes
-   011 | 
-   012 |         :doc:`Given an .IfcRepresentationItem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   013 |         :doc:`Given Its attribute .\<attribute\>. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   014 | 
-   015 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
-   016 | 
-   017 |         Examples:
-   018 |             | attribute |
-   019 |             | StyledByItem |
-   020 |             | HasColours |
+   004 | 
+   005 | Feature: CTX000 - Presentation colours and textures
+   006 |     The rule verifies the presence of IFC entities used to assign colour, texture and other presentation appearance information to objects.
+   007 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product\_Shape/Product\_Geometry\_Colour/content.html
+   008 | 
+   009 |     Scenario Outline: Check for activation - RepresentationItem attributes
+   010 | 
+   011 |         :doc:`Given an .IfcRepresentationItem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |         :doc:`Given Its attribute .\<attribute\>. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   013 | 
+   014 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   015 | 
+   016 |         Examples:
+   017 |             | attribute |
+   018 |             | StyledByItem |
+   019 |             | HasColours |
+   020 | 
    021 | 
-   022 | 
-   023 |     Scenario: Check for activation - Styled Materials
-   024 | 
-   025 |         :doc:`Given an .IfcObjectDefinition. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   026 |         :doc:`Given its attribute .HasAssociations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   027 |         :doc:`Given [its entity type] ^is^ 'IfcRelAssociatesMaterial' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   028 |         :doc:`Given its attribute .RelatingMaterial. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   029 |         :doc:`Given all referenced instances </steps/givensentitiespy_Allreferencedinstances>`
-   030 |         :doc:`Given [its entity type] ^is^ 'IfcMaterial' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   031 |         :doc:`Given its attribute .HasRepresentation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   032 |         :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   033 |         :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   034 |         :doc:`Given [its entity type] ^is^ 'IfcStyledItem' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   035 | 
-   036 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
-   037 | 
+   022 |     Scenario: Check for activation - Styled Materials
+   023 | 
+   024 |         :doc:`Given an .IfcObjectDefinition. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   025 |         :doc:`Given its attribute .HasAssociations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   026 |         :doc:`Given [its entity type] ^is^ 'IfcRelAssociatesMaterial' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   027 |         :doc:`Given its attribute .RelatingMaterial. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   028 |         :doc:`Given all referenced instances </steps/givensentitiespy_Allreferencedinstances>`
+   029 |         :doc:`Given [its entity type] ^is^ 'IfcMaterial' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   030 |         :doc:`Given its attribute .HasRepresentation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   031 |         :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   032 |         :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   033 |         :doc:`Given [its entity type] ^is^ 'IfcStyledItem' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   034 | 
+   035 |         :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   036 | 
 
 .. rubric:: Version history
 

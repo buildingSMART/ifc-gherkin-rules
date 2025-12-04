@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="SPS008 Spatial container representations - v1" href="SPS008_Spatial-container-representations.html" />
-    <link rel="prev" title="( ⚠ SPS006 Elements referenced in Spatial structures - v1) (disabled)" href="SPS006_Elements-referenced-in-Spatial-structures.html" /> 
+    <link rel="prev" title="( ⚠ SPS006 Elements referenced in Spatial structures - v2) (disabled)" href="SPS006_Elements-referenced-in-Spatial-structures.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -75,9 +76,9 @@
 <li class="toctree-l3"><a class="reference internal" href="SPS001_Basic-spatial-structure-for-buildings.html"><code class="docutils literal notranslate"><span class="pre">SPS001</span></code> Basic spatial structure for buildings - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS002_Correct-spatial-breakdown.html"><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown - v3</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS003_Correct-containment-of-assemblies.html"><code class="docutils literal notranslate"><span class="pre">SPS003</span></code> Correct containment of assemblies - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS005_Simultaneous-spatial-relationships.html"><code class="docutils literal notranslate"><span class="pre">SPS005</span></code> Simultaneous spatial relationships - v2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures - v2) (disabled)</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SPS007</span></code> Spatial containment - v6</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS008_Spatial-container-representations.html"><code class="docutils literal notranslate"><span class="pre">SPS008</span></code> Spatial container representations - v1</a></li>
 </ul>
@@ -123,49 +124,48 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;SPS
 003 | &#64;version6
-004 | &#64;E00040
-005 |
-006 | Feature: SPS007 - Spatial Containment
-007 | The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment
+004 |
+005 | Feature: SPS007 - Spatial Containment
+006 | The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment
+007 |
 008 |
-009 |
-010 |     Scenario: Instances of IfcGrid must be contained within a spatial structure
-011 |
-012 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcGrid.</span></a>
-013 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity.html"><span class="doc">Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcGrid. from .IfcSpatialStructureElement.</span></a>
+009 |     Scenario: Instances of IfcGrid must be contained within a spatial structure
+010 |
+011 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcGrid.</span></a>
+012 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity.html"><span class="doc">Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcGrid. from .IfcSpatialStructureElement.</span></a>
+013 |
 014 |
-015 |
-016 |     Scenario: Instances of IfcAnnotation must be contained within a spatial structure, except when the annotation is nested under another annotation
-017 |
-018 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcAnnotation.</span></a>
-019 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity.html"><span class="doc">Given A relationship .IfcRelNests. ^does not exist^ to .IfcAnnotation. from .IfcAnnotation.</span></a>
-020 |
-021 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity.html"><span class="doc">Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcAnnotation. from .IfcSpatialStructureElement.</span></a>
+015 |     Scenario: Instances of IfcAnnotation must be contained within a spatial structure, except when the annotation is nested under another annotation
+016 |
+017 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcAnnotation.</span></a>
+018 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity.html"><span class="doc">Given A relationship .IfcRelNests. ^does not exist^ to .IfcAnnotation. from .IfcAnnotation.</span></a>
+019 |
+020 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity.html"><span class="doc">Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcAnnotation. from .IfcSpatialStructureElement.</span></a>
+021 |
 022 |
-023 |
-024 |     Scenario: Instances of IfcElement must be part of a spatial structure, with certain exceptions
-025 |
-026 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcElement.</span></a>
-027 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Given [Its Type] ^is not^ 'IfcFeatureElement' ^including subtypes^</span></a>
-028 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .Decomposes. ^is^ empty</span></a>
-029 |
-030 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arequiredrelationshiprelationshipdir1from_toentitydir2from_toother_entity.html"><span class="doc">Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialStructureElement.</span></a>
+023 |     Scenario: Instances of IfcElement must be part of a spatial structure, with certain exceptions
+024 |
+025 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcElement.</span></a>
+026 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Given [Its Type] ^is not^ 'IfcFeatureElement' ^including subtypes^</span></a>
+027 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .Decomposes. ^is^ empty</span></a>
+028 |
+029 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arequiredrelationshiprelationshipdir1from_toentitydir2from_toother_entity.html"><span class="doc">Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialStructureElement.</span></a>
+030 |
 031 |
-032 |
-033 |     Scenario: Entities that are an aggregated part of another element must not also be part of a spatial structure
-034 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcElement.</span></a>
-035 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity.html"><span class="doc">Given a relationship .IfcRelAggregates. to .IfcElement. from .IfcElement.</span></a>
-036 |
-037 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .ContainedInStructure. ^is^ empty</span></a>
+032 |     Scenario: Entities that are an aggregated part of another element must not also be part of a spatial structure
+033 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcElement.</span></a>
+034 |         <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity.html"><span class="doc">Given a relationship .IfcRelAggregates. to .IfcElement. from .IfcElement.</span></a>
+035 |
+036 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .ContainedInStructure. ^is^ empty</span></a>
+037 |
 038 |
-039 |
-040 |     Scenario: All other IFC entities must not be contained within a spatial structure
-041 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcProduct.</span></a>
-042 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Given [Its Type] ^is not^ 'IfcElement' ^including subtypes^</span></a>
-043 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Type] ^is not^ 'IfcGrid'</span></a>
-044 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Type] ^is not^ 'IfcAnnotation'</span></a>
-045 |
-046 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .ContainedInStructure. ^is^ empty</span></a></pre>
+039 |     Scenario: All other IFC entities must not be contained within a spatial structure
+040 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcProduct.</span></a>
+041 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Given [Its Type] ^is not^ 'IfcElement' ^including subtypes^</span></a>
+042 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Type] ^is not^ 'IfcGrid'</span></a>
+043 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Type] ^is not^ 'IfcAnnotation'</span></a>
+044 |
+045 |         <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .ContainedInStructure. ^is^ empty</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -221,7 +221,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SPS006_Elements-referenced-in-Spatial-structures.html" class="btn btn-neutral float-left" title="( ⚠ SPS006 Elements referenced in Spatial structures - v1) (disabled)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SPS006_Elements-referenced-in-Spatial-structures.html" class="btn btn-neutral float-left" title="( ⚠ SPS006 Elements referenced in Spatial structures - v2) (disabled)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="SPS008_Spatial-container-representations.html" class="btn btn-neutral float-right" title="SPS008 Spatial container representations - v1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

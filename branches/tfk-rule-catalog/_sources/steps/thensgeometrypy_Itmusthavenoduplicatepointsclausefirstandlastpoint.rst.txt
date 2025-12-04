@@ -6,14 +6,14 @@ Usages:
 
  - **Then** *It must have no duplicate points including first and last point*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:14
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:13
 
  - **Then** *It must have no duplicate points including first and last point*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:22
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:20
 
  - **Then** *It must have no duplicate points excluding first and last point*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:30
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:27
 
 

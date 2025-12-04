@@ -19,4 +19,6 @@ The ability to define an alignment curve, and its components. These can be used 
    ALB022_Alignment-agreement-on-number-of-segments
    ALB023_Alignment-same-segment-types-in-business-logic-and-geometry
    ALB030_Alignment-local-placement
+   ALB031_Alignment-layouts-default-case
+   ALB032_Alignment-layouts-reusing-horizontal
 

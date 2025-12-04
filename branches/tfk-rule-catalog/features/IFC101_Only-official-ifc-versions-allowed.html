@@ -69,6 +69,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -117,16 +118,15 @@
 <h1><code class="docutils literal notranslate"><span class="pre">IFC101</span></code> Only official ifc versions allowed - v1<a class="headerlink" href="#ifc101-only-official-ifc-versions-allowed-v1" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;critical
 002 | &#64;version1
-003 | &#64;W00030
-004 | Feature: IFC101 - Only official IFC versions allowed
-005 |
-006 | The rule verifies that the IFC model has a schema identifier corresponding to any of the official versions released by buildingSMART.
-007 | Specifically, IFC2x3 TC1 (version 2.3.0.1), IFC4 ADD2 TC1 (version 4.0.2.1), or IFC4.3 ADD2 (version 4.3.2.0).
-008 |
-009 |   Scenario: Verifying Current Schema Identifier for IFC version
-010 |
-011 |     <a class="reference internal" href="../steps/givensattributespy_AnIFCmodel.html"><span class="doc">Given An IFC model</span></a>
-012 |     <a class="reference internal" href="../steps/thensattributespy_Thefieldofthefile_or_modelmustbevalues.html"><span class="doc">Then The Schema Identifier of the model must be 'IFC2X3' or 'IFC4' or 'IFC4X3_ADD2'</span></a></pre>
+003 | Feature: IFC101 - Only official IFC versions allowed
+004 |
+005 | The rule verifies that the IFC model has a schema identifier corresponding to any of the official versions released by buildingSMART.
+006 | Specifically, IFC2x3 TC1 (version 2.3.0.1), IFC4 ADD2 TC1 (version 4.0.2.1), or IFC4.3 ADD2 (version 4.3.2.0).
+007 |
+008 |   Scenario: Verifying Current Schema Identifier for IFC version
+009 |
+010 |     <a class="reference internal" href="../steps/givensattributespy_AnIFCmodel.html"><span class="doc">Given An IFC model</span></a>
+011 |     <a class="reference internal" href="../steps/thensattributespy_Thefieldofthefile_or_modelmustbevalues.html"><span class="doc">Then The Schema Identifier of the model must be 'IFC2X3' or 'IFC4' or 'IFC4X3_ADD2'</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

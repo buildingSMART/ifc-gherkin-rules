@@ -6,7 +6,7 @@
    001 | \@industry-practice
    002 | \@GEM
    003 | \@version2
-   004 | \@E00050
+   004 | 
    005 | Feature: GEM052 - Correct geometric subcontexts
    006 | The rule verifies that there is a minimum of at least one subcontext per context, that its attribute ContextIdentifier is provided (not empty) and its value is one of the allowed values in the list of shape representation identifiers.
    007 | Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.

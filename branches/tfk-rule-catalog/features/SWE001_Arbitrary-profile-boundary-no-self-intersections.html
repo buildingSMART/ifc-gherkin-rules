@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v1" href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html" />
+    <link rel="next" title="SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v2" href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html" />
     <link rel="prev" title="Sweeps (i.e. extrusions, lofts, blends) (SWE)" href="SWE.html" /> 
 </head>
 
@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -74,7 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="SPS.html">Spatial breakdown (<code class="docutils literal notranslate"><span class="pre">SPS</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="SWE.html">Sweeps (i.e. extrusions, lofts, blends) (<code class="docutils literal notranslate"><span class="pre">SWE</span></code>)</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SWE001</span></code> Arbitrary profile boundary no self intersections - v4</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used - v2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="SYS.html">SYS (<code class="docutils literal notranslate"><span class="pre">SYS</span></code>)</a></li>
@@ -117,25 +118,24 @@
 <pre class="literal-block">001 | &#64;informal-proposition
 002 | &#64;SWE
 003 | &#64;version4
-004 | &#64;E00050
-005 | Feature: SWE001 - Arbitrary profile boundary no self-intersections
-006 | The rule verifies that IfcArbitraryClosedProfileDefs and IfcArbitraryProfileDefWithVoids do
-007 | not have any self-intersections in their boundaries. Profile definitions are the basis of
-008 | geometrical sweeps such as extrusions.
-009 |
-010 |   Scenario: Validating that IfcArbitraryClosedProfileDef instances do not have self-intersections in their boundaries
-011 |
-012 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcArbitraryClosedProfileDef.</span></a>
-013 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .OuterCurve.</span></a>
-014 |
-015 |     <a class="reference internal" href="../steps/thensgeometrypy_Theremustbenoselfintersections.html"><span class="doc">Then There must be no self-intersections</span></a>
-016 |
-017 |   Scenario: Validating that IfcArbitraryProfileDefWithVoids instances do not have self-intersections in their inner boundaries
-018 |
-019 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcArbitraryClosedProfileDef.</span></a>
-020 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .InnerCurves.</span></a>
-021 |
-022 |     <a class="reference internal" href="../steps/thensgeometrypy_Theremustbenoselfintersections.html"><span class="doc">Then There must be no self-intersections</span></a></pre>
+004 | Feature: SWE001 - Arbitrary profile boundary no self-intersections
+005 | The rule verifies that IfcArbitraryClosedProfileDefs and IfcArbitraryProfileDefWithVoids do
+006 | not have any self-intersections in their boundaries. Profile definitions are the basis of
+007 | geometrical sweeps such as extrusions.
+008 |
+009 |   Scenario: Validating that IfcArbitraryClosedProfileDef instances do not have self-intersections in their boundaries
+010 |
+011 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcArbitraryClosedProfileDef.</span></a>
+012 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .OuterCurve.</span></a>
+013 |
+014 |     <a class="reference internal" href="../steps/thensgeometrypy_Theremustbenoselfintersections.html"><span class="doc">Then There must be no self-intersections</span></a>
+015 |
+016 |   Scenario: Validating that IfcArbitraryProfileDefWithVoids instances do not have self-intersections in their inner boundaries
+017 |
+018 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcArbitraryClosedProfileDef.</span></a>
+019 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .InnerCurves.</span></a>
+020 |
+021 |     <a class="reference internal" href="../steps/thensgeometrypy_Theremustbenoselfintersections.html"><span class="doc">Then There must be no self-intersections</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -180,7 +180,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="SWE.html" class="btn btn-neutral float-left" title="Sweeps (i.e. extrusions, lofts, blends) (SWE)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html" class="btn btn-neutral float-right" title="SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html" class="btn btn-neutral float-right" title="SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

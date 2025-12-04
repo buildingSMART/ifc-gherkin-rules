@@ -10,14 +10,13 @@
    005 | The rule verifies the presence of IFC entities used to position a product in relation to the placement of another product;
    006 | or its absolute placement within the geometric representation context of the project.
    007 | 
-   008 |   \@E00010
-   009 |   Scenario: Check for activation .
-   010 | 
-   011 |       :doc:`Given An .IfcObject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   012 |       :doc:`Given Its attribute .ObjectPlacement. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   013 |       :doc:`Given [Its entity type] ^is^ 'IfcLocalPlacement' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   014 | 
-   015 |       :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   008 |   Scenario: Check for activation .
+   009 | 
+   010 |       :doc:`Given An .IfcObject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 |       :doc:`Given Its attribute .ObjectPlacement. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 |       :doc:`Given [Its entity type] ^is^ 'IfcLocalPlacement' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   013 | 
+   014 |       :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
 
 .. rubric:: Version history
 

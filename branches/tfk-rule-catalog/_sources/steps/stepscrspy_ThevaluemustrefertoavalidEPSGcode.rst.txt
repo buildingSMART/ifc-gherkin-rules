@@ -6,14 +6,14 @@ Usages:
 
  - **Then** *The value must refer to a valid EPSG code*
 
-   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:16
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:15
 
  - **Then** *The value must refer to a valid EPSG code*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:20
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:19
 
  - **Then** *The value must refer to a valid EPSG code*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:34
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:33
 
 

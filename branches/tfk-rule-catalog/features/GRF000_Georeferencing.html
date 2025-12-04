@@ -63,7 +63,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GRF002_EPSG-code-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF002</span></code> EPSG code in coordinate reference system - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF003_CRS-presence-with-spatial-entities.html"><code class="docutils literal notranslate"><span class="pre">GRF003</span></code> CRS presence with spatial entities - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF007_valid-vertical-datum-crs-type.html"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</a></li>
 </ul>
 </li>
@@ -73,6 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -122,23 +123,22 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;GRF
 003 | &#64;version1
-004 | &#64;E00050
-005 | Feature: GRF000 - Georeferencing
-006 | The rule verifies the presence of IFC entities used to define the geographic location and orientation of the model relative to a coordinate reference system.
-007 | The simple attributes on IfcSite: RefLatitude, RefLongitude and RefElevation are not considered proper georeferencing in the context of this rule.
+004 | Feature: GRF000 - Georeferencing
+005 | The rule verifies the presence of IFC entities used to define the geographic location and orientation of the model relative to a coordinate reference system.
+006 | The simple attributes on IfcSite: RefLatitude, RefLongitude and RefElevation are not considered proper georeferencing in the context of this rule.
+007 |
 008 |
-009 |
-010 | Background:
-011 |
-012 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+009 | Background:
+010 |
+011 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+012 |
 013 |
-014 |
-015 |     Scenario: Georeferencing defined with a reference coordinate system
-016 |
-017 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcCoordinateReferenceSystem.</span></a>
-018 |
-019 |         <a class="reference internal" href="../steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description.html"><span class="doc">Then The IFC model contains information on the selected functional part</span></a>
-020 |</pre>
+014 |     Scenario: Georeferencing defined with a reference coordinate system
+015 |
+016 |         <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcCoordinateReferenceSystem.</span></a>
+017 |
+018 |         <a class="reference internal" href="../steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description.html"><span class="doc">Then The IFC model contains information on the selected functional part</span></a>
+019 |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

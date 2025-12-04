@@ -6,7 +6,7 @@
    001 | \@implementer-agreement
    002 | \@ALB
    003 | \@version2
-   004 | \@E00020
+   004 | 
    005 | Feature: ALB012 - Alignment vertical segment radius of curvature
    006 |   The rule verifies the 'RadiusOfCurvature' design parameter for vertical alignment segments.
    007 |   Where specified, an absolute tolerance value in the length unit of the model is used for the comparison.

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>( ⚠ GEM005 Building shape representation - v1) (disabled) &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>( ⚠ GEM005 Building shape representation - v2) (disabled) &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -61,7 +61,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GEM002_Space-representation.html"><code class="docutils literal notranslate"><span class="pre">GEM002</span></code> Space representation - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM003_Unique-representation-identifier.html"><code class="docutils literal notranslate"><span class="pre">GEM003</span></code> Unique representation identifier - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM004_Constraints-on-representation-identifiers.html"><code class="docutils literal notranslate"><span class="pre">GEM004</span></code> Constraints on representation identifiers - v3</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v1) (disabled)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM011_Curve-segments-consistency.html"><code class="docutils literal notranslate"><span class="pre">GEM011</span></code> Curve segments consistency - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM051_Presence-of-geometric-context.html"><code class="docutils literal notranslate"><span class="pre">GEM051</span></code> Presence of geometric context - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM052_Correct-geometric-subcontexts.html"><code class="docutils literal notranslate"><span class="pre">GEM052</span></code> Correct geometric subcontexts - v2</a></li>
@@ -77,6 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -111,7 +112,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="GEM.html">Geometry representation (<code class="docutils literal notranslate"><span class="pre">GEM</span></code>)</a></li>
-      <li class="breadcrumb-item active">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v1) (disabled)</li>
+      <li class="breadcrumb-item active">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v2) (disabled)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/GEM005_Building-shape-representation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -121,21 +122,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="gem005-building-shape-representation-v1-disabled">
-<h1>( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v1) (disabled)<a class="headerlink" href="#gem005-building-shape-representation-v1-disabled" title="Link to this heading"></a></h1>
+  <section id="gem005-building-shape-representation-v2-disabled">
+<h1>( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v2) (disabled)<a class="headerlink" href="#gem005-building-shape-representation-v2-disabled" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;GEM
-003 | &#64;version1
+003 | &#64;version2
 004 | &#64;disabled
-005 | &#64;E00020
+005 |
 006 | Feature: GEM005 - Building shape representation
 007 | The rule verifies that an IfcBuilding has a correct representation
 008 |
 009 |   Scenario: Agreement on empty IfcBuilding using correct representation
 010 |
 011 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcBuilding.</span></a>
-012 |     Given ContainsElements = empty
-013 |     Given IsDecomposedBy = empty
+012 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .ContainsElements. ^is^ empty</span></a>
+013 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .IsDecomposedBy. ^is^ empty</span></a>
 014 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representation.</span></a>
 015 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representations.</span></a>
 016 |
@@ -156,6 +157,12 @@
 <td><p>2023-09-26</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/ff1892b4cb3e98b62801eccb18bb0ef25a36c55d">ff1892b4</a></p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM005_Building-shape-representation.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.8.2">v0.8.2</a></p></td>
+<td><p>2025-10-28</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/f332af51b676186e001ed8ddc2370c9dde301815">f332af51</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.2/features/rules/GEM/GEM005_Building-shape-representation.feature">view</a></p></td>
 </tr>
 </tbody>
 </table>

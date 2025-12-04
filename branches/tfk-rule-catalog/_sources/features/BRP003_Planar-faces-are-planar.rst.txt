@@ -6,7 +6,7 @@
    001 | \@informal-proposition
    002 | \@BRP
    003 | \@version2
-   004 | \@E00050
+   004 | 
    005 | Feature: BRP003 - Planar faces are planar
    006 | The rule verifies that polygonal faces of open and closed shells, which do not have an explicit underlying surface geometry, are planar within the tolerance measure set in the geometric representation context.
    007 | 

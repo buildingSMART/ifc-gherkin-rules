@@ -78,6 +78,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -127,66 +128,65 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;ALS
 003 | &#64;version2
-004 | &#64;E00010
-005 |
-006 | Feature: ALS011 - Alignment segment entity type consistency
-007 |
-008 |   The rule verifies that the same entity type is used for all segments
-009 |   and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve
-010 |   The rule is similar to GEM011, except that it requires the presence of an IfcAlignment.
+004 |
+005 | Feature: ALS011 - Alignment segment entity type consistency
+006 |
+007 |   The rule verifies that the same entity type is used for all segments
+008 |   and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve
+009 |   The rule is similar to GEM011, except that it requires the presence of an IfcAlignment.
+010 |
 011 |
-012 |
-013 | Background:
-014 |   <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4.3'</span></a>
-015 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcAlignment.</span></a>
+012 | Background:
+013 |   <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4.3'</span></a>
+014 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcAlignment.</span></a>
+015 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Representation.</span></a>
 016 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Representation.</span></a>
-017 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Representation.</span></a>
-018 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Items.</span></a>
+017 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Items.</span></a>
+018 |
 019 |
-020 |
-021 | Scenario Outline: Consistent entity types used - direct representation
-022 |
-023 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
-024 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
-025 |   <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
-026 |
-027 |   <a class="reference internal" href="../steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld.html"><span class="doc">Then The values must be identical at depth 1</span></a>
-028 |
-029 |   Examples:
-030 |     | entity            |
-031 |     | IfcCompositeCurve |
-032 |     | IfcGradientCurve  |
-033 |     | IfcSegmentedReferenceCurve |
+020 | Scenario Outline: Consistent entity types used - direct representation
+021 |
+022 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
+023 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
+024 |   <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
+025 |
+026 |   <a class="reference internal" href="../steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld.html"><span class="doc">Then The values must be identical at depth 1</span></a>
+027 |
+028 |   Examples:
+029 |     | entity            |
+030 |     | IfcCompositeCurve |
+031 |     | IfcGradientCurve  |
+032 |     | IfcSegmentedReferenceCurve |
+033 |
 034 |
-035 |
-036 |   Scenario Outline: Consistent entity types used - capture parent curve in case it is not a direct representation
-037 |
-038 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
-039 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .BaseCurve.</span></a>
-040 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity_parent&gt;.</span></a>
-041 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
-042 |     <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
-043 |
-044 |     <a class="reference internal" href="../steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld.html"><span class="doc">Then The values must be identical at depth 1</span></a>
-045 |
-046 |     Examples:
-047 |       | entity                      |  entity_parent |
-048 |       | IfcGradientCurve            |  IfcCompositeCurve |
-049 |       | IfcSegmentedReferenceCurve  |  IfcCompositeCurve |
+035 |   Scenario Outline: Consistent entity types used - capture parent curve in case it is not a direct representation
+036 |
+037 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
+038 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .BaseCurve.</span></a>
+039 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity_parent&gt;.</span></a>
+040 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
+041 |     <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
+042 |
+043 |     <a class="reference internal" href="../steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld.html"><span class="doc">Then The values must be identical at depth 1</span></a>
+044 |
+045 |     Examples:
+046 |       | entity                      |  entity_parent |
+047 |       | IfcGradientCurve            |  IfcCompositeCurve |
+048 |       | IfcSegmentedReferenceCurve  |  IfcCompositeCurve |
+049 |
 050 |
-051 |
-052 | Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
-053 |
-054 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
-055 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
-056 |   <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
-057 |
-058 |   <a class="reference internal" href="../steps/thensvaluespy_Theivalue_or_typemustbevalue.html"><span class="doc">Then The value must be 'IfcCurveSegment'</span></a>
-059 |
-060 |   Examples:
-061 |     | entity            |
-062 |     | IfcGradientCurve  |
-063 |     | IfcSegmentedReferenceCurve |</pre>
+051 | Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
+052 |
+053 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
+054 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
+055 |   <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
+056 |
+057 |   <a class="reference internal" href="../steps/thensvaluespy_Theivalue_or_typemustbevalue.html"><span class="doc">Then The value must be 'IfcCurveSegment'</span></a>
+058 |
+059 |   Examples:
+060 |     | entity            |
+061 |     | IfcGradientCurve  |
+062 |     | IfcSegmentedReferenceCurve |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

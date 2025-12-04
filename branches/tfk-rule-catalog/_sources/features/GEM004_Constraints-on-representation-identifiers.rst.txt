@@ -6,7 +6,7 @@
    001 | \@informal-proposition
    002 | \@GEM
    003 | \@version3
-   004 | \@E00010
+   004 | 
    005 | Feature: GEM004 - Constraints on representation identifiers
    006 | The rule verifies that shape representations adhere to the permissible values outlined in the CSV files found in the 'features/resources/{attribute}.csv' folder, as specified in the documentation.
    007 | 

@@ -6,7 +6,7 @@
    001 | \@industry-practice
    002 | \@ALB
    003 | \@version2
-   004 | \@E00100
+   004 | 
    005 | Feature: ALB010 - Alignment Nesting Referents
    006 | The rule verifies that each horizontal alignment nests at least one IfcReferent, such as stations or mileage points.
    007 | These can be used as semantic entities holding information about locations along the alignment.

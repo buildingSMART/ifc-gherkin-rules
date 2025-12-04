@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="GEM051 Presence of geometric context - v2" href="GEM051_Presence-of-geometric-context.html" />
-    <link rel="prev" title="( ⚠ GEM005 Building shape representation - v1) (disabled)" href="GEM005_Building-shape-representation.html" /> 
+    <link rel="prev" title="( ⚠ GEM005 Building shape representation - v2) (disabled)" href="GEM005_Building-shape-representation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -61,7 +61,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GEM002_Space-representation.html"><code class="docutils literal notranslate"><span class="pre">GEM002</span></code> Space representation - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM003_Unique-representation-identifier.html"><code class="docutils literal notranslate"><span class="pre">GEM003</span></code> Unique representation identifier - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM004_Constraints-on-representation-identifiers.html"><code class="docutils literal notranslate"><span class="pre">GEM004</span></code> Constraints on representation identifiers - v3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GEM005_Building-shape-representation.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GEM005_Building-shape-representation.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v2) (disabled)</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GEM011</span></code> Curve segments consistency - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM051_Presence-of-geometric-context.html"><code class="docutils literal notranslate"><span class="pre">GEM051</span></code> Presence of geometric context - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM052_Correct-geometric-subcontexts.html"><code class="docutils literal notranslate"><span class="pre">GEM052</span></code> Correct geometric subcontexts - v2</a></li>
@@ -77,6 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -126,51 +127,50 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;GEM
 003 | &#64;version1
-004 | &#64;E00010
-005 |
-006 | Feature: GEM011 - Curve segments consistency
-007 |
-008 |   The rule verifies that the same entity type is used for all segments
-009 |   and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve
-010 |   The rule is identical to ALS011, except that it does not require the presence of an IfcAlignment.
+004 |
+005 | Feature: GEM011 - Curve segments consistency
+006 |
+007 |   The rule verifies that the same entity type is used for all segments
+008 |   and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve
+009 |   The rule is identical to ALS011, except that it does not require the presence of an IfcAlignment.
+010 |
 011 |
-012 |
-013 | Background:
-014 |   <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4.3'</span></a>
-015 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcProduct.</span></a>
-016 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [its entity type] ^is not^ .IfcAlignment.</span></a>
+012 | Background:
+013 |   <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4.3'</span></a>
+014 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcProduct.</span></a>
+015 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [its entity type] ^is not^ .IfcAlignment.</span></a>
+016 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Representation.</span></a>
 017 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Representation.</span></a>
-018 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Representation.</span></a>
-019 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Items.</span></a>
+018 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Items.</span></a>
+019 |
 020 |
-021 |
-022 | Scenario Outline: Consistent entity types used
-023 |
-024 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
-025 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
-026 |   <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
-027 |
-028 |   <a class="reference internal" href="../steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld.html"><span class="doc">Then The values must be identical at depth 1</span></a>
-029 |
-030 |   Examples:
-031 |     | entity            |
-032 |     | IfcCompositeCurve |
-033 |     | IfcGradientCurve  |
-034 |     | IfcSegmentedReferenceCurve |
+021 | Scenario Outline: Consistent entity types used
+022 |
+023 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
+024 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
+025 |   <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
+026 |
+027 |   <a class="reference internal" href="../steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld.html"><span class="doc">Then The values must be identical at depth 1</span></a>
+028 |
+029 |   Examples:
+030 |     | entity            |
+031 |     | IfcCompositeCurve |
+032 |     | IfcGradientCurve  |
+033 |     | IfcSegmentedReferenceCurve |
+034 |
 035 |
-036 |
-037 | Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
-038 |
-039 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
-040 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
-041 |   <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
-042 |
-043 |   <a class="reference internal" href="../steps/thensvaluespy_Theivalue_or_typemustbevalue.html"><span class="doc">Then The value must be 'IfcCurveSegment'</span></a>
-044 |
-045 |   Examples:
-046 |     | entity            |
-047 |     | IfcGradientCurve  |
-048 |     | IfcSegmentedReferenceCurve |</pre>
+036 | Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
+037 |
+038 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
+039 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
+040 |   <a class="reference internal" href="../steps/givensentitiespy_Itsentitytype.html"><span class="doc">Given its entity type</span></a>
+041 |
+042 |   <a class="reference internal" href="../steps/thensvaluespy_Theivalue_or_typemustbevalue.html"><span class="doc">Then The value must be 'IfcCurveSegment'</span></a>
+043 |
+044 |   Examples:
+045 |     | entity            |
+046 |     | IfcGradientCurve  |
+047 |     | IfcSegmentedReferenceCurve |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -196,7 +196,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="GEM005_Building-shape-representation.html" class="btn btn-neutral float-left" title="( ⚠ GEM005 Building shape representation - v1) (disabled)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GEM005_Building-shape-representation.html" class="btn btn-neutral float-left" title="( ⚠ GEM005 Building shape representation - v2) (disabled)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="GEM051_Presence-of-geometric-context.html" class="btn btn-neutral float-right" title="GEM051 Presence of geometric context - v2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

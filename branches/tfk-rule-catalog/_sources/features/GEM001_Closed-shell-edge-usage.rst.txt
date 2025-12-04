@@ -6,7 +6,7 @@
    001 | \@informal-proposition
    002 | \@GEM
    003 | \@version3
-   004 | \@E00050
+   004 | 
    005 | Feature: GEM001 - Closed shell edge usage
    006 | The rule verifies that closed shells and closed facesets edges are referenced correctly.
    007 | 

@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *Its value must not conform to the expression /^[Pp][Ss][Ee][Tt]/*
 
-   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:15
+   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:14
 
 

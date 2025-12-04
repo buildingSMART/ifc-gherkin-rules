@@ -6,20 +6,19 @@
    001 | \@implementer-agreement
    002 | \@GRF
    003 | \@version1
-   004 | \@E00500
-   005 | Feature: GRF007 - Valid vertical datum CRS type
-   006 | The rule verifies that any coordinate reference system (CRS) assigned as a vertical datum is either a vertical CRS or a compound CRS containing a vertical component, to ensure valid height referencing.
-   007 | https://pyproj4.github.io/pyproj/stable/api/crs/crs.html
+   004 | Feature: GRF007 - Valid vertical datum CRS type
+   005 | The rule verifies that any coordinate reference system (CRS) assigned as a vertical datum is either a vertical CRS or a compound CRS containing a vertical component, to ensure valid height referencing.
+   006 | https://pyproj4.github.io/pyproj/stable/api/crs/crs.html
+   007 | 
    008 | 
-   009 | 
-   010 |   Scenario: WKT specification for missing EPSG in the name
-   011 | 
-   012 |       :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   013 |       :doc:`Given an .IfcProjectedCRS. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   014 |       :doc:`Given Its attribute .VerticalDatum. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   015 |       :doc:`Given The value refers to a valid EPSG code </steps/stepscrspy_ThevaluereferstoavalidEPSGcode>`
-   016 | 
-   017 |       :doc:`Then The CRS should define a vertical component </steps/stepscrspy_TheCRSshoulddefineaverticalcomponent>`
+   009 |   Scenario: WKT specification for missing EPSG in the name
+   010 | 
+   011 |       :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |       :doc:`Given an .IfcProjectedCRS. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |       :doc:`Given Its attribute .VerticalDatum. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 |       :doc:`Given The value refers to a valid EPSG code </steps/stepscrspy_ThevaluereferstoavalidEPSGcode>`
+   015 | 
+   016 |       :doc:`Then The CRS should define a vertical component </steps/stepscrspy_TheCRSshoulddefineaverticalcomponent>`
 
 .. rubric:: Version history
 

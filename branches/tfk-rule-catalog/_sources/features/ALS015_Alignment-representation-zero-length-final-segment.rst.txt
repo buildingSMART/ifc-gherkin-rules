@@ -6,7 +6,7 @@
    001 | \@implementer-agreement
    002 | \@ALS
    003 | \@version3
-   004 | \@E00020
+   004 | 
    005 | Feature: ALS015 - Alignment representation zero length final segment
    006 | 
    007 | The rule verifies that the alignment geometry (representation) curve

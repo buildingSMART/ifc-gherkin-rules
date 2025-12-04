@@ -6,24 +6,23 @@
    001 | \@implementer-agreement
    002 | \@SPS
    003 | \@version3
-   004 | \@E00100
-   005 | Feature: SPS002 - Correct spatial breakdown
-   006 | The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.
-   007 | The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial\_CompositionTable.csv'
-   008 | 
-   009 |   Scenario: Agreement on each IfcSpatialElement being aggregated as per spatial composition table.
-   010 | 
-   011 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   012 |     :doc:`Given An .IfcSpatialElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   013 | 
-   014 |     :doc:`Then It must be aggregated as per spatial\_CompositionTable.csv </steps/thensrelationspy_Itmustberelationshipaspertable>`
-   015 | 
-   016 |   Scenario: Agreement on the IfcProject being aggregated as per spatial composition table.
-   017 | 
-   018 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   019 |     :doc:`Given An .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   020 | 
-   021 |     :doc:`Then It must be aggregated as per spatial\_CompositionTable.csv </steps/thensrelationspy_Itmustberelationshipaspertable>`
+   004 | Feature: SPS002 - Correct spatial breakdown
+   005 | The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.
+   006 | The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial\_CompositionTable.csv'
+   007 | 
+   008 |   Scenario: Agreement on each IfcSpatialElement being aggregated as per spatial composition table.
+   009 | 
+   010 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |     :doc:`Given An .IfcSpatialElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 | 
+   013 |     :doc:`Then It must be aggregated as per spatial\_CompositionTable.csv </steps/thensrelationspy_Itmustberelationshipaspertable>`
+   014 | 
+   015 |   Scenario: Agreement on the IfcProject being aggregated as per spatial composition table.
+   016 | 
+   017 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   018 |     :doc:`Given An .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   019 | 
+   020 |     :doc:`Then It must be aggregated as per spatial\_CompositionTable.csv </steps/thensrelationspy_Itmustberelationshipaspertable>`
 
 .. rubric:: Version history
 

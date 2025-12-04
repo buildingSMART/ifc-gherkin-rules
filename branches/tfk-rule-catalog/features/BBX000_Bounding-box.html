@@ -68,6 +68,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -117,21 +118,20 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;BBX
 003 | &#64;version1
-004 | &#64;E00020
-005 |
-006 | Feature: BBX000 - Bounding Box
-007 | The rule verifies the presence of IFC entities used to define an orthogonal box,
-008 | oriented parallel to the axes of the object coordinate system which defines the spatial extent of the latter.
+004 |
+005 | Feature: BBX000 - Bounding Box
+006 | The rule verifies the presence of IFC entities used to define an orthogonal box,
+007 | oriented parallel to the axes of the object coordinate system which defines the spatial extent of the latter.
+008 |
 009 |
-010 |
-011 | Scenario: Check for activation
-012 |
-013 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcProduct.</span></a>
-014 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representation.</span></a>
-015 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representations.</span></a>
-016 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .RepresentationType. ^is^ 'BoundingBox'</span></a>
-017 |
-018 |     <a class="reference internal" href="../steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description.html"><span class="doc">Then The IFC model contains information on the selected functional part</span></a></pre>
+010 | Scenario: Check for activation
+011 |
+012 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcProduct.</span></a>
+013 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representation.</span></a>
+014 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representations.</span></a>
+015 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .RepresentationType. ^is^ 'BoundingBox'</span></a>
+016 |
+017 |     <a class="reference internal" href="../steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description.html"><span class="doc">Then The IFC model contains information on the selected functional part</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

@@ -6,28 +6,27 @@
    001 | \@implementer-agreement
    002 | \@PJS
    003 | \@version1
-   004 | \@E00010
-   005 | Feature: PJS003 - Globally Unique Identifiers
-   006 |   The rule verifies that the GUID of each element adheres to the Global Unique Identifier format
-   007 |   and ensures compliance with constraints that are not yet validated by other methods.
-   008 |   Specifically, the characters must be within the official encoding character set
-   009 |   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\_$,"
-   010 |   , the resulting string must be exactly 22 characters in length, and the first character must be either 0, 1, 2, or 3.
-   011 | 
-   012 |   https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcGloballyUniqueId.htm
+   004 | Feature: PJS003 - Globally Unique Identifiers
+   005 |   The rule verifies that the GUID of each element adheres to the Global Unique Identifier format
+   006 |   and ensures compliance with constraints that are not yet validated by other methods.
+   007 |   Specifically, the characters must be within the official encoding character set
+   008 |   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\_$,"
+   009 |   , the resulting string must be exactly 22 characters in length, and the first character must be either 0, 1, 2, or 3.
+   010 | 
+   011 |   https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcGloballyUniqueId.htm
+   012 | 
    013 | 
-   014 | 
-   015 |   Scenario Outline: Valid globally unique identifiers
-   016 |     :doc:`Given An .IfcRoot. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   017 |     :doc:`Given Its attribute .GlobalId. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   018 | 
-   019 |     :doc:`Then \<Constraint\> </steps/thensattributespy_Thecharactersmustbewithintheofficialencodingcharacterset>`
-   020 | 
-   021 |     Examples:
-   022 |     | Constraint |
-   023 |     | The string length must be exactly '22' characters |
-   024 |     | The characters must be within the official encoding character set |
-   025 |     | Its value ^starts^ with '0' or '1' or '2' or '3' |
+   014 |   Scenario Outline: Valid globally unique identifiers
+   015 |     :doc:`Given An .IfcRoot. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   016 |     :doc:`Given Its attribute .GlobalId. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 | 
+   018 |     :doc:`Then \<Constraint\> </steps/thensattributespy_Thecharactersmustbewithintheofficialencodingcharacterset>`
+   019 | 
+   020 |     Examples:
+   021 |     | Constraint |
+   022 |     | The string length must be exactly '22' characters |
+   023 |     | The characters must be within the official encoding character set |
+   024 |     | Its value ^starts^ with '0' or '1' or '2' or '3' |
 
 .. rubric:: Version history
 

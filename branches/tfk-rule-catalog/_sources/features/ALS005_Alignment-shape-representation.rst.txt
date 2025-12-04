@@ -17,42 +17,37 @@
    012 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    013 | 
    014 | 
-   015 |   \@E00020
-   016 |   Scenario: Agreement on each IfcAlignment using correct representation - Value
-   017 | 
-   018 |     :doc:`Then .RepresentationIdentifier. ^is^ 'FootPrint' or 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   015 |   Scenario: Agreement on each IfcAlignment using correct representation - Value
+   016 | 
+   017 |     :doc:`Then .RepresentationIdentifier. ^is^ 'FootPrint' or 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   018 | 
    019 | 
-   020 | 
-   021 |   \@E00010
-   022 |   Scenario: Agreement on each IfcAlignment using correct representation - horizontal only
-   023 | 
-   024 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   025 |     :doc:`Given .RepresentationType. ^is^ 'Curve2D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   026 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   027 |     :doc:`Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   028 | 
+   020 |   Scenario: Agreement on each IfcAlignment using correct representation - horizontal only
+   021 | 
+   022 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   023 |     :doc:`Given .RepresentationType. ^is^ 'Curve2D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   024 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   025 |     :doc:`Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   026 | 
+   027 | 
+   028 |   Scenario: Agreement on each IfcAlignment using correct representation - vertical or cant
    029 | 
-   030 |   \@E00010
-   031 |   Scenario: Agreement on each IfcAlignment using correct representation - vertical or cant
-   032 | 
-   033 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   034 |     :doc:`Given .RepresentationType. ^is^ 'Curve3D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   035 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   036 |     :doc:`Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   030 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   031 |     :doc:`Given .RepresentationType. ^is^ 'Curve3D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   032 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   033 |     :doc:`Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   034 | 
+   035 | 
+   036 |   Scenario: Agreement on each IfcAlignment using correct representation - identifier = 'FootPrint'
    037 | 
-   038 | 
-   039 |   \@E00010
-   040 |   Scenario: Agreement on each IfcAlignment using correct representation - identifier = 'FootPrint'
+   038 |     :doc:`Given .RepresentationIdentifier. ^is^ 'FootPrint' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   039 |     :doc:`Then .RepresentationType. ^is^ 'Curve2D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   040 | 
    041 | 
-   042 |     :doc:`Given .RepresentationIdentifier. ^is^ 'FootPrint' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   043 |     :doc:`Then .RepresentationType. ^is^ 'Curve2D' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   044 | 
-   045 | 
-   046 |   \@E00010
-   047 |   Scenario: Agreement on each IfcAlignment using correct representation items - Type
-   048 | 
-   049 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   050 |     :doc:`Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   042 |   Scenario: Agreement on each IfcAlignment using correct representation items - Type
+   043 | 
+   044 |     :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   045 |     :doc:`Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
 
 .. rubric:: Version history
 

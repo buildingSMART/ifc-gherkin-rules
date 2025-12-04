@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRF006 WKT specification for missing EPSG - v1 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>GRF006 WKT specification for missing EPSG - v2 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -63,7 +63,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GRF002_EPSG-code-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF002</span></code> EPSG code in coordinate reference system - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF003_CRS-presence-with-spatial-entities.html"><code class="docutils literal notranslate"><span class="pre">GRF003</span></code> CRS presence with spatial entities - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system - v1</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF007_valid-vertical-datum-crs-type.html"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</a></li>
 </ul>
 </li>
@@ -73,6 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -107,7 +108,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v1</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/GRF006_WKT-specification-for-missing-EPSG.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -117,41 +118,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="grf006-wkt-specification-for-missing-epsg-v1">
-<h1><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v1<a class="headerlink" href="#grf006-wkt-specification-for-missing-epsg-v1" title="Link to this heading"></a></h1>
+  <section id="grf006-wkt-specification-for-missing-epsg-v2">
+<h1><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2<a class="headerlink" href="#grf006-wkt-specification-for-missing-epsg-v2" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;GRF
-003 | &#64;version1
-004 | &#64;E00500
-005 | Feature: GRF006 - WKT specification for missing EPSG
-006 | The rule verifies that if an ESPG code does not exist for the coordinate reference system, this CRS shall be further speciied using the IfcWellKnownText entity
-007 | <a class="reference external" href="https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcCoordinateReferenceSystem.htm#8.18.3.2.3-Attributes">https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcCoordinateReferenceSystem.htm#8.18.3.2.3-Attributes</a>
-008 |
-009 |   Background:
-010 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a Model with Schema 'IFC4.3'</span></a>
-011 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcCoordinateReferenceSystem.</span></a>
+003 | &#64;version2
+004 | Feature: GRF006 - WKT specification for missing EPSG
+005 | The rule verifies that if an ESPG code does not exist for the coordinate reference system, this CRS shall be further speciied using the IfcWellKnownText entity
+006 | <a class="reference external" href="https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcCoordinateReferenceSystem.htm#8.18.3.2.3-Attributes">https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcCoordinateReferenceSystem.htm#8.18.3.2.3-Attributes</a>
+007 |
+008 |   Background:
+009 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a Model with Schema 'IFC4.3'</span></a>
+010 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcCoordinateReferenceSystem.</span></a>
+011 |
 012 |
-013 |
-014 |   Scenario: WKT specification for missing ESPG in the name
-015 |
-016 |     <a class="reference internal" href="../steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix.html"><span class="doc">Given Its .Name. attribute ^does not start^ with 'EPSG:'</span></a>
-017 |
-018 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .WellKnownText. must be ^not empty^</span></a>
-019 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .Name. must be 'WKT'</span></a>
+013 |   Scenario: WKT specification for missing ESPG in the name
+014 |
+015 |     <a class="reference internal" href="../steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix.html"><span class="doc">Given Its .Name. attribute ^does not start^ with 'EPSG:'</span></a>
+016 |
+017 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .WellKnownText. must be ^not empty^</span></a>
+018 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .Name. must be 'WKT'</span></a>
+019 |
 020 |
-021 |
-022 |   Scenario: WKT specification linked to 'WKT' in CRS name
-023 |
-024 |     Given The value of attribute .Name. is 'WKT'
-025 |
-026 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .WellKnownText. must be ^not empty^</span></a>
+021 |   Scenario: WKT specification linked to 'WKT' in CRS name
+022 |
+023 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .Name. ^is^ 'WKT'</span></a>
+024 |
+025 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .WellKnownText. must be ^not empty^</span></a>
+026 |
 027 |
-028 |
-029 |   Scenario: WKT attribute linked to specification
-030 |
-031 |     Given The value of attribute .WellKnownText. is ^not empty^
-032 |
-033 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .Name. must be 'WKT'</span></a></pre>
+028 |   Scenario: WKT attribute linked to specification
+029 |
+030 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .WellKnownText. ^is not^ empty</span></a>
+031 |
+032 |     <a class="reference internal" href="../steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op.html"><span class="doc">Then The value of attribute .Name. must be 'WKT'</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -168,6 +168,12 @@
 <td><p>2025-06-16</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/bcfd8342fddf79fc73858ce6aeb76c70f9761873">bcfd8342</a></p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF006_WKT-specification-for-missing-EPSG.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.8.2">v0.8.2</a></p></td>
+<td><p>2025-10-28</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/f332af51b676186e001ed8ddc2370c9dde301815">f332af51</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.2/features/rules/GRF/GRF006_WKT-specification-for-missing-EPSG.feature">view</a></p></td>
 </tr>
 </tbody>
 </table>

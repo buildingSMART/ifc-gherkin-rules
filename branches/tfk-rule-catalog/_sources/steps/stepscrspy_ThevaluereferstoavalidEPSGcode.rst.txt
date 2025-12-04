@@ -6,6 +6,6 @@ Usages:
 
  - **Given** *The value refers to a valid EPSG code*
 
-   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:15
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:14
 
 

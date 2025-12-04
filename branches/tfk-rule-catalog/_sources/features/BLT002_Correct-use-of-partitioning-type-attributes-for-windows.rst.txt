@@ -6,35 +6,34 @@
    001 | \@implementer-agreement
    002 | \@BLT
    003 | \@version1
-   004 | \@E00020
-   005 | 
-   006 | Feature: BLT002 - Correct use of partitioning type attributes for windows
-   007 | 
-   008 |   The rule verifies that attribute UserDefinedPartitioningType is provided only when
-   009 |   the value of the attribute PartitioningType is set to USERDEFINED.
-   010 |   Additionally, when an IfcWindow is assigned an IfcWindowType, the type should
-   011 |   dictate the PartitioningType, and the instance should not override it.
-   012 | 
-   013 | Scenario Outline: Correct values for PartitioningType and UserDefinedPartitioningType
-   014 | 
-   015 |   :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   016 |   :doc:`Given .UserDefinedPartitioningType. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   017 |   :doc:`Given .IsTypedBy. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   018 | 
-   019 |   :doc:`Then .PartitioningType. ^is^ 'USERDEFINED' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   020 | 
-   021 |   Examples:
-   022 |     | entity |
-   023 |     | IfcWindow |
-   024 |     | IfcWindowType |
+   004 | 
+   005 | Feature: BLT002 - Correct use of partitioning type attributes for windows
+   006 | 
+   007 |   The rule verifies that attribute UserDefinedPartitioningType is provided only when
+   008 |   the value of the attribute PartitioningType is set to USERDEFINED.
+   009 |   Additionally, when an IfcWindow is assigned an IfcWindowType, the type should
+   010 |   dictate the PartitioningType, and the instance should not override it.
+   011 | 
+   012 | Scenario Outline: Correct values for PartitioningType and UserDefinedPartitioningType
+   013 | 
+   014 |   :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   015 |   :doc:`Given .UserDefinedPartitioningType. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   016 |   :doc:`Given .IsTypedBy. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 | 
+   018 |   :doc:`Then .PartitioningType. ^is^ 'USERDEFINED' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   019 | 
+   020 |   Examples:
+   021 |     | entity |
+   022 |     | IfcWindow |
+   023 |     | IfcWindowType |
+   024 | 
    025 | 
-   026 | 
-   027 | Scenario: Correct IfcPartitioningType with relating type object
-   028 | 
-   029 |   :doc:`Given an .IfcWindow. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   030 |   :doc:`Given a relationship .IfcRelDefinesByType. to .IfcWindow. from .IfcWindowType. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
-   031 | 
-   032 |   :doc:`Then .PartitioningType. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   026 | Scenario: Correct IfcPartitioningType with relating type object
+   027 | 
+   028 |   :doc:`Given an .IfcWindow. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   029 |   :doc:`Given a relationship .IfcRelDefinesByType. to .IfcWindow. from .IfcWindowType. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   030 | 
+   031 |   :doc:`Then .PartitioningType. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
 
 .. rubric:: Version history
 

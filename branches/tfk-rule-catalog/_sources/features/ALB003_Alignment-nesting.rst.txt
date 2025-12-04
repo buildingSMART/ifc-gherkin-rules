@@ -6,7 +6,7 @@
    001 | \@implementer-agreement
    002 | \@ALB
    003 | \@version1
-   004 | \@E00100
+   004 | 
    005 | Feature: ALB003 - Alignment Nesting
    006 | The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts)
    007 | or with Referents (e.g., mileage markers). And not with any other entity.

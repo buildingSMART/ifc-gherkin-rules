@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -75,9 +76,9 @@
 <li class="toctree-l3"><a class="reference internal" href="SPS001_Basic-spatial-structure-for-buildings.html"><code class="docutils literal notranslate"><span class="pre">SPS001</span></code> Basic spatial structure for buildings - v2</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown - v3</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS003_Correct-containment-of-assemblies.html"><code class="docutils literal notranslate"><span class="pre">SPS003</span></code> Correct containment of assemblies - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS005_Simultaneous-spatial-relationships.html"><code class="docutils literal notranslate"><span class="pre">SPS005</span></code> Simultaneous spatial relationships - v2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS007_Spatial-containment.html"><code class="docutils literal notranslate"><span class="pre">SPS007</span></code> Spatial containment - v6</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS008_Spatial-container-representations.html"><code class="docutils literal notranslate"><span class="pre">SPS008</span></code> Spatial container representations - v1</a></li>
 </ul>
@@ -123,24 +124,23 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;SPS
 003 | &#64;version3
-004 | &#64;E00100
-005 | Feature: SPS002 - Correct spatial breakdown
-006 | The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.
-007 | The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial_CompositionTable.csv'
-008 |
-009 |   Scenario: Agreement on each IfcSpatialElement being aggregated as per spatial composition table.
-010 |
-011 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
-012 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcSpatialElement.</span></a>
-013 |
-014 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustberelationshipaspertable.html"><span class="doc">Then It must be aggregated as per spatial_CompositionTable.csv</span></a>
-015 |
-016 |   Scenario: Agreement on the IfcProject being aggregated as per spatial composition table.
-017 |
-018 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
-019 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcProject.</span></a>
-020 |
-021 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustberelationshipaspertable.html"><span class="doc">Then It must be aggregated as per spatial_CompositionTable.csv</span></a></pre>
+004 | Feature: SPS002 - Correct spatial breakdown
+005 | The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.
+006 | The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial_CompositionTable.csv'
+007 |
+008 |   Scenario: Agreement on each IfcSpatialElement being aggregated as per spatial composition table.
+009 |
+010 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+011 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcSpatialElement.</span></a>
+012 |
+013 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustberelationshipaspertable.html"><span class="doc">Then It must be aggregated as per spatial_CompositionTable.csv</span></a>
+014 |
+015 |   Scenario: Agreement on the IfcProject being aggregated as per spatial composition table.
+016 |
+017 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+018 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcProject.</span></a>
+019 |
+020 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustberelationshipaspertable.html"><span class="doc">Then It must be aggregated as per spatial_CompositionTable.csv</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

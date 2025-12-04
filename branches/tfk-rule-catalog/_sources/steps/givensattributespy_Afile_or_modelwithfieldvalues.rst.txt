@@ -6,11 +6,11 @@ Usages:
 
  - **Given** *a model with Schema 'IFC4.3'*
 
-   :doc:`/features/ALB000_Alignment-layout`:13
+   :doc:`/features/ALB000_Alignment-layout`:12
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/ALB002_Alignment-layout-relationships`:12
+   :doc:`/features/ALB002_Alignment-layout-relationships`:11
 
  - **Given** *A model with Schema 'IFC4.3'*
 
@@ -60,9 +60,17 @@ Usages:
 
    :doc:`/features/ALB030_Alignment-local-placement`:10
 
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB031_Alignment-layouts-default-case`:12
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:11
+
  - **Given** *a model with Schema 'IFC4.3'*
 
-   :doc:`/features/ALS000_Alignment-geometry`:13
+   :doc:`/features/ALS000_Alignment-geometry`:12
 
  - **Given** *A model with Schema 'IFC4.3'*
 
@@ -90,11 +98,11 @@ Usages:
 
  - **Given** *a model with Schema 'IFC4.3'*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:14
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:13
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:13
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:12
 
  - **Given** *A model with Schema 'IFC4.3'*
 
@@ -110,15 +118,15 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/BLT000_Built-elements`:12
+   :doc:`/features/BLT000_Built-elements`:11
 
  - **Given** *A model with Schema 'IFC2X3' or 'IFC4'*
 
-   :doc:`/features/BLT000_Built-elements`:20
+   :doc:`/features/BLT000_Built-elements`:19
 
  - **Given** *a model with Schema 'IFC4.3'*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:14
+   :doc:`/features/GEM011_Curve-segments-consistency`:13
 
  - **Given** *A model with Schema 'IFC2X3'*
 
@@ -150,99 +158,99 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/GRF000_Georeferencing`:12
+   :doc:`/features/GRF000_Georeferencing`:11
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/GRF001_Identical-coordinate-operations`:13
+   :doc:`/features/GRF001_Identical-coordinate-operations`:12
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:12
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:11
 
  - **Given** *a model with Schema 'IFC4'*
 
-   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:13
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:12
 
  - **Given** *a model with Schema 'IFC4.3'*
 
-   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:20
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:19
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:12
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:11
 
  - **Given** *a Model with Schema 'IFC4.3'*
 
-   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:10
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:9
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:12
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:11
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:17
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:16
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:52
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:51
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:92
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:91
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:107
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:141
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:182
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:181
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:200
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:225
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:224
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:239
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:238
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:250
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:269
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:289
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:288
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:304
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:303
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:312
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:311
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:320
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:319
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:328
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:327
 
  - **Given** *A model with Schema 'IFC4.3'*
 
@@ -250,51 +258,51 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/MAT000_Materials`:13
+   :doc:`/features/MAT000_Materials`:12
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/MAT000_Materials`:25
+   :doc:`/features/MAT000_Materials`:24
 
  - **Given** *A model with Schema 'IFC2X3' or 'IFC4'*
 
-   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:12
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:11
 
- - **Given** *A model with Schema 'IFC2X3' or 'IFC4'*
+ - **Given** *a model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:21
+   :doc:`/features/OJT001_Object-predefined-type`:11
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/OJT001_Object-predefined-type`:23
+   :doc:`/features/OJT001_Object-predefined-type`:25
 
  - **Given** *A file with Model View Definition 'CoordinationView_V2.0'*
 
-   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:9
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:8
 
  - **Given** *A file with Schema 'IFC2X3'*
 
-   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:10
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:9
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/SPS002_Correct-spatial-breakdown`:11
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:10
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/SPS002_Correct-spatial-breakdown`:18
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:17
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:11
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:10
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:20
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:19
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/SPS006_Elements-referenced-in-Spatial-structures`:11
+   :doc:`/features/SPS006_Elements-referenced-in-Spatial-structures`:10
 
  - **Given** *a model with Schema 'IFC4' or 'IFC4.3'*
 

@@ -6,16 +6,15 @@
    001 | \@implementer-agreement
    002 | \@SPS
    003 | \@version2
-   004 | \@E00040
-   005 | Feature: SPS005 - Simultaneous spatial relationships
-   006 | The rule verifies that an IfcElement does not simultaneously act as a child in two or more spatial relationships. For example, an element
-   007 | cannot participate in both nesting and aggregating children roles.
-   008 | 
-   009 |   Scenario: Constraints on spatial relationships
-   010 | 
-   011 |     :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   012 | 
-   013 |     :doc:`Then ^Exactly^ 1 of the following relationships must be non-empty: 'Nests', 'Decomposes', 'ContainedInStructure', 'AdheresToElement', 'VoidsElements' </steps/thensrelationspy_stmtnumdofthefollowingrelationshipsmustbenonemptyinverse_attrs>`
+   004 | Feature: SPS005 - Simultaneous spatial relationships
+   005 | The rule verifies that an IfcElement does not simultaneously act as a child in two or more spatial relationships. For example, an element
+   006 | cannot participate in both nesting and aggregating children roles.
+   007 | 
+   008 |   Scenario: Constraints on spatial relationships
+   009 | 
+   010 |     :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 | 
+   012 |     :doc:`Then ^Exactly^ 1 of the following relationships must be non-empty: 'Nests', 'Decomposes', 'ContainedInStructure', 'AdheresToElement', 'VoidsElements' </steps/thensrelationspy_stmtnumdofthefollowingrelationshipsmustbenonemptyinverse_attrs>`
 
 .. rubric:: Version history
 

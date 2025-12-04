@@ -63,7 +63,7 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF002</span></code> EPSG code in coordinate reference system - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF003_CRS-presence-with-spatial-entities.html"><code class="docutils literal notranslate"><span class="pre">GRF003</span></code> CRS presence with spatial entities - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF007_valid-vertical-datum-crs-type.html"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</a></li>
 </ul>
 </li>
@@ -73,6 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -122,19 +123,18 @@
 <pre class="literal-block">001 | &#64;industry-practice
 002 | &#64;GRF
 003 | &#64;version1
-004 | &#64;E00100
-005 | Feature: GRF002 - EPSG code in coordinate reference system
-006 | The rule verifies that the name of the coordinate reference system refers to a valid EPSG code from the official EPSG geodetic parameter dataset.
-007 | EPSG code validation is performed using the pyproj library, which includes a local copy of the official EPSG dataset (<a class="reference external" href="https://epsg.org">https://epsg.org</a>) maintained by IOGP.
-008 | <a class="reference external" href="https://pyproj4.github.io/pyproj/stable/api/database.html">https://pyproj4.github.io/pyproj/stable/api/database.html</a>
-009 |
-010 |   Scenario: Validate EPSG code in IfcCoordinateReferenceSystem
-011 |
-012 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
-013 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcCoordinateReferenceSystem.</span></a>
-014 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Name.</span></a>
-015 |
-016 |     <a class="reference internal" href="../steps/stepscrspy_ThevaluemustrefertoavalidEPSGcode.html"><span class="doc">Then The value must refer to a valid EPSG code</span></a></pre>
+004 | Feature: GRF002 - EPSG code in coordinate reference system
+005 | The rule verifies that the name of the coordinate reference system refers to a valid EPSG code from the official EPSG geodetic parameter dataset.
+006 | EPSG code validation is performed using the pyproj library, which includes a local copy of the official EPSG dataset (<a class="reference external" href="https://epsg.org">https://epsg.org</a>) maintained by IOGP.
+007 | <a class="reference external" href="https://pyproj4.github.io/pyproj/stable/api/database.html">https://pyproj4.github.io/pyproj/stable/api/database.html</a>
+008 |
+009 |   Scenario: Validate EPSG code in IfcCoordinateReferenceSystem
+010 |
+011 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+012 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcCoordinateReferenceSystem.</span></a>
+013 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Name.</span></a>
+014 |
+015 |     <a class="reference internal" href="../steps/stepscrspy_ThevaluemustrefertoavalidEPSGcode.html"><span class="doc">Then The value must refer to a valid EPSG code</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

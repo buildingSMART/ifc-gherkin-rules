@@ -61,7 +61,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GEM002_Space-representation.html"><code class="docutils literal notranslate"><span class="pre">GEM002</span></code> Space representation - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM003_Unique-representation-identifier.html"><code class="docutils literal notranslate"><span class="pre">GEM003</span></code> Unique representation identifier - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM004_Constraints-on-representation-identifiers.html"><code class="docutils literal notranslate"><span class="pre">GEM004</span></code> Constraints on representation identifiers - v3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GEM005_Building-shape-representation.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GEM005_Building-shape-representation.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM011_Curve-segments-consistency.html"><code class="docutils literal notranslate"><span class="pre">GEM011</span></code> Curve segments consistency - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM051_Presence-of-geometric-context.html"><code class="docutils literal notranslate"><span class="pre">GEM051</span></code> Presence of geometric context - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM052_Correct-geometric-subcontexts.html"><code class="docutils literal notranslate"><span class="pre">GEM052</span></code> Correct geometric subcontexts - v2</a></li>
@@ -77,6 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -131,12 +132,11 @@
 006 | Two points are considered to be duplicates if the distance between them is less than
 007 | the Precision factor of the applicable geometric context.
 008 |
-009 |   &#64;E00050
-010 |   Scenario: Agreement on no duplicated points within an indexed poly curve
-011 |
-012 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcIndexedPolyCurve.</span></a>
-013 |
-014 |     <a class="reference internal" href="../steps/thensgeometrypy_ItmusthavenoconsecutivepointsthatarecoincidentaftertakingthePrecisionfactorintoaccount.html"><span class="doc">Then It must have no consecutive points that are coincident after taking the Precision factor into account</span></a></pre>
+009 |   Scenario: Agreement on no duplicated points within an indexed poly curve
+010 |
+011 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcIndexedPolyCurve.</span></a>
+012 |
+013 |     <a class="reference internal" href="../steps/thensgeometrypy_ItmusthavenoconsecutivepointsthatarecoincidentaftertakingthePrecisionfactorintoaccount.html"><span class="doc">Then It must have no consecutive points that are coincident after taking the Precision factor into account</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

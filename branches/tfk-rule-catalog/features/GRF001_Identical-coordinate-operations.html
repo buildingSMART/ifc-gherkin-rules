@@ -63,7 +63,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GRF002_EPSG-code-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF002</span></code> EPSG code in coordinate reference system - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF003_CRS-presence-with-spatial-entities.html"><code class="docutils literal notranslate"><span class="pre">GRF003</span></code> CRS presence with spatial entities - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF007_valid-vertical-datum-crs-type.html"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</a></li>
 </ul>
 </li>
@@ -73,6 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -122,21 +123,20 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;GRF
 003 | &#64;version2
-004 | &#64;E00050
-005 | Feature: GRF001 - Identical coordinate operations
-006 | The rule verifies that if multiple instances of IfcGeometricRepresentationContext are provided to the IfcProject,
-007 | all contexts must share an identical instance of IfcCoordinateOperation, each referring to the same instance of IfcCoordinateReferenceSystem.
-008 | Additionally, the schema allows the attribute for coordinate operations within the context to be empty.
-009 | Currently, for GRF001, this is only permitted if (1) there is a single context or (2) the attribute is empty across all contexts within the file.
-010 |
-011 |   Scenario: IfcGeometricRepresentationContext
-012 |
-013 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
-014 |     <a class="reference internal" href="../steps/givensentitiespy_Allinstsofentity_opt_stmt.html"><span class="doc">Given All instances of IfcGeometricRepresentationContext without subtypes</span></a>
-015 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its Attribute .HasCoordinateOperation.</span></a>
-016 |     <a class="reference internal" href="../steps/givensvaluespy_Itsvaluesexcludingexcluding.html"><span class="doc">Given Its values excluding SourceCRS</span></a>
-017 |
-018 |     <a class="reference internal" href="../steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld.html"><span class="doc">Then The values must be identical at depth 0</span></a></pre>
+004 | Feature: GRF001 - Identical coordinate operations
+005 | The rule verifies that if multiple instances of IfcGeometricRepresentationContext are provided to the IfcProject,
+006 | all contexts must share an identical instance of IfcCoordinateOperation, each referring to the same instance of IfcCoordinateReferenceSystem.
+007 | Additionally, the schema allows the attribute for coordinate operations within the context to be empty.
+008 | Currently, for GRF001, this is only permitted if (1) there is a single context or (2) the attribute is empty across all contexts within the file.
+009 |
+010 |   Scenario: IfcGeometricRepresentationContext
+011 |
+012 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+013 |     <a class="reference internal" href="../steps/givensentitiespy_Allinstsofentity_opt_stmt.html"><span class="doc">Given All instances of IfcGeometricRepresentationContext without subtypes</span></a>
+014 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its Attribute .HasCoordinateOperation.</span></a>
+015 |     <a class="reference internal" href="../steps/givensvaluespy_Itsvaluesexcludingexcluding.html"><span class="doc">Given Its values excluding SourceCRS</span></a>
+016 |
+017 |     <a class="reference internal" href="../steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld.html"><span class="doc">Then The values must be identical at depth 0</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

@@ -70,6 +70,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -119,35 +120,34 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;BLT
 003 | &#64;version1
-004 | &#64;E00020
-005 |
-006 | Feature: BLT002 - Correct use of partitioning type attributes for windows
-007 |
-008 |   The rule verifies that attribute UserDefinedPartitioningType is provided only when
-009 |   the value of the attribute PartitioningType is set to USERDEFINED.
-010 |   Additionally, when an IfcWindow is assigned an IfcWindowType, the type should
-011 |   dictate the PartitioningType, and the instance should not override it.
-012 |
-013 | Scenario Outline: Correct values for PartitioningType and UserDefinedPartitioningType
-014 |
-015 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
-016 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .UserDefinedPartitioningType. ^is not^ empty</span></a>
-017 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .IsTypedBy. ^is^ empty</span></a>
-018 |
-019 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .PartitioningType. ^is^ 'USERDEFINED'</span></a>
-020 |
-021 |   Examples:
-022 |     | entity |
-023 |     | IfcWindow |
-024 |     | IfcWindowType |
+004 |
+005 | Feature: BLT002 - Correct use of partitioning type attributes for windows
+006 |
+007 |   The rule verifies that attribute UserDefinedPartitioningType is provided only when
+008 |   the value of the attribute PartitioningType is set to USERDEFINED.
+009 |   Additionally, when an IfcWindow is assigned an IfcWindowType, the type should
+010 |   dictate the PartitioningType, and the instance should not override it.
+011 |
+012 | Scenario Outline: Correct values for PartitioningType and UserDefinedPartitioningType
+013 |
+014 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
+015 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .UserDefinedPartitioningType. ^is not^ empty</span></a>
+016 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .IsTypedBy. ^is^ empty</span></a>
+017 |
+018 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .PartitioningType. ^is^ 'USERDEFINED'</span></a>
+019 |
+020 |   Examples:
+021 |     | entity |
+022 |     | IfcWindow |
+023 |     | IfcWindowType |
+024 |
 025 |
-026 |
-027 | Scenario: Correct IfcPartitioningType with relating type object
-028 |
-029 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcWindow.</span></a>
-030 |   <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity.html"><span class="doc">Given a relationship .IfcRelDefinesByType. to .IfcWindow. from .IfcWindowType.</span></a>
-031 |
-032 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .PartitioningType. ^is^ empty</span></a></pre>
+026 | Scenario: Correct IfcPartitioningType with relating type object
+027 |
+028 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcWindow.</span></a>
+029 |   <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity.html"><span class="doc">Given a relationship .IfcRelDefinesByType. to .IfcWindow. from .IfcWindowType.</span></a>
+030 |
+031 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .PartitioningType. ^is^ empty</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

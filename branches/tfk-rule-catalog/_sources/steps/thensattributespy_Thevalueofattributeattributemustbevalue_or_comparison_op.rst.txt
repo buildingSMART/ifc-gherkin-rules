@@ -24,11 +24,11 @@ Usages:
 
  - **Then** *The value of attribute .WellKnownText. must be ^not empty^*
 
-   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:18
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:17
 
  - **Then** *The value of attribute .WellKnownText. must be ^not empty^*
 
-   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:26
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:25
 
  - **Then** *the value of attribute .CartesianPosition. must be ^not empty^*
 
@@ -36,26 +36,26 @@ Usages:
 
  - **Then** *The value of attribute .ObjectType. must be ^not empty^*
 
-   :doc:`/features/OJT001_Object-predefined-type`:15
+   :doc:`/features/OJT001_Object-predefined-type`:17
 
  - **Then** *The value of attribute .ElementType. must be ^not empty^*
 
-   :doc:`/features/OJT001_Object-predefined-type`:20
+   :doc:`/features/OJT001_Object-predefined-type`:22
 
  - **Then** *The value of attribute .ContainedInStructure. must be ^empty^*
 
-   :doc:`/features/SPS003_Correct-containment-of-assemblies`:13
+   :doc:`/features/SPS003_Correct-containment-of-assemblies`:12
 
  - **Then** *The value of attribute .PositionedRelativeTo. must be ^empty^*
 
-   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:15
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:14
 
  - **Then** *The value of attribute .ContainedInStructure. must be ^empty^*
 
-   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:24
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:23
 
  - **Then** *The value of attribute .ReferencedInStructures. must be ^not empty^*
 
-   :doc:`/features/SPS006_Elements-referenced-in-Spatial-structures`:15
+   :doc:`/features/SPS006_Elements-referenced-in-Spatial-structures`:14
 
 

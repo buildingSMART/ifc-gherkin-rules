@@ -6,16 +6,15 @@
    001 | \@implementer-agreement
    002 | \@SPS
    003 | \@version1
-   004 | \@E00040
-   005 | Feature: SPS003 - Correct containment of assemblies
-   006 | The rule verifies that IfcElement that are aggregated in another IfcElement must not be contained using IfcRelContainedInSpatialStructure.
-   007 | 
-   008 |   Scenario: Agreement on aggregated elements not being contained
-   009 | 
-   010 |     :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   011 |     :doc:`Given .Decomposes. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   012 | 
-   013 |     :doc:`Then The value of attribute .ContainedInStructure. must be ^empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   004 | Feature: SPS003 - Correct containment of assemblies
+   005 | The rule verifies that IfcElement that are aggregated in another IfcElement must not be contained using IfcRelContainedInSpatialStructure.
+   006 | 
+   007 |   Scenario: Agreement on aggregated elements not being contained
+   008 | 
+   009 |     :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   010 |     :doc:`Given .Decomposes. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   011 | 
+   012 |     :doc:`Then The value of attribute .ContainedInStructure. must be ^empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
 
 .. rubric:: Version history
 

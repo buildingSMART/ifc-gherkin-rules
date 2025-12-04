@@ -7,7 +7,7 @@
    002 | \@ALB
    003 | \@version1
    004 | \@disabled
-   005 | \@E00100
+   005 | 
    006 | Feature: ALB005 - Positioning of referents
    007 | The rule verifies that IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPositions relationship
    008 | 

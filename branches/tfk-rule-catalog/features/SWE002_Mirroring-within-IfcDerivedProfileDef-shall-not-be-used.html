@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v1 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v2 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -74,7 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="SPS.html">Spatial breakdown (<code class="docutils literal notranslate"><span class="pre">SPS</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="SWE.html">Sweeps (i.e. extrusions, lofts, blends) (<code class="docutils literal notranslate"><span class="pre">SWE</span></code>)</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="SWE001_Arbitrary-profile-boundary-no-self-intersections.html"><code class="docutils literal notranslate"><span class="pre">SWE001</span></code> Arbitrary profile boundary no self intersections - v4</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used - v2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="SYS.html">SYS (<code class="docutils literal notranslate"><span class="pre">SYS</span></code>)</a></li>
@@ -102,7 +103,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="SWE.html">Sweeps (i.e. extrusions, lofts, blends) (<code class="docutils literal notranslate"><span class="pre">SWE</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used - v1</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used - v2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -112,43 +113,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="swe002-mirroring-within-ifcderivedprofiledef-shall-not-be-used-v1">
-<h1><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used - v1<a class="headerlink" href="#swe002-mirroring-within-ifcderivedprofiledef-shall-not-be-used-v1" title="Link to this heading"></a></h1>
+  <section id="swe002-mirroring-within-ifcderivedprofiledef-shall-not-be-used-v2">
+<h1><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used - v2<a class="headerlink" href="#swe002-mirroring-within-ifcderivedprofiledef-shall-not-be-used-v2" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;informal-proposition
 002 | &#64;SWE
-003 | &#64;version1
-004 | &#64;E00050
-005 | Feature: SWE002 - Mirroring within IfcDerivedProfileDef shall not be used
-006 |
-007 | The rule verifies that the transformation defined in IfcDerivedProfileDef.Operator does not introduce mirroring.
-008 | The subtype IfcMirroredProfileDef should be used for that. For the tapered sweeps, which tend to rely on
-009 | IfcDerivedProfileDef, by expressing the tapering operation as a change in profile, mirroring should not be used
-010 | altogether.
-011 |
-012 |   Scenario: IfcDerivedProfileDef must not use mirroring as there is a dedicated subtype for that
-013 |
-014 |     Given An .IfcDerivedProfileDef. without subtypes
-015 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Operator.</span></a>
-016 |     <a class="reference internal" href="../steps/givensvaluespy_Thedeterminantoftheplacementmatrix.html"><span class="doc">Given The determinant of the placement matrix</span></a>
-017 |
-018 |     <a class="reference internal" href="../steps/thensattributespy_Theresultingvaluemustbevalue_or_comparison_op.html"><span class="doc">Then The resulting value must be ^greater than 0^</span></a>
-019 |
-020 |   Scenario Outline: Tapered sweeps must not use mirroring altogether
-021 |
-022 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .&lt;entity&gt;.</span></a>
-023 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .&lt;attribute&gt;.</span></a>
-024 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its entity type] ^is^ 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef'</span></a>
-025 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Operator.</span></a>
-026 |     <a class="reference internal" href="../steps/givensvaluespy_Thedeterminantoftheplacementmatrix.html"><span class="doc">Given The determinant of the placement matrix</span></a>
-027 |
-028 |     <a class="reference internal" href="../steps/thensattributespy_Theresultingvaluemustbevalue_or_comparison_op.html"><span class="doc">Then The resulting value must be ^greater than 0^</span></a>
-029 |
-030 |       Examples:
-031 |         | entity                      | attribute    |
-032 |         | IfcExtrudedAreaSolidTapered | SweptArea    |
-033 |         | IfcExtrudedAreaSolidTapered | EndSweptArea |
-034 |         | IfcRevolvedAreaSolidTapered | SweptArea    |
-035 |         | IfcRevolvedAreaSolidTapered | EndSweptArea |</pre>
+003 | &#64;version2
+004 | Feature: SWE002 - Mirroring within IfcDerivedProfileDef shall not be used
+005 |
+006 | The rule verifies that the transformation defined in IfcDerivedProfileDef.Operator does not introduce mirroring.
+007 | The subtype IfcMirroredProfileDef should be used for that. For the tapered sweeps, which tend to rely on
+008 | IfcDerivedProfileDef, by expressing the tapering operation as a change in profile, mirroring should not be used
+009 | altogether.
+010 |
+011 |   Scenario: IfcDerivedProfileDef must not use mirroring as there is a dedicated subtype for that
+012 |
+013 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling.html"><span class="doc">Given An .IfcDerivedProfileDef. ^without subtypes^</span></a>
+014 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Operator.</span></a>
+015 |     <a class="reference internal" href="../steps/givensvaluespy_Thedeterminantoftheplacementmatrix.html"><span class="doc">Given The determinant of the placement matrix</span></a>
+016 |
+017 |     <a class="reference internal" href="../steps/thensattributespy_Theresultingvaluemustbevalue_or_comparison_op.html"><span class="doc">Then The resulting value must be ^greater than 0^</span></a>
+018 |
+019 |   Scenario Outline: Tapered sweeps must not use mirroring altogether
+020 |
+021 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .&lt;entity&gt;.</span></a>
+022 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .&lt;attribute&gt;.</span></a>
+023 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its entity type] ^is^ 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef'</span></a>
+024 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Operator.</span></a>
+025 |     <a class="reference internal" href="../steps/givensvaluespy_Thedeterminantoftheplacementmatrix.html"><span class="doc">Given The determinant of the placement matrix</span></a>
+026 |
+027 |     <a class="reference internal" href="../steps/thensattributespy_Theresultingvaluemustbevalue_or_comparison_op.html"><span class="doc">Then The resulting value must be ^greater than 0^</span></a>
+028 |
+029 |       Examples:
+030 |         | entity                      | attribute    |
+031 |         | IfcExtrudedAreaSolidTapered | SweptArea    |
+032 |         | IfcExtrudedAreaSolidTapered | EndSweptArea |
+033 |         | IfcRevolvedAreaSolidTapered | SweptArea    |
+034 |         | IfcRevolvedAreaSolidTapered | EndSweptArea |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -165,6 +165,12 @@
 <td><p>2025-01-23</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/2a8ba5d3c2bad343dcc486dfa951ee260c7d01a6">2a8ba5d3</a></p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.11/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.8.2">v0.8.2</a></p></td>
+<td><p>2025-10-28</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/f332af51b676186e001ed8ddc2370c9dde301815">f332af51</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.2/features/rules/SWE/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.feature">view</a></p></td>
 </tr>
 </tbody>
 </table>

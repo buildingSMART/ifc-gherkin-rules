@@ -58,6 +58,8 @@
 <li class="toctree-l3"><a class="reference internal" href="ALB022_Alignment-agreement-on-number-of-segments.html"><code class="docutils literal notranslate"><span class="pre">ALB022</span></code> Alignment agreement on number of segments - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ALB023_Alignment-same-segment-types-in-business-logic-and-geometry.html"><code class="docutils literal notranslate"><span class="pre">ALB023</span></code> Alignment same segment types in business logic and geometry - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ALB030_Alignment-local-placement.html"><code class="docutils literal notranslate"><span class="pre">ALB030</span></code> Alignment local placement - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALB031_Alignment-layouts-default-case.html"><code class="docutils literal notranslate"><span class="pre">ALB031</span></code> Alignment layouts default case - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALB032_Alignment-layouts-reusing-horizontal.html"><code class="docutils literal notranslate"><span class="pre">ALB032</span></code> Alignment layouts reusing horizontal - v1</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ALS.html">Alignment geometry (<code class="docutils literal notranslate"><span class="pre">ALS</span></code>)</a></li>
@@ -78,6 +80,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -127,53 +130,52 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;ALB
 003 | &#64;version1
-004 | &#64;E00100
-005 |
-006 | Feature: ALB002 - Alignment Layout Relationships
-007 |   The rule verifies that nesting and decomposition relationships are used correctly with alignment layouts.
+004 |
+005 | Feature: ALB002 - Alignment Layout Relationships
+006 |   The rule verifies that nesting and decomposition relationships are used correctly with alignment layouts.
+007 |
 008 |
-009 |
-010 |   Background:
-011 |
-012 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
-013 |
-014 |   Scenario: IfcAlignment can only be decomposed by other &quot;children&quot; IfcAlignment instances
-015 |
-016 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcAlignment.</span></a>
-017 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .IsDecomposedBy.</span></a>
-018 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .RelatedObjects.</span></a>
-019 |
-020 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then [its entity type] ^is^ 'IfcAlignment'</span></a>
+009 |   Background:
+010 |
+011 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+012 |
+013 |   Scenario: IfcAlignment can only be decomposed by other &quot;children&quot; IfcAlignment instances
+014 |
+015 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcAlignment.</span></a>
+016 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .IsDecomposedBy.</span></a>
+017 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .RelatedObjects.</span></a>
+018 |
+019 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then [its entity type] ^is^ 'IfcAlignment'</span></a>
+020 |
 021 |
-022 |
-023 |   Scenario Outline: Agreement of structure of alignment segments
-024 |
-025 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
-026 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .IsNestedBy.</span></a>
-027 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .RelatedObjects.</span></a>
-028 |
-029 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then [its entity type] ^is^ 'IfcAlignmentSegment'</span></a>
-030 |
-031 |       Examples:
-032 |       | entity                  |
-033 |       | IfcAlignmentHorizontal  |
-034 |       | IfcAlignmentVertical    |
-035 |       | IfcAlignmentCant        |
-036 |
-037 |   Scenario Outline: Agreement of the segments of alignment
-038 |
-039 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
-040 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .IsNestedBy.</span></a>
-041 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .RelatedObjects.</span></a>
-042 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .DesignParameters.</span></a>
-043 |
-044 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then [its entity type] ^is^ '&lt;SegmentType&gt;'</span></a>
-045 |
-046 |       Examples:
-047 |       | entity                  | SegmentType                       |
-048 |       | IfcAlignmentHorizontal  | IfcAlignmentHorizontalSegment     |
-049 |       | IfcAlignmentVertical    | IfcAlignmentVerticalSegment       |
-050 |       | IfcAlignmentCant        | IfcAlignmentCantSegment           |</pre>
+022 |   Scenario Outline: Agreement of structure of alignment segments
+023 |
+024 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
+025 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .IsNestedBy.</span></a>
+026 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .RelatedObjects.</span></a>
+027 |
+028 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then [its entity type] ^is^ 'IfcAlignmentSegment'</span></a>
+029 |
+030 |       Examples:
+031 |       | entity                  |
+032 |       | IfcAlignmentHorizontal  |
+033 |       | IfcAlignmentVertical    |
+034 |       | IfcAlignmentCant        |
+035 |
+036 |   Scenario Outline: Agreement of the segments of alignment
+037 |
+038 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity&gt;.</span></a>
+039 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .IsNestedBy.</span></a>
+040 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .RelatedObjects.</span></a>
+041 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .DesignParameters.</span></a>
+042 |
+043 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then [its entity type] ^is^ '&lt;SegmentType&gt;'</span></a>
+044 |
+045 |       Examples:
+046 |       | entity                  | SegmentType                       |
+047 |       | IfcAlignmentHorizontal  | IfcAlignmentHorizontalSegment     |
+048 |       | IfcAlignmentVertical    | IfcAlignmentVerticalSegment       |
+049 |       | IfcAlignmentCant        | IfcAlignmentCantSegment           |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

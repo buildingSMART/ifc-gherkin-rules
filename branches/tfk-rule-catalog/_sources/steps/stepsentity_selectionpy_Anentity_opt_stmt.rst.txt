@@ -17,35 +17,35 @@ Usages:
 
  - **Given** *an .IfcAlignment.*
 
-   :doc:`/features/ALB000_Alignment-layout`:14
+   :doc:`/features/ALB000_Alignment-layout`:13
 
  - **Given** *an .IfcAlignment.*
 
-   :doc:`/features/ALB002_Alignment-layout-relationships`:16
+   :doc:`/features/ALB002_Alignment-layout-relationships`:15
 
  - **Given** *an .IfcAlignmentHorizontal.*
 
-   :doc:`/features/ALB002_Alignment-layout-relationships`:25
+   :doc:`/features/ALB002_Alignment-layout-relationships`:24
 
  - **Given** *an .IfcAlignmentVertical.*
 
-   :doc:`/features/ALB002_Alignment-layout-relationships`:25
+   :doc:`/features/ALB002_Alignment-layout-relationships`:24
 
  - **Given** *an .IfcAlignmentCant.*
 
-   :doc:`/features/ALB002_Alignment-layout-relationships`:25
+   :doc:`/features/ALB002_Alignment-layout-relationships`:24
 
  - **Given** *an .IfcAlignmentHorizontal.*
 
-   :doc:`/features/ALB002_Alignment-layout-relationships`:39
+   :doc:`/features/ALB002_Alignment-layout-relationships`:38
 
  - **Given** *an .IfcAlignmentVertical.*
 
-   :doc:`/features/ALB002_Alignment-layout-relationships`:39
+   :doc:`/features/ALB002_Alignment-layout-relationships`:38
 
  - **Given** *an .IfcAlignmentCant.*
 
-   :doc:`/features/ALB002_Alignment-layout-relationships`:39
+   :doc:`/features/ALB002_Alignment-layout-relationships`:38
 
  - **Given** *an .IfcAlignment.*
 
@@ -117,7 +117,15 @@ Usages:
 
  - **Given** *an .IfcAlignment.*
 
-   :doc:`/features/ALS000_Alignment-geometry`:14
+   :doc:`/features/ALB031_Alignment-layouts-default-case`:13
+
+ - **Given** *an .IfcAlignment.*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:12
+
+ - **Given** *an .IfcAlignment.*
+
+   :doc:`/features/ALS000_Alignment-geometry`:13
 
  - **Given** *An .IfcAlignmentSegment.*
 
@@ -145,43 +153,43 @@ Usages:
 
  - **Given** *an .IfcAlignment.*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:15
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:14
 
  - **Given** *an .IfcCompositeCurve.*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:23
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:22
 
  - **Given** *an .IfcGradientCurve.*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:23
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:22
 
  - **Given** *an .IfcSegmentedReferenceCurve.*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:23
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:22
 
  - **Given** *an .IfcGradientCurve.*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:38
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:37
 
  - **Given** *an .IfcCompositeCurve.*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:40
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:39
 
  - **Given** *an .IfcSegmentedReferenceCurve.*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:38
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:37
 
  - **Given** *an .IfcGradientCurve.*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:54
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:53
 
  - **Given** *an .IfcSegmentedReferenceCurve.*
 
-   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:54
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:53
 
  - **Given** *An .IfcAlignment.*
 
-   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:14
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:13
 
  - **Given** *An .IfcAlignment.*
 
@@ -197,55 +205,55 @@ Usages:
 
  - **Given** *an .IfcAnnotation.*
 
-   :doc:`/features/ANN000_Annotations`:12
+   :doc:`/features/ANN000_Annotations`:11
 
  - **Given** *an .IfcElement.*
 
-   :doc:`/features/ASM000_Composed-elements`:14
+   :doc:`/features/ASM000_Composed-elements`:13
 
  - **Given** *an .IfcProduct.*
 
-   :doc:`/features/AXG000_Axis-Geometry`:14
+   :doc:`/features/AXG000_Axis-Geometry`:13
 
  - **Given** *an .IfcProduct.*
 
-   :doc:`/features/BBX000_Bounding-box`:13
+   :doc:`/features/BBX000_Bounding-box`:12
 
  - **Given** *an .IfcProduct.*
 
-   :doc:`/features/BBX001_Bounding-box-shape-representation`:10
+   :doc:`/features/BBX001_Bounding-box-shape-representation`:9
 
  - **Given** *an .IfcBuiltElement.*
 
-   :doc:`/features/BLT000_Built-elements`:13
+   :doc:`/features/BLT000_Built-elements`:12
 
  - **Given** *an .IfcBuildingElement.*
 
-   :doc:`/features/BLT000_Built-elements`:21
+   :doc:`/features/BLT000_Built-elements`:20
 
  - **Given** *an .IfcDoor.*
 
-   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:15
+   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:14
 
  - **Given** *an .IfcDoorType.*
 
-   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:15
+   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:14
 
  - **Given** *an .IfcDoor.*
 
-   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:29
+   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:28
 
  - **Given** *an .IfcWindow.*
 
-   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:15
+   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:14
 
  - **Given** *an .IfcWindowType.*
 
-   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:15
+   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:14
 
  - **Given** *an .IfcWindow.*
 
-   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:29
+   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:28
 
  - **Given** *An .IfcStair.*
 
@@ -261,15 +269,15 @@ Usages:
 
  - **Given** *an .IfcObjectDefinition.*
 
-   :doc:`/features/CLS000_Classification-association`:14
+   :doc:`/features/CLS000_Classification-association`:13
 
  - **Given** *an .IfcRepresentationItem.*
 
-   :doc:`/features/CTX000_Presentation-colours-and-textures`:12
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:11
 
  - **Given** *an .IfcObjectDefinition.*
 
-   :doc:`/features/CTX000_Presentation-colours-and-textures`:25
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:24
 
  - **Given** *an .IfcProduct.*
 
@@ -317,27 +325,27 @@ Usages:
 
  - **Given** *an .IfcProduct.*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:15
+   :doc:`/features/GEM011_Curve-segments-consistency`:14
 
  - **Given** *an .IfcCompositeCurve.*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:24
+   :doc:`/features/GEM011_Curve-segments-consistency`:23
 
  - **Given** *an .IfcGradientCurve.*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:24
+   :doc:`/features/GEM011_Curve-segments-consistency`:23
 
  - **Given** *an .IfcSegmentedReferenceCurve.*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:24
+   :doc:`/features/GEM011_Curve-segments-consistency`:23
 
  - **Given** *an .IfcGradientCurve.*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:39
+   :doc:`/features/GEM011_Curve-segments-consistency`:38
 
  - **Given** *an .IfcSegmentedReferenceCurve.*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:39
+   :doc:`/features/GEM011_Curve-segments-consistency`:38
 
  - **Given** *An .IfcProject.*
 
@@ -365,359 +373,359 @@ Usages:
 
  - **Given** *An .IfcPolyLoop.*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:13
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:12
 
  - **Given** *An .IfcPolyLine.*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:19
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:17
 
  - **Given** *An .IfcPolyLine.*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:27
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:24
 
  - **Given** *An .IfcPolyline.*
 
-   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:35
+   :doc:`/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline`:31
 
  - **Given** *An .IfcIndexedPolyCurve.*
 
-   :doc:`/features/GEM112_No-duplicated-points-within-an-indexed-poly-curve`:12
+   :doc:`/features/GEM112_No-duplicated-points-within-an-indexed-poly-curve`:11
 
  - **Given** *An .IfcIndexedPolyCurve.*
 
-   :doc:`/features/GEM113_Indexed-poly-curve-arcs-must-not-be-defined-using-colinear-points`:10
+   :doc:`/features/GEM113_Indexed-poly-curve-arcs-must-not-be-defined-using-colinear-points`:9
 
  - **Given** *An .IfcCoordinateReferenceSystem.*
 
-   :doc:`/features/GRF000_Georeferencing`:17
+   :doc:`/features/GRF000_Georeferencing`:16
 
  - **Given** *An .IfcCoordinateReferenceSystem.*
 
-   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:13
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:12
 
  - **Given** *an .IfcBuilding.*
 
-   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:14
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:13
 
  - **Given** *an .IfcFacility.*
 
-   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:21
+   :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:20
 
  - **Given** *An .IfcCoordinateReferenceSystem.*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:16
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:15
 
  - **Given** *An .IfcProjectedCRS.*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:30
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:29
 
  - **Given** *an .IfcCoordinateReferenceSystem.*
 
-   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:11
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:10
 
  - **Given** *an .IfcProjectedCRS.*
 
-   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:13
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:12
 
  - **Given** *an .IfcGroup.*
 
-   :doc:`/features/GRP001_Acyclic-groups`:10
+   :doc:`/features/GRP001_Acyclic-groups`:9
 
  - **Given** *an .IfcBuilding.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcBuildingStorey.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcFillAreaStyleHatching.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcOrganization.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcPerson.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcPile.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcReinforcingElement.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcRelAssigns.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcSite.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcStairFlight.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcSurfaceStyleRendering.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcSurfaceTexture.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcTendon.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcTextureCoordinateGenerator.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:109
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *an .IfcDoorLiningProperties.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcDoorPanelProperties.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcFillAreaStyleHatching.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcReinforcingElement.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcRelAssignsToActor.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcRelAssignsToControl.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcRelAssignsToGroup.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcRelAssignsToGroupByFactor.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcRelAssignsToProcess.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcRelAssignsToProduct.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcRelAssignsToResource.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcStairFlight.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcWindowPanelProperties.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcWindowLiningProperties.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcTendon.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcTendonAnchor.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcTendonType.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:143
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:142
 
  - **Given** *an .IfcFillAreaStyleHatching.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:183
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:182
 
  - **Given** *an .IfcBuildingElementProxy.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcFireSuppressionTerminal.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcFireSuppressionTerminalType.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcCableCarrierFitting.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcCableCarrierFittingType.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcGeographicElement.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcGeographicElementType.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcSpace.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcSpaceType.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcWall.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcWallType.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:202
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:201
 
  - **Given** *an .IfcWall.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:226
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:225
 
  - **Given** *an .IfcWallType.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:226
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:225
 
  - **Given** *an .IfcOwnerHistory.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:240
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:239
 
  - **Given** *an .IfcFlowFitting.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
 
  - **Given** *an .IfcFlowSegment.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
 
  - **Given** *an .IfcFlowTerminal.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
 
  - **Given** *an .IfcFlowController.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
 
  - **Given** *an .IfcFlowMovingDevice.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
 
  - **Given** *an .IfcFlowStorageDevice.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
 
  - **Given** *an .IfcFlowTreatmentDevice.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
 
  - **Given** *an .IfcEnergyConversionDevice.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:252
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:251
 
  - **Given** *an .IfcFlowFitting.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
 
  - **Given** *an .IfcFlowSegment.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
 
  - **Given** *an .IfcFlowTerminal.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
 
  - **Given** *an .IfcFlowController.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
 
  - **Given** *an .IfcFlowMovingDevice.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
 
  - **Given** *an .IfcFlowStorageDevice.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
 
  - **Given** *an .IfcFlowTreatmentDevice.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
 
  - **Given** *an .IfcEnergyConversionDevice.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:271
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:270
 
  - **Given** *an .IfcProductRepresentation.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:290
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:289
 
  - **Given** *an .IfcRepresentation.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:290
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:289
 
  - **Given** *an .IfcRepresentationContext.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:290
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:289
 
  - **Given** *an .IfcRelAssociates.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:290
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:289
 
  - **Given** *an .IfcShapeRepresentation.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:305
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:304
 
  - **Given** *an .IfcPropertySet.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:313
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:312
 
  - **Given** *an .IfcPropertySet.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:321
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:320
 
  - **Given** *an .IfcPropertySet.*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:329
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:328
 
  - **Given** *an .entity instance.*
 
-   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:14
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:13
 
  - **Given** *an .IfcProduct.*
 
-   :doc:`/features/LAY000_Presentation-layer-assignment`:14
+   :doc:`/features/LAY000_Presentation-layer-assignment`:13
 
  - **Given** *an .IfcProduct.*
 
-   :doc:`/features/LAY000_Presentation-layer-assignment`:24
+   :doc:`/features/LAY000_Presentation-layer-assignment`:23
 
  - **Given** *an .IfcProduct.*
 
-   :doc:`/features/LIP000_Linear-Placement`:13
+   :doc:`/features/LIP000_Linear-Placement`:12
 
  - **Given** *An .IfcLinearPlacement.*
 
@@ -725,127 +733,131 @@ Usages:
 
  - **Given** *An .IfcObject.*
 
-   :doc:`/features/LOP000_Local-placement`:11
+   :doc:`/features/LOP000_Local-placement`:10
 
  - **Given** *an .IfcObjectDefinition.*
 
-   :doc:`/features/MAT000_Materials`:14
+   :doc:`/features/MAT000_Materials`:13
 
  - **Given** *an .IfcObjectDefinition.*
 
-   :doc:`/features/MAT000_Materials`:26
+   :doc:`/features/MAT000_Materials`:25
+
+ - **Given** *an .IfcShapeRepresentation.*
+
+   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:10
+
+ - **Given** *an .IfcShapeRepresentation.*
+
+   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:23
 
  - **Given** *An .IfcObject.*
 
-   :doc:`/features/OJP000_Object-placement`:10
+   :doc:`/features/OJP000_Object-placement`:9
 
  - **Given** *An .IfcElement.*
 
-   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:13
-
- - **Given** *An .IfcElement.*
-
-   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:22
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:12
 
  - **Given** *An .IfcProject.*
 
-   :doc:`/features/PJS000_Project`:11
+   :doc:`/features/PJS000_Project`:10
 
  - **Given** *An .IfcProject.*
 
-   :doc:`/features/PJS002_Correct-elements-related-to-project`:13
+   :doc:`/features/PJS002_Correct-elements-related-to-project`:12
 
  - **Given** *An .IfcRoot.*
 
-   :doc:`/features/PJS003_Globally-Unique-Identifiers`:16
+   :doc:`/features/PJS003_Globally-Unique-Identifiers`:15
 
  - **Given** *an .IfcDistributionPort.*
 
-   :doc:`/features/POR000_Port-connectivity-and-nesting`:13
+   :doc:`/features/POR000_Port-connectivity-and-nesting`:12
 
  - **Given** *An .IfcPropertySet.*
 
-   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:9
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:8
 
  - **Given** *An .IfcPropertySet.*
 
-   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:11
+   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:10
 
  - **Given** *an .IfcObject.*
 
-   :doc:`/features/QTY000_Quantities-for-objects`:13
+   :doc:`/features/QTY000_Quantities-for-objects`:12
 
  - **Given** *An .IfcElementQuantity.*
 
-   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:9
+   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:8
 
  - **Given** *an .IfcSpace.*
 
-   :doc:`/features/SPA000_Spaces-information`:11
+   :doc:`/features/SPA000_Spaces-information`:10
 
  - **Given** *an .IfcSpatialZone.*
 
-   :doc:`/features/SPA000_Spaces-information`:11
+   :doc:`/features/SPA000_Spaces-information`:10
 
  - **Given** *An .IfcSite.*
 
-   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:23
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:22
 
  - **Given** *an .IfcBuilding.*
 
-   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:24
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:23
 
  - **Given** *An .IfcBuilding.*
 
-   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:31
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:30
 
  - **Given** *An .IfcSpatialElement.*
 
-   :doc:`/features/SPS002_Correct-spatial-breakdown`:12
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:11
 
  - **Given** *An .IfcProject.*
 
-   :doc:`/features/SPS002_Correct-spatial-breakdown`:19
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:18
 
  - **Given** *An .IfcElement.*
 
-   :doc:`/features/SPS003_Correct-containment-of-assemblies`:10
+   :doc:`/features/SPS003_Correct-containment-of-assemblies`:9
 
  - **Given** *An .IfcProduct.*
 
-   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:12
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:11
 
  - **Given** *An .IfcProduct.*
 
-   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:21
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:20
 
  - **Given** *An .IfcElement.*
 
-   :doc:`/features/SPS005_Simultaneous-spatial-relationships`:11
+   :doc:`/features/SPS005_Simultaneous-spatial-relationships`:10
 
  - **Given** *An .IfcElement.*
 
-   :doc:`/features/SPS006_Elements-referenced-in-Spatial-structures`:12
+   :doc:`/features/SPS006_Elements-referenced-in-Spatial-structures`:11
 
  - **Given** *an .IfcGrid.*
 
-   :doc:`/features/SPS007_Spatial-containment`:12
+   :doc:`/features/SPS007_Spatial-containment`:11
 
  - **Given** *an .IfcAnnotation.*
 
-   :doc:`/features/SPS007_Spatial-containment`:18
+   :doc:`/features/SPS007_Spatial-containment`:17
 
  - **Given** *an .IfcElement.*
 
-   :doc:`/features/SPS007_Spatial-containment`:26
+   :doc:`/features/SPS007_Spatial-containment`:25
 
  - **Given** *an .IfcElement.*
 
-   :doc:`/features/SPS007_Spatial-containment`:34
+   :doc:`/features/SPS007_Spatial-containment`:33
 
  - **Given** *An .IfcProduct.*
 
-   :doc:`/features/SPS007_Spatial-containment`:41
+   :doc:`/features/SPS007_Spatial-containment`:40
 
  - **Given** *an .IfcBuildingStorey.*
 
@@ -873,19 +885,19 @@ Usages:
 
  - **Given** *An .IfcArbitraryClosedProfileDef.*
 
-   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:12
+   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:11
 
  - **Given** *An .IfcArbitraryClosedProfileDef.*
 
-   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:19
+   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:18
 
  - **Given** *An .IfcExtrudedAreaSolidTapered.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:22
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:21
 
  - **Given** *An .IfcRevolvedAreaSolidTapered.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:22
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:21
 
  - **Given** *an .IfcCableSegment.*
 
@@ -893,18 +905,18 @@ Usages:
 
  - **Given** *An .IfcPolygonalFaceSet.*
 
-   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:12
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:11
 
  - **Given** *An .IfcPolygonalFaceSet.*
 
-   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:19
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:18
 
  - **Given** *an .IfcRoot.*
 
-   :doc:`/features/VER000_Versioning-and-revision-control`:13
+   :doc:`/features/VER000_Versioning-and-revision-control`:12
 
  - **Given** *an .IfcVirtualElement.*
 
-   :doc:`/features/VRT000_Virtual-elements`:12
+   :doc:`/features/VRT000_Virtual-elements`:11
 
 

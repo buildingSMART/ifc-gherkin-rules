@@ -6,18 +6,17 @@
    001 | \@industry-practice
    002 | \@PSE
    003 | \@version1
-   004 | \@E00020
-   005 | Feature: PSE002 - Custom properties and property sets validation
-   006 | The rule verifies that property set names do not start with any upper- and lowercase variation of 'pset' in order to prevent confusion with standardized property sets in the IFC specification.
-   007 | The property sets defined in the IFC specification all start with 'Pset\_'
-   008 | 
-   009 |     Scenario: Raise a warning for unstandardized property set names
-   010 | 
-   011 |       :doc:`Given An .IfcPropertySet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   012 |       :doc:`Given Its attribute .Name. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   013 |       :doc:`Given Its value ^does not start^ with 'Pset\_' </steps/givensattributespy_Itsvalueprefix_conditionprefix_conditionwithprefix>`
-   014 | 
-   015 |       :doc:`Then Its value must not conform to the expression /^[Pp][Ss][Ee][Tt]/ </steps/givensattributespy_Itsvalueregex_conditionregex_conditiontotheexpressionregex_pattern>`
+   004 | Feature: PSE002 - Custom properties and property sets validation
+   005 | The rule verifies that property set names do not start with any upper- and lowercase variation of 'pset' in order to prevent confusion with standardized property sets in the IFC specification.
+   006 | The property sets defined in the IFC specification all start with 'Pset\_'
+   007 | 
+   008 |     Scenario: Raise a warning for unstandardized property set names
+   009 | 
+   010 |       :doc:`Given An .IfcPropertySet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 |       :doc:`Given Its attribute .Name. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 |       :doc:`Given Its value ^does not start^ with 'Pset\_' </steps/givensattributespy_Itsvalueprefix_conditionprefix_conditionwithprefix>`
+   013 | 
+   014 |       :doc:`Then Its value must not conform to the expression /^[Pp][Ss][Ee][Tt]/ </steps/givensattributespy_Itsvalueregex_conditionregex_conditiontotheexpressionregex_pattern>`
 
 .. rubric:: Version history
 

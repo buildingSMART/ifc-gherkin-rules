@@ -13,10 +13,10 @@ Usages:
 
  - **Then** *There must be no self-intersections for attribute CoordIndex*
 
-   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:15
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:14
 
  - **Then** *There must be no self-intersections for attribute InnerCoordIndices*
 
-   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:23
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:22
 
 

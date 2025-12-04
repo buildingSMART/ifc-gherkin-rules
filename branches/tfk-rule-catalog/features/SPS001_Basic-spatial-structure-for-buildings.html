@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -75,9 +76,9 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SPS001</span></code> Basic spatial structure for buildings - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS002_Correct-spatial-breakdown.html"><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown - v3</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS003_Correct-containment-of-assemblies.html"><code class="docutils literal notranslate"><span class="pre">SPS003</span></code> Correct containment of assemblies - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS005_Simultaneous-spatial-relationships.html"><code class="docutils literal notranslate"><span class="pre">SPS005</span></code> Simultaneous spatial relationships - v2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS007_Spatial-containment.html"><code class="docutils literal notranslate"><span class="pre">SPS007</span></code> Spatial containment - v6</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPS008_Spatial-container-representations.html"><code class="docutils literal notranslate"><span class="pre">SPS008</span></code> Spatial container representations - v1</a></li>
 </ul>
@@ -123,36 +124,35 @@
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;SPS
 003 | &#64;version2
-004 | &#64;E00160
-005 | Feature: SPS001 - Basic spatial structure for buildings
-006 | The rule verifies that there's maximum one instance of IfcSite and at least one instance of IfcBuilding as part of the spatial structure.
-007 |
-008 |   Background:
-009 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A file with Model View Definition 'CoordinationView_V2.0'</span></a>
-010 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A file with Schema 'IFC2X3'</span></a>
+004 | Feature: SPS001 - Basic spatial structure for buildings
+005 | The rule verifies that there's maximum one instance of IfcSite and at least one instance of IfcBuilding as part of the spatial structure.
+006 |
+007 |   Background:
+008 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A file with Model View Definition 'CoordinationView_V2.0'</span></a>
+009 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A file with Schema 'IFC2X3'</span></a>
+010 |
 011 |
-012 |
-013 |   Scenario: Agreement141 - Agreement on having maximum of one instance of IfcSite
-014 |
-015 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at most 1 instance(s) of IfcSite</span></a>
-016 |
-017 |   Scenario: Agreement142(1) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
-018 |
-019 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at least 1 instance(s) of IfcBuilding</span></a>
-020 |
-021 |   Scenario: Agreement142(2) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
-022 |
-023 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcSite.</span></a>
-024 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcBuilding.</span></a>
-025 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustbeassignedtotherelating.html"><span class="doc">Then It must be assigned to the IfcSite</span></a>
+012 |   Scenario: Agreement141 - Agreement on having maximum of one instance of IfcSite
+013 |
+014 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at most 1 instance(s) of IfcSite</span></a>
+015 |
+016 |   Scenario: Agreement142(1) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
+017 |
+018 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at least 1 instance(s) of IfcBuilding</span></a>
+019 |
+020 |   Scenario: Agreement142(2) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
+021 |
+022 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcSite.</span></a>
+023 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcBuilding.</span></a>
+024 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustbeassignedtotherelating.html"><span class="doc">Then It must be assigned to the IfcSite</span></a>
+025 |
 026 |
-027 |
-028 |   Scenario: Agreement142(3) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
-029 |
-030 |   <a class="reference internal" href="../steps/givensentitiespy_Noentity.html"><span class="doc">Given no .IfcSite.</span></a>
-031 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcBuilding.</span></a>
-032 |
-033 |   <a class="reference internal" href="../steps/thensrelationspy_Itmustbeassignedtotherelating.html"><span class="doc">Then It must be assigned to the IfcProject</span></a></pre>
+027 |   Scenario: Agreement142(3) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
+028 |
+029 |   <a class="reference internal" href="../steps/givensentitiespy_Noentity.html"><span class="doc">Given no .IfcSite.</span></a>
+030 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcBuilding.</span></a>
+031 |
+032 |   <a class="reference internal" href="../steps/thensrelationspy_Itmustbeassignedtotherelating.html"><span class="doc">Then It must be assigned to the IfcProject</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

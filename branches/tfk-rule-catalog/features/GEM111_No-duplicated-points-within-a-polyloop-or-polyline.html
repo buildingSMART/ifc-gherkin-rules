@@ -61,7 +61,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GEM002_Space-representation.html"><code class="docutils literal notranslate"><span class="pre">GEM002</span></code> Space representation - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM003_Unique-representation-identifier.html"><code class="docutils literal notranslate"><span class="pre">GEM003</span></code> Unique representation identifier - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM004_Constraints-on-representation-identifiers.html"><code class="docutils literal notranslate"><span class="pre">GEM004</span></code> Constraints on representation identifiers - v3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GEM005_Building-shape-representation.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v1) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GEM005_Building-shape-representation.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation - v2) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM011_Curve-segments-consistency.html"><code class="docutils literal notranslate"><span class="pre">GEM011</span></code> Curve segments consistency - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM051_Presence-of-geometric-context.html"><code class="docutils literal notranslate"><span class="pre">GEM051</span></code> Presence of geometric context - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GEM052_Correct-geometric-subcontexts.html"><code class="docutils literal notranslate"><span class="pre">GEM052</span></code> Correct geometric subcontexts - v2</a></li>
@@ -77,6 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -132,35 +133,31 @@
 007 | Two points are considered to be duplicates if the distance between them is less than
 008 | the Precision factor of the applicable geometric context.
 009 |
-010 |   &#64;E00050
-011 |   Scenario: Agreement on no duplicated points within a polyloop
-012 |
-013 |       <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPolyLoop.</span></a>
-014 |       <a class="reference internal" href="../steps/thensgeometrypy_Itmusthavenoduplicatepointsclausefirstandlastpoint.html"><span class="doc">Then It must have no duplicate points including first and last point</span></a>
-015 |
-016 |   &#64;E00050
-017 |   Scenario: Agreement on no duplicated points within a polyline
-018 |
-019 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPolyLine.</span></a>
-020 |     <a class="reference internal" href="../steps/givensattributespy_attrformsclosed_or_opencurve.html"><span class="doc">Given It forms an open curve</span></a>
+010 |   Scenario: Agreement on no duplicated points within a polyloop
+011 |
+012 |       <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPolyLoop.</span></a>
+013 |       <a class="reference internal" href="../steps/thensgeometrypy_Itmusthavenoduplicatepointsclausefirstandlastpoint.html"><span class="doc">Then It must have no duplicate points including first and last point</span></a>
+014 |
+015 |   Scenario: Agreement on no duplicated points within a polyline
+016 |
+017 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPolyLine.</span></a>
+018 |     <a class="reference internal" href="../steps/givensattributespy_attrformsclosed_or_opencurve.html"><span class="doc">Given It forms an open curve</span></a>
+019 |
+020 |     <a class="reference internal" href="../steps/thensgeometrypy_Itmusthavenoduplicatepointsclausefirstandlastpoint.html"><span class="doc">Then It must have no duplicate points including first and last point</span></a>
 021 |
-022 |     <a class="reference internal" href="../steps/thensgeometrypy_Itmusthavenoduplicatepointsclausefirstandlastpoint.html"><span class="doc">Then It must have no duplicate points including first and last point</span></a>
+022 |   Scenario: Agreement on no duplicated points within a polyline
 023 |
-024 |   &#64;E00050
-025 |   Scenario: Agreement on no duplicated points within a polyline
+024 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPolyLine.</span></a>
+025 |     <a class="reference internal" href="../steps/givensattributespy_attrformsclosed_or_opencurve.html"><span class="doc">Given It forms a closed curve</span></a>
 026 |
-027 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPolyLine.</span></a>
-028 |     <a class="reference internal" href="../steps/givensattributespy_attrformsclosed_or_opencurve.html"><span class="doc">Given It forms a closed curve</span></a>
-029 |
-030 |     <a class="reference internal" href="../steps/thensgeometrypy_Itmusthavenoduplicatepointsclausefirstandlastpoint.html"><span class="doc">Then It must have no duplicate points excluding first and last point</span></a>
-031 |
-032 |   &#64;E00120
-033 |   Scenario: Agreement on first and last point of IfcPolyline being identical by reference (referencing the same instance of IfcCartesianPoint)
-034 |
-035 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPolyline.</span></a>
-036 |     <a class="reference internal" href="../steps/givensattributespy_attrformsclosed_or_opencurve.html"><span class="doc">Given It forms a closed curve</span></a>
-037 |
-038 |     <a class="reference internal" href="../steps/thensreferencepy_Itsfirstandlastpointmustbeidenticalbyreference.html"><span class="doc">Then Its first and last point must be identical by reference</span></a></pre>
+027 |     <a class="reference internal" href="../steps/thensgeometrypy_Itmusthavenoduplicatepointsclausefirstandlastpoint.html"><span class="doc">Then It must have no duplicate points excluding first and last point</span></a>
+028 |
+029 |   Scenario: Agreement on first and last point of IfcPolyline being identical by reference (referencing the same instance of IfcCartesianPoint)
+030 |
+031 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcPolyline.</span></a>
+032 |     <a class="reference internal" href="../steps/givensattributespy_attrformsclosed_or_opencurve.html"><span class="doc">Given It forms a closed curve</span></a>
+033 |
+034 |     <a class="reference internal" href="../steps/thensreferencepy_Itsfirstandlastpointmustbeidenticalbyreference.html"><span class="doc">Then Its first and last point must be identical by reference</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

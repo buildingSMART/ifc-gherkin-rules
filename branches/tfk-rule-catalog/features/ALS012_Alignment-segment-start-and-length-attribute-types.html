@@ -78,6 +78,7 @@
 <li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
@@ -127,34 +128,33 @@
 <pre class="literal-block">001 | &#64;informal-proposition
 002 | &#64;ALS
 003 | &#64;version1
-004 | &#64;E00010
-005 |
-006 | Feature: ALS012 - Alignment segment start and length attribute types
-007 |
-008 |   The rule verifies that an alignment segment uses the correct IfcLengthMeasure type
-009 |   for attributes SegmentStart and SegmentLength.
-010 |   Ref: [Issue #141](<a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/issues/141">https://github.com/buildingSMART/ifc-gherkin-rules/issues/141</a>)
-011 |
-012 | Scenario Outline: Correct entity type used for SegmentStart and Segment Length
-013 |   <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
-014 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcAlignment.</span></a>
-015 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representation.</span></a>
-016 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representations.</span></a>
-017 |   <a class="reference internal" href="../steps/givensentitiespy_Allreferencedinstances.html"><span class="doc">Given All referenced instances</span></a>
-018 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Entity Type] ^is^ '&lt;entity&gt;'</span></a>
-019 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
-020 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Entity Type] ^is^ 'IfcCurveSegment'</span></a>
-021 |
-022 |   <a class="reference internal" href="../steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type.html"><span class="doc">Then The type of attribute &lt;attribute&gt; must be IfcLengthMeasure</span></a>
-023 |
-024 |   Examples:
-025 |     | entity                      | attribute     |
-026 |     | IfcCompositeCurve           | SegmentStart  |
-027 |     | IfcCompositeCurve           | SegmentLength |
-028 |     | IfcGradientCurve            | SegmentStart  |
-029 |     | IfcGradientCurve            | SegmentLength |
-030 |     | IfcSegmentedReferenceCurve  | SegmentStart  |
-031 |     | IfcSegmentedReferenceCurve  | SegmentLength |</pre>
+004 |
+005 | Feature: ALS012 - Alignment segment start and length attribute types
+006 |
+007 |   The rule verifies that an alignment segment uses the correct IfcLengthMeasure type
+008 |   for attributes SegmentStart and SegmentLength.
+009 |   Ref: [Issue #141](<a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/issues/141">https://github.com/buildingSMART/ifc-gherkin-rules/issues/141</a>)
+010 |
+011 | Scenario Outline: Correct entity type used for SegmentStart and Segment Length
+012 |   <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+013 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcAlignment.</span></a>
+014 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representation.</span></a>
+015 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representations.</span></a>
+016 |   <a class="reference internal" href="../steps/givensentitiespy_Allreferencedinstances.html"><span class="doc">Given All referenced instances</span></a>
+017 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Entity Type] ^is^ '&lt;entity&gt;'</span></a>
+018 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .Segments.</span></a>
+019 |   <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Entity Type] ^is^ 'IfcCurveSegment'</span></a>
+020 |
+021 |   <a class="reference internal" href="../steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type.html"><span class="doc">Then The type of attribute &lt;attribute&gt; must be IfcLengthMeasure</span></a>
+022 |
+023 |   Examples:
+024 |     | entity                      | attribute     |
+025 |     | IfcCompositeCurve           | SegmentStart  |
+026 |     | IfcCompositeCurve           | SegmentLength |
+027 |     | IfcGradientCurve            | SegmentStart  |
+028 |     | IfcGradientCurve            | SegmentLength |
+029 |     | IfcSegmentedReferenceCurve  | SegmentStart  |
+030 |     | IfcSegmentedReferenceCurve  | SegmentLength |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

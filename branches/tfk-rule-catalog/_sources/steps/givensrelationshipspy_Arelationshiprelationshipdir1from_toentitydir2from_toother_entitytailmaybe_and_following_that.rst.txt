@@ -1,11 +1,6 @@
 A relationship \ .\ ``relationship``\ .\  ``dir1:from_to`` \ .\ ``entity``\ .\  ``dir2:from_to`` \ .\ ``other_entity``\ .\  ``tail:maybe_and_following_that``
 =============================================================================================================================================================
 
-.. container:: prewrap
-
-   | ""
-   | Reference to tfk ALB999 rule https://github.com/buildingSMART/ifc-gherkin-rules/pull/37
-
 Usages:
 ~~~~~~~
 
@@ -25,20 +20,28 @@ Usages:
 
    :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:28
 
+ - **Given** *a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:22
+
+ - **Given** *a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:28
+
  - **Given** *A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that*
 
-   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:14
-
- - **Given** *A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that*
-
-   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:23
+   :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:13
 
  - **Given** *A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that*
 
-   :doc:`/features/OJT001_Object-predefined-type`:26
+   :doc:`/features/OJT001_Object-predefined-type`:28
 
  - **Given** *a relationship .IfcRelDeclares. from .IfcProject. to .IfcRoot. and following that*
 
-   :doc:`/features/PJS002_Correct-elements-related-to-project`:14
+   :doc:`/features/PJS002_Correct-elements-related-to-project`:13
+
+ - **Given** *a relationship .IfcRelNests. from .IfcAlignment. to .IfcDistributionPort. and following that*
+
+   :doc:`/features/SYS001_Cable-signal-flow`:19
 
 

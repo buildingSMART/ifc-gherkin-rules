@@ -6,7 +6,7 @@
    001 | \@industry-practice
    002 | \@GEM
    003 | \@version2
-   004 | \@E00020
+   004 | 
    005 | Feature: GEM051 - Presence of Geometric Context
    006 | The rule verifies that a geometric context is present in the model, that its attribute ContextType is provided (not empty) and its value is valid.
    007 | 

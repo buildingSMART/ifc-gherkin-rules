@@ -4,7 +4,6 @@ from . import ValidationOutcome, OutcomeSeverity
 
 
 @gherkin_ifc.step("Its attribute .{attribute}.")
-def step_impl(context, inst, attribute, tail="single"):
-    yield ValidationOutcome(instance_id=getattr(inst, attribute, None), severity=OutcomeSeverity.PASSED)
-
-
+@gherkin_ifc.step("Its attribute .{attribute}. [stored as '{varname}']")
+def step_impl(context, inst, attribute, varname=None):
+    yield ValidationOutcome(inst=getattr(inst, attribute, None), severity=OutcomeSeverity.PASSED)

@@ -1,6 +1,7 @@
 @implementer-agreement
 @ALS
-@version2
+@version3
+
 
 Feature: ALS011 - Alignment segment entity type consistency
 
@@ -13,17 +14,17 @@ Background:
   Given a model with Schema 'IFC4.3'
   Given an .IfcAlignment.
   Given its attribute .Representation.
-  Given its attribute .Representation.
+  Given its attribute .Representations.
   Given its attribute .Items.
 
 
 Scenario Outline: Consistent entity types used - direct representation
 
-  Given an .<entity>.
+  Given [its entity type] ^is^ '<entity>' ^excluding subtypes^
   Given its attribute .Segments.
   Given its entity type
 
-  Then The values must be identical at depth 1
+  Then The values must be identical at depth 3
 
   Examples:
     | entity            |
@@ -34,13 +35,13 @@ Scenario Outline: Consistent entity types used - direct representation
 
   Scenario Outline: Consistent entity types used - capture parent curve in case it is not a direct representation
 
-    Given an .<entity>.
+    Given [its entity type] ^is^ '<entity>'
     Given its attribute .BaseCurve.
-    Given an .<entity_parent>.
+    Given [its entity type] ^is^ '<entity_parent>' ^excluding subtypes^
     Given its attribute .Segments.
     Given its entity type
 
-    Then The values must be identical at depth 1
+    Then The values must be identical at depth 3
 
     Examples:
       | entity                      |  entity_parent |
@@ -50,7 +51,7 @@ Scenario Outline: Consistent entity types used - direct representation
 
 Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
 
-  Given an .<entity>.
+  Given [its entity type] ^is^ '<entity>'
   Given its attribute .Segments.
   Given its entity type
 

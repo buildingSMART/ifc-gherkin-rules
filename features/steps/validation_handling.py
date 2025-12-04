@@ -142,6 +142,17 @@ def handle_given(context, fn, **kwargs):
         else:
             context.instances = map_given_state(context.instances, fn, context, **kwargs)
 
+    if context.config.verbose:
+        def instance_to_str(v):
+            if isinstance(v, (list, tuple)):
+                return type(v)(map(instance_to_str, v))
+            elif isinstance(v, ifcopenshell.entity_instance):
+                return str(v)
+            else:
+                return v
+        if insts := getattr(context, 'instances', None):
+            print('>', list(map(instance_to_str, insts)))
+
 
 def map_given_state(values, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
     stack = misc.get_stack_tree(context)[::-1]

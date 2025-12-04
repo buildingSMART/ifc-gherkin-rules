@@ -9,3 +9,5 @@ test/out/svg
 .env
 /docs/_build
 /docs/_docs
+fixtures/*
+local/*

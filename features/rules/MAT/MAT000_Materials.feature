@@ -1,7 +1,6 @@
 @implementer-agreement
 @MAT
 @version1
-@E00020
 
 Feature: MAT000 - Materials
     The rule verifies the presence of IFC entities used to define materials assigned to elements.

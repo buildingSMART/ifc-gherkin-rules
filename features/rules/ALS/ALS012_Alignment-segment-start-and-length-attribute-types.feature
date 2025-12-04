@@ -1,7 +1,6 @@
 @informal-proposition
 @ALS
 @version1
-@E00010
 
 Feature: ALS012 - Alignment segment start and length attribute types
 

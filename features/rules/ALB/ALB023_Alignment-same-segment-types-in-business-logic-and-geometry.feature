@@ -1,7 +1,7 @@
 @implementer-agreement
 @ALB
 @version2
-@E00040
+
 Feature: ALB023 - Alignment same segment types in business logic and geometry
   The rule verifies that when an Alignment has both business logic and geometry (representation),
   the geometry type of each segments in the business logic must be the same as its corresponding segment in the representation.

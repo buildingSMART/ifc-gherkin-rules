@@ -1,7 +1,6 @@
 @implementer-agreement
 @CLS
 @version1
-@E00020
 
 Feature: CLS000 - Classification Association
     The rule verifies the presence of IFC entities used to classify elements, materials, and systems according to various classification systems,

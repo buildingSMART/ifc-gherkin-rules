@@ -1,7 +1,6 @@
 @informal-proposition
 @SWE
-@version1
-@E00050
+@version2
 Feature: SWE002 - Mirroring within IfcDerivedProfileDef shall not be used
 
 The rule verifies that the transformation defined in IfcDerivedProfileDef.Operator does not introduce mirroring.
@@ -11,7 +10,7 @@ altogether.
 
   Scenario: IfcDerivedProfileDef must not use mirroring as there is a dedicated subtype for that
 
-    Given An .IfcDerivedProfileDef. without subtypes
+    Given An .IfcDerivedProfileDef. ^without subtypes^
     Given Its attribute .Operator.
     Given The determinant of the placement matrix
 

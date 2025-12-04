@@ -1,7 +1,6 @@
 @implementer-agreement
 @CTX
 @version2
-@E00020
 
 Feature: CTX000 - Presentation colours and textures
     The rule verifies the presence of IFC entities used to assign colour, texture and other presentation appearance information to objects.

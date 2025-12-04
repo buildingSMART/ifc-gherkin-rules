@@ -1,7 +1,7 @@
 @informal-proposition
 @GEM
 @version1
-@E00050
+
 Feature: GEM003 - Unique Representation Identifier
 The rule verifies that Shape Representation identifier is unique within the product representation of an IfcProduct element.
 

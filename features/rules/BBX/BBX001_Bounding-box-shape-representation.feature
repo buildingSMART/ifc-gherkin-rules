@@ -1,7 +1,6 @@
 @implementer-agreement
 @BBX
 @version1
-@E00020
 
 Feature: BBX001 - Bounding Box Shape Representation
 The rule verifies the correct use of Bounding Box as shape representation. 

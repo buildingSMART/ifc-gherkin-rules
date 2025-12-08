@@ -1,7 +1,6 @@
 @implementer-agreement
 @BLT
 @version1
-@E00020
 
 Feature: BLT001 - Correct use of operation type attributes for doors
 

@@ -1,7 +1,7 @@
 @implementer-agreement
 @ALB
 @version1
-@E00020
+
 Feature: ALB030 - Alignment local placement
   The rule verifies that the ObjectPlacement attribute of every instance of IfcAlignment is of type IfcLocalPlacement. 
   While the schema allows other placement types (Grid or Linear), this rule ensures that IfcLocalPlacement is used for all alignments.

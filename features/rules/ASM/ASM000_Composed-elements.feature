@@ -1,7 +1,6 @@
 @implementer-agreement
 @ASM
 @version1
-@E00020
 
 Feature: ASM000 - Composed elements
     The rule verifies the presence of IFC entities used to model elements composed of / constructed by other elements.

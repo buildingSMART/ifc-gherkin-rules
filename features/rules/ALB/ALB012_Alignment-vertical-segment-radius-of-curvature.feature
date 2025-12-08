@@ -1,7 +1,7 @@
 @implementer-agreement
 @ALB
 @version2
-@E00020
+
 Feature: ALB012 - Alignment vertical segment radius of curvature
   The rule verifies the 'RadiusOfCurvature' design parameter for vertical alignment segments.
   Where specified, an absolute tolerance value in the length unit of the model is used for the comparison.

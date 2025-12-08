@@ -7,13 +7,11 @@ In that case, it must be identical by reference (referencing the same instance),
 Two points are considered to be duplicates if the distance between them is less than
 the Precision factor of the applicable geometric context.
 
-  @E00050
   Scenario: Agreement on no duplicated points within a polyloop
 
       Given An .IfcPolyLoop.
       Then It must have no duplicate points including first and last point
 
-  @E00050
   Scenario: Agreement on no duplicated points within a polyline
 
     Given An .IfcPolyLine.
@@ -21,7 +19,6 @@ the Precision factor of the applicable geometric context.
 
     Then It must have no duplicate points including first and last point
 
-  @E00050
   Scenario: Agreement on no duplicated points within a polyline
 
     Given An .IfcPolyLine.
@@ -29,7 +26,6 @@ the Precision factor of the applicable geometric context.
 
     Then It must have no duplicate points excluding first and last point
 
-  @E00120
   Scenario: Agreement on first and last point of IfcPolyline being identical by reference (referencing the same instance of IfcCartesianPoint)
 
     Given An .IfcPolyline.

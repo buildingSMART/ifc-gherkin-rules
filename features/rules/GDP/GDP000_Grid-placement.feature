@@ -1,7 +1,7 @@
 @implementer-agreement
 @GDP
 @version1
-@E00020
+
 Feature: GDP000 - Grid Placement
 The rule verifies the presence of IFC entities used to define the placement of a product in relation to a design grid.
 

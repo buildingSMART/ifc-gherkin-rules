@@ -259,5 +259,8 @@ DATA;
 #252=IFCSITE('2yTTT3FfXApBD9cGGp3m3r',$,'Site of Bridge 3',$,$,$,$,$,$,$,$,$,$,$);
 #253=IFCRELREFERENCEDINSPATIALSTRUCTURE('2yHFTnkCH0yeQEKpzJcoDh',$,$,'Alignments referenced into the spatial structure of Bridge Site 3',(#245),#252);
 #254=IFCRELAGGREGATES('1lgBZbq31DJxpXuomkg8Ql',$,$,'Bridge sites aggregated into the overall project',#1,(#248,#250,#252));
+
+#500=IFCPRODUCTDEFINITIONSHAPE('Proxy Product Shape Definition by IfcCompositeCurve',$,(#103));
+#501=IFCBUILTELEMENT('2yQQQ3FfXApBD9cGGp3m3r',$,'Generic Element',$,$,$,#500,$);
 ENDSEC;
 END-ISO-10303-21;

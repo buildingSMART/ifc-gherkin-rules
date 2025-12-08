@@ -6,18 +6,38 @@ Usages:
 
  - **Given** *a relationship .IfcRelNests. from .IfcAlignment. to .IfcAlignmentHorizontal.*
 
-   :doc:`/features/ALB000_Alignment-layout`:15
+   :doc:`/features/ALB000_Alignment-layout`:14
+
+ - **Given** *a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.*
+
+   :doc:`/features/ALB031_Alignment-layouts-default-case`:16
+
+ - **Given** *a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment.*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:16
+
+ - **Given** *a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:17
+
+ - **Given** *a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:23
 
  - **Given** *a relationship .IfcRelDefinesByType. to .IfcDoor. from .IfcDoorType.*
 
-   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:30
+   :doc:`/features/BLT001_Correct-use-of-operation-type-attributes-for-doors`:29
 
  - **Given** *a relationship .IfcRelDefinesByType. to .IfcWindow. from .IfcWindowType.*
 
-   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:30
+   :doc:`/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows`:29
+
+ - **Given** *a relationship .IfcRelAssignsToGroup. from .IfcGroup. to .IfcObject.*
+
+   :doc:`/features/GRP000_Groups`:10
 
  - **Given** *a relationship .IfcRelAggregates. to .IfcElement. from .IfcElement.*
 
-   :doc:`/features/SPS007_Spatial-containment`:35
+   :doc:`/features/SPS007_Spatial-containment`:34
 
 

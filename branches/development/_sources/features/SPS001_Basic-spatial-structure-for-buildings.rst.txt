@@ -1,4 +1,4 @@
-``SPS001`` Basic spatial structure for buildings
+``SPS001`` Basic spatial structure for buildings - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,33 +6,53 @@
    001 | \@implementer-agreement
    002 | \@SPS
    003 | \@version2
-   004 | \@E00160
-   005 | Feature: SPS001 - Basic spatial structure for buildings
-   006 | The rule verifies that there's maximum one instance of IfcSite and at least one instance of IfcBuilding as part of the spatial structure.
-   007 | 
-   008 |   Background:
-   009 |     :doc:`Given A file with Model View Definition 'CoordinationView\_V2.0' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   010 |     :doc:`Given A file with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   004 | Feature: SPS001 - Basic spatial structure for buildings
+   005 | The rule verifies that there's maximum one instance of IfcSite and at least one instance of IfcBuilding as part of the spatial structure.
+   006 | 
+   007 |   Background:
+   008 |     :doc:`Given A file with Model View Definition 'CoordinationView\_V2.0' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   009 |     :doc:`Given A file with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   010 | 
    011 | 
-   012 | 
-   013 |   Scenario: Agreement141 - Agreement on having maximum of one instance of IfcSite
-   014 | 
-   015 |     :doc:`Then There must be at most 1 instance(s) of IfcSite </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
-   016 | 
-   017 |   Scenario: Agreement142(1) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
-   018 | 
-   019 |     :doc:`Then There must be at least 1 instance(s) of IfcBuilding </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
-   020 | 
-   021 |   Scenario: Agreement142(2) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
-   022 | 
-   023 |     :doc:`Given An .IfcSite. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   024 |     :doc:`Given an .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   025 |     :doc:`Then It must be assigned to the IfcSite </steps/thensrelationspy_Itmustbeassignedtotherelating>`
+   012 |   Scenario: Agreement141 - Agreement on having maximum of one instance of IfcSite
+   013 | 
+   014 |     :doc:`Then There must be at most 1 instance(s) of IfcSite </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+   015 | 
+   016 |   Scenario: Agreement142(1) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
+   017 | 
+   018 |     :doc:`Then There must be at least 1 instance(s) of IfcBuilding </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+   019 | 
+   020 |   Scenario: Agreement142(2) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
+   021 | 
+   022 |     :doc:`Given An .IfcSite. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   023 |     :doc:`Given an .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   024 |     :doc:`Then It must be assigned to the IfcSite </steps/thensrelationspy_Itmustbeassignedtotherelating>`
+   025 | 
    026 | 
-   027 | 
-   028 |   Scenario: Agreement142(3) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
-   029 | 
-   030 |   :doc:`Given no .IfcSite. </steps/givensentitiespy_Noentity>`
-   031 |   :doc:`Given An .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   032 | 
-   033 |   :doc:`Then It must be assigned to the IfcProject </steps/thensrelationspy_Itmustbeassignedtotherelating>`
+   027 |   Scenario: Agreement142(3) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
+   028 | 
+   029 |   :doc:`Given no .IfcSite. </steps/givensentitiespy_Noentity>`
+   030 |   :doc:`Given An .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   031 | 
+   032 |   :doc:`Then It must be assigned to the IfcProject </steps/thensrelationspy_Itmustbeassignedtotherelating>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2022-07-31
+     - :commit:`a6aeaec429507e80ceebb769fbe70f25530d61c6`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS001_Basic-spatial-structure-for-buildings.feature>`_
+   * - v2
+     - :tag:`v0.7.6`
+     - 2025-05-06
+     - :commit:`0160e60749484eb9b451ba689d22be189d78401b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.6/features/rules/SPS/SPS001_Basic-spatial-structure-for-buildings.feature>`_

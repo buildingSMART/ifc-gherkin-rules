@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *The characters must be within the official encoding character set*
 
-   :doc:`/features/PJS003_Globally-Unique-Identifiers`:19
+   :doc:`/features/PJS003_Globally-Unique-Identifiers`:18
 
 

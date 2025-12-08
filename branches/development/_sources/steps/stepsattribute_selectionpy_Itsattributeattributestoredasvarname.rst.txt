@@ -6,10 +6,10 @@ Usages:
 
  - **Given** *its attribute .RepresentationIdentifier. [stored as 'ParentIdentifier']*
 
-   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:12
+   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:11
 
  - **Given** *its attribute .RepresentationIdentifier. [stored as 'ChildIdentifier']*
 
-   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:18
+   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:17
 
 

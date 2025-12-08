@@ -6,10 +6,10 @@ Usages:
 
  - **Then** *It must be assigned to the IfcSite*
 
-   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:25
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:24
 
  - **Then** *It must be assigned to the IfcProject*
 
-   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:33
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:32
 
 

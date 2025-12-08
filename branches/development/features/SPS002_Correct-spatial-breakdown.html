@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SPS002 Correct spatial breakdown &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>SPS002 Correct spatial breakdown - v3 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SPS003 Correct containment of assemblies" href="SPS003_Correct-containment-of-assemblies.html" />
-    <link rel="prev" title="SPS001 Basic spatial structure for buildings" href="SPS001_Basic-spatial-structure-for-buildings.html" /> 
+    <link rel="next" title="SPS003 Correct containment of assemblies - v1" href="SPS003_Correct-containment-of-assemblies.html" />
+    <link rel="prev" title="SPS001 Basic spatial structure for buildings - v2" href="SPS001_Basic-spatial-structure-for-buildings.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,100 +45,49 @@
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Validation Service Rule Definitions</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="ALB000_Alignment-layout.html"><code class="docutils literal notranslate"><span class="pre">ALB000</span></code> Alignment layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB002_Alignment-layout-relationships.html"><code class="docutils literal notranslate"><span class="pre">ALB002</span></code> Alignment layout relationships</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB003_Alignment-nesting.html"><code class="docutils literal notranslate"><span class="pre">ALB003</span></code> Alignment nesting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB004_Alignment-in-spatial-structure-relationships.html"><code class="docutils literal notranslate"><span class="pre">ALB004</span></code> Alignment in spatial structure relationships</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB005_Positioning-of-referents.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">ALB005</span></code> Positioning of referents) (disabled)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB010_Alignment-nesting-referents.html"><code class="docutils literal notranslate"><span class="pre">ALB010</span></code> Alignment nesting referents</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB012_Alignment-vertical-segment-radius-of-curvature.html"><code class="docutils literal notranslate"><span class="pre">ALB012</span></code> Alignment vertical segment radius of curvature</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB015_Alignment-business-logic-zero-length-final-segment.html"><code class="docutils literal notranslate"><span class="pre">ALB015</span></code> Alignment business logic zero length final segment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB021_Alignment-overall-agreement-of-business-logic-and-geometry.html"><code class="docutils literal notranslate"><span class="pre">ALB021</span></code> Alignment overall agreement of business logic and geometry</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB022_Alignment-agreement-on-number-of-segments.html"><code class="docutils literal notranslate"><span class="pre">ALB022</span></code> Alignment agreement on number of segments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB023_Alignment-same-segment-types-in-business-logic-and-geometry.html"><code class="docutils literal notranslate"><span class="pre">ALB023</span></code> Alignment same segment types in business logic and geometry</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALB030_Alignment-local-placement.html"><code class="docutils literal notranslate"><span class="pre">ALB030</span></code> Alignment local placement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS000_Alignment-geometry.html"><code class="docutils literal notranslate"><span class="pre">ALS000</span></code> Alignment geometry</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS004_Alignment-segment-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS004</span></code> Alignment segment shape representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS005_Alignment-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS005</span></code> Alignment shape representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS006_Alignment-horizontal-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS006</span></code> Alignment horizontal shape representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS007_Alignment-vertical-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS007</span></code> Alignment vertical shape representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS008_Alignment-cant-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS008</span></code> Alignment cant shape representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS010_Alignment-segment-shape-representation-has-the-correct-number-of-items.html"><code class="docutils literal notranslate"><span class="pre">ALS010</span></code> Alignment segment shape representation has the correct number of items</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS011_Alignment-segment-entity-type-consistency.html"><code class="docutils literal notranslate"><span class="pre">ALS011</span></code> Alignment segment entity type consistency</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS012_Alignment-segment-start-and-length-attribute-types.html"><code class="docutils literal notranslate"><span class="pre">ALS012</span></code> Alignment segment start and length attribute types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS015_Alignment-representation-zero-length-final-segment.html"><code class="docutils literal notranslate"><span class="pre">ALS015</span></code> Alignment representation zero length final segment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS016_Alignment-horizontal-segment-geometric-continuity.html"><code class="docutils literal notranslate"><span class="pre">ALS016</span></code> Alignment horizontal segment geometric continuity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ALS017_Alignment-vertical-segment-geometric-continuity.html"><code class="docutils literal notranslate"><span class="pre">ALS017</span></code> Alignment vertical segment geometric continuity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ANN000_Annotations.html"><code class="docutils literal notranslate"><span class="pre">ANN000</span></code> Annotations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ASM000_Composed-elements.html"><code class="docutils literal notranslate"><span class="pre">ASM000</span></code> Composed elements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="AXG000_Axis-Geometry.html"><code class="docutils literal notranslate"><span class="pre">AXG000</span></code> Axis Geometry</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BBX000_Bounding-box.html"><code class="docutils literal notranslate"><span class="pre">BBX000</span></code> Bounding box</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BBX001_Bounding-box-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">BBX001</span></code> Bounding box shape representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BLT000_Built-elements.html"><code class="docutils literal notranslate"><span class="pre">BLT000</span></code> Built elements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BLT001_Correct-use-of-operation-type-attributes-for-doors.html"><code class="docutils literal notranslate"><span class="pre">BLT001</span></code> Correct use of operation type attributes for doors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BLT002_Correct-use-of-partitioning-type-attributes-for-windows.html"><code class="docutils literal notranslate"><span class="pre">BLT002</span></code> Correct use of partitioning type attributes for windows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BLT003_Stair-decomposition.html"><code class="docutils literal notranslate"><span class="pre">BLT003</span></code> Stair decomposition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BRP001_Polyhedral-IfcFace-boundary-no-self-intersections.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">BRP001</span></code> Polyhedral IfcFace boundary no self intersections) (disabled)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BRP002_Single-component-in-connected-faceset.html"><code class="docutils literal notranslate"><span class="pre">BRP002</span></code> Single component in connected faceset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BRP003_Planar-faces-are-planar.html"><code class="docutils literal notranslate"><span class="pre">BRP003</span></code> Planar faces are planar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CLS000_Classification-association.html"><code class="docutils literal notranslate"><span class="pre">CLS000</span></code> Classification association</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CTX000_Presentation-colours-and-textures.html"><code class="docutils literal notranslate"><span class="pre">CTX000</span></code> Presentation colours and textures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GDP000_Grid-placement.html"><code class="docutils literal notranslate"><span class="pre">GDP000</span></code> Grid placement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM001_Closed-shell-edge-usage.html"><code class="docutils literal notranslate"><span class="pre">GEM001</span></code> Closed shell edge usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM002_Space-representation.html"><code class="docutils literal notranslate"><span class="pre">GEM002</span></code> Space representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM003_Unique-representation-identifier.html"><code class="docutils literal notranslate"><span class="pre">GEM003</span></code> Unique representation identifier</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM004_Constraints-on-representation-identifiers.html"><code class="docutils literal notranslate"><span class="pre">GEM004</span></code> Constraints on representation identifiers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM005_Building-shape-representation.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">GEM005</span></code> Building shape representation) (disabled)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM011_Curve-segments-consistency.html"><code class="docutils literal notranslate"><span class="pre">GEM011</span></code> Curve segments consistency</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM051_Presence-of-geometric-context.html"><code class="docutils literal notranslate"><span class="pre">GEM051</span></code> Presence of geometric context</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM052_Correct-geometric-subcontexts.html"><code class="docutils literal notranslate"><span class="pre">GEM052</span></code> Correct geometric subcontexts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM111_No-duplicated-points-within-a-polyloop-or-polyline.html"><code class="docutils literal notranslate"><span class="pre">GEM111</span></code> No duplicated points within a polyloop or polyline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM112_No-duplicated-points-within-an-indexed-poly-curve.html"><code class="docutils literal notranslate"><span class="pre">GEM112</span></code> No duplicated points within an indexed poly curve</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GEM113_Indexed-poly-curve-arcs-must-not-be-defined-using-colinear-points.html"><code class="docutils literal notranslate"><span class="pre">GEM113</span></code> Indexed poly curve arcs must not be defined using colinear points</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GRF000_Georeferencing.html"><code class="docutils literal notranslate"><span class="pre">GRF000</span></code> Georeferencing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GRF001_Identical-coordinate-operations.html"><code class="docutils literal notranslate"><span class="pre">GRF001</span></code> Identical coordinate operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GRF002_EPSG-code-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF002</span></code> EPSG code in coordinate reference system</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GRF003_CRS-presence-with-spatial-entities.html"><code class="docutils literal notranslate"><span class="pre">GRF003</span></code> CRS presence with spatial entities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GRF007_valid-vertical-datum-crs-type.html"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GRP001_Acyclic-groups.html"><code class="docutils literal notranslate"><span class="pre">GRP001</span></code> Acyclic groups</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IFC101_Only-official-ifc-versions-allowed.html"><code class="docutils literal notranslate"><span class="pre">IFC101</span></code> Only official ifc versions allowed</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IFC102_Absence-of-deprecated-entities.html"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.html"><code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="LAY000_Presentation-layer-assignment.html"><code class="docutils literal notranslate"><span class="pre">LAY000</span></code> Presentation layer assignment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="LIP000_Linear-Placement.html"><code class="docutils literal notranslate"><span class="pre">LIP000</span></code> Linear Placement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="LIP002_Linear-placement-fallback-coordinates.html"><code class="docutils literal notranslate"><span class="pre">LIP002</span></code> Linear placement fallback coordinates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="LOP000_Local-placement.html"><code class="docutils literal notranslate"><span class="pre">LOP000</span></code> Local placement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MAT000_Materials.html"><code class="docutils literal notranslate"><span class="pre">MAT000</span></code> Materials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem.html"><code class="docutils literal notranslate"><span class="pre">MPD001</span></code> Correct use of RepresentationType and RepresentationIdentifier in the context of IfcMappedItem</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OJP000_Object-placement.html"><code class="docutils literal notranslate"><span class="pre">OJP000</span></code> Object placement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OJP001_Relative-placement-for-elements-aggregated-to-another-element.html"><code class="docutils literal notranslate"><span class="pre">OJP001</span></code> Relative placement for elements aggregated to another element</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OJT001_Object-predefined-type.html"><code class="docutils literal notranslate"><span class="pre">OJT001</span></code> Object predefined type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PJS000_Project.html"><code class="docutils literal notranslate"><span class="pre">PJS000</span></code> Project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PJS002_Correct-elements-related-to-project.html"><code class="docutils literal notranslate"><span class="pre">PJS002</span></code> Correct elements related to project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PJS003_Globally-Unique-Identifiers.html"><code class="docutils literal notranslate"><span class="pre">PJS003</span></code> Globally Unique Identifiers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PJS101_Project-presence.html"><code class="docutils literal notranslate"><span class="pre">PJS101</span></code> Project presence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="POR000_Port-connectivity-and-nesting.html"><code class="docutils literal notranslate"><span class="pre">POR000</span></code> Port connectivity and nesting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PSE001_Standard-properties-and-property-sets-validation.html"><code class="docutils literal notranslate"><span class="pre">PSE001</span></code> Standard properties and property sets validation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PSE002_Custom-properties-and-property-sets-validation.html"><code class="docutils literal notranslate"><span class="pre">PSE002</span></code> Custom properties and property sets validation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="QTY000_Quantities-for-objects.html"><code class="docutils literal notranslate"><span class="pre">QTY000</span></code> Quantities for objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="QTY001_Standard-quantities-and-quantity-sets-validation.html"><code class="docutils literal notranslate"><span class="pre">QTY001</span></code> Standard quantities and quantity sets validation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SPA000_Spaces-information.html"><code class="docutils literal notranslate"><span class="pre">SPA000</span></code> Spaces information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SPS001_Basic-spatial-structure-for-buildings.html"><code class="docutils literal notranslate"><span class="pre">SPS001</span></code> Basic spatial structure for buildings</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SPS003_Correct-containment-of-assemblies.html"><code class="docutils literal notranslate"><span class="pre">SPS003</span></code> Correct containment of assemblies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning) (disabled)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SPS005_Simultaneous-spatial-relationships.html"><code class="docutils literal notranslate"><span class="pre">SPS005</span></code> Simultaneous spatial relationships</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures) (disabled)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SPS007_Spatial-containment.html"><code class="docutils literal notranslate"><span class="pre">SPS007</span></code> Spatial containment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SPS008_Spatial-container-representations.html"><code class="docutils literal notranslate"><span class="pre">SPS008</span></code> Spatial container representations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SWE001_Arbitrary-profile-boundary-no-self-intersections.html"><code class="docutils literal notranslate"><span class="pre">SWE001</span></code> Arbitrary profile boundary no self intersections</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"><code class="docutils literal notranslate"><span class="pre">SWE002</span></code> Mirroring within IfcDerivedProfileDef shall not be used</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SYS001_Cable-signal-flow.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SYS001</span></code> Cable signal flow) (disabled)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TAS001_Polygonal-face-boundary-no-self-intersections.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">TAS001</span></code> Polygonal face boundary no self intersections) (disabled)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="VER000_Versioning-and-revision-control.html"><code class="docutils literal notranslate"><span class="pre">VER000</span></code> Versioning and revision control</a></li>
-<li class="toctree-l2"><a class="reference internal" href="VRT000_Virtual-elements.html"><code class="docutils literal notranslate"><span class="pre">VRT000</span></code> Virtual elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ALB.html">Alignment (<code class="docutils literal notranslate"><span class="pre">ALB</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ALS.html">Alignment geometry (<code class="docutils literal notranslate"><span class="pre">ALS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ANN.html">Annotations (<code class="docutils literal notranslate"><span class="pre">ANN</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ASM.html">Assemblies (<code class="docutils literal notranslate"><span class="pre">ASM</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AXG.html">Axis geometry (<code class="docutils literal notranslate"><span class="pre">AXG</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BBX.html">Bounding box (<code class="docutils literal notranslate"><span class="pre">BBX</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BLT.html">Built elements (<code class="docutils literal notranslate"><span class="pre">BLT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BRP.html">Boundary Representation (BREP) (<code class="docutils literal notranslate"><span class="pre">BRP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CLS.html">Classification reference (<code class="docutils literal notranslate"><span class="pre">CLS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CTX.html">Presentation Colours &amp; Textures (<code class="docutils literal notranslate"><span class="pre">CTX</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GDP.html">Grid placement (<code class="docutils literal notranslate"><span class="pre">GDP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GEM.html">Geometry representation (<code class="docutils literal notranslate"><span class="pre">GEM</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GRP.html">Groups (<code class="docutils literal notranslate"><span class="pre">GRP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LAY.html">Presentation layer (<code class="docutils literal notranslate"><span class="pre">LAY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="POR.html">Ports Connectivity &amp; Nesting (<code class="docutils literal notranslate"><span class="pre">POR</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PSE.html">Properties for object (<code class="docutils literal notranslate"><span class="pre">PSE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QTY.html">Quantities for objects (<code class="docutils literal notranslate"><span class="pre">QTY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPA.html">Spaces (<code class="docutils literal notranslate"><span class="pre">SPA</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="SPS.html">Spatial breakdown (<code class="docutils literal notranslate"><span class="pre">SPS</span></code>)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="SPS001_Basic-spatial-structure-for-buildings.html"><code class="docutils literal notranslate"><span class="pre">SPS001</span></code> Basic spatial structure for buildings - v2</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown - v3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS003_Correct-containment-of-assemblies.html"><code class="docutils literal notranslate"><span class="pre">SPS003</span></code> Correct containment of assemblies - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS004_No-combination-of-containment-and-positioning.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS004</span></code> No combination of containment and positioning - v2) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS005_Simultaneous-spatial-relationships.html"><code class="docutils literal notranslate"><span class="pre">SPS005</span></code> Simultaneous spatial relationships - v2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS006_Elements-referenced-in-Spatial-structures.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">SPS006</span></code> Elements referenced in Spatial structures - v2) (disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS007_Spatial-containment.html"><code class="docutils literal notranslate"><span class="pre">SPS007</span></code> Spatial containment - v6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SPS008_Spatial-container-representations.html"><code class="docutils literal notranslate"><span class="pre">SPS008</span></code> Spatial container representations - v1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SWE.html">Sweeps (i.e. extrusions, lofts, blends) (<code class="docutils literal notranslate"><span class="pre">SWE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SYS.html">SYS (<code class="docutils literal notranslate"><span class="pre">SYS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TAS.html">Tessellated (i.e. meshes) (<code class="docutils literal notranslate"><span class="pre">TAS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VER.html">Versioning &amp; Revision Control (<code class="docutils literal notranslate"><span class="pre">VER</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VRT.html">Virtual elements (<code class="docutils literal notranslate"><span class="pre">VRT</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../steps/index.html">Behave Step Implementations</a></li>
@@ -159,7 +108,8 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown</li>
+          <li class="breadcrumb-item"><a href="SPS.html">Spatial breakdown (<code class="docutils literal notranslate"><span class="pre">SPS</span></code>)</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown - v3</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/SPS002_Correct-spatial-breakdown.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -169,37 +119,67 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="sps002-correct-spatial-breakdown">
-<h1><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown<a class="headerlink" href="#sps002-correct-spatial-breakdown" title="Link to this heading"></a></h1>
+  <section id="sps002-correct-spatial-breakdown-v3">
+<h1><code class="docutils literal notranslate"><span class="pre">SPS002</span></code> Correct spatial breakdown - v3<a class="headerlink" href="#sps002-correct-spatial-breakdown-v3" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;SPS
 003 | &#64;version3
-004 | &#64;E00100
-005 | Feature: SPS002 - Correct spatial breakdown
-006 | The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.
-007 | The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial_CompositionTable.csv'
-008 |
-009 |   Scenario: Agreement on each IfcSpatialElement being aggregated as per spatial composition table.
-010 |
-011 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
-012 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcSpatialElement.</span></a>
-013 |
-014 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustberelationshipaspertable.html"><span class="doc">Then It must be aggregated as per spatial_CompositionTable.csv</span></a>
-015 |
-016 |   Scenario: Agreement on the IfcProject being aggregated as per spatial composition table.
-017 |
-018 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
-019 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcProject.</span></a>
-020 |
-021 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustberelationshipaspertable.html"><span class="doc">Then It must be aggregated as per spatial_CompositionTable.csv</span></a></pre>
+004 | Feature: SPS002 - Correct spatial breakdown
+005 | The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.
+006 | The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial_CompositionTable.csv'
+007 |
+008 |   Scenario: Agreement on each IfcSpatialElement being aggregated as per spatial composition table.
+009 |
+010 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+011 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcSpatialElement.</span></a>
+012 |
+013 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustberelationshipaspertable.html"><span class="doc">Then It must be aggregated as per spatial_CompositionTable.csv</span></a>
+014 |
+015 |   Scenario: Agreement on the IfcProject being aggregated as per spatial composition table.
+016 |
+017 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+018 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcProject.</span></a>
+019 |
+020 |     <a class="reference internal" href="../steps/thensrelationspy_Itmustberelationshipaspertable.html"><span class="doc">Then It must be aggregated as per spatial_CompositionTable.csv</span></a></pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+<th class="head"><p>Rule link</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v1</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
+<td><p>2023-09-21</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/2cf129562fc83bc63cf30b159d240da7120b5070">2cf12956</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS002_Correct-spatial-breakdown.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
+<td><p>2024-07-11</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/7686282999419c5449e15dd5b8f2e843e83287c9">76862829</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS002_Correct-spatial-breakdown.feature">view</a></p></td>
+</tr>
+<tr class="row-even"><td><p>v3</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.11">v0.6.11</a></p></td>
+<td><p>2025-02-01</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/4e1884be5d3315a5f1b7d4fd2b4d309f211d2411">4e1884be</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.11/features/SPS002_Correct-spatial-breakdown.feature">view</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SPS001_Basic-spatial-structure-for-buildings.html" class="btn btn-neutral float-left" title="SPS001 Basic spatial structure for buildings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SPS003_Correct-containment-of-assemblies.html" class="btn btn-neutral float-right" title="SPS003 Correct containment of assemblies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SPS001_Basic-spatial-structure-for-buildings.html" class="btn btn-neutral float-left" title="SPS001 Basic spatial structure for buildings - v2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SPS003_Correct-containment-of-assemblies.html" class="btn btn-neutral float-right" title="SPS003 Correct containment of assemblies - v1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

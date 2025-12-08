@@ -6,18 +6,18 @@ Usages:
 
  - **Given** *Its value ^starts^ with 'EPSG:'*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:18
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:17
 
  - **Given** *Its value ^starts^ with 'EPSG:'*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:32
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:31
 
  - **Then** *Its value ^starts^ with '0' or '1' or '2' or '3'*
 
-   :doc:`/features/PJS003_Globally-Unique-Identifiers`:19
+   :doc:`/features/PJS003_Globally-Unique-Identifiers`:18
 
  - **Given** *Its value ^does not start^ with 'Pset_'*
 
-   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:13
+   :doc:`/features/PSE002_Custom-properties-and-property-sets-validation`:12
 
 

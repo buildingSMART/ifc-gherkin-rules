@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *The string length must be exactly '22' characters*
 
-   :doc:`/features/PJS003_Globally-Unique-Identifiers`:19
+   :doc:`/features/PJS003_Globally-Unique-Identifiers`:18
 
 

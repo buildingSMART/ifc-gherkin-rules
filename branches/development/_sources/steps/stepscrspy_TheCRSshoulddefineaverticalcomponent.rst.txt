@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *The CRS should define a vertical component*
 
-   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:17
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:16
 
 

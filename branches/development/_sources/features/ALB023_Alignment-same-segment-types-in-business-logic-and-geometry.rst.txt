@@ -1,4 +1,4 @@
-``ALB023`` Alignment same segment types in business logic and geometry
+``ALB023`` Alignment same segment types in business logic and geometry - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,7 +6,7 @@
    001 | \@implementer-agreement
    002 | \@ALB
    003 | \@version2
-   004 | \@E00040
+   004 | 
    005 | Feature: ALB023 - Alignment same segment types in business logic and geometry
    006 |   The rule verifies that when an Alignment has both business logic and geometry (representation),
    007 |   the geometry type of each segments in the business logic must be the same as its corresponding segment in the representation.
@@ -51,3 +51,24 @@
    046 | 
    047 | 
    048 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-04-10
+     - :commit:`73142c07e2af2f94f26f15bb4176f2db6b83ab40`
+     - n/a
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-06-21
+     - :commit:`e7816d59f4499ac8a806be07a5268de1cf086795`
+     - n/a

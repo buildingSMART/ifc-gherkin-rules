@@ -6,7 +6,7 @@ Usages:
 
  - **Given** *All referenced instances*
 
-   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:17
+   :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:16
 
  - **Given** *All referenced instances*
 
@@ -18,6 +18,6 @@ Usages:
 
  - **Given** *all referenced instances*
 
-   :doc:`/features/CTX000_Presentation-colours-and-textures`:29
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:28
 
 

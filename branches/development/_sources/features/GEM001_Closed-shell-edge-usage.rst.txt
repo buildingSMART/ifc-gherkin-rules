@@ -1,4 +1,4 @@
-``GEM001`` Closed shell edge usage
+``GEM001`` Closed shell edge usage - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,7 +6,7 @@
    001 | \@informal-proposition
    002 | \@GEM
    003 | \@version3
-   004 | \@E00050
+   004 | 
    005 | Feature: GEM001 - Closed shell edge usage
    006 | The rule verifies that closed shells and closed facesets edges are referenced correctly.
    007 | 
@@ -35,3 +35,29 @@
    030 |         | IfcTriangulatedFaceSet   | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
    031 |         | IfcPolygonalFaceSet      | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
    032 |         | IfcPolygonalFaceSet      | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2022-07-21
+     - :commit:`8dbd61e4c4260d8433ed8524aa9e1bfc7167c687`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM001_Closed-shell-edge-usage.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-08-15
+     - :commit:`7157a9d9d311f6a80fbf1a0ac43f3781f7cb0000`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM001_Closed-shell-edge-usage.feature>`_
+   * - v3
+     - :tag:`v0.8.0`
+     - 2025-08-26
+     - :commit:`d8d858fd7f7ce0cfb41840d6da1cf76607fc9d00`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.0/features/rules/GEM/GEM001_Closed-shell-edge-usage.feature>`_

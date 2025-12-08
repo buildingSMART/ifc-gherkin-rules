@@ -6,27 +6,27 @@ Usages:
 
  - **Then** *The type must be 'IfcGradientCurve'*
 
-   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:18
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:17
 
  - **Then** *The value must be 'Axis'*
 
-   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:24
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:22
 
  - **Then** *The value must be 'Curve3D'*
 
-   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:31
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:28
 
  - **Then** *The value must be 'Axis'*
 
-   :doc:`/features/ALS008_Alignment-cant-shape-representation`:17
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:16
 
  - **Then** *The value must be 'Curve3D'*
 
-   :doc:`/features/ALS008_Alignment-cant-shape-representation`:24
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:22
 
  - **Then** *The type must be 'IfcSegmentedReferenceCurve'*
 
-   :doc:`/features/ALS008_Alignment-cant-shape-representation`:31
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:28
 
  - **Then** *The value must be 'IfcCurveSegment'*
 
@@ -38,6 +38,6 @@ Usages:
 
  - **Then** *The value must be 'IfcCurveSegment'*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:43
+   :doc:`/features/GEM011_Curve-segments-consistency`:42
 
 

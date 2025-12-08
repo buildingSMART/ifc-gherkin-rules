@@ -10,10 +10,10 @@ Usages:
 
  - **Then** *It must be aggregated as per spatial_CompositionTable.csv*
 
-   :doc:`/features/SPS002_Correct-spatial-breakdown`:14
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:13
 
  - **Then** *It must be aggregated as per spatial_CompositionTable.csv*
 
-   :doc:`/features/SPS002_Correct-spatial-breakdown`:21
+   :doc:`/features/SPS002_Correct-spatial-breakdown`:20
 
 

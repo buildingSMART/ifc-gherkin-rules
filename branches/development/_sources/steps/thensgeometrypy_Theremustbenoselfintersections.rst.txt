@@ -17,10 +17,10 @@ Usages:
 
  - **Then** *There must be no self-intersections*
 
-   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:15
+   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:14
 
  - **Then** *There must be no self-intersections*
 
-   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:22
+   :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:21
 
 

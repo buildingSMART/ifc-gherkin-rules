@@ -1,4 +1,4 @@
-``GEM004`` Constraints on representation identifiers
+``GEM004`` Constraints on representation identifiers - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,7 +6,7 @@
    001 | \@informal-proposition
    002 | \@GEM
    003 | \@version3
-   004 | \@E00010
+   004 | 
    005 | Feature: GEM004 - Constraints on representation identifiers
    006 | The rule verifies that shape representations adhere to the permissible values outlined in the CSV files found in the 'features/resources/{attribute}.csv' folder, as specified in the documentation.
    007 | 
@@ -40,3 +40,29 @@
    035 |       :doc:`Given Its attribute .RepresentationType. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    036 | 
    037 |       :doc:`Then The values must be in 'valid\_TopologyRepresentationType.csv' </steps/thensvaluespy_Theivalues_or_typesmustbeincsv_filecsv>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-02-02
+     - :commit:`e7b6c0178c41da5b2fbd10444b2e642376f045fe`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM004_Constraints-on-representation-identifiers.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-04-18
+     - :commit:`be4d7373b16a27c5cfec1830530ff0b233a7dfa4`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM004_Constraints-on-representation-identifiers.feature>`_
+   * - v3
+     - :tag:`v0.6.8`
+     - 2024-10-31
+     - :commit:`ef196247623df681aa64cb82f3efcfc7ca9ec1f9`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/GEM004_Constraints-on-representation-identifiers.feature>`_

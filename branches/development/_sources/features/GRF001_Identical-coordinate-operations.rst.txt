@@ -1,4 +1,4 @@
-``GRF001`` Identical coordinate operations
+``GRF001`` Identical coordinate operations - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,18 +6,38 @@
    001 | \@implementer-agreement
    002 | \@GRF
    003 | \@version2
-   004 | \@E00050
-   005 | Feature: GRF001 - Identical coordinate operations
-   006 | The rule verifies that if multiple instances of IfcGeometricRepresentationContext are provided to the IfcProject,
-   007 | all contexts must share an identical instance of IfcCoordinateOperation, each referring to the same instance of IfcCoordinateReferenceSystem.
-   008 | Additionally, the schema allows the attribute for coordinate operations within the context to be empty.
-   009 | Currently, for GRF001, this is only permitted if (1) there is a single context or (2) the attribute is empty across all contexts within the file.
-   010 | 
-   011 |   Scenario: IfcGeometricRepresentationContext
-   012 | 
-   013 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   014 |     :doc:`Given All instances of IfcGeometricRepresentationContext without subtypes </steps/givensentitiespy_Allinstsofentity_opt_stmt>`
-   015 |     :doc:`Given Its Attribute .HasCoordinateOperation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   016 |     :doc:`Given Its values excluding SourceCRS </steps/givensvaluespy_Itsvaluesexcludingexcluding>`
-   017 | 
-   018 |     :doc:`Then The values must be identical at depth 0 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`
+   004 | Feature: GRF001 - Identical coordinate operations
+   005 | The rule verifies that if multiple instances of IfcGeometricRepresentationContext are provided to the IfcProject,
+   006 | all contexts must share an identical instance of IfcCoordinateOperation, each referring to the same instance of IfcCoordinateReferenceSystem.
+   007 | Additionally, the schema allows the attribute for coordinate operations within the context to be empty.
+   008 | Currently, for GRF001, this is only permitted if (1) there is a single context or (2) the attribute is empty across all contexts within the file.
+   009 | 
+   010 |   Scenario: IfcGeometricRepresentationContext
+   011 | 
+   012 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   013 |     :doc:`Given All instances of IfcGeometricRepresentationContext without subtypes </steps/givensentitiespy_Allinstsofentity_opt_stmt>`
+   014 |     :doc:`Given Its Attribute .HasCoordinateOperation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given Its values excluding SourceCRS </steps/givensvaluespy_Itsvaluesexcludingexcluding>`
+   016 | 
+   017 |     :doc:`Then The values must be identical at depth 0 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-02-03
+     - :commit:`6ccdcc67ad218f07e46f86002779d00b3469c1f7`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GRF001_Identical-coordinate-operations.feature>`_
+   * - v2
+     - :tag:`v0.7.5`
+     - 2025-04-23
+     - :commit:`7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.5/features/rules/GRF/GRF001_Identical-coordinate-operations.feature>`_

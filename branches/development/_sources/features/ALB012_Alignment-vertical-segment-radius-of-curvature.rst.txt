@@ -1,4 +1,4 @@
-``ALB012`` Alignment vertical segment radius of curvature
+``ALB012`` Alignment vertical segment radius of curvature - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,7 +6,7 @@
    001 | \@implementer-agreement
    002 | \@ALB
    003 | \@version2
-   004 | \@E00020
+   004 | 
    005 | Feature: ALB012 - Alignment vertical segment radius of curvature
    006 |   The rule verifies the 'RadiusOfCurvature' design parameter for vertical alignment segments.
    007 |   Where specified, an absolute tolerance value in the length unit of the model is used for the comparison.
@@ -25,3 +25,24 @@
    020 |   Scenario: Validating the radius of curvature for parabolic segments
    021 |     :doc:`Given .PredefinedType. ^=^ 'PARABOLICARC' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    022 |     :doc:`Then The value of attribute .RadiusOfCurvature. must be ^equal to^ the expression: [HorizontalLength / ( EndGradient - StartGradient )] [within a tolerance of] 1E-3 </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_optheexpressionexpressionwithinatoleranceofcomparison_toleranceg>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.8`
+     - 2024-10-02
+     - :commit:`99696021c6f9ef0b5e1c4daf6f2d1d857c5b7768`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/ALB012_Alignment-vertical-segment-radius-of-curvature.feature>`_
+   * - v2
+     - :tag:`v0.7.6`
+     - 2025-04-29
+     - :commit:`b7d7109ae59fac7fe17f0930c5d8d7a93f735938`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.6/features/rules/ALB/ALB012_Alignment-vertical-segment-radius-of-curvature.feature>`_

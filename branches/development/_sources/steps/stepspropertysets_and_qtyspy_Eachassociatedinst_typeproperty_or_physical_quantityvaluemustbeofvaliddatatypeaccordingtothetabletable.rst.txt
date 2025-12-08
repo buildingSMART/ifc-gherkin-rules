@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *Each associated .IfcProperty. value must be of valid data type [according to the table] 'pset_definitions'*
 
-   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:35
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:34
 
 

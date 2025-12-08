@@ -1,4 +1,4 @@
-``POR000`` Port connectivity and nesting
+``POR000`` Port connectivity and nesting - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,20 +6,35 @@
    001 | \@implementer-agreement
    002 | \@POR
    003 | \@version1
-   004 | \@E00020
-   005 | 
-   006 | Feature: POR000 - Port Connectivity and Nesting
-   007 |     The rule verifies the presence of IFC entities used to define ports (as means for an element to connect to other elements) and the relationship that is made between two ports.
-   008 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object\_Connectivity/Element\_Connectivity/Port\_Connectivity/content.html
+   004 | 
+   005 | Feature: POR000 - Port Connectivity and Nesting
+   006 |     The rule verifies the presence of IFC entities used to define ports (as means for an element to connect to other elements) and the relationship that is made between two ports.
+   007 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object\_Connectivity/Element\_Connectivity/Port\_Connectivity/content.html
+   008 | 
    009 | 
-   010 | 
-   011 |     Scenario: Check for activation
-   012 | 
-   013 |     :doc:`Given an .IfcDistributionPort. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   014 |     :doc:`Given its attribute .ConnectedFrom. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   015 |     :doc:`Given [its entity type] ^is^ 'IfcRelConnectsPorts' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   016 |     :doc:`Given its attribute .RelatingPort. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   017 |     :doc:`Given [its entity type] ^is^ 'IfcDistributionPort' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   018 | 
-   019 |     :doc:`Then The IFC model contains information on port connectivity and nesting </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
-   020 | 
+   010 |     Scenario: Check for activation
+   011 | 
+   012 |     :doc:`Given an .IfcDistributionPort. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     :doc:`Given its attribute .ConnectedFrom. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 |     :doc:`Given [its entity type] ^is^ 'IfcRelConnectsPorts' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   015 |     :doc:`Given its attribute .RelatingPort. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |     :doc:`Given [its entity type] ^is^ 'IfcDistributionPort' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 | 
+   018 |     :doc:`Then The IFC model contains information on port connectivity and nesting </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   019 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-08-05
+     - :commit:`e115e401f7769da4af017bef85c4f9143627a27c`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/POR000_Port-connectivity-and-nesting.feature>`_

@@ -1,4 +1,4 @@
-``ALS004`` Alignment segment shape representation
+``ALS004`` Alignment segment shape representation - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -16,20 +16,38 @@
    011 |         :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    012 | 
    013 | 
-   014 |         \@E00020
-   015 |         Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationIdentifier
-   016 | 
-   017 |             :doc:`Then .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   014 |         Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationIdentifier
+   015 | 
+   016 |             :doc:`Then .RepresentationIdentifier. ^is^ 'Axis' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 | 
    018 | 
-   019 | 
-   020 |         \@E00020
-   021 |         Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationType
+   019 |         Scenario: Agreement on each IfcAlignmentSegment using correct value for RepresentationType
+   020 | 
+   021 |             :doc:`Then .RepresentationType. ^is^ 'Segment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    022 | 
-   023 |             :doc:`Then .RepresentationType. ^is^ 'Segment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   024 | 
+   023 | 
+   024 |         Scenario: Agreement on each IfcAlignmentSegment using correct entity type for Items
    025 | 
-   026 |         \@E00010
-   027 |         Scenario: Agreement on each IfcAlignmentSegment using correct entity type for Items
-   028 | 
-   029 |             :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   030 |             :doc:`Then [Its entity type] ^is^ 'IfcCurveSegment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   026 |             :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   027 |             :doc:`Then [Its entity type] ^is^ 'IfcCurveSegment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.1`
+     - 2025-02-26
+     - :commit:`91421943380ed8494fbc0b0bc954bb88ce6d2eae`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/ALS/ALS004_Alignment-segment-shape-representation.feature>`_
+   * - v2
+     - :tag:`v0.7.1`
+     - 2025-02-27
+     - :commit:`a900c9723944d2c3998178a8c4c02fb951d19889`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/ALS/ALS004_Alignment-segment-shape-representation.feature>`_

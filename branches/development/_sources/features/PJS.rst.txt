@@ -1,0 +1,14 @@
+Project definition (``PJS``)
+============================
+
+The ability to define the overall context and directory of objects within the model. Among others, the context definition includes default units and geometric representation context for shape representations.
+
+.. toctree::
+
+   :titlesonly:
+
+   PJS000_Project
+   PJS002_Correct-elements-related-to-project
+   PJS003_Globally-Unique-Identifiers
+   PJS101_Project-presence
+

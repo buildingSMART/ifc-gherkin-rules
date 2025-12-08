@@ -1,4 +1,4 @@
-``PJS101`` Project presence
+``PJS101`` Project presence - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,13 +6,28 @@
    001 | \@PJS
    002 | \@industry-practice
    003 | \@version1
-   004 | \@E00020
-   005 | Feature: PJS101 - Project presence
-   006 | The rule verifies that there is exactly one instance of IfcProject.
-   007 | While this is a common industry practice, it does not make the IFC model invalid.
-   008 | For example, project libraries, including type libraries or property definition libraries, may not necessarily follow this rule.
-   009 | 
-   010 | Scenario: Check project existence
-   011 |     :doc:`Given an IFC Model </steps/givensattributespy_AnIFCmodel>`
-   012 | 
-   013 |     :doc:`Then There must be exactly 1 instance(s) of IfcProject </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+   004 | Feature: PJS101 - Project presence
+   005 | The rule verifies that there is exactly one instance of IfcProject.
+   006 | While this is a common industry practice, it does not make the IFC model invalid.
+   007 | For example, project libraries, including type libraries or property definition libraries, may not necessarily follow this rule.
+   008 | 
+   009 | Scenario: Check project existence
+   010 |     :doc:`Given an IFC Model </steps/givensattributespy_AnIFCmodel>`
+   011 | 
+   012 |     :doc:`Then There must be exactly 1 instance(s) of IfcProject </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-13
+     - :commit:`ec9e57d759ec8b26bc1a911b03ce25af33ed9622`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/PJS101_Project-presence.feature>`_

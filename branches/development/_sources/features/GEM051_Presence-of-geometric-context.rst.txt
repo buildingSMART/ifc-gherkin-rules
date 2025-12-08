@@ -1,4 +1,4 @@
-``GEM051`` Presence of geometric context
+``GEM051`` Presence of geometric context - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,7 +6,7 @@
    001 | \@industry-practice
    002 | \@GEM
    003 | \@version2
-   004 | \@E00020
+   004 | 
    005 | Feature: GEM051 - Presence of Geometric Context
    006 | The rule verifies that a geometric context is present in the model, that its attribute ContextType is provided (not empty) and its value is valid.
    007 | 
@@ -38,3 +38,24 @@
    033 |         | Schema               | Entity     |
    034 |         | 'IFC2X3'             | IfcProject |
    035 |         | 'IFC4' or 'IFC4.3'   | IfcContext |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-07-10
+     - :commit:`9ce8f624e168e5ed5136403961fa22b336b773e3`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM051_Presence-of-geometric-context.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-08-05
+     - :commit:`c5808bfa00bbfc3cfed53ffc8d92cd3e0ce34491`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM051_Presence-of-geometric-context.feature>`_

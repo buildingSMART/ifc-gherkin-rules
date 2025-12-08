@@ -1,4 +1,4 @@
-``ANN000`` Annotations
+``ANN000`` Annotations - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,19 +6,34 @@
    001 | \@implementer-agreement
    002 | \@ANN
    003 | \@version1
-   004 | \@E00020
-   005 | 
-   006 | Feature: ANN000 - Annotations
-   007 |     The rule verifies the presence of IFC entities used to add annotations to elements and spaces, such as labels, notes, and dimensions. In IFC, annotations are also used to represent survey elements (i.e., points, lines, areas)
-   008 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product\_Shape/Product\_Geometric\_Representation/Annotation\_Geometry/content.html
-   009 | 
-   010 |     Scenario: Check for activation
-   011 | 
-   012 |     :doc:`Given an .IfcAnnotation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   013 |     :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   014 |     :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   015 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Annotation' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   016 | 
-   017 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   004 | 
+   005 | Feature: ANN000 - Annotations
+   006 |     The rule verifies the presence of IFC entities used to add annotations to elements and spaces, such as labels, notes, and dimensions. In IFC, annotations are also used to represent survey elements (i.e., points, lines, areas)
+   007 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product\_Shape/Product\_Geometric\_Representation/Annotation\_Geometry/content.html
+   008 | 
+   009 |     Scenario: Check for activation
+   010 | 
+   011 |     :doc:`Given an .IfcAnnotation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |     :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   013 |     :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 |     :doc:`Given .RepresentationIdentifier. ^is^ 'Annotation' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   015 | 
+   016 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   017 | 
    018 | 
-   019 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.8`
+     - 2024-10-23
+     - :commit:`46f89c52c6a92d89964bdb717b74194352d47f04`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/ANN000_Annotations.feature>`_

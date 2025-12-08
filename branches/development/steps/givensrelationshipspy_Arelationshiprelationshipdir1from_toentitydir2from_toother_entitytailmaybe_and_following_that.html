@@ -50,6 +50,7 @@
 <li class="toctree-l2"><a class="reference internal" href="thensalignmentpy_schema_constructmustbeequaltothecalculatedlinearplacement.html">.<code class="docutils literal notranslate"><span class="pre">schema_construct</span></code>. must be <em>equal to</em> [the calculated linear placement]</a></li>
 <li class="toctree-l2"><a class="reference internal" href="givensrelationshipspy_Arequiredrelationshiprelationshipdir1from_toentitydir2from_toother_entity.html">A <em>``required``</em> relationship .<code class="docutils literal notranslate"><span class="pre">relationship</span></code>. <code class="docutils literal notranslate"><span class="pre">dir1:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">entity</span></code>. <code class="docutils literal notranslate"><span class="pre">dir2:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">other_entity</span></code>.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity.html">A relationship .<code class="docutils literal notranslate"><span class="pre">relationship</span></code>. ^<code class="docutils literal notranslate"><span class="pre">exist_or_not_exist:exist_or_not_exist</span></code>^ <code class="docutils literal notranslate"><span class="pre">dir1:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">entity</span></code>. <code class="docutils literal notranslate"><span class="pre">dir2:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">other_entity</span></code>.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that.html">A relationship .<code class="docutils literal notranslate"><span class="pre">relationship</span></code>. ^<code class="docutils literal notranslate"><span class="pre">exist_or_not_exist:exist_or_not_exist</span></code>^ <code class="docutils literal notranslate"><span class="pre">dir1:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">entity</span></code>. <code class="docutils literal notranslate"><span class="pre">dir2:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">other_entity</span></code>. <code class="docutils literal notranslate"><span class="pre">tail:maybe_and_following_that</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity.html">A relationship .<code class="docutils literal notranslate"><span class="pre">relationship</span></code>. <code class="docutils literal notranslate"><span class="pre">dir1:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">entity</span></code>. <code class="docutils literal notranslate"><span class="pre">dir2:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">other_entity</span></code>.</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">A relationship .<code class="docutils literal notranslate"><span class="pre">relationship</span></code>. <code class="docutils literal notranslate"><span class="pre">dir1:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">entity</span></code>. <code class="docutils literal notranslate"><span class="pre">dir2:from_to</span></code> .<code class="docutils literal notranslate"><span class="pre">other_entity</span></code>. <code class="docutils literal notranslate"><span class="pre">tail:maybe_and_following_that</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#usages">Usages:</a></li>
@@ -128,6 +129,7 @@
 <li class="toctree-l2"><a class="reference internal" href="stepsmodel_traversalpy_atraversaloverthefullmodeloriginatingfromsubtypesofentity_name.html">a traversal over the full model originating from subtypes of .<code class="docutils literal notranslate"><span class="pre">entity_name</span></code>.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="thensgeometrypy_alledgesmustformasingleconnectedcomponent.html">all edges must form a single connected component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="thensrelationspy_itmustbereferencedbyanentityinstanceinheritingfromIfcRootdirectlyorindirectly.html">it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thensexistencepy_thealignmentlayoutsmustincludeprose_matching.html">the alignment layouts must include [<code class="docutils literal notranslate"><span class="pre">prose_matching</span></code>]</a></li>
 <li class="toctree-l2"><a class="reference internal" href="thensgeometrypy_theboundariesofthefacemustconformtotheimplicitplanefittedthroughtheboundarypoints.html">the boundaries of the face must conform to the implicit plane fitted through the boundary points</a></li>
 <li class="toctree-l2"><a class="reference internal" href="givensvaluespy_theinstancesn_stepsdstepsup.html">the instances ‘<code class="docutils literal notranslate"><span class="pre">n_steps:d</span></code>’ steps up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="thensvaluespy_thevaluevarname1mustbeopthevaluevarname2.html">the value ‘<code class="docutils literal notranslate"><span class="pre">varname1</span></code>’ must be ^<code class="docutils literal notranslate"><span class="pre">op</span></code>^ the value ‘<code class="docutils literal notranslate"><span class="pre">varname2</span></code>’</a></li>
@@ -168,28 +170,34 @@
 <blockquote>
 <div><ul>
 <li><p><strong>Given</strong> <em>A relationship .IfcRelNests. from .IfcAlignmentVertical. to .IfcAlignmentSegment. and following that</em></p>
-<p><a class="reference internal" href="../features/ALB012_Alignment-vertical-segment-radius-of-curvature.html"><span class="doc">ALB012 Alignment vertical segment radius of curvature</span></a>:12</p>
+<p><a class="reference internal" href="../features/ALB012_Alignment-vertical-segment-radius-of-curvature.html"><span class="doc">ALB012 Alignment vertical segment radius of curvature - v2</span></a>:12</p>
 </li>
 <li><p><strong>Given</strong> <em>A relationship .IfcRelNests. from .IfcAlignmentHorizontal. to .IfcAlignmentSegment. and following that</em></p>
-<p><a class="reference internal" href="../features/ALB015_Alignment-business-logic-zero-length-final-segment.html"><span class="doc">ALB015 Alignment business logic zero length final segment</span></a>:12</p>
+<p><a class="reference internal" href="../features/ALB015_Alignment-business-logic-zero-length-final-segment.html"><span class="doc">ALB015 Alignment business logic zero length final segment - v2</span></a>:12</p>
 </li>
 <li><p><strong>Given</strong> <em>A relationship .IfcRelNests. from .IfcAlignmentHorizontal. to .IfcAlignmentSegment. and following that</em></p>
-<p><a class="reference internal" href="../features/ALB015_Alignment-business-logic-zero-length-final-segment.html"><span class="doc">ALB015 Alignment business logic zero length final segment</span></a>:20</p>
+<p><a class="reference internal" href="../features/ALB015_Alignment-business-logic-zero-length-final-segment.html"><span class="doc">ALB015 Alignment business logic zero length final segment - v2</span></a>:20</p>
 </li>
 <li><p><strong>Given</strong> <em>A relationship .IfcRelNests. from .IfcAlignmentCant. to .IfcAlignmentSegment. and following that</em></p>
-<p><a class="reference internal" href="../features/ALB015_Alignment-business-logic-zero-length-final-segment.html"><span class="doc">ALB015 Alignment business logic zero length final segment</span></a>:28</p>
+<p><a class="reference internal" href="../features/ALB015_Alignment-business-logic-zero-length-final-segment.html"><span class="doc">ALB015 Alignment business logic zero length final segment - v2</span></a>:28</p>
+</li>
+<li><p><strong>Given</strong> <em>a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that</em></p>
+<p><a class="reference internal" href="../features/ALB032_Alignment-layouts-reusing-horizontal.html"><span class="doc">ALB032 Alignment layouts reusing horizontal - v1</span></a>:22</p>
+</li>
+<li><p><strong>Given</strong> <em>a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that</em></p>
+<p><a class="reference internal" href="../features/ALB032_Alignment-layouts-reusing-horizontal.html"><span class="doc">ALB032 Alignment layouts reusing horizontal - v1</span></a>:28</p>
 </li>
 <li><p><strong>Given</strong> <em>A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that</em></p>
-<p><a class="reference internal" href="../features/OJP001_Relative-placement-for-elements-aggregated-to-another-element.html"><span class="doc">OJP001 Relative placement for elements aggregated to another element</span></a>:14</p>
+<p><a class="reference internal" href="../features/OJP001_Relative-placement-for-elements-aggregated-to-another-element.html"><span class="doc">OJP001 Relative placement for elements aggregated to another element - v3</span></a>:13</p>
 </li>
 <li><p><strong>Given</strong> <em>A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that</em></p>
-<p><a class="reference internal" href="../features/OJT001_Object-predefined-type.html"><span class="doc">OJT001 Object predefined type</span></a>:28</p>
+<p><a class="reference internal" href="../features/OJT001_Object-predefined-type.html"><span class="doc">OJT001 Object predefined type - v3</span></a>:28</p>
 </li>
 <li><p><strong>Given</strong> <em>a relationship .IfcRelDeclares. from .IfcProject. to .IfcRoot. and following that</em></p>
-<p><a class="reference internal" href="../features/PJS002_Correct-elements-related-to-project.html"><span class="doc">PJS002 Correct elements related to project</span></a>:14</p>
+<p><a class="reference internal" href="../features/PJS002_Correct-elements-related-to-project.html"><span class="doc">PJS002 Correct elements related to project - v2</span></a>:13</p>
 </li>
 <li><p><strong>Given</strong> <em>a relationship .IfcRelNests. from .IfcAlignment. to .IfcDistributionPort. and following that</em></p>
-<p><a class="reference internal" href="../features/SYS001_Cable-signal-flow.html"><span class="doc">( ⚠ SYS001 Cable signal flow) (disabled)</span></a>:21</p>
+<p><a class="reference internal" href="../features/SYS001_Cable-signal-flow.html"><span class="doc">( ⚠ SYS001 Cable signal flow - v2) (disabled)</span></a>:19</p>
 </li>
 </ul>
 </div></blockquote>

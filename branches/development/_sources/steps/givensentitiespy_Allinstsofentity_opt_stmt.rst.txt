@@ -6,6 +6,6 @@ Usages:
 
  - **Given** *All instances of IfcGeometricRepresentationContext without subtypes*
 
-   :doc:`/features/GRF001_Identical-coordinate-operations`:14
+   :doc:`/features/GRF001_Identical-coordinate-operations`:13
 
 

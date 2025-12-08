@@ -1,4 +1,4 @@
-``BBX001`` Bounding box shape representation
+``BBX001`` Bounding box shape representation - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,26 +6,41 @@
    001 | \@implementer-agreement
    002 | \@BBX
    003 | \@version1
-   004 | \@E00020
-   005 | 
-   006 | Feature: BBX001 - Bounding Box Shape Representation
-   007 | The rule verifies the correct use of Bounding Box as shape representation.
-   008 | 
-   009 | Background:
-   010 |     :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   011 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   012 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   004 | 
+   005 | Feature: BBX001 - Bounding Box Shape Representation
+   006 | The rule verifies the correct use of Bounding Box as shape representation.
+   007 | 
+   008 | Background:
+   009 |     :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   010 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   011 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 | 
    013 | 
-   014 | 
-   015 |     Scenario: Correct Type
-   016 | 
-   017 |         :doc:`Given .RepresentationIdentifier. ^is^ 'Box' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   018 | 
-   019 |         :doc:`Then .RepresentationType. ^is^ 'BoundingBox' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   014 |     Scenario: Correct Type
+   015 | 
+   016 |         :doc:`Given .RepresentationIdentifier. ^is^ 'Box' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 | 
+   018 |         :doc:`Then .RepresentationType. ^is^ 'BoundingBox' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   019 | 
    020 | 
-   021 | 
-   022 |     Scenario: Correct Identifier
-   023 | 
-   024 |         :doc:`Given .RepresentationType. ^is^ 'BoundingBox' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   025 | 
-   026 |         :doc:`Then .RepresentationIdentifier. ^is^ 'Box' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   021 |     Scenario: Correct Identifier
+   022 | 
+   023 |         :doc:`Given .RepresentationType. ^is^ 'BoundingBox' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   024 | 
+   025 |         :doc:`Then .RepresentationIdentifier. ^is^ 'Box' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.4`
+     - 2025-03-29
+     - :commit:`8d29b04d41160bb2ab4f269ce610e0a207850a47`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.4/features/rules/BBX/BBX001_Bounding-box-shape-representation.feature>`_

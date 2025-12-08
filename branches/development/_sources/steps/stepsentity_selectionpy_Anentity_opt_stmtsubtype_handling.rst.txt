@@ -23,6 +23,10 @@ Usages:
 
    :doc:`/features/GEM052_Correct-geometric-subcontexts`:12
 
+ - **Given** *an .IfcObject. ^including subtypes^*
+
+   :doc:`/features/GRP000_Groups`:9
+
  - **Given** *An .IfcObject. ^with subtypes^*
 
    :doc:`/features/OJT001_Object-predefined-type`:14
@@ -37,6 +41,6 @@ Usages:
 
  - **Given** *An .IfcDerivedProfileDef. ^without subtypes^*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:14
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:13
 
 

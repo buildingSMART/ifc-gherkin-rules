@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialStructureElement.*
 
-   :doc:`/features/SPS007_Spatial-containment`:30
+   :doc:`/features/SPS007_Spatial-containment`:29
 
 

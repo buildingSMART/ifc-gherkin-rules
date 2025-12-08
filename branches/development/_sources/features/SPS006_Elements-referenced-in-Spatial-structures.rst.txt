@@ -1,4 +1,4 @@
-\( ⚠ ``SPS006`` Elements referenced in Spatial structures\) \(disabled\)
+\( ⚠ ``SPS006`` Elements referenced in Spatial structures - v2\) \(disabled\)
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -7,14 +7,34 @@
    002 | \@SPS
    003 | \@disabled
    004 | \@version2
-   005 | \@E00040
-   006 | Feature: SPS006 - Elements referenced in Spatial structures
-   007 | The rule verifies that if an IfcElement is positioned in relation to an IfcPositioningElement, then it must be also referenced (instead of contained) into a IfcSpatialStructureElement
-   008 | 
-   009 |   Scenario: Agreement on elements being positioned to be referenced
-   010 | 
-   011 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   012 |     :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   013 |     :doc:`Given .PositionedRelativeTo. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   014 | 
-   015 |     :doc:`Then The value of attribute .ReferencedInStructures. must be ^not empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   005 | Feature: SPS006 - Elements referenced in Spatial structures
+   006 | The rule verifies that if an IfcElement is positioned in relation to an IfcPositioningElement, then it must be also referenced (instead of contained) into a IfcSpatialStructureElement
+   007 | 
+   008 |   Scenario: Agreement on elements being positioned to be referenced
+   009 | 
+   010 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |     :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |     :doc:`Given .PositionedRelativeTo. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   013 | 
+   014 |     :doc:`Then The value of attribute .ReferencedInStructures. must be ^not empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-27
+     - :commit:`807f39ab404edd49a87dc1970d499e11ff0f9c68`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS006_Elements-referenced-in-Spatial-structures.feature>`_
+   * - v2
+     - :tag:`v0.8.2`
+     - 2025-10-28
+     - :commit:`f332af51b676186e001ed8ddc2370c9dde301815`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.2/features/rules/SPS/SPS006_Elements-referenced-in-Spatial-structures.feature>`_

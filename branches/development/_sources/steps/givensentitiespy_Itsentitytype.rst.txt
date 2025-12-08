@@ -18,10 +18,10 @@ Usages:
 
  - **Given** *its entity type*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:26
+   :doc:`/features/GEM011_Curve-segments-consistency`:25
 
  - **Given** *its entity type*
 
-   :doc:`/features/GEM011_Curve-segments-consistency`:41
+   :doc:`/features/GEM011_Curve-segments-consistency`:40
 
 

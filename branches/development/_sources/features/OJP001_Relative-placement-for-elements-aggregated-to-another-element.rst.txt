@@ -1,4 +1,4 @@
-``OJP001`` Relative placement for elements aggregated to another element
+``OJP001`` Relative placement for elements aggregated to another element - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -11,12 +11,37 @@
    006 | IfcRelAggregates, then the relative placement of that IfcElement shall be provided by an IfcLocalPlacement
    007 | with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the container element.
    008 | 
-   009 |   \@E00010
-   010 |   Scenario: Agreement on the relative placement of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
-   011 | 
-   012 |       :doc:`Given A model with Schema 'IFC2X3' or 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   013 |       :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   014 |       :doc:`Given A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
-   015 | 
-   016 |       :doc:`Then The relative placement of that IfcElement must be provided by an IfcLocalPlacement entity </steps/thensattributespy_Therelativeplacementofthatentitymustbeprovidedbyanother_entityentity>`
-   017 |       :doc:`Then The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship </steps/thensattributespy_Theentityattributemustpointtotheother_entityofthecontainerelementestablishedwithrelationshiprelationship>`
+   009 |   Scenario: Agreement on the relative placement of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
+   010 | 
+   011 |       :doc:`Given A model with Schema 'IFC2X3' or 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |       :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |       :doc:`Given A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
+   014 | 
+   015 |       :doc:`Then The relative placement of that IfcElement must be provided by an IfcLocalPlacement entity </steps/thensattributespy_Therelativeplacementofthatentitymustbeprovidedbyanother_entityentity>`
+   016 |       :doc:`Then The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship </steps/thensattributespy_Theentityattributemustpointtotheother_entityofthecontainerelementestablishedwithrelationshiprelationship>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-02-02
+     - :commit:`df2d1a2ab60ac4d483212036ab78f8fa665a332f`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-04-30
+     - :commit:`321a46ccd808c0b20145458e99965290cc0cc845`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element.feature>`_
+   * - v3
+     - :tag:`v0.8.2`
+     - 2025-11-10
+     - :commit:`3c09bb05ee1e4410f35d314415e24830460d0e6b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.2/features/rules/OJP/OJP001_Relative-placement-for-elements-aggregated-to-another-element.feature>`_

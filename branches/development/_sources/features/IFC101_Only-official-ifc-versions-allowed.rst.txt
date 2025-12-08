@@ -1,17 +1,32 @@
-``IFC101`` Only official ifc versions allowed
+``IFC101`` Only official ifc versions allowed - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
 
    001 | \@critical
    002 | \@version1
-   003 | \@W00030
-   004 | Feature: IFC101 - Only official IFC versions allowed
-   005 | 
-   006 | The rule verifies that the IFC model has a schema identifier corresponding to any of the official versions released by buildingSMART.
-   007 | Specifically, IFC2x3 TC1 (version 2.3.0.1), IFC4 ADD2 TC1 (version 4.0.2.1), or IFC4.3 ADD2 (version 4.3.2.0).
-   008 | 
-   009 |   Scenario: Verifying Current Schema Identifier for IFC version
-   010 | 
-   011 |     :doc:`Given An IFC model </steps/givensattributespy_AnIFCmodel>`
-   012 |     :doc:`Then The Schema Identifier of the model must be 'IFC2X3' or 'IFC4' or 'IFC4X3\_ADD2' </steps/thensattributespy_Thefieldofthefile_or_modelmustbevalues>`
+   003 | Feature: IFC101 - Only official IFC versions allowed
+   004 | 
+   005 | The rule verifies that the IFC model has a schema identifier corresponding to any of the official versions released by buildingSMART.
+   006 | Specifically, IFC2x3 TC1 (version 2.3.0.1), IFC4 ADD2 TC1 (version 4.0.2.1), or IFC4.3 ADD2 (version 4.3.2.0).
+   007 | 
+   008 |   Scenario: Verifying Current Schema Identifier for IFC version
+   009 | 
+   010 |     :doc:`Given An IFC model </steps/givensattributespy_AnIFCmodel>`
+   011 |     :doc:`Then The Schema Identifier of the model must be 'IFC2X3' or 'IFC4' or 'IFC4X3\_ADD2' </steps/thensattributespy_Thefieldofthefile_or_modelmustbevalues>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-11-22
+     - :commit:`f3a865e33df8d95cd7a40451249f7271606da403`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/IFC101_Only-official-ifc-versions-allowed.feature>`_

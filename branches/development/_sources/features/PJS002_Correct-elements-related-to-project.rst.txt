@@ -1,4 +1,4 @@
-``PJS002`` Correct elements related to project
+``PJS002`` Correct elements related to project - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,16 +6,36 @@
    001 | \@implementer-agreement
    002 | \@PJS
    003 | \@version2
-   004 | \@E00010
-   005 | Feature: PJS002 - Correct elements related to project
-   006 | 
-   007 |   The rule verifies that object occurrences (e.g. beams, walls) used within the context of a project
-   008 |   are not related to the project using the the declaration relationship.
-   009 |   See the Spatial Containment template for relating object occurrences to the spatial structure.
-   010 |   https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project\_Context/Project\_Declaration/content.html
-   011 | 
-   012 | Scenario: Validating correct elements relationship from IfcProject
-   013 |   :doc:`Given An .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   014 |   :doc:`Given a relationship .IfcRelDeclares. from .IfcProject. to .IfcRoot. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
-   015 | 
-   016 |   :doc:`Then the type must be in 'valid\_ProjectDeclaration.csv' </steps/thensvaluespy_Theivalue_or_typemustbeincsv_filecsv>`
+   004 | Feature: PJS002 - Correct elements related to project
+   005 | 
+   006 |   The rule verifies that object occurrences (e.g. beams, walls) used within the context of a project
+   007 |   are not related to the project using the the declaration relationship.
+   008 |   See the Spatial Containment template for relating object occurrences to the spatial structure.
+   009 |   https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project\_Context/Project\_Declaration/content.html
+   010 | 
+   011 | Scenario: Validating correct elements relationship from IfcProject
+   012 |   :doc:`Given An .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |   :doc:`Given a relationship .IfcRelDeclares. from .IfcProject. to .IfcRoot. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
+   014 | 
+   015 |   :doc:`Then the type must be in 'valid\_ProjectDeclaration.csv' </steps/thensvaluespy_Theivalue_or_typemustbeincsv_filecsv>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-14
+     - :commit:`ad85d01ddcf5a7df694a36ba25684fe2e03e10fa`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/PJS002_Correct-elements-related-to-project.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-08-08
+     - :commit:`268f8a0d4c04303d0c8bea9d11f397cb7eaf0c85`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/PJS002_Correct-elements-related-to-project.feature>`_

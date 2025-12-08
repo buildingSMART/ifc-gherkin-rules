@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *It must not be referenced by itself directly or indirectly*
 
-   :doc:`/features/GRP001_Acyclic-groups`:12
+   :doc:`/features/GRP001_Acyclic-groups`:11
 
 

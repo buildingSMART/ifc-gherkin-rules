@@ -1,4 +1,4 @@
-``ALB010`` Alignment nesting referents
+``ALB010`` Alignment nesting referents - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,7 +6,7 @@
    001 | \@industry-practice
    002 | \@ALB
    003 | \@version2
-   004 | \@E00100
+   004 | 
    005 | Feature: ALB010 - Alignment Nesting Referents
    006 | The rule verifies that each horizontal alignment nests at least one IfcReferent, such as stations or mileage points.
    007 | These can be used as semantic entities holding information about locations along the alignment.
@@ -21,3 +21,24 @@
    016 | 
    017 |       :doc:`Then a relationship .IfcRelNests. ^must exist^ from .IfcAlignment. to .IfcReferent. </steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity>`
    018 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-09-22
+     - :commit:`8e8b1297fbe1fb07b403d55bc1d2ffabca72f70d`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/ALB010_Alignment-nesting-referents.feature>`_
+   * - v2
+     - :tag:`v0.7.3`
+     - 2025-03-26
+     - :commit:`c4f4fe0179480d9a27e0043c7abcfdcd4f5411bf`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/ALB/ALB010_Alignment-nesting-referents.feature>`_

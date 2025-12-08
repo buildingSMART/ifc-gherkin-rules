@@ -1,4 +1,4 @@
-``SPS008`` Spatial container representations
+``SPS008`` Spatial container representations - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -43,3 +43,19 @@
    038 |       | IfcRoad                 |
    039 | 
    040 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.7`
+     - 2025-06-10
+     - :commit:`631cd94e076b54be5962cb162280bfaa8ca12e3e`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/SPS/SPS008_Spatial-container-representations.feature>`_

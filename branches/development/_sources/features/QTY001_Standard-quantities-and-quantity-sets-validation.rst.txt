@@ -1,4 +1,4 @@
-``QTY001`` Standard quantities and quantity sets validation
+``QTY001`` Standard quantities and quantity sets validation - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -6,37 +6,52 @@
    001 | \@implementer-agreement
    002 | \@QTY
    003 | \@version1
-   004 | \@E00020
-   005 | Feature: QTY001 - Standard quantities and quantity sets validation
-   006 | The rule verifies that each IfcElementQuantity starting with 'Qto\_' is defined correctly.
-   007 | 
-   008 | Background:
-   009 |   :doc:`Given An .IfcElementQuantity. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   010 |   :doc:`Given its .Name. attribute ^starts^ with 'Qto\_' </steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix>`
+   004 | Feature: QTY001 - Standard quantities and quantity sets validation
+   005 | The rule verifies that each IfcElementQuantity starting with 'Qto\_' is defined correctly.
+   006 | 
+   007 | Background:
+   008 |   :doc:`Given An .IfcElementQuantity. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   009 |   :doc:`Given its .Name. attribute ^starts^ with 'Qto\_' </steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix>`
+   010 | 
    011 | 
-   012 | 
-   013 | Scenario: IfcElementQuantity Name
-   014 | 
-   015 |   :doc:`Then The .IfcElementQuantity. attribute .Name. must use standard values [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantityattributeNamemustusestandardvaluesaccordingtothetabletable>`
+   012 | Scenario: IfcElementQuantity Name
+   013 | 
+   014 |   :doc:`Then The .IfcElementQuantity. attribute .Name. must use standard values [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantityattributeNamemustusestandardvaluesaccordingtothetabletable>`
+   015 | 
    016 | 
-   017 | 
-   018 | Scenario: PhysicalQuantity Name
-   019 | 
-   020 |   :doc:`Then Each associated .IfcPhysicalQuantity. must be named [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbenamedaccordingtothetabletable>`
+   017 | Scenario: PhysicalQuantity Name
+   018 | 
+   019 |   :doc:`Then Each associated .IfcPhysicalQuantity. must be named [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbenamedaccordingtothetabletable>`
+   020 | 
    021 | 
-   022 | 
-   023 | Scenario: ElementQuantity definitions
-   024 | 
-   025 |   :doc:`Then The .IfcElementQuantity. must be related to a valid entity type [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantitymustberelatedtoavalidentitytypeaccordingtothetabletable>`
+   022 | Scenario: ElementQuantity definitions
+   023 | 
+   024 |   :doc:`Then The .IfcElementQuantity. must be related to a valid entity type [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantitymustberelatedtoavalidentitytypeaccordingtothetabletable>`
+   025 | 
    026 | 
-   027 | 
-   028 | Scenario: PhysicalQuantity Type
-   029 | 
-   030 |   :doc:`Then Each associated .IfcPhysicalQuantity. must be of valid entity type [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbeofvalidentitytypeaccordingtothetabletable>`
+   027 | Scenario: PhysicalQuantity Type
+   028 | 
+   029 |   :doc:`Then Each associated .IfcPhysicalQuantity. must be of valid entity type [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbeofvalidentitytypeaccordingtothetabletable>`
+   030 | 
    031 | 
-   032 | 
-   033 | Scenario: Correct value for Method of Measurement
-   034 | 
-   035 |   :doc:`Then The value of attribute .MethodOfMeasurement. must be 'BaseQuantities' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   032 | Scenario: Correct value for Method of Measurement
+   033 | 
+   034 |   :doc:`Then The value of attribute .MethodOfMeasurement. must be 'BaseQuantities' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   035 | 
    036 | 
-   037 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.6`
+     - 2025-05-18
+     - :commit:`f5e0df927d656d0a434def14803ab90e48ec1874`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.6/features/rules/QTY/QTY001_Standard-quantities-and-quantity-sets-validation.feature>`_

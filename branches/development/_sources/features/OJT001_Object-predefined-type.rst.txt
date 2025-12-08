@@ -1,4 +1,4 @@
-``OJT001`` Object predefined type
+``OJT001`` Object predefined type - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -32,3 +32,29 @@
    027 |   :doc:`Given Its .PredefinedType. attribute ^does not start^ with 'NOTDEFINED' </steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix>`
    028 |   :doc:`Given A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
    029 |   :doc:`Then The value of attribute .PredefinedType. must be ^empty^ [and display entity instance] </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_opdisplay_entitydisplay_entity>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-06
+     - :commit:`816455630f0fdbed987c7f6cb0ed208f25a07015`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJT001_Object-predefined-type.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-07-10
+     - :commit:`b84422143af4e077d8be670d1710c95563d7ea7d`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJT001_Object-predefined-type.feature>`_
+   * - v3
+     - n/a
+     - 2025-11-13
+     - :commit:`45a7c1151eb79c95356ea8f208430703df9b6707`
+     - n/a

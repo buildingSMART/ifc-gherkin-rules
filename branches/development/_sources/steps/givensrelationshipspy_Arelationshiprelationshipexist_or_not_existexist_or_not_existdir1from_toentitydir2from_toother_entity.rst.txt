@@ -8,16 +8,20 @@ Usages:
 
    :doc:`/features/ALB010_Alignment-nesting-referents`:17
 
+ - **Then** *a relationship .IfcRelAggregates. ^must not exist^ from .IfcAlignment. to .IfcAlignment.*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:29
+
  - **Then** *a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcGrid. from .IfcSpatialStructureElement.*
 
-   :doc:`/features/SPS007_Spatial-containment`:13
+   :doc:`/features/SPS007_Spatial-containment`:12
 
  - **Given** *A relationship .IfcRelNests. ^does not exist^ to .IfcAnnotation. from .IfcAnnotation.*
 
-   :doc:`/features/SPS007_Spatial-containment`:19
+   :doc:`/features/SPS007_Spatial-containment`:18
 
  - **Then** *a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcAnnotation. from .IfcSpatialStructureElement.*
 
-   :doc:`/features/SPS007_Spatial-containment`:21
+   :doc:`/features/SPS007_Spatial-containment`:20
 
 

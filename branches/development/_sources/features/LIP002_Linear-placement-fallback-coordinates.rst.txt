@@ -1,4 +1,4 @@
-``LIP002`` Linear placement fallback coordinates
+``LIP002`` Linear placement fallback coordinates - v1
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
@@ -22,3 +22,19 @@
    017 | 
    018 |       :doc:`Then .CartesianPosition. must be *equal to* [the calculated linear placement] </steps/thensalignmentpy_schema_constructmustbeequaltothecalculatedlinearplacement>`
    019 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.3`
+     - 2025-03-26
+     - :commit:`9d9dcb51703afb911663e83154b8913ab8c346d0`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/LIP/LIP002_Linear-placement-fallback-coordinates.feature>`_

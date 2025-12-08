@@ -107,16 +107,20 @@ def upper_case_if_string(v):
 
 
 @functools.cache
-def get_table_definition(schema, table):
-    schema_specific_path = system.get_abs_path(f"resources/{schema.upper()}/{table}.csv")
+def get_table_definition(schema, table, case_sensitive=True):
+    def normalize(name, case_sensitive=True):
+        return name if case_sensitive else name.lower()
 
+    schema_specific_path = system.get_abs_path(f"resources/{schema.upper()}/{table}.csv")
     if os.path.exists(schema_specific_path):
         tbl_path = schema_specific_path
     else:
         tbl_path = system.get_abs_path(f"resources/{table}.csv")
 
-    tbl = system.get_csv(tbl_path, return_type='dict')
-    return {d["Name"]: d for d in tbl}
+    tbl = system.get_csv(tbl_path, return_type="dict")
+
+    return {normalize(d["Name"], case_sensitive): d for d in tbl}
+
 
 
 class AlwaysEqualDict(dict):
@@ -425,7 +429,7 @@ def step_impl(context, inst, table, inst_type=None):
 )
 def step_impl(context, inst, attr_name):
     table = "valid_ConversionBasedUnits"
-    unit_definitions = {k.lower(): v for k, v in get_table_definition(context.model.schema, table).items()}
+    unit_definitions = get_table_definition(context.model.schema, table, case_sensitive=False)
     accepted_names = list(unit_definitions.keys())
     match attr_name.upper():
         case "NAME":

@@ -16,22 +16,22 @@
    011 | 
    012 | Scenario: IfcElementQuantity Name
    013 | 
-   014 |   :doc:`Then The .IfcElementQuantity. attribute .Name. must use standard values [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantityattributeNamemustusestandardvaluesaccordingtothetabletable>`
+   014 |   :doc:`Then The .IfcElementQuantity. attribute .Name. must use standard values [according to the table] 'qto\_definitions' </steps/stepspropertysets_qtys_unitspy_Theinst_typeproperty_set_or_element_quantityattributeNamemustusestandardvaluesaccordingtothetabletable>`
    015 | 
    016 | 
    017 | Scenario: PhysicalQuantity Name
    018 | 
-   019 |   :doc:`Then Each associated .IfcPhysicalQuantity. must be named [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbenamedaccordingtothetabletable>`
+   019 |   :doc:`Then Each associated .IfcPhysicalQuantity. must be named [according to the table] 'qto\_definitions' </steps/stepspropertysets_qtys_unitspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbenamedaccordingtothetabletable>`
    020 | 
    021 | 
    022 | Scenario: ElementQuantity definitions
    023 | 
-   024 |   :doc:`Then The .IfcElementQuantity. must be related to a valid entity type [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantitymustberelatedtoavalidentitytypeaccordingtothetabletable>`
+   024 |   :doc:`Then The .IfcElementQuantity. must be related to a valid entity type [according to the table] 'qto\_definitions' </steps/stepspropertysets_qtys_unitspy_Theinst_typeproperty_set_or_element_quantitymustberelatedtoavalidentitytypeaccordingtothetabletable>`
    025 | 
    026 | 
    027 | Scenario: PhysicalQuantity Type
    028 | 
-   029 |   :doc:`Then Each associated .IfcPhysicalQuantity. must be of valid entity type [according to the table] 'qto\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbeofvalidentitytypeaccordingtothetabletable>`
+   029 |   :doc:`Then Each associated .IfcPhysicalQuantity. must be of valid entity type [according to the table] 'qto\_definitions' </steps/stepspropertysets_qtys_unitspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbeofvalidentitytypeaccordingtothetabletable>`
    030 | 
    031 | 
    032 | Scenario: Correct value for Method of Measurement

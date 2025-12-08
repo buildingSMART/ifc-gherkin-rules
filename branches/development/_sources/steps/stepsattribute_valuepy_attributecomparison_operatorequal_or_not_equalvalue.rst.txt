@@ -198,6 +198,14 @@ Usages:
 
    :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:25
 
+ - **Given** *[its entity type] ^is^ 'IfcConversionBasedUnit'*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:17
+
+ - **Then** *[its entity type] ^is^ 'IfcSIUnit'*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:29
+
  - **Given** *[its entity type] ^is^ 'IfcRelConnectsPorts'*
 
    :doc:`/features/POR000_Port-connectivity-and-nesting`:14

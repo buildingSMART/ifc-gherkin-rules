@@ -711,6 +711,10 @@ Usages:
 
    :doc:`/features/PJS000_Project`:10
 
+ - **Given** *an .IfcProject.*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:14
+
  - **Given** *An .IfcProject.*
 
    :doc:`/features/PJS002_Correct-elements-related-to-project`:12

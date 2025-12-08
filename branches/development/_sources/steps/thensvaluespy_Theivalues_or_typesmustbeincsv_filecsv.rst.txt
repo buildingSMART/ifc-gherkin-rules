@@ -1,6 +1,11 @@
 The ``i:values_or_types`` must be in '``csv_file``\ .\ csv'
 ===========================================================
 
+.. container:: prewrap
+
+   | This implementation supports basic reading from CSV resources that have a single field and no header.
+   | It validates a value against a single field, but does not support CSV resources with multiple fields per row.
+
 Usages:
 ~~~~~~~
 

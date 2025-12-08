@@ -16,27 +16,27 @@
    011 | 
    012 |   Scenario: IfcPropertySet Name
    013 | 
-   014 |     :doc:`Then The .IfcPropertySet. attribute .Name. must use standard values [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantityattributeNamemustusestandardvaluesaccordingtothetabletable>`
+   014 |     :doc:`Then The .IfcPropertySet. attribute .Name. must use standard values [according to the table] 'pset\_definitions' </steps/stepspropertysets_qtys_unitspy_Theinst_typeproperty_set_or_element_quantityattributeNamemustusestandardvaluesaccordingtothetabletable>`
    015 | 
    016 | 
    017 |   Scenario: Property Name
    018 | 
-   019 |       :doc:`Then Each associated .IfcProperty. must be named [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbenamedaccordingtothetabletable>`
+   019 |       :doc:`Then Each associated .IfcProperty. must be named [according to the table] 'pset\_definitions' </steps/stepspropertysets_qtys_unitspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbenamedaccordingtothetabletable>`
    020 | 
    021 | 
    022 |   Scenario: PropertySet definitions
    023 | 
-   024 |       :doc:`Then The .IfcPropertySet. must be related to a valid entity type [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Theinst_typeproperty_set_or_element_quantitymustberelatedtoavalidentitytypeaccordingtothetabletable>`
+   024 |       :doc:`Then The .IfcPropertySet. must be related to a valid entity type [according to the table] 'pset\_definitions' </steps/stepspropertysets_qtys_unitspy_Theinst_typeproperty_set_or_element_quantitymustberelatedtoavalidentitytypeaccordingtothetabletable>`
    025 | 
    026 | 
    027 |   Scenario: Property Type
    028 | 
-   029 |       :doc:`Then Each associated .IfcProperty. must be of valid entity type [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbeofvalidentitytypeaccordingtothetabletable>`
+   029 |       :doc:`Then Each associated .IfcProperty. must be of valid entity type [according to the table] 'pset\_definitions' </steps/stepspropertysets_qtys_unitspy_Eachassociatedinst_typeproperty_or_physical_quantitymustbeofvalidentitytypeaccordingtothetabletable>`
    030 | 
    031 | 
    032 |   Scenario: Property Data Type
    033 | 
-   034 |         :doc:`Then Each associated .IfcProperty. value must be of valid data type [according to the table] 'pset\_definitions' </steps/stepspropertysets_and_qtyspy_Eachassociatedinst_typeproperty_or_physical_quantityvaluemustbeofvaliddatatypeaccordingtothetabletable>`
+   034 |         :doc:`Then Each associated .IfcProperty. value must be of valid data type [according to the table] 'pset\_definitions' </steps/stepspropertysets_qtys_unitspy_Eachassociatedinst_typeproperty_or_physical_quantityvaluemustbeofvaliddatatypeaccordingtothetabletable>`
    035 | 
 
 .. rubric:: Version history

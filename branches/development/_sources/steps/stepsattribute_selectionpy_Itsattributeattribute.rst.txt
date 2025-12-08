@@ -572,6 +572,30 @@ Usages:
 
    :doc:`/features/OJP000_Object-placement`:10
 
+ - **Given** *its attribute .UnitsInContext.*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:15
+
+ - **Given** *its attribute .Units.*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:16
+
+ - **Given** *its attribute .ConversionFactor.*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:27
+
+ - **Given** *its attribute .UnitComponent.*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:28
+
+ - **Given** *its attribute .ConversionFactor.*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:33
+
+ - **Given** *its attribute .UnitComponent.*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:34
+
  - **Given** *Its attribute .GlobalId.*
 
    :doc:`/features/PJS003_Globally-Unique-Identifiers`:16

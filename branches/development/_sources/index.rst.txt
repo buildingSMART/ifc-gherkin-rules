@@ -1741,6 +1741,29 @@ validation service.
      - v1
      - v1
      - v1
+   * - ``PJS001``
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
    * - ``PJS002``
      - v2
      - v2

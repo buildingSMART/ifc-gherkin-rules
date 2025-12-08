@@ -1,7 +1,6 @@
 @implementer-agreement
 @ALS
 @version1
-@E00020
 
 Feature: ALS000 - Alignment Geometry
     The rule verifies the presence of IFC entities used to represent the geometry of an alignment.

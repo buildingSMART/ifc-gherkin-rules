@@ -306,7 +306,8 @@ def handle_then(context, fn, **kwargs):
         elif (depth is None and not is_nested(items)) or depth == current_depth:
             return apply_then_operation(fn, items, context, current_path, **kwargs)
         elif depth is None or depth > current_depth:
-            return tuple(map_then_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(items))
+            if items is not None:
+                return tuple(map_then_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(items))
         else:
             return apply_then_operation(fn, items, context, current_path = None, **kwargs)
 

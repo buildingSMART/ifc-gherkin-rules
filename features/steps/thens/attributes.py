@@ -186,7 +186,10 @@ def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, exp
         elif not pred(attribute_value, value_or_comparison_op):
             yield ValidationOutcome(
                 inst=inst,
-                expected=None if not value_or_comparison_op else value_or_comparison_op,
+                # For QTY001, but generally (at least in the case without an expression),
+                # it's probably more illustrative to leave the expected field empty
+                # so that the full gherkin step text is used:
+                # expected=None if not value_or_comparison_op else value_or_comparison_op,
                 observed=misc.recursive_unpack_value(attribute_value),
                 severity=OutcomeSeverity.ERROR
             )

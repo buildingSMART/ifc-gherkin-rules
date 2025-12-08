@@ -1,0 +1,18 @@
+
+IFC Gherkin Rules Documentation
+===============================
+
+This documentation contains the feature definitions and step implementations
+used for IFC-based rule validation in Gherkin format as used by the bSI
+validation service.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents
+
+   features/index
+   steps/index
+                         
+.. list-table:: Version history
+   :header-rows: 1
+

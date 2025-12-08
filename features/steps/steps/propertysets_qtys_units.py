@@ -427,8 +427,8 @@ def step_impl(context, inst, attr_name):
     table = "valid_ConversionBasedUnits"
     unit_definitions = get_table_definition(context.model.schema, table)
     accepted_names = list(unit_definitions.keys())
-    match attr_name.upper():
-        case "NAME":
+    match attr_name:
+        case "Name":
             attr_value = getattr(inst, attr_name)
             if attr_value not in accepted_names:
                 yield ValidationOutcome(inst=inst, expected=accepted_names, observed=attr_value,

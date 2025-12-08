@@ -1,0 +1,41 @@
+``CLS000`` Classification association - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@CLS
+   003 | \@version1
+   004 | 
+   005 | Feature: CLS000 - Classification Association
+   006 |     The rule verifies the presence of IFC entities used to classify elements, materials, and systems according to various classification systems,
+   007 |     such as the UNIFORMAT or Omniclass classification systems.
+   008 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object\_Association/Classification\_Association/content.html
+   009 | 
+   010 | 
+   011 |     Scenario: Check for activation of Classification Association
+   012 | 
+   013 |     :doc:`Given an .IfcObjectDefinition. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |     :doc:`Given its attribute .HasAssociations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given [its entity type] ^is^ 'IfcRelAssociatesClassification' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   016 |     :doc:`Given its attribute .RelatingClassification. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |     :doc:`Given [its entity type] ^is^ 'IfcClassificationReference' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   018 | 
+   019 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   020 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-09-13
+     - :commit:`af63674c2541519e824ac0745de967c4b16c76ab`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/CLS000_Classification-association.feature>`_

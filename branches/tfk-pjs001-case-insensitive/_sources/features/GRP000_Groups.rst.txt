@@ -1,0 +1,33 @@
+``GRP000`` Groups - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GRP
+   003 | \@version1
+   004 | Feature: GRP000 - Groups
+   005 | The rule verifies the presence of IFC entities used to define a group as a logical collection of objects.
+   006 | 
+   007 | Scenario: 4.1.1.4 Group Assignment
+   008 | 
+   009 |     :doc:`Given an .IfcObject. ^including subtypes^ </steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling>`
+   010 |     :doc:`Given a relationship .IfcRelAssignsToGroup. from .IfcGroup. to .IfcObject. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   011 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   012 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - n/a
+     - 2025-06-21
+     - :commit:`1381b14b43c8e8ecd4537d681dab6377a82a9fa3`
+     - n/a

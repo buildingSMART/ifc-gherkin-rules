@@ -1,0 +1,91 @@
+``SPS007`` Spatial containment - v6
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@SPS
+   003 | \@version6
+   004 | 
+   005 | Feature: SPS007 - Spatial Containment
+   006 | The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment
+   007 | 
+   008 | 
+   009 |     Scenario: Instances of IfcGrid must be contained within a spatial structure
+   010 | 
+   011 |         :doc:`Given an .IfcGrid. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |         :doc:`Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcGrid. from .IfcSpatialStructureElement. </steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity>`
+   013 | 
+   014 | 
+   015 |     Scenario: Instances of IfcAnnotation must be contained within a spatial structure, except when the annotation is nested under another annotation
+   016 | 
+   017 |         :doc:`Given an .IfcAnnotation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   018 |         :doc:`Given A relationship .IfcRelNests. ^does not exist^ to .IfcAnnotation. from .IfcAnnotation. </steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity>`
+   019 | 
+   020 |         :doc:`Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcAnnotation. from .IfcSpatialStructureElement. </steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity>`
+   021 | 
+   022 | 
+   023 |     Scenario: Instances of IfcElement must be part of a spatial structure, with certain exceptions
+   024 | 
+   025 |         :doc:`Given an .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   026 |         :doc:`Given [Its Type] ^is not^ 'IfcFeatureElement' ^including subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   027 |         :doc:`Given .Decomposes. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   028 | 
+   029 |         :doc:`Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialStructureElement. </steps/givensrelationshipspy_Arequiredrelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   030 | 
+   031 | 
+   032 |     Scenario: Entities that are an aggregated part of another element must not also be part of a spatial structure
+   033 |         :doc:`Given an .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   034 |         :doc:`Given a relationship .IfcRelAggregates. to .IfcElement. from .IfcElement. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   035 | 
+   036 |         :doc:`Then .ContainedInStructure. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   037 | 
+   038 | 
+   039 |     Scenario: All other IFC entities must not be contained within a spatial structure
+   040 |         :doc:`Given An .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   041 |         :doc:`Given [Its Type] ^is not^ 'IfcElement' ^including subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   042 |         :doc:`Given [Its Type] ^is not^ 'IfcGrid' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   043 |         :doc:`Given [Its Type] ^is not^ 'IfcAnnotation' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   044 | 
+   045 |         :doc:`Then .ContainedInStructure. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-07
+     - :commit:`c51e52d5fbee0aea5d3641562faf76dfb58fb314`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS007_Spatial-containment.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-06-12
+     - :commit:`0c778ff7156bbc6631a8a947aa86a7745021c365`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS007_Spatial-containment.feature>`_
+   * - v3
+     - :tag:`v0.6.8`
+     - 2024-10-23
+     - :commit:`eeaf1ecba4041969673b749659f4efd00dac7b66`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/SPS007_Spatial-containment.feature>`_
+   * - v4
+     - :tag:`v0.7.1`
+     - 2025-03-11
+     - :commit:`c750a4788f183777aff9eb4611ca6ce584768947`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/SPS/SPS007_Spatial-containment.feature>`_
+   * - v5
+     - :tag:`v0.7.3`
+     - 2025-03-21
+     - :commit:`93e51d68cccb9d5bf4cb2e1c0608bd3669578614`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/SPS/SPS007_Spatial-containment.feature>`_
+   * - v6
+     - :tag:`v0.7.9`
+     - 2025-08-17
+     - :commit:`197ffba5582bf1bd1de4f93bd6096745e2fdc099`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.9/features/rules/SPS/SPS007_Spatial-containment.feature>`_

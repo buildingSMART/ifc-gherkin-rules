@@ -1,0 +1,11 @@
+The CRS should define a vertical component
+==========================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The CRS should define a vertical component*
+
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:16
+
+

@@ -1,0 +1,11 @@
+Objects typing (``OJT``)
+========================
+
+The ability to define elements (and unfortunately not systems) based on their type or function within the model, allowing reusability of information by the occurrence of such types.
+
+.. toctree::
+
+   :titlesonly:
+
+   OJT001_Object-predefined-type
+

@@ -425,16 +425,16 @@ def step_impl(context, inst, table, inst_type=None):
 )
 def step_impl(context, inst, attr_name):
     table = "valid_ConversionBasedUnits"
-    unit_definitions = get_table_definition(context.model.schema, table)
+    unit_definitions = {k.lower(): v for k, v in get_table_definition(context.model.schema, table).items()}
     accepted_names = list(unit_definitions.keys())
     match attr_name.upper():
         case "NAME":
-            attr_value = getattr(inst, attr_name)
+            attr_value = getattr(inst, attr_name).lower()
             if attr_value not in accepted_names:
                 yield ValidationOutcome(inst=inst, expected=accepted_names, observed=attr_value,
                                         severity=OutcomeSeverity.ERROR)
         case "CONVERSIONFACTOR":
-            unit_name = inst.Name
+            unit_name = inst.Name.lower()
             if unit_name in accepted_names:
                 inst_factor = inst.ConversionFactor.ValueComponent.wrappedValue
                 inst_si_unit = inst.ConversionFactor.UnitComponent

@@ -14,42 +14,6 @@ def git(*args, cwd=REPO_ROOT):
 def introduced_commit(path, repo):
     return (git("log", "--follow", "--diff-filter=A", "--format=%H", "-1", "--", path, cwd=repo) or '').strip()
 
-def parents_of(commit, repo):
-    line = git("rev-list", "--parents", "-n", "1", commit, cwd=repo)
-    parts = line.split()
-    return parts[1:] if len(parts) > 1 else []
-
-def diffs_touching_pattern(pathspec, pattern, repo):
-    out = git("log", "-G", pattern, "--format=%H", "--follow", "--", pathspec, cwd=repo)
-    return [l for l in out.splitlines() if l]
-
-def first_parent(commit, repo):
-    line = git("rev-list", "--parents", "-n", "1", commit, cwd=repo)
-    parts = line.split()
-    return parts[1] if len(parts) > 1 else None
-
-def commits_following_renames(path, repo):
-    out = git("log", "--follow", "-M", "--format=%H", "--", path, cwd=repo)
-    return [l for l in out.splitlines() if l]
-
-def parent_path_for_commit(commit, child_path, repo):
-    ns = git("diff-tree", "-M", "--name-status", "-r", commit, cwd=repo)
-    for line in ns.splitlines():
-        if not line or line[0] != "R":
-            continue
-        parts = line.split("\t")
-        if len(parts) == 3:
-            _, oldp, newp = parts
-            if newp == child_path:
-                return oldp
-    return child_path
-
-def blob_diff(parent, parent_path, commit, child_path, repo):
-    if parent:
-        return git("diff", "-U0", f"{parent}:{parent_path}", f"{commit}:{child_path}", cwd=repo)
-    else:
-        return git("show", "-U0", commit, "--", child_path, cwd=repo)
-
 
 def tags_for_commit(commit, repo):
     return natsorted(git("tag", "--contains", commit, cwd=repo).splitlines())

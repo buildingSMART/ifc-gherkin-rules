@@ -248,6 +248,9 @@ def handle_then(context, fn, **kwargs):
                 if 'npath' in inspect.getargs(fn.__code__).args:
                     kwargs = kwargs | {'npath': current_path}
             top_level_index = current_path[0] if current_path else None
+            max_index = len(current_path) - 1
+            if top_level_index > max_index:
+                top_level_index = max_index
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
             # TODO: refactor into a more general solution that works for all rules
             if context.is_global_rule and (

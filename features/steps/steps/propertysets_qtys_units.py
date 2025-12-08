@@ -1,12 +1,15 @@
+from dataclasses import dataclass
 import functools
 import itertools
 import json
 import operator
 import os
+import math
 import re
-from typing import List
+from typing import List, Dict
 
 import ifcopenshell
+from ifcopenshell.util.unit import convert
 from validation_handling import gherkin_ifc
 from utils import ifc, misc, system
 from . import ValidationOutcome, OutcomeSeverity
@@ -18,6 +21,46 @@ template_type_to_expected = {
     'QTO_TYPEDRIVENONLY': 'IfcTypeObject',
     'QTO_OCCURRENCEDRIVEN': 'IfcObject',
 }
+
+
+@dataclass(frozen=True, slots=True, kw_only=True, repr=True, eq=True)
+class ConversionBasedUnitDefinition:
+    """
+    used to hold data from table of conversion-based units defined in the IFC spec
+    Ref: IFC2X3 - https://standards.buildingsmart.org/IFC/RELEASE/IFC4/FINAL/HTML/schema/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
+    Ref: IFC4 - https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/FINAL/HTML/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
+    Ref: IFC4X3 - https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcConversionBasedUnit.htm
+    """
+    Name: str
+    UnitType: str
+    ConversionFactor: float
+    SIUnitName: str
+    SIUnitPrefix: str = None
+    Description: str = None
+
+
+def load_conversion_unit_def_from_table(table_definition: Dict) -> ConversionBasedUnitDefinition:
+    conv_factor = table_definition["ConversionFactor"]
+    si_unit_prefix = table_definition["SIUnitPrefix"]
+    if not isinstance(conv_factor, float):
+        conv_factor = float(conv_factor)
+    if (si_unit_prefix == "None") or (len(si_unit_prefix) == 0):
+        si_unit_prefix = None
+    if table_definition['Description'] == "None":
+        descr = None
+    elif table_definition['Description'] and len(table_definition['Description']) == 0:
+        descr = None
+    else:
+        descr = table_definition['Description']
+
+    return ConversionBasedUnitDefinition(
+        Name=table_definition["Name"],
+        UnitType=table_definition["UnitType"],
+        ConversionFactor=conv_factor,
+        SIUnitName=table_definition["SIUnitName"],
+        SIUnitPrefix=si_unit_prefix,
+        Description=descr,
+    )
 
 
 @functools.cache
@@ -64,7 +107,7 @@ def upper_case_if_string(v):
 
 
 @functools.cache
-def get_pset_definitions(schema, table):
+def get_table_definition(schema, table):
     schema_specific_path = system.get_abs_path(f"resources/{schema.upper()}/{table}.csv")
 
     if os.path.exists(schema_specific_path):
@@ -73,7 +116,7 @@ def get_pset_definitions(schema, table):
         tbl_path = system.get_abs_path(f"resources/{table}.csv")
 
     tbl = system.get_csv(tbl_path, return_type='dict')
-    return {d['property_set_name']: d for d in tbl}
+    return {d["Name"]: d for d in tbl}
 
 
 class AlwaysEqualDict(dict):
@@ -169,7 +212,7 @@ def normalize_pset(name: str) -> str:
 @gherkin_ifc.step(
     "The .{inst_type:property_set_or_element_quantity}. attribute .Name. must use standard values [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
-    property_set_definitions = get_pset_definitions(context.model.schema, table)
+    property_set_definitions = get_table_definition(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
 
     if name not in property_set_definitions.keys():
@@ -179,7 +222,7 @@ def step_impl(context, inst, table, inst_type=None):
 @gherkin_ifc.step(
     "Each associated .{inst_type:property_or_physical_quantity}. must be named [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
-    property_set_definitions = get_pset_definitions(context.model.schema, table)
+    property_set_definitions = get_table_definition(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
 
     accepted_values = establish_accepted_pset_values(name, context.model.schema, table,
@@ -287,7 +330,7 @@ def step_impl(context, inst, table, inst_type=None):
 @gherkin_ifc.step(
     "The .{inst_type:property_set_or_element_quantity}. must be related to a valid entity type [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
-    property_set_definitions = get_pset_definitions(context.model.schema, table)
+    property_set_definitions = get_table_definition(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
 
     accepted_values = establish_accepted_pset_values(name, context.model.schema, table,
@@ -306,7 +349,7 @@ def step_impl(context, inst, table, inst_type=None):
 @gherkin_ifc.step(
     "Each associated .{inst_type:property_or_physical_quantity}. must be of valid entity type [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
-    property_set_definitions = get_pset_definitions(context.model.schema, table)
+    property_set_definitions = get_table_definition(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
 
     accepted_values = establish_accepted_pset_values(name, context.model.schema, table,
@@ -334,7 +377,7 @@ def step_impl(context, inst, table, inst_type=None):
 @gherkin_ifc.step(
     "Each associated .{inst_type:property_or_physical_quantity}. value must be of valid data type [according to the table] '{table}'")
 def step_impl(context, inst, table, inst_type=None):
-    property_set_definitions = get_pset_definitions(context.model.schema, table)
+    property_set_definitions = get_table_definition(context.model.schema, table)
     name = normalize_pset(getattr(inst, 'Name', 'Attribute not found'))
 
     accepted_values = establish_accepted_pset_values(name, context.model.schema, table,
@@ -375,3 +418,35 @@ def step_impl(context, inst, table, inst_type=None):
             # not a universal error. This is more IDS territory.
             # if not values:
             #     yield ValidationOutcome(inst=inst, expected= {"oneOf": accepted_data_type['instance']}, observed = {'value':None}, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step(
+    "Its attribute .{attr_name}. must be defined [according to the table] 'valid_ConversionBasedUnits'"
+)
+def step_impl(context, inst, attr_name):
+    table = "valid_ConversionBasedUnits"
+    unit_definitions = get_table_definition(context.model.schema, table)
+    accepted_names = list(unit_definitions.keys())
+    match attr_name:
+        case "Name":
+            attr_value = getattr(inst, attr_name)
+            if attr_value not in accepted_names:
+                yield ValidationOutcome(inst=inst, expected=accepted_names, observed=attr_value,
+                                        severity=OutcomeSeverity.ERROR)
+        case "ConversionFactor":
+            unit_name = inst.Name
+            if unit_name in accepted_names:
+                inst_factor = inst.ConversionFactor.ValueComponent.wrappedValue
+                inst_si_unit = inst.ConversionFactor.UnitComponent
+                conv_data = {**unit_definitions[unit_name]}
+                conv_unit_def = load_conversion_unit_def_from_table(conv_data)
+                expected_factor = ifcopenshell.util.unit.convert(value=conv_unit_def.ConversionFactor,
+                                                                 from_unit=conv_unit_def.SIUnitName,
+                                                                 from_prefix=conv_unit_def.SIUnitPrefix,
+                                                                 to_unit=inst_si_unit.Name,
+                                                                 to_prefix=inst_si_unit.Prefix)
+                if not math.isclose(a=inst_factor, b=expected_factor, rel_tol=1e-06, abs_tol=0.):
+                    yield ValidationOutcome(inst=inst, expected=expected_factor, observed=inst_factor,
+                                            severity=OutcomeSeverity.ERROR)
+            else:
+                print(f"{unit_name=} not found in table")

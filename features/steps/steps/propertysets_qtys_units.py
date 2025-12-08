@@ -433,7 +433,7 @@ def step_impl(context, inst, attr_name):
             if attr_value not in accepted_names:
                 yield ValidationOutcome(inst=inst, expected=accepted_names, observed=attr_value,
                                         severity=OutcomeSeverity.ERROR)
-        case "CONVERSIONFACTOR":
+        case "ConversionFactor":
             unit_name = inst.Name
             if unit_name in accepted_names:
                 inst_factor = inst.ConversionFactor.ValueComponent.wrappedValue

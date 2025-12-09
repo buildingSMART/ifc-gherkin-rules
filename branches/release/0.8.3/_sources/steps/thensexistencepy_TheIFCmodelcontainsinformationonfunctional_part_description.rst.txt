@@ -1,0 +1,115 @@
+The IFC model contains information on ``functional_part_description``
+=====================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/ALB000_Alignment-layout`:16
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/ALS000_Alignment-geometry`:18
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/ANN000_Annotations`:16
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/ASM000_Composed-elements`:19
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/AXG000_Axis-Geometry`:18
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/BBX000_Bounding-box`:17
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/BLT000_Built-elements`:14
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/BLT000_Built-elements`:22
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/CLS000_Classification-association`:19
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:14
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/CTX000_Presentation-colours-and-textures`:35
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/GDP000_Grid-placement`:14
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/GRF000_Georeferencing`:18
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/GRP000_Groups`:11
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:18
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/LAY000_Presentation-layer-assignment`:29
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/LIP000_Linear-Placement`:16
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/LOP000_Local-placement`:14
+
+ - **Then** *The IFC model contains information on materials assigned to elements*
+
+   :doc:`/features/MAT000_Materials`:19
+
+ - **Then** *The IFC model contains information on materials assigned to elements*
+
+   :doc:`/features/MAT000_Materials`:29
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/OJP000_Object-placement`:12
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/PJS000_Project`:12
+
+ - **Then** *The IFC model contains information on port connectivity and nesting*
+
+   :doc:`/features/POR000_Port-connectivity-and-nesting`:18
+
+ - **Then** *The IFC model contains information on quantities of elements*
+
+   :doc:`/features/QTY000_Quantities-for-objects`:18
+
+ - **Then** *The IFC model contains information on spaces information*
+
+   :doc:`/features/SPA000_Spaces-information`:12
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/VER000_Versioning-and-revision-control`:15
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/VRT000_Virtual-elements`:13
+
+

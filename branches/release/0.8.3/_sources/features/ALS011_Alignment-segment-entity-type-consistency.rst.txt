@@ -1,0 +1,94 @@
+``ALS011`` Alignment segment entity type consistency - v3
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALS
+   003 | \@version3
+   004 | 
+   005 | 
+   006 | Feature: ALS011 - Alignment segment entity type consistency
+   007 | 
+   008 |   The rule verifies that the same entity type is used for all segments
+   009 |   and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve
+   010 |   The rule is similar to GEM011, except that it requires the presence of an IfcAlignment.
+   011 | 
+   012 | 
+   013 | Background:
+   014 |   :doc:`Given a model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   015 |   :doc:`Given an .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   016 |   :doc:`Given its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |   :doc:`Given its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   018 |   :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   019 | 
+   020 | 
+   021 | Scenario Outline: Consistent entity types used - direct representation
+   022 | 
+   023 |   :doc:`Given [its entity type] ^is^ '\<entity\>' ^excluding subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   024 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   025 |   :doc:`Given its entity type </steps/givensentitiespy_Itsentitytype>`
+   026 | 
+   027 |   :doc:`Then The values must be identical at depth 3 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`
+   028 | 
+   029 |   Examples:
+   030 |     | entity            |
+   031 |     | IfcCompositeCurve |
+   032 |     | IfcGradientCurve  |
+   033 |     | IfcSegmentedReferenceCurve |
+   034 | 
+   035 | 
+   036 |   Scenario Outline: Consistent entity types used - capture parent curve in case it is not a direct representation
+   037 | 
+   038 |     :doc:`Given [its entity type] ^is^ '\<entity\>' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   039 |     :doc:`Given its attribute .BaseCurve. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   040 |     :doc:`Given [its entity type] ^is^ '\<entity\_parent\>' ^excluding subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   041 |     :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   042 |     :doc:`Given its entity type </steps/givensentitiespy_Itsentitytype>`
+   043 | 
+   044 |     :doc:`Then The values must be identical at depth 3 </steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld>`
+   045 | 
+   046 |     Examples:
+   047 |       | entity                      |  entity\_parent |
+   048 |       | IfcGradientCurve            |  IfcCompositeCurve |
+   049 |       | IfcSegmentedReferenceCurve  |  IfcCompositeCurve |
+   050 | 
+   051 | 
+   052 | Scenario Outline: IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve
+   053 | 
+   054 |   :doc:`Given [its entity type] ^is^ '\<entity\>' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   055 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   056 |   :doc:`Given its entity type </steps/givensentitiespy_Itsentitytype>`
+   057 | 
+   058 |   :doc:`Then The value must be 'IfcCurveSegment' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
+   059 | 
+   060 |   Examples:
+   061 |     | entity            |
+   062 |     | IfcGradientCurve  |
+   063 |     | IfcSegmentedReferenceCurve |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-21
+     - :commit:`1cd01e0f7c5bf83ecffac0220621353247e8f069`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS011_Alignment-segment-entity-type-consistency.feature>`_
+   * - v2
+     - :tag:`v0.7.7`
+     - 2025-06-25
+     - :commit:`c895611be5667c980b3941b705cfc67e39e18ef7`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/ALS/ALS011_Alignment-segment-entity-type-consistency.feature>`_
+   * - v3
+     - n/a
+     - 2025-12-04
+     - :commit:`d7fcd8502e8e1cb922bb2f3e29013eadc0b6f02e`
+     - n/a

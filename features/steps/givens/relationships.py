@@ -11,13 +11,14 @@ relating_attr_matrix = system.get_csv(filename_relating_attr_matrix, return_type
 
 @gherkin_ifc.step('A relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
 @gherkin_ifc.step('A relationship .{relationship}. ^{exist_or_not_exist:exist_or_not_exist}^ {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
+@gherkin_ifc.step('A relationship .{relationship}. ^{exist_or_not_exist:exist_or_not_exist}^ {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}. {tail:maybe_and_following_that}')
 @gherkin_ifc.step('A relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}. {tail:maybe_and_following_that}')
 @gherkin_ifc.step('A *{required}* relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}.')
 @gherkin_ifc.step('A *{required}* relationship .{relationship}. {dir1:from_to} .{entity}. {dir2:from_to} .{other_entity}. {tail:maybe_and_following_that}')
 def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tail=False, exist_or_not_exist='exists', required=False):
     assert dir1 != dir2
 
-    required = exist_or_not_exist != "does not exist"
+    required = exist_or_not_exist not in ["does not exist", "must not exist"]
     if exist_or_not_exist == 'must exist':
         tail=True # output the other entity
 

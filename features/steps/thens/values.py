@@ -29,6 +29,10 @@ def read_csv_values(schema, csv_file):
 @gherkin_ifc.step("The {i:value_or_type} must be in '{csv_file}.csv'")
 @gherkin_ifc.step("The {i:values_or_types} must be in '{csv_file}.csv'")
 def step_impl(context, inst, i, csv_file):
+    """
+    This implementation supports basic reading from CSV resources that have a single field and no header.
+    It validates a value against a single field, but does not support CSV resources with multiple fields per row.
+    """
     if not inst:
         return []
 
@@ -63,6 +67,11 @@ def step_impl(context, inst, constraint, num):
 
 @gherkin_ifc.step("The values must be {unique_or_identical:unique_or_identical} at depth {depth_level:d}")
 def step_impl(context, inst, unique_or_identical, depth_level=None):
+    """
+    NOTE: depth_level is not processed via this step implementation but it does affect instance selection
+    within the @gherkin_ifc.step decorator.
+    see validation_handling.py:299
+    """
     if not inst:
         return
 

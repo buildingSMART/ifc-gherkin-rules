@@ -1,7 +1,6 @@
 @implementer-agreement
 @BLT
 @version1
-@E00020
 
 Feature: BLT000 - Built Elements
 The rule verifies the presence of IFC entities used to represent various building and infrastructure elements,

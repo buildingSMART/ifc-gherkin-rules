@@ -1,7 +1,6 @@
 @implementer-agreement
 @LAY
 @version1
-@E00020
 
 Feature: LAY000 - Presentation Layer Assignment
     The rule verifies the presence of IFC entities used to assign layers (also known as, CAD layer) to collection of elements. 

@@ -248,7 +248,7 @@ DATA;
 #241=IFCPRODUCTDEFINITIONSHAPE($,$,(#240));
 #242=IFCSHAPEREPRESENTATION(#16,'Axis','Segment',(#201));
 #243=IFCPRODUCTDEFINITIONSHAPE($,$,(#242));
-#244=IFCPRODUCTDEFINITIONSHAPE('Alignment Product Shape Definition',$,(#103,#207));
+#244=IFCPRODUCTDEFINITIONSHAPE('Alignment Product Shape Definition (gradient curve only)',$,(#207));
 #245=IFCALIGNMENT('3QMtpiE_n7GAb04Y0E8R05',$,'Example Alignment',$,$,#19,#244,$);
 #246=IFCRELNESTS('356b4CAMz6uPfo_altkxx4',$,$,'Nest horizontal and vertical alignment layouts with the alignment',#245,(#100,#204));
 #247=IFCRELAGGREGATES('3tAuevE4P0Tem56PHswooi',$,$,'Alignments in project',#1,(#245));
@@ -259,5 +259,8 @@ DATA;
 #252=IFCSITE('2yTTT3FfXApBD9cGGp3m3r',$,'Site of Bridge 3',$,$,$,$,$,$,$,$,$,$,$);
 #253=IFCRELREFERENCEDINSPATIALSTRUCTURE('2yHFTnkCH0yeQEKpzJcoDh',$,$,'Alignments referenced into the spatial structure of Bridge Site 3',(#245),#252);
 #254=IFCRELAGGREGATES('1lgBZbq31DJxpXuomkg8Ql',$,$,'Bridge sites aggregated into the overall project',#1,(#248,#250,#252));
+
+#500=IFCPRODUCTDEFINITIONSHAPE('Generic Product Shape Definition by IfcCompositeCurve',$,(#103));
+#501=IFCBUILTELEMENT('2yQQQ3FfXApBD9cGGp3m3r',$,'Generic Element',$,$,$,#500,$);
 ENDSEC;
 END-ISO-10303-21;

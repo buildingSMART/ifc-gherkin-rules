@@ -29,11 +29,17 @@ django.setup()
 
 try:
     from apps.ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask
+    ValidationOutcomeDjango = ValidationOutcome
+    OutcomeSeverity = ValidationOutcome.OutcomeSeverity
+    ValidationOutcomeCode = ValidationOutcome.ValidationOutcomeCode
+    from apps.ifc_validation_models.dataclass_compat import ValidationOutcome
 except:
     from ifc_validation_models.models import ValidationOutcome, ModelInstance, ValidationTask
+    ValidationOutcomeDjango = ValidationOutcome
+    OutcomeSeverity = ValidationOutcome.OutcomeSeverity
+    ValidationOutcomeCode = ValidationOutcome.ValidationOutcomeCode
+    from ifc_validation_models.dataclass_compat import ValidationOutcome
 
-OutcomeSeverity = ValidationOutcome.OutcomeSeverity
-ValidationOutcomeCode = ValidationOutcome.ValidationOutcomeCode
 
 if __name__ == "__main__":
 

@@ -1,7 +1,6 @@
 @industry-practice
 @PSE
 @version1
-@E00020
 Feature: PSE002 - Custom properties and property sets validation
 The rule verifies that property set names do not start with any upper- and lowercase variation of 'pset' in order to prevent confusion with standardized property sets in the IFC specification.
 The property sets defined in the IFC specification all start with 'Pset_'

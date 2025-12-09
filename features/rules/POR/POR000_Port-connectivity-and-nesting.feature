@@ -1,7 +1,6 @@
 @implementer-agreement
 @POR
 @version1
-@E00020
 
 Feature: POR000 - Port Connectivity and Nesting
     The rule verifies the presence of IFC entities used to define ports (as means for an element to connect to other elements) and the relationship that is made between two ports.

@@ -1,7 +1,6 @@
 @implementer-agreement
 @PJS
 @version2
-@E00010
 Feature: PJS002 - Correct elements related to project
 
   The rule verifies that object occurrences (e.g. beams, walls) used within the context of a project

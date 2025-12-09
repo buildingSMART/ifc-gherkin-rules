@@ -6,7 +6,6 @@ The rule verifies that if an IfcElement is a part of another IfcElement (the con
 IfcRelAggregates, then the relative placement of that IfcElement shall be provided by an IfcLocalPlacement
 with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the container element.
 
-  @E00010
   Scenario: Agreement on the relative placement of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
 
       Given A model with Schema 'IFC2X3' or 'IFC4'

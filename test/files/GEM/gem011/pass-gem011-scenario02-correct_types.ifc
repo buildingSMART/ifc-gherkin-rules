@@ -360,5 +360,8 @@ DATA;
 #2816 = IFCRELASSOCIATESMATERIAL('21AGKYInDEAexMZP3z_WRc', #1, 'Type Material', $, (#2814), #18);
 #2820 = IFCAXIS2PLACEMENT3D(#15, $, $);
 #2823 = IFCRELAGGREGATES('1Ey$itn2D1$eLRNpJWVGxv', #1, 'Project aggregation', $, #7, (#2497));
+
+#5000=IFCPRODUCTDEFINITIONSHAPE('Generic Product Shape Definition by IfcSegmentedReferenceCurve',$,(#2750));
+#5001=IFCBUILTELEMENT('2yQQQ3FfXApBD9cGGp3m3r',$,'Generic Element',$,$,$,#5000,$);
 ENDSEC;
 END-ISO-10303-21;

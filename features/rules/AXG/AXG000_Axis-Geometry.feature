@@ -1,7 +1,6 @@
 @implementer-agreement
 @AXG
 @version1
-@E00020
 
 Feature: AXG000 - Axis Geometry
     The rule verifies the presence of IFC entities used to representing the geometry using a set of axes, where each axis consists of a position in 3D space and a direction vector. 

@@ -1,7 +1,6 @@
 @implementer-agreement
 @QTY
 @version1
-@E00020
 Feature: QTY001 - Standard quantities and quantity sets validation
 The rule verifies that each IfcElementQuantity starting with 'Qto_' is defined correctly.
 

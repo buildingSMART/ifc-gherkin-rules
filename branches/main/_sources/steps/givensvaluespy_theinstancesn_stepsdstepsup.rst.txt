@@ -1,0 +1,20 @@
+the instances '``n_steps:d``' steps up
+======================================
+
+.. container:: prewrap
+
+   | Replaces the input instance with the value higher up in the execution. Note that this only applies to input
+   | instances that are still present at execution time during the current step, it doesn't overwrite replace the full
+   | set of instances from before, only those that are still active currently.
+   | 
+   | Args:
+   | - n_steps (int): Number of steps to look upwards in execution
+
+Usages:
+~~~~~~~
+
+ - **Given** *the instances '2' steps up*
+
+   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:12
+
+

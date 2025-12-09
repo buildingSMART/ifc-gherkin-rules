@@ -1,0 +1,62 @@
+``SWE001`` Arbitrary profile boundary no self intersections - v4
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@SWE
+   003 | \@version4
+   004 | Feature: SWE001 - Arbitrary profile boundary no self-intersections
+   005 | The rule verifies that IfcArbitraryClosedProfileDefs and IfcArbitraryProfileDefWithVoids do
+   006 | not have any self-intersections in their boundaries. Profile definitions are the basis of
+   007 | geometrical sweeps such as extrusions.
+   008 | 
+   009 |   Scenario: Validating that IfcArbitraryClosedProfileDef instances do not have self-intersections in their boundaries
+   010 | 
+   011 |     :doc:`Given An .IfcArbitraryClosedProfileDef. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |     :doc:`Given Its attribute .OuterCurve. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   013 | 
+   014 |     :doc:`Then There must be no self-intersections </steps/thensgeometrypy_Theremustbenoselfintersections>`
+   015 | 
+   016 |   Scenario: Validating that IfcArbitraryProfileDefWithVoids instances do not have self-intersections in their inner boundaries
+   017 | 
+   018 |     :doc:`Given An .IfcArbitraryClosedProfileDef. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   019 |     :doc:`Given Its attribute .InnerCurves. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   020 | 
+   021 |     :doc:`Then There must be no self-intersections </steps/thensgeometrypy_Theremustbenoselfintersections>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-10-02
+     - :commit:`4a814482137fc9f14b0e810bca06844525d9f61c`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/SWE001_Arbitrary-profile-boundary-no-self-intersections.feature>`_
+   * - v2
+     - :tag:`v0.6.12`
+     - 2025-02-12
+     - :commit:`b06b48590861044fdb52e9b5c6850a71409c8bd1`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.12/features/SWE001_Arbitrary-profile-boundary-no-self-intersections.feature>`_
+   * - v2
+     - :tag:`v0.6.12`
+     - 2025-02-12
+     - :commit:`344a9352c37467b09ad39ad926b01b8c4996eaa6`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.12/features/SWE001_Arbitrary-profile-boundary-no-self-intersections.feature>`_
+   * - v3
+     - :tag:`v0.7.3`
+     - 2025-03-31
+     - :commit:`6a1b8604dcf20ecaf9a6498582f5d4e6d4e91e42`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/SWE/SWE001_Arbitrary-profile-boundary-no-self-intersections.feature>`_
+   * - v4
+     - :tag:`v0.8.1`
+     - 2025-09-15
+     - :commit:`f44240213e57c425e95e66a407dce9c3543d938e`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.1/features/rules/SWE/SWE001_Arbitrary-profile-boundary-no-self-intersections.feature>`_

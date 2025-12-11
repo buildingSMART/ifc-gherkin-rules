@@ -1,0 +1,15 @@
+Each associated \ .\ ``inst_type:property_or_physical_quantity``\ .\  must be named [according to the table] '``table``'
+========================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *Each associated .IfcProperty. must be named [according to the table] 'pset_definitions'*
+
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:19
+
+ - **Then** *Each associated .IfcPhysicalQuantity. must be named [according to the table] 'qto_definitions'*
+
+   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:19
+
+

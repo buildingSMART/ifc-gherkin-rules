@@ -1,0 +1,11 @@
+a traversal over the full model originating from subtypes of \ .\ ``entity_name``\ .\ 
+======================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *a traversal over the full model originating from subtypes of .IfcRoot.*
+
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:12
+
+

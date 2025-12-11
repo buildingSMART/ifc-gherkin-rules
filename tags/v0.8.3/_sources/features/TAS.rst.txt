@@ -1,0 +1,11 @@
+Tessellated (i.e. meshes) (``TAS``)
+===================================
+
+This involves representing geometry using a collection of interconnected vertices, edges, and faces, which are used to approximate a smooth surface. Tessellated geometry can be useful for representing organic or irregular shapes, or for creating low-resolution representations of more complex geometry. In IFC, tessellated geometry can be represented using a range of different mesh types, such as triangular, quadrilateral, or polyhedral meshes.
+
+.. toctree::
+
+   :titlesonly:
+
+   TAS001_Polygonal-face-boundary-no-self-intersections
+

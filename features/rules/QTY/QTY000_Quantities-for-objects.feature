@@ -1,7 +1,6 @@
 @implementer-agreement
 @QTY
 @version1
-@E00020
 
 Feature: QTY000 - Quantities for Objects
     The rule verifies the presence of IFC entities used to define quantities of elements, such as their dimensions, volume, area, weight.

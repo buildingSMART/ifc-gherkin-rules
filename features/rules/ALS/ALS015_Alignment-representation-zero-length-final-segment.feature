@@ -1,7 +1,7 @@
 @implementer-agreement
 @ALS
 @version3
-@E00020
+
 Feature: ALS015 - Alignment representation zero length final segment
 
 The rule verifies that the alignment geometry (representation) curve

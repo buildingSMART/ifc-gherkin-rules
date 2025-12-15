@@ -1,7 +1,7 @@
 @implementer-agreement
 @ALS
 @version1
-@E00040
+
 Feature: ALS010 - Alignment segment shape representation has the correct number of items
 
 The rule verifies that a shape representation of IfcAlignmentSegment has the correct number of items

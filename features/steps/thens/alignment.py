@@ -158,6 +158,30 @@ def pretty_print_expected_geometry_types(exp: List[Dict]) -> Union[str, None]:
     return ", ".join(pretty)
 
 
+@gherkin_ifc.step("An .IfcAlignment. [{additional_prose_matching}]")
+def step_impl(context, additional_prose_matching):
+    instances = context.model.by_type("IfcAlignment", include_subtypes=False)
+
+    match additional_prose_matching:
+        case "with business logic and geometric representation":
+            filtered_instances = list()
+            for align_inst in instances:
+                align = ifc43.entities.Alignment().from_entity(align_inst)
+                if align.has_layout and align.has_representation:
+                    filtered_instances.append(align_inst)
+            instances = filtered_instances
+        case _:
+            pass
+
+    if instances:
+        context.applicable = getattr(context, "applicable", True)
+    else:
+        context.applicable = False
+
+    for inst in instances:
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+
+
 @gherkin_ifc.step(
     "A representation by .{ifc_rep_criteria}. requires the ^{existence:absence_or_presence}^ of .{logic_entity}. in the business logic")
 def step_impl(context, inst, ifc_rep_criteria, existence, logic_entity):
@@ -343,7 +367,7 @@ def step_impl(context, inst, path, activation_phrase):
                     )
 
 
-@gherkin_ifc.step("Each segment must have geometric continuity in {continuity_type}")
+@gherkin_ifc.step("Each segment must have geometric continuity in ^{continuity_type:continuity_type}^")
 def step_impl(context, inst, continuity_type):
     """
     Assess geometric continuity between alignment segments for ALS016, ALS017, and ALS018
@@ -360,17 +384,17 @@ def step_impl(context, inst, continuity_type):
         ifc_file=context.model,
         unit_type="LENGTHUNIT"
     )
-    for previous, current in inst:
+    for current, following in inst:
         entity_contexts = ifc.recurrently_get_entity_attr(context, current, 'IfcRepresentation', 'ContextOfItems')
         precision = ifc.get_precision_from_contexts(entity_contexts)
         continuity_calc = AlignmentSegmentContinuityCalculation(
-            previous_segment=previous,
             segment_to_analyze=current,
+            following_segment=following,
             length_unit_scale_factor=length_unit_scale_factor,
         )
         continuity_calc.run()
 
-        # calculate number of significant figures to display
+        # calculate the number of significant figures to display
         # use the precision of the geometric context plus one additional digit to accommodate rounding
         from math import ceil, log10
         display_sig_figs = abs(int(ceil(log10(precision)))) + 1

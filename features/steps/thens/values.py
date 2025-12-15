@@ -1,4 +1,7 @@
 import csv
+import functools
+import operator
+import re
 import ifcopenshell
 import os
 from pyproj.database import query_crs_info
@@ -6,7 +9,7 @@ from pyproj import CRS
 
 from pathlib import Path
 
-from validation_handling import gherkin_ifc
+from validation_handling import full_stack_rule, gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 from utils import misc
@@ -17,15 +20,23 @@ def apply_is_a(inst):
     else:
         return inst.is_a()
 
+@functools.cache
+def read_csv_values(schema, csv_file):
+    dirname = os.path.dirname(__file__)
+    filename =  Path(dirname).parent.parent / "resources" / f"{schema}" /f"{csv_file}.csv"
+    return [row[0] for row in csv.reader(open(filename))]
+
 @gherkin_ifc.step("The {i:value_or_type} must be in '{csv_file}.csv'")
 @gherkin_ifc.step("The {i:values_or_types} must be in '{csv_file}.csv'")
 def step_impl(context, inst, i, csv_file):
+    """
+    This implementation supports basic reading from CSV resources that have a single field and no header.
+    It validates a value against a single field, but does not support CSV resources with multiple fields per row.
+    """
     if not inst:
         return []
 
-    dirname = os.path.dirname(__file__)
-    filename =  Path(dirname).parent.parent / "resources" / f"{context.model.schema}" /f"{csv_file}.csv"
-    valid_values = [row[0] for row in csv.reader(open(filename))]
+    valid_values = read_csv_values(context.model.schema, csv_file)
 
     def is_valid_instance(instance):
         if isinstance(instance, ifcopenshell.entity_instance):
@@ -56,6 +67,11 @@ def step_impl(context, inst, constraint, num):
 
 @gherkin_ifc.step("The values must be {unique_or_identical:unique_or_identical} at depth {depth_level:d}")
 def step_impl(context, inst, unique_or_identical, depth_level=None):
+    """
+    NOTE: depth_level is not processed via this step implementation but it does affect instance selection
+    within the @gherkin_ifc.step decorator.
+    see validation_handling.py:299
+    """
     if not inst:
         return
 
@@ -111,3 +127,42 @@ def step_impl(context, inst, i, value):
             inst = misc.do_try(lambda: inst.is_a(), inst)
         if inst != value:
             yield ValidationOutcome(inst=inst, expected= value, observed = inst, severity=OutcomeSeverity.ERROR)
+
+
+@gherkin_ifc.step("the value '{varname1}' must be ^{op}^ the value '{varname2}'")
+@full_stack_rule
+def step_impl(context, inst, path, npath, varname1, op, varname2):
+    """Compares the value in variable v1 to the value in variable v2
+
+    Args:
+        varname1 (_type_): Left-hand-side variable reference
+        op (_type_): 'equal to' / 'not equal to' / 'greater than' / 'less than' / 'greater than or equal to' / 'less than or equal to'
+        varname2 (_type_): Right-hand-side variable reference
+    """
+
+    binary_operators = {
+        'equal to' : operator.eq,
+        'not equal to' : operator.ne,
+        'greater than' : operator.gt,
+        'less than' : operator.lt,
+        'greater than or equal to' : operator.ge,
+        'less than or equal to' : operator.le,
+    }
+    
+    steps = [l.get('step') for l in context._stack]
+    var_lists = [re.findall(r"\[stored as '(\w+)'\]", s.name) if s else None for s in steps]
+    varnames = [l[0] if l else None for l in var_lists]
+
+    tree = misc.get_stack_tree(context)
+    def get_value(varname):
+        # look up layer in tree based on variable name matched to step text
+        val = tree[varnames.index(varname) - 1]
+        # while numeric path is not depleted, use indices to peek into the appropriate slot
+        p = list(npath)
+        while isinstance(val, (list, tuple)) and p:
+            val = val[p.pop(0)]
+        return val
+
+    v1, v2 = map(get_value, (varname1, varname2))
+    passed = binary_operators[op](v1, v2)
+    yield ValidationOutcome(inst=inst, expected=v2, observed=v1, severity=OutcomeSeverity.PASSED if passed else OutcomeSeverity.ERROR)

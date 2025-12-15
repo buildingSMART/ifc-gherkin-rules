@@ -13,7 +13,7 @@ def step_impl(context, inst):
     if inst not in valid_epsg_codes:
         yield ValidationOutcome(inst=inst, observed=inst, severity=OutcomeSeverity.ERROR)
     else:
-        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASSED)
         
     
 @gherkin_ifc.step("The CRS should define a vertical component")
@@ -21,7 +21,7 @@ def step_impl(context, inst):
 def step_impl(context, inst):
     crs = CRS.from_string(inst)
     if crs.is_compound or crs.is_vertical:
-        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
     else:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
 

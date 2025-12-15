@@ -1,6 +1,4 @@
 import sys
 import os
 from pathlib import Path
-from validation_results import ValidationOutcome
-
-OutcomeSeverity = ValidationOutcome.OutcomeSeverity
+from validation_results import ValidationOutcome, OutcomeSeverity

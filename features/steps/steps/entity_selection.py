@@ -1,3 +1,4 @@
+import itertools
 from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
@@ -13,14 +14,14 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None):
         Given an .IfcAlignment.
         Given an .IfcRoot. with subtypes
         Given an .entity instance.
-        
+
     The last example returns everything in the model.
     """
 
     if entity_opt_stmt == "entity instance":
-        instances = list(context.model)
+        instances = iter(context.model)
     else:
-        entity = entity_opt_stmt
+        entity = entity_opt_stmt.lower()
 
         match subtype_handling:
             case "without subtypes":
@@ -30,13 +31,22 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None):
             case _:
                 include_subtypes = True
 
-        instances = context.model.by_type(entity, include_subtypes) or []
+        # @todo this better be handled more efficiently in ifcopenshell, but idea here is to prevent
+        # allocating large lists
+        instances = (inst for inst in context.model if ((inst.is_a(entity)) if include_subtypes else (inst.is_a().lower() == entity)))
 
-    if instances:
+    try:
+        first = next(instances)
+        has_item = True
+        instances = itertools.chain([first], instances)
+    except StopIteration:
+        has_item = False
+
+    if has_item:
         context.applicable = getattr(context, 'applicable', True)
     else:
         context.applicable = False
 
     # yield instances
     for inst in instances:
-        yield ValidationOutcome(instance_id=inst, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)

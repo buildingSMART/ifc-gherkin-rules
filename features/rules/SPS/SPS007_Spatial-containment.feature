@@ -1,7 +1,6 @@
 @implementer-agreement
 @SPS
-@version5
-@E00040
+@version6
 
 Feature: SPS007 - Spatial Containment
 The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment
@@ -10,7 +9,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
     Scenario: Instances of IfcGrid must be contained within a spatial structure
 
         Given an .IfcGrid.
-        Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcGrid. from .IfcSpatialElement.
+        Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcGrid. from .IfcSpatialStructureElement.
 
 
     Scenario: Instances of IfcAnnotation must be contained within a spatial structure, except when the annotation is nested under another annotation
@@ -18,7 +17,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
         Given an .IfcAnnotation.
         Given A relationship .IfcRelNests. ^does not exist^ to .IfcAnnotation. from .IfcAnnotation.
 
-        Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcAnnotation. from .IfcSpatialElement.
+        Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcAnnotation. from .IfcSpatialStructureElement.
 
     
     Scenario: Instances of IfcElement must be part of a spatial structure, with certain exceptions
@@ -27,7 +26,7 @@ The rule verifies that spatial containment via IfcRelContainedInSpatialStructure
         Given [Its Type] ^is not^ 'IfcFeatureElement' ^including subtypes^
         Given .Decomposes. ^is^ empty
 
-        Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialElement.
+        Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialStructureElement.
 
     
     Scenario: Entities that are an aggregated part of another element must not also be part of a spatial structure

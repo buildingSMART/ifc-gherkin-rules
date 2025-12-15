@@ -34,9 +34,9 @@ def step_impl(context, entity_opt_stmt, insts=False):
 
     # yield instances
     for inst in instances:
-        yield ValidationOutcome(instance_id = inst, severity = OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASSED)
 
-@gherkin_ifc.step("No {entity}")
+@gherkin_ifc.step("No .{entity}.")
 def step_impl(context, entity):
     if context.model.by_type(entity):
         context.applicable = False
@@ -45,13 +45,13 @@ def step_impl(context, entity):
 def step_impl(context, inst):
     entity_type = misc.do_try(lambda: inst.is_a(), ())
     if not entity_type:
-        yield ValidationOutcome(instance_id = inst, expected='entity_type', observed=entity_type, severity=OutcomeSeverity.ERROR)
+        yield ValidationOutcome(inst = inst, expected='entity_type', observed=entity_type, severity=OutcomeSeverity.ERROR)
     else:
-        yield ValidationOutcome(instance_id = entity_type, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst = entity_type, severity=OutcomeSeverity.PASSED)
 
 
 @gherkin_ifc.step("All referenced instances")
 def step_impl(context, inst):
     # Note that this includes `inst` as the first element in this list
     instances = context.model.traverse(inst)
-    yield ValidationOutcome(instance_id=instances, severity=OutcomeSeverity.PASSED)
+    yield ValidationOutcome(inst=instances, severity=OutcomeSeverity.PASSED)

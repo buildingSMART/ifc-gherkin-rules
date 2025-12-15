@@ -7,3 +7,7 @@ ifc-gherkin.db
 worker_db.sqlite3
 test/out/svg
 .env
+/docs/_build
+/docs/_docs
+fixtures/*
+local/*

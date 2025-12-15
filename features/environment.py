@@ -2,6 +2,7 @@ import ifcopenshell
 import ifcopenshell.simple_spf
 from behave.model import Scenario
 from collections import Counter
+import functools
 import os
 from rule_creation_protocol import protocol
 from features.exception_logger import ExceptionSummary
@@ -10,19 +11,14 @@ import time
 import logging
 import socket
 
-from validation_results import ValidationOutcome, ValidationOutcomeCode, OutcomeSeverity
+from validation_results import ValidationOutcome, ValidationOutcomeDjango, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
 
-model_cache = {}
+@functools.cache
 def read_model(fn, pure):
-    if cached := model_cache.get(fn):
-        return cached
-    if pure:
-        model_cache[(fn, pure)] = ifcopenshell.simple_spf.open(fn)
-    else:
-        model_cache[(fn, pure)] = ifcopenshell.open(fn)
-    return model_cache[(fn, pure)]
-
+    # @nb --purepythonparser is only used for @critical rules which is only IFC101 which only looks at the header
+    return (ifcopenshell.simple_spf.open(fn, only_header=True)
+            if pure else ifcopenshell.open(fn))
 
 def print_directory_tree(start_path, level=0):
     """
@@ -102,7 +98,7 @@ def before_step(context, step):
     context.step = step
 
 def get_validation_outcome_hash(obj):
-    return obj.severity, obj.outcome_code, obj.instance_id, json.dumps(obj.observed)
+    return obj.severity, obj.outcome_code, obj.inst, json.dumps(obj.observed)
 
 def after_scenario(context, scenario):
     # Given steps may introduce an arbitrary amount of stackframes.
@@ -134,17 +130,12 @@ def after_feature(context, feature):
 
         def reduce_db_outcomes(feature_outcomes):
 
-            failed_outcomes = [outcome for outcome in feature_outcomes if outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]]
-            if failed_outcomes:
-                unique_outcomes = set() # TODO __hash__ + __eq__ will be better
-                unique_objects = [obj for obj in failed_outcomes if get_validation_outcome_hash(obj) not in unique_outcomes and (unique_outcomes.add(get_validation_outcome_hash(obj)) or True)]
-                yield from unique_objects
+            if failed_outcomes := [outcome for outcome in feature_outcomes if outcome.severity in [OutcomeSeverity.WARNING, OutcomeSeverity.ERROR]]:
+                yield from set(failed_outcomes)
             else:
-                outcome_counts = Counter(outcome.severity for outcome in context.gherkin_outcomes)
                 for severity in [OutcomeSeverity.PASSED, OutcomeSeverity.EXECUTED, OutcomeSeverity.NOT_APPLICABLE]:
-                    if outcome_counts[severity] > 0:
-                        yield next(outcome for outcome in context.gherkin_outcomes if outcome.severity == severity)
-                        break
+                    if outc := next((outcome for outcome in feature_outcomes if outcome.severity == severity), None):
+                        yield outc
 
         outcomes_to_save = list(reduce_db_outcomes(context.gherkin_outcomes))
         outcomes_instances_to_save = list()
@@ -157,7 +148,7 @@ def after_feature(context, feature):
                 task = ValidationTask.objects.get(id=context.validation_task_id)
                 model_id = task.request.model.id
 
-                stepfile_ids = sorted(set(o.instance_id for o in outcomes_to_save if o.instance_id))
+                stepfile_ids = sorted(set(o.inst for o in outcomes_to_save if o.inst))
                 for stepfile_id in stepfile_ids:
                   instance = ModelInstance(
                       stepfile_id=stepfile_id,
@@ -165,15 +156,23 @@ def after_feature(context, feature):
                   )
                   outcomes_instances_to_save.append(instance)
 
+                outcome_instance_ids = {}
+
                 if stepfile_ids:
                     ModelInstance.objects.bulk_create(outcomes_instances_to_save, batch_size=DJANGO_DB_BULK_CREATE_BATCH_SIZE, ignore_conflicts=True) # ignore conflicts with existing
                     model_instances = dict(ModelInstance.objects.filter(model_id=model_id).values_list('stepfile_id', 'id')) # retrieve all
                     
                     # look up actual FK's
-                    for outcome in [o for o in outcomes_to_save if o.instance_id]:
-                        outcome.instance_id = model_instances[outcome.instance_id]
+                    for outcome in [o for o in outcomes_to_save if o.inst]:
+                        # outcomes are frozen dataclasses so we cannot mutate them,
+                        # instead we assign to a separate mapping on the side which is read
+                        # when the ValidationOutcomeDjango instances are constructed from
+                        # ValidationOutcome DTO objects.
+                        outcome_instance_ids[id(outcome)] = model_instances[outcome.inst]
 
-                ValidationOutcome.objects.bulk_create(outcomes_to_save, batch_size=DJANGO_DB_BULK_CREATE_BATCH_SIZE)
+                wrap_id = lambda instance_id_or_none: {} if instance_id_or_none is None else {'instance_id': instance_id_or_none}
+                outcomes_to_save_django = [ValidationOutcomeDjango(**(outc.to_dict(validation_task_public_id=int(context.validation_task_id)) | wrap_id(outcome_instance_ids.get(id(outc))))) for outc in outcomes_to_save]
+                ValidationOutcomeDjango.objects.bulk_create(outcomes_to_save_django, batch_size=DJANGO_DB_BULK_CREATE_BATCH_SIZE)
         end_time = time.process_time()
         elapsed_time = end_time - context.feature_start_time
         logger = set_logger(context)

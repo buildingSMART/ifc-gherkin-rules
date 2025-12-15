@@ -1,8 +1,7 @@
 @disabled
 @informal-proposition
 @TAS
-@version1
-@E00050
+@version2
 Feature: TAS001 - Polygonal face boundary no self-intersections
 The rule verifies that IfcFace instances do not have any self-intersections in their boundaries. 
 IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) mechanism.

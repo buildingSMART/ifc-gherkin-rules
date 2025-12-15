@@ -11,6 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        submodules: recursive
         fetch-depth: 0
 
     - name: Warn if PR is to main
@@ -18,22 +19,14 @@ jobs:
       run: |
         echo "::warning::This pull request is targeting the 'main' branch. Please ensure this is intended."
 
-    - name: Update submodule
-      run: |
-        git submodule init && git submodule update --recursive --remote
-
     - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
-    - name: Add conda to system path
-      run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
+        python-version: 3.11
     - name: Install dependencies
       run: |
-        pip install behave pytest tabulate pyparsing sqlalchemy numpy pydantic pydot sqlalchemy_utils django python-dotenv deprecated pandas pyspellchecker rtree lark-parser networkx mpmath shapely pyproj==3.7.1
-        wget -O /tmp/ifcopenshell_python.zip https://s3.amazonaws.com/ifcopenshell-builds/ifcopenshell-python-`python3 -c 'import sys;print("".join(map(str, sys.version_info[0:2])))'`-v0.8.3-ec13294-linux64.zip
+        find . -name 'requirements.txt' -exec pip install -r {} \;
+        wget -O /tmp/ifcopenshell_python.zip https://s3.amazonaws.com/ifcopenshell-builds/ifcopenshell-python-`python3 -c 'import sys;print("".join(map(str, sys.version_info[0:2])))'`-v0.8.3-260bc80-linux64.zip
         mkdir -p `python3 -c 'import site; print(site.getusersitepackages())'`
         unzip -d `python3 -c 'import site; print(site.getusersitepackages())'` /tmp/ifcopenshell_python.zip
     - name: Lint with flake8
@@ -45,4 +38,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest -sv
+        pytest -sv -n 4

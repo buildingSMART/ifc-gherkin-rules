@@ -53,8 +53,8 @@ def step_impl(context, inst, comparison_operator, attribute, value, subtype_hand
         entity_is_applicable = pred(value, observed_v)
 
     if entity_is_applicable:
-        yield ValidationOutcome(instance_id=inst, severity = OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASSED)
     else: # in case of a Then statement
-        yield ValidationOutcome(instance_id=inst,
+        yield ValidationOutcome(inst=inst,
                                 expected = f"{'not ' if comparison_operator in {'is not', '!='} or 'not' in start_value else ''}{'empty' if value == () else value}",
                                 observed = 'empty' if observed_v == () else observed_v, severity = OutcomeSeverity.ERROR)

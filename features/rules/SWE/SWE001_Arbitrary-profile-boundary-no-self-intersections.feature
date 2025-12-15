@@ -1,7 +1,6 @@
 @informal-proposition
 @SWE
-@version3
-@E00050
+@version4
 Feature: SWE001 - Arbitrary profile boundary no self-intersections
 The rule verifies that IfcArbitraryClosedProfileDefs and IfcArbitraryProfileDefWithVoids do
 not have any self-intersections in their boundaries. Profile definitions are the basis of

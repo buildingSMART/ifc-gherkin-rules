@@ -1,13 +1,15 @@
 import functools
-import json
+import math
 import re
+from ifc_validation_models.dataclass_compat import FrozenDict
 from utils import misc
 from functools import wraps
 import ifcopenshell
-from behave import step
+from behave import step, model_core
 import inspect
 from operator import attrgetter
 import ast
+import numpy as np
 from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOutcomeCode
 
 from behave.runner import Context
@@ -55,8 +57,11 @@ def generate_error_message(context, errors):
     """
     Function to trigger the behave error mechanism by raising an exception so that errors are printed to the console.
     """
-    assert not errors, "Errors occured:" + ''.join(f'\n - {error}' for error in errors)
-
+    if errors:
+        error_str = "Errors occured:" + ''.join(f'\n - {error}' for error in errors)
+        # This appears to be a good combination. context.scenario.set_status() doesn't actually do much.
+        context.step.status = model_core.Status.failed
+        context.scenario.skip(error_str)
 
 """
 Core validation handling functions operate as follows: 
@@ -103,7 +108,6 @@ def execute_step(fn):
             feature=context.feature.name,
             feature_version=misc.define_feature_version(context),
             severity=OutcomeSeverity.NOT_APPLICABLE,
-            validation_task_id=context.validation_task_id
         )
         context.gherkin_outcomes.append(validation_outcome)
 
@@ -128,41 +132,70 @@ def handle_given(context, fn, **kwargs):
     if 'inst' not in inspect.getargs(fn.__code__).args:
         gen = fn(context, **kwargs)
         if gen: # (2) Set initial set of instances
-            insts = list(gen)
-            context.instances = list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, insts)))
-            pass
-        else:
-            pass # (1) -> context.applicable is set within the function ; replace this with a simple True/False and set applicability here?
+            try:
+                context.instances = misc.encode_nested_tuples(context.model, map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, gen)))
+            except TypeError:
+                # be sure to create a new generator because the previous will be partially exhausted
+                gen = fn(context, **kwargs)
+                context.instances = list(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, gen)))
     else:
         context._push('attribute') # for attribute stacking
         depth = next(map(int, re.findall(r'at depth (\d+)$', context.step.name)), None)
-        if depth is not None:
-            context.instances = list(filter(None, map_given_state(context.instances, fn, context, depth=depth, **kwargs)))
-        else:
-            context.instances = map_given_state(context.instances, fn, context, **kwargs)
+        depth_kwarg = {'depth': depth} if depth is not None else {}
+        
+        try:
+            context.instances = misc.encode_nested_tuples(context.model, iter_given_state(context.instances, fn, context, **depth_kwarg, **kwargs))
+        except TypeError:
+            # not a nested set of entity instances, we need to re-evaluate as soon as we encounter e.g a string/int/pairwise and then
+            # reapply the step as a full in-memory tuple
+            context.instances = map_given_state(context.instances, fn, context, **depth_kwarg, **kwargs)
+
+    # print('>', getattr(context, 'instances', ()))
 
 
-def apply_operation(fn, inst, context, **kwargs):
-    results = fn(context, inst, **kwargs)  
-    return misc.do_try(lambda: list(map(attrgetter('instance_id'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results)))[0], None)
+def is_nested(val):
+    return isinstance(val, (tuple, list, misc.PackedSequence))
 
-
-def map_given_state(values, fn, context, depth=None, current_depth=0, **kwargs):
-    def is_nested(val):
-        return isinstance(val, (tuple, list))
-
-    def should_apply(values, depth):
-        if depth == 0:
-            return not is_nested(values)
-        else:
-            return is_nested(values) and all(should_apply(v, depth-1) for v in values if v is not None)
-
-    if (depth is None and should_apply(values, 0)) or depth == current_depth:
-        return None if values is None else apply_operation(fn, values, context, **kwargs)
-    elif (depth is None or depth > current_depth) and values is not None:
-        return type(values)(map_given_state(v, fn, context, depth, current_depth + 1, **kwargs) for v in values)
+def apply_operation(fn, inst, context, current_path, kwargs):
+    def get_value_path():
+        value_path = []
+        for val in stack:
+            i = 0
+            while is_nested(val) and i < len(current_path):
+                val = val[current_path[i]]
+                i += 1
+            value_path.append(val)
+        return value_path
+    if 'path' in inspect.signature(fn).parameters:
+        stack = misc.get_stack_tree(context)[::-1]
+        local_kwargs = kwargs | {
+            'path': get_value_path()
+        }
     else:
-        return None if values is None else apply_operation(fn, values, context, **kwargs)
+        local_kwargs = kwargs
+    results = fn(context, inst, **local_kwargs)
+    return next(iter(map(attrgetter('inst'), filter(lambda res: res.severity == OutcomeSeverity.PASSED, results))), None)
+
+
+def map_given_state(values, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):   
+    if values is None:
+        return None
+    elif depth == current_depth or (depth is None and not is_nested(values)):
+        # we have arrived at the specified depth, or there is no depth specified and we're at the leaf
+        return apply_operation(fn, values, context, current_path, kwargs)
+    else:
+        return tuple(map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(values))
+
+
+def iter_given_state(values, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
+    if values is None:
+        return None
+    elif depth == current_depth or (depth is None and not is_nested(values)):
+        # we have arrived at the specified depth, or there is no depth specified and we're at the leaf
+        yield apply_operation(fn, values, context, current_path, kwargs)
+    else:
+        for i, v in enumerate(values):
+            yield map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs)
 
 
 def handle_then(context, fn, **kwargs):
@@ -176,7 +209,7 @@ def handle_then(context, fn, **kwargs):
     # in case there are no instances but the rule is applicable (e.g. SPS001),
     # then the rule is still activated and will return either a pass or an error
     # an exception is when the feature tags contain '@not-activation'
-    is_activated = any(misc.recursive_flatten(instances)) if instances else context.applicable
+    is_activated = any(misc.iflatten(instances)) if instances else context.applicable
     if is_activated and not 'no-activation' in context.tags:
         context.gherkin_outcomes.append(
             ValidationOutcome(
@@ -186,53 +219,73 @@ def handle_then(context, fn, **kwargs):
                 feature=context.feature.name,
                 feature_version=misc.define_feature_version(context),
                 severity=OutcomeSeverity.EXECUTED,
-                validation_task_id=context.validation_task_id
             )
         )
 
+    # max number of errors to accumulate until processing of then step is
+    # truncated by means of returning early in the apply_then_operation() call
+    MAX_OUTCOMES_PER_RULE=int(context.config.userdata.get("max_outcomes_per_rule", 0))
+    total_outcome_count = 0
+
     def map_then_state(items, fn, context, current_path=[], depth=None, current_depth=0, **kwargs):
         def apply_then_operation(fn, inst, context, current_path, depth=0, **kwargs):
+            nonlocal total_outcome_count
+            if MAX_OUTCOMES_PER_RULE > 0 and total_outcome_count >= MAX_OUTCOMES_PER_RULE:
+                return
+
             if inst is None:
                 return
             if context.is_full_stack_rule:
                 value_path = []
                 for val in misc.get_stack_tree(context)[::-1]:
                     i = 0
-                    while not should_apply(val, 0):
+                    while is_nested(val) and i < len(current_path):
                         val = val[current_path[i]]
                         i += 1
                     value_path.append(val)
-                kwargs = kwargs | {'path': value_path}
+                if 'path' in inspect.getargs(fn.__code__).args:
+                    kwargs = kwargs | {'path': value_path}
+                if 'npath' in inspect.getargs(fn.__code__).args:
+                    kwargs = kwargs | {'npath': current_path}
             top_level_index = current_path[0] if current_path else None
+            max_index = len(current_path) - 1
+            if top_level_index > max_index:
+                top_level_index = max_index
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
-# TODO: refactor into a more general solution that works for all rules
-            if "GEM051" in context.feature.name and context.is_global_rule:
+            # TODO: refactor into a more general solution that works for all rules
+            if context.is_global_rule and (
+                "GEM051" in context.feature.name or "GRF003" in context.feature.name
+            ):
                 activation_inst = activation_instances[0]
             if isinstance(activation_inst, ifcopenshell.file):
                 activation_inst = None  # in case of blocking IFC101 check, for safety set explicitly to None
 
             step_results = list(filter(lambda x: x.severity in [OutcomeSeverity.ERROR, OutcomeSeverity.WARNING], fn(context, inst=inst, **kwargs) or []))
+            total_outcome_count += len(step_results)
             for result in step_results:
                 displayed_inst_override_trigger = "and display entity instance"
                 displayed_inst_override = displayed_inst_override_trigger in context.step.name.lower()
                 inst_to_display = inst if displayed_inst_override else activation_inst
                 instance_id = safe_method_call(inst_to_display, 'id', None)
 
+                expected_val = expected_behave_output(context, result.expected)
+                # suppress the 'display_entity' trigger text if it is used as part of the expected value
+                expected_val = (
+                    expected_val.split(displayed_inst_override_trigger)[0].strip()
+                    if displayed_inst_override_trigger in expected_val
+                    else expected_val)
+                
                 validation_outcome = ValidationOutcome(
                     outcome_code=get_outcome_code(result, context),
                     observed=expected_behave_output(context, result.observed, is_observed=True),
-                    expected=expected_behave_output(context, result.expected),
+                    expected=expected_val,
                     feature=context.feature.name,
+                    # @todo define_feature_version() better call in before_feature hook?
+                    # @todo or even better, don't store in the dataclass since it will be constant for all outcomes of this feature, within the execution of behave
                     feature_version=misc.define_feature_version(context),
                     severity=OutcomeSeverity.WARNING if any(tag.lower() == "industry-practice" for tag in context.feature.tags) else OutcomeSeverity.ERROR,
-                    instance_id=instance_id,
-                    validation_task_id=context.validation_task_id
+                    inst=instance_id,
                 )
-                # suppress the 'display_entity' trigger text if it is used as part of the expected value
-                validation_outcome.expected = (
-                    validation_outcome.expected.split(displayed_inst_override_trigger)[0].strip()
-                    if displayed_inst_override_trigger in validation_outcome.expected
-                    else validation_outcome.expected)
 
                 context.gherkin_outcomes.append(validation_outcome)
                 context.scenario_outcome_state.append((len(context.gherkin_outcomes)-1, {'scenario': context.scenario.name, 'last_step': context.scenario.steps[-1], 'instance_id': instance_id}))
@@ -247,27 +300,17 @@ def handle_then(context, fn, **kwargs):
             #         feature=context.feature.name,
             #         feature_version=misc.define_feature_version(context),
             #         severity=OutcomeSeverity.PASSED,
-            #         instance_id = safe_method_call(activation_inst, 'id', None),
-            #         validation_task_id=context.validation_task_id
+            #         inst = safe_method_call(activation_inst, 'id', None),
             #     )
             #     context.gherkin_outcomes.append(validation_outcome)
 
-
-        def is_nested(val):
-            return isinstance(val, (tuple, list))
-
-        def should_apply(items, depth):
-            if depth == 0:
-                return not is_nested(items)
-            else:
-                return is_nested(items) and all(should_apply(v, depth-1) for v in items if v is not None)
-
         if context.is_global_rule:
             return apply_then_operation(fn, [items], context, current_path=None, **kwargs)
-        elif (depth is None and should_apply(items, 0)) or depth == current_depth:
+        elif (depth is None and not is_nested(items)) or depth == current_depth:
             return apply_then_operation(fn, items, context, current_path, **kwargs)
         elif depth is None or depth > current_depth:
-            return type(items)(map_then_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(items))
+            if items is not None:
+                return tuple(map_then_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs) for i, v in enumerate(items))
         else:
             return apply_then_operation(fn, items, context, current_path = None, **kwargs)
 
@@ -328,6 +371,28 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             data = ast.literal_eval(data)
         except (ValueError, SyntaxError):
             pass
+    
+    def sanitise_for_json(obj):
+        """
+        Replaces NaN with None, ±inf with strings, and converts NumPy arrays
+        to lists, making the object safe for JSON serialization.
+        """
+        if isinstance(obj, (float, np.floating)):
+            x = float(obj)
+            if math.isnan(x):
+                return None # null in db                     
+            if math.isinf(x):
+                return "infinity" if x > 0 else "-infinity"
+            return obj    
+                             
+        if isinstance(obj, np.ndarray):
+            return sanitise_for_json(obj.tolist()) # Walk through nested lists (to.list()) so inf/nan inside get fixed.
+        if isinstance(obj, dict):
+            return {k: sanitise_for_json(v) for k, v in obj.items()}
+        if isinstance(obj, (list, tuple)):
+            return [sanitise_for_json(v) for v in obj]
+
+        return obj
 
     match data:
         case [_, *__]:
@@ -353,8 +418,12 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
             return {'instance': display_entity_instance(data)}
         case dict():
             # mostly for the pse001 rule, which already yields dicts
-            return data
+            return sanitise_for_json(data)
+        case FrozenDict():
+            return sanitise_for_json(dict(data))
         case set(): # object of type set is not JSONserializable
+            return tuple(data)
+        case frozenset(): # object of type frozenset is not JSONserializable
             return tuple(data)
         case _:
             return {'value': data}

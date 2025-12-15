@@ -3,7 +3,7 @@
     "value_or_type": ["value", "type"],
     "values_or_types": ["values", "types"],
     "from_to": ["from", "to"],
-    "exist_or_not_exist": ["exists", "must exist", "does not exist"],
+    "exist_or_not_exist": ["exists", "must exist", "does not exist", "must not exist"],
     "include_or_exclude_subtypes": ["including subtypes", "excluding subtypes"],
     "first_or_final": ["first", "final"],
     "absence_or_presence": ["absence", "presence"],
@@ -16,5 +16,6 @@
     "maybe_and_following_that": [" ", "and following that"],
     "display_entity": [" ", "and display entity instance"],
     "property_set_or_element_quantity": ["IfcPropertySet", "IfcElementQuantity"],
-    "property_or_physical_quantity": ["IfcProperty", "IfcPhysicalQuantity"]
+    "property_or_physical_quantity": ["IfcProperty", "IfcPhysicalQuantity"],
+    "continuity_type": ["position", "tangency", "cant gradient", "vertical gradient"]
 }

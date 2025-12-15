@@ -10,21 +10,18 @@ Background:
     Given Its attribute .Representation.
     Given Its attribute .Representations.
 
-  @E00020
   Scenario: Agreement on each IfcAlignmentCant using correct representation - Value
 
       Given its attribute .RepresentationIdentifier.
       Then The value must be 'Axis'
 
   
-  @E00020
   Scenario: Agreement on each IfcAlignmentCant using correct representation - Type
 
       Given its attribute .RepresentationType.
       Then The value must be 'Curve3D'
 
 
-  @E00010
   Scenario: Agreement on each IfcAlignmentCant using correct representation items - Type
 
       Given its attribute .Items.

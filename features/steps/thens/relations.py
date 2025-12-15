@@ -160,8 +160,7 @@ def step_impl(context, inst):
     # context.visited_instances is set in the gherkin statement:
     # 'Given a traversal over the full model originating from subtypes of IfcRoot'
     assert hasattr(context, 'visited_instances')
-
-    if inst not in context.visited_instances:
+    if inst.id() not in context.visited_instances:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
 
 
@@ -176,6 +175,6 @@ def step_impl(context, inst, num, stmt, inverse_attrs):
     compare = misc.stmt_to_op(stmt)
     
     if compare(count, num):
-        yield ValidationOutcome(instance_id = context.model, severity=OutcomeSeverity.PASSED)
+        yield ValidationOutcome(inst = context.model, severity=OutcomeSeverity.PASSED)
     else: 
         yield ValidationOutcome(inst=inst, observed = count, severity=OutcomeSeverity.ERROR)

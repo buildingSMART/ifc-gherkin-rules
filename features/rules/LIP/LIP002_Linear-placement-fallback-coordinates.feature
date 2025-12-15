@@ -11,8 +11,7 @@ Feature: LIP002 - Linear placement fallback coordinates
 
     Scenario: Confirm the presence of CartesianPosition
 
-      Given Its attribute .CartesianPosition.
-      Then Assert existence
+      Then the value of attribute .CartesianPosition. must be ^not empty^
 
     Scenario: Confirm the values of CartesianPosition
 

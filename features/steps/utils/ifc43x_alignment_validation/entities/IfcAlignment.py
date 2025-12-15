@@ -22,8 +22,9 @@ class Alignment:
         self._elem = None
         self._has_representation = None
         self._horizontal = None
-        self._vertical = None
+        self._verticals = None
         self._cant = None
+        self._layouts = None
         self._representations = None
         self._composite_curve = None
         self._gradient_curve = None
@@ -38,8 +39,8 @@ class Alignment:
         return self._horizontal
 
     @property
-    def vertical(self) -> AlignmentVertical:
-        return self._vertical
+    def verticals(self) -> List[AlignmentVertical]:
+        return self._verticals
 
     @property
     def cant(self) -> AlignmentCant:
@@ -60,16 +61,35 @@ class Alignment:
     def from_entity(self, elem: ifcopenshell.entity_instance):
         self._elem = elem
 
-        # extract horizontal, vertical, and cant if they exist
+        # extract horizontal, verticals, and cant if they exist
 
         for rel in elem.IsNestedBy:
             for child in rel.RelatedObjects:
                 if child.is_a("IfcAlignmentHorizontal"):
                     self._horizontal = AlignmentHorizontal().from_entity(child)
+                    if not self._layouts:
+                        self._layouts = [self._horizontal]
+                    else:
+                        self._layouts.append(self._horizontal)
+
                 elif child.is_a("IfcAlignmentVertical"):
-                    self._vertical = AlignmentVertical().from_entity(child)
+                    vert = AlignmentVertical().from_entity(child)
+                    if not self._verticals:
+                        self._verticals = [vert]
+                    else:
+                        self._verticals.append(vert)
+                    if not self._layouts:
+                        self._layouts = [vert]
+                    else:
+                        self._layouts.append(vert)
+
                 elif child.is_a("IfcAlignmentCant"):
                     self._cant = AlignmentCant().from_entity(child)
+                    if not self._layouts:
+                        self._layouts = [self._cant]
+                    else:
+                        self._layouts.append(self._cant)
+
                 elif child.is_a("IfcReferent"):
                     # TODO: Referent class
                     # raise NotImplementedError("IfcReferent not implemented yet.")
@@ -119,3 +139,10 @@ class Alignment:
     @property
     def entity(self) -> ifcopenshell.entity_instance:
         return self._elem
+
+    @property
+    def has_layout(self) -> bool:
+        if self._layouts:
+            return True
+        else:
+            return False

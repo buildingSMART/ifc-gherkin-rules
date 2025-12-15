@@ -1,0 +1,15 @@
+The \ .\ ``inst_type:property_set_or_element_quantity``\ .\  must be related to a valid entity type [according to the table] '``table``'
+========================================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The .IfcPropertySet. must be related to a valid entity type [according to the table] 'pset_definitions'*
+
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:24
+
+ - **Then** *The .IfcElementQuantity. must be related to a valid entity type [according to the table] 'qto_definitions'*
+
+   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:24
+
+

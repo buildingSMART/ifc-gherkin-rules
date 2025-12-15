@@ -1,0 +1,38 @@
+``BBX000`` Bounding box - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@BBX
+   003 | \@version1
+   004 | 
+   005 | Feature: BBX000 - Bounding Box
+   006 | The rule verifies the presence of IFC entities used to define an orthogonal box,
+   007 | oriented parallel to the axes of the object coordinate system which defines the spatial extent of the latter.
+   008 | 
+   009 | 
+   010 | Scenario: Check for activation
+   011 | 
+   012 |     :doc:`Given an .IfcProduct. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given .RepresentationType. ^is^ 'BoundingBox' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   016 | 
+   017 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.3`
+     - 2025-03-30
+     - :commit:`29603bff327b3a766d265c4cb55a027793fa7179`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/BBX/BBX000_Bounding-box.feature>`_

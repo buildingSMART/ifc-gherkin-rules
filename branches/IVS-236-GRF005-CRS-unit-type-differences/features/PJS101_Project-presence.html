@@ -1,0 +1,185 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PJS101 Project presence - v1 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ddeecabf"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ports Connectivity &amp; Nesting (POR)" href="POR.html" />
+    <link rel="prev" title="PJS003 Globally Unique Identifiers - v1" href="PJS003_Globally-Unique-Identifiers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            buildingSMART Validation Service
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Validation Service Rule Definitions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ALB.html">Alignment (<code class="docutils literal notranslate"><span class="pre">ALB</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ALS.html">Alignment geometry (<code class="docutils literal notranslate"><span class="pre">ALS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ANN.html">Annotations (<code class="docutils literal notranslate"><span class="pre">ANN</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ASM.html">Assemblies (<code class="docutils literal notranslate"><span class="pre">ASM</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AXG.html">Axis geometry (<code class="docutils literal notranslate"><span class="pre">AXG</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BBX.html">Bounding box (<code class="docutils literal notranslate"><span class="pre">BBX</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BLT.html">Built elements (<code class="docutils literal notranslate"><span class="pre">BLT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BRP.html">Boundary Representation (BREP) (<code class="docutils literal notranslate"><span class="pre">BRP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CLS.html">Classification reference (<code class="docutils literal notranslate"><span class="pre">CLS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CTX.html">Presentation Colours &amp; Textures (<code class="docutils literal notranslate"><span class="pre">CTX</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GDP.html">Grid placement (<code class="docutils literal notranslate"><span class="pre">GDP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GEM.html">Geometry representation (<code class="docutils literal notranslate"><span class="pre">GEM</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GRP.html">Groups (<code class="docutils literal notranslate"><span class="pre">GRP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LAY.html">Presentation layer (<code class="docutils literal notranslate"><span class="pre">LAY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="PJS000_Project.html"><code class="docutils literal notranslate"><span class="pre">PJS000</span></code> Project - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PJS001_Correct-conversion-based-units.html"><code class="docutils literal notranslate"><span class="pre">PJS001</span></code> Correct conversion based units - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PJS002_Correct-elements-related-to-project.html"><code class="docutils literal notranslate"><span class="pre">PJS002</span></code> Correct elements related to project - v2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PJS003_Globally-Unique-Identifiers.html"><code class="docutils literal notranslate"><span class="pre">PJS003</span></code> Globally Unique Identifiers - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">PJS101</span></code> Project presence - v1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="POR.html">Ports Connectivity &amp; Nesting (<code class="docutils literal notranslate"><span class="pre">POR</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PSE.html">Properties for object (<code class="docutils literal notranslate"><span class="pre">PSE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QTY.html">Quantities for objects (<code class="docutils literal notranslate"><span class="pre">QTY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPA.html">Spaces (<code class="docutils literal notranslate"><span class="pre">SPA</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPS.html">Spatial breakdown (<code class="docutils literal notranslate"><span class="pre">SPS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SWE.html">Sweeps (i.e. extrusions, lofts, blends) (<code class="docutils literal notranslate"><span class="pre">SWE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SYS.html">SYS (<code class="docutils literal notranslate"><span class="pre">SYS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TAS.html">Tessellated (i.e. meshes) (<code class="docutils literal notranslate"><span class="pre">TAS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VER.html">Versioning &amp; Revision Control (<code class="docutils literal notranslate"><span class="pre">VER</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VRT.html">Virtual elements (<code class="docutils literal notranslate"><span class="pre">VRT</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../steps/index.html">Behave Step Implementations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">buildingSMART Validation Service</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
+          <li class="breadcrumb-item"><a href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">PJS101</span></code> Project presence - v1</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/features/PJS101_Project-presence.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pjs101-project-presence-v1">
+<h1><code class="docutils literal notranslate"><span class="pre">PJS101</span></code> Project presence - v1<a class="headerlink" href="#pjs101-project-presence-v1" title="Link to this heading"></a></h1>
+<pre class="literal-block">001 | &#64;PJS
+002 | &#64;industry-practice
+003 | &#64;version1
+004 | Feature: PJS101 - Project presence
+005 | The rule verifies that there is exactly one instance of IfcProject.
+006 | While this is a common industry practice, it does not make the IFC model invalid.
+007 | For example, project libraries, including type libraries or property definition libraries, may not necessarily follow this rule.
+008 |
+009 | Scenario: Check project existence
+010 |     <a class="reference internal" href="../steps/givensattributespy_AnIFCmodel.html"><span class="doc">Given an IFC Model</span></a>
+011 |
+012 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be exactly 1 instance(s) of .IfcProject.</span></a></pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+<th class="head"><p>Rule link</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v1</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
+<td><p>2024-06-13</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/ec9e57d759ec8b26bc1a911b03ce25af33ed9622">ec9e57d7</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/PJS101_Project-presence.feature">view</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="PJS003_Globally-Unique-Identifiers.html" class="btn btn-neutral float-left" title="PJS003 Globally Unique Identifiers - v1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="POR.html" class="btn btn-neutral float-right" title="Ports Connectivity &amp; Nesting (POR)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, buildingSMART International.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

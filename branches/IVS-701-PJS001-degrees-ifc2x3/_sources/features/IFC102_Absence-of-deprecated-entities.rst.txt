@@ -1,0 +1,371 @@
+``IFC102`` Absence of deprecated entities - v5
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@IFC
+   002 | \@version5
+   003 | \@implementer-agreement
+   004 | Feature: IFC102 - Absence of deprecated entities
+   005 | 
+   006 | The rule verifies that the IFC model does not have deprecated entities, attributes or enumerators.
+   007 | By definition, a deprecated entity shall not be exported by applications.
+   008 | Complying interpreters shall still be able to import deprecated definitions.
+   009 | IFC2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated\_constructs.htm
+   010 | IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4\_3/HTML/content/introduction.htm#List-of-known-backward-incompatibilities-of-this-document-with-ISO-16739-1-2018
+   011 | IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2\_TC1/HTML/
+   012 | 
+   013 | 
+   014 |   Scenario Outline: Check for deprecated entities - IFC4.3
+   015 | 
+   016 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   017 |     :doc:`Given An IFC model </steps/givensattributespy_AnIFCmodel>`
+   018 | 
+   019 |     :doc:`Then There must be less than 1 instance(s) of \<Entity\> ^excluding subtypes^ </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes>`
+   020 | 
+   021 |     Examples:
+   022 |       | Entity                                |
+   023 |       | IfcBuildingSystem                     |
+   024 |       | IfcCivilElement                       |
+   025 |       | IfcCivilElementType                   |
+   026 |       | IfcDoorLiningProperties               |
+   027 |       | IfcDoorPanelProperties                |
+   028 |       | IfcElectricDistributionBoard          |
+   029 |       | IfcElectricDistributionBoardType      |
+   030 |       | IfcFaceBasedSurfaceModel              |
+   031 |       | IfcMaterialClassificationRelationship |
+   032 |       | IfcMaterialList                       |
+   033 |       | IfcPermeableCoveringProperties        |
+   034 |       | IfcPostalAddress                      |
+   035 |       | IfcRelConnectsPortToElement           |
+   036 |       | IfcRelCoversBldgElements              |
+   037 |       | IfcRelServicesBuildings               |
+   038 |       | IfcRelCoversSpaces                    |
+   039 |       | IfcTelecomAddress                     |
+   040 |       | IfcTextLiteral                        |
+   041 |       | IfcTrapeziumProfileDef                |
+   042 |       | IfcWallStandardCase                   |
+   043 |       | IfcWindowLiningProperties             |
+   044 |       | IfcWindowPanelProperties              |
+   045 |       | IfcWindowStandardCase                 |
+   046 | 
+   047 | 
+   048 |   Scenario Outline: Check for deprecated entities - IFC4
+   049 | 
+   050 |     :doc:`Given An IFC model </steps/givensattributespy_AnIFCmodel>`
+   051 |     :doc:`Given A model with Schema 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   052 | 
+   053 |     :doc:`Then There must be less than 1 instance(s) of \<Entity\> ^excluding subtypes^ </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes>`
+   054 | 
+   055 |     Examples:
+   056 |       | Entity                                |
+   057 |       | Ifc2DCompositeCurve                   |
+   058 |       | IfcBeamStandardCase                   |
+   059 |       | IfcConnectionPortGeometry             |
+   060 |       | IfcColumnStandardCase                 |
+   061 |       | IfcDoorStandardCase                   |
+   062 |       | IfcDoorStyle                          |
+   063 |       | IfcDoorStyleOperationEnum             |
+   064 |       | IfcElectricalElement                  |
+   065 |       | IfcEquipmentElement                   |
+   066 |       | IfcFaceBasedSurfaceModel              |
+   067 |       | IfcMaterialClassificationRelationship |
+   068 |       | IfcMaterialList                       |
+   069 |       | IfcMemberStandardCase                 |
+   070 |       | IfcNullStyle                          |
+   071 |       | IfcObjectTypeEnum                     |
+   072 |       | IfcOpeningStandardCase                |
+   073 |       | IfcPlateStandardCase                  |
+   074 |       | IfcPresentationStyleAssignment        |
+   075 |       | IfcProxy                              |
+   076 |       | IfcRelCoversBldgElements              |
+   077 |       | IfcRelCoversSpaces                    |
+   078 |       | IfcSlabElementedCase                  |
+   079 |       | IfcSlabStandardCase                   |
+   080 |       | IfcTextLiteral                        |
+   081 |       | IfcWallElementedCase                  |
+   082 |       | IfcWallStandardCase                   |
+   083 |       | IfcWindowStandardCase                 |
+   084 |       | IfcWindowStyle                        |
+   085 |       | IfcWindowStyleOperationEnum           |
+   086 | 
+   087 | 
+   088 |   Scenario Outline: Check for deprecated entities - IFC2X3
+   089 | 
+   090 |     :doc:`Given An IFC model </steps/givensattributespy_AnIFCmodel>`
+   091 |     :doc:`Given A model with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   092 | 
+   093 |     :doc:`Then There must be less than 1 instance(s) of \<Entity\> ^excluding subtypes^ </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes>`
+   094 | 
+   095 |     Examples:
+   096 |       |   Entity                   |
+   097 |       |   Ifc2DCompositeCurve      |
+   098 |       |   IfcConnectionPortGeometry|
+   099 |       |   IfcElectricalElement     |
+   100 |       |   IfcEquipmentElement      |
+   101 |       |   IfcObjectTypeEnum        |
+   102 |       |   IfcTextLiteral           |
+   103 | 
+   104 | 
+   105 |   Scenario Outline: Check for deprecated attributes - IFC4.3
+   106 | 
+   107 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   108 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   109 | 
+   110 |     :doc:`Then .\<Attribute\>. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   111 | 
+   112 |     Examples:
+   113 |       | Entity                    | Attribute                      |
+   114 |       | IfcBuilding               | BuildingAddress                |
+   115 |       | IfcBuilding               | ElevationOfRefHeight           |
+   116 |       | IfcBuilding               | ElevationOfTerrain             |
+   117 |       | IfcBuildingStorey         | Elevation                      |
+   118 |       | IfcFillAreaStyleHatching  | PointOfReferenceHatchLine      |
+   119 |       | IfcOrganization           | Addresses                      |
+   120 |       | IfcPerson                 | Addresses                      |
+   121 |       | IfcPile                   | ConstructionType               |
+   122 |       | IfcReinforcingElement     | SteelGrade                     |
+   123 |       | IfcRelAssigns             | RelatedObjectsType             |
+   124 |       | IfcSite                   | LandTitleNumber                |
+   125 |       | IfcSite                   | SiteAddress                    |
+   126 |       | IfcStairFlight            | NumberOfRisers                 |
+   127 |       | IfcStairFlight            | NumberOfTreads                 |
+   128 |       | IfcStairFlight            | RiserHeight                    |
+   129 |       | IfcStairFlight            | TreadLength                    |
+   130 |       | IfcSurfaceStyleRendering  | DiffuseTransmissionColour      |
+   131 |       | IfcSurfaceStyleRendering  | ReflectionColour               |
+   132 |       | IfcSurfaceStyleRendering  | TransmissionColour             |
+   133 |       | IfcSurfaceTexture         | Parameter                      |
+   134 |       | IfcTendon                     | NominalDiameter            |
+   135 |       | IfcTendon                     | CrossSectionArea           |
+   136 |       | IfcTextureCoordinateGenerator | Parameter                  |
+   137 | 
+   138 | 
+   139 |   Scenario Outline: Check for deprecated attributes - IFC4
+   140 | 
+   141 |     :doc:`Given A model with Schema 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   142 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   143 | 
+   144 |     :doc:`Then .\<Attribute\>. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   145 | 
+   146 |     Examples:
+   147 |       | Entity                        | Attribute                     |
+   148 |       | IfcDoorLiningProperties       | ShapeAspectStyle              |
+   149 |       | IfcDoorPanelProperties        | ShapeAspectStyle              |
+   150 |       | IfcFillAreaStyleHatching      | PointOfReferenceHatchLine     |
+   151 |       | IfcReinforcingElement         | SteelGrade                    |
+   152 |       | IfcRelAssignsToActor          | RelatedObjectsType            |
+   153 |       | IfcRelAssignsToControl        | RelatedObjectsType            |
+   154 |       | IfcRelAssignsToGroup          | RelatedObjectsType            |
+   155 |       | IfcRelAssignsToGroupByFactor  | RelatedObjectsType            |
+   156 |       | IfcRelAssignsToProcess        | RelatedObjectsType            |
+   157 |       | IfcRelAssignsToProduct        | RelatedObjectsType            |
+   158 |       | IfcRelAssignsToResource       | RelatedObjectsType            |
+   159 |       | IfcStairFlight                | NumberOfRisers                |
+   160 |       | IfcStairFlight                | NumberOfTreads                |
+   161 |       | IfcStairFlight                | RiserHeight                   |
+   162 |       | IfcStairFlight                | TreadLength                   |
+   163 |       | IfcWindowPanelProperties      | ShapeAspectStyle              |
+   164 |       | IfcWindowLiningProperties     | ShapeAspectStyle              |
+   165 |       | IfcTendon                     | SteelGrade                    |
+   166 |       | IfcTendon                     | NominalDiameter               |
+   167 |       | IfcTendon                     | CrossSectionArea              |
+   168 |       | IfcTendon                     | TensionForce                  |
+   169 |       | IfcTendon                     | PreStress                     |
+   170 |       | IfcTendon                     | FrictionCoefficient           |
+   171 |       | IfcTendon                     | AnchorageSlip                 |
+   172 |       | IfcTendon                     | MinCurvatureRadius            |
+   173 |       | IfcTendonAnchor               | SteelGrade                    |
+   174 |       | IfcTendonType                 | NominalDiameter               |
+   175 |       | IfcTendonType                 | CrossSectionArea              |
+   176 |       | IfcTendonType                 | SheathDiameter                |
+   177 | 
+   178 | 
+   179 |   Scenario Outline: Check for deprecated attributes - IFC2X3
+   180 | 
+   181 |       :doc:`Given A model with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   182 |       :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   183 | 
+   184 |       :doc:`Then .\<Attribute\>. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   185 | 
+   186 |     Examples:
+   187 |       | Entity                        | Attribute                     |
+   188 |       | IfcFillAreaStyleHatching      | PointOfReferenceHatchLine     |
+   189 | 
+   190 | 
+   191 |   Scenario Outline: Check for deprecated enumerated values - IFC4.3
+   192 |     # ****** Description of deprecated enumerations for each entity *****
+   193 |     # IfcBuildingElementProxy: IfcBuildingElementProxyTypeEnum
+   194 |     # IfcFireSuppressionTerminal: IfcFireSuppressionTerminalTypeEnum
+   195 |     # IfcCableCarrierFitting: IfcCableCarrierFittingTypeEnum
+   196 |     # IfcGeographicElement: IfcGeographicElementTypeEnum
+   197 |     # IfcSpace: IfcSpaceTypeEnum
+   198 |     # IfcWall: IfcWallTypeEnum
+   199 | 
+   200 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   201 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   202 | 
+   203 |     :doc:`Then .PredefinedType. ^is not^ \<Value\> </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   204 | 
+   205 |     Examples:
+   206 |       | Entity                          |        Value                   |
+   207 |       | IfcBuildingElementProxy         | 'PROVISIONFORSPACE'            |
+   208 |       | IfcBuildingElementProxy         | 'PROVISIONFORVOID'            |
+   209 |       | IfcFireSuppressionTerminal      | 'SPRINKLERDEFLECTOR'          |
+   210 |       | IfcFireSuppressionTerminalType  | 'SPRINKLERDEFLECTOR'           |
+   211 |       | IfcCableCarrierFitting          | 'TEE' or 'CROSS' or 'REDUCER'  |
+   212 |       | IfcCableCarrierFittingType      | 'TEE' or 'CROSS' or 'REDUCER'  |
+   213 |       | IfcGeographicElement            | 'SOIL\_BORING\_POINT'            |
+   214 |       | IfcGeographicElementType        | 'SOIL\_BORING\_POINT'            |
+   215 |       | IfcSpace                        | 'INTERNAL' or 'EXTERNAL'       |
+   216 |       | IfcSpaceType                    | 'INTERNAL' or 'EXTERNAL'       |
+   217 |       | IfcWall                         | 'POLYGONAL' or 'STANDARD'      |
+   218 |       | IfcWallType                     | 'POLYGONAL' or 'STANDARD'      |
+   219 | 
+   220 | 
+   221 |   Scenario Outline: Check for deprecated enumerated values - IFC4
+   222 |     # IfcWall: IfcWallTypeEnum
+   223 | 
+   224 |     :doc:`Given A model with Schema 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   225 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   226 | 
+   227 |     :doc:`Then .PredefinedType. ^is not^ \<Value\> </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   228 | 
+   229 |     Examples:
+   230 |       | Entity                   |  Value                                       |
+   231 |       | IfcWall                  | 'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL' |
+   232 |       | IfcWallType              | 'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL' |
+   233 | 
+   234 | 
+   235 |   Scenario Outline: Check for deprecated enumerated values - IFC2X3
+   236 |     # IfcOwnerHistory: IfcChangeActionEnum
+   237 | 
+   238 |     :doc:`Given A model with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   239 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   240 | 
+   241 |     :doc:`Then .\<Attribute\>. ^is not^ \<Value\> </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   242 | 
+   243 |     Examples:
+   244 |       | Entity                   | Attribute            |         Value                                |
+   245 |       | IfcOwnerHistory          | ChangeAction         | 'MODIFIEDADDED' or 'MODIFIEDDELETED'         |
+   246 | 
+   247 | 
+   248 |   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4.3
+   249 | 
+   250 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   251 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   252 | 
+   253 |     :doc:`Then [its type] ^is not^ '\<Entity\>' ^excluding subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   254 | 
+   255 |     Examples:
+   256 |       | Entity                     |
+   257 |       | IfcFlowFitting             |
+   258 |       | IfcFlowSegment             |
+   259 |       | IfcFlowTerminal            |
+   260 |       | IfcFlowController          |
+   261 |       | IfcFlowMovingDevice        |
+   262 |       | IfcFlowStorageDevice       |
+   263 |       | IfcFlowTreatmentDevice     |
+   264 |       | IfcEnergyConversionDevice  |
+   265 | 
+   266 | 
+   267 |   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
+   268 | 
+   269 |     :doc:`Given A model with Schema 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   270 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   271 | 
+   272 |     :doc:`Then [its type] ^is not^ '\<Entity\>' ^excluding subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   273 | 
+   274 |     Examples:
+   275 |       | Entity                     |
+   276 |       | IfcFlowFitting             |
+   277 |       | IfcFlowSegment             |
+   278 |       | IfcFlowTerminal            |
+   279 |       | IfcFlowController          |
+   280 |       | IfcFlowMovingDevice        |
+   281 |       | IfcFlowStorageDevice       |
+   282 |       | IfcFlowTreatmentDevice     |
+   283 |       | IfcEnergyConversionDevice  |
+   284 | 
+   285 | 
+   286 |   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC2X3
+   287 | 
+   288 |     :doc:`Given A model with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   289 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   290 | 
+   291 |     :doc:`Then [its type] ^is not^ '\<Entity\>' ^excluding subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   292 | 
+   293 |     Examples:
+   294 |       | Entity                     |
+   295 |       | IfcProductRepresentation   |
+   296 |       | IfcRepresentation          |
+   297 |       | IfcRepresentationContext   |
+   298 |       | IfcRelAssociates           |
+   299 | 
+   300 | 
+   301 |   Scenario: Check for deprecated attribute values - IFC4.3
+   302 | 
+   303 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   304 |     :doc:`Given an .IfcShapeRepresentation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   305 | 
+   306 |     :doc:`Then .RepresentationType. ^is not^ 'PointCloud' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   307 | 
+   308 | 
+   309 |   Scenario: Check for deprecated property set - IFC4.3
+   310 | 
+   311 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   312 |     :doc:`Given an .IfcPropertySet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   313 | 
+   314 |     :doc:`Then .Name. ^is not^ 'Pset\_Draughting' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   315 | 
+   316 | 
+   317 |   Scenario: Check for deprecated property set - IFC4
+   318 | 
+   319 |     :doc:`Given A model with Schema 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   320 |     :doc:`Given an .IfcPropertySet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   321 | 
+   322 |     :doc:`Then .Name. ^is not^ 'Pset\_Draughting' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   323 | 
+   324 | 
+   325 |   Scenario: Check for deprecated property set - IFC2X3
+   326 | 
+   327 |     :doc:`Given A model with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   328 |     :doc:`Given an .IfcPropertySet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   329 | 
+   330 |     :doc:`Then .Name. ^is not^ 'Pset\_Draughting' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-14
+     - :commit:`ad635c3e10d2f638ab835724dd59286f32005120`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/IFC102_Absence-of-deprecated-entities.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-08-08
+     - :commit:`268f8a0d4c04303d0c8bea9d11f397cb7eaf0c85`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/IFC102_Absence-of-deprecated-entities.feature>`_
+   * - v3
+     - :tag:`v0.6.7`
+     - 2024-09-20
+     - :commit:`15ca2302f7b989951c90093bf561b0a7390ef0a0`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/IFC102_Absence-of-deprecated-entities.feature>`_
+   * - v4
+     - :tag:`v0.6.8`
+     - 2024-10-31
+     - :commit:`890fd0eaaff01ee488534f4c2761314690bd473b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/IFC102_Absence-of-deprecated-entities.feature>`_
+   * - v5
+     - :tag:`v0.6.8`
+     - 2024-10-31
+     - :commit:`1ea16524353888a587086a0830cba8c6d08b90ec`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/IFC102_Absence-of-deprecated-entities.feature>`_

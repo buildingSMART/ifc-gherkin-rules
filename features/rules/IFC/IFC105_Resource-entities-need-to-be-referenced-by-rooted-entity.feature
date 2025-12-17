@@ -11,5 +11,5 @@ The inverse attributes that are followed are: StyledByItem HasCoordinateOperatio
 
     Given a traversal over the full model originating from subtypes of .IfcRoot.
     Given an .entity instance.
-    Given [its entity type] ^is not^ 'IfcRoot'
+    Given [its entity type] ^is not^ 'IfcRoot' ^including subtypes^
     Then it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly

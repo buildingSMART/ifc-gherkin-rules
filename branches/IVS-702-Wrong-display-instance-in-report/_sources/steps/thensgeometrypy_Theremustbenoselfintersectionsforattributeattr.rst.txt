@@ -1,0 +1,22 @@
+There must be no self-intersections for attribute ``attr``
+==========================================================
+
+.. container:: prewrap
+
+   | @param context: The behave context
+   | @param inst: The entity instance being validated
+   | @param path: The subset of vertices taken from a global list where the vertices describe a face
+   | @param attr: The attribute on :inst: that contains the geometry to be validated
+
+Usages:
+~~~~~~~
+
+ - **Then** *There must be no self-intersections for attribute CoordIndex*
+
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:14
+
+ - **Then** *There must be no self-intersections for attribute InnerCoordIndices*
+
+   :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:22
+
+

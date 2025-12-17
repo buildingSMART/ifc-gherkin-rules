@@ -112,7 +112,7 @@ def get_table_definition(schema, table, case_sensitive=True):
         return name if case_sensitive else name.lower()
 
     schema_specific_path = system.get_abs_path(f"resources/{schema.upper()}/{table}.csv")
-    if os.path.exists(schema_specific_path):
+    if schema_specific_path is not None and os.path.exists(schema_specific_path):
         tbl_path = schema_specific_path
     else:
         tbl_path = system.get_abs_path(f"resources/{table}.csv")
@@ -428,8 +428,7 @@ def step_impl(context, inst, table, inst_type=None):
     "Its attribute .{attr_name}. must be defined [according to the table] 'valid_ConversionBasedUnits'"
 )
 def step_impl(context, inst, attr_name):
-    table = "valid_ConversionBasedUnits"
-    unit_definitions = get_table_definition(context.model.schema, table, case_sensitive=False)
+    unit_definitions = get_table_definition(schema="Not schema specific", table="valid_ConversionBasedUnits", case_sensitive=False)
     accepted_names = list(unit_definitions.keys())
     match attr_name.upper():
         case "NAME":

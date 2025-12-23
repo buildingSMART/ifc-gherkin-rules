@@ -54,7 +54,7 @@
      - :commit:`b84422143af4e077d8be670d1710c95563d7ea7d`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/OJT001_Object-predefined-type.feature>`_
    * - v3
-     - n/a
+     - :tag:`v0.8.3`
      - 2025-11-13
      - :commit:`45a7c1151eb79c95356ea8f208430703df9b6707`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.3/features/rules/OJT/OJT001_Object-predefined-type.feature>`_

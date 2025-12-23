@@ -118,6 +118,10 @@ Usages:
 
    :doc:`/features/IFC102_Absence-of-deprecated-entities`:291
 
+ - **Given** *[its entity type] ^is not^ 'IfcRoot' ^including subtypes^*
+
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:14
+
  - **Given** *[its entity type] ^is^ 'IfcMaterialDefinition' ^including subtypes^*
 
    :doc:`/features/MAT000_Materials`:17

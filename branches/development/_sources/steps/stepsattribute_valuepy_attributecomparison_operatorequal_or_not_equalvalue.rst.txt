@@ -170,10 +170,6 @@ Usages:
 
    :doc:`/features/GEM011_Curve-segments-consistency`:38
 
- - **Given** *[its entity type] ^is not^ 'IfcRoot'*
-
-   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:14
-
  - **Given** *[its entity type] ^is^ 'IfcLinearPlacement'*
 
    :doc:`/features/LIP000_Linear-Placement`:14

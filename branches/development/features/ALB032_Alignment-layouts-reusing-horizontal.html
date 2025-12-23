@@ -131,7 +131,7 @@
 002 | &#64;ALB
 003 | &#64;version1
 004 | Feature: ALB032 - Alignment Layouts Reusing Horizontal
-005 | The rule verifies that alignments are nested in accordance with Concept Template 4.1.4.4.1.1
+005 | The rule verifies that alignments are nested in accordance with Concept Template 4.1.4.4.1.2
 006 | which represents the case of a horizontal layout being reused by vertical layouts.
 007 | Alignment layouts are abbreviated as follows: horiz = IfcAlignmentHorizontal, vert = IfcAlignmentVertical,
 008 | and cant = IfcAlignmentCant
@@ -140,19 +140,19 @@
 011 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
 012 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcAlignment.</span></a>
 013 |
-014 | Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.1 for &quot;parent&quot; alignment
+014 | Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.2 for &quot;parent&quot; alignment
 015 |
 016 |     <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity.html"><span class="doc">Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment.</span></a>
 017 |     <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity.html"><span class="doc">Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.</span></a>
 018 |     <a class="reference internal" href="../steps/thensexistencepy_thealignmentlayoutsmustincludeprose_matching.html"><span class="doc">Then the alignment layouts must include [1 horiz]</span></a>
 019 |
-020 | Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.1 for &quot;child&quot; alignment
+020 | Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.2 for &quot;child&quot; alignment
 021 |
 022 |     <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that.html"><span class="doc">Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that</span></a>
 023 |     <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity.html"><span class="doc">Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.</span></a>
 024 |     <a class="reference internal" href="../steps/thensexistencepy_thealignmentlayoutsmustincludeprose_matching.html"><span class="doc">Then the alignment layouts must include [1 vert] or [1 vert and 1 cant]</span></a>
 025 |
-026 | Scenario: Alignment aggregation does not go deeper than one level per 4.1.4.4.1.1
+026 | Scenario: Alignment aggregation does not go deeper than one level per 4.1.4.4.1.2
 027 |
 028 |   <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that.html"><span class="doc">Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that</span></a>
 029 |   <a class="reference internal" href="../steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity.html"><span class="doc">Then a relationship .IfcRelAggregates. ^must not exist^ from .IfcAlignment. to .IfcAlignment.</span></a>

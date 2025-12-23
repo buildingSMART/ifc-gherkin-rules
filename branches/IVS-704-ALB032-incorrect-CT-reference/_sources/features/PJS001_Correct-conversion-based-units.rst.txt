@@ -1,0 +1,63 @@
+``PJS001`` Correct conversion based units - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@PJS
+   003 | \@version1
+   004 | Feature: PJS001 - Correct conversion based units
+   005 | 
+   006 |   The rule verifies that conversion-based units used per Concept Template 4.1.9.9
+   007 |   (https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project\_Context/Project\_Units/content.html)
+   008 |   have names and corresponding conversion factors per the table of recommended values for each schema version.
+   009 |   IFC 4X3: https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcConversionBasedUnit.htm
+   010 |   IFC 4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/FINAL/HTML/schema/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
+   011 |   IFC 2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/FINAL/HTML/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
+   012 | 
+   013 |   Background: Selection of conversion-based units in default unit assignment
+   014 |     :doc:`Given an .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   015 |     :doc:`Given its attribute .UnitsInContext. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |     :doc:`Given its attribute .Units. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |     :doc:`Given [its entity type] ^is^ 'IfcConversionBasedUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   018 | 
+   019 |   Scenario: Validating correct names for area, length, and volume units
+   020 |     :doc:`Given .UnitType. ^is^ 'AREAUNIT' or 'LENGTHUNIT' or 'VOLUMEUNIT' or 'PLANEANGLEUNIT' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   021 |     :doc:`Then its attribute .Name. must be defined [according to the table] 'valid\_ConversionBasedUnits' </steps/stepspropertysets_qtys_unitspy_Itsattributeattr_namemustbedefinedaccordingtothetablevalid_ConversionBasedUnits>`
+   022 | 
+   023 |   Scenario: Validating correct conversion factors
+   024 |     :doc:`Then its attribute .ConversionFactor. must be defined [according to the table] 'valid\_ConversionBasedUnits' </steps/stepspropertysets_qtys_unitspy_Itsattributeattr_namemustbedefinedaccordingtothetablevalid_ConversionBasedUnits>`
+   025 | 
+   026 |   Scenario: Validating that the conversion is based on SI units
+   027 |     :doc:`Given its attribute .ConversionFactor. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   028 |     :doc:`Given its attribute .UnitComponent. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   029 |     :doc:`Then [its entity type] ^is^ 'IfcSIUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   030 | 
+   031 |   Scenario Outline: Validating that the conversion is based on the correct SI unit
+   032 |     :doc:`Given .UnitType. ^is^ '\<UnitType\>' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   033 |     :doc:`Given its attribute .ConversionFactor. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   034 |     :doc:`Given its attribute .UnitComponent. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   035 |     :doc:`Then the value of attribute .Name. must be '\<CorrespondingSIUnit\>' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   036 | 
+   037 |      Examples:
+   038 |       | UnitType          | CorrespondingSIUnit   |
+   039 |       | AREAUNIT          | SQUARE\_METRE          |
+   040 |       | LENGTHUNIT        | METRE                 |
+   041 |       | VOLUMEUNIT        | CUBIC\_METRE           |
+   042 |       | PLANEANGLEUNIT    | RADIAN                |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.8.3`
+     - 2025-11-20
+     - :commit:`7c8ba3c5da6df37557af58f0500e7f73ffc1eda4`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.3/features/rules/PJS/PJS001_Correct-conversion-based-units.feature>`_

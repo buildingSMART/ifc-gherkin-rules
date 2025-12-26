@@ -14,6 +14,7 @@ from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOut
 
 from behave.runner import Context
 from typing import Any
+from collections.abc import Mapping
 
 
 """
@@ -384,7 +385,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
                              
         if isinstance(obj, np.ndarray):
             return sanitise_for_json(obj.tolist()) # Walk through nested lists (to.list()) so inf/nan inside get fixed.
-        if isinstance(obj, dict):
+        if isinstance(obj, Mapping):
             return {k: sanitise_for_json(v) for k, v in obj.items()}
         if isinstance(obj, (list, tuple)):
             return [sanitise_for_json(v) for v in obj]
@@ -413,11 +414,9 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
                 return {'value': data} # e.g. "The value must be 'Body'"
         case ifcopenshell.entity_instance():
             return {'instance': display_entity_instance(data)}
-        case dict():
+        case Mapping():
             # mostly for the pse001 rule, which already yields dicts
             return sanitise_for_json(data)
-        case FrozenDict():
-            return sanitise_for_json(dict(data))
         case set(): # object of type set is not JSONserializable
             return tuple(data)
         case frozenset(): # object of type frozenset is not JSONserializable

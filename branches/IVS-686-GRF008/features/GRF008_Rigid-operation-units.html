@@ -128,18 +128,17 @@
 005 | The rule verifies that correct unit types are assigned to rigid operation coordinates
 006 |
 007 |
-008 |   Scenario Outline: WKT specification for missing EPSG in the name
+008 |   Scenario Outline: Correct rigid operation coordinate units
 009 |
-010 |       <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
-011 |       <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcRigidOperation.</span></a>
-012 |       <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .&lt;attribute&gt;.</span></a>
-013 |
-014 |       <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then [Its type] ^is^ 'LengthMeasure' or 'PlaneAngleUnit'</span></a>
-015 |
-016 |     Examples:
-017 |           | attribute       |
-018 |           | FirstCoordinate |
-019 |           | SecondCoordinate |</pre>
+010 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+011 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcRigidOperation.</span></a>
+012 |
+013 |     <a class="reference internal" href="../steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type.html"><span class="doc">Then The type of attribute .&lt;attribute&gt;. must be 'IfcLengthMeasure' or 'IfcPlaneAngleUnit'</span></a>
+014 |
+015 |   Examples:
+016 |         | attribute       |
+017 |         | FirstCoordinate |
+018 |         | SecondCoordinate |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

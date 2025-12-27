@@ -492,14 +492,6 @@ Usages:
 
    :doc:`/features/GRF007_valid-vertical-datum-crs-type`:13
 
- - **Given** *Its attribute .FirstCoordinate.*
-
-   :doc:`/features/GRF008_Rigid-operation-units`:12
-
- - **Given** *Its attribute .SecondCoordinate.*
-
-   :doc:`/features/GRF008_Rigid-operation-units`:12
-
  - **Given** *its attribute .Representation.*
 
    :doc:`/features/LAY000_Presentation-layer-assignment`:14

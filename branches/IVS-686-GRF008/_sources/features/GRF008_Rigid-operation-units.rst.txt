@@ -10,18 +10,17 @@
    005 | The rule verifies that correct unit types are assigned to rigid operation coordinates
    006 | 
    007 | 
-   008 |   Scenario Outline: WKT specification for missing EPSG in the name
+   008 |   Scenario Outline: Correct rigid operation coordinate units
    009 | 
-   010 |       :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   011 |       :doc:`Given an .IfcRigidOperation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   012 |       :doc:`Given Its attribute .\<attribute\>. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   013 | 
-   014 |       :doc:`Then [Its type] ^is^ 'LengthMeasure' or 'PlaneAngleUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   015 | 
-   016 |     Examples:
-   017 |           | attribute       |
-   018 |           | FirstCoordinate |
-   019 |           | SecondCoordinate |
+   010 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |     :doc:`Given an .IfcRigidOperation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 | 
+   013 |     :doc:`Then The type of attribute .\<attribute\>. must be 'IfcLengthMeasure' or 'IfcPlaneAngleUnit' </steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type>`
+   014 | 
+   015 |   Examples:
+   016 |         | attribute       |
+   017 |         | FirstCoordinate |
+   018 |         | SecondCoordinate |
 
 .. rubric:: Version history
 

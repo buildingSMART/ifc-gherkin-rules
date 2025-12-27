@@ -1,0 +1,51 @@
+``ALB032`` Alignment layouts reusing horizontal - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | Feature: ALB032 - Alignment Layouts Reusing Horizontal
+   005 | The rule verifies that alignments are nested in accordance with Concept Template 4.1.4.4.1.2
+   006 | which represents the case of a horizontal layout being reused by vertical layouts.
+   007 | Alignment layouts are abbreviated as follows: horiz = IfcAlignmentHorizontal, vert = IfcAlignmentVertical,
+   008 | and cant = IfcAlignmentCant
+   009 | 
+   010 | Background:
+   011 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |     :doc:`Given an .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 | 
+   014 | Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.2 for "parent" alignment
+   015 | 
+   016 |     :doc:`Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   017 |     :doc:`Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   018 |     :doc:`Then the alignment layouts must include [1 horiz] </steps/thensexistencepy_thealignmentlayoutsmustincludeprose_matching>`
+   019 | 
+   020 | Scenario: Agreement on IfcAlignment layout nesting per 4.1.4.4.1.2 for "child" alignment
+   021 | 
+   022 |     :doc:`Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
+   023 |     :doc:`Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   024 |     :doc:`Then the alignment layouts must include [1 vert] or [1 vert and 1 cant] </steps/thensexistencepy_thealignmentlayoutsmustincludeprose_matching>`
+   025 | 
+   026 | Scenario: Alignment aggregation does not go deeper than one level per 4.1.4.4.1.2
+   027 | 
+   028 |   :doc:`Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
+   029 |   :doc:`Then a relationship .IfcRelAggregates. ^must not exist^ from .IfcAlignment. to .IfcAlignment. </steps/givensrelationshipspy_Arelationshiprelationshipexist_or_not_existexist_or_not_existdir1from_toentitydir2from_toother_entity>`
+   030 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.8.3`
+     - 2025-09-09
+     - :commit:`47bed8ce446307965d06dce1c5026445558cf5d4`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.3/features/rules/ALB/ALB032_Alignment-layouts-reusing-horizontal.feature>`_

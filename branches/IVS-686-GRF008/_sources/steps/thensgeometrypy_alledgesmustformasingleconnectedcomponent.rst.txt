@@ -1,0 +1,11 @@
+all edges must form a single connected component
+================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *all edges must form a single connected component*
+
+   :doc:`/features/BRP002_Single-component-in-connected-faceset`:12
+
+

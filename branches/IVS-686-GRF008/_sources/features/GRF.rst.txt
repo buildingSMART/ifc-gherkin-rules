@@ -1,0 +1,18 @@
+Georeferencing (``GRF``)
+========================
+
+The ability to accurately define the geographic location and orientation of the model relative to a reference coordinate system, such as a national or global coordinate system. 
+
+.. toctree::
+
+   :titlesonly:
+
+   GRF000_Georeferencing
+   GRF001_Identical-coordinate-operations
+   GRF002_EPSG-code-in-coordinate-reference-system
+   GRF003_CRS-presence-with-spatial-entities
+   GRF004_Valid-EPSG-prefix-in-coordinate-reference-system
+   GRF006_WKT-specification-for-missing-EPSG
+   GRF007_valid-vertical-datum-crs-type
+   GRF008_Rigid-operation-units
+

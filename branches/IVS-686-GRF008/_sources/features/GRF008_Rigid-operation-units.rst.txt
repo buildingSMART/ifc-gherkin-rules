@@ -1,0 +1,40 @@
+``GRF008`` Rigid operation units - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GRF
+   003 | \@version1
+   004 | Feature: GRF008 - Rigid operation units
+   005 | The rule verifies that correct unit types are assigned to rigid operation coordinates
+   006 | 
+   007 | 
+   008 |   Scenario Outline: WKT specification for missing EPSG in the name
+   009 | 
+   010 |       :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |       :doc:`Given an .IfcRigidOperation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |       :doc:`Given Its attribute .\<attribute\>. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   013 | 
+   014 |       :doc:`Then [Its type] ^is not^ 'LengthMeasure' or 'PlaneAngleUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   015 | 
+   016 |     Examples:
+   017 |           | attribute       |
+   018 |           | FirstCoordinate |
+   019 |           | SecondCoordinate |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - n/a
+     - 2025-12-27
+     - :commit:`1dc8b306f9ab90bcaa658fbc5b1c2e874e6f20d8`
+     - n/a

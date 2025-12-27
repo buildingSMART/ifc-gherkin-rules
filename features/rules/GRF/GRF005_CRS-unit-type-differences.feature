@@ -11,7 +11,7 @@ then this attribute must be included and must have the value of the scale from t
 
   Scenario: In cases where the length unit of the local CRS differs from the length unit of the external CRS, the map conversion scale must reflect the factor between the two units.
 
-    Given A model with Schema 'IFC4.3'
+    Given A model with Schema 'IFC4' or 'IFC4.3'
     Given An .IfcMapConversion.
 
     Then The map conversion scale must be the quotient of the project length units and the target CRS length units

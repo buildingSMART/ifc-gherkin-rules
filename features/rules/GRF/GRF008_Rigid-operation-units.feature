@@ -11,7 +11,7 @@ The rule verifies that correct unit types are assigned to rigid operation coordi
       Given an .IfcRigidOperation.
       Given Its attribute .<attribute>.
 
-      Then [Its type] ^is not^ 'LengthMeasure' or 'PlaneAngleUnit'
+      Then [Its type] ^is^ 'LengthMeasure' or 'PlaneAngleUnit'
 
     Examples: 
           | attribute       | 

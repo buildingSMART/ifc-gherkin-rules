@@ -3,7 +3,6 @@ import itertools
 from validation_handling import full_stack_rule, gherkin_ifc
 from . import ValidationOutcome, OutcomeSeverity
 
-
 @gherkin_ifc.step("Its values")
 @gherkin_ifc.step("Its values excluding {excluding}")
 def step_impl(context, inst, excluding=None):

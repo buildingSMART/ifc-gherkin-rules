@@ -16,7 +16,7 @@
    011 | 
    012 |   Scenario: In cases where the length unit of the local CRS differs from the length unit of the external CRS, the map conversion scale must reflect the factor between the two units.
    013 | 
-   014 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   014 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    015 |     :doc:`Given An .IfcMapConversion. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    016 | 
    017 |     :doc:`Then The map conversion scale must be the quotient of the project length units and the target CRS length units </steps/stepscrspy_ThemapconversionscalemustbethequotientoftheprojectlengthunitsandthetargetCRSlengthunits>`

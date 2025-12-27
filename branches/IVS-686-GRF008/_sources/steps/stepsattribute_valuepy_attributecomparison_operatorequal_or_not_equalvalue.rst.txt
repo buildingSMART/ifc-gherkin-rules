@@ -170,7 +170,7 @@ Usages:
 
    :doc:`/features/GEM011_Curve-segments-consistency`:38
 
- - **Then** *[Its type] ^is not^ 'LengthMeasure' or 'PlaneAngleUnit'*
+ - **Then** *[Its type] ^is^ 'LengthMeasure' or 'PlaneAngleUnit'*
 
    :doc:`/features/GRF008_Rigid-operation-units`:14
 

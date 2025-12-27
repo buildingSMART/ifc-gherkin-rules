@@ -16,7 +16,7 @@
    011 |       :doc:`Given an .IfcRigidOperation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    012 |       :doc:`Given Its attribute .\<attribute\>. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    013 | 
-   014 |       :doc:`Then [Its type] ^is not^ 'LengthMeasure' or 'PlaneAngleUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   014 |       :doc:`Then [Its type] ^is^ 'LengthMeasure' or 'PlaneAngleUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    015 | 
    016 |     Examples:
    017 |           | attribute       |

@@ -1,8 +1,7 @@
 ISO-10303-21;
-/* IFC units are in metres, ESPG:2277 uses survey foot and the map conversion scaled is not set */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('fail-grf005-project_meters_crs_foot_no_map_conversion_scaled.ifc','2023-01-25T18:40:40',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+6180d73f','');
+FILE_NAME('pass-grf005-equal_local_and_projected_length_units_no_map_conversion','2023-01-25T18:40:40',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+6180d73f','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -19,14 +18,14 @@ DATA;
 #11=IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,1.E-05,#9,#10);
 #12=IFCDIMENSIONALEXPONENTS(0,0,0,0,0,0,0);
 #13=IFCSIUNIT(*,.LENGTHUNIT.,$,.METRE.);
-#14=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_FOOT.);
-#15=IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_FOOT.);
+#14=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);
+#15=IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
 #16=IFCSIUNIT(*,.PLANEANGLEUNIT.,$,.RADIAN.);
 #17=IFCMEASUREWITHUNIT(IFCPLANEANGLEMEASURE(0.017453292519943295),#16);
 #18=IFCCONVERSIONBASEDUNIT(#12,.PLANEANGLEUNIT.,'DEGREE',#17);
 #19=IFCUNITASSIGNMENT((#13,#14,#15,#18));
-#20=IFCPROJECT('2X9wjf5oPB4PQjenCYrhHZ',#5,'',$,$,$,$,(#11),#19)
-#21=IFCPROJECTEDCRS('EPSG:2277',$,'NAD83',$,'','3',$);
+#20=IFCPROJECT('2X9wjf5oPB4PQjenCYrhHZ',#5,'',$,$,$,$,(#11),#19);
+#21=IFCPROJECTEDCRS('EPSG:27215',$,'WGS84',$,'WSG','3',#13);
 #22=IFCMAPCONVERSION(#11,#21,316131.64,5690966.11,1.,1.,0.,$);
 #23=IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,1.E-05,#9,#10);
 #24=IFCMAPCONVERSION(#23,#21,316131.64,5690966.11,1.,1.,0.,$);

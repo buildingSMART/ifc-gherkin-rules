@@ -9,18 +9,10 @@ If the units of the referenced source location engineering coordinate system are
 then this attribute must be included and must have the value of the scale from the source to the target units
 
 
-  Scenario Outline: When the length unit of the Local CRS (from IfcProject) is not equal to the length unit of the Projected CRS, then the IfcMapCOnversion.Scale must be provided and cannot be 1.0
+  Scenario: In cases where the length unit of the local CRS differs from the length unit of the external CRS, the map conversion scale must reflect the factor between the two units.
 
     Given A model with Schema 'IFC4.3'
     Given An .IfcMapConversion.
-    Given There must be at least 1 instance(s) of .<IfcCoordinateReferenceSystem>.
-    Given The <unit> unit of the project ^is not^ equal to the <unit> unit(s) of the .<IfcCoordinateReferenceSystem>.
-    
-    Then .Scale. ^is not^ empty
-    Then .Scale. ^is not^ 1.0
 
-    Examples: 
-      | unit   | IfcCoordinateReferenceSystem |
-      | length | IfcProjectedCRS              | 
-      | angle  | IfcGeographicCRS             |
+    Then The map conversion scale must be the quotient of the project length units and the target CRS length units
 

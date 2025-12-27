@@ -80,9 +80,8 @@ def step_impl(context, inst, constraint, num, entity, include_or_exclude_subtype
         )
     else: 
         yield ValidationOutcome(
-            instance_id=inst, severity=OutcomeSeverity.PASSED
-        )
-
+                inst=inst, severity=OutcomeSeverity.PASSED
+            )
 
 @gherkin_ifc.step(
     "A representation must have 2 items for PredefinedType of HELMERTCURVE and 1 item for all other values of PredefinedType"

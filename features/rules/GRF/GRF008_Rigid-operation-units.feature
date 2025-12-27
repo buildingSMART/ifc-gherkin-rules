@@ -5,15 +5,14 @@ Feature: GRF008 - Rigid operation units
 The rule verifies that correct unit types are assigned to rigid operation coordinates
 
 
-  Scenario Outline: WKT specification for missing EPSG in the name
+  Scenario Outline: Correct rigid operation coordinate units
 
-      Given A model with Schema 'IFC4' or 'IFC4.3'
-      Given an .IfcRigidOperation.
-      Given Its attribute .<attribute>.
+    Given A model with Schema 'IFC4' or 'IFC4.3'
+    Given an .IfcRigidOperation.
 
-      Then [Its type] ^is^ 'LengthMeasure' or 'PlaneAngleUnit'
+    Then The type of attribute .<attribute>. must be 'IfcLengthMeasure' or 'IfcPlaneAngleUnit'
 
-    Examples: 
-          | attribute       | 
-          | FirstCoordinate |
-          | SecondCoordinate |
+  Examples: 
+        | attribute       | 
+        | FirstCoordinate |
+        | SecondCoordinate |

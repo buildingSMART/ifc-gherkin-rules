@@ -132,21 +132,13 @@
 009 | then this attribute must be included and must have the value of the scale from the source to the target units
 010 |
 011 |
-012 |   Scenario Outline: When the length unit of the Local CRS (from IfcProject) is not equal to the length unit of the Projected CRS, then the IfcMapCOnversion.Scale must be provided and cannot be 1.0
+012 |   Scenario: In cases where the length unit of the local CRS differs from the length unit of the external CRS, the map conversion scale must reflect the factor between the two units.
 013 |
 014 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
 015 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcMapConversion.</span></a>
-016 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Given There must be at least 1 instance(s) of .&lt;IfcCoordinateReferenceSystem&gt;.</span></a>
-017 |     Given The &lt;unit&gt; unit of the project ^is not^ equal to the &lt;unit&gt; unit(s) of the .&lt;IfcCoordinateReferenceSystem&gt;.
-018 |
-019 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .Scale. ^is not^ empty</span></a>
-020 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .Scale. ^is not^ 1.0</span></a>
-021 |
-022 |     Examples:
-023 |       | unit   | IfcCoordinateReferenceSystem |
-024 |       | length | IfcProjectedCRS              |
-025 |       | angle  | IfcGeographicCRS             |
-026 |</pre>
+016 |
+017 |     <a class="reference internal" href="../steps/stepscrspy_ThemapconversionscalemustbethequotientoftheprojectlengthunitsandthetargetCRSlengthunits.html"><span class="doc">Then The map conversion scale must be the quotient of the project length units and the target CRS length units</span></a>
+018 |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

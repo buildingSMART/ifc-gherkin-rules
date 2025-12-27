@@ -23,14 +23,6 @@ Usages:
 
    :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:22
 
- - **Given** *There must be at least 1 instance(s) of .IfcProjectedCRS.*
-
-   :doc:`/features/GRF005_CRS-unit-type-differences`:16
-
- - **Given** *There must be at least 1 instance(s) of .IfcGeographicCRS.*
-
-   :doc:`/features/GRF005_CRS-unit-type-differences`:16
-
  - **Then** *There must be exactly 1 instance(s) of .IfcProject.*
 
    :doc:`/features/PJS101_Project-presence`:12

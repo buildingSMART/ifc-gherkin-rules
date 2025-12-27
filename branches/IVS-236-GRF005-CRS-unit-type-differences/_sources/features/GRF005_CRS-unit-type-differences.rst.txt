@@ -14,21 +14,13 @@
    009 | then this attribute must be included and must have the value of the scale from the source to the target units
    010 | 
    011 | 
-   012 |   Scenario Outline: When the length unit of the Local CRS (from IfcProject) is not equal to the length unit of the Projected CRS, then the IfcMapCOnversion.Scale must be provided and cannot be 1.0
+   012 |   Scenario: In cases where the length unit of the local CRS differs from the length unit of the external CRS, the map conversion scale must reflect the factor between the two units.
    013 | 
    014 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    015 |     :doc:`Given An .IfcMapConversion. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   016 |     :doc:`Given There must be at least 1 instance(s) of .\<IfcCoordinateReferenceSystem\>. </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
-   017 |     Given The \<unit\> unit of the project ^is not^ equal to the \<unit\> unit(s) of the .\<IfcCoordinateReferenceSystem\>.
+   016 | 
+   017 |     :doc:`Then The map conversion scale must be the quotient of the project length units and the target CRS length units </steps/stepscrspy_ThemapconversionscalemustbethequotientoftheprojectlengthunitsandthetargetCRSlengthunits>`
    018 | 
-   019 |     :doc:`Then .Scale. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   020 |     :doc:`Then .Scale. ^is not^ 1.0 </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   021 | 
-   022 |     Examples:
-   023 |       | unit   | IfcCoordinateReferenceSystem |
-   024 |       | length | IfcProjectedCRS              |
-   025 |       | angle  | IfcGeographicCRS             |
-   026 | 
 
 .. rubric:: Version history
 

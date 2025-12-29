@@ -1,0 +1,11 @@
+No \ .\ ``entity``\ .\ 
+=======================
+
+Usages:
+~~~~~~~
+
+ - **Given** *no .IfcSite.*
+
+   :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:29
+
+

@@ -12,7 +12,7 @@
    007 | 
    008 |   Scenario Outline: Correct rigid operation coordinate units
    009 | 
-   010 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   010 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    011 |     :doc:`Given an .IfcRigidOperation. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    012 | 
    013 |     :doc:`Then The type of attribute .\<attribute\>. must be 'IfcLengthMeasure' or 'IfcPlaneAngleUnit' </steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type>`

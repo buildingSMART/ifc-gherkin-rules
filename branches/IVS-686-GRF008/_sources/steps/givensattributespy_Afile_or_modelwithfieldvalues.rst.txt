@@ -188,7 +188,7 @@ Usages:
 
    :doc:`/features/GRF007_valid-vertical-datum-crs-type`:11
 
- - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+ - **Given** *A model with Schema 'IFC4.3'*
 
    :doc:`/features/GRF008_Rigid-operation-units`:10
 

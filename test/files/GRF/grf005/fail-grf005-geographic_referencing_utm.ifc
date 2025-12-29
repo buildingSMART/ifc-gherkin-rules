@@ -5,14 +5,7 @@ FILE_DESCRIPTION(
 /* description */ ('GeoReference'),
 /* implementation level */ '2;1');
 
-FILE_NAME(
-/* name */ 'fail-grf005-geographic_referencing_utm.ifc',
-/* time_stamp */ '2017-07-10T15:03:00',
-/* author */ ('redacted'),
-/* organization */ ('redacted'),
-/* preprocessor_version */ 'redacted',
-/* originating_system */ 'redacted - redacted - 3.14159',
-/* authorisation */ 'none');
+FILE_NAME ('fail-grf005-geographic_referencing_utm.ifc', '2025-04-18T17:26:42', (''), (''), 'redacted', 'redacted - redacted - 3.14159', 'None');
 
 FILE_SCHEMA (('IFC4X3_ADD2'));
 ENDSEC;

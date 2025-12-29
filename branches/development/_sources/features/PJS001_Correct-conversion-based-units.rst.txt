@@ -1,11 +1,11 @@
-``PJS001`` Correct conversion based units - v1
+``PJS001`` Correct conversion based units - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
 
    001 | \@implementer-agreement
    002 | \@PJS
-   003 | \@version1
+   003 | \@version2
    004 | Feature: PJS001 - Correct conversion based units
    005 | 
    006 |   The rule verifies that conversion-based units used per Concept Template 4.1.9.9
@@ -61,3 +61,8 @@
      - 2025-11-20
      - :commit:`7c8ba3c5da6df37557af58f0500e7f73ffc1eda4`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.3/features/rules/PJS/PJS001_Correct-conversion-based-units.feature>`_
+   * - v2
+     - n/a
+     - 2025-12-28
+     - :commit:`e914eef366c384bd54145bf8648c4ee446f2335f`
+     - n/a

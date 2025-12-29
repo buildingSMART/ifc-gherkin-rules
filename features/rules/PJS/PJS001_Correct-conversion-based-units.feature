@@ -1,6 +1,6 @@
 @implementer-agreement
 @PJS
-@version1
+@version2
 Feature: PJS001 - Correct conversion based units
 
   The rule verifies that conversion-based units used per Concept Template 4.1.9.9

@@ -1,5 +1,5 @@
 ISO-10303-21;
-/* IFC units are in metres, ESPG:2277 uses survey foot and the map conversion reflects this */
+/* IFC units are in metres, ESPG:2277 uses survey foot and the map conversion uses an incorrect unit conversion factor */
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]'),'2;1');
 FILE_NAME('fail-grf005-scaled_foot_to_metre.ifc','2023-01-25T18:40:40',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+6180d73f','');

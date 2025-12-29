@@ -1456,6 +1456,30 @@ validation service.
      - v1
      - v1
      - v1
+   * - ``GRF008``
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
    * - ``GRP000``
      - n/a
      - n/a

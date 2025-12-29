@@ -190,6 +190,10 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4.3'*
 
+   :doc:`/features/GRF008_Rigid-operation-units`:10
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
    :doc:`/features/IFC102_Absence-of-deprecated-entities`:16
 
  - **Given** *A model with Schema 'IFC4'*

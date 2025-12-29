@@ -375,6 +375,10 @@ Usages:
 
    :doc:`/features/GRF007_valid-vertical-datum-crs-type`:12
 
+ - **Given** *an .IfcRigidOperation.*
+
+   :doc:`/features/GRF008_Rigid-operation-units`:11
+
  - **Given** *an .IfcGroup.*
 
    :doc:`/features/GRP001_Acyclic-groups`:9

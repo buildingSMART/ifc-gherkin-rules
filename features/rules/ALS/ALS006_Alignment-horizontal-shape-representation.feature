@@ -18,4 +18,4 @@ The rule verifies that IfcAlignmentHorizontal is represented correctly with repr
 
   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation - Type
 
-    Then The type of attribute Items must be IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline
+    Then The type of attribute .Items. must be 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline'

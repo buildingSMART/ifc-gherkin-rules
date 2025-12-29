@@ -39,16 +39,16 @@ def step_impl(context, inst, entity, other_entity):
         yield ValidationOutcome(inst=inst, expected=other_entity, observed=inst.ObjectPlacement, severity=OutcomeSeverity.ERROR)
 
 
-@gherkin_ifc.step("The type of attribute {attribute} must be {expected_entity_type}")
+@gherkin_ifc.step("The type of attribute .{attribute}. must be '{expected_entity_type}'")
 def step_impl(context, inst, attribute, expected_entity_type):
-    expected_entity_types = tuple(map(str.strip, expected_entity_type.split(' or ')))
+    expected_entity_types = misc.strip_split(expected_entity_type, strp="'", splt=' or ')
     related_entity = misc.map_state(inst, lambda i: getattr(i, attribute, None))
     errors = []
 
     def accumulate_errors(i):
         if i is not None:
             if not any(i.is_a().lower() == x.lower() for x in expected_entity_types):
-                misc.map_state(inst, lambda x: errors.append(ValidationOutcome(inst=inst, expected=expected_entity_type, observed=i, severity=OutcomeSeverity.ERROR)))
+                misc.map_state(inst, lambda x: errors.append(ValidationOutcome(inst=inst, expected=expected_entity_type, observed=i.is_a(), severity=OutcomeSeverity.ERROR)))
 
     misc.map_state(related_entity, accumulate_errors)
     if errors:

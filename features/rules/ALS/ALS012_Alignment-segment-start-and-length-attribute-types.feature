@@ -18,7 +18,7 @@ Scenario Outline: Correct entity type used for SegmentStart and Segment Length
   Given its attribute .Segments.
   Given [Its Entity Type] ^is^ 'IfcCurveSegment'
 
-  Then The type of attribute <attribute> must be IfcLengthMeasure
+  Then The type of attribute .<attribute>. must be 'IfcLengthMeasure'
 
   Examples:
     | entity                      | attribute     |

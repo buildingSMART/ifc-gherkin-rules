@@ -16,17 +16,17 @@
    011 | 
    012 |   Scenario: Agreement141 - Agreement on having maximum of one instance of IfcSite
    013 | 
-   014 |     :doc:`Then There must be at most 1 instance(s) of IfcSite </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+   014 |     :doc:`Then There must be at most 1 instance(s) of .IfcSite. </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
    015 | 
    016 |   Scenario: Agreement142(1) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
    017 | 
-   018 |     :doc:`Then There must be at least 1 instance(s) of IfcBuilding </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+   018 |     :doc:`Then There must be at least 1 instance(s) of .IfcBuilding. </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
    019 | 
    020 |   Scenario: Agreement142(2) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
    021 | 
    022 |     :doc:`Given An .IfcSite. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    023 |     :doc:`Given an .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   024 |     :doc:`Then It must be assigned to the IfcSite </steps/thensrelationspy_Itmustbeassignedtotherelating>`
+   024 |     :doc:`Then It must be assigned to the .IfcSite. </steps/thensrelationspy_Itmustbeassignedtotherelating>`
    025 | 
    026 | 
    027 |   Scenario: Agreement142(3) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure
@@ -34,7 +34,7 @@
    029 |   :doc:`Given no .IfcSite. </steps/givensentitiespy_Noentity>`
    030 |   :doc:`Given An .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    031 | 
-   032 |   :doc:`Then It must be assigned to the IfcProject </steps/thensrelationspy_Itmustbeassignedtotherelating>`
+   032 |   :doc:`Then It must be assigned to the .IfcProject. </steps/thensrelationspy_Itmustbeassignedtotherelating>`
 
 .. rubric:: Version history
 

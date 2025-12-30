@@ -21,7 +21,7 @@
    016 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    017 |     :doc:`Given An IFC model </steps/givensattributespy_AnIFCmodel>`
    018 | 
-   019 |     :doc:`Then There must be less than 1 instance(s) of \<Entity\> ^excluding subtypes^ </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes>`
+   019 |     :doc:`Then There must be less than 1 instance(s) of .\<Entity\>. ^excluding subtypes^ </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes>`
    020 | 
    021 |     Examples:
    022 |       | Entity                                |
@@ -55,7 +55,7 @@
    050 |     :doc:`Given An IFC model </steps/givensattributespy_AnIFCmodel>`
    051 |     :doc:`Given A model with Schema 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    052 | 
-   053 |     :doc:`Then There must be less than 1 instance(s) of \<Entity\> ^excluding subtypes^ </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes>`
+   053 |     :doc:`Then There must be less than 1 instance(s) of .\<Entity\>. ^excluding subtypes^ </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes>`
    054 | 
    055 |     Examples:
    056 |       | Entity                                |
@@ -95,7 +95,7 @@
    090 |     :doc:`Given An IFC model </steps/givensattributespy_AnIFCmodel>`
    091 |     :doc:`Given A model with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    092 | 
-   093 |     :doc:`Then There must be less than 1 instance(s) of \<Entity\> ^excluding subtypes^ </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes>`
+   093 |     :doc:`Then There must be less than 1 instance(s) of .\<Entity\>. ^excluding subtypes^ </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes>`
    094 | 
    095 |     Examples:
    096 |       |   Entity                   |

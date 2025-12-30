@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRF001 Identical coordinate operations - v2 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+  <title>GRF005 CRS unit type differences - v1 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="GRF002 EPSG code in coordinate reference system - v1" href="GRF002_EPSG-code-in-coordinate-reference-system.html" />
-    <link rel="prev" title="GRF000 Georeferencing - v1" href="GRF000_Georeferencing.html" /> 
+    <link rel="next" title="GRF006 WKT specification for missing EPSG - v2" href="GRF006_WKT-specification-for-missing-EPSG.html" />
+    <link rel="prev" title="GRF004 Valid EPSG prefix in coordinate reference system - v1" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -59,11 +59,11 @@
 <li class="toctree-l2"><a class="reference internal" href="GEM.html">Geometry representation (<code class="docutils literal notranslate"><span class="pre">GEM</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="GRF000_Georeferencing.html"><code class="docutils literal notranslate"><span class="pre">GRF000</span></code> Georeferencing - v1</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF001</span></code> Identical coordinate operations - v2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GRF001_Identical-coordinate-operations.html"><code class="docutils literal notranslate"><span class="pre">GRF001</span></code> Identical coordinate operations - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF002_EPSG-code-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF002</span></code> EPSG code in coordinate reference system - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF003_CRS-presence-with-spatial-entities.html"><code class="docutils literal notranslate"><span class="pre">GRF003</span></code> CRS presence with spatial entities - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GRF005_CRS-unit-type-differences.html"><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF007_valid-vertical-datum-crs-type.html"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF008_Rigid-operation-units.html"><code class="docutils literal notranslate"><span class="pre">GRF008</span></code> Rigid operation units - v1</a></li>
@@ -110,9 +110,9 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF001</span></code> Identical coordinate operations - v2</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v1</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/features/GRF001_Identical-coordinate-operations.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/features/GRF005_CRS-unit-type-differences.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -120,25 +120,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="grf001-identical-coordinate-operations-v2">
-<h1><code class="docutils literal notranslate"><span class="pre">GRF001</span></code> Identical coordinate operations - v2<a class="headerlink" href="#grf001-identical-coordinate-operations-v2" title="Link to this heading"></a></h1>
-<pre class="literal-block">001 | &#64;implementer-agreement
+  <section id="grf005-crs-unit-type-differences-v1">
+<h1><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v1<a class="headerlink" href="#grf005-crs-unit-type-differences-v1" title="Link to this heading"></a></h1>
+<pre class="literal-block">001 | &#64;industry-practice
 002 | &#64;GRF
-003 | &#64;version2
-004 | Feature: GRF001 - Identical coordinate operations
-005 | The rule verifies that if multiple instances of IfcGeometricRepresentationContext are provided to the IfcProject,
-006 | all contexts must share an identical instance of IfcCoordinateOperation, each referring to the same instance of IfcCoordinateReferenceSystem.
-007 | Additionally, the schema allows the attribute for coordinate operations within the context to be empty.
-008 | Currently, for GRF001, this is only permitted if (1) there is a single context or (2) the attribute is empty across all contexts within the file.
-009 |
-010 |   Scenario: IfcGeometricRepresentationContext
+003 | &#64;version1
+004 | &#64;E00100
+005 | Feature: GRF005 - CRS unit type differences
+006 | The rule verifies that the Scale attribute of IfcMapConversion is used when the units of the CRS are not identical to the units of the engineering coordinate system.
+007 | If omitted, the value of 1.0 is assumed.
+008 | If the units of the referenced source location engineering coordinate system are different from the units of the referenced target coordinate system,
+009 | then this attribute must be included and must have the value of the scale from the source to the target units
+010 |
 011 |
-012 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
-013 |     <a class="reference internal" href="../steps/givensentitiespy_Allinstsofentity_opt_stmt.html"><span class="doc">Given All instances of IfcGeometricRepresentationContext without subtypes</span></a>
-014 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its Attribute .HasCoordinateOperation.</span></a>
-015 |     <a class="reference internal" href="../steps/givensvaluespy_Itsvaluesexcludingexcluding.html"><span class="doc">Given Its values excluding SourceCRS</span></a>
+012 |   Scenario: In cases where the length unit of the local CRS differs from the length unit of the external CRS, the map conversion scale must reflect the factor between the two units.
+013 |
+014 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+015 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcMapConversion.</span></a>
 016 |
-017 |     <a class="reference internal" href="../steps/thensvaluespy_Thevaluesmustbeunique_or_identicalunique_or_identicalatdepthdepth_leveld.html"><span class="doc">Then The values must be identical at depth 0</span></a></pre>
+017 |     <a class="reference internal" href="../steps/stepscrspy_ThemapconversionscalemustbethequotientoftheprojectlengthunitsandthetargetCRSlengthunits.html"><span class="doc">Then The map conversion scale must be the quotient of the project length units and the target CRS length units</span></a>
+018 |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -151,16 +152,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>v1</p></td>
-<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
-<td><p>2023-02-03</p></td>
-<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/6ccdcc67ad218f07e46f86002779d00b3469c1f7">6ccdcc67</a></p></td>
-<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GRF001_Identical-coordinate-operations.feature">view</a></p></td>
-</tr>
-<tr class="row-odd"><td><p>v2</p></td>
-<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.7.5">v0.7.5</a></p></td>
-<td><p>2025-04-23</p></td>
-<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5">7f35a02e</a></p></td>
-<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.5/features/rules/GRF/GRF001_Identical-coordinate-operations.feature">view</a></p></td>
+<td><p>n/a</p></td>
+<td><p>2025-06-08</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/451fa538eddf2599c8a4fd931f6cd5af0d8ab175">451fa538</a></p></td>
+<td><p>n/a</p></td>
 </tr>
 </tbody>
 </table>
@@ -170,8 +165,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="GRF000_Georeferencing.html" class="btn btn-neutral float-left" title="GRF000 Georeferencing - v1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="GRF002_EPSG-code-in-coordinate-reference-system.html" class="btn btn-neutral float-right" title="GRF002 EPSG code in coordinate reference system - v1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html" class="btn btn-neutral float-left" title="GRF004 Valid EPSG prefix in coordinate reference system - v1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GRF006_WKT-specification-for-missing-EPSG.html" class="btn btn-neutral float-right" title="GRF006 WKT specification for missing EPSG - v2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

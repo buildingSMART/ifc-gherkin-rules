@@ -1,26 +1,37 @@
-There must be ``constraint`` ``num:d`` instance(s) of ``entity``
-================================================================
+There must be ``constraint`` ``num:d`` instance(s) of \ .\ ``entity``\ .\ 
+==========================================================================
+
+.. container:: prewrap
+
+   | The Given step_impl in combination with 'at least 1' is the equivalent of 'Given an IfcEntity', but without setting new applicable instances.
+   | For example:
+   | Given an IfcWall -> insts = [IfcWall, IfcWall]
+   | Given an IfcRoof -> inst = [IfcRoof, IfcRoof]
+   | 
+   | However,
+   | Given an IfcWall -> insts = [IfcWall, IfcWall]
+   | Given there must be at least 1 instance(s) of IfcRoof -> inst = [IfcWall, IfcWall]
 
 Usages:
 ~~~~~~~
 
- - **Then** *There must be at least 1 instance(s) of IfcProjectedCRS*
+ - **Then** *There must be at least 1 instance(s) of .IfcProjectedCRS.*
 
    :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:15
 
- - **Then** *There must be at least 1 instance(s) of IfcCoordinateReferenceSystem*
+ - **Then** *There must be at least 1 instance(s) of .IfcCoordinateReferenceSystem.*
 
    :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:22
 
- - **Then** *There must be exactly 1 instance(s) of IfcProject*
+ - **Then** *There must be exactly 1 instance(s) of .IfcProject.*
 
    :doc:`/features/PJS101_Project-presence`:12
 
- - **Then** *There must be at most 1 instance(s) of IfcSite*
+ - **Then** *There must be at most 1 instance(s) of .IfcSite.*
 
    :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:14
 
- - **Then** *There must be at least 1 instance(s) of IfcBuilding*
+ - **Then** *There must be at least 1 instance(s) of .IfcBuilding.*
 
    :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:18
 

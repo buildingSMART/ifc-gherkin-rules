@@ -367,6 +367,10 @@ Usages:
 
    :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:29
 
+ - **Given** *An .IfcMapConversion.*
+
+   :doc:`/features/GRF005_CRS-unit-type-differences`:15
+
  - **Given** *an .IfcCoordinateReferenceSystem.*
 
    :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:10

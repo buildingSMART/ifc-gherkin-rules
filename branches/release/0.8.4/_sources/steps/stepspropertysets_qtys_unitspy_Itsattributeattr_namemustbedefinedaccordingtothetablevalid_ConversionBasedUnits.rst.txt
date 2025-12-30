@@ -1,0 +1,15 @@
+Its attribute \ .\ ``attr_name``\ .\  must be defined [according to the table] 'valid_ConversionBasedUnits'
+===========================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *its attribute .Name. must be defined [according to the table] 'valid_ConversionBasedUnits'*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:21
+
+ - **Then** *its attribute .ConversionFactor. must be defined [according to the table] 'valid_ConversionBasedUnits'*
+
+   :doc:`/features/PJS001_Correct-conversion-based-units`:24
+
+

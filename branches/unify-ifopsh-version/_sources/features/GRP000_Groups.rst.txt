@@ -27,7 +27,7 @@
      - Commit
      - Rule link
    * - v1
-     - n/a
+     - :tag:`v0.8.3`
      - 2025-06-21
      - :commit:`1381b14b43c8e8ecd4537d681dab6377a82a9fa3`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.3/features/rules/GRP/GRP000_Groups.feature>`_

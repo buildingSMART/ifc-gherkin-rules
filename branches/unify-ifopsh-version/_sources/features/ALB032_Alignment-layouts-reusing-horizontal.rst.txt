@@ -45,7 +45,7 @@
      - Commit
      - Rule link
    * - v1
-     - n/a
+     - :tag:`v0.8.3`
      - 2025-09-09
      - :commit:`47bed8ce446307965d06dce1c5026445558cf5d4`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.3/features/rules/ALB/ALB032_Alignment-layouts-reusing-horizontal.feature>`_

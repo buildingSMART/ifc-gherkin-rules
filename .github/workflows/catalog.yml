@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  PYTHON_VERSION: "3.11"
+  PYTHON_VERSION: "3.13"
   DOCS_OUTPUT_DIR: "docs/_build"
 
 jobs:

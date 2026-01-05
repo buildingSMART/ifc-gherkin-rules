@@ -19,14 +19,14 @@ jobs:
       run: |
         echo "::warning::This pull request is targeting the 'main' branch. Please ensure this is intended."
 
-    - name: Set up Python 3.11
+    - name: Set up Python 3.13
       uses: actions/setup-python@v5
       with:
-        python-version: 3.11
+        python-version: 3.13
     - name: Install dependencies
       run: |
         find . -name 'requirements.txt' -exec pip install -r {} \;
-        wget -O /tmp/ifcopenshell_python.zip https://s3.amazonaws.com/ifcopenshell-builds/ifcopenshell-python-`python3 -c 'import sys;print("".join(map(str, sys.version_info[0:2])))'`-v0.8.3-260bc80-linux64.zip
+        wget -O /tmp/ifcopenshell_python.zip https://s3.amazonaws.com/ifcopenshell-builds/ifcopenshell-python-`python3 -c 'import sys;print("".join(map(str, sys.version_info[0:2])))'`-v0.8.4-e8eb5e4-linux64.zip
         mkdir -p `python3 -c 'import site; print(site.getusersitepackages())'`
         unzip -d `python3 -c 'import site; print(site.getusersitepackages())'` /tmp/ifcopenshell_python.zip
     - name: Lint with flake8

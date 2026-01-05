@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  PYTHON_VERSION: "3.11"
+  PYTHON_VERSION: "3.13"
   DOCS_OUTPUT_DIR: "docs/_build"
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
           set -eux
           pip install -r requirements.txt
           pip install sphinx sphinx_rtd_theme natsort
-          wget -O /tmp/ifcopenshell_python.zip https://s3.amazonaws.com/ifcopenshell-builds/ifcopenshell-python-`python3 -c 'import sys;print("".join(map(str, sys.version_info[0:2])))'`-v0.8.3-260bc80-linux64.zip
+          wget -O /tmp/ifcopenshell_python.zip https://s3.amazonaws.com/ifcopenshell-builds/ifcopenshell-python-`python3 -c 'import sys;print("".join(map(str, sys.version_info[0:2])))'`-v0.8.4-e8eb5e4-linux64.zip
           mkdir -p `python3 -c 'import site; print(site.getusersitepackages())'`
           unzip -d `python3 -c 'import site; print(site.getusersitepackages())'` /tmp/ifcopenshell_python.zip
 

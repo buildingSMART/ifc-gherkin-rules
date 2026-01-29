@@ -1,0 +1,525 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IFC102 Absence of deprecated entities - v5 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ddeecabf"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IFC105 Resource entities need to be referenced by rooted entity - v3" href="IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.html" />
+    <link rel="prev" title="IFC101 Only official ifc versions allowed - v1" href="IFC101_Only-official-ifc-versions-allowed.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            buildingSMART Validation Service
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Validation Service Rule Definitions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ALB.html">Alignment (<code class="docutils literal notranslate"><span class="pre">ALB</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ALS.html">Alignment geometry (<code class="docutils literal notranslate"><span class="pre">ALS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ANN.html">Annotations (<code class="docutils literal notranslate"><span class="pre">ANN</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ASM.html">Assemblies (<code class="docutils literal notranslate"><span class="pre">ASM</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AXG.html">Axis geometry (<code class="docutils literal notranslate"><span class="pre">AXG</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BBX.html">Bounding box (<code class="docutils literal notranslate"><span class="pre">BBX</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BLT.html">Built elements (<code class="docutils literal notranslate"><span class="pre">BLT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BRP.html">Boundary Representation (BREP) (<code class="docutils literal notranslate"><span class="pre">BRP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CLS.html">Classification reference (<code class="docutils literal notranslate"><span class="pre">CLS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CTX.html">Presentation Colours &amp; Textures (<code class="docutils literal notranslate"><span class="pre">CTX</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GDP.html">Grid placement (<code class="docutils literal notranslate"><span class="pre">GDP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GEM.html">Geometry representation (<code class="docutils literal notranslate"><span class="pre">GEM</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GRP.html">Groups (<code class="docutils literal notranslate"><span class="pre">GRP</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="IFC101_Only-official-ifc-versions-allowed.html"><code class="docutils literal notranslate"><span class="pre">IFC101</span></code> Only official ifc versions allowed - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.html"><code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity - v3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="LAY.html">Presentation layer (<code class="docutils literal notranslate"><span class="pre">LAY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="POR.html">Ports Connectivity &amp; Nesting (<code class="docutils literal notranslate"><span class="pre">POR</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PSE.html">Properties for object (<code class="docutils literal notranslate"><span class="pre">PSE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QTY.html">Quantities for objects (<code class="docutils literal notranslate"><span class="pre">QTY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPA.html">Spaces (<code class="docutils literal notranslate"><span class="pre">SPA</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPS.html">Spatial breakdown (<code class="docutils literal notranslate"><span class="pre">SPS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SWE.html">Sweeps (i.e. extrusions, lofts, blends) (<code class="docutils literal notranslate"><span class="pre">SWE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SYS.html">SYS (<code class="docutils literal notranslate"><span class="pre">SYS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TAS.html">Tessellated (i.e. meshes) (<code class="docutils literal notranslate"><span class="pre">TAS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VER.html">Versioning &amp; Revision Control (<code class="docutils literal notranslate"><span class="pre">VER</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VRT.html">Virtual elements (<code class="docutils literal notranslate"><span class="pre">VRT</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../steps/index.html">Behave Step Implementations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">buildingSMART Validation Service</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
+          <li class="breadcrumb-item"><a href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v5</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/features/IFC102_Absence-of-deprecated-entities.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ifc102-absence-of-deprecated-entities-v5">
+<h1><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v5<a class="headerlink" href="#ifc102-absence-of-deprecated-entities-v5" title="Link to this heading"></a></h1>
+<pre class="literal-block">001 | &#64;IFC
+002 | &#64;version5
+003 | &#64;implementer-agreement
+004 | Feature: IFC102 - Absence of deprecated entities
+005 |
+006 | The rule verifies that the IFC model does not have deprecated entities, attributes or enumerators.
+007 | By definition, a deprecated entity shall not be exported by applications.
+008 | Complying interpreters shall still be able to import deprecated definitions.
+009 | IFC2X3: <a class="reference external" href="https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.htm">https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.htm</a>
+010 | IFC4X3: <a class="reference external" href="https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/introduction.htm#List-of-known-backward-incompatibilities-of-this-document-with-ISO-16739-1-2018">https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/introduction.htm#List-of-known-backward-incompatibilities-of-this-document-with-ISO-16739-1-2018</a>
+011 | IFC4: <a class="reference external" href="https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/">https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/</a>
+012 |
+013 |
+014 |   Scenario Outline: Check for deprecated entities - IFC4.3
+015 |
+016 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+017 |     <a class="reference internal" href="../steps/givensattributespy_AnIFCmodel.html"><span class="doc">Given An IFC model</span></a>
+018 |
+019 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Then There must be less than 1 instance(s) of .&lt;Entity&gt;. ^excluding subtypes^</span></a>
+020 |
+021 |     Examples:
+022 |       | Entity                                |
+023 |       | IfcBuildingSystem                     |
+024 |       | IfcCivilElement                       |
+025 |       | IfcCivilElementType                   |
+026 |       | IfcDoorLiningProperties               |
+027 |       | IfcDoorPanelProperties                |
+028 |       | IfcElectricDistributionBoard          |
+029 |       | IfcElectricDistributionBoardType      |
+030 |       | IfcFaceBasedSurfaceModel              |
+031 |       | IfcMaterialClassificationRelationship |
+032 |       | IfcMaterialList                       |
+033 |       | IfcPermeableCoveringProperties        |
+034 |       | IfcPostalAddress                      |
+035 |       | IfcRelConnectsPortToElement           |
+036 |       | IfcRelCoversBldgElements              |
+037 |       | IfcRelServicesBuildings               |
+038 |       | IfcRelCoversSpaces                    |
+039 |       | IfcTelecomAddress                     |
+040 |       | IfcTextLiteral                        |
+041 |       | IfcTrapeziumProfileDef                |
+042 |       | IfcWallStandardCase                   |
+043 |       | IfcWindowLiningProperties             |
+044 |       | IfcWindowPanelProperties              |
+045 |       | IfcWindowStandardCase                 |
+046 |
+047 |
+048 |   Scenario Outline: Check for deprecated entities - IFC4
+049 |
+050 |     <a class="reference internal" href="../steps/givensattributespy_AnIFCmodel.html"><span class="doc">Given An IFC model</span></a>
+051 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4'</span></a>
+052 |
+053 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Then There must be less than 1 instance(s) of .&lt;Entity&gt;. ^excluding subtypes^</span></a>
+054 |
+055 |     Examples:
+056 |       | Entity                                |
+057 |       | Ifc2DCompositeCurve                   |
+058 |       | IfcBeamStandardCase                   |
+059 |       | IfcConnectionPortGeometry             |
+060 |       | IfcColumnStandardCase                 |
+061 |       | IfcDoorStandardCase                   |
+062 |       | IfcDoorStyle                          |
+063 |       | IfcDoorStyleOperationEnum             |
+064 |       | IfcElectricalElement                  |
+065 |       | IfcEquipmentElement                   |
+066 |       | IfcFaceBasedSurfaceModel              |
+067 |       | IfcMaterialClassificationRelationship |
+068 |       | IfcMaterialList                       |
+069 |       | IfcMemberStandardCase                 |
+070 |       | IfcNullStyle                          |
+071 |       | IfcObjectTypeEnum                     |
+072 |       | IfcOpeningStandardCase                |
+073 |       | IfcPlateStandardCase                  |
+074 |       | IfcPresentationStyleAssignment        |
+075 |       | IfcProxy                              |
+076 |       | IfcRelCoversBldgElements              |
+077 |       | IfcRelCoversSpaces                    |
+078 |       | IfcSlabElementedCase                  |
+079 |       | IfcSlabStandardCase                   |
+080 |       | IfcTextLiteral                        |
+081 |       | IfcWallElementedCase                  |
+082 |       | IfcWallStandardCase                   |
+083 |       | IfcWindowStandardCase                 |
+084 |       | IfcWindowStyle                        |
+085 |       | IfcWindowStyleOperationEnum           |
+086 |
+087 |
+088 |   Scenario Outline: Check for deprecated entities - IFC2X3
+089 |
+090 |     <a class="reference internal" href="../steps/givensattributespy_AnIFCmodel.html"><span class="doc">Given An IFC model</span></a>
+091 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC2X3'</span></a>
+092 |
+093 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentitysubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Then There must be less than 1 instance(s) of .&lt;Entity&gt;. ^excluding subtypes^</span></a>
+094 |
+095 |     Examples:
+096 |       |   Entity                   |
+097 |       |   Ifc2DCompositeCurve      |
+098 |       |   IfcConnectionPortGeometry|
+099 |       |   IfcElectricalElement     |
+100 |       |   IfcEquipmentElement      |
+101 |       |   IfcObjectTypeEnum        |
+102 |       |   IfcTextLiteral           |
+103 |
+104 |
+105 |   Scenario Outline: Check for deprecated attributes - IFC4.3
+106 |
+107 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+108 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+109 |
+110 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .&lt;Attribute&gt;. ^is^ empty</span></a>
+111 |
+112 |     Examples:
+113 |       | Entity                    | Attribute                      |
+114 |       | IfcBuilding               | BuildingAddress                |
+115 |       | IfcBuilding               | ElevationOfRefHeight           |
+116 |       | IfcBuilding               | ElevationOfTerrain             |
+117 |       | IfcBuildingStorey         | Elevation                      |
+118 |       | IfcFillAreaStyleHatching  | PointOfReferenceHatchLine      |
+119 |       | IfcOrganization           | Addresses                      |
+120 |       | IfcPerson                 | Addresses                      |
+121 |       | IfcPile                   | ConstructionType               |
+122 |       | IfcReinforcingElement     | SteelGrade                     |
+123 |       | IfcRelAssigns             | RelatedObjectsType             |
+124 |       | IfcSite                   | LandTitleNumber                |
+125 |       | IfcSite                   | SiteAddress                    |
+126 |       | IfcStairFlight            | NumberOfRisers                 |
+127 |       | IfcStairFlight            | NumberOfTreads                 |
+128 |       | IfcStairFlight            | RiserHeight                    |
+129 |       | IfcStairFlight            | TreadLength                    |
+130 |       | IfcSurfaceStyleRendering  | DiffuseTransmissionColour      |
+131 |       | IfcSurfaceStyleRendering  | ReflectionColour               |
+132 |       | IfcSurfaceStyleRendering  | TransmissionColour             |
+133 |       | IfcSurfaceTexture         | Parameter                      |
+134 |       | IfcTendon                     | NominalDiameter            |
+135 |       | IfcTendon                     | CrossSectionArea           |
+136 |       | IfcTextureCoordinateGenerator | Parameter                  |
+137 |
+138 |
+139 |   Scenario Outline: Check for deprecated attributes - IFC4
+140 |
+141 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4'</span></a>
+142 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+143 |
+144 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .&lt;Attribute&gt;. ^is^ empty</span></a>
+145 |
+146 |     Examples:
+147 |       | Entity                        | Attribute                     |
+148 |       | IfcDoorLiningProperties       | ShapeAspectStyle              |
+149 |       | IfcDoorPanelProperties        | ShapeAspectStyle              |
+150 |       | IfcFillAreaStyleHatching      | PointOfReferenceHatchLine     |
+151 |       | IfcReinforcingElement         | SteelGrade                    |
+152 |       | IfcRelAssignsToActor          | RelatedObjectsType            |
+153 |       | IfcRelAssignsToControl        | RelatedObjectsType            |
+154 |       | IfcRelAssignsToGroup          | RelatedObjectsType            |
+155 |       | IfcRelAssignsToGroupByFactor  | RelatedObjectsType            |
+156 |       | IfcRelAssignsToProcess        | RelatedObjectsType            |
+157 |       | IfcRelAssignsToProduct        | RelatedObjectsType            |
+158 |       | IfcRelAssignsToResource       | RelatedObjectsType            |
+159 |       | IfcStairFlight                | NumberOfRisers                |
+160 |       | IfcStairFlight                | NumberOfTreads                |
+161 |       | IfcStairFlight                | RiserHeight                   |
+162 |       | IfcStairFlight                | TreadLength                   |
+163 |       | IfcWindowPanelProperties      | ShapeAspectStyle              |
+164 |       | IfcWindowLiningProperties     | ShapeAspectStyle              |
+165 |       | IfcTendon                     | SteelGrade                    |
+166 |       | IfcTendon                     | NominalDiameter               |
+167 |       | IfcTendon                     | CrossSectionArea              |
+168 |       | IfcTendon                     | TensionForce                  |
+169 |       | IfcTendon                     | PreStress                     |
+170 |       | IfcTendon                     | FrictionCoefficient           |
+171 |       | IfcTendon                     | AnchorageSlip                 |
+172 |       | IfcTendon                     | MinCurvatureRadius            |
+173 |       | IfcTendonAnchor               | SteelGrade                    |
+174 |       | IfcTendonType                 | NominalDiameter               |
+175 |       | IfcTendonType                 | CrossSectionArea              |
+176 |       | IfcTendonType                 | SheathDiameter                |
+177 |
+178 |
+179 |   Scenario Outline: Check for deprecated attributes - IFC2X3
+180 |
+181 |       <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC2X3'</span></a>
+182 |       <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+183 |
+184 |       <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .&lt;Attribute&gt;. ^is^ empty</span></a>
+185 |
+186 |     Examples:
+187 |       | Entity                        | Attribute                     |
+188 |       | IfcFillAreaStyleHatching      | PointOfReferenceHatchLine     |
+189 |
+190 |
+191 |   Scenario Outline: Check for deprecated enumerated values - IFC4.3
+192 |     # <strong>**</strong> Description of deprecated enumerations for each entity <strong>*</strong>
+193 |     # IfcBuildingElementProxy: IfcBuildingElementProxyTypeEnum
+194 |     # IfcFireSuppressionTerminal: IfcFireSuppressionTerminalTypeEnum
+195 |     # IfcCableCarrierFitting: IfcCableCarrierFittingTypeEnum
+196 |     # IfcGeographicElement: IfcGeographicElementTypeEnum
+197 |     # IfcSpace: IfcSpaceTypeEnum
+198 |     # IfcWall: IfcWallTypeEnum
+199 |
+200 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+201 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+202 |
+203 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .PredefinedType. ^is not^ &lt;Value&gt;</span></a>
+204 |
+205 |     Examples:
+206 |       | Entity                          |        Value                   |
+207 |       | IfcBuildingElementProxy         | 'PROVISIONFORSPACE'            |
+208 |       | IfcBuildingElementProxy         | 'PROVISIONFORVOID'            |
+209 |       | IfcFireSuppressionTerminal      | 'SPRINKLERDEFLECTOR'          |
+210 |       | IfcFireSuppressionTerminalType  | 'SPRINKLERDEFLECTOR'           |
+211 |       | IfcCableCarrierFitting          | 'TEE' or 'CROSS' or 'REDUCER'  |
+212 |       | IfcCableCarrierFittingType      | 'TEE' or 'CROSS' or 'REDUCER'  |
+213 |       | IfcGeographicElement            | 'SOIL_BORING_POINT'            |
+214 |       | IfcGeographicElementType        | 'SOIL_BORING_POINT'            |
+215 |       | IfcSpace                        | 'INTERNAL' or 'EXTERNAL'       |
+216 |       | IfcSpaceType                    | 'INTERNAL' or 'EXTERNAL'       |
+217 |       | IfcWall                         | 'POLYGONAL' or 'STANDARD'      |
+218 |       | IfcWallType                     | 'POLYGONAL' or 'STANDARD'      |
+219 |
+220 |
+221 |   Scenario Outline: Check for deprecated enumerated values - IFC4
+222 |     # IfcWall: IfcWallTypeEnum
+223 |
+224 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4'</span></a>
+225 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+226 |
+227 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .PredefinedType. ^is not^ &lt;Value&gt;</span></a>
+228 |
+229 |     Examples:
+230 |       | Entity                   |  Value                                       |
+231 |       | IfcWall                  | 'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL' |
+232 |       | IfcWallType              | 'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL' |
+233 |
+234 |
+235 |   Scenario Outline: Check for deprecated enumerated values - IFC2X3
+236 |     # IfcOwnerHistory: IfcChangeActionEnum
+237 |
+238 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC2X3'</span></a>
+239 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+240 |
+241 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .&lt;Attribute&gt;. ^is not^ &lt;Value&gt;</span></a>
+242 |
+243 |     Examples:
+244 |       | Entity                   | Attribute            |         Value                                |
+245 |       | IfcOwnerHistory          | ChangeAction         | 'MODIFIEDADDED' or 'MODIFIEDDELETED'         |
+246 |
+247 |
+248 |   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4.3
+249 |
+250 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+251 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+252 |
+253 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Then [its type] ^is not^ '&lt;Entity&gt;' ^excluding subtypes^</span></a>
+254 |
+255 |     Examples:
+256 |       | Entity                     |
+257 |       | IfcFlowFitting             |
+258 |       | IfcFlowSegment             |
+259 |       | IfcFlowTerminal            |
+260 |       | IfcFlowController          |
+261 |       | IfcFlowMovingDevice        |
+262 |       | IfcFlowStorageDevice       |
+263 |       | IfcFlowTreatmentDevice     |
+264 |       | IfcEnergyConversionDevice  |
+265 |
+266 |
+267 |   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
+268 |
+269 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4'</span></a>
+270 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+271 |
+272 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Then [its type] ^is not^ '&lt;Entity&gt;' ^excluding subtypes^</span></a>
+273 |
+274 |     Examples:
+275 |       | Entity                     |
+276 |       | IfcFlowFitting             |
+277 |       | IfcFlowSegment             |
+278 |       | IfcFlowTerminal            |
+279 |       | IfcFlowController          |
+280 |       | IfcFlowMovingDevice        |
+281 |       | IfcFlowStorageDevice       |
+282 |       | IfcFlowTreatmentDevice     |
+283 |       | IfcEnergyConversionDevice  |
+284 |
+285 |
+286 |   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC2X3
+287 |
+288 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC2X3'</span></a>
+289 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
+290 |
+291 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes.html"><span class="doc">Then [its type] ^is not^ '&lt;Entity&gt;' ^excluding subtypes^</span></a>
+292 |
+293 |     Examples:
+294 |       | Entity                     |
+295 |       | IfcProductRepresentation   |
+296 |       | IfcRepresentation          |
+297 |       | IfcRepresentationContext   |
+298 |       | IfcRelAssociates           |
+299 |
+300 |
+301 |   Scenario: Check for deprecated attribute values - IFC4.3
+302 |
+303 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+304 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcShapeRepresentation.</span></a>
+305 |
+306 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .RepresentationType. ^is not^ 'PointCloud'</span></a>
+307 |
+308 |
+309 |   Scenario: Check for deprecated property set - IFC4.3
+310 |
+311 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+312 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcPropertySet.</span></a>
+313 |
+314 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .Name. ^is not^ 'Pset_Draughting'</span></a>
+315 |
+316 |
+317 |   Scenario: Check for deprecated property set - IFC4
+318 |
+319 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4'</span></a>
+320 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcPropertySet.</span></a>
+321 |
+322 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .Name. ^is not^ 'Pset_Draughting'</span></a>
+323 |
+324 |
+325 |   Scenario: Check for deprecated property set - IFC2X3
+326 |
+327 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC2X3'</span></a>
+328 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcPropertySet.</span></a>
+329 |
+330 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .Name. ^is not^ 'Pset_Draughting'</span></a></pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+<th class="head"><p>Rule link</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v1</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
+<td><p>2024-06-14</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/ad635c3e10d2f638ab835724dd59286f32005120">ad635c3e</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/IFC102_Absence-of-deprecated-entities.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
+<td><p>2024-08-08</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/268f8a0d4c04303d0c8bea9d11f397cb7eaf0c85">268f8a0d</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/IFC102_Absence-of-deprecated-entities.feature">view</a></p></td>
+</tr>
+<tr class="row-even"><td><p>v3</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.7">v0.6.7</a></p></td>
+<td><p>2024-09-20</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/15ca2302f7b989951c90093bf561b0a7390ef0a0">15ca2302</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/IFC102_Absence-of-deprecated-entities.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v4</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.8">v0.6.8</a></p></td>
+<td><p>2024-10-31</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/890fd0eaaff01ee488534f4c2761314690bd473b">890fd0ea</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/IFC102_Absence-of-deprecated-entities.feature">view</a></p></td>
+</tr>
+<tr class="row-even"><td><p>v5</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.8">v0.6.8</a></p></td>
+<td><p>2024-10-31</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/1ea16524353888a587086a0830cba8c6d08b90ec">1ea16524</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/IFC102_Absence-of-deprecated-entities.feature">view</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="IFC101_Only-official-ifc-versions-allowed.html" class="btn btn-neutral float-left" title="IFC101 Only official ifc versions allowed - v1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.html" class="btn btn-neutral float-right" title="IFC105 Resource entities need to be referenced by rooted entity - v3" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, buildingSMART International.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

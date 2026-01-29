@@ -1,0 +1,25 @@
+The value of attribute \ .\ ``attribute``\ .\  must be \ ^\ ``value_or_comparison_op``\ ^\  the expression: [``expression``] [within a tolerance of] ``comparison_tolerance:g``
+===============================================================================================================================================================================
+
+.. container:: prewrap
+
+   | Compare an attribute to an expression based on attributes.
+   | 
+   | The {comparison_op} operator can be 'equal to', 'not equal to', 'greater than', 'less than', 'greater than or equal to', and 'less than or equal to'.
+   | 
+   | The {expression} should be composed by attribute values, and use the following operators:
+   | + : addition;
+   | - : subtraction;
+   | * : multiplication;
+   | / : division;
+   | % : modulus;
+   | ** : exponentiation.
+
+Usages:
+~~~~~~~
+
+ - **Then** *The value of attribute .RadiusOfCurvature. must be ^equal to^ the expression: [HorizontalLength / ( EndGradient - StartGradient )] [within a tolerance of] 1E-3*
+
+   :doc:`/features/ALB012_Alignment-vertical-segment-radius-of-curvature`:22
+
+

@@ -1,0 +1,11 @@
+Assert existence
+================
+
+Usages:
+~~~~~~~
+
+ - **Then** *Assert existence*
+
+   :doc:`/features/GEM051_Presence-of-geometric-context`:15
+
+

@@ -448,6 +448,8 @@ def step_impl(context, inst, attr_name):
                                                                  from_prefix=conv_unit_def.SIUnitPrefix,
                                                                  to_unit=inst_si_unit.Name,
                                                                  to_prefix=inst_si_unit.Prefix)
+                # note: this compares numbers regardless of magnitude
+                # rel_tol=1e-06 is equivalent to a difference of 1 part per million (ppm)
                 if not math.isclose(a=inst_factor, b=expected_factor, rel_tol=1e-06, abs_tol=0.):
                     yield ValidationOutcome(inst=inst, expected=expected_factor, observed=inst_factor,
                                             severity=OutcomeSeverity.ERROR)

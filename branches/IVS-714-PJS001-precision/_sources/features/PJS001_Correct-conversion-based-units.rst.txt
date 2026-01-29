@@ -16,35 +16,45 @@
    011 |   https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcConversionBasedUnit.htm.
    012 | 
    013 |   Background: Selection of conversion-based units in default unit assignment
-   014 |     :doc:`Given an .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   015 |     :doc:`Given its attribute .UnitsInContext. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   016 |     :doc:`Given its attribute .Units. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   017 |     :doc:`Given [its entity type] ^is^ 'IfcConversionBasedUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   018 | 
-   019 |   Scenario: Validating correct names for area, length, and volume units
-   020 |     :doc:`Given .UnitType. ^is^ 'AREAUNIT' or 'LENGTHUNIT' or 'VOLUMEUNIT' or 'PLANEANGLEUNIT' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   021 |     :doc:`Then its attribute .Name. must be defined [according to the table] 'valid\_ConversionBasedUnits' </steps/stepspropertysets_qtys_unitspy_Itsattributeattr_namemustbedefinedaccordingtothetablevalid_ConversionBasedUnits>`
+   014 | 
+   015 |     :doc:`Given an .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   016 |     :doc:`Given its attribute .UnitsInContext. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |     :doc:`Given its attribute .Units. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   018 |     :doc:`Given [its entity type] ^is^ 'IfcConversionBasedUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   019 | 
+   020 | 
+   021 |   Scenario: Validating correct names for area, length, and volume units
    022 | 
-   023 |   Scenario: Validating correct conversion factors
-   024 |     :doc:`Then its attribute .ConversionFactor. must be defined [according to the table] 'valid\_ConversionBasedUnits' </steps/stepspropertysets_qtys_unitspy_Itsattributeattr_namemustbedefinedaccordingtothetablevalid_ConversionBasedUnits>`
+   023 |     :doc:`Given .UnitType. ^is^ 'AREAUNIT' or 'LENGTHUNIT' or 'VOLUMEUNIT' or 'PLANEANGLEUNIT' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   024 |     :doc:`Then its attribute .Name. must be defined [according to the table] 'valid\_ConversionBasedUnits' </steps/stepspropertysets_qtys_unitspy_Itsattributeattr_namemustbedefinedaccordingtothetablevalid_ConversionBasedUnits>`
    025 | 
-   026 |   Scenario: Validating that the conversion is based on SI units
-   027 |     :doc:`Given its attribute .ConversionFactor. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   028 |     :doc:`Given its attribute .UnitComponent. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   029 |     :doc:`Then [its entity type] ^is^ 'IfcSIUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   030 | 
-   031 |   Scenario Outline: Validating that the conversion is based on the correct SI unit
-   032 |     :doc:`Given .UnitType. ^is^ '\<UnitType\>' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   033 |     :doc:`Given its attribute .ConversionFactor. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   034 |     :doc:`Given its attribute .UnitComponent. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   035 |     :doc:`Then the value of attribute .Name. must be '\<CorrespondingSIUnit\>' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
-   036 | 
-   037 |      Examples:
-   038 |       | UnitType          | CorrespondingSIUnit   |
-   039 |       | AREAUNIT          | SQUARE\_METRE          |
-   040 |       | LENGTHUNIT        | METRE                 |
-   041 |       | VOLUMEUNIT        | CUBIC\_METRE           |
-   042 |       | PLANEANGLEUNIT    | RADIAN                |
+   026 | 
+   027 |   Scenario: Validating correct conversion factors
+   028 |   According to https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b
+   029 | 
+   030 |     :doc:`Then its attribute .ConversionFactor. must be defined [according to the table] 'valid\_ConversionBasedUnits' </steps/stepspropertysets_qtys_unitspy_Itsattributeattr_namemustbedefinedaccordingtothetablevalid_ConversionBasedUnits>`
+   031 | 
+   032 | 
+   033 |   Scenario: Validating that the conversion is based on SI units
+   034 | 
+   035 |     :doc:`Given its attribute .ConversionFactor. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   036 |     :doc:`Given its attribute .UnitComponent. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   037 |     :doc:`Then [its entity type] ^is^ 'IfcSIUnit' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   038 | 
+   039 | 
+   040 |   Scenario Outline: Validating that the conversion is based on the correct SI unit
+   041 | 
+   042 |     :doc:`Given .UnitType. ^is^ '\<UnitType\>' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   043 |     :doc:`Given its attribute .ConversionFactor. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   044 |     :doc:`Given its attribute .UnitComponent. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   045 |     :doc:`Then the value of attribute .Name. must be '\<CorrespondingSIUnit\>' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   046 | 
+   047 |      Examples:
+   048 |       | UnitType          | CorrespondingSIUnit   |
+   049 |       | AREAUNIT          | SQUARE\_METRE          |
+   050 |       | LENGTHUNIT        | METRE                 |
+   051 |       | VOLUMEUNIT        | CUBIC\_METRE           |
+   052 |       | PLANEANGLEUNIT    | RADIAN                |
 
 .. rubric:: Version history
 

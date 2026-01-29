@@ -196,11 +196,11 @@ Usages:
 
  - **Given** *[its entity type] ^is^ 'IfcConversionBasedUnit'*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:17
+   :doc:`/features/PJS001_Correct-conversion-based-units`:18
 
  - **Then** *[its entity type] ^is^ 'IfcSIUnit'*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:29
+   :doc:`/features/PJS001_Correct-conversion-based-units`:37
 
  - **Given** *[its entity type] ^is^ 'IfcRelConnectsPorts'*
 

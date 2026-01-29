@@ -453,5 +453,3 @@ def step_impl(context, inst, attr_name):
                 if not math.isclose(a=inst_factor, b=expected_factor, rel_tol=1e-06, abs_tol=0.):
                     yield ValidationOutcome(inst=inst, expected=expected_factor, observed=inst_factor,
                                             severity=OutcomeSeverity.ERROR)
-            else:
-                print(f"{unit_name=} not found in table")

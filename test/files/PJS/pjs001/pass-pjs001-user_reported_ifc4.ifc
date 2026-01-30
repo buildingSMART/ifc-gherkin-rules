@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
-FILE_NAME('pass-pjs001-ft_sy_cyd_ifc4.ifc','2026-01-29T20:39:40-05:00',(''),(''),'IfcOpenShell 0.0.0','redacted - redacted - 3.14159','Nobody');
+FILE_NAME('pass-pjs001-user_reported_ifc4.ifc','2026-01-29T20:39:40-05:00',(''),(''),'IfcOpenShell 0.0.0','redacted - redacted - 3.14159','Nobody');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;
@@ -31,7 +31,17 @@ DATA;
 #18=IFCMEASUREWITHUNIT(IFCREAL(0.7645549),#17);
 #19=IFCCONVERSIONBASEDUNIT(#16,.VOLUMEUNIT.,'cubic yard',#18);
 
+/* square foot definition */
+#120=IFCDIMENSIONALEXPONENTS(2,0,0,0,0,0,0);
+#140=IFCMEASUREWITHUNIT(IFCREAL(0.09290304),#13);
+#150=IFCCONVERSIONBASEDUNIT(#12,.AREAUNIT.,'square foot',#140);
+
+/* cubic foot definition */
+#160=IFCDIMENSIONALEXPONENTS(3,0,0,0,0,0,0);
+#180=IFCMEASUREWITHUNIT(IFCREAL(0.028316846592),#17);
+#190=IFCCONVERSIONBASEDUNIT(#16,.VOLUMEUNIT.,'cubic foot',#180);
+
 /* unit assignment */
-#20=IFCUNITASSIGNMENT((#19,#11,#15));
+#20=IFCUNITASSIGNMENT((#19,#11,#15,#150,#190));
 ENDSEC;
 END-ISO-10303-21;

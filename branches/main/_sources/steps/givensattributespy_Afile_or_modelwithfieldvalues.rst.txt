@@ -180,6 +180,10 @@ Usages:
 
    :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:11
 
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GRF005_CRS-unit-type-differences`:14
+
  - **Given** *a Model with Schema 'IFC4.3'*
 
    :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:9
@@ -187,6 +191,10 @@ Usages:
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
    :doc:`/features/GRF007_valid-vertical-datum-crs-type`:11
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/GRF008_Rigid-operation-units`:10
 
  - **Given** *A model with Schema 'IFC4.3'*
 

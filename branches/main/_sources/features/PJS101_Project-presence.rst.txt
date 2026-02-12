@@ -14,7 +14,7 @@
    009 | Scenario: Check project existence
    010 |     :doc:`Given an IFC Model </steps/givensattributespy_AnIFCmodel>`
    011 | 
-   012 |     :doc:`Then There must be exactly 1 instance(s) of IfcProject </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+   012 |     :doc:`Then There must be exactly 1 instance(s) of .IfcProject. </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
 
 .. rubric:: Version history
 

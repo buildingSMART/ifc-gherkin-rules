@@ -1,19 +1,19 @@
-``PJS001`` Correct conversion based units - v1
+``PJS001`` Correct conversion based units - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
 
    001 | \@implementer-agreement
    002 | \@PJS
-   003 | \@version1
+   003 | \@version2
    004 | Feature: PJS001 - Correct conversion based units
    005 | 
    006 |   The rule verifies that conversion-based units used per Concept Template 4.1.9.9
    007 |   (https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project\_Context/Project\_Units/content.html)
-   008 |   have names and corresponding conversion factors per the table of recommended values for each schema version.
-   009 |   IFC 4X3: https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcConversionBasedUnit.htm
-   010 |   IFC 4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/FINAL/HTML/schema/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
-   011 |   IFC 2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/FINAL/HTML/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
+   008 |   have names and corresponding conversion factors per the table of recommended values.
+   009 |   This table is not considered to be a normative reference.
+   010 |   Therefore all schema versions are checked against the latest table from IFC 4X3:
+   011 |   https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcConversionBasedUnit.htm.
    012 | 
    013 |   Background: Selection of conversion-based units in default unit assignment
    014 |     :doc:`Given an .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
@@ -61,3 +61,8 @@
      - 2025-11-20
      - :commit:`7c8ba3c5da6df37557af58f0500e7f73ffc1eda4`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.3/features/rules/PJS/PJS001_Correct-conversion-based-units.feature>`_
+   * - v2
+     - n/a
+     - 2025-12-28
+     - :commit:`e914eef366c384bd54145bf8648c4ee446f2335f`
+     - n/a

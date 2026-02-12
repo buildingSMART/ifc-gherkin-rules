@@ -23,7 +23,7 @@
    018 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    019 |   :doc:`Given [Its Entity Type] ^is^ 'IfcCurveSegment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
    020 | 
-   021 |   :doc:`Then The type of attribute \<attribute\> must be IfcLengthMeasure </steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type>`
+   021 |   :doc:`Then The type of attribute .\<attribute\>. must be 'IfcLengthMeasure' </steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type>`
    022 | 
    023 |   Examples:
    024 |     | entity                      | attribute     |

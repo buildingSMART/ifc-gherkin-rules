@@ -12,6 +12,8 @@ The ability to accurately define the geographic location and orientation of the 
    GRF002_EPSG-code-in-coordinate-reference-system
    GRF003_CRS-presence-with-spatial-entities
    GRF004_Valid-EPSG-prefix-in-coordinate-reference-system
+   GRF005_CRS-unit-type-differences
    GRF006_WKT-specification-for-missing-EPSG
    GRF007_valid-vertical-datum-crs-type
+   GRF008_Rigid-operation-units
 

@@ -17,14 +17,14 @@
    012 |     :doc:`Given a model with Schema 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    013 |     :doc:`Given an .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    014 | 
-   015 |     :doc:`Then There must be at least 1 instance(s) of IfcProjectedCRS </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+   015 |     :doc:`Then There must be at least 1 instance(s) of .IfcProjectedCRS. </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
    016 | 
    017 |     Scenario: CRS required when IfcFacility is present
    018 | 
    019 |     :doc:`Given a model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    020 |     :doc:`Given an .IfcFacility. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    021 | 
-   022 |     :doc:`Then There must be at least 1 instance(s) of IfcCoordinateReferenceSystem </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
+   022 |     :doc:`Then There must be at least 1 instance(s) of .IfcCoordinateReferenceSystem. </steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity>`
 
 .. rubric:: Version history
 

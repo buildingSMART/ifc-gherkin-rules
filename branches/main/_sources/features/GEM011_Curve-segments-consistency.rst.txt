@@ -67,7 +67,7 @@
      - :commit:`1cd01e0f7c5bf83ecffac0220621353247e8f069`
      - n/a
    * - v2
-     - n/a
+     - :tag:`v0.8.3`
      - 2025-12-04
      - :commit:`d7fcd8502e8e1cb922bb2f3e29013eadc0b6f02e`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.3/features/rules/GEM/GEM011_Curve-segments-consistency.feature>`_

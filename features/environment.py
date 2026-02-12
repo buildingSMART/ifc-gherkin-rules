@@ -136,6 +136,7 @@ def after_feature(context, feature):
                 for severity in [OutcomeSeverity.PASSED, OutcomeSeverity.EXECUTED, OutcomeSeverity.NOT_APPLICABLE]:
                     if outc := next((outcome for outcome in feature_outcomes if outcome.severity == severity), None):
                         yield outc
+                        break
 
         outcomes_to_save = list(reduce_db_outcomes(context.gherkin_outcomes))
         outcomes_instances_to_save = list()

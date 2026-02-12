@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ALS017 Alignment vertical segment geometric continuity - v4 &mdash; buildingSMART Validation Service 0.7.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=ddeecabf"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Annotations (ANN)" href="ANN.html" />
+    <link rel="prev" title="ALS016 Alignment horizontal segment geometric continuity - v3" href="ALS016_Alignment-horizontal-segment-geometric-continuity.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            buildingSMART Validation Service
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Validation Service Rule Definitions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ALB.html">Alignment (<code class="docutils literal notranslate"><span class="pre">ALB</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ALS.html">Alignment geometry (<code class="docutils literal notranslate"><span class="pre">ALS</span></code>)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ALS000_Alignment-geometry.html"><code class="docutils literal notranslate"><span class="pre">ALS000</span></code> Alignment geometry - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS004_Alignment-segment-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS004</span></code> Alignment segment shape representation - v2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS005_Alignment-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS005</span></code> Alignment shape representation - v3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS006_Alignment-horizontal-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS006</span></code> Alignment horizontal shape representation - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS007_Alignment-vertical-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS007</span></code> Alignment vertical shape representation - v2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS008_Alignment-cant-shape-representation.html"><code class="docutils literal notranslate"><span class="pre">ALS008</span></code> Alignment cant shape representation - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS010_Alignment-segment-shape-representation-has-the-correct-number-of-items.html"><code class="docutils literal notranslate"><span class="pre">ALS010</span></code> Alignment segment shape representation has the correct number of items - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS011_Alignment-segment-entity-type-consistency.html"><code class="docutils literal notranslate"><span class="pre">ALS011</span></code> Alignment segment entity type consistency - v3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS012_Alignment-segment-start-and-length-attribute-types.html"><code class="docutils literal notranslate"><span class="pre">ALS012</span></code> Alignment segment start and length attribute types - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS015_Alignment-representation-zero-length-final-segment.html"><code class="docutils literal notranslate"><span class="pre">ALS015</span></code> Alignment representation zero length final segment - v3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ALS016_Alignment-horizontal-segment-geometric-continuity.html"><code class="docutils literal notranslate"><span class="pre">ALS016</span></code> Alignment horizontal segment geometric continuity - v3</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">ALS017</span></code> Alignment vertical segment geometric continuity - v4</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ANN.html">Annotations (<code class="docutils literal notranslate"><span class="pre">ANN</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ASM.html">Assemblies (<code class="docutils literal notranslate"><span class="pre">ASM</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AXG.html">Axis geometry (<code class="docutils literal notranslate"><span class="pre">AXG</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BBX.html">Bounding box (<code class="docutils literal notranslate"><span class="pre">BBX</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BLT.html">Built elements (<code class="docutils literal notranslate"><span class="pre">BLT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BRP.html">Boundary Representation (BREP) (<code class="docutils literal notranslate"><span class="pre">BRP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CLS.html">Classification reference (<code class="docutils literal notranslate"><span class="pre">CLS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CTX.html">Presentation Colours &amp; Textures (<code class="docutils literal notranslate"><span class="pre">CTX</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GDP.html">Grid placement (<code class="docutils literal notranslate"><span class="pre">GDP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GEM.html">Geometry representation (<code class="docutils literal notranslate"><span class="pre">GEM</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GRP.html">Groups (<code class="docutils literal notranslate"><span class="pre">GRP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LAY.html">Presentation layer (<code class="docutils literal notranslate"><span class="pre">LAY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LIP.html">Linear placement (<code class="docutils literal notranslate"><span class="pre">LIP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LOP.html">Local placement (<code class="docutils literal notranslate"><span class="pre">LOP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MAT.html">Materials (<code class="docutils literal notranslate"><span class="pre">MAT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MPD.html">Mapped geometry (<code class="docutils literal notranslate"><span class="pre">MPD</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OJP.html">Object placement (<code class="docutils literal notranslate"><span class="pre">OJP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OJT.html">Objects typing (<code class="docutils literal notranslate"><span class="pre">OJT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PJS.html">Project definition (<code class="docutils literal notranslate"><span class="pre">PJS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="POR.html">Ports Connectivity &amp; Nesting (<code class="docutils literal notranslate"><span class="pre">POR</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PSE.html">Properties for object (<code class="docutils literal notranslate"><span class="pre">PSE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QTY.html">Quantities for objects (<code class="docutils literal notranslate"><span class="pre">QTY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPA.html">Spaces (<code class="docutils literal notranslate"><span class="pre">SPA</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPS.html">Spatial breakdown (<code class="docutils literal notranslate"><span class="pre">SPS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SWE.html">Sweeps (i.e. extrusions, lofts, blends) (<code class="docutils literal notranslate"><span class="pre">SWE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SYS.html">SYS (<code class="docutils literal notranslate"><span class="pre">SYS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TAS.html">Tessellated (i.e. meshes) (<code class="docutils literal notranslate"><span class="pre">TAS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VER.html">Versioning &amp; Revision Control (<code class="docutils literal notranslate"><span class="pre">VER</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VRT.html">Virtual elements (<code class="docutils literal notranslate"><span class="pre">VRT</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../steps/index.html">Behave Step Implementations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">buildingSMART Validation Service</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
+          <li class="breadcrumb-item"><a href="ALS.html">Alignment geometry (<code class="docutils literal notranslate"><span class="pre">ALS</span></code>)</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">ALS017</span></code> Alignment vertical segment geometric continuity - v4</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/features/ALS017_Alignment-vertical-segment-geometric-continuity.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="als017-alignment-vertical-segment-geometric-continuity-v4">
+<h1><code class="docutils literal notranslate"><span class="pre">ALS017</span></code> Alignment vertical segment geometric continuity - v4<a class="headerlink" href="#als017-alignment-vertical-segment-geometric-continuity-v4" title="Link to this heading"></a></h1>
+<pre class="literal-block">001 | &#64;industry-practice
+002 | &#64;ALS
+003 | &#64;version4
+004 |
+005 | Feature: ALS017 - Alignment vertical segment geometric continuity
+006 |
+007 |   The rule verifies that there is geometric continuity between segments in an IfcGradientCurve.
+008 |   The calculated end position and tangent vector of segment <cite>n</cite> is compared to the provided placement of segment <cite>n + 1</cite>.
+009 |   A warning is emitted if the calculated difference is greater than the applicable tolerance.
+010 |   The tolerance for positional and gradient continuity is taken from the precision of the applicable geometric context.
+011 |
+012 |   Background:
+013 |
+014 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
+015 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcAlignment.</span></a>
+016 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representation.</span></a>
+017 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representations.</span></a>
+018 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given .RepresentationType. ^is^ 'Curve3D'</span></a>
+019 |     <a class="reference internal" href="../steps/givensentitiespy_Allreferencedinstances.html"><span class="doc">Given All referenced instances</span></a>
+020 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Entity Type] ^is^ 'IfcGradientCurve'</span></a>
+021 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Segments.</span></a>
+022 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [Its Entity Type] ^is^ 'IfcCurveSegment'</span></a>
+023 |     <a class="reference internal" href="../steps/givensvaluespy_Thevaluesgroupedpairwiseatdepthignoredd.html"><span class="doc">Given The values grouped pairwise at depth 3</span></a>
+024 |
+025 |   Scenario: Geometric continuity in position
+026 |
+027 |     <a class="reference internal" href="../steps/thensalignmentpy_Eachsegmentmusthavegeometriccontinuityincontinuity_typecontinuity_type.html"><span class="doc">Then Each segment must have geometric continuity in ^position^</span></a>
+028 |
+029 |   Scenario: Geometric continuity in vertical gradient
+030 |
+031 |     <a class="reference internal" href="../steps/thensalignmentpy_Eachsegmentmusthavegeometriccontinuityincontinuity_typecontinuity_type.html"><span class="doc">Then Each segment must have geometric continuity in ^vertical gradient^</span></a></pre>
+<p class="rubric">Version history</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Tag</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Commit</p></th>
+<th class="head"><p>Rule link</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v1</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.8">v0.6.8</a></p></td>
+<td><p>2024-09-29</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/f9a04f0bfb23bf78d99bf4ccd407896d5b7ebce1">f9a04f0b</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/ALS017_Alignment-vertical-segment-geometric-continuity.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.11">v0.6.11</a></p></td>
+<td><p>2025-02-04</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/ac14bdfdb4deaeb8953deb39516499e6ca7afe09">ac14bdfd</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.11/features/ALS017_Alignment-vertical-segment-geometric-continuity.feature">view</a></p></td>
+</tr>
+<tr class="row-even"><td><p>v3</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.7.5">v0.7.5</a></p></td>
+<td><p>2025-04-23</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5">7f35a02e</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.5/features/rules/ALS/ALS017_Alignment-vertical-segment-geometric-continuity.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v4</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.7.7">v0.7.7</a></p></td>
+<td><p>2025-06-25</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/113e0f246e0b5c13a2918173bc603e681b0b8701">113e0f24</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/ALS/ALS017_Alignment-vertical-segment-geometric-continuity.feature">view</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ALS016_Alignment-horizontal-segment-geometric-continuity.html" class="btn btn-neutral float-left" title="ALS016 Alignment horizontal segment geometric continuity - v3" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ANN.html" class="btn btn-neutral float-right" title="Annotations (ANN)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, buildingSMART International.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

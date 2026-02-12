@@ -1,14 +1,14 @@
 @implementer-agreement
 @PJS
-@version1
+@version2
 Feature: PJS001 - Correct conversion based units
 
   The rule verifies that conversion-based units used per Concept Template 4.1.9.9
   (https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Units/content.html)
-  have names and corresponding conversion factors per the table of recommended values for each schema version.
-  IFC 4X3: https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcConversionBasedUnit.htm
-  IFC 4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/FINAL/HTML/schema/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
-  IFC 2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/FINAL/HTML/ifcmeasureresource/lexical/ifcconversionbasedunit.htm
+  have names and corresponding conversion factors per the table of recommended values.
+  This table is not considered to be a normative reference.
+  Therefore all schema versions are checked against the latest table from IFC 4X3:
+  https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcConversionBasedUnit.htm.
 
   Background: Selection of conversion-based units in default unit assignment
     Given an .IfcProject.

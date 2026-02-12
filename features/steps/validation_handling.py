@@ -14,6 +14,7 @@ from validation_results import ValidationOutcome, OutcomeSeverity, ValidationOut
 
 from behave.runner import Context
 from typing import Any
+from collections.abc import Mapping
 
 
 """
@@ -23,8 +24,8 @@ def global_rule(func):
     """
     Use this decorator when the rule applies to the whole stack instead of a single instance.
     For instance
-    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity}')
-    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of {entity} {tail:include_or_exclude_subtypes}')
+    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of .{entity}.')
+    @gherkin_ifc.step('There must be {constraint} {num:d} instance(s) of .{entity}. {tail:include_or_exclude_subtypes}')
     @global_rule
     """
     @functools.wraps(func)
@@ -248,9 +249,6 @@ def handle_then(context, fn, **kwargs):
                 if 'npath' in inspect.getargs(fn.__code__).args:
                     kwargs = kwargs | {'npath': current_path}
             top_level_index = current_path[0] if current_path else None
-            max_index = len(current_path) - 1
-            if top_level_index > max_index:
-                top_level_index = max_index
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]
             # TODO: refactor into a more general solution that works for all rules
             if context.is_global_rule and (
@@ -387,7 +385,7 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
                              
         if isinstance(obj, np.ndarray):
             return sanitise_for_json(obj.tolist()) # Walk through nested lists (to.list()) so inf/nan inside get fixed.
-        if isinstance(obj, dict):
+        if isinstance(obj, Mapping):
             return {k: sanitise_for_json(v) for k, v in obj.items()}
         if isinstance(obj, (list, tuple)):
             return [sanitise_for_json(v) for v in obj]
@@ -416,11 +414,9 @@ def expected_behave_output(context: Context, data: Any, is_observed : bool = Fal
                 return {'value': data} # e.g. "The value must be 'Body'"
         case ifcopenshell.entity_instance():
             return {'instance': display_entity_instance(data)}
-        case dict():
+        case Mapping():
             # mostly for the pse001 rule, which already yields dicts
             return sanitise_for_json(data)
-        case FrozenDict():
-            return sanitise_for_json(dict(data))
         case set(): # object of type set is not JSONserializable
             return tuple(data)
         case frozenset(): # object of type frozenset is not JSONserializable

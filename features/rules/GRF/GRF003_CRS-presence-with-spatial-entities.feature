@@ -12,11 +12,11 @@ Models containing IfcFacility must contain a IfcProjectedCRS or IfcGeographicCRS
     Given a model with Schema 'IFC4'
     Given an .IfcBuilding.
 
-    Then There must be at least 1 instance(s) of IfcProjectedCRS
+    Then There must be at least 1 instance(s) of .IfcProjectedCRS.
 
     Scenario: CRS required when IfcFacility is present
 
     Given a model with Schema 'IFC4.3'
     Given an .IfcFacility.
 
-    Then There must be at least 1 instance(s) of IfcCoordinateReferenceSystem
+    Then There must be at least 1 instance(s) of .IfcCoordinateReferenceSystem.

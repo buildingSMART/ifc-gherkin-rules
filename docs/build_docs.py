@@ -166,6 +166,17 @@ def main():
         for us in s['usages']:
             by_usage[us[2]] = re.sub(r'[^\w]', '', f'{"/".join(s["def_file"].split("/")[2:])}_{s["pattern"]}')
 
+    # Some reuse statistics for the curious:
+    # =====================================
+    # function_reuse = Counter([(s['def_file'], s['def_line']) for s in steps for _ in s['usages']])
+    # pattern_reuse = Counter([s['pattern'] for s in steps for _ in s['usages']])
+    # function_reuse_2 = defaultdict(dict)
+    # for s in steps:
+    #     function_reuse_2[(s['def_file'], s['def_line'])][s['pattern']] = len(s['usages'])
+    #
+    # for pattern, count in sorted(function_reuse.items(), key=operator.itemgetter(1), reverse=True):
+    #     print(max(function_reuse_2[pattern].items(), key=lambda p: p[1])[0], count)
+
     shutil.rmtree(DOCS_DIR, ignore_errors=True)
 
     os.makedirs(STEPS_DIR, exist_ok=True)

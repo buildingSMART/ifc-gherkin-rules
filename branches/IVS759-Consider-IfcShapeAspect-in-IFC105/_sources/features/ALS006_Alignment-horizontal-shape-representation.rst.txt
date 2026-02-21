@@ -1,0 +1,42 @@
+``ALS006`` Alignment horizontal shape representation - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALS
+   003 | \@version1
+   004 | Feature: ALS006 - Alignment horizontal shape representation
+   005 | The rule verifies that IfcAlignmentHorizontal is represented correctly with representation type Curve2D and representation item either IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline.
+   006 | 
+   007 |   Background:
+   008 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   009 |     :doc:`Given An .IfcAlignmentHorizontal. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   010 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   011 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 | 
+   013 |   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation - Value
+   014 | 
+   015 |     :doc:`Then The value of attribute .RepresentationIdentifier. must be 'Axis' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   016 |     :doc:`Then The value of attribute .RepresentationType. must be 'Curve2D' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+   017 | 
+   018 | 
+   019 |   Scenario: Agreement on each IfcAlignmentHorizontal using correct representation - Type
+   020 | 
+   021 |     :doc:`Then The type of attribute .Items. must be 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' </steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-18
+     - :commit:`734144034ffd50035aed37d78854b7eb3bc718b9`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS006_Alignment-horizontal-shape-representation.feature>`_

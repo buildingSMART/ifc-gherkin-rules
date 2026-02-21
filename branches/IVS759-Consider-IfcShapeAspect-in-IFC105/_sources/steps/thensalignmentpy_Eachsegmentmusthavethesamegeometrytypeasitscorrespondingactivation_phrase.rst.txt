@@ -1,0 +1,27 @@
+Each segment must have the same geometry type as its corresponding ``activation_phrase``
+========================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *Each segment must have the same geometry type as its corresponding segment in the applicable IfcAlignment layout*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:17
+
+ - **Then** *Each segment must have the same geometry type as its corresponding segment in the horizontal layout*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:24
+
+ - **Then** *Each segment must have the same geometry type as its corresponding segment in the vertical layout*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:31
+
+ - **Then** *Each segment must have the same geometry type as its corresponding segment in the cant layout*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:38
+
+ - **Then** *Each segment must have the same geometry type as its corresponding alignment segment*
+
+   :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:45
+
+

@@ -19,7 +19,7 @@ except AttributeError as e:
 @gherkin_ifc.step("a traversal over the full model originating from subtypes of .{entity_name}.")
 def step_impl(context, entity_name):
     WHITELISTED_INVERSES = {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment',
-                            'HasSubContexts', 'HasProperties', 'HasRepresentation', 'HasColours', 'HasTextures'}
+                            'HasSubContexts', 'HasProperties', 'HasRepresentation', 'HasColours', 'HasTextures', 'HasShapeAspects'}
     schema = schema_by_name(context.model.schema_identifier)
 
     @functools.cache

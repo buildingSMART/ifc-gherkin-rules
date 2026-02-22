@@ -6,18 +6,18 @@ Usages:
 
  - **Then** *Every edge must be referenced exactly 2 time(s) by the loops of the face*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:13
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:12
 
  - **Then** *Every oriented edge must be referenced exactly 1 time(s) by the loops of the face*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:13
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:12
 
  - **Then** *Every edge must be referenced exactly 2 time(s) by the loops of the face*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:26
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:25
 
  - **Then** *Every oriented edge must be referenced exactly 1 time(s) by the loops of the face*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:26
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:25
 
 

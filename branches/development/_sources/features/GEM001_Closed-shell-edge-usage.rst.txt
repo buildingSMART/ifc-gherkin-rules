@@ -1,40 +1,41 @@
-``GEM001`` Closed shell edge usage - v3
+``GEM001`` Closed shell edge usage - v4
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
 
    001 | \@informal-proposition
    002 | \@GEM
-   003 | \@version3
+   003 | \@version4
    004 | 
    005 | Feature: GEM001 - Closed shell edge usage
-   006 | The rule verifies that closed shells and closed facesets edges are referenced correctly.
+   006 | The rule verifies that closed faceted shells and closed facesets edges are referenced correctly.
    007 | 
    008 |   Scenario Outline: IfcClosedShell
    009 | 
    010 |     :doc:`Given An .IfcClosedShell. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   011 | 
-   012 |     :doc:`Then \<Statement\> </steps/thensreferencepy_Everysomethingmustbereferencedexactlynumdtimesbytheloopsoftheface>`
-   013 | 
-   014 |     Examples:
-   015 |       | Statement |
-   016 |       | Every edge must be referenced exactly 2 time(s) by the loops of the face |
-   017 |       | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
-   018 | 
+   011 |     :doc:`Given The instance is used in the context of an .IfcFacetedBrep. </steps/givensrelationshipspy_theinstanceisusedinthecontextofanentity>`
+   012 | 
+   013 |     :doc:`Then \<Statement\> </steps/thensreferencepy_Everysomethingmustbereferencedexactlynumdtimesbytheloopsoftheface>`
+   014 | 
+   015 |     Examples:
+   016 |       | Statement |
+   017 |       | Every edge must be referenced exactly 2 time(s) by the loops of the face |
+   018 |       | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
    019 | 
-   020 |     Scenario Outline: Check constraints for FaceSets; TriangulatedFaceSet and PolygonalFaceSet
-   021 | 
-   022 |       :doc:`Given An .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   023 |       :doc:`Given .Closed. ^is^ True </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
-   024 | 
-   025 |       :doc:`Then \<Statement\> </steps/thensreferencepy_Everysomethingmustbereferencedexactlynumdtimesbytheloopsoftheface>`
-   026 | 
-   027 |       Examples:
-   028 |         | entity                   | Statement                                                           |
-   029 |         | IfcTriangulatedFaceSet   | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
-   030 |         | IfcTriangulatedFaceSet   | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
-   031 |         | IfcPolygonalFaceSet      | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
-   032 |         | IfcPolygonalFaceSet      | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
+   020 | 
+   021 |     Scenario Outline: Check constraints for FaceSets; TriangulatedFaceSet and PolygonalFaceSet
+   022 | 
+   023 |       :doc:`Given An .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   024 |       :doc:`Given .Closed. ^is^ True </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   025 | 
+   026 |       :doc:`Then \<Statement\> </steps/thensreferencepy_Everysomethingmustbereferencedexactlynumdtimesbytheloopsoftheface>`
+   027 | 
+   028 |       Examples:
+   029 |         | entity                   | Statement                                                           |
+   030 |         | IfcTriangulatedFaceSet   | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
+   031 |         | IfcTriangulatedFaceSet   | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
+   032 |         | IfcPolygonalFaceSet      | Every edge must be referenced exactly 2 time(s) by the loops of the face  |
+   033 |         | IfcPolygonalFaceSet      | Every oriented edge must be referenced exactly 1 time(s) by the loops of the face |
 
 .. rubric:: Version history
 
@@ -61,3 +62,8 @@
      - 2025-08-26
      - :commit:`d8d858fd7f7ce0cfb41840d6da1cf76607fc9d00`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.0/features/rules/GEM/GEM001_Closed-shell-edge-usage.feature>`_
+   * - v4
+     - n/a
+     - 2026-02-22
+     - :commit:`0e644f44c652cb8b8bf448a4337726f0627310d6`
+     - n/a

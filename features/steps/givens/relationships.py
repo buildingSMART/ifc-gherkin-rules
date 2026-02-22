@@ -67,3 +67,8 @@ def step_impl(context, inst, relationship_type, entity):
     if getattr(getattr(inst, extr['attribute'])[0], extr['object_placement']).is_a(entity):
         yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASSED)
 
+
+@gherkin_ifc.step("the instance is used in the context of an .{entity}.")
+def step_impl(context, inst, entity):
+    if any(i.is_a(entity) for i in context.model.get_inverse(inst)):
+        yield ValidationOutcome(inst = inst, severity = OutcomeSeverity.PASSED)

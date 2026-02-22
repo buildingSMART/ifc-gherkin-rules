@@ -1,0 +1,11 @@
+It must not be referenced by itself directly or indirectly
+==========================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *It must not be referenced by itself directly or indirectly*
+
+   :doc:`/features/GRP001_Acyclic-groups`:11
+
+

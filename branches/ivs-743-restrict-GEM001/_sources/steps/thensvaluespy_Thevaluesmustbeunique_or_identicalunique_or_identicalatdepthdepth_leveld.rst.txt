@@ -1,0 +1,37 @@
+The values must be ``unique_or_identical:unique_or_identical`` at depth ``depth_level:d``
+=========================================================================================
+
+.. container:: prewrap
+
+   | NOTE: depth_level is not processed via this step implementation but it does affect instance selection
+   | within the @gherkin_ifc.step decorator.
+   | see validation_handling.py:299
+
+Usages:
+~~~~~~~
+
+ - **Then** *The values must be identical at depth 3*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:27
+
+ - **Then** *The values must be identical at depth 3*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:44
+
+ - **Then** *The values must be unique at depth 1*
+
+   :doc:`/features/GEM003_Unique-representation-identifier`:15
+
+ - **Then** *The values must be identical at depth 3*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:27
+
+ - **Then** *The values must be identical at depth 0*
+
+   :doc:`/features/GRF001_Identical-coordinate-operations`:17
+
+ - **Then** *the values must be identical at depth 1*
+
+   :doc:`/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem`:30
+
+

@@ -1,0 +1,61 @@
+The value of attribute \ .\ ``attribute``\ .\  must be \ ^\ ``value_or_comparison_op``\ ^\ 
+===========================================================================================
+
+.. container:: prewrap
+
+   | Compare an attribute to an expression based on attributes.
+   | 
+   | The {comparison_op} operator can be 'equal to', 'not equal to', 'greater than', 'less than', 'greater than or equal to', and 'less than or equal to'.
+   | 
+   | The {expression} should be composed by attribute values, and use the following operators:
+   | + : addition;
+   | - : subtraction;
+   | * : multiplication;
+   | / : division;
+   | % : modulus;
+   | ** : exponentiation.
+
+Usages:
+~~~~~~~
+
+ - **Then** *The value of attribute .RadiusOfCurvature. must be ^empty^*
+
+   :doc:`/features/ALB012_Alignment-vertical-segment-radius-of-curvature`:18
+
+ - **Then** *The value of attribute .WellKnownText. must be ^not empty^*
+
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:17
+
+ - **Then** *The value of attribute .WellKnownText. must be ^not empty^*
+
+   :doc:`/features/GRF006_WKT-specification-for-missing-EPSG`:25
+
+ - **Then** *the value of attribute .CartesianPosition. must be ^not empty^*
+
+   :doc:`/features/LIP002_Linear-placement-fallback-coordinates`:14
+
+ - **Then** *The value of attribute .ObjectType. must be ^not empty^*
+
+   :doc:`/features/OJT001_Object-predefined-type`:17
+
+ - **Then** *The value of attribute .ElementType. must be ^not empty^*
+
+   :doc:`/features/OJT001_Object-predefined-type`:22
+
+ - **Then** *The value of attribute .ContainedInStructure. must be ^empty^*
+
+   :doc:`/features/SPS003_Correct-containment-of-assemblies`:12
+
+ - **Then** *The value of attribute .PositionedRelativeTo. must be ^empty^*
+
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:14
+
+ - **Then** *The value of attribute .ContainedInStructure. must be ^empty^*
+
+   :doc:`/features/SPS004_No-combination-of-containment-and-positioning`:23
+
+ - **Then** *The value of attribute .ReferencedInStructures. must be ^not empty^*
+
+   :doc:`/features/SPS006_Elements-referenced-in-Spatial-structures`:14
+
+

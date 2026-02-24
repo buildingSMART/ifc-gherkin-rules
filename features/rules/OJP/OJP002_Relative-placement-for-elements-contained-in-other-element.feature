@@ -1,10 +1,8 @@
 @implementer-agreement
 @OJP
-@version3
+@version1
 Feature: OJP002 - Relative placement for elements contained in another element
-The rule verifies that if an IfcElement is a part of another IfcElement (the container) through the relationship
-IfcRelAggregates, then the relative placement of that IfcElement shall be provided by an IfcLocalPlacement
-with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the container element.
+Description
 
   Scenario: Agreement on the relative placement of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates
 

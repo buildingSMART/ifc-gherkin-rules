@@ -1,10 +1,10 @@
-``IFC105`` Resource entities need to be referenced by rooted entity - v3
+``IFC105`` Resource entities need to be referenced by rooted entity - v4
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
 
    001 | \@IFC
-   002 | \@version3
+   002 | \@version4
    003 | \@implementer-agreement
    004 | Feature: IFC105 - Resource entities need to be referenced by rooted entity
    005 | 
@@ -49,3 +49,8 @@
      - 2025-03-04
      - :commit:`79d0fe87a7752aa7ea2d6ef5fa449f5c630102af`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/IFC/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.feature>`_
+   * - v4
+     - n/a
+     - 2026-02-24
+     - :commit:`263276b01c13cfe12bd6572fbb633cc646e3e86a`
+     - n/a

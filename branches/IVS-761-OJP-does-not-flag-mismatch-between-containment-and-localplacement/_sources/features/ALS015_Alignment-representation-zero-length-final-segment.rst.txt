@@ -1,0 +1,55 @@
+``ALS015`` Alignment representation zero length final segment - v3
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALS
+   003 | \@version3
+   004 | 
+   005 | Feature: ALS015 - Alignment representation zero length final segment
+   006 | 
+   007 | The rule verifies that the alignment geometry (representation) curve
+   008 | ends with a discontinuous segment with length = 0.
+   009 | 
+   010 | Background: Validating final segment of alignment geometry (representation).
+   011 |   :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |   :doc:`Given An .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |   :doc:`Given its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |   :doc:`Given Its final element at depth 3 </steps/givensattributespy_Itsfirst_or_finalfirst_or_finalelementatdepthignoredd>`
+   018 | 
+   019 | Scenario: Validating that the final alignment geometry segment is of length 0.0.
+   020 |   :doc:`Then The SegmentLength of the segment must be 0 </steps/thensattributespy_Thelength_attributeofthesegment_typemustbe0>`
+   021 | 
+   022 | Scenario: Validating that the final alignment geometry segment is discontinuous.
+   023 |   :doc:`Given Its attribute .Transition. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   024 |   :doc:`Then The value must be 'DISCONTINUOUS' </steps/thensvaluespy_Theivalue_or_typemustbevalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-01-18
+     - :commit:`d065ac56fad9f58fc31d185f573bafa476f57b80`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS015_Alignment-representation-zero-length-final-segment.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-04-30
+     - :commit:`321a46ccd808c0b20145458e99965290cc0cc845`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS015_Alignment-representation-zero-length-final-segment.feature>`_
+   * - v3
+     - :tag:`v0.7.5`
+     - 2025-04-23
+     - :commit:`7f35a02ee8a48dffdfc0c18cd45b7b85ad1bd9a5`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.5/features/rules/ALS/ALS015_Alignment-representation-zero-length-final-segment.feature>`_

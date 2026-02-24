@@ -18,8 +18,8 @@ except AttributeError as e:
 
 @gherkin_ifc.step("a traversal over the full model originating from subtypes of .{entity_name}.")
 def step_impl(context, entity_name):
-    WHITELISTED_INVERSES = {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment',
-                            'HasSubContexts', 'HasProperties', 'HasRepresentation', 'HasColours', 'HasTextures', 'HasShapeAspects'}
+    allowlisted_inverses = {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment',
+                            'HasSubContexts', 'HasProperties', 'HasRepresentation', 'HasColours', 'HasTextures', 'HasShapeAspects', 'WellKnownText'}
     schema = schema_by_name(context.model.schema_identifier)
 
     @functools.cache
@@ -47,12 +47,12 @@ def step_impl(context, entity_name):
             # entity instance, it saves a lot of time to skip that attribute *on a per-instance level*.
             non_derived_forward_entity_references = filter(is_instance_ref, non_derived_forward_attributes)
 
-            whitelisted_inverse_attributes = filter(lambda attr: attr.name() in WHITELISTED_INVERSES,
+            allowlisted_inverse_attributes = filter(lambda attr: attr.name() in allowlisted_inverses,
                                                     decl.all_inverse_attributes())
             
-            names = {a.name() for a in [*non_derived_forward_entity_references, *whitelisted_inverse_attributes]}
+            name_lookup = {a.name() for a in [*non_derived_forward_entity_references, *allowlisted_inverse_attributes]}
         
-            return names
+            return name_lookup
         else:
             return set()
 

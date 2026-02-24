@@ -1,0 +1,11 @@
+The relative placement of that ``entity`` is provided by an ``other_entity`` entity
+===================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *The relative placement of that IfcElement is provided by an IfcLocalPlacement entity*
+
+   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:15
+
+

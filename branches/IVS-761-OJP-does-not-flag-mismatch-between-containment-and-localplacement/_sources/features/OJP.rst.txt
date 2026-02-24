@@ -9,4 +9,5 @@ The ability to define the location, orientation, and scale of built elements and
 
    OJP000_Object-placement
    OJP001_Relative-placement-for-elements-aggregated-to-another-element
+   OJP002_Relative-placement-for-elements-contained-in-other-element
 

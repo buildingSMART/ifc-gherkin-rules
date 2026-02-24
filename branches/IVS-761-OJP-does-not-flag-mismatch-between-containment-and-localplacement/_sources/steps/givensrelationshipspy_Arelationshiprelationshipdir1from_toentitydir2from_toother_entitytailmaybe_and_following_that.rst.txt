@@ -32,6 +32,10 @@ Usages:
 
    :doc:`/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element`:13
 
+ - **Given** *A relationship .IfcRelContainedInSpatialStructure. from .IfcSpatialStructureElement. to .IfcElement. and following that*
+
+   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:13
+
  - **Given** *A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that*
 
    :doc:`/features/OJT001_Object-predefined-type`:28

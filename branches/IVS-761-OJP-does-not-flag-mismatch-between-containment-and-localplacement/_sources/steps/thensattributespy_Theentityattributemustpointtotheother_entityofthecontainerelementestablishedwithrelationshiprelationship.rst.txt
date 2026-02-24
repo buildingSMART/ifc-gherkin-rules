@@ -10,6 +10,6 @@ Usages:
 
  - **Then** *The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelContainedInSpatialStructure relationship*
 
-   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:17
+   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:15
 
 

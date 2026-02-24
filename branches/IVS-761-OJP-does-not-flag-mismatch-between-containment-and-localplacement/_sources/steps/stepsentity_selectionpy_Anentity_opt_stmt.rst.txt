@@ -717,7 +717,7 @@ Usages:
 
  - **Given** *An .IfcSpatialStructureElement.*
 
-   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:12
+   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:10
 
  - **Given** *An .IfcProject.*
 

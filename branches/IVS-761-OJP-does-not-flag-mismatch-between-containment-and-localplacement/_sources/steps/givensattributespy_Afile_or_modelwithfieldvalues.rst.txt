@@ -278,7 +278,7 @@ Usages:
 
  - **Given** *A model with Schema 'IFC2X3' or 'IFC4'*
 
-   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:11
+   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:9
 
  - **Given** *a model with Schema 'IFC4' or 'IFC4.3'*
 

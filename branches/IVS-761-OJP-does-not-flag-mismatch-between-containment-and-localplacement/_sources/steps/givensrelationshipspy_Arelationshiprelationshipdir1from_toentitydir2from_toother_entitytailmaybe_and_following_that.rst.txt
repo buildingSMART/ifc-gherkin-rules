@@ -34,7 +34,7 @@ Usages:
 
  - **Given** *A relationship .IfcRelContainedInSpatialStructure. from .IfcSpatialStructureElement. to .IfcElement. and following that*
 
-   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:13
+   :doc:`/features/OJP002_Relative-placement-for-elements-contained-in-other-element`:11
 
  - **Given** *A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that*
 

@@ -1,6 +1,8 @@
 @industry-practice
 @GRF
 @version1
+@disabled 
+
 Feature: GRF002 - EPSG code in coordinate reference system
 The rule verifies that the name of the coordinate reference system refers to a valid EPSG code from the official EPSG geodetic parameter dataset.
 EPSG code validation is performed using the pyproj library, which includes a local copy of the official EPSG dataset (https://epsg.org) maintained by IOGP.

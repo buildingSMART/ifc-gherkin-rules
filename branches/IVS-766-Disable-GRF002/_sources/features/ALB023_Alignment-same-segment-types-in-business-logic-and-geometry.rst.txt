@@ -1,0 +1,74 @@
+``ALB023`` Alignment same segment types in business logic and geometry - v2
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version2
+   004 | 
+   005 | Feature: ALB023 - Alignment same segment types in business logic and geometry
+   006 |   The rule verifies that when an Alignment has both business logic and geometry (representation),
+   007 |   the geometry type of each segments in the business logic must be the same as its corresponding segment in the representation.
+   008 | 
+   009 | Background: Validating schema version
+   010 |   :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 | 
+   012 | Scenario: Validating the same geometry types for representation of the alignment
+   013 |   :doc:`Given An .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |   :doc:`Given Its attribute .Item. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 |   :doc:`Then  Each segment must have the same geometry type as its corresponding segment in the applicable IfcAlignment layout </steps/thensalignmentpy_Eachsegmentmusthavethesamegeometrytypeasitscorrespondingactivation_phrase>`
+   018 | 
+   019 | Scenario: Validating the same geometry type for representation of the horizontal layout
+   020 |   :doc:`Given An .IfcAlignmentHorizontal. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   021 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   022 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   023 |   :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   024 |   :doc:`Then  Each segment must have the same geometry type as its corresponding segment in the horizontal layout </steps/thensalignmentpy_Eachsegmentmusthavethesamegeometrytypeasitscorrespondingactivation_phrase>`
+   025 | 
+   026 | Scenario: Validating the same geometry type for representation of the vertical layout
+   027 |   :doc:`Given An .IfcAlignmentVertical. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   028 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   029 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   030 |   :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   031 |   :doc:`Then  Each segment must have the same geometry type as its corresponding segment in the vertical layout </steps/thensalignmentpy_Eachsegmentmusthavethesamegeometrytypeasitscorrespondingactivation_phrase>`
+   032 | 
+   033 | Scenario: Validating the same geometry type for representation of the cant layout
+   034 |   :doc:`Given An .IfcAlignmentCant. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   035 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   036 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   037 |   :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   038 |   :doc:`Then  Each segment must have the same geometry type as its corresponding segment in the cant layout </steps/thensalignmentpy_Eachsegmentmusthavethesamegeometrytypeasitscorrespondingactivation_phrase>`
+   039 | 
+   040 | Scenario: Validating the same geometry type for representation of the individual segments
+   041 |   :doc:`Given An .IfcAlignmentSegment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   042 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   043 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   044 |   :doc:`Given Its attribute .Items. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   045 |   :doc:`Then  Each segment must have the same geometry type as its corresponding alignment segment </steps/thensalignmentpy_Eachsegmentmusthavethesamegeometrytypeasitscorrespondingactivation_phrase>`
+   046 | 
+   047 | 
+   048 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-04-10
+     - :commit:`73142c07e2af2f94f26f15bb4176f2db6b83ab40`
+     - n/a
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-06-21
+     - :commit:`e7816d59f4499ac8a806be07a5268de1cf086795`
+     - n/a

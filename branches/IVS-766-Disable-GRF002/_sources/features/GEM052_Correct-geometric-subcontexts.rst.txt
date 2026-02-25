@@ -1,0 +1,57 @@
+``GEM052`` Correct geometric subcontexts - v2
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@industry-practice
+   002 | \@GEM
+   003 | \@version2
+   004 | 
+   005 | Feature: GEM052 - Correct geometric subcontexts
+   006 | The rule verifies that there is a minimum of at least one subcontext per context, that its attribute ContextIdentifier is provided (not empty) and its value is one of the allowed values in the list of shape representation identifiers.
+   007 | Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.
+   008 | 
+   009 |     Scenario: Each geometric context must have a subcontext
+   010 | 
+   011 |         :doc:`Given a model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |         :doc:`Given an .IfcGeometricRepresentationContext. ^without subtypes^ </steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling>`
+   013 | 
+   014 |         :doc:`Then .HasSubContexts. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   015 | 
+   016 | 
+   017 |     Scenario: Constraints on context identifier
+   018 | 
+   019 |         :doc:`Given a model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   020 |         :doc:`Given An .IfcGeometricRepresentationSubContext. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   021 |         :doc:`Given Its attribute .ContextIdentifier. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   022 | 
+   023 |         :doc:`Then The values must be in 'valid\_ShapeRepresentationIdentifier.csv' </steps/thensvaluespy_Theivalues_or_typesmustbeincsv_filecsv>`
+   024 | 
+   025 | 
+   026 |     Scenario: Context identifier must not be empty
+   027 | 
+   028 |         :doc:`Given a model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   029 |         :doc:`Given An .IfcGeometricRepresentationSubContext. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   030 | 
+   031 |         :doc:`Then .ContextIdentifier. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-07-14
+     - :commit:`93adeb8d403b768a607c5d1eebb9ba0338eeeaa3`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM052_Correct-geometric-subcontexts.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-08-05
+     - :commit:`c5808bfa00bbfc3cfed53ffc8d92cd3e0ce34491`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM052_Correct-geometric-subcontexts.feature>`_

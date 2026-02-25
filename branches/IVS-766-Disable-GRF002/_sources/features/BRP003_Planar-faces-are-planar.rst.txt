@@ -1,0 +1,37 @@
+``BRP003`` Planar faces are planar - v2
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@BRP
+   003 | \@version2
+   004 | 
+   005 | Feature: BRP003 - Planar faces are planar
+   006 | The rule verifies that polygonal faces of open and closed shells, which do not have an explicit underlying surface geometry, are planar within the tolerance measure set in the geometric representation context.
+   007 | 
+   008 |   Scenario: IfcFace
+   009 | 
+   010 |     :doc:`Given an .IfcFace. ^without subtypes^ </steps/stepsentity_selectionpy_Anentity_opt_stmtsubtype_handling>`
+   011 |     :doc:`Then the boundaries of the face must conform to the implicit plane fitted through the boundary points </steps/thensgeometrypy_theboundariesofthefacemustconformtotheimplicitplanefittedthroughtheboundarypoints>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.1`
+     - 2025-03-04
+     - :commit:`fdc56e587102fe20e25811efe9df43c430d202c0`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/BRP/BRP003_Planar-faces-are-planar.feature>`_
+   * - v2
+     - :tag:`v0.7.3`
+     - 2025-03-26
+     - :commit:`bd223025d8e2441af524165c7b9b24f88800449b`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/BRP/BRP003_Planar-faces-are-planar.feature>`_

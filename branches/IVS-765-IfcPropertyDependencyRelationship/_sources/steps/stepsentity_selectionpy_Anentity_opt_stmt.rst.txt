@@ -349,7 +349,7 @@ Usages:
 
  - **Given** *An .IfcCoordinateReferenceSystem.*
 
-   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:12
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:14
 
  - **Given** *an .IfcBuilding.*
 
@@ -669,7 +669,7 @@ Usages:
 
  - **Given** *an .entity instance.*
 
-   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:13
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:16
 
  - **Given** *an .IfcProduct.*
 

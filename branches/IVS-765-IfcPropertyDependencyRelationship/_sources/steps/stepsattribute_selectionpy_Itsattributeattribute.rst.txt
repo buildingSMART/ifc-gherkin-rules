@@ -474,7 +474,7 @@ Usages:
 
  - **Given** *Its attribute .Name.*
 
-   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:13
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:15
 
  - **Given** *Its attribute .Name.*
 

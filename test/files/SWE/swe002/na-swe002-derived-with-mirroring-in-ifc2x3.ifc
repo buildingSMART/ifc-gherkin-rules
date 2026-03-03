@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
-FILE_NAME('fail-swe002-derived-with-mirroring.ifc','2011-11-11T21:50:39',(''),(''),'', 'Unknown - Constructivity - v0.9.1', '');
+FILE_NAME('na-swe002-derived-with-mirroring-in-ifc2x3.ifc','2011-11-11T21:50:39',(''),(''),'', 'redacted - redacted - 3.14159', '');
 FILE_SCHEMA(('IFC2X3'));
 ENDSEC;
 DATA;

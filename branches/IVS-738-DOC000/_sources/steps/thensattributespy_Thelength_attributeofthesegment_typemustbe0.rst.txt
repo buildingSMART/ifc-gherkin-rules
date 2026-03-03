@@ -1,0 +1,23 @@
+The ``length_attribute`` of the ``segment_type`` must be 0
+==========================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The SegmentLength of the IfcAlignmentHorizontalSegment must be 0*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:15
+
+ - **Then** *The HorizontalLength of the IfcAlignmentVerticalSegment must be 0*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:23
+
+ - **Then** *The HorizontalLength of the IfcAlignmentCantSegment must be 0*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:31
+
+ - **Then** *The SegmentLength of the segment must be 0*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:20
+
+

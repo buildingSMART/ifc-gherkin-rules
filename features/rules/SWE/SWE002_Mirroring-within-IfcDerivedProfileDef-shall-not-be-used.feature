@@ -1,6 +1,6 @@
 @informal-proposition
 @SWE
-@version2
+@version3
 Feature: SWE002 - Mirroring within IfcDerivedProfileDef shall not be used
 
 The rule verifies that the transformation defined in IfcDerivedProfileDef.Operator does not introduce mirroring.
@@ -9,6 +9,8 @@ IfcDerivedProfileDef, by expressing the tapering operation as a change in profil
 altogether.
 
   Scenario: IfcDerivedProfileDef must not use mirroring as there is a dedicated subtype for that
+
+    Given A model with Schema 'IFC4' or 'IFC4.3'
 
     Given An .IfcDerivedProfileDef. ^without subtypes^
     Given Its attribute .Operator.

@@ -1,0 +1,68 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('fail-swe002-derived-with-mirroring.ifc','2011-11-11T21:50:39',(''),(''),'', 'Unknown - Constructivity - v0.9.1', '');
+FILE_SCHEMA(('IFC2X3'));
+ENDSEC;
+DATA;
+
+/* ================================================================================ */
+/* A. PROJECT CONTEXT                                                               */
+/* -------------------------------------------------------------------------------- */
+
+/* Project default units are inches */
+#11= IFCSIUNIT(*,.LENGTHUNIT.,$,.METRE.);
+#12= IFCMEASUREWITHUNIT(IFCLENGTHMEASURE(0.0254),#11);
+#13= IFCDIMENSIONALEXPONENTS(1,0,0,0,0,0,0);
+#14= IFCCONVERSIONBASEDUNIT(#13,.LENGTHUNIT.,'inch',#12);
+#15= IFCUNITASSIGNMENT((#14));
+
+/* Owner history authoring and application information. */
+#204= IFCORGANIZATION($,'Constructivity.com LLC',$,$,$);
+#205= IFCAPPLICATION(#204,'0.9.1','Constructivity','CONSTRUCTIVITY');
+#206= IFCPERSON('a','b','c',$,$,$,$,$);
+#207= IFCORGANIZATION($,'Tim-PC',$,$,$);
+#208= IFCPERSONANDORGANIZATION(#206,#207,$);
+#209= IFCOWNERHISTORY(#208,#205,.READWRITE.,.NOCHANGE.,$,$,$,1321047295);
+
+/* Representation contexts. */
+#210= IFCCARTESIANPOINT((0.,0.,0.));
+#211= IFCAXIS2PLACEMENT3D(#210,$,$);
+#212= IFCGEOMETRICREPRESENTATIONCONTEXT('3D','Model',3,1.0E-5,#211,$);
+
+/* The single project indicates project default units and representation contexts. */
+#213= IFCPROJECT('3EasFN11P0zQRYKyp7G85J',#209,'HVAC Product Type Library Example','Demonstrates an air terminal type, which may be instantiated in buildings within referencing files.','ProductLibrary',$,$,(#212),#15);
+
+/* ================================================================================ */
+/* B. AIR TERMINAL TYPE                                                             */
+/* -------------------------------------------------------------------------------- */
+
+/* The head profile (at the base of the diffuser) is 2 feet by 2 feet, with 2 inch thickness, and 10 inch inner fillet radius (making it a circle for the interior). */
+#224= IFCRECTANGLEHOLLOWPROFILEDEF(.AREA.,$,#2240,24.,24.,2.,10.,0.1);
+#2240= IFCAXIS2PLACEMENT2D(#232,$);
+
+/* The solid is placed at the midpoint of the base profile, such that the corner is aligned with the origin (0,0,0). */
+#228= IFCCARTESIANPOINT((12.,12.,0.));
+#229= IFCAXIS2PLACEMENT3D(#228,$,$);
+
+/* the solid is extruded upwards. */
+#230= IFCDIRECTION((0.,0.,1.));
+
+#232= IFCCARTESIANPOINT((0.,0.));
+#23300= IFCDIRECTION((-1.,0.));
+#23301= IFCDIRECTION((0.,1.));
+#233= IFCCARTESIANTRANSFORMATIONOPERATOR2D(#23300,#23301,#232,0.5);
+#234= IFCDERIVEDPROFILEDEF(.AREA.,$,#224,#233,$);
+
+#235= IFCEXTRUDEDAREASOLID(#234,#229,#230,4.);
+
+/* The Body representation indicating 3D shape. */
+#237= IFCSHAPEREPRESENTATION(#212,'Body','SweptSolid',(#235));
+
+/* A representation map references the Body representation without any transformation. */
+#238= IFCCARTESIANPOINT((0.,0.,0.));
+#239= IFCAXIS2PLACEMENT3D(#238,$,$);
+#240= IFCREPRESENTATIONMAP(#239,#237);
+
+ENDSEC;
+END-ISO-10303-21;

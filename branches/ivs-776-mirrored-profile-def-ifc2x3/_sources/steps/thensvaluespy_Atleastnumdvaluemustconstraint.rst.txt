@@ -1,0 +1,15 @@
+At least '``num:d``' value must ``constraint``
+==============================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *at least '1' value must be 'SOURCE'*
+
+   :doc:`/features/SYS001_Cable-signal-flow`:21
+
+ - **Then** *at least '1' value must be 'SINK'*
+
+   :doc:`/features/SYS001_Cable-signal-flow`:22
+
+

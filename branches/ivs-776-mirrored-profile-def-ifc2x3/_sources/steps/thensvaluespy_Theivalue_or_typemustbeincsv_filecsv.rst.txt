@@ -1,0 +1,16 @@
+The ``i:value_or_type`` must be in '``csv_file``\ .\ csv'
+=========================================================
+
+.. container:: prewrap
+
+   | This implementation supports basic reading from CSV resources that have a single field and no header.
+   | It validates a value against a single field, but does not support CSV resources with multiple fields per row.
+
+Usages:
+~~~~~~~
+
+ - **Then** *the type must be in 'valid_ProjectDeclaration.csv'*
+
+   :doc:`/features/PJS002_Correct-elements-related-to-project`:15
+
+

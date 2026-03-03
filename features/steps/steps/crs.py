@@ -1,3 +1,4 @@
+from math import isclose
 from pyproj.database import query_crs_info
 from pyproj import CRS
 from validation_handling import gherkin_ifc
@@ -52,24 +53,41 @@ def get_horizontal_unit_factors(crs: CRS) -> set[float]:
 @gherkin_ifc.step("The map conversion scale must be the quotient of the project length units and the target CRS length units")
 def step_impl(context, inst):
     error_found = False
-    proj_unit = unit.calculate_unit_scale(context.model, unit_type='LENGTHUNIT')
-    map_conversion_scale = getattr(inst, 'Scale', 1)
+    proj_unit_factor = unit.calculate_unit_scale(context.model, unit_type='LENGTHUNIT')
+    map_conversion_scale = getattr(inst, 'Scale', 1.)
+    map_conversion_scale_factor = 1.0 if not map_conversion_scale else map_conversion_scale
 
     crs = getattr(inst, 'TargetCRS', None)
     if crs is not None:
         epsg_crs = CRS.from_string(crs.Name)
-        unit_conversion_factors = get_horizontal_unit_factors(epsg_crs)
+        crs_unit_factors = get_horizontal_unit_factors(epsg_crs)
 
-        if len(unit_conversion_factors ) != 1:
+        if len(crs_unit_factors) != 1:
             error_found = True
             yield ValidationOutcome(inst=inst, observed=f"could not determine unique horizontal unit conversion factor from CRS {crs.Name}", severity=OutcomeSeverity.ERROR)
 
-        if not error_found and unit_conversion_factors:
-            unit_conversion_factor = next(iter(unit_conversion_factors))
-            units_match = unit_conversion_factor / proj_unit 
-            if units_match != 1 and map_conversion_scale != units_match:
-                error_found = True
-                yield ValidationOutcome(inst=inst, observed=f"map conversion factor {map_conversion_scale} does not reflect mismatch of unit conversion factor {unit_conversion_factor} and project length unit scale {proj_unit}", severity=OutcomeSeverity.ERROR)
+        if (not error_found) and crs_unit_factors:
+            crs_unit_factor = next(iter(crs_unit_factors))
+            if (not map_conversion_scale) or (map_conversion_scale == 1.):
+                # No scaling was provided for the target CRS.
+                # Therefore, the project length units and crs units must match
+
+                # Relative tolerance of 1E-9 corresponds to 1 part per billion.
+                # This is appropriate for imperial projects using Northing and Easting coordinates
+                # that are often in the range 1E6 or even 1E7.
+                if not isclose(crs_unit_factor, proj_unit_factor, abs_tol=0., rel_tol=1E-9):
+                    error_found = True
+                    yield ValidationOutcome(inst=inst,
+                                        observed=f"map conversion scale {map_conversion_scale} does not reflect mismatch of target CRS unit conversion factor {crs_unit_factor} and project length unit scale {proj_unit_factor}",
+                                        severity=OutcomeSeverity.ERROR)
+            else:
+                # Scale factor provided for IfcMapConversion.
+                # Confirm that it matches the expected value.
+                quotient = crs_unit_factor / proj_unit_factor
+
+                if not isclose(quotient, map_conversion_scale_factor, abs_tol=0., rel_tol=1E-9):
+                    error_found = True
+                    yield ValidationOutcome(inst=inst, observed=f"map conversion scale {map_conversion_scale} does not reflect the quotient of the target CRS unit conversion factor {crs_unit_factor } divided by the project length unit scale {proj_unit_factor}", severity=OutcomeSeverity.ERROR)
     
     if not error_found:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)

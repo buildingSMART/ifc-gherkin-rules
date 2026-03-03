@@ -1,0 +1,11 @@
+It [must be nested by only the following entities]: \ .\ ``other_entities``\ .\ 
+================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *It [must be nested by only the following entities]: .IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent.*
+
+   :doc:`/features/ALB003_Alignment-nesting`:15
+
+

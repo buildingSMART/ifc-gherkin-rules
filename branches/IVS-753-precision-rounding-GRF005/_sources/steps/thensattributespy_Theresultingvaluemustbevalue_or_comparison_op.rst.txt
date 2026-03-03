@@ -1,0 +1,29 @@
+The resulting value must be \ ^\ ``value_or_comparison_op``\ ^\ 
+================================================================
+
+.. container:: prewrap
+
+   | Compare an attribute to an expression based on attributes.
+   | 
+   | The {comparison_op} operator can be 'equal to', 'not equal to', 'greater than', 'less than', 'greater than or equal to', and 'less than or equal to'.
+   | 
+   | The {expression} should be composed by attribute values, and use the following operators:
+   | + : addition;
+   | - : subtraction;
+   | * : multiplication;
+   | / : division;
+   | % : modulus;
+   | ** : exponentiation.
+
+Usages:
+~~~~~~~
+
+ - **Then** *The resulting value must be ^greater than 0^*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:17
+
+ - **Then** *The resulting value must be ^greater than 0^*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:27
+
+

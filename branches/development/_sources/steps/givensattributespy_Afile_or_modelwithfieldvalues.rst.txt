@@ -320,6 +320,10 @@ Usages:
 
    :doc:`/features/SPS008_Spatial-container-representations`:27
 
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:13
+
  - **Given** *A model with Schema 'IFC4.3'*
 
    :doc:`/features/SYS001_Cable-signal-flow`:10

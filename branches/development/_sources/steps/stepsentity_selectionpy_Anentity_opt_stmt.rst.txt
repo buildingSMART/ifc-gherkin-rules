@@ -853,11 +853,11 @@ Usages:
 
  - **Given** *An .IfcExtrudedAreaSolidTapered.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:21
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
 
  - **Given** *An .IfcRevolvedAreaSolidTapered.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:21
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
 
  - **Given** *an .IfcCableSegment.*
 

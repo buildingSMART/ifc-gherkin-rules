@@ -228,7 +228,7 @@ Usages:
 
  - **Given** *[Its entity type] ^is^ 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef'*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:25
 
  - **Given** *[Its Entity Type] ^is^ 'IfcIndexedPolygonalFaceWithVoids'*
 

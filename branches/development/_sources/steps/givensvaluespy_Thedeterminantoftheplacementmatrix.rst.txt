@@ -6,10 +6,10 @@ Usages:
 
  - **Given** *The determinant of the placement matrix*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:15
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:17
 
  - **Given** *The determinant of the placement matrix*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:25
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:27
 
 

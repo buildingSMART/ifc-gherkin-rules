@@ -630,19 +630,19 @@ Usages:
 
  - **Given** *Its attribute .Operator.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:14
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:16
 
  - **Given** *Its attribute .SweptArea.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:22
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:24
 
  - **Given** *Its attribute .Operator.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:24
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:26
 
  - **Given** *Its attribute .EndSweptArea.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:22
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:24
 
  - **Given** *Its attribute .FlowDirection.*
 

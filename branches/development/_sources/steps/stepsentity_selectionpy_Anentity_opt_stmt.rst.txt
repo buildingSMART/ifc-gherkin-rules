@@ -257,11 +257,11 @@ Usages:
 
  - **Given** *An .IfcTriangulatedFaceSet.*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:22
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:23
 
  - **Given** *An .IfcPolygonalFaceSet.*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:22
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:23
 
  - **Given** *An .IfcSpace.*
 

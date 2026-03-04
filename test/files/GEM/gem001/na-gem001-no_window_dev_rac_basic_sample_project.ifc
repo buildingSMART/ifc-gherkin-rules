@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [DesignTransferView_V1.0]','RevitIdentifiers [ContentGUID: e340d1fc-19c1-4200-9ff0-415bc126641d, VersionGUID: 0b975f87-76c0-4679-9b64-18f2b11d379f, NumberOfSaves: 15]','CoordinateReference [CoordinateBase: Shared Coordinates]'),'2;1');
-FILE_NAME('no-window-dev-rac_basic_sample_project.ifc','2025-07-28T12:06:54-05:00',(''),(''),'ODA SDAI 25.12','Autodesk - Revit 27.0.0.0 (ENU) - 27.0.0.0','');
+FILE_NAME('na-gem001-no-window-dev-rac_basic_sample_project.ifc','2025-07-28T12:06:54-05:00',(''),(''),'ODA SDAI 25.12','Autodesk - Revit 27.0.0.0 (ENU) - 27.0.0.0','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 
@@ -206,7 +206,7 @@ DATA;
 #198=IFCORIENTEDEDGE(*,*,#109,.T.);
 #199=IFCORIENTEDEDGE(*,*,#113,.T.);
 #200=IFCEDGELOOP((#190,#191,#192,#193,#194,#195,#196,#197,#198,#199));
-#201=IFCFACEOUTERBOUND(#200,.F.);
+#201=IFCFACEOUTERBOUND(#200,.T.);
 #202=IFCDIRECTION((-0.,-0.69329027309872548,0.72065844699600567));
 #203=IFCAXIS2PLACEMENT3D(#105,#180,#202);
 #204=IFCPLANE(#203);

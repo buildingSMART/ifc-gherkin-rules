@@ -1,6 +1,6 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition [DesignTransferView_V1.0]','RevitIdentifiers [ContentGUID: 8a3e4115-6eda-4283-8f31-959322c204e3, VersionGUID: 230c5446-f95c-4da8-8796-25aa27af3a2a, NumberOfSaves: 6]','CoordinateReference [CoordinateBase: Shared Coordinates]'),'2;1');
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]','RevitIdentifiers [ContentGUID: 8a3e4115-6eda-4283-8f31-959322c204e3, VersionGUID: 230c5446-f95c-4da8-8796-25aa27af3a2a, NumberOfSaves: 6]','CoordinateReference [CoordinateBase: Shared Coordinates]'),'2;1');
 FILE_NAME('na-gem001-adsk-simplercone.ifc','2026-02-05T21:21:44-05:00',(''),(''),'ODA SDAI 25.12','Autodesk - Revit 28.0.0.0 (ENU) - 28.0.0.0','');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;

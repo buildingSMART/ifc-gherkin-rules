@@ -123,30 +123,21 @@
 006 |     The rule verifies the presence of IFC entities used to define external documents, which may be used to attach arbitrary information to objects.
 007 |     <a class="reference external" href="https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Document_Information/content.html">https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Document_Information/content.html</a>
 008 |
-009 |
-010 |     Scenario: CT 4.1.9.3 Project Document Information
-011 |
-012 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcObject.</span></a>
-013 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .HasAssociations.</span></a>
-014 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [its entity type] ^is^ 'IfcRelAssociatesDocument'</span></a>
-015 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .RelatingDocument.</span></a>
-016 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [its entity type] ^is^ 'IfcDocumentInformation'</span></a>
-017 |
-018 |     <a class="reference internal" href="../steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description.html"><span class="doc">Then The IFC model contains information on external documents</span></a>
-019 |
+009 |     Scenario Outline: IFC model with external document references
+010 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;entity type&gt;.</span></a>
+011 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .HasAssociations.</span></a>
+012 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [its entity type] ^is^ 'IfcRelAssociatesDocument'</span></a>
+013 |
+014 |     <a class="reference internal" href="../steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description.html"><span class="doc">Then The IFC model contains information on external documents</span></a>
+015 |
+016 |     Examples:
+017 |         | entity type |
+018 |         | IfcContext  |
+019 |         | IfcObject   |
 020 |
-021 |     Scenario: CT 4.1.2.4 Document Association
+021 |
 022 |
-023 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcObjectDefinition.</span></a>
-024 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .HasAssociations.</span></a>
-025 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [its entity type] ^is^ 'IfcRelAssociatesDocument'</span></a>
-026 |     <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given its attribute .RelatingDocument.</span></a>
-027 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Given [its entity type] ^is^ 'IfcDocumentReference'</span></a>
-028 |
-029 |     <a class="reference internal" href="../steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description.html"><span class="doc">Then The IFC model contains information on external documents</span></a>
-030 |
-031 |
-032 |</pre>
+023 |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

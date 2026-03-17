@@ -247,13 +247,13 @@ Usages:
 
    :doc:`/features/CTX000_Presentation-colours-and-textures`:24
 
+ - **Given** *an .IfcContext.*
+
+   :doc:`/features/DOC000_Document-information`:10
+
  - **Given** *an .IfcObject.*
 
-   :doc:`/features/DOC000_Document-information`:12
-
- - **Given** *an .IfcObjectDefinition.*
-
-   :doc:`/features/DOC000_Document-information`:23
+   :doc:`/features/DOC000_Document-information`:10
 
  - **Given** *an .IfcProduct.*
 
@@ -265,11 +265,11 @@ Usages:
 
  - **Given** *An .IfcTriangulatedFaceSet.*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:22
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:23
 
  - **Given** *An .IfcPolygonalFaceSet.*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:22
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:23
 
  - **Given** *An .IfcSpace.*
 
@@ -861,11 +861,11 @@ Usages:
 
  - **Given** *An .IfcExtrudedAreaSolidTapered.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:21
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
 
  - **Given** *An .IfcRevolvedAreaSolidTapered.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:21
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
 
  - **Given** *an .IfcCableSegment.*
 

@@ -50,11 +50,7 @@ Usages:
 
  - **Then** *The IFC model contains information on external documents*
 
-   :doc:`/features/DOC000_Document-information`:18
-
- - **Then** *The IFC model contains information on external documents*
-
-   :doc:`/features/DOC000_Document-information`:29
+   :doc:`/features/DOC000_Document-information`:14
 
  - **Then** *The IFC model contains information on the selected functional part*
 

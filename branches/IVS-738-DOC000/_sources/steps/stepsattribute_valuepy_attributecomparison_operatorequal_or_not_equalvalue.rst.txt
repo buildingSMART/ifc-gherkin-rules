@@ -136,19 +136,7 @@ Usages:
 
  - **Given** *[its entity type] ^is^ 'IfcRelAssociatesDocument'*
 
-   :doc:`/features/DOC000_Document-information`:14
-
- - **Given** *[its entity type] ^is^ 'IfcDocumentInformation'*
-
-   :doc:`/features/DOC000_Document-information`:16
-
- - **Given** *[its entity type] ^is^ 'IfcRelAssociatesDocument'*
-
-   :doc:`/features/DOC000_Document-information`:25
-
- - **Given** *[its entity type] ^is^ 'IfcDocumentReference'*
-
-   :doc:`/features/DOC000_Document-information`:27
+   :doc:`/features/DOC000_Document-information`:12
 
  - **Given** *[Its entity type] ^is^ 'IfcGridPlacement'*
 
@@ -244,7 +232,7 @@ Usages:
 
  - **Given** *[Its entity type] ^is^ 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef'*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:25
 
  - **Given** *[Its Entity Type] ^is^ 'IfcIndexedPolygonalFaceWithVoids'*
 

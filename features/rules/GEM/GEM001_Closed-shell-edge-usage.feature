@@ -1,13 +1,14 @@
 @informal-proposition
 @GEM
-@version3
+@version4
 
 Feature: GEM001 - Closed shell edge usage
-The rule verifies that closed shells and closed facesets edges are referenced correctly.
+The rule verifies that closed faceted shells and closed facesets edges are referenced correctly.
 
   Scenario Outline: IfcClosedShell
 
     Given An .IfcClosedShell.
+    Given The instance is used in the context of an .IfcFacetedBrep.
 
     Then <Statement>
 

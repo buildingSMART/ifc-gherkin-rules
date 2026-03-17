@@ -6,27 +6,18 @@ Feature: DOC000 - Document information
     The rule verifies the presence of IFC entities used to define external documents, which may be used to attach arbitrary information to objects.
     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Document_Information/content.html
 
-
-    Scenario: CT 4.1.9.3 Project Document Information
-
-    Given an .IfcObject.
+    Scenario Outline: IFC model with external document references
+    Given an .<entity type>.
     Given its attribute .HasAssociations.
     Given [its entity type] ^is^ 'IfcRelAssociatesDocument'
-    Given its attribute .RelatingDocument.
-    Given [its entity type] ^is^ 'IfcDocumentInformation'
 
     Then The IFC model contains information on external documents
 
+    Examples:
+        | entity type |
+        | IfcContext  |
+        | IfcObject   |
 
-    Scenario: CT 4.1.2.4 Document Association
-
-    Given an .IfcObjectDefinition.
-    Given its attribute .HasAssociations.
-    Given [its entity type] ^is^ 'IfcRelAssociatesDocument'
-    Given its attribute .RelatingDocument.
-    Given [its entity type] ^is^ 'IfcDocumentReference'
-
-    Then The IFC model contains information on external documents
 
 
 

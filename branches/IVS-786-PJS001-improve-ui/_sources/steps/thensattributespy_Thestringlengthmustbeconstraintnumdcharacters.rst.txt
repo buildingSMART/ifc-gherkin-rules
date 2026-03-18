@@ -1,0 +1,11 @@
+The string length must be ``constraint`` '``num:d``' characters
+===============================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The string length must be exactly '22' characters*
+
+   :doc:`/features/PJS003_Globally-Unique-Identifiers`:18
+
+

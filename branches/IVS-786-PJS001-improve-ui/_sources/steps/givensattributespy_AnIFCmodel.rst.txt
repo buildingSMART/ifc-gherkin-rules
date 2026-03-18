@@ -1,0 +1,27 @@
+An IFC model
+============
+
+Usages:
+~~~~~~~
+
+ - **Given** *An IFC model*
+
+   :doc:`/features/IFC101_Only-official-ifc-versions-allowed`:10
+
+ - **Given** *An IFC model*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:17
+
+ - **Given** *An IFC model*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:50
+
+ - **Given** *An IFC model*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:90
+
+ - **Given** *an IFC Model*
+
+   :doc:`/features/PJS101_Project-presence`:10
+
+

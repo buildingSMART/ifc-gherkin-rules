@@ -1,0 +1,39 @@
+``ALB000`` Alignment layout - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | 
+   005 | Feature: ALB000 - Alignment layout
+   006 |     The rule verifies the presence of IFC entities used to define the business logic, or layout, of an alignment.
+   007 |     IfcAlignment can be nested by instances of IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent, or "child" instances of IfcAlignment.
+   008 |     However, IfcAlignmentHorizontal is always present in any definition of an alignment layout, regardless of the presence or absence of other related entities.
+   009 | 
+   010 |     Scenario: Check for activation
+   011 | 
+   012 |     :doc:`Given a model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   013 |     :doc:`Given an .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |     :doc:`Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcAlignmentHorizontal. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   015 | 
+   016 |     :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   017 | 
+   018 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.5`
+     - 2025-04-19
+     - :commit:`e525eab6c949365a10017b437b65062d8d276d94`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.5/features/rules/ALB/ALB000_Alignment-layout.feature>`_

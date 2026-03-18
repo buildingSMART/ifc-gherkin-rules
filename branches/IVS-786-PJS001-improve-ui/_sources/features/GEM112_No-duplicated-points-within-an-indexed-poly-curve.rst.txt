@@ -1,0 +1,34 @@
+``GEM112`` No duplicated points within an indexed poly curve - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GEM
+   003 | \@version1
+   004 | Feature: GEM112 - No duplicated points within an indexed poly curve
+   005 | The rule verifies that all indexed poly curves will have no duplicate points.
+   006 | Two points are considered to be duplicates if the distance between them is less than
+   007 | the Precision factor of the applicable geometric context.
+   008 | 
+   009 |   Scenario: Agreement on no duplicated points within an indexed poly curve
+   010 | 
+   011 |     :doc:`Given An .IfcIndexedPolyCurve. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 | 
+   013 |     :doc:`Then It must have no consecutive points that are coincident after taking the Precision factor into account </steps/thensgeometrypy_ItmusthavenoconsecutivepointsthatarecoincidentaftertakingthePrecisionfactorintoaccount>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.1`
+     - 2025-03-09
+     - :commit:`813b50ef28f573644c790bb7cdbecaf8d328e778`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/GEM/GEM112_No-duplicated-points-within-an-indexed-poly-curve.feature>`_

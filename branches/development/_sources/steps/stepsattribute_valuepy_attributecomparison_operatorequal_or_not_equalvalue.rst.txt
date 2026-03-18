@@ -134,6 +134,10 @@ Usages:
 
    :doc:`/features/CTX000_Presentation-colours-and-textures`:33
 
+ - **Given** *[its entity type] ^is^ 'IfcRelAssociatesDocument'*
+
+   :doc:`/features/DOC000_Document-information`:12
+
  - **Given** *[Its entity type] ^is^ 'IfcGridPlacement'*
 
    :doc:`/features/GDP000_Grid-placement`:12

@@ -376,6 +376,10 @@ Usages:
 
    :doc:`/features/CTX000_Presentation-colours-and-textures`:32
 
+ - **Given** *its attribute .HasAssociations.*
+
+   :doc:`/features/DOC000_Document-information`:11
+
  - **Given** *its attribute .ObjectPlacement.*
 
    :doc:`/features/GDP000_Grid-placement`:11

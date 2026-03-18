@@ -1000,6 +1000,30 @@ validation service.
      - v2
      - v2
      - v2
+   * - ``DOC000``
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
    * - ``GDP000``
      - n/a
      - n/a

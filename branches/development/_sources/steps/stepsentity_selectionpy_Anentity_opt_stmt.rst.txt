@@ -247,6 +247,14 @@ Usages:
 
    :doc:`/features/CTX000_Presentation-colours-and-textures`:24
 
+ - **Given** *an .IfcContext.*
+
+   :doc:`/features/DOC000_Document-information`:10
+
+ - **Given** *an .IfcObject.*
+
+   :doc:`/features/DOC000_Document-information`:10
+
  - **Given** *an .IfcProduct.*
 
    :doc:`/features/GDP000_Grid-placement`:10

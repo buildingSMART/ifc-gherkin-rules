@@ -429,7 +429,7 @@ def step_impl(context, inst, table, inst_type=None):
 )
 def step_impl(context, inst, attr_name):
     unit_definitions = get_table_definition(schema="Not schema specific", table="valid_ConversionBasedUnits", case_sensitive=False)
-    accepted_names = list(unit_definitions.keys())
+    accepted_names = [k for k, v in unit_definitions.items() if v['UnitType'] == inst.UnitType]
     match attr_name.upper():
         case "NAME":
             attr_value = getattr(inst, attr_name).lower()
@@ -451,5 +451,7 @@ def step_impl(context, inst, attr_name):
                 # note: this compares numbers regardless of magnitude
                 # rel_tol=1e-06 is equivalent to a difference of 1 part per million (ppm)
                 if not math.isclose(a=inst_factor, b=expected_factor, rel_tol=1e-06, abs_tol=0.):
-                    yield ValidationOutcome(inst=inst, expected=expected_factor, observed=inst_factor,
+                    exp_message = f"1 {unit_name} = {expected_factor} {conv_unit_def.SIUnitPrefix.lower()}{conv_unit_def.SIUnitName.lower()}"
+                    obs_message = f"1 {unit_name} = {inst_factor} {conv_unit_def.SIUnitPrefix.lower()}{conv_unit_def.SIUnitName.lower()}"
+                    yield ValidationOutcome(inst=inst, expected=exp_message, observed=obs_message,
                                             severity=OutcomeSeverity.ERROR)

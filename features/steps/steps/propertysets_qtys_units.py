@@ -451,7 +451,7 @@ def step_impl(context, inst, attr_name):
                 # note: this compares numbers regardless of magnitude
                 # rel_tol=1e-06 is equivalent to a difference of 1 part per million (ppm)
                 if not math.isclose(a=inst_factor, b=expected_factor, rel_tol=1e-06, abs_tol=0.):
-                    exp_message = f"1 {unit_name} = {expected_factor} {conv_unit_def.SIUnitPrefix.lower()}{conv_unit_def.SIUnitName.lower()}"
-                    obs_message = f"1 {unit_name} = {inst_factor} {conv_unit_def.SIUnitPrefix.lower()}{conv_unit_def.SIUnitName.lower()}"
+                    exp_message = f"Conversion factor {expected_factor}"
+                    obs_message = f"Incorrect conversion factor {inst_factor} in #{inst.id()}={inst.is_a()} ({unit_name})"
                     yield ValidationOutcome(inst=inst, expected=exp_message, observed=obs_message,
                                             severity=OutcomeSeverity.ERROR)

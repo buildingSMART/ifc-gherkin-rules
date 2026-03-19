@@ -1,0 +1,15 @@
+There must be one ``representation_id`` shape representation
+============================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *There must be one Body shape representation*
+
+   :doc:`/features/GEM002_Space-representation`:12
+
+ - **Then** *There must be one FootPrint shape representation*
+
+   :doc:`/features/GEM002_Space-representation`:21
+
+

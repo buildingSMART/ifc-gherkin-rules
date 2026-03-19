@@ -1,0 +1,15 @@
+It ``decision`` be ``aggregated_or_contained_or_positioned:aggregated_or_contained_or_positioned`` ``preposition`` ``other_entity`` ``condition``
+=================================================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *It must be aggregated to IfcProject directly or indirectly*
+
+   :doc:`/features/ALB004_Alignment-in-spatial-structure-relationships`:14
+
+ - **Then** *It must be positioned to IfcAlignment directly*
+
+   :doc:`/features/ALB005_Positioning-of-referents`:15
+
+

@@ -430,10 +430,10 @@ def step_impl(context, inst, table, inst_type=None):
 def step_impl(context, inst, attr_name):
     unit_definitions = get_table_definition(schema="Not schema specific", table="valid_ConversionBasedUnits", case_sensitive=False)
     unit_type = getattr(inst, 'UnitType', None)
-if unit_type:
-    accepted_names = [k for k, v in unit_definitions.items() if v.get('UnitType') == unit_type]
-else:
-    accepted_names = list(unit_definitions.keys()) 
+    if unit_type:
+        accepted_names = [k for k, v in unit_definitions.items() if v.get('UnitType') == unit_type]
+    else:
+        accepted_names = list(unit_definitions.keys()) 
     match attr_name.upper():
         case "NAME":
             attr_value = getattr(inst, attr_name).lower()

@@ -455,6 +455,7 @@ def estimate_plane_through_points(points : list[Point3d]) -> Optional[Plane]:
     return Plane(Nx, Ny, Nz, d)
 
 
+@dataclass
 class Line:
     """
     Represents a line a + d*b where a is a position and b a normalized unit vector

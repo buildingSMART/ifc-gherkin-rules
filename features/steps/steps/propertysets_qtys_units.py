@@ -144,7 +144,13 @@ def establish_accepted_pset_values(name: str, _schema: str, _table: str, propert
     # but unhashable because it's a dict
     def make_obj(s):
         if s:
-            return json.loads(s.replace("'", '"'))
+            # Use ast.literal_eval for Python literals (handles None, True, False correctly)
+            # Fall back to json.loads for compatibility
+            import ast
+            try:
+                return ast.literal_eval(s)
+            except (ValueError, SyntaxError):
+                return json.loads(s.replace("'", '"'))
         else:
             return ''
 
@@ -408,10 +414,13 @@ def step_impl(context, inst, table, inst_type=None):
             elif prop.is_a('IfcPropertyEnumeratedValue'):
                 values = prop.EnumerationValues
                 if values:
-                    for value in values:
-                        if not value.wrappedValue in accepted_data_type['values']:
-                            yield ValidationOutcome(inst=inst, expected=accepted_data_type['values'],
-                                                    observed=value.wrappedValue, severity=OutcomeSeverity.ERROR)
+                    # Empty values list in template means "any value is accepted"
+                    if accepted_data_type['values']:
+                        for value in values:
+                            if not value.wrappedValue in accepted_data_type['values']:
+                                yield ValidationOutcome(inst=inst, expected=accepted_data_type['values'],
+                                                        observed=value.wrappedValue, severity=OutcomeSeverity.ERROR)
+                    # If accepted_data_type['values'] is empty, any value is valid (no check needed)
 
             # @todo other properties such as list/bounded/etc.
 

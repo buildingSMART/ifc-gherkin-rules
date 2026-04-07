@@ -1,8 +1,7 @@
 @IFC
-@version5
-@implementer-agreement
-@disabled
-Feature: IFC105 - Resource entities need to be referenced by rooted entity
+@version1
+@industry-practice
+Feature: IFC106 - Resource entities should be referenced by rooted entity
 
 The rule verifies that resource entities are directly or indirectly related to at least one rooted entity instance by means of forward or a small curated set of inverse attributes.
 Resource entities are the schema classes that do not inherit from IfcRoot, typically defined in the resource layer of the schema (e.g Geometry Resource).

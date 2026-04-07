@@ -1,0 +1,12 @@
+Sweeps (i.e. extrusions, lofts, blends) (``SWE``)
+=================================================
+
+This involves taking a 2D shape (often called the "profile") and moving it along a 3D path, generating a 3D shape. The resulting shape is typically smooth and continuous, with its cross-section changing gradually along the length of the path. Sweep geometry can be useful for representing a variety of objects, such as pipes, cables, and architectural details like moldings. In IFC, sweep geometry can be represented using the IfcExtrudedAreaSolid, IfcRevolvedAreaSolid, and IfcSweptAreaSolid entities.
+
+.. toctree::
+
+   :titlesonly:
+
+   SWE001_Arbitrary-profile-boundary-no-self-intersections
+   SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used
+

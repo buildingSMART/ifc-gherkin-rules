@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition[ReferenceView_V1.2]'),'2;1');
-FILE_NAME('fail-ifc105-resource-level.ifc','2026-02-25T17:01:06',('redacted'),('redacted'),'redacted','redacted - redacted - 3.14159','none');
+FILE_NAME('fail-ifc106-resource-level.ifc','2026-02-25T17:01:03',('redacted'),('redacted'),'redacted','redacted - redacted - 3.1459','none');
 FILE_SCHEMA(('IFC4'));
 ENDSEC;
 DATA;

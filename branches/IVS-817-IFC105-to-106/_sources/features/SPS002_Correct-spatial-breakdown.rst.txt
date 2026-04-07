@@ -1,0 +1,51 @@
+``SPS002`` Correct spatial breakdown - v3
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@SPS
+   003 | \@version3
+   004 | Feature: SPS002 - Correct spatial breakdown
+   005 | The rule verifies that spatial elements are aggregated as per the Spatial Composition Table.
+   006 | The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial\_CompositionTable.csv'
+   007 | 
+   008 |   Scenario: Agreement on each IfcSpatialElement being aggregated as per spatial composition table.
+   009 | 
+   010 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |     :doc:`Given An .IfcSpatialElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 | 
+   013 |     :doc:`Then It must be aggregated as per spatial\_CompositionTable.csv </steps/thensrelationspy_Itmustberelationshipaspertable>`
+   014 | 
+   015 |   Scenario: Agreement on the IfcProject being aggregated as per spatial composition table.
+   016 | 
+   017 |     :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   018 |     :doc:`Given An .IfcProject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   019 | 
+   020 |     :doc:`Then It must be aggregated as per spatial\_CompositionTable.csv </steps/thensrelationspy_Itmustberelationshipaspertable>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-21
+     - :commit:`2cf129562fc83bc63cf30b159d240da7120b5070`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS002_Correct-spatial-breakdown.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-07-11
+     - :commit:`7686282999419c5449e15dd5b8f2e843e83287c9`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS002_Correct-spatial-breakdown.feature>`_
+   * - v3
+     - :tag:`v0.6.11`
+     - 2025-02-01
+     - :commit:`4e1884be5d3315a5f1b7d4fd2b4d309f211d2411`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.11/features/SPS002_Correct-spatial-breakdown.feature>`_

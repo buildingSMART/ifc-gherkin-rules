@@ -1,0 +1,64 @@
+``IFC106`` Resource entities should be referenced by rooted entity - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@IFC
+   002 | \@version1
+   003 | \@industry-practice
+   004 | Feature: IFC106 - Resource entities should be referenced by rooted entity
+   005 | 
+   006 | The rule verifies that resource entities are directly or indirectly related to at least one rooted entity instance by means of forward or a small curated set of inverse attributes.
+   007 | Resource entities are the schema classes that do not inherit from IfcRoot, typically defined in the resource layer of the schema (e.g Geometry Resource).
+   008 | The inverse attributes that are followed are:
+   009 | StyledByItem HasCoordinateOperation LayerAssignments LayerAssignment HasSubContexts
+   010 | HasProperties (material and profile def) HasRepresentation (material) HasColours HasTextures (tessellated face sets) HasShapeAspects (representation map and product definition shape)
+   011 | WellKnownText (coordinate reference system)
+   012 | 
+   013 |   Scenario: Resource entities need to be referenced by rooted entity
+   014 | 
+   015 |     :doc:`Given a traversal over the full model originating from subtypes of .IfcRoot. </steps/stepsmodel_traversalpy_atraversaloverthefullmodeloriginatingfromsubtypesofentity_name>`
+   016 |     :doc:`Given an .entity instance. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   017 |     :doc:`Given [its entity type] ^is not^ 'IfcRoot' ^including subtypes^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvaluesubtype_handlinginclude_or_exclude_subtypes>`
+   018 |     :doc:`Then it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly </steps/thensrelationspy_itmustbereferencedbyanentityinstanceinheritingfromIfcRootdirectlyorindirectly>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.11`
+     - 2024-12-19
+     - :commit:`71690ecbc07c204f3c30ca31acf1358d52bfe57a`
+     - n/a
+   * - v1
+     - :tag:`v0.6.11`
+     - 2024-12-20
+     - :commit:`e9205d7e7b245959287989827ae5691199073c5a`
+     - n/a
+   * - v2
+     - :tag:`v0.7.0`
+     - 2025-02-15
+     - :commit:`a96f1891eb55eec59cf73842b278c835ef4c72fa`
+     - n/a
+   * - v3
+     - :tag:`v0.7.1`
+     - 2025-03-04
+     - :commit:`79d0fe87a7752aa7ea2d6ef5fa449f5c630102af`
+     - n/a
+   * - v4
+     - n/a
+     - 2026-02-24
+     - :commit:`63abe6196de640dfed6e254bb3ab10327d5812f7`
+     - n/a
+   * - v1
+     - n/a
+     - 2026-04-07
+     - :commit:`a4f2e84b7b74541d2f67ec1ff236305e862877b9`
+     - n/a

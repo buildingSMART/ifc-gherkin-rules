@@ -1,0 +1,43 @@
+\( ⚠ ``GEM005`` Building shape representation - v2\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GEM
+   003 | \@version2
+   004 | \@disabled
+   005 | 
+   006 | Feature: GEM005 - Building shape representation
+   007 | The rule verifies that an IfcBuilding has a correct representation
+   008 | 
+   009 |   Scenario: Agreement on empty IfcBuilding using correct representation
+   010 | 
+   011 |     :doc:`Given An .IfcBuilding. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |     :doc:`Given .ContainsElements. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   013 |     :doc:`Given .IsDecomposedBy. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   014 |     :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 | 
+   017 |     :doc:`Then The value of attribute .RepresentationIdentifier. must be 'Body' </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-26
+     - :commit:`ff1892b4cb3e98b62801eccb18bb0ef25a36c55d`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GEM005_Building-shape-representation.feature>`_
+   * - v2
+     - :tag:`v0.8.2`
+     - 2025-10-28
+     - :commit:`f332af51b676186e001ed8ddc2370c9dde301815`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.2/features/rules/GEM/GEM005_Building-shape-representation.feature>`_

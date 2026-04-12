@@ -1,0 +1,11 @@
+Documentation reference (``DOC``)
+=================================
+
+The ability to associate reference to documentation to objects.
+
+.. toctree::
+
+   :titlesonly:
+
+   DOC000_Document-information
+

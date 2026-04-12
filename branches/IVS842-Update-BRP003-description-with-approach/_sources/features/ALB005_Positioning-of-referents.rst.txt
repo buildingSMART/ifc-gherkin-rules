@@ -1,0 +1,36 @@
+\( ⚠ ``ALB005`` Positioning of referents - v1\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | \@disabled
+   005 | 
+   006 | Feature: ALB005 - Positioning of referents
+   007 | The rule verifies that IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPositions relationship
+   008 | 
+   009 |   Scenario: Agreement on each IfcAlignment being aggregated to IfcProject and not contained in IfcSpatialElement
+   010 | 
+   011 |       :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |       :doc:`Given an .IfcReferent. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |       :doc:`Given .PredefinedType. ^=^ 'POSITION' or 'STATION' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   014 | 
+   015 |       :doc:`Then It must be positioned to IfcAlignment directly </steps/thensrelationspy_Itdecisionbeaggregated_or_contained_or_positionedaggregated_or_contained_or_positionedprepositionother_entitycondition>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-26
+     - :commit:`c162f04b0b881db11dc7418e6fb677b7d842efeb`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB005_Positioning-of-referents.feature>`_

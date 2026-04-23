@@ -677,7 +677,11 @@ Usages:
 
  - **Given** *an .entity instance.*
 
-   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:16
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:17
+
+ - **Given** *an .entity instance.*
+
+   :doc:`/features/IFC106_Resource-entities-should-be-referenced-by-rooted-entity`:16
 
  - **Given** *an .IfcProduct.*
 

@@ -72,7 +72,7 @@
      - :commit:`7c8ba3c5da6df37557af58f0500e7f73ffc1eda4`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.3/features/rules/PJS/PJS001_Correct-conversion-based-units.feature>`_
    * - v2
-     - n/a
+     - :tag:`v0.8.4`
      - 2025-12-28
      - :commit:`e914eef366c384bd54145bf8648c4ee446f2335f`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.4/features/rules/PJS/PJS001_Correct-conversion-based-units.feature>`_

@@ -6,6 +6,10 @@ Usages:
 
  - **Given** *a traversal over the full model originating from subtypes of .IfcRoot.*
 
-   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:15
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:16
+
+ - **Given** *a traversal over the full model originating from subtypes of .IfcRoot.*
+
+   :doc:`/features/IFC106_Resource-entities-should-be-referenced-by-rooted-entity`:15
 
 

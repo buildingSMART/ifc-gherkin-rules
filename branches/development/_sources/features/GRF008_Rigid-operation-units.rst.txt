@@ -33,7 +33,7 @@
      - Commit
      - Rule link
    * - v1
-     - n/a
+     - :tag:`v0.8.4`
      - 2025-12-27
      - :commit:`1dc8b306f9ab90bcaa658fbc5b1c2e874e6f20d8`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.4/features/rules/GRF/GRF008_Rigid-operation-units.feature>`_

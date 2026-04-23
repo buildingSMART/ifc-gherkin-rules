@@ -63,7 +63,7 @@
      - :commit:`d8d858fd7f7ce0cfb41840d6da1cf76607fc9d00`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.0/features/rules/GEM/GEM001_Closed-shell-edge-usage.feature>`_
    * - v4
-     - n/a
+     - :tag:`v1.0.0`
      - 2026-03-04
      - :commit:`bc5f84835321227f98b78cc338cbbbefe095dda1`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.0/features/rules/GEM/GEM001_Closed-shell-edge-usage.feature>`_

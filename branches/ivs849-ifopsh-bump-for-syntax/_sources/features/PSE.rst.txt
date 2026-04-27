@@ -1,0 +1,12 @@
+Properties for object (``PSE``)
+===============================
+
+The ability to define properties of elements and systems, such as their performance characteristics.
+
+.. toctree::
+
+   :titlesonly:
+
+   PSE001_Standard-properties-and-property-sets-validation
+   PSE002_Custom-properties-and-property-sets-validation
+

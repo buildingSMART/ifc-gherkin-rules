@@ -1,0 +1,15 @@
+it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly
+==========================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly*
+
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:19
+
+ - **Then** *it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly*
+
+   :doc:`/features/IFC106_Resource-entities-should-be-referenced-by-rooted-entity`:18
+
+

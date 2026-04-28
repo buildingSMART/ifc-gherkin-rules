@@ -429,7 +429,11 @@ def step_impl(context, inst, table, inst_type=None):
 )
 def step_impl(context, inst, attr_name):
     unit_definitions = get_table_definition(schema="Not schema specific", table="valid_ConversionBasedUnits", case_sensitive=False)
-    accepted_names = list(unit_definitions.keys())
+    unit_type = getattr(inst, 'UnitType', None)
+    if unit_type:
+        accepted_names = [k for k, v in unit_definitions.items() if v.get('UnitType') == unit_type]
+    else:
+        accepted_names = list(unit_definitions.keys()) 
     match attr_name.upper():
         case "NAME":
             attr_value = getattr(inst, attr_name).lower()
@@ -448,8 +452,10 @@ def step_impl(context, inst, attr_name):
                                                                  from_prefix=conv_unit_def.SIUnitPrefix,
                                                                  to_unit=inst_si_unit.Name,
                                                                  to_prefix=inst_si_unit.Prefix)
+                # note: this compares numbers regardless of magnitude
+                # rel_tol=1e-06 is equivalent to a difference of 1 part per million (ppm)
                 if not math.isclose(a=inst_factor, b=expected_factor, rel_tol=1e-06, abs_tol=0.):
-                    yield ValidationOutcome(inst=inst, expected=expected_factor, observed=inst_factor,
+                    exp_message = f"Conversion factor {expected_factor}"
+                    obs_message = f"Incorrect conversion factor {inst_factor} in #{inst.ConversionFactor.id()}={inst.ConversionFactor.is_a()}"
+                    yield ValidationOutcome(inst=inst, expected=exp_message, observed=obs_message,
                                             severity=OutcomeSeverity.ERROR)
-            else:
-                print(f"{unit_name=} not found in table")

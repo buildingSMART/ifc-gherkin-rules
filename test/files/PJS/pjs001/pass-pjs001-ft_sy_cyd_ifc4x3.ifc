@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
-FILE_NAME('pass-pjs001-ft_sy_cyd_ifc4x3.ifc','2025-11-18T20:39:40-05:00',(''),(''),'IfcOpenShell 0.0.0','redacted - redacted - 3.14159','Nobody');
+FILE_NAME('pass-pjs001-ft_sy_cyd_ifc4x3.ifc','2026-01-29T20:39:40-05:00',(''),(''),'IfcOpenShell 0.0.0','redacted - redacted - 3.14159','Nobody');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;
@@ -28,7 +28,7 @@ DATA;
 /* cubic yard definition */
 #16=IFCDIMENSIONALEXPONENTS(3,0,0,0,0,0,0);
 #17=IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
-#18=IFCMEASUREWITHUNIT(IFCREAL(0.7636),#17);
+#18=IFCMEASUREWITHUNIT(IFCREAL(0.7645549),#17);
 #19=IFCCONVERSIONBASEDUNIT(#16,.VOLUMEUNIT.,'cubic yard',#18);
 
 /* unit assignment */

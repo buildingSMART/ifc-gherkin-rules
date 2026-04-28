@@ -18,8 +18,17 @@ except AttributeError as e:
 
 @gherkin_ifc.step("a traversal over the full model originating from subtypes of .{entity_name}.")
 def step_impl(context, entity_name):
-    WHITELISTED_INVERSES = {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment',
-                            'HasSubContexts', 'HasProperties', 'HasRepresentation', 'HasColours', 'HasTextures'}
+    # @todo fully qualify inverses, because with this many the risk for name clashes becomes significant
+    inverses_for_resource_level_rels = {'Relates', 'ApprovedResources', 'IsPointedTo', 'PropertyDependsOn', 'ExternalReferenceForResources',
+                                        'IsRelatedWith', 'PropertyForDependance', 'HasApprovals', 'PropertiesForConstraint', 'IsPointer',
+                                        'RelatesTo', 'HasExternalReference', 'IsRelatedBy', 'HasConstraints', 'HasExternalReferences'}
+    allowlisted_inverses = inverses_for_resource_level_rels | {'StyledByItem', 'HasCoordinateOperation', 'LayerAssignments', 'LayerAssignment',
+                            'HasSubContexts', 'HasProperties', 'HasRepresentation', 'HasColours', 'HasTextures', 'HasShapeAspects', 'WellKnownText'}
+    # IfcResourceLevelRelationship is visited by means of inverses pointing into it
+    # (inverses_for_resource_level_rels) but traversal stops there. We require both
+    # ends of the relationship to point to resources that are used in the context of
+    # of a rooted instance regardless of resource-level-relationships connecting them.
+    terminal_entities = {'IfcResourceLevelRelationship'}
     schema = schema_by_name(context.model.schema_identifier)
 
     @functools.cache
@@ -47,12 +56,12 @@ def step_impl(context, entity_name):
             # entity instance, it saves a lot of time to skip that attribute *on a per-instance level*.
             non_derived_forward_entity_references = filter(is_instance_ref, non_derived_forward_attributes)
 
-            whitelisted_inverse_attributes = filter(lambda attr: attr.name() in WHITELISTED_INVERSES,
+            allowlisted_inverse_attributes = filter(lambda attr: attr.name() in allowlisted_inverses,
                                                     decl.all_inverse_attributes())
             
-            names = {a.name() for a in [*non_derived_forward_entity_references, *whitelisted_inverse_attributes]}
+            name_lookup = {a.name() for a in [*non_derived_forward_entity_references, *allowlisted_inverse_attributes]}
         
-            return names
+            return name_lookup
         else:
             return set()
 
@@ -74,6 +83,10 @@ def step_impl(context, entity_name):
         if inst.id() in visited:
             return
         visited.add(inst.id())
+
+        if any(inst.is_a(ent) for ent in terminal_entities):
+            return
+
         for attr in names(inst.is_a()):
             if attr in ("LayerAssignments", "LayerAssignment", "StyledByItem"):
                 val = precomputed_inverses.get(inst, ())

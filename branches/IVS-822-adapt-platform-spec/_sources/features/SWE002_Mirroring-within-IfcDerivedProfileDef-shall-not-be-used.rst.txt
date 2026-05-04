@@ -61,7 +61,7 @@
      - :commit:`f332af51b676186e001ed8ddc2370c9dde301815`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.2/features/rules/SWE/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.feature>`_
    * - v3
-     - n/a
+     - :tag:`v1.0.0`
      - 2026-03-03
      - :commit:`6fe338c2c6eab2ecb710d2265e86f528e5519c6f`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.0/features/rules/SWE/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.feature>`_

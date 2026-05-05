@@ -2,6 +2,9 @@ name: Build & Deploy Docs (Sphinx → Intermediate branch → GitHub Pages)
 
 on:
   push:
+    branches: 
+      - main
+      - release/*
 
 permissions:
   contents: write

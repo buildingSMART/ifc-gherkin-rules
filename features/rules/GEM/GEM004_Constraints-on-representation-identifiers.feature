@@ -1,12 +1,13 @@
 @informal-proposition
 @GEM
-@version3
+@version4
 
 Feature: GEM004 - Constraints on representation identifiers
 The rule verifies that shape representations adhere to the permissible values outlined in the CSV files found in the 'features/resources/{attribute}.csv' folder, as specified in the documentation.
 
   Scenario: Shape Representation Identifier must be valid
 
+    Given A model with Schema 'IFC4' or 'IFC4.3'
     Given An .IfcProduct.
     Given Its attribute .Representation.
     Given Its attribute .Representations.

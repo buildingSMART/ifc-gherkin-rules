@@ -59,7 +59,7 @@
      - :commit:`63abe6196de640dfed6e254bb3ab10327d5812f7`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.0/features/rules/IFC/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.feature>`_
    * - v5
-     - n/a
+     - :tag:`v1.0.1`
      - 2026-04-07
      - :commit:`a4f2e84b7b74541d2f67ec1ff236305e862877b9`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.1/features/rules/IFC/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.feature>`_

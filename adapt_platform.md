@@ -11,18 +11,20 @@ will need to be firewalled from the production environment that is being used to
 These are the steps involved and business rules, with rough timelines.
 
 1. exit beta, 1.0.0 released Q1 2026
-2. no new rule or rule fixes for version 1
-3. other performance improvements, UI adjustments are ok - but nothing that affects scorecards
+2. no new rules or rule fixes for version 1 that affect vendors seeking scorecard-based certification
+   - Warnings raised by Industry Best Practice (IBP) rules are not included in the assessment of a specific vendor tool version 
+   - Therefore new IBP rules may be released under the 1.0 major version label when deemed appropriate by the product manager
+3. other performance improvements, UI adjustments are ok as they do not affect scorecard-based assessment
 4. new rules and rule fixes continue "behind the scenes"
 5. these new rules are available on a limited, invitation-only basis for beta testing
-   - v2.0.0b1
-   - v2.0.0b2
-   - v2.0.0b3
+   - v2.0.0-b1
+   - v2.0.0-b2
+   - v2.0.0-b3
    - ...
-6. Q4 2026 - rule freeze and change from beta to release candidate v2.0.0rc1
+6. Q4 2026 - rule freeze and change from beta to release candidate v2.0.0-rc1
 7. Q1 2027 - rule fixes only
-   - v2.0.0rc2
-   - v2.0.0rc3
+   - v2.0.0-rc2
+   - v2.0.0-rc3
    - ...
 8. End of Q1 2027 - release of 2.0.0 to PROD environment
 
@@ -119,3 +121,22 @@ gitGraph
   checkout "validate/preview"
   merge "ifc-gherkin-rules/preview" tag:"2.0.0b2" type: HIGHLIGHT
 ```
+
+## Rule Catalog Documentation
+
+The Github Workflow [pages-build-deployment](https://github.com/buildingSMART/ifc-gherkin-rules/actions/workflows/pages/pages-build-deployment)
+generates documentation of all rules and gherkin step implementations.
+This documentation is then deployed to branch-specific URLS, e.g.
+
+[https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/index.html]
+
+and
+
+[https://buildingsmart.github.io/ifc-gherkin-rules/branches/development/features/index.html]
+
+and
+
+[https://buildingsmart.github.io/ifc-gherkin-rules/branches/development/features/index.html]
+
+Therefore this Github action does not require any changes to accommodate the new `preview` branch
+or any other adaptations to the platform to support the rules freeze.

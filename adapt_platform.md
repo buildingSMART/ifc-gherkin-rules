@@ -136,7 +136,7 @@ and
 
 and
 
-[https://buildingsmart.github.io/ifc-gherkin-rules/branches/development/features/index.html]
+[https://buildingsmart.github.io/ifc-gherkin-rules/branches/preview/features/index.html]
 
 Therefore this Github action does not require any changes to accommodate the new `preview` branch
 or any other adaptations to the platform to support the rules freeze.

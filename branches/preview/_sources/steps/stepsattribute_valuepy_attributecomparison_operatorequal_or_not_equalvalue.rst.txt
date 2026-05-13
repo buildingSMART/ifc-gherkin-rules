@@ -144,11 +144,11 @@ Usages:
 
  - **Given** *[Its entity type] ^is^ 'IfcShapeRepresentation'*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:23
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:24
 
  - **Given** *[Its entity type] ^is^ 'IfcTopologyRepresentation'*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:34
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:35
 
  - **Given** *[its entity type] ^is not^ 'IfcAlignment'*
 

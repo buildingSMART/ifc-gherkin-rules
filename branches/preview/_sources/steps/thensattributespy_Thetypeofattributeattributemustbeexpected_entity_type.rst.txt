@@ -16,11 +16,11 @@ Usages:
 
    :doc:`/features/ALS012_Alignment-segment-start-and-length-attribute-types`:21
 
- - **Then** *The type of attribute .FirstCoordinate. must be 'IfcLengthMeasure' or 'IfcPlaneAngleUnit'*
+ - **Then** *The type of attribute .FirstCoordinate. must be 'IfcLengthMeasure' or 'IfcPlaneAngleMeasure'*
 
    :doc:`/features/GRF008_Rigid-operation-units`:13
 
- - **Then** *The type of attribute .SecondCoordinate. must be 'IfcLengthMeasure' or 'IfcPlaneAngleUnit'*
+ - **Then** *The type of attribute .SecondCoordinate. must be 'IfcLengthMeasure' or 'IfcPlaneAngleMeasure'*
 
    :doc:`/features/GRF008_Rigid-operation-units`:13
 

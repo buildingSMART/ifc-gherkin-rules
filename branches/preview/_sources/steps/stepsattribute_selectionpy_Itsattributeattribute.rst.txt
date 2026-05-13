@@ -398,39 +398,39 @@ Usages:
 
  - **Given** *Its attribute .Representation.*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:11
-
- - **Given** *Its attribute .Representations.*
-
    :doc:`/features/GEM004_Constraints-on-representation-identifiers`:12
 
- - **Given** *Its attribute .RepresentationIdentifier.*
+ - **Given** *Its attribute .Representations.*
 
    :doc:`/features/GEM004_Constraints-on-representation-identifiers`:13
 
+ - **Given** *Its attribute .RepresentationIdentifier.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:14
+
  - **Given** *Its attribute .Representation.*
-
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:21
-
- - **Given** *Its attribute .Representations.*
 
    :doc:`/features/GEM004_Constraints-on-representation-identifiers`:22
 
+ - **Given** *Its attribute .Representations.*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:23
+
  - **Given** *Its attribute .RepresentationType.*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:24
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:25
 
  - **Given** *Its attribute .Representation.*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:32
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:33
 
  - **Given** *Its attribute .Representations.*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:33
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:34
 
  - **Given** *Its attribute .RepresentationType.*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:35
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:36
 
  - **Given** *Its attribute .Representation.*
 

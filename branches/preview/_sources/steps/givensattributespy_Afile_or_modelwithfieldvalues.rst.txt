@@ -124,6 +124,10 @@ Usages:
 
    :doc:`/features/BLT000_Built-elements`:19
 
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:10
+
  - **Given** *a model with Schema 'IFC4.3'*
 
    :doc:`/features/GEM011_Curve-segments-consistency`:13

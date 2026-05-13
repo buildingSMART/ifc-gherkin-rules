@@ -11,15 +11,15 @@ Usages:
 
  - **Then** *The values must be in 'valid_ShapeRepresentationIdentifier.csv'*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:15
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:16
 
  - **Then** *The values must be in 'valid_ShapeRepresentationType.csv'*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:26
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:27
 
  - **Then** *The values must be in 'valid_TopologyRepresentationType.csv'*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:37
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:38
 
  - **Then** *The values must be in 'valid_ShapeRepresentationIdentifier.csv'*
 

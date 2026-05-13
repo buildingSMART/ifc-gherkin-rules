@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRF008 Rigid operation units - v1 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
+  <title>GRF008 Rigid operation units - v2 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
@@ -67,7 +67,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GRF005_CRS-unit-type-differences.html"><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF007_valid-vertical-datum-crs-type.html"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF008</span></code> Rigid operation units - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF008</span></code> Rigid operation units - v2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="GRP.html">Groups (<code class="docutils literal notranslate"><span class="pre">GRP</span></code>)</a></li>
@@ -111,7 +111,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF008</span></code> Rigid operation units - v1</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF008</span></code> Rigid operation units - v2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/GRF008_Rigid-operation-units.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -121,11 +121,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="grf008-rigid-operation-units-v1">
-<h1><code class="docutils literal notranslate"><span class="pre">GRF008</span></code> Rigid operation units - v1<a class="headerlink" href="#grf008-rigid-operation-units-v1" title="Link to this heading"></a></h1>
+  <section id="grf008-rigid-operation-units-v2">
+<h1><code class="docutils literal notranslate"><span class="pre">GRF008</span></code> Rigid operation units - v2<a class="headerlink" href="#grf008-rigid-operation-units-v2" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;GRF
-003 | &#64;version1
+003 | &#64;version2
 004 | Feature: GRF008 - Rigid operation units
 005 | The rule verifies that correct unit types are assigned to rigid operation coordinates
 006 |
@@ -135,7 +135,7 @@
 010 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
 011 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcRigidOperation.</span></a>
 012 |
-013 |     <a class="reference internal" href="../steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type.html"><span class="doc">Then The type of attribute .&lt;attribute&gt;. must be 'IfcLengthMeasure' or 'IfcPlaneAngleUnit'</span></a>
+013 |     <a class="reference internal" href="../steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type.html"><span class="doc">Then The type of attribute .&lt;attribute&gt;. must be 'IfcLengthMeasure' or 'IfcPlaneAngleMeasure'</span></a>
 014 |
 015 |   Examples:
 016 |         | attribute       |
@@ -157,6 +157,12 @@
 <td><p>2025-12-27</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/1dc8b306f9ab90bcaa658fbc5b1c2e874e6f20d8">1dc8b306</a></p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.4/features/rules/GRF/GRF008_Rigid-operation-units.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p>n/a</p></td>
+<td><p>2026-05-05</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/ac21b8c95c1724da62e391f3405f4476044d41ad">ac21b8c9</a></p></td>
+<td><p>n/a</p></td>
 </tr>
 </tbody>
 </table>

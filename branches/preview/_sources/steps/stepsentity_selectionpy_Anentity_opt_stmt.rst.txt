@@ -285,15 +285,15 @@ Usages:
 
  - **Given** *An .IfcProduct.*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:10
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:11
 
  - **Given** *An .IfcProduct.*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:20
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:21
 
  - **Given** *An .IfcProduct.*
 
-   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:31
+   :doc:`/features/GEM004_Constraints-on-representation-identifiers`:32
 
  - **Given** *An .IfcBuilding.*
 

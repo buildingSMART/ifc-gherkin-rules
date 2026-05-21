@@ -247,6 +247,14 @@ Usages:
 
    :doc:`/features/CTX000_Presentation-colours-and-textures`:24
 
+ - **Given** *an .IfcContext.*
+
+   :doc:`/features/DOC000_Document-information`:10
+
+ - **Given** *an .IfcObject.*
+
+   :doc:`/features/DOC000_Document-information`:10
+
  - **Given** *an .IfcProduct.*
 
    :doc:`/features/GDP000_Grid-placement`:10
@@ -257,11 +265,11 @@ Usages:
 
  - **Given** *An .IfcTriangulatedFaceSet.*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:22
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:23
 
  - **Given** *An .IfcPolygonalFaceSet.*
 
-   :doc:`/features/GEM001_Closed-shell-edge-usage`:22
+   :doc:`/features/GEM001_Closed-shell-edge-usage`:23
 
  - **Given** *An .IfcSpace.*
 
@@ -349,7 +357,7 @@ Usages:
 
  - **Given** *An .IfcCoordinateReferenceSystem.*
 
-   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:12
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:14
 
  - **Given** *an .IfcBuilding.*
 
@@ -669,7 +677,11 @@ Usages:
 
  - **Given** *an .entity instance.*
 
-   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:13
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:17
+
+ - **Given** *an .entity instance.*
+
+   :doc:`/features/IFC106_Resource-entities-should-be-referenced-by-rooted-entity`:16
 
  - **Given** *an .IfcProduct.*
 
@@ -721,7 +733,7 @@ Usages:
 
  - **Given** *an .IfcProject.*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:14
+   :doc:`/features/PJS001_Correct-conversion-based-units`:15
 
  - **Given** *An .IfcProject.*
 
@@ -853,11 +865,11 @@ Usages:
 
  - **Given** *An .IfcExtrudedAreaSolidTapered.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:21
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
 
  - **Given** *An .IfcRevolvedAreaSolidTapered.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:21
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
 
  - **Given** *an .IfcCableSegment.*
 

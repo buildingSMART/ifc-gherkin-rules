@@ -133,6 +133,7 @@
 <li class="toctree-l2"><a class="reference internal" href="thensrelationspy_itmustbereferencedbyanentityinstanceinheritingfromIfcRootdirectlyorindirectly.html">it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly</a></li>
 <li class="toctree-l2"><a class="reference internal" href="thensexistencepy_thealignmentlayoutsmustincludeprose_matching.html">the alignment layouts must include [<code class="docutils literal notranslate"><span class="pre">prose_matching</span></code>]</a></li>
 <li class="toctree-l2"><a class="reference internal" href="thensgeometrypy_theboundariesofthefacemustconformtotheimplicitplanefittedthroughtheboundarypoints.html">the boundaries of the face must conform to the implicit plane fitted through the boundary points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="givensrelationshipspy_theinstanceisusedinthecontextofanentity.html">the instance is used in the context of an .<code class="docutils literal notranslate"><span class="pre">entity</span></code>.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="givensvaluespy_theinstancesn_stepsdstepsup.html">the instances ‘<code class="docutils literal notranslate"><span class="pre">n_steps:d</span></code>’ steps up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="thensvaluespy_thevaluevarname1mustbeopthevaluevarname2.html">the value ‘<code class="docutils literal notranslate"><span class="pre">varname1</span></code>’ must be ^<code class="docutils literal notranslate"><span class="pre">op</span></code>^ the value ‘<code class="docutils literal notranslate"><span class="pre">varname2</span></code>’</a></li>
 <li class="toctree-l2"><a class="reference internal" href="givensattributespy_attrformsclosed_or_opencurve.html"><code class="docutils literal notranslate"><span class="pre">attr</span></code> forms <code class="docutils literal notranslate"><span class="pre">closed_or_open</span></code> curve</a></li>
@@ -357,17 +358,23 @@
 <li><p><strong>Given</strong> <em>an .IfcObjectDefinition.</em></p>
 <p><a class="reference internal" href="../features/CTX000_Presentation-colours-and-textures.html"><span class="doc">CTX000 Presentation colours and textures - v2</span></a>:24</p>
 </li>
+<li><p><strong>Given</strong> <em>an .IfcContext.</em></p>
+<p><a class="reference internal" href="../features/DOC000_Document-information.html"><span class="doc">DOC000 Document information - v1</span></a>:10</p>
+</li>
+<li><p><strong>Given</strong> <em>an .IfcObject.</em></p>
+<p><a class="reference internal" href="../features/DOC000_Document-information.html"><span class="doc">DOC000 Document information - v1</span></a>:10</p>
+</li>
 <li><p><strong>Given</strong> <em>an .IfcProduct.</em></p>
 <p><a class="reference internal" href="../features/GDP000_Grid-placement.html"><span class="doc">GDP000 Grid placement - v1</span></a>:10</p>
 </li>
 <li><p><strong>Given</strong> <em>An .IfcClosedShell.</em></p>
-<p><a class="reference internal" href="../features/GEM001_Closed-shell-edge-usage.html"><span class="doc">GEM001 Closed shell edge usage - v3</span></a>:10</p>
+<p><a class="reference internal" href="../features/GEM001_Closed-shell-edge-usage.html"><span class="doc">GEM001 Closed shell edge usage - v4</span></a>:10</p>
 </li>
 <li><p><strong>Given</strong> <em>An .IfcTriangulatedFaceSet.</em></p>
-<p><a class="reference internal" href="../features/GEM001_Closed-shell-edge-usage.html"><span class="doc">GEM001 Closed shell edge usage - v3</span></a>:22</p>
+<p><a class="reference internal" href="../features/GEM001_Closed-shell-edge-usage.html"><span class="doc">GEM001 Closed shell edge usage - v4</span></a>:23</p>
 </li>
 <li><p><strong>Given</strong> <em>An .IfcPolygonalFaceSet.</em></p>
-<p><a class="reference internal" href="../features/GEM001_Closed-shell-edge-usage.html"><span class="doc">GEM001 Closed shell edge usage - v3</span></a>:22</p>
+<p><a class="reference internal" href="../features/GEM001_Closed-shell-edge-usage.html"><span class="doc">GEM001 Closed shell edge usage - v4</span></a>:23</p>
 </li>
 <li><p><strong>Given</strong> <em>An .IfcSpace.</em></p>
 <p><a class="reference internal" href="../features/GEM002_Space-representation.html"><span class="doc">GEM002 Space representation - v2</span></a>:10</p>
@@ -433,7 +440,7 @@
 <p><a class="reference internal" href="../features/GRF000_Georeferencing.html"><span class="doc">GRF000 Georeferencing - v1</span></a>:16</p>
 </li>
 <li><p><strong>Given</strong> <em>An .IfcCoordinateReferenceSystem.</em></p>
-<p><a class="reference internal" href="../features/GRF002_EPSG-code-in-coordinate-reference-system.html"><span class="doc">GRF002 EPSG code in coordinate reference system - v1</span></a>:12</p>
+<p><a class="reference internal" href="../features/GRF002_EPSG-code-in-coordinate-reference-system.html"><span class="doc">( ⚠ GRF002 EPSG code in coordinate reference system - v1) (disabled)</span></a>:14</p>
 </li>
 <li><p><strong>Given</strong> <em>an .IfcBuilding.</em></p>
 <p><a class="reference internal" href="../features/GRF003_CRS-presence-with-spatial-entities.html"><span class="doc">GRF003 CRS presence with spatial entities - v1</span></a>:13</p>
@@ -673,7 +680,10 @@
 <p><a class="reference internal" href="../features/IFC102_Absence-of-deprecated-entities.html"><span class="doc">IFC102 Absence of deprecated entities - v5</span></a>:328</p>
 </li>
 <li><p><strong>Given</strong> <em>an .entity instance.</em></p>
-<p><a class="reference internal" href="../features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.html"><span class="doc">IFC105 Resource entities need to be referenced by rooted entity - v3</span></a>:13</p>
+<p><a class="reference internal" href="../features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.html"><span class="doc">( ⚠ IFC105 Resource entities need to be referenced by rooted entity - v5) (disabled)</span></a>:17</p>
+</li>
+<li><p><strong>Given</strong> <em>an .entity instance.</em></p>
+<p><a class="reference internal" href="../features/IFC106_Resource-entities-should-be-referenced-by-rooted-entity.html"><span class="doc">IFC106 Resource entities should be referenced by rooted entity - v1</span></a>:16</p>
 </li>
 <li><p><strong>Given</strong> <em>an .IfcProduct.</em></p>
 <p><a class="reference internal" href="../features/LAY000_Presentation-layer-assignment.html"><span class="doc">LAY000 Presentation layer assignment - v1</span></a>:13</p>
@@ -712,7 +722,7 @@
 <p><a class="reference internal" href="../features/PJS000_Project.html"><span class="doc">PJS000 Project - v1</span></a>:10</p>
 </li>
 <li><p><strong>Given</strong> <em>an .IfcProject.</em></p>
-<p><a class="reference internal" href="../features/PJS001_Correct-conversion-based-units.html"><span class="doc">PJS001 Correct conversion based units - v2</span></a>:14</p>
+<p><a class="reference internal" href="../features/PJS001_Correct-conversion-based-units.html"><span class="doc">PJS001 Correct conversion based units - v2</span></a>:15</p>
 </li>
 <li><p><strong>Given</strong> <em>An .IfcProject.</em></p>
 <p><a class="reference internal" href="../features/PJS002_Correct-elements-related-to-project.html"><span class="doc">PJS002 Correct elements related to project - v2</span></a>:12</p>
@@ -811,10 +821,10 @@
 <p><a class="reference internal" href="../features/SWE001_Arbitrary-profile-boundary-no-self-intersections.html"><span class="doc">SWE001 Arbitrary profile boundary no self intersections - v4</span></a>:18</p>
 </li>
 <li><p><strong>Given</strong> <em>An .IfcExtrudedAreaSolidTapered.</em></p>
-<p><a class="reference internal" href="../features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"><span class="doc">SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v2</span></a>:21</p>
+<p><a class="reference internal" href="../features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"><span class="doc">SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v3</span></a>:23</p>
 </li>
 <li><p><strong>Given</strong> <em>An .IfcRevolvedAreaSolidTapered.</em></p>
-<p><a class="reference internal" href="../features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"><span class="doc">SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v2</span></a>:21</p>
+<p><a class="reference internal" href="../features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"><span class="doc">SWE002 Mirroring within IfcDerivedProfileDef shall not be used - v3</span></a>:23</p>
 </li>
 <li><p><strong>Given</strong> <em>an .IfcCableSegment.</em></p>
 <p><a class="reference internal" href="../features/SYS001_Cable-signal-flow.html"><span class="doc">( ⚠ SYS001 Cable signal flow - v2) (disabled)</span></a>:11</p>

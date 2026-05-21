@@ -120,7 +120,11 @@ Usages:
 
  - **Given** *[its entity type] ^is not^ 'IfcRoot' ^including subtypes^*
 
-   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:14
+   :doc:`/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity`:18
+
+ - **Given** *[its entity type] ^is not^ 'IfcRoot' ^including subtypes^*
+
+   :doc:`/features/IFC106_Resource-entities-should-be-referenced-by-rooted-entity`:17
 
  - **Given** *[its entity type] ^is^ 'IfcMaterialDefinition' ^including subtypes^*
 

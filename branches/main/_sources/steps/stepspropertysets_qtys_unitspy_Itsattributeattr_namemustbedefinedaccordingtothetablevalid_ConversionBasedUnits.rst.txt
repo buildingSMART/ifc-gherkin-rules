@@ -6,10 +6,10 @@ Usages:
 
  - **Then** *its attribute .Name. must be defined [according to the table] 'valid_ConversionBasedUnits'*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:21
+   :doc:`/features/PJS001_Correct-conversion-based-units`:24
 
  - **Then** *its attribute .ConversionFactor. must be defined [according to the table] 'valid_ConversionBasedUnits'*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:24
+   :doc:`/features/PJS001_Correct-conversion-based-units`:30
 
 

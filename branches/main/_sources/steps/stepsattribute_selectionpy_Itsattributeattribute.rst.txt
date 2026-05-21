@@ -376,6 +376,10 @@ Usages:
 
    :doc:`/features/CTX000_Presentation-colours-and-textures`:32
 
+ - **Given** *its attribute .HasAssociations.*
+
+   :doc:`/features/DOC000_Document-information`:11
+
  - **Given** *its attribute .ObjectPlacement.*
 
    :doc:`/features/GDP000_Grid-placement`:11
@@ -474,7 +478,7 @@ Usages:
 
  - **Given** *Its attribute .Name.*
 
-   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:13
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:15
 
  - **Given** *Its attribute .Name.*
 
@@ -574,27 +578,27 @@ Usages:
 
  - **Given** *its attribute .UnitsInContext.*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:15
+   :doc:`/features/PJS001_Correct-conversion-based-units`:16
 
  - **Given** *its attribute .Units.*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:16
+   :doc:`/features/PJS001_Correct-conversion-based-units`:17
 
  - **Given** *its attribute .ConversionFactor.*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:27
+   :doc:`/features/PJS001_Correct-conversion-based-units`:35
 
  - **Given** *its attribute .UnitComponent.*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:28
+   :doc:`/features/PJS001_Correct-conversion-based-units`:36
 
  - **Given** *its attribute .ConversionFactor.*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:33
+   :doc:`/features/PJS001_Correct-conversion-based-units`:43
 
  - **Given** *its attribute .UnitComponent.*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:34
+   :doc:`/features/PJS001_Correct-conversion-based-units`:44
 
  - **Given** *Its attribute .GlobalId.*
 
@@ -630,19 +634,19 @@ Usages:
 
  - **Given** *Its attribute .Operator.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:14
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:16
 
  - **Given** *Its attribute .SweptArea.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:22
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:24
 
  - **Given** *Its attribute .Operator.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:24
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:26
 
  - **Given** *Its attribute .EndSweptArea.*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:22
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:24
 
  - **Given** *Its attribute .FlowDirection.*
 

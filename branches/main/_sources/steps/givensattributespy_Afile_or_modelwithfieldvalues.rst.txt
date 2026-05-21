@@ -166,7 +166,7 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:11
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:13
 
  - **Given** *a model with Schema 'IFC4'*
 
@@ -319,6 +319,10 @@ Usages:
  - **Given** *a model with Schema 'IFC4.3'*
 
    :doc:`/features/SPS008_Spatial-container-representations`:27
+
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:13
 
  - **Given** *A model with Schema 'IFC4.3'*
 

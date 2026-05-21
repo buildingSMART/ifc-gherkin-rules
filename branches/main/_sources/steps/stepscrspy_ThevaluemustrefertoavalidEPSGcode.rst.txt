@@ -6,7 +6,7 @@ Usages:
 
  - **Then** *The value must refer to a valid EPSG code*
 
-   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:15
+   :doc:`/features/GRF002_EPSG-code-in-coordinate-reference-system`:17
 
  - **Then** *The value must refer to a valid EPSG code*
 

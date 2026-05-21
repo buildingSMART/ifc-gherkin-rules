@@ -134,6 +134,10 @@ Usages:
 
    :doc:`/features/CTX000_Presentation-colours-and-textures`:33
 
+ - **Given** *[its entity type] ^is^ 'IfcRelAssociatesDocument'*
+
+   :doc:`/features/DOC000_Document-information`:12
+
  - **Given** *[Its entity type] ^is^ 'IfcGridPlacement'*
 
    :doc:`/features/GDP000_Grid-placement`:12
@@ -196,11 +200,11 @@ Usages:
 
  - **Given** *[its entity type] ^is^ 'IfcConversionBasedUnit'*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:17
+   :doc:`/features/PJS001_Correct-conversion-based-units`:18
 
  - **Then** *[its entity type] ^is^ 'IfcSIUnit'*
 
-   :doc:`/features/PJS001_Correct-conversion-based-units`:29
+   :doc:`/features/PJS001_Correct-conversion-based-units`:37
 
  - **Given** *[its entity type] ^is^ 'IfcRelConnectsPorts'*
 
@@ -228,7 +232,7 @@ Usages:
 
  - **Given** *[Its entity type] ^is^ 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef'*
 
-   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:23
+   :doc:`/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used`:25
 
  - **Given** *[Its Entity Type] ^is^ 'IfcIndexedPolygonalFaceWithVoids'*
 

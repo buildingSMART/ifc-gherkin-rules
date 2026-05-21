@@ -10,4 +10,5 @@ Complementary checks to the schema validation, considered prerequisites or funda
    IFC101_Only-official-ifc-versions-allowed
    IFC102_Absence-of-deprecated-entities
    IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity
+   IFC106_Resource-entities-should-be-referenced-by-rooted-entity
 

@@ -3,6 +3,7 @@ import ifcopenshell.simple_spf
 from behave.model import Scenario
 from collections import Counter
 import functools
+from functools import lru_cache
 import os
 from rule_creation_protocol import protocol
 from features.exception_logger import ExceptionSummary
@@ -11,10 +12,27 @@ import time
 import logging
 import socket
 
+import cProfile
+
 from validation_results import ValidationOutcome, ValidationOutcomeDjango, ValidationOutcomeCode, OutcomeSeverity
 from main import ExecutionMode
 
-@functools.cache
+
+_GLOBAL_IFC_OPEN_CACHE = {}
+_native_open = ifcopenshell.open
+
+def _globally_cached_open(file_info, *args, **kwargs):
+    """Caches the model parsing process across all features and scenarios."""
+    
+    if isinstance(file_info, str): 
+        file_info = os.path.abspath(file_info)
+    if file_info not in _GLOBAL_IFC_OPEN_CACHE:
+        _GLOBAL_IFC_OPEN_CACHE[file_info] = _native_open(file_info, *args, **kwargs)
+    return _GLOBAL_IFC_OPEN_CACHE[file_info]
+
+ifcopenshell.open = _globally_cached_open
+
+
 def read_model(fn, pure):
     # @nb --purepythonparser is only used for @critical rules which is only IFC101 which only looks at the header
     return (ifcopenshell.simple_spf.open(fn, only_header=True)
@@ -53,6 +71,7 @@ def set_logger(context):
     return logger
 
 def before_feature(context, feature):
+
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
     

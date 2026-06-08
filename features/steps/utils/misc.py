@@ -298,10 +298,11 @@ class ContiguousSet:
             return
         pend_arr = np.fromiter(self._pending, dtype=self._dtype, count=len(self._pending))
         if self._arr.size == 0:
-            merged = np.unique(pend_arr)
+            self._arr = pend_arr.sort()
         else:
-            merged = np.union1d(self._arr, pend_arr)  # sorted, unique
-        self._arr = np.ascontiguousarray(merged.astype(self._dtype, copy=False))
+            self._arr = np.unique(
+                np.concatenate((self._arr, pend_arr))
+            ).sort()
         self._pending.clear()
 
     def __contains__(self, x: object) -> bool:

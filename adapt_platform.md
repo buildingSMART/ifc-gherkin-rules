@@ -1,9 +1,9 @@
-# Adapt platform to annual release policy (IVS-822)
+# Spec for adapting platform to support the annual release policy
 
 ## Background
 
 This document is intended as a design document for the changes needed to accommodate the annual release policy.
-More specifically, the release of v1.0.0 and exiting beta means that changes and additions to the rules
+More specifically, the release of v1.0.0 and exiting the beta phase means that changes and additions to the rules
 will need to be firewalled from the production environment that is being used to populate scorecards.
 
 ## Release policy

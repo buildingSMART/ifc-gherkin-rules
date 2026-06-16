@@ -1,3 +1,4 @@
+import re
 import typing
 from .misc import do_try
 import ifcopenshell
@@ -47,10 +48,13 @@ def get_relation(instance, attrs : list):
     return next((rel for rel in relations if rel is not None), None) # always len == 1
 
 def get_mvd(ifc_file):
-    try:
-        detected_mvd = ifc_file.header.file_description.description[0].split(" ", 1)[1]
-        detected_mvd = detected_mvd[1:-1]
-    except:
+    pattern = r"\[(.*?)\]"
+    header = ifc_file.header
+    desc = header.file_description.description[0]
+    match = re.search(pattern, desc)
+    if match:
+        detected_mvd = match.group(1)
+    else:
         detected_mvd = None
     return detected_mvd
 

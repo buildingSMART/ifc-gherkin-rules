@@ -1,15 +1,15 @@
 @IFC
 @version1
 @industry-practice
-Feature: IFC430 - Entities in scope for IFC 4X3 ReferenceView MVD
+Feature: IFC431 - Entities in scope for IFC 4X3 Alignment-basedView MVD
 
-The rule verifies that IFC models using schema version 4.3 and declaring the Reference View Model View Definition (MVD)
+The rule verifies that IFC models using schema version 4.3 and declaring the Alignment-basedView Model View Definition (MVD)
 do not export any entities that are outside the scope of this MVD.
 
-  Scenario Outline: Check for in-scope entities - IFC4.3 ReferenceView
+  Scenario Outline: Check for in-scope entities - IFC4.3 Alignment-basedView
 
     Given A model with Schema 'IFC4.3'
-    Given A model with Model View Definition 'ReferenceView'
+    Given A model with Model View Definition 'Alignment-basedView'
     Given An IFC model
 
     Then There must be less than 1 instance(s) of .<Entity>. ^excluding subtypes^
@@ -19,17 +19,10 @@ do not export any entities that are outside the scope of this MVD.
       | IfcAdvancedBrep                              |
       | IfcAdvancedBrepWithVoids                     |
       | IfcAdvancedFace                              |
-      | IfcAlignmentCant                             |
-      | IfcAlignmentCantSegment                      |
-      | IfcAlignmentHorizontal                       |
-      | IfcAlignmentHorizontalSegment                |
-      | IfcAlignmentVertical                         |
-      | IfcAlignmentVerticalSegment                  |
       | IfcApproval                                  |
       | IfcApprovalRelationship                      |
       | IfcArbitraryOpenProfileDef                   |
       | IfcAsymmetricIShapeProfileDef                |
-      | IfcAxis2PlacementLinear                      |
       | IfcBlobTexture                               |
       | IfcBlock                                     |
       | IfcBooleanClippingResult                     |
@@ -47,25 +40,20 @@ do not export any entities that are outside the scope of this MVD.
       | IfcBSplineSurface                            |
       | IfcBSplineSurfaceWithKnots                   |
       | IfcCenterLineProfileDef                      |
-      | IfcCircle                                    |
       | IfcCircleHollowProfileDef                    |
       | IfcCircleProfileDef                          |
-      | IfcClothoid                                  |
       | IfcComplexProperty                           |
       | IfcComplexPropertyTemplate                   |
       | IfcCompositeCurveOnSurface                   |
       | IfcCompositeCurveSegment                     |
-      | IfcConic                                     |
       | IfcConnectedFaceSet                          |
       | IfcConnectionCurveGeometry                   |
-      | IfcConnectionGeometry                        |
       | IfcConnectionPointEccentricity               |
       | IfcConnectionPointGeometry                   |
       | IfcConnectionSurfaceGeometry                 |
       | IfcConnectionVolumeGeometry                  |
       | IfcConstraint                                |
       | IfcContextDependentUnit                      |
-      | IfcCosineSpiral                              |
       | IfcCostItem                                  |
       | IfcCostSchedule                              |
       | IfcCsgPrimitive3D                            |
@@ -74,7 +62,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcCurrencyRelationship                      |
       | IfcCurveBoundedPlane                         |
       | IfcCurveBoundedSurface                       |
-      | IfcCurveSegment                              |
       | IfcCurveStyleFontAndScaling                  |
       | IfcCylindricalSurface                        |
       | IfcDerivedProfileDef                         |
@@ -127,8 +114,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcLightSourceGoniometric                    |
       | IfcLightSourcePositional                     |
       | IfcLightSourceSpot                           |
-      | IfcLine                                      |
-      | IfcLinearPlacement                           |
       | IfcLoop                                      |
       | IfcLShapeProfileDef                          |
       | IfcMaterialClassificationRelationship        |
@@ -149,7 +134,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcOffsetCurve2D                             |
       | IfcOffsetCurve3D                             |
       | IfcOffsetCurveByDistances                    |
-      | IfcOpenCrossProfileDef                       |
       | IfcOpenShell                                 |
       | IfcOrganizationRelationship                  |
       | IfcOrientedEdge                              |
@@ -164,12 +148,10 @@ do not export any entities that are outside the scope of this MVD.
       | IfcPlanarBox                                 |
       | IfcPlanarExtent                              |
       | IfcPlane                                     |
-      | IfcPointByDistanceExpression                 |
       | IfcPointOnCurve                              |
       | IfcPointOnSurface                            |
       | IfcPolygonalBoundedHalfSpace                 |
       | IfcPolyLoop                                  |
-      | IfcPolynomialCurve                           |
       | IfcPreDefinedColour                          |
       | IfcPreDefinedCurveFont                       |
       | IfcPreDefinedProperties                      |
@@ -212,8 +194,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcRelDefinesByObject                        |
       | IfcRelDefinesByTemplate                      |
       | IfcRelFlowControlElements                    |
-      | IfcRelInterferesElements                     |
-      | IfcRelPositions                              |
       | IfcRelProjectsElement                        |
       | IfcRelSequence                               |
       | IfcRelServicesBuildings                      |
@@ -231,23 +211,15 @@ do not export any entities that are outside the scope of this MVD.
       | IfcRoundedRectangleProfileDef                |
       | IfcSchedulingTime                            |
       | IfcSeamCurve                                 |
-      | IfcSecondOrderPolynomialSpiral               |
-      | IfcSectionedSolid                            |
-      | IfcSectionedSolidHorizontal                  |
       | IfcSectionedSpine                            |
-      | IfcSectionedSurface                          |
       | IfcSectionProperties                         |
       | IfcSectionReinforcementProperties            |
-      | IfcSegmentedReferenceCurve                   |
-      | IfcSeventhOrderPolynomialSpiral              |
       | IfcShapeAspect                               |
       | IfcShellBasedSurfaceModel                    |
       | IfcSimplePropertyTemplate                    |
-      | IfcSineSpiral                                |
       | IfcSlippageConnectionCondition               |
       | IfcSphere                                    |
       | IfcSphericalSurface                          |
-      | IfcSpiral                                    |
       | IfcStructuralAction                          |
       | IfcStructuralActivity                        |
       | IfcStructuralConnection                      |
@@ -300,7 +272,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcTextureCoordinateIndicesWithVoids         |
       | IfcTextureMap                                |
       | IfcTextureVertex                             |
-      | IfcThirdOrderPolynomialSpiral                |
       | IfcTimePeriod                                |
       | IfcTimeSeries                                |
       | IfcTimeSeriesValue                           |

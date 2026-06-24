@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('ViewDefinition[ReferenceView]'),'2;1');
-FILE_NAME('fail-ifc430-alignment_not_in_reference_view.ifc','2026-06-15T15:15:22-04:00',(''),(''),'redacted','redacted - redacted - 3.14159','');
+FILE_DESCRIPTION(('ViewDefinition[Alignment-basedView]'),'2;1');
+FILE_NAME('pass-ifc431-alignment_with_vertical.ifc','2026-06-15T15:16:51-04:00',(''),(''),'redacted','redacted - redacted - 3.14159','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

@@ -247,6 +247,14 @@ def step_impl(context, inst):
                 case _:
                     pass
 
+        else:
+            # NOTE: consider enforcing cross section curves to be of the same type.
+            # this is not explicitly called for in the IfcSectionedSolidHorizontal docs,
+            # so it is not implemented for SWE003.
+            # There may be value in a future additional rule in the SWE functional part.
+            # Ref: https://github.com/buildingSMART/ifc-gherkin-rules/pull/523
+           pass
+
 
     for pair_of_profiles in inst:
         curr_profile, next_profile = pair_of_profiles

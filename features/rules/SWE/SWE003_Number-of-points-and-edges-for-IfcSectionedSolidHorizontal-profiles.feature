@@ -10,7 +10,7 @@ then the number of points and edges must be the same for two consecutive profile
 
     Given a model with Schema 'IFC4.3'
 
-    Given an .IfcSectionedSolidHorizontal. ^without subtypes^
+    Given an .IfcSectionedSolidHorizontal.
     Given its attribute .CrossSections.
 
   Scenario: IfcArbitraryClosedProfileDef

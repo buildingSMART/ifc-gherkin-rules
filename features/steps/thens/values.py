@@ -262,17 +262,12 @@ def step_impl(context, inst):
             curr_profile, next_profile = misc.iflatten(curr_profile), misc.iflatten(next_profile)
 
             for cp, np in zip(curr_profile, next_profile):
-                curr_profile_type = cp.is_a().upper()
-                next_profile_type = np.is_a().upper()
 
-                if curr_profile_type == next_profile_type:
-                    match curr_profile_type:
-                        case "IFCARBITRARYCLOSEDPROFILEDEF":
-                            curr_curve, next_curve = cp.OuterCurve, np.OuterCurve
-                            yield from handle_curves(curr_curve, next_curve)
+                # NOTE: Currently this step implementation is only used in SWE003 which explicitly selects only IfcArbitraryClosedProfileDef.
+                # To be potentially expanded in case of other scenarios.
+                assert curr_profile.is_a('IfcArbitraryClosedProfileDef') and next_profile.is_a(
+                    'IfcArbitraryClosedProfileDef')
 
-                        # This stub waa left in place for future similar rules that might be developed for surfaces -
-                        # IfcArbitraryClosedProfileDef is used for generating solids and
-                        # IfcArbitraryOpenProfile used for generating surfaces.
-                        case _:
-                            pass
+                curr_curve, next_curve = cp.OuterCurve, np.OuterCurve
+                yield from handle_curves(curr_curve, next_curve)
+

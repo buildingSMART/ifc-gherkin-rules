@@ -265,7 +265,7 @@ def step_impl(context, inst):
 
                 # NOTE: Currently this step implementation is only used in SWE003 which explicitly selects only IfcArbitraryClosedProfileDef.
                 # To be potentially expanded in case of other scenarios.
-                assert curr_profile.is_a('IfcArbitraryClosedProfileDef') and next_profile.is_a(
+                assert cp.is_a('IfcArbitraryClosedProfileDef') and np.is_a(
                     'IfcArbitraryClosedProfileDef')
 
                 curr_curve, next_curve = cp.OuterCurve, np.OuterCurve

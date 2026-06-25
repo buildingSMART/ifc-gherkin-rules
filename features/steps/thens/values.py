@@ -12,6 +12,7 @@ from validation_handling import full_stack_rule, gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 from utils import misc
+from utils import geometry
 
 def apply_is_a(inst):
     if isinstance(inst, (list, tuple)):
@@ -169,6 +170,14 @@ def step_impl(context, inst, path, npath, varname1, op, varname2):
 @full_stack_rule
 @gherkin_ifc.step('the profiles must have the same number of points and edges')
 def step_impl(context, inst):
+    def count_edges_in_segment(indexed_segment_inst):
+        if indexed_segment_inst.is_a("IfcArcIndex"):
+            return 1
+        elif indexed_segment_inst.is_a("IfcLineIndex"):
+            return len(indexed_segment_inst.wrappedValue) - 1
+        else:
+            return 0
+
     def handle_curves(curr_crv, next_crv):
         curr_crv_type = curr_crv.is_a().upper()
         next_crv_type = next_crv.is_a().upper()
@@ -186,6 +195,15 @@ def step_impl(context, inst):
                                                 severity=OutcomeSeverity.ERROR)
 
                 case "IFCINDEXEDPOLYCURVE":
+                    # check overall number of points
+                    curr_crv_pt_count = len(geometry.get_points(curr_crv))
+                    next_crv_pt_count = len(geometry.get_points(curr_crv))
+                    if curr_crv_pt_count != next_crv_pt_count:
+                        expected_msg = f"{curr_crv_pt_count} points in profile definition curve"
+                        observed_msg = f"{next_crv_pt_count} points in profile definition curve"
+                        yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
+                                                severity=OutcomeSeverity.ERROR)
+
                     # check overall number of segments
                     if curr_crv.Segments and next_crv.Segments:
                         curr_crv_seg_count = len(curr_crv.Segments)
@@ -196,7 +214,7 @@ def step_impl(context, inst):
                             yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
                                                     severity=OutcomeSeverity.ERROR)
 
-                    # iterate segments and confirm same number of points in each
+                    # iterate segments and confirm same number of points and edges in each
                     for seg_in_curr, seg_in_next in zip(curr_crv.Segments, next_crv.Segments):
                         # segment will be either IfcLineIndex or IfcArcIndex
                         # the two segment types don't necessarily have to be the same - e.g. could sweep between polyline of three points and an arc
@@ -207,6 +225,15 @@ def step_impl(context, inst):
                             observed_msg = f"{next_seg_pt_count} points in {seg_in_next.is_a()}"
                             yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
                                                     severity=OutcomeSeverity.ERROR)
+
+                        curr_seg_edge_count = count_edges_in_segment(seg_in_curr)
+                        next_seg_edge_count = count_edges_in_segment(seg_in_next)
+                        if curr_seg_edge_count != next_seg_edge_count:
+                            expected_msg = f"{curr_seg_edge_count} edges in {seg_in_curr.is_a()}"
+                            observed_msg = f"{next_seg_edge_count} edges in {seg_in_next.is_a()}"
+                            yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
+                                                    severity=OutcomeSeverity.ERROR)
+
                     else:
                         # IndexedPolyCurve is just a polyline if Segments are not provided
                         curr_polycrv_pt_count = len(curr_crv.Points.CoordList)
@@ -219,6 +246,7 @@ def step_impl(context, inst):
 
                 case _:
                     pass
+
 
     for pair_of_profiles in inst:
         curr_profile, next_profile = pair_of_profiles

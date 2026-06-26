@@ -5,6 +5,7 @@ Feature: SWE003 - Number of points and edges for IfcSectionedSolidHorizontal pro
 
 The rule verifies that if the type of sections is not IfcParameterizedProfileDef,
 then the number of points and edges must be the same for two consecutive profiles.
+The rule only verifies profiles of type IfcArbitraryClosedProfileDef.
 
   Background: Sections for IfcSectionedSolidHorizontal
 

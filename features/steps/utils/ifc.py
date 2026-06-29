@@ -50,7 +50,10 @@ def get_relation(instance, attrs : list):
 def get_mvd(ifc_file):
     pattern = r"\[(.*?)\]"
     header = ifc_file.header
-    desc = header.file_description.description[0]
+    descriptions = header.file_description.description
+    if not descriptions:
+        return None
+    desc = descriptions[0]
     match = re.search(pattern, desc)
     if match:
         detected_mvd = match.group(1)

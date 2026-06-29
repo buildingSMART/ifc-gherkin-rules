@@ -236,4 +236,2352 @@ Usages:
 
    :doc:`/features/IFC102_Absence-of-deprecated-entities`:93
 
+ - **Then** *There must be less than 1 instance(s) of .IfcAdvancedBrep. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAdvancedBrepWithVoids. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAdvancedFace. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAlignmentCant. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAlignmentCantSegment. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAlignmentHorizontal. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAlignmentHorizontalSegment. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAlignmentVertical. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAlignmentVerticalSegment. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcApproval. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcApprovalRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcArbitraryOpenProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAsymmetricIShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAxis2PlacementLinear. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBlobTexture. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBlock. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBooleanClippingResult. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBooleanResult. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryEdgeCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryFaceCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryNodeCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryNodeConditionWarping. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundedSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoxedHalfSpace. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBSplineCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBSplineCurveWithKnots. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBSplineSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBSplineSurfaceWithKnots. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCenterLineProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCircle. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCircleHollowProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCircleProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcClothoid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcComplexProperty. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcComplexPropertyTemplate. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCompositeCurveOnSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCompositeCurveSegment. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConic. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectedFaceSet. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionCurveGeometry. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionGeometry. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionPointEccentricity. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionPointGeometry. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionSurfaceGeometry. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionVolumeGeometry. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConstraint. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcContextDependentUnit. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCosineSpiral. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCostItem. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCostSchedule. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCsgPrimitive3D. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCsgSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCurrencyRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCurveBoundedPlane. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCurveBoundedSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCurveSegment. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCurveStyleFontAndScaling. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCylindricalSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDerivedProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDirectrixCurveSweptAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDirectrixDerivedReferenceSweptAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDistributionCircuit. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDocumentInformationRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDoorLiningProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDoorPanelProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDraughtingPreDefinedColour. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDraughtingPreDefinedCurveFont. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEdge. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEdgeCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEdgeLoop. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcElementarySurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEllipse. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEllipseProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExternallyDefinedHatchStyle. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExternallyDefinedSurfaceStyle. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExternallyDefinedTextFont. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExternalReferenceRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExtrudedAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExtrudedAreaSolidTapered. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFace. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFaceBasedSurfaceModel. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFaceBound. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFaceOuterBound. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFaceSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFacetedBrepWithVoids. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFailureConnectionCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFillAreaStyleTiles. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFixedReferenceSweptAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcGeomodel. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcGeoslice. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcGridPlacement. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcHalfSpaceSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIndexedPolygonalTextureMap. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIntersectionCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIrregularTimeSeries. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIrregularTimeSeriesValue. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLagTime. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLibraryInformation. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLibraryReference. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightDistributionData. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightIntensityDistribution. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSource. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourceAmbient. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourceDirectional. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourceGoniometric. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourcePositional. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourceSpot. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLine. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLinearPlacement. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLoop. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialClassificationRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialDefinitionRepresentation. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialLayerSetUsage. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialLayerWithOffsets. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialList. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialProfileSetUsage. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialProfileSetUsageTapering. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialProfileWithOffsets. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialUsageDefinition. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMetric. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMirroredProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcObjective. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOccupant. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOffsetCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOffsetCurve2D. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOffsetCurve3D. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOffsetCurveByDistances. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOpenCrossProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOpenShell. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOrganizationRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOrientedEdge. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOuterBoundaryCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcParameterizedProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPath. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPcurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPerformanceHistory. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPermeableCoveringProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPhysicalComplexQuantity. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPixelTexture. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPlanarBox. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPlanarExtent. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPlane. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPointByDistanceExpression. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPointOnCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPointOnSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPolygonalBoundedHalfSpace. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPolyLoop. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPolynomialCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPreDefinedColour. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPreDefinedCurveFont. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPreDefinedProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPreDefinedPropertySet. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPresentationLayerWithStyle. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcProfileProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPropertyDependencyRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPropertyReferenceValue. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcQuantityNumber. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRationalBSplineCurveWithKnots. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRationalBSplineSurfaceWithKnots. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRectangleHollowProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRectangleProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRectangularPyramid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRectangularTrimmedSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRecurrencePattern. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcReference. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRegularTimeSeries. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcReinforcementBarProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcReinforcementDefinitionProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAdheresToElement. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToActor. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToControl. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToGroupByFactor. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToProcess. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToProduct. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToResource. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssociatesApproval. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssociatesConstraint. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssociatesLibrary. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssociatesProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsElements. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsPathElements. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsPortToElement. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsStructuralActivity. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsStructuralMember. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsWithEccentricity. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsWithRealizingElements. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelCoversSpaces. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelDefinesByObject. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelDefinesByTemplate. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelFlowControlElements. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelInterferesElements. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelPositions. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelProjectsElement. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelSequence. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelServicesBuildings. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelSpaceBoundary. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelSpaceBoundary1stLevel. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelSpaceBoundary2ndLevel. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcReparametrisedCompositeCurveSegment. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcResourceApprovalRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcResourceConstraintRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcResourceLevelRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRevolvedAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRevolvedAreaSolidTapered. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRightCircularCone. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRightCircularCylinder. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRoundedRectangleProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSchedulingTime. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSeamCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSecondOrderPolynomialSpiral. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSectionedSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSectionedSolidHorizontal. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSectionedSpine. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSectionedSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSectionProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSectionReinforcementProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSegmentedReferenceCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSeventhOrderPolynomialSpiral. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcShapeAspect. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcShellBasedSurfaceModel. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSimplePropertyTemplate. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSineSpiral. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSlippageConnectionCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSphere. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSphericalSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSpiral. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralActivity. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralConnection. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralConnectionCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveConnection. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveMember. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveMemberVarying. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveReaction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLinearAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoad. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadConfiguration. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadLinearForce. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadOrResult. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadPlanarForce. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadSingleDisplacement. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadSingleDisplacementDistortion. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadSingleForce. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadSingleForceWarping. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadStatic. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadTemperature. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralPlanarAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralPointAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralPointConnection. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralPointReaction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralReaction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralSurfaceAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralSurfaceConnection. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralSurfaceReaction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStyledRepresentation. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStyleModel. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSubedge. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceCurveSweptAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceOfLinearExtrusion. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceOfRevolution. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceReinforcementArea. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceStyleLighting. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceStyleRefraction. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceStyleWithTextures. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSweptDiskSolidPolygonal. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSweptSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTable. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTableColumn. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTableRow. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTaskTimeRecurring. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextLiteralWithExtent. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureCoordinateGenerator. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureCoordinateIndices. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureCoordinateIndicesWithVoids. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureMap. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureVertex. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcThirdOrderPolynomialSpiral. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTimePeriod. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTimeSeries. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTimeSeriesValue. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTopologicalRepresentationItem. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTopologyRepresentation. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcToroidalSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTrapeziumProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTriangulatedIrregularNetwork. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTrimmedCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcUShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcVertex. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcVertexLoop. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcVertexPoint. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcVirtualGridIntersection. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWallStandardCase. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWindowLiningProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWindowPanelProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWorkCalendar. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWorkPlan. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWorkSchedule. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWorkTime. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcZShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAdvancedBrep. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAdvancedBrepWithVoids. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAdvancedFace. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcApproval. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcApprovalRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcArbitraryOpenProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcAsymmetricIShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBlobTexture. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBlock. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBooleanClippingResult. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBooleanResult. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryEdgeCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryFaceCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryNodeCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundaryNodeConditionWarping. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoundedSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBoxedHalfSpace. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBSplineCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBSplineCurveWithKnots. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBSplineSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcBSplineSurfaceWithKnots. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCenterLineProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCircleHollowProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCircleProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcComplexProperty. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcComplexPropertyTemplate. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCompositeCurveOnSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCompositeCurveSegment. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectedFaceSet. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionCurveGeometry. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionPointEccentricity. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionPointGeometry. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionSurfaceGeometry. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConnectionVolumeGeometry. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcConstraint. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcContextDependentUnit. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCostItem. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCostSchedule. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCsgPrimitive3D. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCsgSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCurrencyRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCurveBoundedPlane. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCurveBoundedSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCurveStyleFontAndScaling. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcCylindricalSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDerivedProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDirectrixCurveSweptAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDirectrixDerivedReferenceSweptAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDistributionCircuit. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDocumentInformationRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDoorLiningProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDoorPanelProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDraughtingPreDefinedColour. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcDraughtingPreDefinedCurveFont. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEdge. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEdgeCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEdgeLoop. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcElementarySurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEllipse. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcEllipseProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExternallyDefinedHatchStyle. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExternallyDefinedSurfaceStyle. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExternallyDefinedTextFont. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExternalReferenceRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExtrudedAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcExtrudedAreaSolidTapered. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFace. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFaceBasedSurfaceModel. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFaceBound. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFaceOuterBound. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFaceSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFacetedBrepWithVoids. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFailureConnectionCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFillAreaStyleTiles. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcFixedReferenceSweptAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcGeomodel. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcGeoslice. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcGridPlacement. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcHalfSpaceSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIndexedPolygonalTextureMap. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIntersectionCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIrregularTimeSeries. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIrregularTimeSeriesValue. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcIShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLagTime. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLibraryInformation. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLibraryReference. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightDistributionData. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightIntensityDistribution. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSource. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourceAmbient. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourceDirectional. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourceGoniometric. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourcePositional. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLightSourceSpot. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLoop. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcLShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialClassificationRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialDefinitionRepresentation. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialLayerSetUsage. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialLayerWithOffsets. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialList. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialProfileSetUsage. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialProfileSetUsageTapering. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialProfileWithOffsets. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMaterialUsageDefinition. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMetric. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMirroredProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcObjective. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOccupant. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOffsetCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOffsetCurve2D. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOffsetCurve3D. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOffsetCurveByDistances. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOpenShell. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOrganizationRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOrientedEdge. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcOuterBoundaryCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcParameterizedProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPath. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPcurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPerformanceHistory. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPermeableCoveringProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPhysicalComplexQuantity. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPixelTexture. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPlanarBox. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPlanarExtent. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPlane. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPointOnCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPointOnSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPolygonalBoundedHalfSpace. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPolyLoop. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPreDefinedColour. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPreDefinedCurveFont. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPreDefinedProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPreDefinedPropertySet. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPresentationLayerWithStyle. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcProfileProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPropertyDependencyRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcPropertyReferenceValue. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcQuantityNumber. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRationalBSplineCurveWithKnots. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRationalBSplineSurfaceWithKnots. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRectangleHollowProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRectangleProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRectangularPyramid. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRectangularTrimmedSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRecurrencePattern. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcReference. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRegularTimeSeries. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcReinforcementBarProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcReinforcementDefinitionProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAdheresToElement. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToActor. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToControl. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToGroupByFactor. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToProcess. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToProduct. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssignsToResource. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssociatesApproval. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssociatesConstraint. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssociatesLibrary. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelAssociatesProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsElements. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsPathElements. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsPortToElement. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsStructuralActivity. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsStructuralMember. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsWithEccentricity. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelConnectsWithRealizingElements. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelCoversSpaces. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelDefinesByObject. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelDefinesByTemplate. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelFlowControlElements. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelProjectsElement. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelSequence. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelServicesBuildings. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelSpaceBoundary. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelSpaceBoundary1stLevel. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRelSpaceBoundary2ndLevel. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcReparametrisedCompositeCurveSegment. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcResourceApprovalRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcResourceConstraintRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcResourceLevelRelationship. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRevolvedAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRevolvedAreaSolidTapered. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRightCircularCone. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRightCircularCylinder. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcRoundedRectangleProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSchedulingTime. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSeamCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSectionedSpine. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSectionProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSectionReinforcementProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcShapeAspect. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcShellBasedSurfaceModel. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSimplePropertyTemplate. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSlippageConnectionCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSphere. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSphericalSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralActivity. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralConnection. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralConnectionCondition. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveConnection. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveMember. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveMemberVarying. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralCurveReaction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLinearAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoad. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadConfiguration. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadLinearForce. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadOrResult. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadPlanarForce. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadSingleDisplacement. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadSingleDisplacementDistortion. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadSingleForce. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadSingleForceWarping. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadStatic. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralLoadTemperature. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralPlanarAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralPointAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralPointConnection. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralPointReaction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralReaction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralSurfaceAction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralSurfaceConnection. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStructuralSurfaceReaction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStyledRepresentation. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcStyleModel. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSubedge. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceCurveSweptAreaSolid. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceOfLinearExtrusion. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceOfRevolution. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceReinforcementArea. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceStyleLighting. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceStyleRefraction. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSurfaceStyleWithTextures. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSweptDiskSolidPolygonal. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcSweptSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTable. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTableColumn. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTableRow. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTaskTimeRecurring. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextLiteralWithExtent. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureCoordinateGenerator. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureCoordinateIndices. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureCoordinateIndicesWithVoids. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureMap. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTextureVertex. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTimePeriod. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTimeSeries. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTimeSeriesValue. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTopologicalRepresentationItem. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTopologyRepresentation. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcToroidalSurface. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTrapeziumProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTriangulatedIrregularNetwork. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTrimmedCurve. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcTShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcUShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcVertex. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcVertexLoop. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcVertexPoint. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcVirtualGridIntersection. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWallStandardCase. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWindowLiningProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWindowPanelProperties. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWorkCalendar. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWorkPlan. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWorkSchedule. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcWorkTime. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcZShapeProfileDef. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
 

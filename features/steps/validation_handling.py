@@ -130,7 +130,7 @@ def handle_given(context, fn, **kwargs):
     3) Filter the set of IfcAlignment based on a value ('Given attribute == X' -> [IfcAlignm, None, IfcAlignm])
     4) Set instances to a given attribute ('Given its attribute Representation') -> [IfcProdDefShape, IfcProdDefShape, IfcProdDefShape]
     """
-    if 'inst' not in inspect.getargs(fn.__code__).args:
+    if not _code_accepts_arg(fn.__code__, 'inst'):
         gen = fn(context, **kwargs)
         if gen: # (2) Set initial set of instances
             try:
@@ -157,6 +157,26 @@ def handle_given(context, fn, **kwargs):
 def is_nested(val):
     return isinstance(val, (tuple, list, misc.PackedSequence))
 
+
+# Step functions are a small, fixed set, but apply_operation runs once per instance
+# (hundreds of thousands of times on large models). inspect.signature / inspect.getargs
+# recompile the signature each call, which showed up as ~12s of pure introspection in
+# profiling. Cache the answer per function — it never changes for a given fn.
+@functools.lru_cache(maxsize=None)
+def _fn_accepts_param(fn, name):
+    try:
+        return name in inspect.signature(fn).parameters
+    except (TypeError, ValueError):
+        return False
+
+
+@functools.lru_cache(maxsize=None)
+def _code_accepts_arg(code, name):
+    try:
+        return name in inspect.getargs(code).args
+    except (TypeError, ValueError):
+        return False
+
 def apply_operation(fn, inst, context, current_path, kwargs):
     def get_value_path():
         value_path = []
@@ -167,7 +187,7 @@ def apply_operation(fn, inst, context, current_path, kwargs):
                 i += 1
             value_path.append(val)
         return value_path
-    if 'path' in inspect.signature(fn).parameters:
+    if _fn_accepts_param(fn, 'path'):
         stack = misc.get_stack_tree(context)[::-1]
         local_kwargs = kwargs | {
             'path': get_value_path()
@@ -244,9 +264,9 @@ def handle_then(context, fn, **kwargs):
                         val = val[current_path[i]]
                         i += 1
                     value_path.append(val)
-                if 'path' in inspect.getargs(fn.__code__).args:
+                if _code_accepts_arg(fn.__code__, 'path'):
                     kwargs = kwargs | {'path': value_path}
-                if 'npath' in inspect.getargs(fn.__code__).args:
+                if _code_accepts_arg(fn.__code__, 'npath'):
                     kwargs = kwargs | {'npath': current_path}
             top_level_index = current_path[0] if current_path else None
             activation_inst = inst if not current_path or activation_instances[top_level_index] is None else activation_instances[top_level_index]

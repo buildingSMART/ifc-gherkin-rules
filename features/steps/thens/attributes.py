@@ -7,10 +7,14 @@ from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 
+# Loaded once (matrices are static per run); load_attribute_matrix is also cached.
+_related_attr_matrix = system.load_attribute_matrix("related_entity_attributes.csv")
+_relating_attr_matrix = system.load_attribute_matrix("relating_entity_attributes.csv")
+
+
 @gherkin_ifc.step("The {entity} attribute must point to the {other_entity} of the container element established with {relationship} relationship")
 def step_impl(context, inst, entity, other_entity, relationship):
-    related_attr_matrix, relating_attr_matrix = system.load_attribute_matrix(
-        "related_entity_attributes.csv"), system.load_attribute_matrix("relating_entity_attributes.csv")
+    related_attr_matrix, relating_attr_matrix = _related_attr_matrix, _relating_attr_matrix
     relationship_relating_attr = relating_attr_matrix.get(relationship)
     relationship_related_attr = related_attr_matrix.get(relationship)
 

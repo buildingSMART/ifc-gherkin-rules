@@ -1,5 +1,5 @@
-There must be ``constraint`` ``num:d`` instance(s) of \ .\ ``entity``\ .\ 
-==========================================================================
+There ``spec_word:must_or_should`` be ``constraint`` ``num:d`` instance(s) of \ .\ ``entity``\ .\ 
+==================================================================================================
 
 .. container:: prewrap
 
@@ -15,11 +15,11 @@ There must be ``constraint`` ``num:d`` instance(s) of \ .\ ``entity``\ .\
 Usages:
 ~~~~~~~
 
- - **Then** *There must be at least 1 instance(s) of .IfcProjectedCRS.*
+ - **Then** *There should be at least 1 instance(s) of .IfcProjectedCRS.*
 
    :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:15
 
- - **Then** *There must be at least 1 instance(s) of .IfcCoordinateReferenceSystem.*
+ - **Then** *There should be at least 1 instance(s) of .IfcCoordinateReferenceSystem.*
 
    :doc:`/features/GRF003_CRS-presence-with-spatial-entities`:22
 

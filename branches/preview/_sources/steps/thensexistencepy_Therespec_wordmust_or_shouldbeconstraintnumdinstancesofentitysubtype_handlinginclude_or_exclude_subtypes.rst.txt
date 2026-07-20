@@ -1,5 +1,5 @@
-There must be ``constraint`` ``num:d`` instance(s) of \ .\ ``entity``\ .\  \ ^\ ``subtype_handling:include_or_exclude_subtypes``\ ^\ 
-=====================================================================================================================================
+There ``spec_word:must_or_should`` be ``constraint`` ``num:d`` instance(s) of \ .\ ``entity``\ .\  \ ^\ ``subtype_handling:include_or_exclude_subtypes``\ ^\ 
+=============================================================================================================================================================
 
 Usages:
 ~~~~~~~

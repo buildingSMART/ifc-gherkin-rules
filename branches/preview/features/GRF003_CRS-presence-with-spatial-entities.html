@@ -129,7 +129,7 @@
 004 | &#64;version1
 005 | Feature: GRF003 - CRS presence with spatial entities
 006 | The rule verifies that proper georeferencing using a coordinate reference system is established when facilities such as buildings or bridges are present in a model.
-007 | Models containing IfcFacility must contain a IfcProjectedCRS or IfcGeographicCRS.
+007 | Models containing facilities such as buildings, bridges, railways, and roads should contain an IfcProjectedCRS or IfcGeographicCRS.
 008 |
 009 |
 010 |     Scenario: CRS required when IfcBuilding is present
@@ -137,14 +137,14 @@
 012 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4'</span></a>
 013 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcBuilding.</span></a>
 014 |
-015 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at least 1 instance(s) of .IfcProjectedCRS.</span></a>
+015 |     <a class="reference internal" href="../steps/thensexistencepy_Therespec_wordmust_or_shouldbeconstraintnumdinstancesofentity.html"><span class="doc">Then There should be at least 1 instance(s) of .IfcProjectedCRS.</span></a>
 016 |
 017 |     Scenario: CRS required when IfcFacility is present
 018 |
 019 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given a model with Schema 'IFC4.3'</span></a>
 020 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcFacility.</span></a>
 021 |
-022 |     <a class="reference internal" href="../steps/thensexistencepy_Theremustbeconstraintnumdinstancesofentity.html"><span class="doc">Then There must be at least 1 instance(s) of .IfcCoordinateReferenceSystem.</span></a></pre>
+022 |     <a class="reference internal" href="../steps/thensexistencepy_Therespec_wordmust_or_shouldbeconstraintnumdinstancesofentity.html"><span class="doc">Then There should be at least 1 instance(s) of .IfcCoordinateReferenceSystem.</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>

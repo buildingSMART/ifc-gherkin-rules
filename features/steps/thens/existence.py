@@ -47,10 +47,10 @@ def get_entities_in_model(context, constraint, entity, include_or_exclude_subtyp
 
 
 @gherkin_ifc.step(
-    "There must be {constraint} {num:d} instance(s) of .{entity}. ^{subtype_handling:include_or_exclude_subtypes}^"
+    "There {spec_word:must_or_should} be {constraint} {num:d} instance(s) of .{entity}. ^{subtype_handling:include_or_exclude_subtypes}^"
 )
 @global_rule
-def step_impl(context, inst, constraint, num, entity, subtype_handling="including subtypes"):
+def step_impl(context, inst, spec_word, constraint, num, entity, subtype_handling="including subtypes"):
     op = misc.stmt_to_op(constraint)
     instances_in_model = get_entities_in_model(context, constraint, entity, subtype_handling)
     if not op(len(instances_in_model), num):
@@ -59,9 +59,9 @@ def step_impl(context, inst, constraint, num, entity, subtype_handling="includin
         )
 
 
-@gherkin_ifc.step("There must be {constraint} {num:d} instance(s) of .{entity}.")
+@gherkin_ifc.step("There {spec_word:must_or_should} be {constraint} {num:d} instance(s) of .{entity}.")
 @global_rule
-def step_impl(context, inst, constraint, num, entity, include_or_exclude_subtypes="including subtypes"):
+def step_impl(context, inst, spec_word, constraint, num, entity, include_or_exclude_subtypes="including subtypes"):
     """
     The Given step_impl in combination with 'at least 1' is the equivalent of 'Given an IfcEntity', but without setting new applicable instances. 
     For example: 

@@ -20,6 +20,14 @@ Usages:
 
    :doc:`/features/IFC102_Absence-of-deprecated-entities`:90
 
+ - **Given** *An IFC model*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:13
+
+ - **Given** *An IFC model*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:13
+
  - **Given** *an IFC Model*
 
    :doc:`/features/PJS101_Project-presence`:10

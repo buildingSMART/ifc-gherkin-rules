@@ -266,6 +266,22 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4.3'*
 
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:11
+
+ - **Given** *A model with Model View Definition 'ReferenceView'*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:12
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:11
+
+ - **Given** *A model with Model View Definition 'Alignment-basedView'*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:12
+
+ - **Given** *A model with Schema 'IFC4.3'*
+
    :doc:`/features/LIP002_Linear-placement-fallback-coordinates`:9
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*

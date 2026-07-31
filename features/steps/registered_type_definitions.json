@@ -17,5 +17,6 @@
     "display_entity": [" ", "and display entity instance"],
     "property_set_or_element_quantity": ["IfcPropertySet", "IfcElementQuantity"],
     "property_or_physical_quantity": ["IfcProperty", "IfcPhysicalQuantity"],
-    "continuity_type": ["position", "tangency", "cant gradient", "vertical gradient"]
+    "continuity_type": ["position", "tangency", "cant gradient", "vertical gradient"],
+    "must_or_should": ["must", "should"]
 }

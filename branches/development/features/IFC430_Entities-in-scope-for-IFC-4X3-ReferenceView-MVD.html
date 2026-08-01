@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IFC430 Entities in scope for IFC 4X3 ReferenceView MVD - v1 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
+  <title>IFC430 Entities in scope for IFC 4X3 ReferenceView MVD - v2 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="IFC431 Entities in scope for IFC 4X3 Alignment basedView MVD - v1" href="IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.html" />
+    <link rel="next" title="IFC431 Entities in scope for IFC 4X3 Alignment basedView MVD - v2" href="IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.html" />
     <link rel="prev" title="IFC106 Resource entities should be referenced by rooted entity - v1" href="IFC106_Resource-entities-should-be-referenced-by-rooted-entity.html" /> 
 </head>
 
@@ -65,8 +65,8 @@
 <li class="toctree-l3"><a class="reference internal" href="IFC102_Absence-of-deprecated-entities.html"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v5</a></li>
 <li class="toctree-l3"><a class="reference internal" href="IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity - v5) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="IFC106_Resource-entities-should-be-referenced-by-rooted-entity.html"><code class="docutils literal notranslate"><span class="pre">IFC106</span></code> Resource entities should be referenced by rooted entity - v1</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">IFC430</span></code> Entities in scope for IFC 4X3 ReferenceView MVD - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.html"><code class="docutils literal notranslate"><span class="pre">IFC431</span></code> Entities in scope for IFC 4X3 Alignment basedView MVD - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">IFC430</span></code> Entities in scope for IFC 4X3 ReferenceView MVD - v2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.html"><code class="docutils literal notranslate"><span class="pre">IFC431</span></code> Entities in scope for IFC 4X3 Alignment basedView MVD - v2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="LAY.html">Presentation layer (<code class="docutils literal notranslate"><span class="pre">LAY</span></code>)</a></li>
@@ -108,7 +108,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">IFC430</span></code> Entities in scope for IFC 4X3 ReferenceView MVD - v1</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">IFC430</span></code> Entities in scope for IFC 4X3 ReferenceView MVD - v2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -118,10 +118,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ifc430-entities-in-scope-for-ifc-4x3-referenceview-mvd-v1">
-<h1><code class="docutils literal notranslate"><span class="pre">IFC430</span></code> Entities in scope for IFC 4X3 ReferenceView MVD - v1<a class="headerlink" href="#ifc430-entities-in-scope-for-ifc-4x3-referenceview-mvd-v1" title="Link to this heading"></a></h1>
+  <section id="ifc430-entities-in-scope-for-ifc-4x3-referenceview-mvd-v2">
+<h1><code class="docutils literal notranslate"><span class="pre">IFC430</span></code> Entities in scope for IFC 4X3 ReferenceView MVD - v2<a class="headerlink" href="#ifc430-entities-in-scope-for-ifc-4x3-referenceview-mvd-v2" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;IFC
-002 | &#64;version1
+002 | &#64;version2
 003 | &#64;industry-practice
 004 | Feature: IFC430 - Entities in scope for IFC 4X3 ReferenceView MVD
 005 |
@@ -253,199 +253,200 @@
 131 |       | IfcLinearPlacement                           |
 132 |       | IfcLoop                                      |
 133 |       | IfcLShapeProfileDef                          |
-134 |       | IfcMaterialClassificationRelationship        |
-135 |       | IfcMaterialDefinitionRepresentation          |
-136 |       | IfcMaterialLayerSetUsage                     |
-137 |       | IfcMaterialLayerWithOffsets                  |
-138 |       | IfcMaterialList                              |
-139 |       | IfcMaterialProfileSetUsage                   |
-140 |       | IfcMaterialProfileSetUsageTapering           |
-141 |       | IfcMaterialProfileWithOffsets                |
-142 |       | IfcMaterialRelationship                      |
-143 |       | IfcMaterialUsageDefinition                   |
-144 |       | IfcMetric                                    |
-145 |       | IfcMirroredProfileDef                        |
-146 |       | IfcObjective                                 |
-147 |       | IfcOccupant                                  |
-148 |       | IfcOffsetCurve                               |
-149 |       | IfcOffsetCurve2D                             |
-150 |       | IfcOffsetCurve3D                             |
-151 |       | IfcOffsetCurveByDistances                    |
-152 |       | IfcOpenCrossProfileDef                       |
-153 |       | IfcOpenShell                                 |
-154 |       | IfcOrganizationRelationship                  |
-155 |       | IfcOrientedEdge                              |
-156 |       | IfcOuterBoundaryCurve                        |
-157 |       | IfcParameterizedProfileDef                   |
-158 |       | IfcPath                                      |
-159 |       | IfcPcurve                                    |
-160 |       | IfcPerformanceHistory                        |
-161 |       | IfcPermeableCoveringProperties               |
-162 |       | IfcPhysicalComplexQuantity                   |
-163 |       | IfcPixelTexture                              |
-164 |       | IfcPlanarBox                                 |
-165 |       | IfcPlanarExtent                              |
-166 |       | IfcPlane                                     |
-167 |       | IfcPointByDistanceExpression                 |
-168 |       | IfcPointOnCurve                              |
-169 |       | IfcPointOnSurface                            |
-170 |       | IfcPolygonalBoundedHalfSpace                 |
-171 |       | IfcPolyLoop                                  |
-172 |       | IfcPolynomialCurve                           |
-173 |       | IfcPreDefinedColour                          |
-174 |       | IfcPreDefinedCurveFont                       |
-175 |       | IfcPreDefinedProperties                      |
-176 |       | IfcPreDefinedPropertySet                     |
-177 |       | IfcPresentationLayerWithStyle                |
-178 |       | IfcProfileProperties                         |
-179 |       | IfcPropertyDependencyRelationship            |
-180 |       | IfcPropertyReferenceValue                    |
-181 |       | IfcQuantityNumber                            |
-182 |       | IfcRationalBSplineCurveWithKnots             |
-183 |       | IfcRationalBSplineSurfaceWithKnots           |
-184 |       | IfcRectangleHollowProfileDef                 |
-185 |       | IfcRectangleProfileDef                       |
-186 |       | IfcRectangularPyramid                        |
-187 |       | IfcRectangularTrimmedSurface                 |
-188 |       | IfcRecurrencePattern                         |
-189 |       | IfcReference                                 |
-190 |       | IfcRegularTimeSeries                         |
-191 |       | IfcReinforcementBarProperties                |
-192 |       | IfcReinforcementDefinitionProperties         |
-193 |       | IfcRelAdheresToElement                       |
-194 |       | IfcRelAssignsToActor                         |
-195 |       | IfcRelAssignsToControl                       |
-196 |       | IfcRelAssignsToGroupByFactor                 |
-197 |       | IfcRelAssignsToProcess                       |
-198 |       | IfcRelAssignsToProduct                       |
-199 |       | IfcRelAssignsToResource                      |
-200 |       | IfcRelAssociatesApproval                     |
-201 |       | IfcRelAssociatesConstraint                   |
-202 |       | IfcRelAssociatesLibrary                      |
-203 |       | IfcRelAssociatesProfileDef                   |
-204 |       | IfcRelConnectsElements                       |
-205 |       | IfcRelConnectsPathElements                   |
-206 |       | IfcRelConnectsPortToElement                  |
-207 |       | IfcRelConnectsStructuralActivity             |
-208 |       | IfcRelConnectsStructuralMember               |
-209 |       | IfcRelConnectsWithEccentricity               |
-210 |       | IfcRelConnectsWithRealizingElements          |
-211 |       | IfcRelCoversSpaces                           |
-212 |       | IfcRelDefinesByObject                        |
-213 |       | IfcRelDefinesByTemplate                      |
-214 |       | IfcRelFlowControlElements                    |
-215 |       | IfcRelInterferesElements                     |
-216 |       | IfcRelPositions                              |
-217 |       | IfcRelProjectsElement                        |
-218 |       | IfcRelSequence                               |
-219 |       | IfcRelServicesBuildings                      |
-220 |       | IfcRelSpaceBoundary                          |
-221 |       | IfcRelSpaceBoundary1stLevel                  |
-222 |       | IfcRelSpaceBoundary2ndLevel                  |
-223 |       | IfcReparametrisedCompositeCurveSegment       |
-224 |       | IfcResourceApprovalRelationship              |
-225 |       | IfcResourceConstraintRelationship            |
-226 |       | IfcResourceLevelRelationship                 |
-227 |       | IfcRevolvedAreaSolid                         |
-228 |       | IfcRevolvedAreaSolidTapered                  |
-229 |       | IfcRightCircularCone                         |
-230 |       | IfcRightCircularCylinder                     |
-231 |       | IfcRoundedRectangleProfileDef                |
-232 |       | IfcSchedulingTime                            |
-233 |       | IfcSeamCurve                                 |
-234 |       | IfcSecondOrderPolynomialSpiral               |
-235 |       | IfcSectionedSolid                            |
-236 |       | IfcSectionedSolidHorizontal                  |
-237 |       | IfcSectionedSpine                            |
-238 |       | IfcSectionedSurface                          |
-239 |       | IfcSectionProperties                         |
-240 |       | IfcSectionReinforcementProperties            |
-241 |       | IfcSegmentedReferenceCurve                   |
-242 |       | IfcSeventhOrderPolynomialSpiral              |
-243 |       | IfcShapeAspect                               |
-244 |       | IfcShellBasedSurfaceModel                    |
-245 |       | IfcSimplePropertyTemplate                    |
-246 |       | IfcSineSpiral                                |
-247 |       | IfcSlippageConnectionCondition               |
-248 |       | IfcSphere                                    |
-249 |       | IfcSphericalSurface                          |
-250 |       | IfcSpiral                                    |
-251 |       | IfcStructuralAction                          |
-252 |       | IfcStructuralActivity                        |
-253 |       | IfcStructuralConnection                      |
-254 |       | IfcStructuralConnectionCondition             |
-255 |       | IfcStructuralCurveAction                     |
-256 |       | IfcStructuralCurveConnection                 |
-257 |       | IfcStructuralCurveMember                     |
-258 |       | IfcStructuralCurveMemberVarying              |
-259 |       | IfcStructuralCurveReaction                   |
-260 |       | IfcStructuralLinearAction                    |
-261 |       | IfcStructuralLoad                            |
-262 |       | IfcStructuralLoadConfiguration               |
-263 |       | IfcStructuralLoadLinearForce                 |
-264 |       | IfcStructuralLoadOrResult                    |
-265 |       | IfcStructuralLoadPlanarForce                 |
-266 |       | IfcStructuralLoadSingleDisplacement          |
-267 |       | IfcStructuralLoadSingleDisplacementDistortion|
-268 |       | IfcStructuralLoadSingleForce                 |
-269 |       | IfcStructuralLoadSingleForceWarping          |
-270 |       | IfcStructuralLoadStatic                      |
-271 |       | IfcStructuralLoadTemperature                 |
-272 |       | IfcStructuralPlanarAction                    |
-273 |       | IfcStructuralPointAction                     |
-274 |       | IfcStructuralPointConnection                 |
-275 |       | IfcStructuralPointReaction                   |
-276 |       | IfcStructuralReaction                        |
-277 |       | IfcStructuralSurfaceAction                   |
-278 |       | IfcStructuralSurfaceConnection               |
-279 |       | IfcStructuralSurfaceReaction                 |
-280 |       | IfcStyledRepresentation                      |
-281 |       | IfcStyleModel                                |
-282 |       | IfcSubedge                                   |
-283 |       | IfcSurfaceCurve                              |
-284 |       | IfcSurfaceCurveSweptAreaSolid                |
-285 |       | IfcSurfaceOfLinearExtrusion                  |
-286 |       | IfcSurfaceOfRevolution                       |
-287 |       | IfcSurfaceReinforcementArea                  |
-288 |       | IfcSurfaceStyleLighting                      |
-289 |       | IfcSurfaceStyleRefraction                    |
-290 |       | IfcSurfaceStyleWithTextures                  |
-291 |       | IfcSweptDiskSolidPolygonal                   |
-292 |       | IfcSweptSurface                              |
-293 |       | IfcTable                                     |
-294 |       | IfcTableColumn                               |
-295 |       | IfcTableRow                                  |
-296 |       | IfcTaskTimeRecurring                         |
-297 |       | IfcTextLiteralWithExtent                     |
-298 |       | IfcTextureCoordinateGenerator                |
-299 |       | IfcTextureCoordinateIndices                  |
-300 |       | IfcTextureCoordinateIndicesWithVoids         |
-301 |       | IfcTextureMap                                |
-302 |       | IfcTextureVertex                             |
-303 |       | IfcThirdOrderPolynomialSpiral                |
-304 |       | IfcTimePeriod                                |
-305 |       | IfcTimeSeries                                |
-306 |       | IfcTimeSeriesValue                           |
-307 |       | IfcTopologicalRepresentationItem             |
-308 |       | IfcTopologyRepresentation                    |
-309 |       | IfcToroidalSurface                           |
-310 |       | IfcTrapeziumProfileDef                       |
-311 |       | IfcTriangulatedIrregularNetwork              |
-312 |       | IfcTrimmedCurve                              |
-313 |       | IfcTShapeProfileDef                          |
-314 |       | IfcUShapeProfileDef                          |
-315 |       | IfcVertex                                    |
-316 |       | IfcVertexLoop                                |
-317 |       | IfcVertexPoint                               |
-318 |       | IfcVirtualGridIntersection                   |
-319 |       | IfcWallStandardCase                          |
-320 |       | IfcWindowLiningProperties                    |
-321 |       | IfcWindowPanelProperties                     |
-322 |       | IfcWorkCalendar                              |
-323 |       | IfcWorkPlan                                  |
-324 |       | IfcWorkSchedule                              |
-325 |       | IfcWorkTime                                  |
-326 |       | IfcZShapeProfileDef                          |</pre>
+134 |       | IfcMapConversionScaled
+135 |       | IfcMaterialClassificationRelationship        |
+136 |       | IfcMaterialDefinitionRepresentation          |
+137 |       | IfcMaterialLayerSetUsage                     |
+138 |       | IfcMaterialLayerWithOffsets                  |
+139 |       | IfcMaterialList                              |
+140 |       | IfcMaterialProfileSetUsage                   |
+141 |       | IfcMaterialProfileSetUsageTapering           |
+142 |       | IfcMaterialProfileWithOffsets                |
+143 |       | IfcMaterialRelationship                      |
+144 |       | IfcMaterialUsageDefinition                   |
+145 |       | IfcMetric                                    |
+146 |       | IfcMirroredProfileDef                        |
+147 |       | IfcObjective                                 |
+148 |       | IfcOccupant                                  |
+149 |       | IfcOffsetCurve                               |
+150 |       | IfcOffsetCurve2D                             |
+151 |       | IfcOffsetCurve3D                             |
+152 |       | IfcOffsetCurveByDistances                    |
+153 |       | IfcOpenCrossProfileDef                       |
+154 |       | IfcOpenShell                                 |
+155 |       | IfcOrganizationRelationship                  |
+156 |       | IfcOrientedEdge                              |
+157 |       | IfcOuterBoundaryCurve                        |
+158 |       | IfcParameterizedProfileDef                   |
+159 |       | IfcPath                                      |
+160 |       | IfcPcurve                                    |
+161 |       | IfcPerformanceHistory                        |
+162 |       | IfcPermeableCoveringProperties               |
+163 |       | IfcPhysicalComplexQuantity                   |
+164 |       | IfcPixelTexture                              |
+165 |       | IfcPlanarBox                                 |
+166 |       | IfcPlanarExtent                              |
+167 |       | IfcPlane                                     |
+168 |       | IfcPointByDistanceExpression                 |
+169 |       | IfcPointOnCurve                              |
+170 |       | IfcPointOnSurface                            |
+171 |       | IfcPolygonalBoundedHalfSpace                 |
+172 |       | IfcPolyLoop                                  |
+173 |       | IfcPolynomialCurve                           |
+174 |       | IfcPreDefinedColour                          |
+175 |       | IfcPreDefinedCurveFont                       |
+176 |       | IfcPreDefinedProperties                      |
+177 |       | IfcPreDefinedPropertySet                     |
+178 |       | IfcPresentationLayerWithStyle                |
+179 |       | IfcProfileProperties                         |
+180 |       | IfcPropertyDependencyRelationship            |
+181 |       | IfcPropertyReferenceValue                    |
+182 |       | IfcQuantityNumber                            |
+183 |       | IfcRationalBSplineCurveWithKnots             |
+184 |       | IfcRationalBSplineSurfaceWithKnots           |
+185 |       | IfcRectangleHollowProfileDef                 |
+186 |       | IfcRectangleProfileDef                       |
+187 |       | IfcRectangularPyramid                        |
+188 |       | IfcRectangularTrimmedSurface                 |
+189 |       | IfcRecurrencePattern                         |
+190 |       | IfcReference                                 |
+191 |       | IfcRegularTimeSeries                         |
+192 |       | IfcReinforcementBarProperties                |
+193 |       | IfcReinforcementDefinitionProperties         |
+194 |       | IfcRelAdheresToElement                       |
+195 |       | IfcRelAssignsToActor                         |
+196 |       | IfcRelAssignsToControl                       |
+197 |       | IfcRelAssignsToGroupByFactor                 |
+198 |       | IfcRelAssignsToProcess                       |
+199 |       | IfcRelAssignsToProduct                       |
+200 |       | IfcRelAssignsToResource                      |
+201 |       | IfcRelAssociatesApproval                     |
+202 |       | IfcRelAssociatesConstraint                   |
+203 |       | IfcRelAssociatesLibrary                      |
+204 |       | IfcRelAssociatesProfileDef                   |
+205 |       | IfcRelConnectsElements                       |
+206 |       | IfcRelConnectsPathElements                   |
+207 |       | IfcRelConnectsPortToElement                  |
+208 |       | IfcRelConnectsStructuralActivity             |
+209 |       | IfcRelConnectsStructuralMember               |
+210 |       | IfcRelConnectsWithEccentricity               |
+211 |       | IfcRelConnectsWithRealizingElements          |
+212 |       | IfcRelCoversSpaces                           |
+213 |       | IfcRelDefinesByObject                        |
+214 |       | IfcRelDefinesByTemplate                      |
+215 |       | IfcRelFlowControlElements                    |
+216 |       | IfcRelInterferesElements                     |
+217 |       | IfcRelPositions                              |
+218 |       | IfcRelProjectsElement                        |
+219 |       | IfcRelSequence                               |
+220 |       | IfcRelServicesBuildings                      |
+221 |       | IfcRelSpaceBoundary                          |
+222 |       | IfcRelSpaceBoundary1stLevel                  |
+223 |       | IfcRelSpaceBoundary2ndLevel                  |
+224 |       | IfcReparametrisedCompositeCurveSegment       |
+225 |       | IfcResourceApprovalRelationship              |
+226 |       | IfcResourceConstraintRelationship            |
+227 |       | IfcResourceLevelRelationship                 |
+228 |       | IfcRevolvedAreaSolid                         |
+229 |       | IfcRevolvedAreaSolidTapered                  |
+230 |       | IfcRightCircularCone                         |
+231 |       | IfcRightCircularCylinder                     |
+232 |       | IfcRoundedRectangleProfileDef                |
+233 |       | IfcSchedulingTime                            |
+234 |       | IfcSeamCurve                                 |
+235 |       | IfcSecondOrderPolynomialSpiral               |
+236 |       | IfcSectionedSolid                            |
+237 |       | IfcSectionedSolidHorizontal                  |
+238 |       | IfcSectionedSpine                            |
+239 |       | IfcSectionedSurface                          |
+240 |       | IfcSectionProperties                         |
+241 |       | IfcSectionReinforcementProperties            |
+242 |       | IfcSegmentedReferenceCurve                   |
+243 |       | IfcSeventhOrderPolynomialSpiral              |
+244 |       | IfcShapeAspect                               |
+245 |       | IfcShellBasedSurfaceModel                    |
+246 |       | IfcSimplePropertyTemplate                    |
+247 |       | IfcSineSpiral                                |
+248 |       | IfcSlippageConnectionCondition               |
+249 |       | IfcSphere                                    |
+250 |       | IfcSphericalSurface                          |
+251 |       | IfcSpiral                                    |
+252 |       | IfcStructuralAction                          |
+253 |       | IfcStructuralActivity                        |
+254 |       | IfcStructuralConnection                      |
+255 |       | IfcStructuralConnectionCondition             |
+256 |       | IfcStructuralCurveAction                     |
+257 |       | IfcStructuralCurveConnection                 |
+258 |       | IfcStructuralCurveMember                     |
+259 |       | IfcStructuralCurveMemberVarying              |
+260 |       | IfcStructuralCurveReaction                   |
+261 |       | IfcStructuralLinearAction                    |
+262 |       | IfcStructuralLoad                            |
+263 |       | IfcStructuralLoadConfiguration               |
+264 |       | IfcStructuralLoadLinearForce                 |
+265 |       | IfcStructuralLoadOrResult                    |
+266 |       | IfcStructuralLoadPlanarForce                 |
+267 |       | IfcStructuralLoadSingleDisplacement          |
+268 |       | IfcStructuralLoadSingleDisplacementDistortion|
+269 |       | IfcStructuralLoadSingleForce                 |
+270 |       | IfcStructuralLoadSingleForceWarping          |
+271 |       | IfcStructuralLoadStatic                      |
+272 |       | IfcStructuralLoadTemperature                 |
+273 |       | IfcStructuralPlanarAction                    |
+274 |       | IfcStructuralPointAction                     |
+275 |       | IfcStructuralPointConnection                 |
+276 |       | IfcStructuralPointReaction                   |
+277 |       | IfcStructuralReaction                        |
+278 |       | IfcStructuralSurfaceAction                   |
+279 |       | IfcStructuralSurfaceConnection               |
+280 |       | IfcStructuralSurfaceReaction                 |
+281 |       | IfcStyledRepresentation                      |
+282 |       | IfcStyleModel                                |
+283 |       | IfcSubedge                                   |
+284 |       | IfcSurfaceCurve                              |
+285 |       | IfcSurfaceCurveSweptAreaSolid                |
+286 |       | IfcSurfaceOfLinearExtrusion                  |
+287 |       | IfcSurfaceOfRevolution                       |
+288 |       | IfcSurfaceReinforcementArea                  |
+289 |       | IfcSurfaceStyleLighting                      |
+290 |       | IfcSurfaceStyleRefraction                    |
+291 |       | IfcSurfaceStyleWithTextures                  |
+292 |       | IfcSweptDiskSolidPolygonal                   |
+293 |       | IfcSweptSurface                              |
+294 |       | IfcTable                                     |
+295 |       | IfcTableColumn                               |
+296 |       | IfcTableRow                                  |
+297 |       | IfcTaskTimeRecurring                         |
+298 |       | IfcTextLiteralWithExtent                     |
+299 |       | IfcTextureCoordinateGenerator                |
+300 |       | IfcTextureCoordinateIndices                  |
+301 |       | IfcTextureCoordinateIndicesWithVoids         |
+302 |       | IfcTextureMap                                |
+303 |       | IfcTextureVertex                             |
+304 |       | IfcThirdOrderPolynomialSpiral                |
+305 |       | IfcTimePeriod                                |
+306 |       | IfcTimeSeries                                |
+307 |       | IfcTimeSeriesValue                           |
+308 |       | IfcTopologicalRepresentationItem             |
+309 |       | IfcTopologyRepresentation                    |
+310 |       | IfcToroidalSurface                           |
+311 |       | IfcTrapeziumProfileDef                       |
+312 |       | IfcTriangulatedIrregularNetwork              |
+313 |       | IfcTrimmedCurve                              |
+314 |       | IfcTShapeProfileDef                          |
+315 |       | IfcUShapeProfileDef                          |
+316 |       | IfcVertex                                    |
+317 |       | IfcVertexLoop                                |
+318 |       | IfcVertexPoint                               |
+319 |       | IfcVirtualGridIntersection                   |
+320 |       | IfcWallStandardCase                          |
+321 |       | IfcWindowLiningProperties                    |
+322 |       | IfcWindowPanelProperties                     |
+323 |       | IfcWorkCalendar                              |
+324 |       | IfcWorkPlan                                  |
+325 |       | IfcWorkSchedule                              |
+326 |       | IfcWorkTime                                  |
+327 |       | IfcZShapeProfileDef                          |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -458,9 +459,15 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>v1</p></td>
-<td><p>n/a</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v1.0.2">v1.0.2</a></p></td>
 <td><p>2026-06-29</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/7be1eab8ed388e2bd15ad5a91384819b7e5bbb2b">7be1eab8</a></p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.2/features/rules/IFC/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p>n/a</p></td>
+<td><p>2026-08-01</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/231d9d455aae593d4802081ebc723435c10e0775">231d9d45</a></p></td>
 <td><p>n/a</p></td>
 </tr>
 </tbody>
@@ -472,7 +479,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="IFC106_Resource-entities-should-be-referenced-by-rooted-entity.html" class="btn btn-neutral float-left" title="IFC106 Resource entities should be referenced by rooted entity - v1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.html" class="btn btn-neutral float-right" title="IFC431 Entities in scope for IFC 4X3 Alignment basedView MVD - v1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.html" class="btn btn-neutral float-right" title="IFC431 Entities in scope for IFC 4X3 Alignment basedView MVD - v2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

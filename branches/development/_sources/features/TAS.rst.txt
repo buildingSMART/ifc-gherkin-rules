@@ -7,5 +7,6 @@ This involves representing geometry using a collection of interconnected vertice
 
    :titlesonly:
 
+   TAS000_Tessellated-Geometry
    TAS001_Polygonal-face-boundary-no-self-intersections
 

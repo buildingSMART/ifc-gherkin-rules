@@ -110,6 +110,10 @@ Usages:
 
  - **Then** *The IFC model contains information on the selected functional part*
 
+   :doc:`/features/TAS000_Tessellated-Geometry`:17
+
+ - **Then** *The IFC model contains information on the selected functional part*
+
    :doc:`/features/VER000_Versioning-and-revision-control`:15
 
  - **Then** *The IFC model contains information on the selected functional part*

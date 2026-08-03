@@ -53,10 +53,9 @@ def set_logger(context):
     return logger
 
 
-# --- B1: per-feature peak-memory measurement (see SKETCH-per-rule-memory.md) ---
 
 def _read_proc_kb(field, path='/proc/self/status'):
-    """Lees een '<field>: <n> kB'-regel uit /proc. None als het niet lukt."""
+    """Read a '<field>: <n> kB' line from /proc. Returns None when unavailable."""
     try:
         with open(path) as f:
             for line in f:
@@ -68,7 +67,7 @@ def _read_proc_kb(field, path='/proc/self/status'):
 
 
 def _reset_peak_rss():
-    """Zet de VmHWM-piekteller terug naar de huidige RSS (Linux-only)."""
+    """Reset the kernel peak-memory counter (VmHWM) to the current RSS. Linux-only."""
     try:
         with open('/proc/self/clear_refs', 'w') as f:
             f.write('5')
@@ -78,8 +77,8 @@ def _reset_peak_rss():
 
 
 def _feature_mem_txt(context):
-    """Peak RSS since the clear_refs reset in before_feature, plus the delta
-    on top of the RSS at feature start. Empty string when /proc is unusable."""
+    """Peak memory for this feature: the high-water mark since before_feature,
+    and how much that is above the memory at feature start. Empty if /proc is unusable."""
     peak_kb = _read_proc_kb('VmHWM')
     start_kb = getattr(context, 'feature_rss_start_kb', None)
     if peak_kb and start_kb and getattr(context, 'feature_peak_reset', False):
@@ -98,7 +97,7 @@ def before_feature(context, feature):
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
 
-    # B1: note current RSS and reset the kernel peak counter so that VmHWM in
+    # note current RSS and reset the kernel peak counter so that VmHWM in
     # after_feature reflects the peak of *this* feature only.
     context.feature_rss_start_kb = _read_proc_kb('VmRSS')
     context.feature_peak_reset = _reset_peak_rss()

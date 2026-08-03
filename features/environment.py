@@ -52,6 +52,40 @@ def set_logger(context):
 
     return logger
 
+
+
+def _read_proc_kb(field, path='/proc/self/status'):
+    """Read a '<field>: <n> kB' line from /proc. Returns None when unavailable."""
+    try:
+        with open(path) as f:
+            for line in f:
+                if line.startswith(field + ':'):
+                    return int(line.split()[1])
+    except (OSError, ValueError, IndexError):
+        pass
+    return None
+
+
+def _reset_peak_rss():
+    """Reset the kernel peak-memory counter (VmHWM) to the current RSS. Linux-only."""
+    try:
+        with open('/proc/self/clear_refs', 'w') as f:
+            f.write('5')
+        return True
+    except OSError:
+        return False
+
+
+def _feature_mem_txt(context):
+    """Peak memory for this feature: the high-water mark since before_feature,
+    and how much that is above the memory at feature start. Empty if /proc is unusable."""
+    peak_kb = _read_proc_kb('VmHWM')
+    start_kb = getattr(context, 'feature_rss_start_kb', None)
+    if peak_kb and start_kb and getattr(context, 'feature_peak_reset', False):
+        delta_mb = (peak_kb - start_kb) / 1024
+        return f" Peak RSS: {peak_kb/1024:.0f} MB (delta {delta_mb:+.0f} MB)."
+    return ""
+
 def before_feature(context, feature):
     #@todo incorporate into gherkin error handling
     # assert protocol.enforce(context, feature), 'failed'
@@ -62,7 +96,12 @@ def before_feature(context, feature):
     except KeyError: # run via console, task_id not provided
         context.validation_task_id = None
     Scenario.continue_after_failed_step = False
-    
+
+    # note current RSS and reset the kernel peak counter so that VmHWM in
+    # after_feature reflects the peak of *this* feature only.
+    context.feature_rss_start_kb = _read_proc_kb('VmRSS')
+    context.feature_peak_reset = _reset_peak_rss()
+
     execution_mode = context.config.userdata.get('execution_mode')
     if execution_mode and execution_mode == 'ExecutionMode.PRODUCTION':
         context.feature_start_time = time.process_time()
@@ -177,7 +216,7 @@ def after_feature(context, feature):
         end_time = time.process_time()
         elapsed_time = end_time - context.feature_start_time
         logger = set_logger(context)
-        logger.info(f"Feature '{feature.name}' completed. Elapsed process time: {elapsed_time:.2f} seconds.")
+        logger.info(f"Feature '{feature.name}' completed. Elapsed process time: {elapsed_time:.2f} seconds.{_feature_mem_txt(context)}")
 
     else: # invoked via console or CI/CD pipeline
         outcomes = [outcome.to_dict() for outcome in context.gherkin_outcomes]

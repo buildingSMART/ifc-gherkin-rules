@@ -2872,6 +2872,34 @@ validation service.
      - v2
      - v2
      - v2
+   * - ``TAS000``
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
    * - ``TAS001``
      - n/a
      - v1

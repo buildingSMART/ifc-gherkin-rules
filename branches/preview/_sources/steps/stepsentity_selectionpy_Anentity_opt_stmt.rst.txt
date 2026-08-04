@@ -875,6 +875,10 @@ Usages:
 
    :doc:`/features/SYS001_Cable-signal-flow`:11
 
+ - **Given** *An .IfcTessellatedItem.*
+
+   :doc:`/features/TAS000_Tessellated-Geometry`:15
+
  - **Given** *An .IfcPolygonalFaceSet.*
 
    :doc:`/features/TAS001_Polygonal-face-boundary-no-self-intersections`:11

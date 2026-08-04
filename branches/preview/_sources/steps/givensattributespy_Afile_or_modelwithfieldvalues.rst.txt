@@ -348,4 +348,8 @@ Usages:
 
    :doc:`/features/SYS001_Cable-signal-flow`:10
 
+ - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
+
+   :doc:`/features/TAS000_Tessellated-Geometry`:10
+
 

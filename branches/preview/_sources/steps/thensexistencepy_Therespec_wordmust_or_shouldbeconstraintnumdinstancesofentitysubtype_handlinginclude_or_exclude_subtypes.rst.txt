@@ -696,6 +696,10 @@ Usages:
 
    :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
 
+ - **Then** *There must be less than 1 instance(s) of .IfcMapConversionScale. ^excluding subtypes^*
+
+   :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
+
  - **Then** *There must be less than 1 instance(s) of .IfcMaterialClassificationRelationship. ^excluding subtypes^*
 
    :doc:`/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD`:15
@@ -1905,6 +1909,10 @@ Usages:
    :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
 
  - **Then** *There must be less than 1 instance(s) of .IfcMaterialUsageDefinition. ^excluding subtypes^*
+
+   :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
+
+ - **Then** *There must be less than 1 instance(s) of .IfcMapConversionScale. ^excluding subtypes^*
 
    :doc:`/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD`:15
 

@@ -87,7 +87,7 @@ def step_impl(context, inst):
 
                 if not isclose(quotient, map_conversion_scale_factor, abs_tol=0., rel_tol=1E-9):
                     error_found = True
-                    yield ValidationOutcome(inst=inst, observed=f"map conversion scale {map_conversion_scale} does not reflect the value of the project length unit factor of the project unit factor {project_unit_factor} divided by the target CRS unit factor {crs_unit_factor}", severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, observed=f"map conversion scale {map_conversion_scale} does not reflect the value of the project length unit factor {project_unit_factor} divided by the target CRS unit factor {crs_unit_factor}", severity=OutcomeSeverity.ERROR)
     
     if not error_found:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)

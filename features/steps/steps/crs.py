@@ -1,6 +1,9 @@
 from math import isclose
 from pyproj.database import query_crs_info
 from pyproj import CRS
+from pyproj.crs import Datum
+from pyproj.enums import WktVersion
+from pyproj.exceptions import CRSError
 from validation_handling import gherkin_ifc
 import ifcopenshell.util.unit as unit
 
@@ -16,15 +19,28 @@ def step_impl(context, inst):
         yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASSED)
         
     
-@gherkin_ifc.step("The CRS should define a vertical component")
-@gherkin_ifc.step("The CRS defines a vertical component")
+@gherkin_ifc.step("The value should define a vertical datum")
+@gherkin_ifc.step("The value defines a vertical datum")
 def step_impl(context, inst):
-    crs = CRS.from_string(inst)
-    if crs.is_compound or crs.is_vertical:
-        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+    # IfcProjectedCRS.VerticalDatum should just be a vertical datum - not a full CRS definition
+    # example: https://epsg.io/5127-datum
+    if str(inst[:5]) == "EPSG:":
+        epsg_code = int(inst.split(":")[1])
     else:
+        epsg_code = None
+    try:
+        if epsg_code:
+            vdatum = Datum.from_epsg(epsg_code)
+        else:
+            vdatum = Datum.from_text(inst)
+        wkt_repr = vdatum.to_wkt(version=WktVersion.WKT2_2019)
+        observed_msg = f"{wkt_repr[:25]}..."
+        if wkt_repr.split("[")[0] == "VDATUM":
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+        else:
+            yield ValidationOutcome(inst=inst, observed=observed_msg, severity=OutcomeSeverity.ERROR)
+    except CRSError:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
-
 
 
 def get_projected_crs(crs: CRS) -> CRS | None:

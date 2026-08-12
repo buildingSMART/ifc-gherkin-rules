@@ -1,6 +1,8 @@
 from math import isclose
 from pyproj.database import query_crs_info
 from pyproj import CRS
+from pyproj.crs import Datum
+from pyproj.enums import WktVersion
 from validation_handling import gherkin_ifc
 import ifcopenshell.util.unit as unit
 
@@ -23,7 +25,18 @@ def step_impl(context, inst):
     if crs.is_compound or crs.is_vertical:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
     else:
-        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+        # IfcProjectedCRS.VerticalDatum can also be just a vertical datum - doesn't need to be a full CRS definition
+        # example: https://epsg.io/5127-datum
+        if str(inst[:5]) == "EPSG:":
+            epsg_code = int(inst.split(":")[1])
+            vdatum = Datum.from_epsg(epsg_code)
+        else:
+            vdatum = Datum.from_string(inst)
+        wkt_repr = vdatum.to_wkt(version=WktVersion.WKT2_2019)
+        if wkt_repr.split("[")[0] == "VDATUM":
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+        else:
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
 
 
 

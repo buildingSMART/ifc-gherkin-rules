@@ -15,4 +15,4 @@ https://pyproj4.github.io/pyproj/stable/api/crs/datum.html
       Given Its attribute .VerticalDatum.
       Given The value refers to a valid EPSG code
       
-      Then The CRS should define a vertical component
+      Then The value should define a vertical datum

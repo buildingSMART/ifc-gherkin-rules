@@ -26,23 +26,21 @@ def step_impl(context, inst):
     # example: https://epsg.io/5127-datum
     if str(inst[:5]) == "EPSG:":
         epsg_code = int(inst.split(":")[1])
-        try:
+    else:
+        epsg_code = None
+    try:
+        if epsg_code:
             vdatum = Datum.from_epsg(epsg_code)
-        except CRSError:
-            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
-    else:
-        try:
-            vdatum = Datum.from_string(inst)
-        except CRSError:
-            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
-
-    wkt_repr = vdatum.to_wkt(version=WktVersion.WKT2_2019)
-    observed_msg = f"{wkt_repr[:25]}..."
-    if wkt_repr.split("[")[0] == "VDATUM":
-        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
-    else:
-        yield ValidationOutcome(inst=inst, observed=observed_msg, severity=OutcomeSeverity.ERROR)
-
+        else:
+            vdatum = Datum.from_text(inst)
+        wkt_repr = vdatum.to_wkt(version=WktVersion.WKT2_2019)
+        observed_msg = f"{wkt_repr[:25]}..."
+        if wkt_repr.split("[")[0] == "VDATUM":
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+        else:
+            yield ValidationOutcome(inst=inst, observed=observed_msg, severity=OutcomeSeverity.ERROR)
+    except CRSError:
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
 
 
 def get_projected_crs(crs: CRS) -> CRS | None:

@@ -9,38 +9,39 @@ import ifcopenshell.util.unit as unit
 
 from . import ValidationOutcome, OutcomeSeverity
 
-@gherkin_ifc.step("The value must refer to a valid EPSG code")
-@gherkin_ifc.step("The value refers to a valid EPSG code")
+@gherkin_ifc.step("The value must refer to a valid EPSG code for a coordinate reference system")
+@gherkin_ifc.step("The value refers to a valid EPSG code for a coordinate reference system")
 def step_impl(context, inst):
     valid_epsg_codes = {f"EPSG:{crs.code}" for crs in query_crs_info(auth_name="EPSG")}
     if inst not in valid_epsg_codes:
         yield ValidationOutcome(inst=inst, observed=inst, severity=OutcomeSeverity.ERROR)
     else:
         yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASSED)
-        
+
     
-@gherkin_ifc.step("The value should define a vertical datum")
-@gherkin_ifc.step("The value defines a vertical datum")
-def step_impl(context, inst):
-    # IfcProjectedCRS.VerticalDatum should just be a vertical datum - not a full CRS definition
-    # example: https://epsg.io/5127-datum
-    if str(inst[:5]) == "EPSG:":
-        epsg_code = int(inst.split(":")[1])
-    else:
-        epsg_code = None
+@gherkin_ifc.step("The value must identify a [{geodetic_or_vertical_datum:geodetic_or_vertical_datum}]")
+@gherkin_ifc.step("The value identifies a [{geodetic_or_vertical_datum:geodetic_or_vertical_datum}]")
+def step_impl(context, inst, geodetic_or_vertical_datum: str):
+    # IfcProjectedCRS.VerticalDatum should just be a datum - not a full CRS definition
+    # example: ETRF90 (geodetic)
+    # example: https://epsg.io/5127-datum (vertical)
     try:
-        if epsg_code:
-            vdatum = Datum.from_epsg(epsg_code)
-        else:
-            vdatum = Datum.from_text(inst)
-        wkt_repr = vdatum.to_wkt(version=WktVersion.WKT2_2019)
+        datum = Datum.from_text(inst)
+        wkt_repr = datum.to_wkt(version=WktVersion.WKT2_2019)
         observed_msg = f"{wkt_repr[:25]}..."
-        if wkt_repr.split("[")[0] == "VDATUM":
-            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
-        else:
-            yield ValidationOutcome(inst=inst, observed=observed_msg, severity=OutcomeSeverity.ERROR)
-    except CRSError:
-        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.ERROR)
+        if geodetic_or_vertical_datum == "geodetic datum":
+            valid_datum_ids = "DATUM, ENSEMBLE"
+            if wkt_repr.split("[")[0] in valid_datum_ids:
+                yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+            else:
+                yield ValidationOutcome(inst=inst, observed=observed_msg, severity=OutcomeSeverity.ERROR)
+        elif geodetic_or_vertical_datum == "vertical datum":
+            if wkt_repr.split("[")[0] == "VDATUM":
+                yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+            else:
+                yield ValidationOutcome(inst=inst, observed=observed_msg, severity=OutcomeSeverity.ERROR)
+    except CRSError as e:
+        yield ValidationOutcome(inst=inst, observed=str(e), severity=OutcomeSeverity.ERROR)
 
 
 def get_projected_crs(crs: CRS) -> CRS | None:

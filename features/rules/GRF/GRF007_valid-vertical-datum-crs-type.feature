@@ -13,6 +13,5 @@ https://pyproj4.github.io/pyproj/stable/api/crs/datum.html
       Given A model with Schema 'IFC4' or 'IFC4.3'
       Given an .IfcProjectedCRS.
       Given Its attribute .VerticalDatum.
-      Given The value refers to a valid EPSG code
-      
-      Then The value should define a vertical datum
+
+      Then the value must identify a [vertical datum]

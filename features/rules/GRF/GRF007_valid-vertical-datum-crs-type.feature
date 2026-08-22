@@ -8,7 +8,7 @@ https://pyproj4.github.io/pyproj/stable/api/crs/crs.html
 https://pyproj4.github.io/pyproj/stable/api/crs/datum.html
 
 
-  Scenario: WKT specification for missing EPSG in the name
+  Scenario: Valid vertical datum
 
       Given A model with Schema 'IFC4' or 'IFC4.3'
       Given an .IfcProjectedCRS.

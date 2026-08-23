@@ -1,0 +1,11 @@
+Referent (``RFT``)
+==================
+
+The ability to define a referent to be used as reference for object placement.
+
+.. toctree::
+
+   :titlesonly:
+
+   RFT000_Referents
+

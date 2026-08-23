@@ -300,6 +300,10 @@ Usages:
 
    :doc:`/features/OJT001_Object-predefined-type`:25
 
+ - **Given** *A model with Schema 'IFC4.3'*
+
+   :doc:`/features/RFT000_Referents`:10
+
  - **Given** *A file with Model View Definition 'CoordinationView_V2.0'*
 
    :doc:`/features/SPS001_Basic-spatial-structure-for-buildings`:8

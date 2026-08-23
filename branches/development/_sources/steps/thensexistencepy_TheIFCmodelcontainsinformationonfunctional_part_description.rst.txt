@@ -104,6 +104,10 @@ Usages:
 
    :doc:`/features/QTY000_Quantities-for-objects`:18
 
+ - **Then** *The IFC model contains information on the selected functional part*
+
+   :doc:`/features/RFT000_Referents`:17
+
  - **Then** *The IFC model contains information on spaces information*
 
    :doc:`/features/SPA000_Spaces-information`:12

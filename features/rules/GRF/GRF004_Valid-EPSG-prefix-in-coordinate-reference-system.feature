@@ -2,7 +2,9 @@
 @GRF
 @version2
 Feature: GRF004 - Valid EPSG prefix in coordinate reference system
-The rule verifies that if the name of a CRS starts with "EPSG:", it must refer to a valid code from the official EPSG geodetic parameter dataset.
+The rule verifies that if the name of a CRS starts with "EPSG:", it must refer to a valid coordinate reference system code from the official EPSG geodetic parameter dataset,
+and that if the geodetic datum or vertical datum starts with "EPSG:", it must identify a datum of the matching kind (reference frame or datum ensemble)
+or a geographic / vertical CRS that is defined on such a datum. Values that do not start with "EPSG:" are not checked.
 EPSG code validation is performed using the pyproj library, which includes a local copy of the official EPSG dataset (https://epsg.org) maintained by IOGP.
 For reference: https://pyproj4.github.io/pyproj/stable/api/database.html
 

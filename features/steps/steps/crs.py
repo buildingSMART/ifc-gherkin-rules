@@ -1,13 +1,47 @@
+import functools
+import re
 from math import isclose
-from pyproj.database import query_crs_info
+from pyproj.database import get_codes, query_crs_info
+from pyproj.enums import PJType
 from pyproj import CRS
 from pyproj.crs import Datum
-from pyproj.enums import WktVersion
 from pyproj.exceptions import CRSError
 from validation_handling import gherkin_ifc
 import ifcopenshell.util.unit as unit
 
 from . import ValidationOutcome, OutcomeSeverity
+
+# A datum field may hold the datum itself (EPSG:5109 "NAP") or the CRS that is built
+# directly on it (EPSG:5709 "NAP height"): both point to the same datum, and the CRS
+# form was accepted before, so we keep accepting it.
+# We look the code up in PROJ's own datum tables per axis. Those already include the
+# special cases: datum ensembles (WGS 84, ETRS89) and dynamic frames (ITRF2014, NN2000).
+# Deprecated codes are accepted too: we check what a code identifies, not whether it
+# is still current.
+DATUM_TYPES = {
+    "geodetic datum": (PJType.GEODETIC_REFERENCE_FRAME, PJType.GEOGRAPHIC_2D_CRS, PJType.GEOGRAPHIC_3D_CRS),
+    "vertical datum": (PJType.VERTICAL_REFERENCE_FRAME, PJType.VERTICAL_CRS),
+}
+
+
+@functools.lru_cache(maxsize=None)
+def epsg_datum_codes(pj_types: tuple) -> frozenset:
+    return frozenset(code for t in pj_types for code in get_codes("EPSG", t, allow_deprecated=True))
+
+
+def describe_epsg_code(inst, epsg_code: str, expected: str) -> str:
+    """Explain what the code identifies instead of the expected kind of datum."""
+    try:
+        datum = Datum.from_epsg(int(epsg_code))
+        return f"{inst} identifies a {datum.type_name.lower()} ({datum.name}), not a {expected} (or a CRS defined on one)"
+    except CRSError:
+        pass
+    try:
+        crs = CRS.from_epsg(int(epsg_code))
+        return f"{inst} identifies a {crs.type_name} ({crs.name}), not a {expected} (or a CRS defined on one)"
+    except CRSError:
+        return f"{inst} is not a valid EPSG code for a {expected}"
+
 
 @gherkin_ifc.step("The value must refer to a valid EPSG code for a coordinate reference system")
 @gherkin_ifc.step("The value refers to a valid EPSG code for a coordinate reference system")
@@ -22,26 +56,21 @@ def step_impl(context, inst):
 @gherkin_ifc.step("The value must identify a [{geodetic_or_vertical_datum:geodetic_or_vertical_datum}]")
 @gherkin_ifc.step("The value identifies a [{geodetic_or_vertical_datum:geodetic_or_vertical_datum}]")
 def step_impl(context, inst, geodetic_or_vertical_datum: str):
-    # IfcProjectedCRS.VerticalDatum should just be a datum - not a full CRS definition
-    # example: ETRF90 (geodetic)
-    # example: https://epsg.io/5127-datum (vertical)
-    try:
-        datum = Datum.from_text(inst)
-        wkt_repr = datum.to_wkt(version=WktVersion.WKT2_2019)
-        observed_msg = f"{wkt_repr[:25]}..."
-        if geodetic_or_vertical_datum == "geodetic datum":
-            valid_datum_ids = "DATUM, ENSEMBLE"
-            if wkt_repr.split("[")[0] in valid_datum_ids:
-                yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
-            else:
-                yield ValidationOutcome(inst=inst, observed=observed_msg, severity=OutcomeSeverity.ERROR)
-        elif geodetic_or_vertical_datum == "vertical datum":
-            if wkt_repr.split("[")[0] == "VDATUM":
-                yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
-            else:
-                yield ValidationOutcome(inst=inst, observed=observed_msg, severity=OutcomeSeverity.ERROR)
-    except CRSError as e:
-        yield ValidationOutcome(inst=inst, observed=str(e), severity=OutcomeSeverity.ERROR)
+    # IfcCoordinateReferenceSystem.GeodeticDatum and IfcProjectedCRS.VerticalDatum identify a *datum*,
+    # not a full CRS (IFC 4.3 docs: EPSG:5181 is the vertical datum of "DHHN92 height", EPSG:5783).
+    # Only values of the form 'EPSG:<code>' are judged; free-text names are allowed by the docs.
+    #
+    # EPSG code spaces overlap between object types (5127 is vertical datum LN02 *and* projected CRS
+    # "ETRS89 / NTM zone 27"), so the code is looked up in the datum table for the expected axis.
+    match = re.fullmatch(r"EPSG:(\d+)", str(inst).strip())
+    if not match:
+        yield ValidationOutcome(inst=inst, observed=f"{inst} is not of the form EPSG:<code>", severity=OutcomeSeverity.ERROR)
+        return
+    epsg_code = match.group(1)
+    if epsg_code in epsg_datum_codes(DATUM_TYPES[geodetic_or_vertical_datum]):
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+    else:
+        yield ValidationOutcome(inst=inst, observed=describe_epsg_code(inst, epsg_code, geodetic_or_vertical_datum), severity=OutcomeSeverity.ERROR)
 
 
 def get_projected_crs(crs: CRS) -> CRS | None:

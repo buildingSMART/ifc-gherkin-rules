@@ -18,6 +18,15 @@ from . import ValidationOutcome, OutcomeSeverity
 # special cases: datum ensembles (WGS 84, ETRS89) and dynamic frames (ITRF2014, NN2000).
 # Deprecated codes are accepted too: we check what a code identifies, not whether it
 # is still current.
+# Datum names the IFC 4.3 documentation uses as examples but that EPSG does not know as a
+# datum name or alias. This step only needs to know the *axis* of a name, so no EPSG code
+# has to be chosen for them (the docs map EUREF89 to EPSG:1178, the first ETRS89 realisation;
+# EPSG itself calls that one ETRF89).
+DOCUMENTED_DATUM_NAMES = {
+    "geodetic datum": {"euref89"},   # IfcProjectedCRS: "EUREF89 (... also identified as EPSG:1178)"
+    "vertical datum": set(),
+}
+
 DATUM_TYPES = {
     "geodetic datum": (PJType.GEODETIC_REFERENCE_FRAME, PJType.GEOGRAPHIC_2D_CRS, PJType.GEOGRAPHIC_3D_CRS),
     "vertical datum": (PJType.VERTICAL_REFERENCE_FRAME, PJType.VERTICAL_CRS),
@@ -53,24 +62,60 @@ def step_impl(context, inst):
         yield ValidationOutcome(inst=inst, severity = OutcomeSeverity.PASSED)
 
     
+@functools.lru_cache(maxsize=None)
+def epsg_name_index(axis: str) -> dict:
+    """Exact-match index of EPSG datum names (and the names of the CRS built on them) for one axis.
+
+    Keys are normalised (lower-case, letters and digits only) so that 'WGS 84', 'WGS84' and
+    'wgs_84' all hit the same object. Only exact names; Datum.from_name /
+    from_string) return one of several candidates.
+    """
+    index = {}
+    for pj_type in DATUM_TYPES[axis]:
+        if "REFERENCE_FRAME" in pj_type.name:
+            for code in get_codes("EPSG", pj_type, allow_deprecated=True):
+                try:
+                    index.setdefault(normalise_name(Datum.from_epsg(int(code)).name), (code, Datum.from_epsg(int(code)).name))
+                except CRSError:
+                    pass
+        else:
+            for info in query_crs_info(auth_name="EPSG", pj_types=[pj_type], allow_deprecated=True):
+                index.setdefault(normalise_name(info.name), (info.code, info.name))
+    return index
+
+
+def normalise_name(name: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(name).lower())
+
+
 @gherkin_ifc.step("The value must identify a [{geodetic_or_vertical_datum:geodetic_or_vertical_datum}]")
 @gherkin_ifc.step("The value identifies a [{geodetic_or_vertical_datum:geodetic_or_vertical_datum}]")
 def step_impl(context, inst, geodetic_or_vertical_datum: str):
-    # IfcCoordinateReferenceSystem.GeodeticDatum and IfcProjectedCRS.VerticalDatum identify a *datum*,
-    # not a full CRS (IFC 4.3 docs: EPSG:5181 is the vertical datum of "DHHN92 height", EPSG:5783).
-    # Only values of the form 'EPSG:<code>' are judged; free-text names are allowed by the docs.
-    #
-    # EPSG code spaces overlap between object types (5127 is vertical datum LN02 *and* projected CRS
-    # "ETRS89 / NTM zone 27"), so the code is looked up in the datum table for the expected axis.
-    match = re.fullmatch(r"EPSG:(\d+)", str(inst).strip())
-    if not match:
-        yield ValidationOutcome(inst=inst, observed=f"{inst} is not of the form EPSG:<code>", severity=OutcomeSeverity.ERROR)
+    expected = geodetic_or_vertical_datum
+    other = "vertical datum" if expected == "geodetic datum" else "geodetic datum"
+    value = str(inst).strip()
+
+    # 'EPSG:5941', also tolerated: 'EPSG 5941', 'epsg:5941', and the "code first, then a label"
+    # form some exporters write ('5941: NN2000 (Norway18B)'). The code alone is judged.
+    match = re.match(r"(?i)\s*EPSG\s*:?\s*(\d+)\b", value) or re.match(r"\s*(\d{4,6})\s*:", value)
+    if value.upper().startswith("EPSG") or match:
+        if not match:
+            yield ValidationOutcome(inst=inst, observed=f"{inst} is not of the form EPSG:<code>", severity=OutcomeSeverity.ERROR)
+        elif match.group(1) in epsg_datum_codes(DATUM_TYPES[expected]):
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+        else:
+            yield ValidationOutcome(inst=inst, observed=describe_epsg_code(inst, match.group(1), expected), severity=OutcomeSeverity.ERROR)
         return
-    epsg_code = match.group(1)
-    if epsg_code in epsg_datum_codes(DATUM_TYPES[geodetic_or_vertical_datum]):
+
+    key = normalise_name(value)
+    if key in epsg_name_index(expected) or key in DOCUMENTED_DATUM_NAMES[expected]:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
-    else:
-        yield ValidationOutcome(inst=inst, observed=describe_epsg_code(inst, epsg_code, geodetic_or_vertical_datum), severity=OutcomeSeverity.ERROR)
+    elif key in epsg_name_index(other):
+        code, name = epsg_name_index(other)[key]
+        yield ValidationOutcome(inst=inst, observed=f"{inst} names a {other} ({name}, EPSG:{code}), not a {expected}", severity=OutcomeSeverity.ERROR)
+    elif key in DOCUMENTED_DATUM_NAMES[other]:
+        yield ValidationOutcome(inst=inst, observed=f"{inst} names a {other}, not a {expected}", severity=OutcomeSeverity.ERROR)
+    # else: a name neither EPSG nor the IFC documentation knows -> no verdict
 
 
 def get_projected_crs(crs: CRS) -> CRS | None:

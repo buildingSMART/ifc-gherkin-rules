@@ -1,3 +1,4 @@
+import csv
 import functools
 import re
 from math import isclose
@@ -7,6 +8,7 @@ from pyproj import CRS
 from pyproj.crs import Datum
 from pyproj.exceptions import CRSError
 from validation_handling import gherkin_ifc
+from utils import system
 import ifcopenshell.util.unit as unit
 
 from . import ValidationOutcome, OutcomeSeverity
@@ -26,6 +28,19 @@ DOCUMENTED_DATUM_NAMES = {
     "geodetic datum": {"euref89"},   # IfcProjectedCRS: "EUREF89 (... also identified as EPSG:1178)"
     "vertical datum": set(),
 }
+
+@functools.lru_cache(maxsize=None)
+def csmap_datum_keys() -> dict:
+    """Geodetic datum keys of A CS-MAP catalogue (features/resources/csmap_datum_keys.csv),
+    normalised name -> (key, epsg datum code or '', description). These keys
+    ('Amersfoort/b', 'HD72/7Pa', 'ETRS89/01', ...) can be written into GeodeticDatum."""
+    path = system.get_abs_path("resources/csmap_datum_keys.csv")
+    index = {}
+    with open(path, newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(line for line in fh if not line.startswith("#")):
+            index.setdefault(normalise_name(row["key"]), (row["key"], row["epsg_datum_code"], row["description"]))
+    return index
+
 
 DATUM_TYPES = {
     "geodetic datum": (PJType.GEODETIC_REFERENCE_FRAME, PJType.GEOGRAPHIC_2D_CRS, PJType.GEOGRAPHIC_3D_CRS),
@@ -115,7 +130,14 @@ def step_impl(context, inst, geodetic_or_vertical_datum: str):
         yield ValidationOutcome(inst=inst, observed=f"{inst} names a {other} ({name}, EPSG:{code}), not a {expected}", severity=OutcomeSeverity.ERROR)
     elif key in DOCUMENTED_DATUM_NAMES[other]:
         yield ValidationOutcome(inst=inst, observed=f"{inst} names a {other}, not a {expected}", severity=OutcomeSeverity.ERROR)
-    # else: a name neither EPSG nor the IFC documentation knows -> no verdict
+    elif key in csmap_datum_keys():
+        csmap_key, code, _ = csmap_datum_keys()[key]
+        if expected == "geodetic datum":
+            yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+        else:
+            via = f", EPSG:{code}" if code else ""
+            yield ValidationOutcome(inst=inst, observed=f"{inst} is the CS-MAP key of a geodetic datum ({csmap_key}{via}), not a {expected}", severity=OutcomeSeverity.ERROR)
+    # else: a name neither EPSG, the IFC documentation nor the CS-MAP catalogue knows -> no verdict
 
 
 def get_projected_crs(crs: CRS) -> CRS | None:

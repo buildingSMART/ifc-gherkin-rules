@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRF005 CRS unit type differences - v1 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
+  <title>GRF005 CRS unit type differences - v2 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
@@ -64,7 +64,7 @@
 <li class="toctree-l3"><a class="reference internal" href="GRF002_EPSG-code-in-coordinate-reference-system.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">GRF002</span></code> EPSG code in coordinate reference system - v1) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF003_CRS-presence-with-spatial-entities.html"><code class="docutils literal notranslate"><span class="pre">GRF003</span></code> CRS presence with spatial entities - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system - v1</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF007_valid-vertical-datum-crs-type.html"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF008_Rigid-operation-units.html"><code class="docutils literal notranslate"><span class="pre">GRF008</span></code> Rigid operation units - v1</a></li>
@@ -112,7 +112,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v1</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/GRF005_CRS-unit-type-differences.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -122,26 +122,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="grf005-crs-unit-type-differences-v1">
-<h1><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v1<a class="headerlink" href="#grf005-crs-unit-type-differences-v1" title="Link to this heading"></a></h1>
+  <section id="grf005-crs-unit-type-differences-v2">
+<h1><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v2<a class="headerlink" href="#grf005-crs-unit-type-differences-v2" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;industry-practice
 002 | &#64;GRF
-003 | &#64;version1
-004 | &#64;E00100
-005 | Feature: GRF005 - CRS unit type differences
-006 | The rule verifies that the Scale attribute of IfcMapConversion is used when the units of the CRS are not identical to the units of the engineering coordinate system.
-007 | If omitted, the value of 1.0 is assumed.
-008 | If the units of the referenced source location engineering coordinate system are different from the units of the referenced target coordinate system,
-009 | then this attribute must be included and must have the value of the scale from the source to the target units
+003 | &#64;version2
+004 | Feature: GRF005 - CRS unit type differences
+005 | The rule verifies that the Scale attribute of IfcMapConversion is used when the units of the CRS are not identical to the units of the engineering coordinate system.
+006 | If omitted, the value of 1.0 is assumed.
+007 | If the units of the referenced source location engineering coordinate system are different from the units of the referenced target coordinate system,
+008 | then this attribute must be included and must have the value of the scale from the project units to the target of the map coordinate units.
+009 |
 010 |
-011 |
-012 |   Scenario: In cases where the length unit of the local CRS differs from the length unit of the external CRS, the map conversion scale must reflect the factor between the two units.
-013 |
-014 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
-015 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcMapConversion.</span></a>
-016 |
-017 |     <a class="reference internal" href="../steps/stepscrspy_ThemapconversionscalemustbethequotientoftheprojectlengthunitsandthetargetCRSlengthunits.html"><span class="doc">Then The map conversion scale must be the quotient of the project length units and the target CRS length units</span></a>
-018 |</pre>
+011 |   Scenario: IfcMapConversion Scale attribute
+012 |
+013 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+014 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcMapConversion.</span></a>
+015 |
+016 |     <a class="reference internal" href="../steps/stepscrspy_ThemapconversionscalemustbethequotientoftheprojectlengthunitsandthetargetCRSlengthunits.html"><span class="doc">Then The map conversion scale must be the quotient of the project length units and the target CRS length units</span></a>
+017 |</pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -158,6 +157,12 @@
 <td><p>2025-06-08</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/451fa538eddf2599c8a4fd931f6cd5af0d8ab175">451fa538</a></p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.4/features/rules/GRF/GRF005_CRS-unit-type-differences.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p>n/a</p></td>
+<td><p>2026-08-07</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/2ba07b5df6ab7b943e661b81cbbe985fee6e2a04">2ba07b5d</a></p></td>
+<td><p>n/a</p></td>
 </tr>
 </tbody>
 </table>

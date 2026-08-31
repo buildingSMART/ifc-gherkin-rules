@@ -377,7 +377,7 @@ Usages:
 
  - **Given** *An .IfcMapConversion.*
 
-   :doc:`/features/GRF005_CRS-unit-type-differences`:15
+   :doc:`/features/GRF005_CRS-unit-type-differences`:14
 
  - **Given** *an .IfcCoordinateReferenceSystem.*
 

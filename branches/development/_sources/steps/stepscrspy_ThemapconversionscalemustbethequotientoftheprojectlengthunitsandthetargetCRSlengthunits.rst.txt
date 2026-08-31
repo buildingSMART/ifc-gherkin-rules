@@ -6,6 +6,6 @@ Usages:
 
  - **Then** *The map conversion scale must be the quotient of the project length units and the target CRS length units*
 
-   :doc:`/features/GRF005_CRS-unit-type-differences`:17
+   :doc:`/features/GRF005_CRS-unit-type-differences`:16
 
 

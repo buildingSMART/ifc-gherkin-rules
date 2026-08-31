@@ -182,7 +182,7 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/GRF005_CRS-unit-type-differences`:14
+   :doc:`/features/GRF005_CRS-unit-type-differences`:13
 
  - **Given** *a Model with Schema 'IFC4.3'*
 

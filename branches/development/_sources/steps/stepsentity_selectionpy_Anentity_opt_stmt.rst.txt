@@ -369,11 +369,15 @@ Usages:
 
  - **Given** *An .IfcCoordinateReferenceSystem.*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:15
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:18
+
+ - **Given** *An .IfcCoordinateReferenceSystem.*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:26
 
  - **Given** *An .IfcProjectedCRS.*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:29
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:33
 
  - **Given** *An .IfcMapConversion.*
 
@@ -385,7 +389,7 @@ Usages:
 
  - **Given** *an .IfcProjectedCRS.*
 
-   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:12
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:15
 
  - **Given** *an .IfcRigidOperation.*
 

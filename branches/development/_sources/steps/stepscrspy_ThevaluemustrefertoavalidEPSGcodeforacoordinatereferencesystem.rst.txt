@@ -1,0 +1,11 @@
+The value must refer to a valid EPSG code for a coordinate reference system
+===========================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The value must refer to a valid EPSG code for a coordinate reference system*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:22
+
+

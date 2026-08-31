@@ -6,11 +6,7 @@ Usages:
 
  - **Given** *Its value ^starts^ with 'EPSG:'*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:17
-
- - **Given** *Its value ^starts^ with 'EPSG:'*
-
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:31
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:20
 
  - **Then** *Its value ^starts^ with '0' or '1' or '2' or '3'*
 

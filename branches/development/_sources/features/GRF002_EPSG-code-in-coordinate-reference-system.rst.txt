@@ -19,7 +19,7 @@
    014 |     :doc:`Given An .IfcCoordinateReferenceSystem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    015 |     :doc:`Given Its attribute .Name. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
    016 | 
-   017 |     :doc:`Then The value must refer to a valid EPSG code </steps/stepscrspy_ThevaluemustrefertoavalidEPSGcode>`
+   017 |     Then The value must refer to a valid EPSG code
 
 .. rubric:: Version history
 

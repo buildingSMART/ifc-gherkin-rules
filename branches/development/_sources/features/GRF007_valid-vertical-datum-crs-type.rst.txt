@@ -1,24 +1,26 @@
-``GRF007`` valid vertical datum crs type - v1
+``GRF007`` valid vertical datum crs type - v2
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
 
    001 | \@implementer-agreement
    002 | \@GRF
-   003 | \@version1
+   003 | \@version2
    004 | Feature: GRF007 - Valid vertical datum CRS type
-   005 | The rule verifies that any coordinate reference system (CRS) assigned as a vertical datum is either a vertical CRS or a compound CRS containing a vertical component, to ensure valid height referencing.
-   006 | https://pyproj4.github.io/pyproj/stable/api/crs/crs.html
-   007 | 
-   008 | 
-   009 |   Scenario: WKT specification for missing EPSG in the name
+   005 | The rule verifies that a vertical datum given as an EPSG code identifies a vertical datum (reference frame or datum ensemble),
+   006 | or a vertical CRS that is defined on one, to ensure valid height referencing. A datum given by name is accepted when the name
+   007 | matches an EPSG vertical datum or vertical CRS exactly; the name or CS-MAP key of a geodetic datum is an error; other names are not checked.
+   008 | https://pyproj4.github.io/pyproj/stable/api/crs/crs.html
+   009 | https://pyproj4.github.io/pyproj/stable/api/crs/datum.html
    010 | 
-   011 |       :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
-   012 |       :doc:`Given an .IfcProjectedCRS. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
-   013 |       :doc:`Given Its attribute .VerticalDatum. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
-   014 |       :doc:`Given The value refers to a valid EPSG code </steps/stepscrspy_ThevaluereferstoavalidEPSGcode>`
-   015 | 
-   016 |       :doc:`Then The CRS should define a vertical component </steps/stepscrspy_TheCRSshoulddefineaverticalcomponent>`
+   011 | 
+   012 |   Scenario: Valid vertical datum
+   013 | 
+   014 |       :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   015 |       :doc:`Given an .IfcProjectedCRS. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   016 |       :doc:`Given Its attribute .VerticalDatum. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 | 
+   018 |       :doc:`Then the value must identify a [vertical datum] </steps/stepscrspy_Thevaluemustidentifyageodetic_or_vertical_datumgeodetic_or_vertical_datum>`
 
 .. rubric:: Version history
 
@@ -35,3 +37,13 @@
      - 2025-06-16
      - :commit:`af8dc3d8f6d7873a07ef394a6a64c3b99111e74d`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF007_valid-vertical-datum-crs-type.feature>`_
+   * - v2
+     - n/a
+     - 2026-08-12
+     - :commit:`d911c587fdb19a2e20718298cd48a587e741b492`
+     - n/a
+   * - v2
+     - n/a
+     - 2026-08-12
+     - :commit:`dcad86c84276e5b8ed7c1ba0eec6a9b4ca5f5c19`
+     - n/a

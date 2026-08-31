@@ -482,19 +482,19 @@ Usages:
 
  - **Given** *Its attribute .Name.*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:16
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:19
 
  - **Given** *Its attribute .GeodeticDatum.*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:16
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:27
 
  - **Given** *Its attribute .VerticalDatum.*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:30
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:34
 
  - **Given** *Its attribute .VerticalDatum.*
 
-   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:13
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:16
 
  - **Given** *its attribute .Representation.*
 

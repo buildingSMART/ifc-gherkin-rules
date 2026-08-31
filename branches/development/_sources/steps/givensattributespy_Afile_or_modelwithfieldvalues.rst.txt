@@ -178,7 +178,7 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:11
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:14
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
@@ -190,7 +190,7 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4' or 'IFC4.3'*
 
-   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:11
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:14
 
  - **Given** *A model with Schema 'IFC4.3'*
 

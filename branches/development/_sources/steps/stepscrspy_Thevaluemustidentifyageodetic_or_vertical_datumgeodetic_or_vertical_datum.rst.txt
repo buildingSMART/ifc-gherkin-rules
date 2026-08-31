@@ -1,0 +1,19 @@
+The value must identify a [``geodetic_or_vertical_datum:geodetic_or_vertical_datum``]
+=====================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The value must identify a [geodetic datum]*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:29
+
+ - **Then** *The value must identify a [vertical datum]*
+
+   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:36
+
+ - **Then** *the value must identify a [vertical datum]*
+
+   :doc:`/features/GRF007_valid-vertical-datum-crs-type`:18
+
+

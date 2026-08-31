@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRF007 valid vertical datum crs type - v1 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
+  <title>GRF007 valid vertical datum crs type - v2 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
@@ -63,10 +63,10 @@
 <li class="toctree-l3"><a class="reference internal" href="GRF001_Identical-coordinate-operations.html"><code class="docutils literal notranslate"><span class="pre">GRF001</span></code> Identical coordinate operations - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF002_EPSG-code-in-coordinate-reference-system.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">GRF002</span></code> EPSG code in coordinate reference system - v1) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF003_CRS-presence-with-spatial-entities.html"><code class="docutils literal notranslate"><span class="pre">GRF003</span></code> CRS presence with spatial entities - v1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system - v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"><code class="docutils literal notranslate"><span class="pre">GRF004</span></code> Valid EPSG prefix in coordinate reference system - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF005_CRS-unit-type-differences.html"><code class="docutils literal notranslate"><span class="pre">GRF005</span></code> CRS unit type differences - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF006_WKT-specification-for-missing-EPSG.html"><code class="docutils literal notranslate"><span class="pre">GRF006</span></code> WKT specification for missing EPSG - v2</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GRF008_Rigid-operation-units.html"><code class="docutils literal notranslate"><span class="pre">GRF008</span></code> Rigid operation units - v1</a></li>
 </ul>
 </li>
@@ -112,7 +112,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="GRF.html">Georeferencing (<code class="docutils literal notranslate"><span class="pre">GRF</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/GRF007_valid-vertical-datum-crs-type.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -122,24 +122,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="grf007-valid-vertical-datum-crs-type-v1">
-<h1><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v1<a class="headerlink" href="#grf007-valid-vertical-datum-crs-type-v1" title="Link to this heading"></a></h1>
+  <section id="grf007-valid-vertical-datum-crs-type-v2">
+<h1><code class="docutils literal notranslate"><span class="pre">GRF007</span></code> valid vertical datum crs type - v2<a class="headerlink" href="#grf007-valid-vertical-datum-crs-type-v2" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;GRF
-003 | &#64;version1
+003 | &#64;version2
 004 | Feature: GRF007 - Valid vertical datum CRS type
-005 | The rule verifies that any coordinate reference system (CRS) assigned as a vertical datum is either a vertical CRS or a compound CRS containing a vertical component, to ensure valid height referencing.
-006 | <a class="reference external" href="https://pyproj4.github.io/pyproj/stable/api/crs/crs.html">https://pyproj4.github.io/pyproj/stable/api/crs/crs.html</a>
-007 |
-008 |
-009 |   Scenario: WKT specification for missing EPSG in the name
+005 | The rule verifies that a vertical datum given as an EPSG code identifies a vertical datum (reference frame or datum ensemble),
+006 | or a vertical CRS that is defined on one, to ensure valid height referencing. A datum given by name is accepted when the name
+007 | matches an EPSG vertical datum or vertical CRS exactly; the name or CS-MAP key of a geodetic datum is an error; other names are not checked.
+008 | <a class="reference external" href="https://pyproj4.github.io/pyproj/stable/api/crs/crs.html">https://pyproj4.github.io/pyproj/stable/api/crs/crs.html</a>
+009 | <a class="reference external" href="https://pyproj4.github.io/pyproj/stable/api/crs/datum.html">https://pyproj4.github.io/pyproj/stable/api/crs/datum.html</a>
 010 |
-011 |       <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
-012 |       <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcProjectedCRS.</span></a>
-013 |       <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .VerticalDatum.</span></a>
-014 |       <a class="reference internal" href="../steps/stepscrspy_ThevaluereferstoavalidEPSGcode.html"><span class="doc">Given The value refers to a valid EPSG code</span></a>
-015 |
-016 |       <a class="reference internal" href="../steps/stepscrspy_TheCRSshoulddefineaverticalcomponent.html"><span class="doc">Then The CRS should define a vertical component</span></a></pre>
+011 |
+012 |   Scenario: Valid vertical datum
+013 |
+014 |       <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4' or 'IFC4.3'</span></a>
+015 |       <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .IfcProjectedCRS.</span></a>
+016 |       <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .VerticalDatum.</span></a>
+017 |
+018 |       <a class="reference internal" href="../steps/stepscrspy_Thevaluemustidentifyageodetic_or_vertical_datumgeodetic_or_vertical_datum.html"><span class="doc">Then the value must identify a [vertical datum]</span></a></pre>
 <p class="rubric">Version history</p>
 <table class="docutils align-default">
 <thead>
@@ -156,6 +158,18 @@
 <td><p>2025-06-16</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/af8dc3d8f6d7873a07ef394a6a64c3b99111e74d">af8dc3d8</a></p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF007_valid-vertical-datum-crs-type.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p>n/a</p></td>
+<td><p>2026-08-12</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/d911c587fdb19a2e20718298cd48a587e741b492">d911c587</a></p></td>
+<td><p>n/a</p></td>
+</tr>
+<tr class="row-even"><td><p>v2</p></td>
+<td><p>n/a</p></td>
+<td><p>2026-08-12</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/dcad86c84276e5b8ed7c1ba0eec6a9b4ca5f5c19">dcad86c8</a></p></td>
+<td><p>n/a</p></td>
 </tr>
 </tbody>
 </table>

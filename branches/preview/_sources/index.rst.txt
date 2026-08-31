@@ -2536,6 +2536,34 @@ validation service.
      - v1
      - v1
      - v1
+   * - ``RFT001``
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
+     - n/a
    * - ``SPA000``
      - v1
      - v1

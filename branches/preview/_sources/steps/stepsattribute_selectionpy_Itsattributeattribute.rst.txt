@@ -624,6 +624,14 @@ Usages:
 
    :doc:`/features/QTY000_Quantities-for-objects`:15
 
+ - **Given** *its attribute .Nests.*
+
+   :doc:`/features/RFT001_Referent-nesting`:15
+
+ - **Given** *its attribute .RelatingObject.*
+
+   :doc:`/features/RFT001_Referent-nesting`:16
+
  - **Given** *Its attribute .OuterCurve.*
 
    :doc:`/features/SWE001_Arbitrary-profile-boundary-no-self-intersections`:12

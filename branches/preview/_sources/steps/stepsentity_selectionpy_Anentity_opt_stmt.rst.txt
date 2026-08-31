@@ -763,6 +763,10 @@ Usages:
 
    :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:8
 
+ - **Given** *an .IfcReferent.*
+
+   :doc:`/features/RFT001_Referent-nesting`:14
+
  - **Given** *an .IfcSpace.*
 
    :doc:`/features/SPA000_Spaces-information`:10

@@ -222,6 +222,10 @@ Usages:
 
    :doc:`/features/QTY000_Quantities-for-objects`:16
 
+ - **Then** *[its entity type] ^is^ 'IfcAlignment'*
+
+   :doc:`/features/RFT001_Referent-nesting`:18
+
  - **Given** *[Its Type] ^is not^ 'IfcGrid'*
 
    :doc:`/features/SPS007_Spatial-containment`:42

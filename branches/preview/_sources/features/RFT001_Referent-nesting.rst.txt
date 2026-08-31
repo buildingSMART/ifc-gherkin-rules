@@ -1,0 +1,39 @@
+``RFT001`` Referent nesting - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@RFT
+   003 | \@version1
+   004 | 
+   005 | Feature: RFT001 - Referent Nesting
+   006 | The rule verifies that if a Referent participates in a nesting relationship, the RelatingObject is an Alignment.
+   007 | See Concept Template 4.1.4.4.3 Object Nesting -
+   008 | https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object\_Composition/Nesting/Object\_Nesting/content.html
+   009 | 
+   010 | 
+   011 |   Scenario: Agreement on nested elements of IfcAlignment
+   012 | 
+   013 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   014 |     :doc:`Given an .IfcReferent. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   015 |     :doc:`Given its attribute .Nests. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |     :doc:`Given its attribute .RelatingObject. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   017 | 
+   018 |     :doc:`Then [its entity type] ^is^ 'IfcAlignment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - n/a
+     - 2026-08-22
+     - :commit:`387fd320fa0a0be7b73ad08b804c3cbb11c02c18`
+     - n/a

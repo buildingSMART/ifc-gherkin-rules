@@ -31,6 +31,7 @@ Validation Service Rule Definitions
    POR
    PSE
    QTY
+   RFT
    SPA
    SPS
    SWE

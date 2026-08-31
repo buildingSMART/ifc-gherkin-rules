@@ -1,4 +1,4 @@
-# CS-MAP (Autodesk Civil 3D / Map 3D) geodetic datum keys, generated from datums.asc of the OSGeo CS-MAP
+# Coordinate System Dictionary from the Coordinate System Mapping Package (CS-MAP) library.  This dictionary contains  geodetic datum keys generated from datums.asc of the OSGeo CS-MAP
 # distribution (Copyright (c) 2008 Autodesk, Inc., BSD license). Snapshot 2025-02-16, EPSG sync 11.008.
 key,epsg_datum_code,description
 ABIDJAN-87,,"Abidjan 1987, Ivory Coast (replaces Locodjo)"

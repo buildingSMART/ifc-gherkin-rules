@@ -19,7 +19,7 @@ for block in re.split(r'\n(?=DT_NAME:)', txt):
     rows.append((m.group(1), epsg if epsg.isdigit() and epsg != '0' else '', re.sub(r'\s+', ' ', f.get('DESC_NM', '')).strip()[:80]))
 rows.sort(key=lambda r: r[0].lower())
 with open(dst, 'w', newline='') as fh:
-    fh.write('# CS-MAP (Autodesk Civil 3D / Map 3D) geodetic datum keys, generated from datums.asc of the OSGeo CS-MAP\n')
+    fh.write('# Coordinate System Dictionary from the Coordinate System Mapping Package (CS-MAP) library.  This dictionary contains  geodetic datum keys generated from datums.asc of the OSGeo CS-MAP\n')
     fh.write('# distribution (Copyright (c) 2008 Autodesk, Inc., BSD license). Snapshot 2025-02-16, EPSG sync 11.008.\n')
     w = csv.writer(fh, lineterminator='\n'); w.writerow(['key', 'epsg_datum_code', 'description']); w.writerows(rows)
 print(f'{dst}: {len(rows)} keys, {sum(1 for r in rows if r[1])} with EPSG code')

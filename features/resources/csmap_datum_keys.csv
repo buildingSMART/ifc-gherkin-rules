@@ -1,0 +1,1115 @@
+# Coordinate System Dictionary from the Coordinate System Mapping Package (CS-MAP) library.  This dictionary contains  geodetic datum keys generated from datums.asc of the OSGeo CS-MAP
+# distribution (Copyright (c) 2008 Autodesk, Inc., BSD license). Snapshot 2025-02-16, EPSG sync 11.008.
+key,epsg_datum_code,description
+ABIDJAN-87,,"Abidjan 1987, Ivory Coast (replaces Locodjo)"
+Abidjan1987,6143,Abidjan 1987
+Abidjan87,,Replaced by Abidjan1987 which uses GEOCENTRIC transformation
+AbInvA96_2020-IRF,1273,AbInvA96_2020 Intermediate Reference Frame
+ACCRA,,"Accra 1929, Ghana"
+Accra-MOD,,Replaced by Accra1929 which uses GEOCENTRIC transformation
+Accra1929,6168,"Accra 1929 modified, Ghana"
+ADIND-C,,"Adindan (Blue Nile 1958), Cameroon"
+ADIND-M,,"Adindan, mean for Burkina Faso, Guinea, Mali and Senegal"
+ADINDAN,6201,"Adindan (Blue Nile 1958), mean for Ethiopia and Sudan"
+ADINDAN-B,,"Adindan (Blue Nile 1958), Burkina Faso"
+ADINDAN-E,,"Adindan (Blue Nile 1958), Ethiopia"
+ADINDAN-M,,"Adindan (Blue Nile 1958), Mali"
+ADINDAN-S,,"Adindan (Blue Nile 1958), Senegal"
+ADINDAN-SU,,"Adindan (Blue Nile 1958), Sudan"
+ADOS714,,"Astro POS 71/4, St. Helena Island"
+AFG,,"Afgooye, Somalia"
+AFGOOYE,6205,"Afgooye, Somalia"
+AINELABD,6204,"Ain el Adb 1970, Bahrain Island"
+AINELABD-S,,"Ain el Adb 1970, Saudi Arabia"
+Albanian1987,6191,Albanian 1987
+Albanian87,6191,"Deprecated (wrong rotation signs), use Albanian1987"
+AMERFORT,,"ZZ: INCORRECT-Amersfoort Datum, Molodensky Transformation"
+AMERFORT-7P,,"Amersfoort 1885/1903, Netherlands (7 Parameter Transform)"
+AMERFORT-BW,,"ZZ: INCORRECT-Amersfoort Datum, Bursa/Wolfe Transformation"
+AMERFORT-EP,,"Amersfoort 1885/1903, Netherlands, Molodensky Transformation"
+Amersfoort,6289,Deprecated by EPSG synch. Replaced by Amersfoort/a.
+Amersfoort/a,6289,Deprecated by EPSG synch. Replaced by Amersfoort/b.
+Amersfoort/b,6289,"Netherlands, On shore"
+AMMAS-7P,,"Ammassalik 1958, Greenland (7 Parameter Transform)"
+Ammassalik58,6196,Deprecated by EPSG synch. Replaced by Ammassalik58a.
+Ammassalik58a,6196,"Deprecated (rotation sign), replaced by Ammassalik58b."
+Ammassalik58b,6196,Ammassalik 1958
+AmSamoa62,,Replaced by Samoa1962 which uses GEOCENTRIC transformation
+ANNA65,,"ANNA 1 Astro 1965, Cocos Islands"
+Antarctic98,6176,Australian Antarctic Datum 1998
+ANTIGUA,,"Antigua Island Astro 1943, Leeward Islands"
+ANTIGUA-OSGB,,"Antigua Island 1943, Leeward Islands; Ordnance Survey GB"
+Antigua1943,6601,Antigua 1943
+Antigua43,,Replaced by Antigua1943 which uses GEOCENTRIC transformation
+Antilles91,6640,"Deprecated by EPSG in 7.2, wrong ellispoid"
+Antilles91/1,1047,Reseau de Reference des Antilles Francaises 1991
+Aratu,,Replaced by Aratu_1 which uses GEOCENTRIC transformation
+ARATU-C,,"Aratu, Coastal Brazil; Espirito Santo and Campos Basins"
+ARATU-TC,,"Aratu, Coastal Brazil; Tucano Basin Central"
+ARATU-TN,,"Aratu, Coastal Brazil; Tucano Basin North"
+ARATU-TS,,"Aratu, Coastal Brazil; Tucano Basin South"
+Aratu_1,6208,Aratu
+ARC1950,,"Wrong ellipsoid, ARC 1950, replaced by ARC1950-01"
+ARC1950-01,6209,"ARC 1960, Mean Value"
+ARC1950-BTSA,,"ARC 1950, Botswana"
+ARC1950-BUR,,"ARC 1950, Burundi"
+ARC1950-LES,,"ARC 1950, Lesotho"
+ARC1950-MAL,,"ARC 1950, Malawi"
+ARC1950-SWA,,"ARC 1950, Swaziland"
+ARC1950-ZAI,,"ARC 1950, Congo (Zaire)"
+ARC1950-ZAM,,"ARC 1950, Zambia"
+ARC1950-ZIM,,"ARC 1950, Zimbabwe"
+ARC1960,6210,"ARC 1960, mean Values, Kenya, Tanzania"
+ARC1960-KEN,,"ARC 1960, Kenya"
+ARC1960-TAN,,"ARC 1960, Tanzania"
+ASCENSN,6712,"Ascension Island 1958, Ascension Island"
+ASTATN52,,"Astronomic Station 1952, Marcus Island"
+ASTRLA66,,"Australian Geodetic 1966, Australia incl.Tasmania (Molodensky)"
+ASTRLA66-7P,,"Australian Geodetic 1966, Australia (7 Parameter Transform)"
+ASTRLA66-ACT-7P,,"Australian Geodetic 1966, ACT (7 Parameter Transform)"
+ASTRLA66-Grid,6202,"Australian Geodetic 1966, Australia (GDA Grid File)"
+ASTRLA66-Int-7P,,Australian Geodetic 1966 (7 Parameter Transform)
+ASTRLA66-Tas-7P,,"ZZ: INCORRECT-Australian Geodetic 1966, Tasmania, 7 Parameter Transformation"
+ASTRLA66-Tasm-7P,,"Australian Geodetic 1966, Tasmania (7 Parameter Transform)"
+ASTRLA66-VicNSW-7P,,"ZZ: INCORRECT-Australian Geodetic 1966, Vic. and NSW, 7 Parameter Transformation"
+ASTRLA66-VictNSW-7P,,"Australian Geodetic 1966, Vict. and NSW (7 Parameter Transform)"
+ASTRLA84,,"Australian Geodetic 1984, Australia incl.Tasmania (Molodensky)"
+ASTRLA84-7P,,Australian Geodetic 1984 (7 Parameter Transform)
+ASTRLA84-Grid,6203,Australian Geodetic 1984 (GDA Grid File)
+AstroDos71,6710,Astro DOS 71 (aka St. Helena 1971)
+ATRF2014,1291,Australian Terrestrial Reference Frame 2014
+ATS77,6122,"Average Terrestrial Sys.1977,New Brunswick+Prince Edward Is."
+AUSTRIA,,Austria
+Ayabelle,6713,Replaced by AyabelleLH which uses GEOCENTRIC transformation
+AyabelleLH,6713,Ayabelle Lighthouse
+AZORES,,"ZZ: INCORRECT-Graciosa;Faial,Pico,Sao Jorge,Terceira,Azores"
+AZORES-G,6183,"Graciosa Base (Corrected);Faial,Pico,Sao Jorge,Terceira, Azores"
+AZORES-G-7P,,"Graciosa Base,7 Parameter; Faial,Pico,Sao Jorge,Terceira,Azores"
+AzoresCntrl1995,6665,Azores Central Islands 1995
+AzoresCntrl95,6665,Replaced by AzoresCntrl1995 which uses GEOCENTRIC transformation
+AzoresEast1995,6664,Azores Oriental Islands 1995
+AzoresEast95,6664,Replaced by AzoresEast1995 which uses GEOCENTRIC transformation
+AzoresWest1939,,Azores Occidental Islands 1939
+AzoresWest39,,Replaced by AzoresWest1939 which uses GEOCENTRIC transformation
+BAH-SAN,,NAD 1927 Bahamas (San Salvador Island only)
+BAHAMAS,,NAD 1927 Bahamas (not San Salvador Island)
+Barbados1938,6212,Barbados 1938
+Barbados38,6212,Replaced by Barbados1938 which uses GEOCENTRIC transformation
+Batavia,,Replaced by Batavia_1 which uses GEOCENTRIC transformation
+Batavia_1,6211,Batavia
+BDA2000,,"Bermuda 2000, Bermuda Islands"
+BEIJING,,"Beijing 1954, China"
+Beijing1954,6214,Deprecated by EPSG synch. Replaced by Beijing1954/a. #EPSG:6214
+Beijing1954/a,6214,
+Beijing54,,Replaced by Beijing1954 which uses GEOCENTRIC transformation #EPSG:6214
+BEKAA,,"Bekaa Valley 1920, Syria"
+Belge72,6313,Deprecated by EPSG synch. Replaced by Belge72a.
+Belge72/b,6313,Reseau National Belge 1972
+Belge72a,6313,"Deprecated (rotation sign), replaced by Belge72/b."
+BELLEVUE,6714,"Bellevue (IGN), Efate & Erromango Islands, Vanuatu"
+BERMUDA,6216,"Bermuda 1957, Bermuda Islands"
+BIH,,Bureau International de l'Heure (BIH) Terrestial System
+BISSAU,,"Bissau, Guinea-Bissau"
+Bissau-MOD,,Replaced by Bissau_1 which uses GEOCENTRIC transformation
+Bissau_1,6165,"Bissau modified, Guinea-Bissau"
+BOGOTA,6218,"Bogota Observatory, Colombia"
+BUKIT_RIM,,"Bukit Rimpah, Bangka and Belitung Islands, off Sumatra"
+BukitRimpah,,Replaced by BukitRimpah_1 which uses GEOCENTRIC transformation
+BukitRimpah_1,6219,Bukit Rimpah
+Caledonie91,6645,"Deprecated by EPSG, use RGN/91-93"
+CAMAC-V50,,"Camacupa-Vumbatumba 1950, Angola"
+CAMAC48,,"Camacupa 1948, West Africa (Camacupa Base SW End)"
+CAMAC94,,"Camacupa 1994, West Africa"
+Camacupa,,Replaced by Camacupa_1 which uses GEOCENTRIC transformation
+Camacupa_1,6220,Camacupa
+CAMP_ASTR,,"Camp Area Astro, McMurdo Camp Area, Antarctica"
+CampAreaAstro,6715,Replaced by CampAreaAstro_1 which uses GEOCENTRIC transformation
+CampAreaAstro_1,6715,Camp Area Astro
+CAMPO,6221,"Campo Inchauspe, Argentina"
+CAMPO-N,,"Campo Inchauspe, Chlos Malal, Nequen; Argentina"
+CANARY,6728,"Pico de las Nieves, Canary Islands"
+CANAVRL,6717,"Cape Canaveral, Florida & Bahama Islands, mean Values"
+CANTON,,"Canton Astro, 1966, Phoenix Islands"
+CAPE,,"Cape, South Africa (Buffelsfontein Fundamental Point)"
+CAPE-ALT,6222,"Cape, South Africa (Other EPSG Values)"
+CARTHAGE,,"Carthage, Tunisia"
+CARTHAGE-MOD,6223,"Carthage, Tunisia, Modified"
+Castillo,6161,Replaced by PampaCastillo which uses GEOCENTRIC transformation
+CATRF2022,,Caribbean Terrestrial Reference Frame 2022
+Cayman2011,1100,Cayman Islands Geodetic Datum 2011
+CGCS2000,1043,China 2000 - ITRF97 at epoch 2000.0
+CH-1903,6801,"Swiss National Geodetic System Aug 1990, Switzerland (7 Param)"
+CH-1903M,,"Swiss National Geodetic System Aug 1990, Switzerland (3 Param)"
+CH-1903Plus,,"Swiss National GPS-based System (ETRF 93 tie in), Switzerland"
+CH1903,6149,Deprecated - Replaced by CH1903/2
+CH1903/2,6149,CH1903
+CH1903/GSB,6149,CH1903 to WGS84 using CHENXY??.gsb file
+CH1903Plus,,Replaced by CH1903Plus_1 which uses GEOCENTRIC transformation
+CH1903Plus_1,6150,CH1903+
+CH1903Plus_2,6150,CH1903+
+CHATHAM,6672,"Chatham 1971, Chatham Island, New Zealand"
+Chatham1979,6673,"Deprecated (rotation sign), replaced by Chatham1979a."
+Chatham1979a,6673,Chatham Islands Datum 1979
+CHOS,,"Chos Malal 1914, Argentina"
+CHTRF95,6151,"CHTRF95, Switzerland (ETRF in Switzerland)"
+CHTRF95-MOD,,Swiss Terrestrial Reference Frame 1995
+CHUA,6224,"Chua Astro, Paraguay"
+CNH22-IRF,1336,CNH22 Intermediate Reference Frame
+Cocos1965,6708,Replaced by CocosIsl1965 which uses GEOCENTRIC transformation
+CocosIsl1965,6708,Cocos Islands 1965
+Combani1950,6632,Combani 1950
+Combani50,,Replaced by Combani1950 which uses GEOCENTRIC transformation
+CONAKRY,,"Conakry 1905, Guinea"
+Conakry05,,Replaced by Conakry1905 which uses GEOCENTRIC transformation
+Conakry1905,6315,Conakry 1905
+CONGO-YLA,,"Congo-Yella, Angola, West Africa"
+CongoBelge1955,6701,Replaced by CongoBelge55 which uses GEOCENTRIC transformation
+CongoBelge55,6701,Institut Geographique du Congo Belge 1955
+CORREGO,6225,"Corrego Alegre, Brazil"
+CSG1967,6623,Centre Spatial Guyanais 1967
+CSG67,,Replaced by CSG1967 which uses GEOCENTRIC transformation
+CSRS,6140,Canadian Spatial Reference System (NAD 1983 CSRS)
+CSRS.2010,,"Canadian Spatial Reference System, epoch 2010"
+CUBA,,"NAD 1927, Cuba"
+CUBA-ICH,,"Institut Cubano di Hidrografia (ICH), Cuba"
+CURACAO,,"Curacao 1951, Dutch Lesser Antilles"
+CWS13-IRF,1338,CWS13 Intermediate Reference Frame
+Cyprus1993,1112,Cyprus Geodetic Reference System 1993 (CGRS93)
+Czech/JTSK,6156,Deprecated by EPSG synch. Replaced by CzechJTSK/5.
+CzechJTSK/5,6156,"Deprecated (rotation sign), replaced by CzechJTSK/5b."
+CzechJTSK/5b,6156,Czech/Slovak Republics (7 Parameter Transform)
+DABOLA,,"Dabola, Guinea"
+Dabola1981,6155,Dabola 1981
+Dabola81,,Replaced by Dabola1981 which uses GEOCENTRIC transformation
+DATUM73,,"Datum 73, Portugal"
+DATUM73-7P,,"Datum 73, Portugal (7 Parameter Transform)"
+DATUM73-7P-ALT,,"Datum 73, Portugal (7 Parameter Transform); Alternative Values"
+Datum73-MOD,6274,Deprecated by EPSG synch. Replaced by Datum73-Mod/a.
+Datum73-Mod/a,6274,"Deprecated (rotation sign), replaced by Datum73-Mod/b."
+Datum73-Mod/b,6274,"Datum 73 modified, Portugal"
+DE-42/83,,"Mecklenberg-Vorpommern & Sachsen-Anhalt,Germany(7 Param Trans)"
+DE-PD83,,"Potsdam 1983, Thuringen, Germany (7 Parameter Transform)"
+DE-RD83,6745,"Rauenberg 1983, Sachsen-Anhalt, Germany (7 Parameter Transform)"
+DEAL-33,,"Dealui Piscului 1933, Roumania"
+DealulPiscului1933,6316,Dealul Piscului 1933
+DealulPiscului1970,6317,"Deprecated by EPSG, use Pulkovo42/58"
+DealulPiscului33,,Replaced by DealulPiscului1933 which uses GEOCENTRIC transformation
+DealulPiscului70,6317,Replaced by DealulPiscului1970 which uses GEOCENTRIC transformation
+DECEPTION,,"Deception Island, Antarctica"
+DeceptionIsland,6736,Replaced by DeceptionIsland_1 which uses GEOCENTRIC transformation
+DeceptionIsland_1,6736,Deception Island
+DEIR-EZ-ZOR,,"Deir ez Zor, Syria and Lebanon"
+DeirEzZor,,Replaced by DeirEzZor_1 which uses GEOCENTRIC transformation
+DeirEzZor_1,6227,Deprecated by EPSG synch. Replaced by DeirEzZor_2.
+DeirEzZor_2,6227,Deir ez Zor
+DeutscheBahn,1081,Deutsche Bahn Reference System - EPSG::1081
+DGN95,6755,Datum Geodesi Nasional 1995
+DHDN,6314,Deprecated by EPSG synch. Replaced by DHDN/2.
+DHDN/2,6314,Deprecated - Replaced by DHDN/3
+DHDN/3,6314,Deutsches Hauptdreiecksnetz
+DHDN/BeTA,,Deutsches Hauptdreiecksnetz
+DIBA15-IRF,1339,DIBA15 Intermediate Reference Frame
+DiegoGarcia1969,6724,Replaced by DiegoGarcia69 which uses GEOCENTRIC transformation
+DiegoGarcia69,6724,Diego Garcia 1969
+DJAKRTA,6211,"Djakarta (also Batavia or Genuk), Sumatra Island, Indonesia"
+DJIBOUTI,,"Ayabelle Lighthouse, Djibouti"
+DLX,,"DLX, Portugal"
+DLX-7P,,"DLX, Portugal (7 Parameter Transform)"
+DOMINICA,,"Dominica Astro M-12 1945, Dominica, Lesser Antilles; OSGB"
+Dominica1945,6602,Dominica 1945
+Dominica45,,Replaced by Dominica1945 which uses GEOCENTRIC transformation
+DoPw22-IRF,1334,DoPw22 Intermediate Reference Frame
+DOS1968,,"DOS 1968, Gizo Island, New Georgia Islands"
+Douala1948,6192,Douala 1948
+Douala48,6192,Replaced by Douala1948 which uses GEOCENTRIC transformation
+EASTER,6719,Easter Island 1967
+EBBWV14-IRF,1319,EBBWV14 Intermediate Reference Frame
+ECML14_NB-IRF,1310,ECML14_NB Intermediate Reference Frame
+ED50-IGN.ES,,ED50 to ETRF89 via Grid File (Canadian NTv2 format)
+ED87,,European 1987
+ED87-NS,,"Europe 1987 North Sea-Denmark, Germany, Netherlands, Norway, UK; S of 62d N"
+EDIT50,,"European 1950, Italy"
+EGYP-GS,,"Egypt 1907, Gulf of Suez"
+ELD1979,6159,European Libyan Datum 1979
+EOS21-IRF,1308,EOS21 Intermediate Reference Frame
+ERP50-7P,6230,"European 1950, Spain (7 Parameter Transform)"
+ERP50-CY,,"European 1950, Cyprus"
+ERP50-DK,,"Europe 1950, Denmark (7 Parameter Transform)"
+ERP50-EG,,"European 1950, Egypt"
+ERP50-ESPT,,"European 1950, Spain and Portugal (revised)"
+ERP50-FN,,"European 1950, Finland and Norway"
+ERP50-FR,,"European 1950, France"
+ERP50-GB,,"European 1950, Great Britain and Ireland"
+ERP50-GI,,"European 1950, Gibraltar"
+ERP50-GR,,"European 1950, Greece (NIMA)"
+ERP50-GR-H,,"European 1950, Greece (Hellenic Petroleum)"
+ERP50-Grid,,"European 1950, using grid files (Spain only)"
+ERP50-IQ,,"European 1950, Iraq, Israel, Jordan, Lebanon, Kuwait, Syria"
+ERP50-IR,,"European 1950, Iran"
+ERP50-IR-7P,,"European 1950 (ED77), Republic of Iran (7 Parameter Transform)"
+ERP50-MAL,,"European 1950, Malta"
+ERP50-SAR,,"European 1950, Sardinia"
+ERP50-SP-B,,"European 1950, Spain Balearic Islands (7 Parameter Transform)"
+ERP50-SP-EST99,,"European 1950, Spain Zone EST99 not Northwest(7 Param Transform)"
+ERP50-SP-NW,,"European 1950, Spain Northwest (41d 30m-43d 50m N, 4d 30m-9d 25mW)"
+ERP50-TK,,"European 1950, Turkey (7 Parameter Transform)"
+ERP50-TUN,,"European 1950, Tunisia"
+ERP50-UK,,"European 1950, Great Britian & Ireland"
+ERP50-UKCS,,"United Kingdom Cont. Shelf offshore, east of 6 deg West"
+ERP50-W,,"European 1950, Western Europe"
+EST-1937,,"Coordinate System of 1937, Estonia"
+EST97,,"EST 97, Estonia (local realisation of ETRS89)"
+Estonia92,6133,Deprecated by EPSG synch. Replaced by Estonia92a.
+Estonia92a,6133,"Deprecated (rotation sign), replaced by Estonia92b."
+Estonia92b,6133,Estonia 1992
+Estonia97,6180,Estonia 1997
+ETRF1990,1179,European Terrestrial Reference Frame 1990
+ETRF1991,1180,European Terrestrial Reference Frame 1991
+ETRF1992,1181,European Terrestrial Reference Frame 1992
+ETRF1993,1182,European Terrestrial Reference Frame 1993
+ETRF1994,1183,European Terrestrial Reference Frame 1994
+ETRF1996,1184,European Terrestrial Reference Frame 1996
+ETRF1997,1185,European Terrestrial Reference Frame 1997
+ETRF2000,1186,European Terrestrial Reference Frame 2000
+ETRF2014,1206,European Terrestrial Reference Frame 2014
+ETRF2020,1382,European Terrestrial Reference Frame 2020
+ETRF89,6258,"European Terrestrial Reference Frame, 1989 (== WGS84)"
+ETRF89.OSTN02,,ETRF 89 ala OSTN 2002 (NTv2)
+ETRF89.OSTN15,,ETRF 89 ala OSTN 2015 (NTv2)
+ETRF89/DYN,1178,European Terrestrial Reference Frame 1989
+ETRS89,,"ETRS89 (ETRF89), used for EUREF89 System"
+ETRS89/01,,"European Terrestrial Reference System, 1989 (== WGS84)"
+EUREF-EST,,"EUREF-EST 92 System, Estonia"
+EUROP50,,"European 1950, mean Values"
+EUROP50-7P,,"European 1950, mean Values (7 Parameter Transform)"
+Europ50/1977,6154,European Datum 1950(1977)
+Europ50/77,,Replaced by Europ50/1977 which uses GEOCENTRIC transformation
+EUROP79,6668,"European 1979, mean Values"
+Europ87,6231,"Deprecated (rotation sign), replaced by Europ87/a."
+Europ87/a,6231,European Datum 1987
+EuropLibyan79,,Replaced by ELD1979 which uses GEOCENTRIC transformation
+EWR2-IRF,1311,EWR2 Intermediate Reference Frame
+Fahud,,Replaced by Fahud_1 which uses GEOCENTRIC transformation
+Fahud_1,6232,Fahud
+FatuIva/72,6688,"Deprecated (rotation sign), replaced by FatuIva/72a."
+FatuIva/72a,6688,Fatu Iva 72
+FD58,,"Final Datum 1958; Maniyur, Kangan district, Iran and Iraq"
+Fiji1956,6721,Replaced by Fiji56 which uses GEOCENTRIC transformation
+Fiji1986,6720,"Deprecated (rotation sign), replaced by Fiji1986a."
+Fiji1986a,6720,Fiji Geodetic Datum 1986
+Fiji56,6721,Fiji 1956
+FIJI86,,Fiji Geodetic 1986
+Final1958,6132,Final Datum 1958
+Final58,,Replaced by Final1958 which uses GEOCENTRIC transformation
+FINKKJ,,"KKJ, Finland to EUREF-FIN (WGS84)"
+FINLAND,,"KKJ, Finland (Bursa Wolfe)"
+FINLAND96-7P,,"KKJ 1996, Finland (7 Parameter Transform)"
+FINN-NAUT,,"Finland, Nautical Chart"
+FNL22-IRF,1321,FNL22 Intermediate Reference Frame
+FORT-TH,,"Fort Thomas 1955, Nevis, St. Kitts, Leeward Islands"
+FortDesaix,,Replaced by Martinique38 which uses GEOCENTRIC transformation
+FortMarigot,,Replaced by FortMarigot_1 which uses GEOCENTRIC transformation
+FortMarigot_1,6621,Fort Marigot
+Gan1970,6684,Replaced by Gan70 which uses GEOCENTRIC transformation
+Gan70,6684,Gan 1970
+GBK19-IRF,1289,GBK19 Intermediate Reference Frame
+GD1949,,"Geodetic Datum of 1949, New Zealand (GD 49)"
+GDA2020-7P,1168,Geocentric Datum of Australia 2020
+GDA2020-C,1168,GDA 2020 - Conformal Grid
+GDA2020-CD,1168,GDA - 2020 - Conformal & Distortion Grid
+GDA94,6283,"Geocentric Datum of Australia, 1994 (GDA 94)"
+GDA94-CHI,,"Geocentric Datum of Australia, 1994, Christmas Island"
+GDA94-CI,,"Geocentric Datum of Australia, 1994, Cocos Island"
+GDM2000,6742,Geodetic Datum of Malaysia 2000
+GGRS87,,"Greek Geodetic Reference System, 1987"
+GHANA,,Ghana
+GHANA-WO,,"Ghana War Office, using neighboring MINNA"
+GNDAJIKA,6233,"Deprecated by EPSG, use Gan70"
+GR87,,"GR 87 (Hellas), Greece"
+GR96,6747,Greenland 1996
+GrandCayman1959,6723,Replaced by GrandCayman59 which uses GEOCENTRIC transformation
+GrandCayman59,6723,Grand Cayman 1959
+Greek-GRS87,6121,Greek Geodetic Reference System 1987
+GRENADA,,"Grenada 1953, Grenada (incl. Grenadines); Ordnance Survey GB"
+Grenada1953,6603,Grenada 1953
+Grenada53,,Replaced by Grenada1953 which uses GEOCENTRIC transformation
+GRSSA,6170,Sistema de Referencia Geocentrico para America del Sur
+GUADELOUPE,,Guadeloupe 1947
+Guadeloupe48,6622,Sainte Anne
+GUAM63,6675,"Guam 1963, Guam Island"
+GUAM87,,"Guam 1987, Guam Island"
+Gulshan,6682,Replaced by Gulshan303 which uses GEOCENTRIC transformation
+Gulshan303,6682,Gulshan 303
+GunungSegara,6613,"Gunung Segara modified, Kalimantan, Indonesia"
+GUX1,,"GUX 1 Astro, Guadalcanal Island"
+Guyane95,6624,Deprecated by EPSG synch. Replaced by Guyane95a.
+Guyane95a,6624,Reseau Geodesique Francais Guyane 1995
+GWPBS22-IRF,1340,GWPBS22 Intermediate Reference Frame
+GWWAB22-IRF,1341,GWWAB22 Intermediate Reference Frame
+GWWWA22-IRF,1342,GWWWA22 Intermediate Reference Frame
+HANOI,,"Hanoi 1972, Vung Tau (Mekong Delta), Vietnam"
+Hanoi1972,6147,Hanoi 1972
+Hanoi72,,Replaced by Hanoi1972 which uses GEOCENTRIC transformation
+HARN/02,6152,"High Accuracy Regional (UTM-2) Network (aka HPGN, NAD83/91)"
+HARN/10,6152,"High Accuracy Regional (UTM-10) Network (aka HPGN, NAD83/91)"
+HARN/11,6152,"High Accuracy Regional (UTM-11) Network (aka HPGN, NAD83/91)"
+HARN/12,6152,"High Accuracy Regional (UTM-12) Network (aka HPGN, NAD83/91)"
+HARN/13,6152,"High Accuracy Regional (UTM-13) Network (aka HPGN, NAD83/91)"
+HARN/14,6152,"High Accuracy Regional (UTM-14) Network (aka HPGN, NAD83/91)"
+HARN/15,6152,"High Accuracy Regional (UTM-15) Network (aka HPGN, NAD83/91)"
+HARN/16,6152,"High Accuracy Regional (UTM-16) Network (aka HPGN, NAD83/91)"
+HARN/17,6152,"High Accuracy Regional (UTM-17) Network (aka HPGN, NAD83/91)"
+HARN/18,6152,"High Accuracy Regional (UTM-18) Network (aka HPGN, NAD83/91)"
+HARN/19,6152,"High Accuracy Regional (UTM-19) Network (aka HPGN, NAD83/91)"
+HARN/AL,6152,"High Accuracy Regional (AL) Network (aka HPGN, NAD83/91)"
+HARN/AR,6152,"High Accuracy Regional (AR) Network (aka HPGN, NAD83/91)"
+HARN/AZ,6152,"High Accuracy Regional (AZ) Network (aka HPGN, NAD83/91)"
+HARN/CA,6152,"High Accuracy Regional (CA) Network (aka HPGN, NAD83/91)"
+HARN/CO,6152,"High Accuracy Regional (CO) Network (aka HPGN, NAD83/91)"
+HARN/FL,6152,"High Accuracy Regional (FL) Network (aka HPGN, NAD83/91)"
+HARN/GA,6152,"High Accuracy Regional (GA) Network (aka HPGN, NAD83/91)"
+HARN/GU,6152,"High Accuracy Regional (GU) Network (aka HPGN, NAD83/91)"
+HARN/HI,6152,"High Accuracy Regional (HI) Network (aka HPGN, NAD83/91)"
+HARN/IA,6152,"High Accuracy Regional (IA) Network (aka HPGN, NAD83/91)"
+HARN/IL,6152,"High Accuracy Regional (IL) Network (aka HPGN, NAD83/91)"
+HARN/IN,6152,"High Accuracy Regional (IN) Network (aka HPGN, NAD83/91)"
+HARN/KS,6152,"High Accuracy Regional (KS) Network (aka HPGN, NAD83/91)"
+HARN/KY,6152,"High Accuracy Regional (KY) Network (aka HPGN, NAD83/91)"
+HARN/LA,6152,"High Accuracy Regional (LA) Network (aka HPGN, NAD83/91)"
+HARN/MD,6152,"High Accuracy Regional (MD) Network (aka HPGN, NAD83/91)"
+HARN/ME,6152,"High Accuracy Regional (ME) Network (aka HPGN, NAD83/91)"
+HARN/MI,6152,"High Accuracy Regional (MI) Network (aka HPGN, NAD83/91)"
+HARN/MN,6152,"High Accuracy Regional (MN) Network (aka HPGN, NAD83/91)"
+HARN/MO,6152,"High Accuracy Regional (MO) Network (aka HPGN, NAD83/91)"
+HARN/MS,6152,"High Accuracy Regional (MS) Network (aka HPGN, NAD83/91)"
+HARN/MT,6152,"High Accuracy Regional (MT) Network (aka HPGN, NAD83/91)"
+HARN/NB,6152,"High Accuracy Regional (NB) Network (aka HPGN, NAD83/91)"
+HARN/NC,6152,"High Accuracy Regional (NC) Network (aka HPGN, NAD83/91)"
+HARN/ND,6152,"High Accuracy Regional (ND) Network (aka HPGN, NAD83/91)"
+HARN/NE,6152,"High Accuracy Regional (NE) Network (aka HPGN, NAD83/91)"
+HARN/NJ,6152,"High Accuracy Regional (NJ) Network (aka HPGN, NAD83/91)"
+HARN/NM,6152,"High Accuracy Regional (NM) Network (aka HPGN, NAD83/91)"
+HARN/NV,6152,"High Accuracy Regional (NV) Network (aka HPGN, NAD83/91)"
+HARN/NY,6152,"High Accuracy Regional (NY) Network (aka HPGN, NAD83/91)"
+HARN/OH,6152,"High Accuracy Regional (OH) Network (aka HPGN, NAD83/91)"
+HARN/OK,6152,"High Accuracy Regional (OK) Network (aka HPGN, NAD83/91)"
+HARN/PA,6152,"High Accuracy Regional (PA) Network (aka HPGN, NAD83/91)"
+HARN/PV,6152,"High Accuracy Regional (PV) Network (aka HPGN, NAD83/91)"
+HARN/SA,6152,"High Accuracy Regional (SA) Network (aka HPGN, NAD83/91)"
+HARN/SC,6152,"High Accuracy Regional (SC) Network (aka HPGN, NAD83/91)"
+HARN/SD,6152,"High Accuracy Regional (SD) Network (aka HPGN, NAD83/91)"
+HARN/TN,6152,"High Accuracy Regional (TN) Network (aka HPGN, NAD83/91)"
+HARN/TX,6152,"High Accuracy Regional (TX) Network (aka HPGN, NAD83/91)"
+HARN/UT,6152,"High Accuracy Regional (UT) Network (aka HPGN, NAD83/91)"
+HARN/VA,6152,"High Accuracy Regional (VA) Network (aka HPGN, NAD83/91)"
+HARN/WI,6152,"High Accuracy Regional (WI) Network (aka HPGN, NAD83/91)"
+HARN/WO,6152,"High Accuracy Regional (WO) Network (aka HPGN, NAD83/91)"
+HARN/WV,6152,"High Accuracy Regional (WV) Network (aka HPGN, NAD83/91)"
+HARN/WY,6152,"High Accuracy Regional (WY) Network (aka HPGN, NAD83/91)"
+Hartebeesthoek94,6148,Hartebeesthoek94
+HD72,,"Hungarian Datum 1972, Hungary (Lower Precision)"
+HD72-7P,,"ZZ: INCORRECT-Hungary, Hungarian Datum 1972 (7 Parameter Transform)"
+HD72-7P-CORR,6237,Deprecated by EPSG synch. Replaced by HD72/7P.
+HD72-HP3,,"Hungarian Datum 1972, Hungary (High Precision Molodensky)"
+HD72/7P,6237,"Deprecated (rotation sign), replaced by HD72/7Pa."
+HD72/7Pa,6237,"Hungarian Datum 1972, Hungary (7 Parameter Transform)"
+Helle1954,6660,"Deprecated (rotation sign), replaced by Helle1954a."
+Helle1954a,6660,Helle 1954
+HERAT,,"Herat North, Afghanistan"
+HeratNorth,,Replaced by HeratNorth_1 which uses GEOCENTRIC transformation
+HeratNorth_1,6255,Herat North
+HITO,,"Hito XVIII, Tierra del Fuego, Chile"
+HitoXVIII63,6254,Deprecated by EPSG synch. Replaced by HitoXVIII63a.
+HitoXVIII63a,6254,"Deprecated (rotation sign), replaced by HitoXVIII63b."
+HitoXVIII63b,6254,Hito XVIII 1963
+HJORSEY,6658,"Hjorsey 1955, Iceland"
+HK1980,,"Hong Kong 1980, Hong Kong"
+HOLLAND,,Netherlands
+HONGKONG,6738,Hong Kong 1963
+HONGKONG-63,,"Hong Kong 1963, Hong Kong"
+HongKong1963/67,6739,Replaced by HongKong63/1967 which uses GEOCENTRIC transformation
+HongKong63/1967,6739,Hong Kong 1963(67)
+HongKong80,6611,Deprecated by EPSG synch. Replaced by HongKong80a.
+HongKong80a,6611,"Deprecated (rotation sign), replaced by HongKong80b."
+HongKong80b,6611,Hong Kong 1980
+HPGN,6152,Replaced by 45 distinct regional HARN datums.
+HS2-IRF,1264,HS2 Intermediate Reference Frame
+HS2SD_2002,,HS2 Survey Datum with HS2TN02
+HS2SD_2015,,HS2 Survey Datum with HS2TN15
+HU-TZU,,"Hu-Tzu-Shan (with International ellipsoid), Taiwan"
+HU-TZU-G67,,"Hu-Tzu-Shan (with GRS 67 ellipsoid), Taiwan"
+HU-TZU-G67-MOD,,"Hu-Tzu-Shan (with GRS 67 ellipsoid modified), Taiwan"
+HULLEE13-IRF,1317,HULLEE13 Intermediate Reference Frame
+HuTzuShan,,Replaced by HuTzuShan_1 which uses GEOCENTRIC transformation
+HuTzuShan_1,6236,Hu Tzu Shan
+ID74,,Indonesian Datum 1974
+ID74-7P,6238,"Indonesian Datum 1974 (7 Parameter Transform), use with IGD95"
+IDG05/12-Intermediate,1144,IGD-2005(2012) Intermediate; internal use only
+IGb00,1246,IGb00
+IGb08,1248,IGb08
+IGb14,1272,IGb14
+IGD-2005,1114,Israeli Geodetic Datum 2005
+IGD-2005/12,1115,Israeli Geodetic Datum 2005(2012)
+IGD05-Intermediate,1142,IGD-2005 Intermediate; internal use only
+IGD95,,"Indonesian Geodetic Datum of 1995, based on WGS84"
+IGM1995,6670,Istituto Geografico Militaire 1995
+IGN53/Mare,6641,"Deprecated (rotation sign), replaced by IGN53/Mare.a."
+IGN53/Mare.a,6641,IGN53 Mare
+IGN53Mare,,IGN53 Mare
+IGN56/Lifou,6633,IGN56 Lifou
+IGN56Lifou,,Replaced by IGN56/Lifou which uses GEOCENTRIC transformation
+IGN63/Hiva,6689,IGN63 Hiva Oa
+IGN63/Hiva,6689,"Deprecated (rotation sign), replaced by IGN63/Hiva Oa/a."
+IGN72/GrandeTerre,6634,IGN72 Grande Terre
+IGN72/NH,6630,Replaced by IGN72/NH_1 which uses GEOCENTRIC transformation
+IGN72/NH_1,6630,IGN72 Nuku Hiva
+IGN72/NukuHiva,6630,IGN72 Nuku Hiva
+IGN72GrandeTerre,,Replaced by IGN72/GrandeTerre which uses GEOCENTRIC transformation
+IGN72NukuHiva,,Replaced by IGN72/NukuHiva which uses GEOCENTRIC transformation
+IGS00,1245,IGS00
+IGS05,1247,IGS05
+IGS08,1141,IGS08
+IGS14,1191,IGS14
+IGS20,1333,IGS20
+IGS97,1244,IGS97
+IND54,,"Indian 1954, Thailand"
+INDIAN16,,"Indian 1916, Bangladesh"
+Indian1954,6239,Indian 1954
+Indian1960/E,6131,"Indian 1960 modified, Pakistan"
+Indian54,,Replaced by Indian1954 which uses GEOCENTRIC transformation
+INDIAN60,,"Indian 1960, Pakistan"
+Indian60-MOD,,Replaced by Indian1960/E which uses GEOCENTRIC transformation
+INDIAN60-VT16,,"Indian 1960, Vietnam near 16 deg North"
+INDIAN60-VTC,,"Indian 1960, Con Son Island, Vietnam"
+INDIAN75,,"Indian 1975, Thailand"
+INDIAN75-7P,,"Indian 1975, Thailand (7 Parameter Transform)"
+Indian75-MOD,,Replaced by Indian75/E which uses GEOCENTRIC transformation
+INDIAN75-R,,"Indian 1975, Thailand, revised by NIMA October 1997"
+Indian75/E,6240,"Indian 1975 modified, Thailand"
+INDIANTV,,Thailand and Vietnam
+Indonesian1974,,Indonesian Datum 1974
+Indonesian74,,Replaced by Indonesian1974 which uses GEOCENTRIC transformation
+IRAN,,"Iran, based on European 1950"
+IraqKuwait1992,6667,Iraq-Kuwait Boundary Datum 1992
+Ireland-TM75,6300,"Ireland: Geodetic Datum of 1965, 1975 Adjustment"
+Ireland1965,6299,"Deprecated, use Ireland-TM75"
+IRELND65,,LEGACY USE ONLY - use Ireland1965
+IRELND75,,LEGACY USE ONLY -- replaced by Ireland1965
+IRELND75-MOD,,LEGACY USE ONLY -- replaced by Ireland1965
+IRENET,,"IRENET 95, Ireland"
+IRENET95,6173,IRENET95
+ISN2004,1060,"Islands Net, 2004, Iceland (ITFR2000 at epoch 2004.6)"
+ISN2016,1187,"Islands Net, 2016, Iceland (ITFR2014 at epoch 2016.5)"
+ISN93,6659,Islenska Grunnstoovanetid 1993 (Iceland 1993)
+Israel,6141,Israel 1993
+ISTS69,,"ISTS 073 Astro 1969, Diego Garcia"
+ITRF1988,6647,International Terrestrial Reference Frame 1988
+ITRF1989,6648,International Terrestrial Reference Frame 1989
+ITRF1990,6649,International Terrestrial Reference Frame 1990
+ITRF1991,6650,International Terrestrial Reference Frame 1991
+ITRF1992,6651,International Terrestrial Reference Frame 1992
+ITRF1993,6652,International Terrestrial Reference Frame 1993
+ITRF1994,6653,International Terrestrial Reference Frame 1994
+ITRF1996,6654,International Terrestrial Reference Frame 1996
+ITRF1997,6655,International Terrestrial Reference Frame 1997
+ITRF2000,6656,International Terrestrial Reference Frame 2000
+ITRF2005,6896,International Terrestrial Reference Frame 2005
+ITRF2008,1061,International Terrestrial Reference Frame 2008
+ITRF2014,1165,International Terrestrial Reference Frame 2014
+ITRF2020,1322,International Terrestrial Reference Frame 2020
+ITRF94,6653,International Terrestial Reference Frame 94
+IWOJIMA,,"Astro Beacon ""E"", Iwo Jima Island, 1945"
+IwoJima1945,6709,Replaced by IwoJima45 which uses GEOCENTRIC transformation
+IwoJima45,6709,Iwo Jima 1945
+Jamaica1969,6242,Jamaica 1969
+Jamaica69,6242,Replaced by Jamaica1969 which uses GEOCENTRIC transformation
+Jednotne,,Jednotne Trigonometricke Site Katastralni
+JGD2000,6612,Japan Geodetic Datum 2000
+JGD2000-7P,,Japan Geodetic Datum 2000 (7 Parameter Transform)
+JGD2000-MOD,,LEGACY USE ONLY - erroneous technique specification
+JGD2011,1128,Japan Geodetic Datum 2011
+JHNSTN,6725,"Johnston Island, 1961"
+Jouik1961,6679,Replaced by Jouik61 which uses GEOCENTRIC transformation
+Jouik61,6679,Jouik 1961
+JPNGSI,,"Japan, GSI Datum"
+JPNGSI-7,,"Japan, GSI Datum (7 Param Transform), Bessel 1841 ellipsoid"
+JPNGSI-7P,,"ZZ: INCORRECT-Japan, GSI Datum (7 Parameter Transform)"
+JPNGSI-Grid,,"Japan, GSI Datum for use with JGD 2000 Grid Files"
+K0/1949,6631,"Datum deprecated by EPSG, use KERGUELN"
+K01949,,Replaced by K0/1949 which uses GEOCENTRIC transformation
+KALIANP,,"Indian, mean for India, Bangladesh, Nepal"
+KALIANP-B,,"Indian, Bangladesh; Everest 1830 Ellipsoid (1937 def)"
+KALIANP-I75,,"Indian, India and Nepal; Everest 1830 Ellipsoid (1975 def)"
+KALIANP-IM,,"Indian, Bangladesh, India, Pakistan;Everest Imperial Ellipsoid"
+KALIANP-IN,,"Indian, mean for India and Nepal, Everest 1956 Ellipsoid"
+KALIANP-M37,,"Indian, Myanmar; Everest 1830 Ellipsoid (1937 def)"
+KALIANP-P62,,"Indian, Pakistan; Everest 1830 Ellipsoid (1962 def)"
+Kalianpur1937,6144,Kalianpur 1937
+Kalianpur1962,6145,Kalianpur 1962
+Kalianpur1975,6146,Kalianpur 1975
+Kalianpur37,,Replaced by Kalianpur1937 which uses GEOCENTRIC transformation
+Kalianpur62,,Replaced by Kalianpur1962 which uses GEOCENTRIC transformation
+Kalianpur75,,Replaced by Kalianpur1975 which uses GEOCENTRIC transformation
+KANDWALA,6244,"Kandawala, Sri Lanka"
+Karbala1979/P,6743,Replaced by Karbala79/P which uses GEOCENTRIC transformation
+Karbala79,6743,Karbala 1979 (replaces Karbala79/P)
+Karbala79/P,6743,"Karbala 1979, replaced by Karbala79"
+Kartasto66,6123,Deprecated by EPSG synch. Replaced by Kartasto66a.
+Kartasto66a,6123,"Deprecated (rotation sign), replaced by Kartasto66b."
+Kartasto66b,6123,Kartasto Koordinaati Jarjestelma 1966
+KERGUELN,6698,"Kerguelen Island, South Indian Ocean"
+Kertau/RSO,6751,Kertau (RSO)
+KERTAU48,6245,"Kertau 1948, West Malaysia & Singapore"
+KERTAU48-R,,"Kertau 1948, W. Malaysia & Singapore-DSMM (7 Param Transform)"
+KERTAU48/2,6245,"Kertau 1948, West Malaysia & Singapore"
+KGD2000,,Korean Geodetic Datum 2000 (same as Korean Geodetic 1995)
+KITTS,,"Saint Kitts 1955, Leeward Islands"
+Korean2000,6737,Geocentric datum of Korea
+Korean95,6166,Korean Datum 1995
+KOSOVAREF01,1251,Kosovo Reference System 2001
+KRASOV-EST,,"Krassovsky 1942, Estonia"
+KSA-GRF17,1268,Kingdom of Saudi Arabia Geodetic Reference Frame 2017
+KUSAIE,,"Kusaie Astro 1951, Caroline Islands, Micronesia"
+Kusaie1951,6735,Replaced by Kusaie51 which uses GEOCENTRIC transformation
+Kusaie51,6735,Kusaie 1951
+KuwaitOil,6246,Kuwait Oil Company
+KuwaitOilCo,6246,Replaced by KuwaitOil which uses GEOCENTRIC transformation
+KuwaitUtility,6319,Kuwait Utility
+L-C5,,"L.C.5 Astro 1961, Cayman Brac Island"
+LACANOA,,"La Canoa, Venezuela"
+LACANOA-E,,"La Canoa, east Venezuela"
+LaCanoa-MOD,,Replaced by LaCanoa/E which uses GEOCENTRIC transformation
+LaCanoa/E,6247,"La Canoa modified, Venezuela"
+Lao1997,6678,Replaced by Lao97 which uses GEOCENTRIC transformation
+Lao97,6678,Lao National Datum 1997
+LAPOUCE-7P,,"La Pouce 1934, Mauritius"
+Latvia1992,6661,Latvia 1992
+LEIGON,,"Legion, Ghana"
+Leigon-MOD,,Replaced by Leigon_1 which uses GEOCENTRIC transformation
+Leigon_1,6250,"Leigon modified, Ghana"
+LePouce1934,6699,Replaced by LePouce34 which uses GEOCENTRIC transformation
+LePouce34,6699,Le Pouce 1934
+LIBERIA,6251,"Liberia 1964, Liberia"
+Libyan2006,6754,Replaced by Libyan2006_1 which uses GEOCENTRIC transformation
+Libyan2006_1,6754,Libyan Geodetic Datum 2006
+LISBOA,,"Lisboa, Portugal"
+LISBOA-7P,,"Lisboa, Portugal (7 Parameter Transform)"
+Lisbon1890,6666,Replaced by Lisbon1890_1 which uses GEOCENTRIC transformation
+Lisbon1890_1,6666,Lisbon 1890
+Lisbon37,6207,Deprecated by EPSG synch. Replaced by Lisbon37a.
+Lisbon37/b,6207,Lisbon 1937
+Lisbon37a,6207,"Deprecated (rotation sign), replaced by Lisbon37/b."
+Lithuania94,6126,Lithuania 1994 (ETRS89)
+LittleCayman1961,6726,Replaced by LittleCayman61 which uses GEOCENTRIC transformation
+LittleCayman61,6726,Little Cayman 1961
+LKS92,,"LV_LKS-92, Latvia"
+LKS94,,"LKS 94, Lithuania"
+LOBITO37,,"Lobito 1937, Angola"
+LOCODJO,,"Locodjo 1965, Ivory Coast"
+Locodjo1965,6142,Locodjo 1965
+Locodjo65,,Replaced by Locodjo1965 which uses GEOCENTRIC transformation
+LUCIA,,"Saint Lucia 1955, Leeward Islands (DOS 3 Lighthouse)"
+LUX-1930,,"Luxembourg 1930, Luxembourg"
+LUX-NTF,,"Nouvelle Triangulation du Luxembourg, Luxembourg"
+Luxembourg30,6181,Deprecated by EPSG synch. Replaced by Luxembourg30a.
+Luxembourg30a,6181,"Deprecated (rotation sign), replaced by Luxembourg30b."
+Luxembourg30b,6181,Luxembourg 1930
+LUZON,6253,"Luzon 1911, Philippines"
+LUZON-MI,,"Mindanao Island only, Philippines"
+LYON/TURIN-2004,1295,Lyon Turin Ferroviaire 2004
+MAD_SE,6615,"Southeast Base, Porto Santo; Madeira Islands"
+MAD_SE-7P,,"Southeast Base, Porto Santo; Madeira Islands (7 Parameter)"
+MAGNA,6686,Marco Geocentrico Nacional de Referencia
+MAHE1971,6256,"Mahe 1971, Mahe Island"
+MAKASSAR,,"Makassar, South West Sulawesi, Indonesia"
+Makassar-MOD,,Replaced by Makassar/E which uses GEOCENTRIC transformation
+Makassar/E,6257,"Makassar modified, South West Sulawesi, Indonesia"
+MALONGO-87,,"Malongo 1987, Angola (replaced Mhast datum)"
+MALONGO-90,,"Malongo 1990, Angola (replaced Mhast datum)"
+Malongo1987,6259,Malongo 1987
+Malongo87,,Replaced by Malongo1987 which uses GEOCENTRIC transformation
+MALS09-IRF,1343,MALS09 Intermediate Reference Frame
+MANOCA,,"Deprecated by EPSG, use Manoca1962"
+Manoca-MOD,,Replaced by Manoca/E which uses GEOCENTRIC transformation
+Manoca/E,6260,"Datum deprectaed by EPSG, use Manoca1962"
+Manoca1962,6193,Manoca 1962
+Manoca62,,Replaced by Manoca1962 which uses GEOCENTRIC transformation
+MARCO,,"Marco Astro, Selvagem Grande 1938, Ilhas Selvagens"
+Marcus1952,6711,Replaced by Marcus52 which uses GEOCENTRIC transformation
+Marcus52,6711,Marcus Island 1952
+Marshalls1960,6732,Replaced by Marshalls60 which uses GEOCENTRIC transformation
+Marshalls60,6732,Marshall Islands 1960
+Martinique38,6625,Fort Desaix
+MASSAWA,6262,"Massawa, Eritrea"
+MATRF2022,,Mariana Terrestrial Reference Frame 2022
+Maupiti1983,6692,Maupiti 83
+Maupiti83,6692,Replaced by Maupiti1983 which uses GEOCENTRIC transformation
+Mauritania1999,6702,Mauritania 1999
+MAURITIUS,,Mauritius 1994
+MERCHICH,,"Wrong ellipsoid, Merchich, Morocco, replaced by MERCHICH-01"
+MERCHICH-01,6261,"Merchich, Morocco"
+MGI,1031,"MGI, mean for Bosnia-Herzegovina, Croatia, Serbia, Slovenia"
+MGI-1901,1031,MGI - 1901
+MGI-1901/Kos,1031,MGI - 1901 for Kosovo
+MGI-1901/Srb,1031,MGI - 1901 for Serbia
+MGI-AT,6312,"Deprecated (rotation sign), replaced by MGI-AT/a."
+MGI-AT/a,6312,"MGI, Austria (7 Parameter Transform)"
+MGI-AT/F,6805,"Deprecated (rotation sign), replaced by MGI-AT/Fa."
+MGI-AT/Fa,6805,"MGI, Austria (Ferro) (7 Parameter Transform)"
+MGI-C,,"MGI (HDKS), Croatia (7 Parameter Transform)"
+MGI-M,,"MGI, Montenegro"
+MGI-MOD,,Replaced by MGI/gc which uses GEOCENTRIC transformation
+MGI-S,,"MGI (D48), Slovenia (7 Parameter Transform)"
+MGI/gc,1031,Militar-Geographische Institut modified - MGI 1901
+MHAST,6264,"[Mhast, Angola] Deprecated by EPSG, no replacement available"
+Mhast-MOD,6264,"[Mhast, Angola] Deprecated by EPSG, no replacement available"
+Mhast/gc,6264,"[Mhast, Angola] Deprecated by EPSG, no replacement available"
+MICHELIN,,Michelin using Plessis Ellipsoid
+MICHIGAN,6268,Deprecated by EPSG
+MIDWAY,6727,"Midway Astro 1961, Midway Island"
+MIDWAY61,,"Midway Astro 1961, Midway Island (NIMA Corrected Version)"
+MINNA,6263,"Minna, Nigeria"
+Minna-7P,,"Minna, South Nigeria (7 Parameter Transform)"
+MINNA-C,,"Minna, Cameroon"
+Miquelon1950,6638,Saint Pierre et Miquelon 1950
+Miquelon50,,Replaced by Miquelon1950 which uses GEOCENTRIC transformation
+MML07-IRF,1271,MML07 Intermediate Reference Frame
+MOLDOR11-IRF,1315,MOLDOR11 Intermediate Reference Frame
+MONREF-97,,"Mongolia Reference System 97, Mongolia"
+MonteMario,,Replaced by MonteMario_1 which uses GEOCENTRIC transformation
+MonteMario_1,,Monte Mario
+MONTERAT,,"Montserat Island Astro 1958, Leeward Islands"
+MONTJONG,,Montjong Lowe
+Montserrat1958,6604,Montserrat 1958
+Montserrat58,,Replaced by Montserrat1958 which uses GEOCENTRIC transformation
+Moorea87,6691,"Deprecated (rotation sign), replaced by Moorea87a."
+Moorea87a,6691,Moorea 87
+MOP1978,6639,Deprecated by EPSG synch. Replaced by MOP1978a.
+MOP1978a,6639,MOP78
+MOP78,,Replaced by MOP1978 which uses GEOCENTRIC transformation
+MOZNET,,"Moznet, Mozambique"
+Moznet-MOD,6130,"Moznet modified, Mozambique (ITRF94)"
+MPOR,,"M'Poraloko, Gabon"
+MPOR-PG,,"M'Poraloko, Port Gentil, Gabon"
+Mporaloko,,Replaced by Mporaloko_1 which uses GEOCENTRIC transformation
+Mporaloko_1,6266,M'poraloko
+MRH21-IRF,1314,MRH21 Intermediate Reference Frame
+MSK42,,Mongolia System 42 (similar to Pulkovo 1942 definitions)
+MSK42-7P,,Mongolia System 42 (7 Parameter Transform)
+MTRF-2000,1218,MOMRA Terrestrial Reference Frame 2000. ITRF2000 at epoch 2004.00
+MWC18-IRF,1324,MWC18 Intermediate Reference Frame
+NAD27,6267,"NAD 1927, mean Values, Continental United States"
+NAD27-48,,"NAD 1927 Multiple Regression Approximation, Lower 48 States"
+NAD27-AK,,"NAD 1927, Alaska (not Aleutian Is.)"
+NAD27-AKA,,"NAD 1927, mean Aleutian Islands, Alaska (not Mainland)"
+NAD27-C0,,"NAD 1927, Yukon, Canada"
+NAD27-C1,,"NAD 1927, Alberta, British Columbia, Canada"
+NAD27-C2,,"NAD 1927, Northwest Territories, Nanavut, Saskatchewan"
+NAD27-C3,,"NAD 1927, Manitoba, Ontario, Canada"
+NAD27-C4,,"NAD 1927, New Brunswick, Newfoundland, Nova Scotia, Quebec"
+NAD27-CA,,"NAD 1927;mean CostaRica,ElSalvador,Guatemala,Honduras,Nicaragua"
+NAD27-CB,,"NAD 1927, Caribbean;Barbados,Cuba,Dominican Republic,Jamaica"
+NAD27-CN,,"NAD 1927, mean Canada"
+NAD27-CZ,,"NAD 1927, Canal Zone, Panama"
+NAD27-GR,,"NAD 1927, Hayes Peninsula, Greenland"
+NAD27-MX,,"NAD 1927, Mexico"
+NAD27-USE,,"NAD 1927, Cont. US east of Mississippi (includes LA, MO, MN)"
+NAD27-USW,,"NAD 1927, Cont. US west of Mississippi (not LA, MO, MN)"
+NAD27-V,,"NAD 1927, Alaska east of 180 deg West"
+NAD27-W,,"NAD 1927, Alaska west of 180 deg West"
+NAD27HII,,"NAD 1927, with International Ellipsoid for UTM Grid"
+NAD83,6269,"NAD 1983, Alaska, Canada,Continental US,Mexico,Central America"
+NAD83-A,,"NAD 1983, Aleutian Islands, Alaska"
+NAD83-CORS96,1133,NAD83 (Continuously Operating Reference Station 1996)
+NAD83-CSRS,1192,North American Datum of 1983 (CSRS96)
+NAD83-CSRS/2,1193,North American Datum of 1983 (CSRS) version 2
+NAD83-CSRS/3,1194,North American Datum of 1983 (CSRS) version 3
+NAD83-CSRS/4,1195,North American Datum of 1983 (CSRS) version 4
+NAD83-CSRS/5,1196,North American Datum of 1983 (CSRS) version 5
+NAD83-CSRS/6,1197,North American Datum of 1983 (CSRS) version 6
+NAD83-CSRS/7,1198,North American Datum of 1983 (CSRS) version 7
+NAD83-CSRS/8,1365,North American Datum of 1983 (CSRS) version 8
+NAD83-H,,"NAD 1983, Hawaii"
+NAD83-MARP00,1221,North American Datum of 1983 (MARP00)
+NAD83-PCAP00,1249,North American Datum of 1983 (PACP00)
+NAD83/HARN,6152,"High Accuracy Regional Network, ala 48HPGN.L?S"
+Nakhl-eGhanem,6693,Nakhl-e Ghanem
+NAPARIMA,,"Naparima 1972, Trinidad and Tobago,British W.Indies(NIMA data)"
+NAPARIMA-72,,"Naparima 1972, Tobago, British West Indies (aka Naparima 1955)"
+NAPARIMA-O,6158,"Naparima 1955 (ONI), Trinidad, British West Indies"
+Naparima1972,6271,Naparima 1972
+Naparima72,,Replaced by Naparima1972 which uses GEOCENTRIC transformation
+NATRF2022,,North American Terrestrial Reference Frame 2022
+NEA74Noumea,6644,Deprecated by EPSG synch. Replaced by Noumea74.
+NEWISR,,"ZZ: INCORRECT-New Israel datum 1989, Israel (Molodensky)"
+NEWISR-7P,,"New Israel datum 1989, Israel (7 Parameter Transform)"
+NEWISR-SI,,"New Israel datum, Survey of Israel (Molodensky)"
+NGN96,,Yemen National Geodetic Network 1996
+NGO-1,,NGO System for Akse 1 (6deg 3min 22.5sec East)
+NGO-2,,NGO System for Akse 2 (8deg 23min 22.5sec East)
+NGO-3,,"NGO System for Akse 3 (10deg 43min 22.5sec E,Oslo Observatory)"
+NGO-4,,NGO System for Akse 4 (13deg 13min 22.5sec East)
+NGO-5,,NGO System for Akse 5 (16deg 53min 22.5sec East)
+NGO-6,,NGO System for Akse 6 (20deg 53min 22.5sec East)
+NGO-7,,NGO System for Akse 7 (24deg 53min 22.5sec East)
+NGO-8,,NGO System for Akse 8 (29deg 3min 22.5sec East)
+NGO48,6273,Deprecated by EPSG synch. Replaced by NGO48a.
+NGO48a,6273,"Deprecated (rotation sign), replaced by NGO48b."
+NGO48b,6273,NGO 1948
+NHR-Q,,"Nahrwan, Qatar (onshore and offshore)"
+NHR-U,,"Nahrwan, United Arab Emirates"
+NHR-UA,,"Nahrwan, Abu al Bu Khoosh, United Arab Emirates"
+NHRWN-1934,6744,Asia - Middle East - Iraq and SW Iran
+NHRWN-O,6270,"Nahrwan, Masirah Island, Oman"
+NHRWN-S,,"Nahrwan, Saudi Arabia"
+NORD-SAH,,"ZZ: INCORRECT-Nord Sahara, Algeria"
+NORD-SAHARA,,"Nord Sahara, Algeria"
+NordSahara1959,6307,Nord Sahara 1959
+NordSahara59,,Replaced by NordSahara1959 which uses GEOCENTRIC transformation
+Nouakchott1965,6680,Replaced by Nouakchott65 which uses GEOCENTRIC transformation
+Nouakchott65,6680,Nouakchott 1965
+Noumea74,6644,NEA74 Noumea
+NS.ATS77,,"Average Terrestrial Sys.1977, Nova Scotia specific"
+NS.NAD83.1997,,"Canadian Spatial Reference System (1997), Nova Scotia specific"
+NS.NAD83.2010,,"Canadian Spatial Reference System (2010), Nova Scotia specific"
+NSRS07,6759,"NSRS 2007: Alaska, Continental US, PR/VI"
+NSRS11,1116,"NSRS 2011: Alaska, Continental US, PR/VI"
+NSRS11-MA,1118,NAD83 (National Spatial Reference System MA11)
+NSRS11-PA,1117,NAD83 (National Spatial Reference System PA11)
+NTF-3P,,Replaced by NTF-3P/gc which uses GEOCENTRIC transformation
+NTF-3P/gc,,NTF - France - Standard transformation with 3 parameters
+NTF-G,,"Nouvelle Triangulation Francaise, Greenwich meridian"
+NTF-G-Grid,6275,"Nouvelle Triangulation Francaise, for use with RGF93 Grid files"
+NTF-G-Grid-ClrkIGN,,"Nouvelle Triangulation Francaise, RGF93 Grid files, Clarke IGN"
+NTF-P,,"Nouvelle Triangulation Francaise, Paris meridian"
+NtlGeodeticNet,6318,National Geodetic Network
+NWGL-10,,NWGL 10
+NWL,,"Deprecated, more precise ellipsoid; replaced by NWL/1"
+NWL/1,,Naval Weapons Laboratory
+NZGD2000,6167,New Zealand Geocentric Datum of 2000
+NZGD49,6272,"Geodetic Datum of 1949, New Zealand (Grid File)"
+NZGD49-7P,,"Geodetic Datum of 1949, New Zealand (7 Parameter Transform)"
+Observatario07,6129,Observatario Campos Rodrigues 1907
+OBSRV-MOD,,"Observatorio (Revised);Corvo & Flores Is.,Azores(Occidental)"
+OBSRV66,6182,"Observatorio(Old Values);Corvo & Flores Is.,Azores(Occidental)"
+Ocotepeque35a,,"Deprecated, use Ocotepequeb"
+Ocotepeque35b,1070,Ocotepeque 1935 Datum (Costa Rica) Version B (Molodensky Badekas)
+OLD-ISR,,"Israeli system (Old), Israel (Palestine datum)"
+OLD_EGYP,6229,"Egypt 1907, Egypt"
+OLDHI,6135,"Old Hawaiian, Clarke;mean values for Hawaii,Kauai,Maui,Oahu"
+OLDHI-H-INT,,"Old Hawaiian, International Ellipsoid; Hawaii"
+OLDHI-HI,,"Old Hawaiian, Clarke Ellipsoid; Hawaii"
+OLDHI-INT,,"Old Hawaiian, International Ellipsoid; mean values"
+OLDHI-K,,"Old Hawaiian, Clarke Ellipsoid; Kauai"
+OLDHI-K-INT,,"Old Hawaiian, International Ellipsoid; Kauai"
+OLDHI-M,,"Old Hawaiian, Clarke Ellipsoid; Kauai"
+OLDHI-M-INT,,"Old Hawaiian, International Ellipsoid; Maui"
+OLDHI-O,,"Old Hawaiian, Clarke Ellipsoid; Oahu"
+OLDHI-O-INT,,"Old Hawaiian, International Ellipsoid; Oahu"
+OMAN,,"Fahud, Oman"
+OMAN-7P,,"Fahud, Oman (7 Parameter Transform)"
+OMAN-PDO,,"Petroleum Development of Oman 1993, Oman(7 Parameter Transform)"
+OSGB,,"Ordnance Survey of Great Britian 1936, mean Values"
+OSGB-7P,,Ordnance Survey of Great Britain 1936; Mean(7 Param Transform)
+OSGB-E,,"Ordnance Survey of Great Britain 1936, England"
+OSGB-EW,,"Ordnance Survey of Great Britain 1936, England, Wales"
+OSGB-MOD,6277,"Ordnance Survey of Great Britain 1936, mean Values - Modified"
+OSGB-S,,"Ordnance Survey of Great Britain 1936, Scotland"
+OSGB-W,,"Ordnance Survey of Great Britain 1936, Wales"
+OSGB1936,6277,Ordnance Survey of Great Britain 1936
+OSNI52,6188,"Deprecated (rotation sign), replaced by OSNI52/b."
+OSNI52/b,6188,OSNI 1952
+OxWo08-IRF,1344,OxWo08 Intermediate Reference Frame
+Palestine23,6281,"Deprecated (rotation sign), replaced by Palestine23a."
+Palestine23a,6281,Palestine 1923
+PampaCastillo,6161,Pampa del Castillo
+ParametropZemp1990,6740,"Deprecated (rotation sign), replaced by ParametropZemp1990a."
+ParametropZemp1990a,6740,Parametrop Zemp 1990
+PATRF2022,,Pacific Terrestrial Reference Frame 2022
+PDOSurvey93,6134,Deprecated by EPSG synch. Replaced by PDOSurvey93a.
+PDOSurvey93a,6134,"Deprecated (rotation sign), replaced by PDOSurvey93b."
+PDOSurvey93b,6134,PDO Survey Datum 1993
+Perroud1950,6637,Pointe Geologie Perroud 1950
+Perroud50,,Replaced by Perroud1950 which uses GEOCENTRIC transformation
+Petrels1972,6636,Petrels 1972
+Petrels72,,Replaced by Petrels1972 which uses GEOCENTRIC transformation
+PGA98,6190,Posiciones Geodesicas Argentinas 1998
+Phoenix,6716,Replaced by PhoenixIs66 which uses GEOCENTRIC transformation
+PhoenixIs66,6716,Phoenix Islands 1966
+PITCAIRN,6729,"Pitcairn Astro 1967, Pitcairn Island"
+PN42,6284,Polish National 1942 (same values as Pulkovo 1942)
+POINT-58,,"Point 58, mean for Burkina Faso, Niger"
+Point1958,6620,Point 58
+Point58,,Replaced by Point1958 which uses GEOCENTRIC transformation
+PointeNoire,,Replaced by PointeNoire60 which uses GEOCENTRIC transformation
+PointeNoire60,6282,Congo 1960 Pointe Noire
+PortoSanto,,Replaced by PortoSanto36 which uses GEOCENTRIC transformation
+PortoSanto1995,6663,Replaced by PortoSanto95 which uses GEOCENTRIC transformation
+PortoSanto36,,Porto Santo
+PortoSanto95,6663,Porto Santo 1995
+POSGAR,,Posiciones GeodÃ©sicas Argentinas (POSGAR)
+PosGAr-MOD,6172,"Datum deprecated by EPSG, use PosGAr94"
+PosGAr94,6694,Posiciones Geodesicas Argentinas 1994
+PosGAr98,6190,Posiciones Geodesicas Argentinas 1998
+POTSDAM,,Potsdam Datum for Germany (Gauss Kruger)
+PRS92,,"Philippines Reference System 1992, origin Balanacan"
+PRS92/02,6683,"Deprecated (rotation sign), replaced by PRS92/03."
+PRS92/03,6683,Philippine Reference System 1992
+PRVI,6139,Puerto Rico and Virgin Islands
+PS56-B,,"Provisional South America Datum 1956, Bolivia"
+PS56-C,,"Provisional South America Datum 1956, Columbia"
+PS56-CN,,"Provisional South America Datum 1956, North Chile (near 19d S)"
+PS56-CS,,"Provisional South America Datum 1956, South Chile (near 43d S)"
+PS56-E,,"Provisional South America Datum 1956, Ecuador"
+PS56-G,,"Provisional South America Datum 1956, Guyana"
+PS56-P,,"Provisional South America Datum 1956, Peru"
+PS56-P2,,"Provisional South America Datum 1956, Peru"
+PS56-V,,"Provisional South America Datum 1956, Venezuela"
+PSAD56,6248,"Provisional South America Datum 1956, mean Values"
+PSC63,,Provisional South Chile datum of 1963 (~53 degrees South)
+PTE-NOIR,,"Pointe Noire 1948, Zaire (Congo)"
+PULKOVO,6284,"Pulkovo 1942, Russia (CIS and former USSR Territories)"
+PULKOVO-AL,,"Pulkovo 1942, Albania"
+PULKOVO-CZ,,"Pulkovo 1942, Czech Republic"
+PULKOVO-HNRO,,"Pulkovo 1942, Hungary and Romania"
+PULKOVO-KZ,,"Pulkovo 1942, Kazakhstan"
+PULKOVO-KZCSP,,"Pulkovo 1942, Kazakhstan Caspian Sea Exploration Area"
+PULKOVO-KZCSP-7P,,"Pulkovo 1942, Kazakhstan Caspian Sea (7 Parameter)"
+PULKOVO-LV,,"Pulkovo 1942, Latvia"
+PULKOVO-PL,,"Pulkovo 1942, Poland"
+Pulkovo42/2,,"Pulkovo 1942 to WGS84, Variant (2), Lithuania"
+Pulkovo42/58,6179,Deprecated by EPSG synch. Replaced by Pulkovo42/58a.
+Pulkovo42/58a,6179,"Deprecated (rotation sign), replaced by Pulkovo42/58b."
+Pulkovo42/58b,6179,Pulkovo 1942/58
+Pulkovo42/83,6178,Deprecated by EPSG synch. Replaced by Pulkovo42/83a.
+Pulkovo42/83a,6178,"Deprecated (rotation sign), replaced by Pulkovo42/83b."
+Pulkovo42/83b,6178,Pulkovo 1942/83
+PULKOVO58,6179,"Pulkovo 1942 with 1958 Adjustment, Poland (7 Param Transform)"
+Pulkovo95,6200,Pulkovo 1995
+QATAR,,Qatar National
+QATAR-74,,"Qatar 1974, Onshore"
+QATAR-74-O,,"Qatar 1974, Offshore"
+Qatar1974,6285,Qatar 1974
+QATAR48,6286,Qatar National
+Qatar74,,Replaced by Qatar1974 which uses GEOCENTRIC transformation
+QatarNtl95,6614,Deprecated by EPSG synch. Replaced by QatarNtl95a.
+QatarNtl95a,6614,"Deprecated (rotation sign), replaced by QatarNtl95b."
+QatarNtl95b,6614,Qatar National Datum 1995
+QORNOQ,6287,"Deprecated by EPSG, use Qornoq1927"
+QORNOQ-7P,,"Qornoq 1927, South Greenland (7 Parameter Transform)"
+Qornoq1927,6194,Qornoq 1927
+Qornoq27,,Replaced by Qornoq1927 which uses GEOCENTRIC transformation
+Rassadiran,,Replaced by Rassadiran_1 which uses GEOCENTRIC transformation
+Rassadiran_1,6153,Rassadiran
+RAUEN-2001,,"Rauenberg 2001, Germany (7 Parameter Transform)"
+RAUEN-95,,"Rauenberg 1995, Germany (7 Parameter Transform)"
+RBEPP12-IRF,1352,RBEPP12 Intermediate Reference Frame
+RD,,"Rijksdriehoeksmeting, Netherlands (7 Parameter Transform)"
+RD83/BW,,Baden-WÃ¼rttembergische Transformation 2017
+RD83/SA,6745,"Rauenberg 1983, Sachsen-Anhalt, Germany (NTv2 grid file)"
+RDN2008,1132,Rete Dinamica Nazionale 2008
+REGVEN,6189,Red Geodesica Venezolana
+REUNION,,"Deprecated, use REUNION-ALT"
+REUNION-ALT,,"Reunion - Deprecated, use 'Reunion47'"
+Reunion47,6626,"Reunion 1947, Mascarene Island"
+Reunion92,6627,Reseau Geodesique de la Reunion 1992
+Reykjavik,6657,Reykjavik Datum of 1900
+RGF93,6171,"Reseau Geodesique Francais, RGF93"
+RGN/91-93,6749,Reseau Geodesique de Nouvelle Caledonie 91-93
+RGP-Francaise,6687,"Deprecated (rotation sign), replaced by RGP-Francaise/a."
+RGP-Francaise/a,6687,Reseau Geodesique de la Polynesie Francaise
+RNB-50,,"Reseau National Belge 1950, Belgium; Lommel Signal"
+RNB-72,,"Reseau National Belge 1972, Belgium; Observatoire d'Uccle"
+RNB72-7P,,"Reseau National Belge 1972, Belgium (7 Parameter Transform)"
+ROME1940,6265,"Rome 1940 (Monte Mario), Sardinia"
+ROME1940-7P,,"Rome 1940 (Monte Mario), Sardinia (7 Parameter Transform)"
+ROME1940-IT-7P,,"Rome 1940 (Monte Mario), Mainland Italy (7 Parameter Transform)"
+ROME1940-SC-7P,,"Rome 1940 (Monte Mario), Sicily (7 Parameter Transform)"
+RT-90,,"Rikets Triangulering 1990, Sweden (Molodensky Transform)"
+RT-90-7P,,"Rikets Triangulering 1990, Sweden (7 Parameter Transform)"
+RT90-2-7P,,"Rikets Triangulering 1990, Sweden (7 Param Transform, Stage 2)"
+RT90-3-7P,6124,Deprecated by EPSG synch. Replaced by RT90-3/7P.
+RT90-3/7P,6124,"Deprecated (rotation sign), replaced by RT90-3/7Pa."
+RT90-3/7Pa,6124,"Rikets Triangulering 1990, Sweden (7 Param Transform, Stage 3)"
+S-42,,"S-42, Hungary, Lithuania, Poland, Slovakia, Czech"
+S-ASIA,,South Asia
+S-GEORGIA,,"ISTS 061 Astro 1968, South Georgia Islands"
+S-JTSK,,"ZZ: INCORRECT-S-JTSK, Czechoslovakia, pre 1993"
+S-JTSK/95,,"ZZ: INCORRECT-S-JTSK/95, Czech/Slovak Republics (7 Parameter Transform)"
+S-LEONE,,"Sierra Leone, WGS 84"
+S-LEONE-60,,"Sierra Leone 1960, with Clarke 1880 Ellipsoid"
+S_LEONE,,Sierra Leone
+SA1969,,"South American Datum of 1969, mean Values"
+SA1969-A,,"South American Datum 1969, Argentina"
+SA1969-B,,"South American Datum 1969, Bolivia"
+SA1969-BR,,"South American Datum 1969, Brazil"
+SA1969-BZ,,"South American Datum of 1969, Brazil (Chu Vertex)"
+SA1969-C,,"South American Datum 1969, Chile"
+SA1969-CO,,"South American Datum 1969, Colombia"
+SA1969-E,,"South American Datum 1969, Ecuador (not Galapagos Is)"
+SA1969-EG,,"South American Datum 1969, Ecuador (Baltra, Galapagos)"
+SA1969-G,,"South American Datum 1969, Guyana"
+SA1969-P,,"South American Datum 1969, Peru"
+SA1969-PA,,"South American Datum 1969, Paraguay"
+SA1969-T,,"South American Datum 1969, Trinidad and Tobago"
+SA1969-V,,"South American Datum 1969, Venezuela"
+SAD1969,6618,South American Datum 1969
+SAD69,,"Wrong ellipsoid, South American Datum 1969, replaced by SAD69/01"
+SAD69-A,,"South American Datum 1969, Argentina"
+SAD69-B,,"South American Datum 1969, Bolivia"
+SAD69-BR,,"South American Datum 1969, Brazil"
+SAD69-BRA,,"South American Datum 1969, Brazil (Inst. of Geog and Stats)"
+SAD69-CH,,"South American Datum 1969, Chile"
+SAD69-CO,,"South American Datum 1969, Colombia"
+SAD69-E,,"South American Datum 1969, Ecuador"
+SAD69-EG,,"South American Datum 1969, Ecuador (Baltra, Galapagos)"
+SAD69-G,,"South American Datum 1969, Guyana"
+SAD69-PA,,"South American Datum 1969, Paraguay"
+SAD69-PE,,"South American Datum 1969, Peru"
+SAD69-TT,,"South American Datum 1969, Trinidad and Tobago"
+SAD69-V,,"South American Datum 1969, Venezuela"
+SAD69/01,,Replaced by SAD1969 which uses GEOCENTRIC transformation
+SAMBOJA,,"ZZ: INCORRECT-Samboja, Indonesia; east Kalimantan, Mahakam delta area"
+SAMBOJA-I,,"Samboja, Indonesia; east Kalimantan, Mahakam delta area"
+Samboja-MOD,,Replaced by Samboja_1 which uses GEOCENTRIC transformation
+Samboja_1,6125,"Deprecated by EPSG, use GunungSegara"
+SAMOA,,"American Samoa 1962, American Samoa Islands"
+Samoa1962,6169,American Samoa 1962
+SANTO,,Espirito Santo Island (DOS 1965)
+Santo1965,6730,Replaced by Santo65 which uses GEOCENTRIC transformation
+Santo65,6730,Santo 1965
+SAOBRAZ,6184,"Sao Miguel & Santa Maria Islands,Azores(G. Oriental)"
+SAOBRAZ-7P,,"Sao Miguel & Santa Maria Islands,Azores(G. Oriental) (7 Param)"
+SAPPER,,"Sapper Hill 1943, East Falkland Island"
+SAPPER-97,6292,"Sapper Hill 1943, East Falkland Island (NIMA 1997 Values)"
+SCHWARZK,6293,"Schwarzeck, Namibia; Meter"
+SCHWARZK-GLM,,"Schwarzeck, Namibia; German Legal Meter"
+SCM22-IRF,1320,SCM22 Intermediate Reference Frame
+SCORE,,"Scoresbysund 1952, Greenland (7 Parameter Transform)"
+Scoresbysund52,6195,Deprecated by EPSG synch. Replaced by Scoresbysund52a.
+Scoresbysund52a,6195,"Deprecated (rotation sign), replaced by Scoresbysund52b."
+Scoresbysund52b,6195,Scoresbysund 1952
+SE-ASIA,,South East Asia
+SEGARA,,"Gunung Segara, Kalimantan, Indonesia"
+Segara-MOD,,Replaced by GunungSegara which uses GEOCENTRIC transformation
+Segora,,Replaced by Segora_1 which uses GEOCENTRIC transformation
+Segora_1,6294,"Deprecated by EPSG, use GunungSegara"
+Selvagem,6616,Selvagem Grande
+SelvagemGrande,,Replaced by Selvagem which uses GEOCENTRIC transformation
+SERIND,,"Gunung Serindung, 1962"
+SGS90,,Soviet Geodetic System 1990
+ShAb07-IRF,1335,ShAb07 Intermediate Reference Frame
+SICILY,,"European 1950, Sicily, Italy"
+SierraLeone1968,6175,Sierra Leone 1968
+SierraLeone68,,Replaced by SierraLeone1968 which uses GEOCENTRIC transformation
+SINGAPR,,"Singapore, Southeast Asia"
+SIRGAS,,Sist. de Referencia Geocentrico para America del Sur
+SIRGAS-Chile,1064,SIRGAS 2000 network in Chile
+SIRGAS2000,6674,Sistema de Referencia Geocentrico para America del Sur 2000
+SMITB20-IRF,1351,SMITB20 Intermediate Reference Frame
+Solomon1968,6718,Replaced by Solomon68 which uses GEOCENTRIC transformation
+Solomon68,6718,Solomon 1968
+SOROL,,"Sorol Atoll, Tern Island, Astro B4"
+SouthGeorgia1968,6722,Replaced by SouthGeorgia68 which uses GEOCENTRIC transformation
+SouthGeorgia68,6722,South Georgia 1968
+SouthYemen,,Replaced by SouthYemen_1 which uses GEOCENTRIC transformation
+SouthYemen_1,6164,South Yemen
+SRB_ETRS89,1214,Serbian Spatial Reference System 2000
+ST71Belep,6643,Deprecated by EPSG synch. Replaced by ST71Belep/a.
+ST71Belep/a,6643,"Deprecated (rotation sign), replaced by ST71Belep/b."
+ST71Belep/b,6643,ST71 Belep
+ST84IleDesPins,6642,Deprecated by EPSG synch. Replaced by ST84IleDesPins/a.
+ST84IleDesPins/a,6642,ST84 Ile des Pins
+ST87/Ouvea,6750,ST87 Ouvea
+ST87Ouvea,6635,"Deprecated by EPSG, use ST87/Ouvea"
+StAnne,,Replaced by Guadeloupe48 which uses GEOCENTRIC transformation
+StHelena1971,6710,Replaced by StHelena71 which uses GEOCENTRIC transformation
+StHelena71,6710,"Deprecated, replaced by AstroDos71"
+StKitts1955,6605,St. Kitts 1955
+StKitts55,,Replaced by StKitts1955 which uses GEOCENTRIC transformation
+StLucia1955,6606,St. Lucia 1955
+StLucia55,,Replaced by StLucia1955 which uses GEOCENTRIC transformation
+StVincent1945,6607,St. Vincent 1945
+StVincent45,6607,Replaced by StVincent1945 which uses GEOCENTRIC transformation
+SVY21,6757,Singapore: SLA Survey 21 2004
+SW,,"Southwest Base; Faial, Pico, Sao Jorge, Terceira, Azores"
+SWEREF99,6619,SWEREF99
+SYC20-IRF,1345,SYC20 Intermediate Reference Frame
+SYEMEN,,South Yemen
+Tahaa,,Replaced by Tahaa54 which uses GEOCENTRIC transformation
+Tahaa54,6629,Tahaa
+Tahiti,,Replaced by Tahiti52 which uses GEOCENTRIC transformation
+Tahiti52,6628,Tahiti
+Tananarive1925,6297,Tananarive 1925
+Tananarive25,,Replaced by Tananarive1925 which uses GEOCENTRIC transformation
+TANARIVE,,"Tanarive Observatory, Madagascar 1925"
+TANARIVE25,,"Tanarive Observatory 1925, Madagascar (more accurate)"
+TDC_DTM2005,,Definition to enable testing of Point Motion Implementation
+TDC_DTM2010,,Definition to enable testing of Point Motion Implementation
+Tern1961,6707,Replaced by Tern61 which uses GEOCENTRIC transformation
+Tern61,6707,Tern Island 1961
+TETE,6127,Deprecated by EPSG synch. Replaced by TETE/a.
+TETE/a,6127,"Deprecated (rotation sign), replaced by TETE/b."
+TETE/b,6127,"Tete, a mean value for Mozambique"
+TIMBALAI,,"Timbalai 1948, Brunei and East Malaysia"
+TIMBALAI68-SH,,"Timbalai 1968, Sabah East Malaysia-DSMM (7 Param Transform)"
+TIMBALAI68-SK,,"Timbalai 1968, Sarawak East Malaysia-DSMM (7 Param Transform)"
+TM-65,,"TM 65, United Kingdom and Ireland"
+TM1965,6299,Deprecated by EPSG synch. Replaced by TM1965/a.
+TM1965/a,6299,"Deprecated (rotation sign), replaced by TM1965/b."
+TM1965/b,6299,TM65
+TM65,,Replaced by TM1965 which uses GEOCENTRIC transformation
+TMBLI-A,,"Timbalai 1948, revised for Brunei and East Malaysia"
+TMBLI-B,6298,"Timbalai 1948, revised for Brunei and East Malaysia by EPSG"
+TMBLI-BR,,"Timbalai 1948, Brunei using Everest Brunei ellipsoid"
+TOKYO,6301,"Tokyo, Japan, mean for Japan, Okinawa and South Korea"
+Tokyo-Grid,,Tokyo Datum as defined by the JGD2000 grid shift files
+TOKYO-M,,"Tokyo datum, Korea"
+TOKYO-OK,,"Tokyo datum, Okinawa"
+TOKYO-SK,,"Tokyo datum, South Korea"
+TPEN11-IRF,1266,TPEN11 Intermediate Reference Frame
+TRIN-1903,,"Trinidad, 1903"
+Trinidad03,,Replaced by Trinidad1903 which uses GEOCENTRIC transformation
+Trinidad1903,6302,Trinidad 1903
+TRISTAN,6734,"Tristan Astro 1968, Tristan da Cunha"
+TWD1997,,Taiwan 1997
+TWD1997-MOD,,Taiwan 1997 modified
+UCS-2000,1077,Ukraine 2000 (UCS-2000)
+VanuaLv15,6748,Replaced by VanuaLv1915 which uses GEOCENTRIC transformation
+VanuaLv1915,6748,Vanua Levu 1915
+VIETE82,,"Vietiane 1982, Laos"
+VIETE93,,"Vietiane 1993, Laos with Clark 1880 ellipsoid"
+VIETE93-K,,"Vietiane 1993, Laos with Krassovsky ellipsoid"
+Vietnam2000,6756,Vietnam 2000
+VITI,6731,"Deprecated by EPSG, use VitiLevu1912"
+VitiLevu12,6752,Replaced by VitiLevu1912 which uses GEOCENTRIC transformation
+VitiLevu1912,6752,Viti Levu 1912
+VOIR1875,,"Voirol 1875 (Colonne Voirol 75), Algeria"
+VOIR60,,"Voirol Unife 1960, Algeria"
+Voirol1875,,Replaced by Voirol1875_1 which uses GEOCENTRIC transformation
+Voirol1875_1,6304,Voirol 1875
+WAKE,,"Wake-Eniwetok 1960, Marshall Islands"
+Wake1952,6733,Replaced by WakeIs1952 which uses GEOCENTRIC transformation
+WAKE52,,"Wake Island Astro 1952, Marshall Islands"
+WakeIs1952,6733,Wake Island 1952
+WGS72,6322,"World Geodetic System of 1972, Molodensky Transformation"
+WGS72-BE,,World Transit Broadcast Ephemeris
+WGS72-BW,,"World Geodetic System of 1972, Bursa-Wolfe Transformation"
+WGS72-TBE,6324,Deprecated by EPSG synch. Replaced by WGS72-TBE/a.
+WGS72-TBE/a,6324,"Deprecated (rotation sign), replaced by WGS72-TBE/b."
+WGS72-TBE/b,6324,WGS 72 Transit Broadcast Ephemeris
+WGS84,6326,World Geodetic System of 1984
+WGS84-G1150,1154,World Geodetic System 1984 (G1150)
+WGS84-G1674,1155,World Geodetic System 1984 (G1674)
+WGS84-G1762,1156,World Geodetic System 1984 (G1762)
+WGS84-G2139,1309,World Geodetic System 1984 (G2139)
+WGS84-G2296,1383,World Geodetic System 1984 (G2296)
+WGS84-G730,1152,World Geodetic System 1984 (G730)
+WGS84-G873,1153,World Geodetic System 1984 (G873)
+Xian80,6610,
+XRail84,,Datum as derived by the Crossrail project in 1984
+YACARE,,"Yacare, Uruguay"
+Yacare-MOD,,Replaced by Yacare/E which uses GEOCENTRIC transformation
+Yacare/E,6309,"Yacare modified, Uruguay"
+YemenNtl96,6163,Yemen National Geodetic Network 1996
+ZANDERIJ,6311,Suriname

@@ -53,7 +53,7 @@ def get_horizontal_unit_factors(crs: CRS) -> set[float]:
 @gherkin_ifc.step("The map conversion scale must be the quotient of the project length units and the target CRS length units")
 def step_impl(context, inst):
     error_found = False
-    proj_unit_factor = unit.calculate_unit_scale(context.model, unit_type='LENGTHUNIT')
+    project_unit_factor = unit.calculate_unit_scale(context.model, unit_type='LENGTHUNIT')
     map_conversion_scale = getattr(inst, 'Scale', 1.)
     map_conversion_scale_factor = 1.0 if not map_conversion_scale else map_conversion_scale
 
@@ -75,19 +75,19 @@ def step_impl(context, inst):
                 # Relative tolerance of 1E-9 corresponds to 1 part per billion.
                 # This is appropriate for imperial projects using Northing and Easting coordinates
                 # that are often in the range 1E6 or even 1E7.
-                if not isclose(crs_unit_factor, proj_unit_factor, abs_tol=0., rel_tol=1E-9):
+                if not isclose(crs_unit_factor, project_unit_factor, abs_tol=0., rel_tol=1E-9):
                     error_found = True
                     yield ValidationOutcome(inst=inst,
-                                        observed=f"map conversion scale {map_conversion_scale} does not reflect mismatch of target CRS unit conversion factor {crs_unit_factor} and project length unit scale {proj_unit_factor}",
+                                        observed=f"map conversion scale {map_conversion_scale} does not reflect mismatch of target CRS unit conversion factor {crs_unit_factor} and project length unit scale {project_unit_factor}",
                                         severity=OutcomeSeverity.ERROR)
             else:
                 # Scale factor provided for IfcMapConversion.
                 # Confirm that it matches the expected value.
-                quotient = crs_unit_factor / proj_unit_factor
+                quotient = project_unit_factor / crs_unit_factor
 
                 if not isclose(quotient, map_conversion_scale_factor, abs_tol=0., rel_tol=1E-9):
                     error_found = True
-                    yield ValidationOutcome(inst=inst, observed=f"map conversion scale {map_conversion_scale} does not reflect the quotient of the target CRS unit conversion factor {crs_unit_factor} divided by the project length unit scale {proj_unit_factor}", severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, observed=f"map conversion scale {map_conversion_scale} does not reflect the value of the project length unit factor {project_unit_factor} divided by the target CRS unit factor {crs_unit_factor}", severity=OutcomeSeverity.ERROR)
     
     if not error_found:
         yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)

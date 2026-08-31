@@ -2,10 +2,9 @@ import csv
 import functools
 import operator
 import re
+from typing import Tuple
 import ifcopenshell
 import os
-from pyproj.database import query_crs_info
-from pyproj import CRS
 
 from pathlib import Path
 
@@ -13,6 +12,7 @@ from validation_handling import full_stack_rule, gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
 from utils import misc
+from utils import geometry
 
 def apply_is_a(inst):
     if isinstance(inst, (list, tuple)):
@@ -166,3 +166,108 @@ def step_impl(context, inst, path, npath, varname1, op, varname2):
     v1, v2 = map(get_value, (varname1, varname2))
     passed = binary_operators[op](v1, v2)
     yield ValidationOutcome(inst=inst, expected=v2, observed=v1, severity=OutcomeSeverity.PASSED if passed else OutcomeSeverity.ERROR)
+
+@full_stack_rule
+@gherkin_ifc.step('the profiles must have the same number of points and edges')
+def step_impl(context, inst):
+    def count_edges_in_segment(indexed_segment_inst):
+        if indexed_segment_inst.is_a("IfcArcIndex"):
+            return 1
+        elif indexed_segment_inst.is_a("IfcLineIndex"):
+            return len(indexed_segment_inst.wrappedValue) - 1
+        else:
+            return 0
+
+    def handle_curves(curr_crv, next_crv):
+        curr_crv_type = curr_crv.is_a().upper()
+        next_crv_type = next_crv.is_a().upper()
+        if curr_crv_type == next_crv_type:
+            match curr_crv_type:
+                case "IFCPOLYLINE":
+                    # num_edges always == (num_points - 1)
+                    # therefore just test number of points in profile definition curve
+                    curr_crv_pt_count = len(curr_crv.Points)
+                    next_crv_pt_count = len(next_crv.Points)
+                    if curr_crv_pt_count != next_crv_pt_count:
+                        expected_msg = f"{curr_crv_pt_count} points in profile definition curve"
+                        observed_msg = f"{next_crv_pt_count} points in profile definition curve"
+                        yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
+                                                severity=OutcomeSeverity.ERROR)
+
+                case "IFCINDEXEDPOLYCURVE":
+                    # check overall number of points
+                    curr_crv_pt_count = len(geometry.get_points(curr_crv))
+                    next_crv_pt_count = len(geometry.get_points(curr_crv))
+                    if curr_crv_pt_count != next_crv_pt_count:
+                        expected_msg = f"{curr_crv_pt_count} points in profile definition curve"
+                        observed_msg = f"{next_crv_pt_count} points in profile definition curve"
+                        yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
+                                                severity=OutcomeSeverity.ERROR)
+
+                    # check overall number of segments
+                    if curr_crv.Segments and next_crv.Segments:
+                        curr_crv_seg_count = len(curr_crv.Segments)
+                        next_crv_seg_count = len(next_crv.Segments)
+                        if curr_crv_seg_count != next_crv_seg_count:
+                            expected_msg = f"{curr_crv_seg_count} segments in profile definition curve"
+                            observed_msg = f"{next_crv_seg_count} segments in profile definition curve"
+                            yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
+                                                    severity=OutcomeSeverity.ERROR)
+
+                    # iterate segments and confirm same number of points and edges in each
+                    for seg_in_curr, seg_in_next in zip(curr_crv.Segments, next_crv.Segments):
+                        # segment will be either IfcLineIndex or IfcArcIndex
+                        # the two segment types don't necessarily have to be the same - e.g. could sweep between polyline of three points and an arc
+                        curr_seg_pt_count = len(seg_in_curr.wrappedValue)
+                        next_seg_pt_count = len(seg_in_next.wrappedValue)
+                        if curr_seg_pt_count != next_seg_pt_count:
+                            expected_msg = f"{curr_seg_pt_count} points in {seg_in_curr.is_a()}"
+                            observed_msg = f"{next_seg_pt_count} points in {seg_in_next.is_a()}"
+                            yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
+                                                    severity=OutcomeSeverity.ERROR)
+
+                        curr_seg_edge_count = count_edges_in_segment(seg_in_curr)
+                        next_seg_edge_count = count_edges_in_segment(seg_in_next)
+                        if curr_seg_edge_count != next_seg_edge_count:
+                            expected_msg = f"{curr_seg_edge_count} edges in {seg_in_curr.is_a()}"
+                            observed_msg = f"{next_seg_edge_count} edges in {seg_in_next.is_a()}"
+                            yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
+                                                    severity=OutcomeSeverity.ERROR)
+
+                    else:
+                        # IndexedPolyCurve is just a polyline if Segments are not provided
+                        curr_polycrv_pt_count = len(curr_crv.Points.CoordList)
+                        next_polycrv_pt_count = len(next_crv.Points.CoordList)
+                        if curr_polycrv_pt_count != next_polycrv_pt_count:
+                            expected_msg = f"{curr_polycrv_pt_count} points in profile definition curve"
+                            observed_msg = f"{next_polycrv_pt_count} points in profile definition curve"
+                            yield ValidationOutcome(inst=next_crv, expected=expected_msg, observed=observed_msg,
+                                                    severity=OutcomeSeverity.ERROR)
+
+                case _:
+                    pass
+
+        else:
+            # NOTE: consider enforcing cross section curves to be of the same type.
+            # this is not explicitly called for in the IfcSectionedSolidHorizontal docs,
+            # so it is not implemented for SWE003.
+            # There may be value in a future additional rule in the SWE functional part.
+            # Ref: https://github.com/buildingSMART/ifc-gherkin-rules/pull/523
+           pass
+
+
+    for pair_of_profiles in inst:
+        curr_profile, next_profile = pair_of_profiles
+        if (curr_profile is not None) & (next_profile is not None):
+            curr_profile, next_profile = misc.iflatten(curr_profile), misc.iflatten(next_profile)
+
+            for cp, np in zip(curr_profile, next_profile):
+
+                # NOTE: Currently this step implementation is only used in SWE003 which explicitly selects only IfcArbitraryClosedProfileDef.
+                # To be potentially expanded in case of other scenarios.
+                assert cp.is_a('IfcArbitraryClosedProfileDef') and np.is_a(
+                    'IfcArbitraryClosedProfileDef')
+
+                curr_curve, next_curve = cp.OuterCurve, np.OuterCurve
+                yield from handle_curves(curr_curve, next_curve)
+

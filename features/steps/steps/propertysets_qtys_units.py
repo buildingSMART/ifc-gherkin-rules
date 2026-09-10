@@ -95,6 +95,14 @@ def get_properties_or_quantities(inst: ifcopenshell.entity_instance) -> List[ifc
     return properties
 
 
+@functools.cache
+def get_project_context_unit_types(file: ifcopenshell.file) -> List[str]:
+    project = file.by_type("IfcProject")[0]
+    in_context = project.UnitsInContext
+    unit_types = [unit.UnitType for unit in in_context.Units]
+    return unit_types
+
+
 def take_first_if_single_length(li: List):
     return li[0] if len(li) == 1 else li
 
@@ -119,7 +127,10 @@ def get_table_definition(schema, table, case_sensitive=True):
 
     tbl = system.get_csv(tbl_path, return_type="dict")
 
-    return {normalize(d["Name"], case_sensitive): d for d in tbl}
+    try:
+        return {normalize(d["Name"], case_sensitive): d for d in tbl}
+    except KeyError:
+        return {normalize(d["measure_type"], case_sensitive): d for d in tbl}
 
 
 
@@ -459,3 +470,77 @@ def step_impl(context, inst, attr_name):
                     obs_message = f"Incorrect conversion factor {inst_factor} in #{inst.ConversionFactor.id()}={inst.ConversionFactor.is_a()}"
                     yield ValidationOutcome(inst=inst, expected=exp_message, observed=obs_message,
                                             severity=OutcomeSeverity.ERROR)
+
+@gherkin_ifc.step(
+    "Each associated .{inst_type:property_or_physical_quantity}. value must have units defined directly or in the project context [according to the table] '{table}'")
+def step_impl(context, inst, table, inst_type=None):
+    measure_unit_table = get_table_definition(context.model.schema, table)
+    def confirm_unit_in_project_context():
+        # not defined at property - needs to be in the project context
+        try:
+            attr_measure_type = measure_attr.is_a()
+            measure_unit_record = measure_unit_table[attr_measure_type]
+            unit_type = measure_unit_record["unit_type"]
+            if (unit_type != "NO_UNIT") & (not unit_type in get_project_context_unit_types(context.model)):
+                yield ValidationOutcome(inst=prop,
+                                        expected=f"Units for {attr_measure_type} defined in property or in global project context",
+                                        observed=None,
+                                        severity=OutcomeSeverity.ERROR)
+        except KeyError as e:
+            raise e
+
+    properties = inst.HasProperties
+    for prop in properties:
+        if prop.is_a("IfcPropertyBoundedValue"):
+            attrs_to_check = ["UpperBoundValue", "LowerBoundValue", "SetPointValue"]
+            for attr in attrs_to_check:
+                measure_attr = getattr(prop, attr)
+                if measure_attr:
+                    unit_attr = getattr(prop, "Unit")
+                    if not unit_attr:
+                        yield from confirm_unit_in_project_context()
+
+        elif prop.is_a("IfcPropertyEnumeratedValue"):
+            measure_attrs = getattr(prop, "EnumerationValues")
+            if measure_attrs:
+                for measure_attr in measure_attrs:
+                    unit_attr = getattr(prop, "Unit")
+                    if not unit_attr:
+                        yield from confirm_unit_in_project_context()
+
+        elif prop.is_a("IfcPropertyListValue"):
+            measure_attrs = getattr(prop, "ListValues")
+            if measure_attrs:
+                for measure_attr in measure_attrs:
+                    unit_attr = getattr(prop, "Unit")
+                    if not unit_attr:
+                        yield from confirm_unit_in_project_context()
+
+        elif prop.is_a("IfcPropertyReferenceValue"):
+            prop_ref = getattr(prop, "PropertyReference")
+            if prop_ref.is_a("IfcAppliedValue"):
+                basis = getattr(prop_ref, "UnitBasis")
+                if basis:
+                    unit_attr = getattr(basis, "UnitComponent")
+                    if not unit_attr:
+                        yield from confirm_unit_in_project_context()
+
+        elif prop.is_a("IfcPropertySingleValue"):
+            measure_attr = getattr(prop, "NominalValue")
+            if measure_attr:
+                unit_attr = getattr(prop, "Unit")
+                if not unit_attr:
+                    yield from confirm_unit_in_project_context()
+
+        elif prop.is_a("IfcPropertyTableValue"):
+            defining_values = getattr(prop, "DefiningValues")
+            for defining in defining_values:
+                unit_attr = getattr(defining, "DefiningUnits")
+                if not unit_attr:
+                    yield from confirm_unit_in_project_context()
+
+            defined_values = getattr(prop, "DefinedValues")
+            for defined in defined_values:
+                unit_attr = getattr(defined, "DefiningUnits")
+                if not unit_attr:
+                    yield from confirm_unit_in_project_context()

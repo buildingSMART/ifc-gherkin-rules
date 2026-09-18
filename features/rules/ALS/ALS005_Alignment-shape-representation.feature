@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALS
-@version3
+@version4
 Feature: ALS005 - Alignment shape representation
 The rule verifies that each IfcAlignment uses correct representation.
 Checks for entity types are based upon the supported shape representations of IfcAlignment listed in 5.4.3.1.
@@ -22,7 +22,7 @@ Checks for entity types are based upon the supported shape representations of If
     Given .RepresentationIdentifier. ^is^ 'Axis'
     Given .RepresentationType. ^is^ 'Curve2D'
     Given Its attribute .Items.
-    Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'
+    Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolyCurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'
 
 
   Scenario: Agreement on each IfcAlignment using correct representation - vertical or cant
@@ -30,7 +30,7 @@ Checks for entity types are based upon the supported shape representations of If
     Given .RepresentationIdentifier. ^is^ 'Axis'
     Given .RepresentationType. ^is^ 'Curve3D'
     Given Its attribute .Items.
-    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'
+    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolyCurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'
 
 
   Scenario: Agreement on each IfcAlignment using correct representation - identifier = 'FootPrint'
@@ -42,4 +42,4 @@ Checks for entity types are based upon the supported shape representations of If
   Scenario: Agreement on each IfcAlignment using correct representation items - Type
 
     Given Its attribute .Items.
-    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'
+    Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolyCurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'

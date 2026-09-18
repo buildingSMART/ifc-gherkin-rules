@@ -1,0 +1,33 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('ViewDefinition [Alignment-basedView]'),'2;1');
+FILE_NAME ('pass-als005-ifcindexedpolycurve.ifc', '2026-09-18T09:12:29', ('redacted'), ('redacted'), 'redacted', 'redacted - redacted - 3.14159', 'redacted');
+FILE_SCHEMA (('IFC4X3_ADD2'));
+ENDSEC;
+
+DATA;
+#1= IFCPROJECT('3OifcSZIXBaOFzLXfJOdF1',#7,'MyProject',$,$,$,$,(#16),$);
+#2= IFCPERSON('redacted',$,$,$,$,$,$,$);
+#3= IFCORGANIZATION($,'Unknown',$,$,$);
+#4= IFCPERSONANDORGANIZATION(#2,#3,$);
+#5= IFCORGANIZATION($,'redacted',$,$,$);
+#6= IFCAPPLICATION(#5,'26.9.17.8','redacted','redacted');
+#7= IFCOWNERHISTORY(#4,#6,$,.ADDED.,1789708932,$,$,1789708932);
+#8= IFCSITE('1nG9kIYkPC3wn6gVbPjKNV',#7,'MySite',$,$,$,$,$,$,$,$,$,$,$);
+#9= IFCRELAGGREGATES('2O9z5gqJ9wy8CijNc8E3Wf',#7,$,$,#1,(#8,#10));
+#10= IFCALIGNMENT('3o7_DOEpn5WegicCviEZIr',#7,'MyAlignment',$,$,#13,#22,$);
+#11= IFCCARTESIANPOINT((0.0,0.0,0.0));
+#12= IFCAXIS2PLACEMENT3D(#11,$,$);
+#13= IFCLOCALPLACEMENT($,#12);
+#14= IFCCARTESIANPOINTLIST3D(((0.0,0.0,0.0),(50.0,20.0,2.0),(100.0,0.0,5.0),(150.0,30.0,8.0)),$);
+#15= IFCINDEXEDPOLYCURVE(#14,$,$);
+#16= IFCGEOMETRICREPRESENTATIONCONTEXT('3D','Model',3,0.001,#18,#19);
+#17= IFCCARTESIANPOINT((0.0,0.0,0.0));
+#18= IFCAXIS2PLACEMENT3D(#17,$,$);
+#19= IFCDIRECTION((0.0,1.0));
+#20= IFCGEOMETRICREPRESENTATIONSUBCONTEXT('Axis','Model',*,*,*,*,#16,1.E-4,.GRAPH_VIEW.,$);
+#21= IFCSHAPEREPRESENTATION(#20,'Axis','Curve3D',(#15));
+#22= IFCPRODUCTDEFINITIONSHAPE($,$,(#21));
+ENDSEC;
+
+END-ISO-10303-21;

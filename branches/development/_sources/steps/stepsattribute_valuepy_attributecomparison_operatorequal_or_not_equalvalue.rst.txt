@@ -46,15 +46,15 @@ Usages:
 
    :doc:`/features/ALS004_Alignment-segment-shape-representation`:27
 
- - **Then** *[Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'*
+ - **Then** *[Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolyCurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'*
 
    :doc:`/features/ALS005_Alignment-shape-representation`:25
 
- - **Then** *[Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'*
+ - **Then** *[Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolyCurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'*
 
    :doc:`/features/ALS005_Alignment-shape-representation`:33
 
- - **Then** *[Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'*
+ - **Then** *[Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolyCurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'*
 
    :doc:`/features/ALS005_Alignment-shape-representation`:45
 

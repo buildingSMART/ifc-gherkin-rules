@@ -4,7 +4,7 @@ The type of attribute \ .\ ``attribute``\ .\  must be '``expected_entity_type``'
 Usages:
 ~~~~~~~
 
- - **Then** *The type of attribute .Items. must be 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline'*
+ - **Then** *The type of attribute .Items. must be 'IfcCompositeCurve' or 'IfcIndexedPolyCurve' or 'IfcPolyline'*
 
    :doc:`/features/ALS006_Alignment-horizontal-shape-representation`:21
 

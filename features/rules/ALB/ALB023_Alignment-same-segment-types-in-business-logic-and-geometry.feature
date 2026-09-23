@@ -1,6 +1,6 @@
 @implementer-agreement
 @ALB
-@version2
+@version3
 
 Feature: ALB023 - Alignment same segment types in business logic and geometry
   The rule verifies that when an Alignment has both business logic and geometry (representation),
@@ -13,7 +13,7 @@ Scenario: Validating the same geometry types for representation of the alignment
   Given An .IfcAlignment.
   Given Its attribute .Representation.
   Given Its attribute .Representations.
-  Given Its attribute .Item.
+  Given Its attribute .Items.
   Then  Each segment must have the same geometry type as its corresponding segment in the applicable IfcAlignment layout
 
 Scenario: Validating the same geometry type for representation of the horizontal layout

@@ -112,8 +112,10 @@ def get_edges(file, inst, sequence_type=frozenset, oriented=False):
             # @nb to decide: should we return index pairs, or coordinate pairs here?
             coords = inst.Coordinates.CoordList
             for idx in inst.CoordIndex:
-                for ij in zip(range(3), ((x + 1) % 3 for x in range(3))):
-                    yield edge_type(coords[idx[x] - 1] for x in ij)
+                v = [coords[i - 1] for i in idx]
+                yield edge_type((v[0], v[1]))
+                yield edge_type((v[1], v[2]))
+                yield edge_type((v[2], v[0]))
 
         elif inst.is_a("IfcPolygonalFaceSet"):
             coords = inst.Coordinates.CoordList

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ALB023 Alignment same segment types in business logic and geometry - v2 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
+  <title>ALB023 Alignment same segment types in business logic and geometry - v3 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
@@ -56,7 +56,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ALB015_Alignment-business-logic-zero-length-final-segment.html"><code class="docutils literal notranslate"><span class="pre">ALB015</span></code> Alignment business logic zero length final segment - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ALB021_Alignment-overall-agreement-of-business-logic-and-geometry.html"><code class="docutils literal notranslate"><span class="pre">ALB021</span></code> Alignment overall agreement of business logic and geometry - v2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ALB022_Alignment-agreement-on-number-of-segments.html"><code class="docutils literal notranslate"><span class="pre">ALB022</span></code> Alignment agreement on number of segments - v1</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">ALB023</span></code> Alignment same segment types in business logic and geometry - v2</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">ALB023</span></code> Alignment same segment types in business logic and geometry - v3</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ALB030_Alignment-local-placement.html"><code class="docutils literal notranslate"><span class="pre">ALB030</span></code> Alignment local placement - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ALB031_Alignment-layouts-default-case.html"><code class="docutils literal notranslate"><span class="pre">ALB031</span></code> Alignment layouts default case - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ALB032_Alignment-layouts-reusing-horizontal.html"><code class="docutils literal notranslate"><span class="pre">ALB032</span></code> Alignment layouts reusing horizontal - v1</a></li>
@@ -117,7 +117,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="ALB.html">Alignment (<code class="docutils literal notranslate"><span class="pre">ALB</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">ALB023</span></code> Alignment same segment types in business logic and geometry - v2</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">ALB023</span></code> Alignment same segment types in business logic and geometry - v3</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -127,11 +127,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="alb023-alignment-same-segment-types-in-business-logic-and-geometry-v2">
-<h1><code class="docutils literal notranslate"><span class="pre">ALB023</span></code> Alignment same segment types in business logic and geometry - v2<a class="headerlink" href="#alb023-alignment-same-segment-types-in-business-logic-and-geometry-v2" title="Link to this heading"></a></h1>
+  <section id="alb023-alignment-same-segment-types-in-business-logic-and-geometry-v3">
+<h1><code class="docutils literal notranslate"><span class="pre">ALB023</span></code> Alignment same segment types in business logic and geometry - v3<a class="headerlink" href="#alb023-alignment-same-segment-types-in-business-logic-and-geometry-v3" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;implementer-agreement
 002 | &#64;ALB
-003 | &#64;version2
+003 | &#64;version3
 004 |
 005 | Feature: ALB023 - Alignment same segment types in business logic and geometry
 006 |   The rule verifies that when an Alignment has both business logic and geometry (representation),
@@ -144,7 +144,7 @@
 013 |   <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given An .IfcAlignment.</span></a>
 014 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representation.</span></a>
 015 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Representations.</span></a>
-016 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Item.</span></a>
+016 |   <a class="reference internal" href="../steps/stepsattribute_selectionpy_Itsattributeattribute.html"><span class="doc">Given Its attribute .Items.</span></a>
 017 |   <a class="reference internal" href="../steps/thensalignmentpy_Eachsegmentmusthavethesamegeometrytypeasitscorrespondingactivation_phrase.html"><span class="doc">Then  Each segment must have the same geometry type as its corresponding segment in the applicable IfcAlignment layout</span></a>
 018 |
 019 | Scenario: Validating the same geometry type for representation of the horizontal layout
@@ -198,6 +198,12 @@
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/releases/tag/v0.6.6">v0.6.6</a></p></td>
 <td><p>2024-06-21</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/e7816d59f4499ac8a806be07a5268de1cf086795">e7816d59</a></p></td>
+<td><p>n/a</p></td>
+</tr>
+<tr class="row-even"><td><p>v3</p></td>
+<td><p>n/a</p></td>
+<td><p>2026-09-23</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/16b8f711a89808c7e22afc519fbd65fa7944590a">16b8f711</a></p></td>
 <td><p>n/a</p></td>
 </tr>
 </tbody>

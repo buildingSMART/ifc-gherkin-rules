@@ -318,7 +318,7 @@
      - :commit:`7be1eab8ed388e2bd15ad5a91384819b7e5bbb2b`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.2/features/rules/IFC/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.feature>`_
    * - v2
-     - n/a
+     - :tag:`v1.0.3`
      - 2026-08-01
      - :commit:`231d9d455aae593d4802081ebc723435c10e0775`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.3/features/rules/IFC/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.feature>`_

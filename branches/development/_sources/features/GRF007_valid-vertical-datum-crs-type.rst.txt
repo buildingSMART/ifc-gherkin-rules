@@ -38,12 +38,12 @@
      - :commit:`af8dc3d8f6d7873a07ef394a6a64c3b99111e74d`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF007_valid-vertical-datum-crs-type.feature>`_
    * - v2
-     - n/a
+     - :tag:`v1.0.4`
      - 2026-08-12
      - :commit:`d911c587fdb19a2e20718298cd48a587e741b492`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.4/features/rules/GRF/GRF007_valid-vertical-datum-crs-type.feature>`_
    * - v2
-     - n/a
+     - :tag:`v1.0.4`
      - 2026-08-12
      - :commit:`dcad86c84276e5b8ed7c1ba0eec6a9b4ca5f5c19`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.4/features/rules/GRF/GRF007_valid-vertical-datum-crs-type.feature>`_

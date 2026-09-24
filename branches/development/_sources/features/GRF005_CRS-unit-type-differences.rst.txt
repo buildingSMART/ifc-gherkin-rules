@@ -37,7 +37,7 @@
      - :commit:`451fa538eddf2599c8a4fd931f6cd5af0d8ab175`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.4/features/rules/GRF/GRF005_CRS-unit-type-differences.feature>`_
    * - v2
-     - n/a
+     - :tag:`v1.0.4`
      - 2026-08-07
      - :commit:`2ba07b5df6ab7b943e661b81cbbe985fee6e2a04`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.4/features/rules/GRF/GRF005_CRS-unit-type-differences.feature>`_

@@ -57,7 +57,7 @@
      - :commit:`1b873abc87fa26cbd09fac2909d6ccea52f14546`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.feature>`_
    * - v2
-     - n/a
+     - :tag:`v1.0.4`
      - 2026-08-22
      - :commit:`089d3e7fba1106e8e51b54ac19a511a9f31699c1`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.4/features/rules/GRF/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.feature>`_

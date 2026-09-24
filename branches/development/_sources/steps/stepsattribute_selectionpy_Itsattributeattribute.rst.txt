@@ -64,7 +64,7 @@ Usages:
 
    :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:15
 
- - **Given** *Its attribute .Item.*
+ - **Given** *Its attribute .Items.*
 
    :doc:`/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry`:16
 

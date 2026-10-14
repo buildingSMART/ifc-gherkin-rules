@@ -31,9 +31,7 @@ def step_impl(context, entity_opt_stmt, subtype_handling=None):
             case _:
                 include_subtypes = True
 
-        # @todo this better be handled more efficiently in ifcopenshell, but idea here is to prevent
-        # allocating large lists
-        instances = (inst for inst in context.model if ((inst.is_a(entity)) if include_subtypes else (inst.is_a().lower() == entity)))
+        instances = context.model.by_type(entity, include_subtypes=include_subtypes) or []
 
     try:
         first = next(instances)

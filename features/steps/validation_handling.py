@@ -17,6 +17,9 @@ from typing import Any
 from collections.abc import Mapping
 
 
+_SIGNATURE_CACHE = {}
+
+
 """
 DECORATORS FOR STEPS
 """
@@ -157,7 +160,17 @@ def handle_given(context, fn, **kwargs):
 def is_nested(val):
     return isinstance(val, (tuple, list, misc.PackedSequence))
 
+
 def apply_operation(fn, inst, context, current_path, kwargs):
+
+    def get_cached_signature(func):
+        
+        cache_key = getattr(func, "__wrapped__", func)
+        if cache_key not in _SIGNATURE_CACHE:
+            _SIGNATURE_CACHE[cache_key] = inspect.signature(func)
+            
+        return _SIGNATURE_CACHE[cache_key]
+
     def get_value_path():
         value_path = []
         for val in stack:
@@ -167,7 +180,8 @@ def apply_operation(fn, inst, context, current_path, kwargs):
                 i += 1
             value_path.append(val)
         return value_path
-    if 'path' in inspect.signature(fn).parameters:
+    
+    if 'path' in get_cached_signature(fn).parameters:
         stack = misc.get_stack_tree(context)[::-1]
         local_kwargs = kwargs | {
             'path': get_value_path()
@@ -195,8 +209,15 @@ def iter_given_state(values, fn, context, current_path=[], depth=None, current_d
         # we have arrived at the specified depth, or there is no depth specified and we're at the leaf
         yield apply_operation(fn, values, context, current_path, kwargs)
     else:
-        for i, v in enumerate(values):
-            yield map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs)
+        result_list = [
+            map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs)
+            for i, v in enumerate(values)
+        ]
+        return iter(result_list)
+    
+        # RW: too slow
+        # for i, v in enumerate(values):
+        #     yield map_given_state(v, fn, context, current_path + [i], depth, current_depth + 1, **kwargs)
 
 
 def handle_then(context, fn, **kwargs):

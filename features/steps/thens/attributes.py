@@ -30,13 +30,14 @@ def step_impl(context, inst, entity, other_entity, relationship):
                 if entity_obj_placement_rel:
                     yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed=entity_obj_placement_rel, severity=OutcomeSeverity.ERROR)
                 else:
-                    yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed="Not found", severity=OutcomeSeverity.ERROR)
+                    yield ValidationOutcome(inst=inst, expected=relating_obj_placement, observed=None, severity=OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("The relative placement of that {entity} must be provided by an {other_entity} entity")
+@gherkin_ifc.step("The relative placement of that {entity} is provided by an {other_entity} entity")
 def step_impl(context, inst, entity, other_entity):
-    if not misc.do_try(lambda: inst.ObjectPlacement.is_a(other_entity), False):
-        yield ValidationOutcome(inst=inst, expected=other_entity, observed=inst.ObjectPlacement, severity=OutcomeSeverity.ERROR)
+    uses_other_entity = misc.do_try(lambda: inst.ObjectPlacement.is_a(other_entity), False)
+    yield ValidationOutcome(inst=inst, expected=other_entity, observed=inst.ObjectPlacement, severity=OutcomeSeverity.PASSED if uses_other_entity else OutcomeSeverity.ERROR)
 
 
 @gherkin_ifc.step("The type of attribute .{attribute}. must be '{expected_entity_type}'")

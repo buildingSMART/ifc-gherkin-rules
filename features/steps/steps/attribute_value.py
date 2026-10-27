@@ -49,7 +49,9 @@ def step_impl(context, inst, comparison_operator, attribute, value, subtype_hand
             values = check_entity_type(inst, value, subtype_handling)
         entity_is_applicable = pred(values, True)
     else:
-        observed_v = getattr(inst, attribute, ()) or ()
+        observed_v = getattr(inst, attribute, ())
+        if observed_v is None or observed_v == '': # other falsy values such as 0. or .F. are not empty
+            observed_v = ()
         entity_is_applicable = pred(value, observed_v)
 
     if entity_is_applicable:

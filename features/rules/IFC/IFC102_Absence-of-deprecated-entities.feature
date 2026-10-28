@@ -301,6 +301,12 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcFlowStorageDevice       | 
       | IfcFlowTreatmentDevice     | 
       | IfcEnergyConversionDevice  |
+      | IfcDistributionElement     |
+      | IfcDistributionElementType |
+      | IfcFurnishingElement       |
+      | IfcFurnishingElementType   |
+      | IfcTypeObject              |
+      | IfcTypeProduct             |
 
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
@@ -320,6 +326,12 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcFlowStorageDevice       | 
       | IfcFlowTreatmentDevice     | 
       | IfcEnergyConversionDevice  |
+      | IfcDistributionElement     |
+      | IfcDistributionElementType |
+      | IfcFurnishingElement       |
+      | IfcFurnishingElementType   |
+      | IfcTypeObject              |
+      | IfcTypeProduct             |
 
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC2X3

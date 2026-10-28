@@ -18,7 +18,6 @@
     "property_set_or_element_quantity": ["IfcPropertySet", "IfcElementQuantity"],
     "property_or_physical_quantity": ["IfcProperty", "IfcPhysicalQuantity"],
     "continuity_type": ["position", "tangency", "cant gradient", "vertical gradient"],
-    "must_or_should": ["must", "should"]
-    "continuity_type": ["position", "tangency", "cant gradient", "vertical gradient"],
+    "must_or_should": ["must", "should"],
     "geodetic_or_vertical_datum": ["geodetic datum", "vertical datum"]
 }

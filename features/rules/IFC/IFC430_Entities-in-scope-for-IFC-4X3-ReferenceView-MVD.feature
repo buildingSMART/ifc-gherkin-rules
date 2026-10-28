@@ -131,7 +131,7 @@ do not export any entities that are outside the scope of this MVD.
       | IfcLinearPlacement                           |
       | IfcLoop                                      |
       | IfcLShapeProfileDef                          |
-      | IfcMapConversionScaled
+      | IfcMapConversionScaled                       |
       | IfcMaterialClassificationRelationship        |
       | IfcMaterialDefinitionRepresentation          |
       | IfcMaterialLayerSetUsage                     |

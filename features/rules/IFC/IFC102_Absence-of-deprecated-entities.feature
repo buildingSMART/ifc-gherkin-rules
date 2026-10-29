@@ -28,6 +28,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcElectricDistributionBoard          | 
       | IfcElectricDistributionBoardType      | 
       | IfcFaceBasedSurfaceModel              | 
+      | IfcFillAreaStyleTiles                 | 
       | IfcMaterialClassificationRelationship | 
       | IfcMaterialList                       | 
       | IfcPermeableCoveringProperties        | 
@@ -116,10 +117,23 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcBuilding               | ElevationOfTerrain             |
       | IfcBuildingStorey         | Elevation                      |
       | IfcFillAreaStyleHatching  | PointOfReferenceHatchLine      |
+      | IfcMechanicalFastener     | NominalDiameter                |
+      | IfcMechanicalFastener     | NominalLength                  |
       | IfcOrganization           | Addresses                      |
       | IfcPerson                 | Addresses                      |
       | IfcPile                   | ConstructionType               |
+      | IfcReinforcingBar         | NominalDiameter                |
+      | IfcReinforcingBar         | BarLength                      |
+      | IfcReinforcingBar         | BarSurface                     |
       | IfcReinforcingElement     | SteelGrade                     |
+      | IfcReinforcingMesh        | MeshLength                     |
+      | IfcReinforcingMesh        | MeshWidth                      |
+      | IfcReinforcingMesh        | LongitudinalBarNominalDiameter |
+      | IfcReinforcingMesh        | TransverseBarNominalDiameter   |
+      | IfcReinforcingMesh        | LongitudinalBarCrossSectionArea |
+      | IfcReinforcingMesh        | TransverseBarCrossSectionArea  |
+      | IfcReinforcingMesh        | LongitudinalBarSpacing         |
+      | IfcReinforcingMesh        | TransverseBarSpacing           |
       | IfcRelAssigns             | RelatedObjectsType             |
       | IfcSite                   | LandTitleNumber                |
       | IfcSite                   | SiteAddress                    |
@@ -148,7 +162,21 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcDoorLiningProperties       | ShapeAspectStyle              |
       | IfcDoorPanelProperties        | ShapeAspectStyle              |
       | IfcFillAreaStyleHatching      | PointOfReferenceHatchLine     |
+      | IfcMechanicalFastener         | NominalDiameter               |
+      | IfcMechanicalFastener         | NominalLength                 |
+      | IfcPile                       | ConstructionType              |
+      | IfcReinforcingBar             | NominalDiameter               |
+      | IfcReinforcingBar             | BarLength                     |
+      | IfcReinforcingBar             | BarSurface                    |
       | IfcReinforcingElement         | SteelGrade                    |
+      | IfcReinforcingMesh            | MeshLength                    |
+      | IfcReinforcingMesh            | MeshWidth                     |
+      | IfcReinforcingMesh            | LongitudinalBarNominalDiameter |
+      | IfcReinforcingMesh            | TransverseBarNominalDiameter  |
+      | IfcReinforcingMesh            | LongitudinalBarCrossSectionArea |
+      | IfcReinforcingMesh            | TransverseBarCrossSectionArea |
+      | IfcReinforcingMesh            | LongitudinalBarSpacing        |
+      | IfcReinforcingMesh            | TransverseBarSpacing          |
       | IfcRelAssignsToActor          | RelatedObjectsType            |
       | IfcRelAssignsToControl        | RelatedObjectsType            |
       | IfcRelAssignsToGroup          | RelatedObjectsType            |
@@ -193,7 +221,9 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     # IfcBuildingElementProxy: IfcBuildingElementProxyTypeEnum
     # IfcFireSuppressionTerminal: IfcFireSuppressionTerminalTypeEnum
     # IfcCableCarrierFitting: IfcCableCarrierFittingTypeEnum
+    # IfcFooting: IfcFootingTypeEnum
     # IfcGeographicElement: IfcGeographicElementTypeEnum
+    # IfcSanitaryTerminal: IfcSanitaryTerminalTypeEnum
     # IfcSpace: IfcSpaceTypeEnum
     # IfcWall: IfcWallTypeEnum
 
@@ -206,12 +236,18 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | Entity                          |        Value                   |
       | IfcBuildingElementProxy         | 'PROVISIONFORSPACE'            |
       | IfcBuildingElementProxy         | 'PROVISIONFORVOID'            |
+      | IfcBuildingElementProxy         | 'COMPLEX' or 'ELEMENT' or 'PARTIAL' |
+      | IfcBuildingElementProxyType     | 'COMPLEX' or 'ELEMENT' or 'PARTIAL' |
       | IfcFireSuppressionTerminal      | 'SPRINKLERDEFLECTOR'          |
       | IfcFireSuppressionTerminalType  | 'SPRINKLERDEFLECTOR'           |
+      | IfcFooting                      | 'CAISSON_FOUNDATION'           |
+      | IfcFootingType                  | 'CAISSON_FOUNDATION'           |
       | IfcCableCarrierFitting          | 'TEE' or 'CROSS' or 'REDUCER'  |
       | IfcCableCarrierFittingType      | 'TEE' or 'CROSS' or 'REDUCER'  |
       | IfcGeographicElement            | 'SOIL_BORING_POINT'            |
       | IfcGeographicElementType        | 'SOIL_BORING_POINT'            |
+      | IfcSanitaryTerminal             | 'WCSEAT'                       |
+      | IfcSanitaryTerminalType         | 'WCSEAT'                       |
       | IfcSpace                        | 'INTERNAL' or 'EXTERNAL'       |
       | IfcSpaceType                    | 'INTERNAL' or 'EXTERNAL'       |
       | IfcWall                         | 'POLYGONAL' or 'STANDARD'      |
@@ -220,6 +256,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
   Scenario Outline: Check for deprecated enumerated values - IFC4
     # IfcWall: IfcWallTypeEnum
+    # IfcSanitaryTerminal: IfcSanitaryTerminalTypeEnum
 
     Given A model with Schema 'IFC4'
     Given an .<Entity>.
@@ -230,6 +267,8 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | Entity                   |  Value                                       |
       | IfcWall                  | 'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL' |
       | IfcWallType              | 'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL' |
+      | IfcSanitaryTerminal      | 'WCSEAT'                                     |
+      | IfcSanitaryTerminalType  | 'WCSEAT'                                     |
 
 
   Scenario Outline: Check for deprecated enumerated values - IFC2X3
@@ -262,6 +301,12 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcFlowStorageDevice       | 
       | IfcFlowTreatmentDevice     | 
       | IfcEnergyConversionDevice  |
+      | IfcDistributionElement     |
+      | IfcDistributionElementType |
+      | IfcFurnishingElement       |
+      | IfcFurnishingElementType   |
+      | IfcTypeObject              |
+      | IfcTypeProduct             |
 
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC4
@@ -281,6 +326,12 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       | IfcFlowStorageDevice       | 
       | IfcFlowTreatmentDevice     | 
       | IfcEnergyConversionDevice  |
+      | IfcDistributionElement     |
+      | IfcDistributionElementType |
+      | IfcFurnishingElement       |
+      | IfcFurnishingElementType   |
+      | IfcTypeObject              |
+      | IfcTypeProduct             |
 
 
   Scenario Outline: Check for deprecated explicitly instantiated entities - IFC2X3
@@ -313,6 +364,15 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
 
     Then .Name. ^is not^ 'Pset_Draughting'
 
+
+  Scenario: Check for deprecated property - IFC4.3
+
+    Given A model with Schema 'IFC4.3'
+    Given an .IfcPropertySet.
+    Given its .Name. attribute ^starts^ with 'Pset_'
+    Given Its attribute .HasProperties.
+
+    Then .Name. ^is not^ 'Reference'
 
   Scenario: Check for deprecated property set - IFC4
 

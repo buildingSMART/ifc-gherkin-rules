@@ -62,6 +62,23 @@ def get_mvd(ifc_file):
     return detected_mvd
 
 
+def get_view_definitions(ifc_file):
+    """All ViewDefinition names in FILE_DESCRIPTION, stripped; a name declared twice is listed twice."""
+    if not ifc_file.header.file_description.description:
+        return []
+    view_definitions = ifc_file.mvd.view_definitions or []
+    return [name.strip() for name in view_definitions if name.strip()]
+
+
+def is_add_on_view(view_definition):
+    # case-insensitive: 'SpaceBoundaryAddonView' occurs too
+    return 'addonview' in view_definition.lower()
+
+
+def get_base_view_definitions(ifc_file):
+    return [view for view in get_view_definitions(ifc_file) if not is_add_on_view(view)]
+
+
 def instance_getter(i, representation_id, representation_type, negative=False):
     if negative:
         if not condition(i, representation_id, representation_type):

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IFC102 Absence of deprecated entities - v5 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
+  <title>IFC102 Absence of deprecated entities - v6 &mdash; buildingSMART Validation Service 0.8.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
@@ -62,7 +62,7 @@
 <li class="toctree-l2"><a class="reference internal" href="GRP.html">Groups (<code class="docutils literal notranslate"><span class="pre">GRP</span></code>)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="IFC101_Only-official-ifc-versions-allowed.html"><code class="docutils literal notranslate"><span class="pre">IFC101</span></code> Only official ifc versions allowed - v1</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v5</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v6</a></li>
 <li class="toctree-l3"><a class="reference internal" href="IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.html">( ⚠ <code class="docutils literal notranslate"><span class="pre">IFC105</span></code> Resource entities need to be referenced by rooted entity - v5) (disabled)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="IFC106_Resource-entities-should-be-referenced-by-rooted-entity.html"><code class="docutils literal notranslate"><span class="pre">IFC106</span></code> Resource entities should be referenced by rooted entity - v1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD.html"><code class="docutils literal notranslate"><span class="pre">IFC430</span></code> Entities in scope for IFC 4X3 ReferenceView MVD - v2</a></li>
@@ -109,7 +109,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Validation Service Rule Definitions</a></li>
           <li class="breadcrumb-item"><a href="IFC.html">IFC (<code class="docutils literal notranslate"><span class="pre">IFC</span></code>)</a></li>
-      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v5</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v6</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/features/IFC102_Absence-of-deprecated-entities.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -119,10 +119,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ifc102-absence-of-deprecated-entities-v5">
-<h1><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v5<a class="headerlink" href="#ifc102-absence-of-deprecated-entities-v5" title="Link to this heading"></a></h1>
+  <section id="ifc102-absence-of-deprecated-entities-v6">
+<h1><code class="docutils literal notranslate"><span class="pre">IFC102</span></code> Absence of deprecated entities - v6<a class="headerlink" href="#ifc102-absence-of-deprecated-entities-v6" title="Link to this heading"></a></h1>
 <pre class="literal-block">001 | &#64;IFC
-002 | &#64;version5
+002 | &#64;version6
 003 | &#64;implementer-agreement
 004 | Feature: IFC102 - Absence of deprecated entities
 005 |
@@ -230,7 +230,7 @@
 107 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4.3'</span></a>
 108 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
 109 |
-110 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .&lt;Attribute&gt;. ^is^ empty</span></a>
+110 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalnull.html"><span class="doc">Then .&lt;Attribute&gt;. ^is^ ^null^</span></a>
 111 |
 112 |     Examples:
 113 |       | Entity                    | Attribute                      |
@@ -264,7 +264,7 @@
 141 |     <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC4'</span></a>
 142 |     <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
 143 |
-144 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .&lt;Attribute&gt;. ^is^ empty</span></a>
+144 |     <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalnull.html"><span class="doc">Then .&lt;Attribute&gt;. ^is^ ^null^</span></a>
 145 |
 146 |     Examples:
 147 |       | Entity                        | Attribute                     |
@@ -304,7 +304,7 @@
 181 |       <a class="reference internal" href="../steps/givensattributespy_Afile_or_modelwithfieldvalues.html"><span class="doc">Given A model with Schema 'IFC2X3'</span></a>
 182 |       <a class="reference internal" href="../steps/stepsentity_selectionpy_Anentity_opt_stmt.html"><span class="doc">Given an .&lt;Entity&gt;.</span></a>
 183 |
-184 |       <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue.html"><span class="doc">Then .&lt;Attribute&gt;. ^is^ empty</span></a>
+184 |       <a class="reference internal" href="../steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalnull.html"><span class="doc">Then .&lt;Attribute&gt;. ^is^ ^null^</span></a>
 185 |
 186 |     Examples:
 187 |       | Entity                        | Attribute                     |
@@ -491,6 +491,12 @@
 <td><p>2024-10-31</p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/1ea16524353888a587086a0830cba8c6d08b90ec">1ea16524</a></p></td>
 <td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/IFC102_Absence-of-deprecated-entities.feature">view</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>v6</p></td>
+<td><p>n/a</p></td>
+<td><p>2026-10-29</p></td>
+<td><p><a class="reference external" href="https://github.com/buildingSMART/ifc-gherkin-rules/commit/b775c4de11ed7d669ab190b68ced12500a9943d7">b775c4de</a></p></td>
+<td><p>n/a</p></td>
 </tr>
 </tbody>
 </table>

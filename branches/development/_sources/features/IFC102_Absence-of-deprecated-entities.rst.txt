@@ -1,10 +1,10 @@
-``IFC102`` Absence of deprecated entities - v5
+``IFC102`` Absence of deprecated entities - v6
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
 
    001 | \@IFC
-   002 | \@version5
+   002 | \@version6
    003 | \@implementer-agreement
    004 | Feature: IFC102 - Absence of deprecated entities
    005 | 
@@ -112,7 +112,7 @@
    107 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    108 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    109 | 
-   110 |     :doc:`Then .\<Attribute\>. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   110 |     :doc:`Then .\<Attribute\>. ^is^ ^null^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalnull>`
    111 | 
    112 |     Examples:
    113 |       | Entity                    | Attribute                      |
@@ -146,7 +146,7 @@
    141 |     :doc:`Given A model with Schema 'IFC4' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    142 |     :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    143 | 
-   144 |     :doc:`Then .\<Attribute\>. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   144 |     :doc:`Then .\<Attribute\>. ^is^ ^null^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalnull>`
    145 | 
    146 |     Examples:
    147 |       | Entity                        | Attribute                     |
@@ -186,7 +186,7 @@
    181 |       :doc:`Given A model with Schema 'IFC2X3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
    182 |       :doc:`Given an .\<Entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
    183 | 
-   184 |       :doc:`Then .\<Attribute\>. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   184 |       :doc:`Then .\<Attribute\>. ^is^ ^null^ </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalnull>`
    185 | 
    186 |     Examples:
    187 |       | Entity                        | Attribute                     |
@@ -369,3 +369,8 @@
      - 2024-10-31
      - :commit:`1ea16524353888a587086a0830cba8c6d08b90ec`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.8/features/IFC102_Absence-of-deprecated-entities.feature>`_
+   * - v6
+     - n/a
+     - 2026-10-29
+     - :commit:`b775c4de11ed7d669ab190b68ced12500a9943d7`
+     - n/a

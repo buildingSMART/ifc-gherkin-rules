@@ -1,0 +1,168 @@
+\ .\ ``attribute``\ .\  \ ^\ ``comparison_operator:equal_or_not_equal``\ ^\  \ ^\ null\ ^\ 
+===========================================================================================
+
+.. container:: prewrap
+
+   | .Attribute. ^is^ ^null^      -> the attribute is not provided: '$' in the exchange structure (ISO 10303-21, 12.2.2),
+   | None in IfcOpenShell
+   | .Attribute. ^is not^ ^null^  -> the attribute has a value
+   | 
+   | Unlike 'empty' below, an empty string '' and falsy values such as 0., 0 or .F. are values, not null.
+   | Registered before the generic comparison so that ^null^ is not parsed as a literal {value}.
+
+Usages:
+~~~~~~~
+
+ - **Then** *.BuildingAddress. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.ElevationOfRefHeight. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.ElevationOfTerrain. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.Elevation. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.PointOfReferenceHatchLine. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.Addresses. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.ConstructionType. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.SteelGrade. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.RelatedObjectsType. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.LandTitleNumber. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.SiteAddress. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.NumberOfRisers. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.NumberOfTreads. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.RiserHeight. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.TreadLength. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.DiffuseTransmissionColour. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.ReflectionColour. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.TransmissionColour. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.Parameter. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.NominalDiameter. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.CrossSectionArea. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+
+ - **Then** *.ShapeAspectStyle. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.PointOfReferenceHatchLine. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.SteelGrade. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.RelatedObjectsType. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.NumberOfRisers. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.NumberOfTreads. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.RiserHeight. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.TreadLength. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.NominalDiameter. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.CrossSectionArea. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.TensionForce. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.PreStress. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.FrictionCoefficient. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.AnchorageSlip. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.MinCurvatureRadius. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.SheathDiameter. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+
+ - **Then** *.PointOfReferenceHatchLine. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:184
+
+

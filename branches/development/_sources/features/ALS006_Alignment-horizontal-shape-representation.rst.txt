@@ -41,7 +41,7 @@
      - :commit:`734144034ffd50035aed37d78854b7eb3bc718b9`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS006_Alignment-horizontal-shape-representation.feature>`_
    * - v2
-     - n/a
+     - :tag:`v1.0.5`
      - 2026-09-18
      - :commit:`6fd30bbf05ffb32ffb57aa7aa4bec616f9a6847f`
-     - n/a
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.5/features/rules/ALS/ALS006_Alignment-horizontal-shape-representation.feature>`_

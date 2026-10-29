@@ -3,6 +3,7 @@ Behave Step Implementations
 
 .. toctree::
 
+  stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalnull
   stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue
   thensalignmentpy_schema_constructmustbeequaltothecalculatedlinearplacement
   givensrelationshipspy_Arequiredrelationshiprelationshipdir1from_toentitydir2from_toother_entity

@@ -7,6 +7,28 @@ from . import ValidationOutcome, OutcomeSeverity
 
 from utils.ifc import check_entity_type
 
+@gherkin_ifc.step(".{attribute}. ^{comparison_operator:equal_or_not_equal}^ ^null^")
+def step_impl_null(context, inst, comparison_operator, attribute):
+    """
+    .Attribute. ^is^ ^null^      -> the attribute is not provided: '$' in the exchange structure (ISO 10303-21, 12.2.2),
+                                    None in IfcOpenShell
+    .Attribute. ^is not^ ^null^  -> the attribute has a value
+
+    Unlike 'empty' below, an empty string '' and falsy values such as 0., 0 or .F. are values, not null.
+    Registered before the generic comparison so that ^null^ is not parsed as a literal {value}.
+    """
+    observed_v = getattr(inst, attribute, None)
+    is_null = observed_v is None
+    expect_null = comparison_operator in {"is", "="}
+    if is_null == expect_null:
+        yield ValidationOutcome(inst=inst, severity=OutcomeSeverity.PASSED)
+    else:
+        yield ValidationOutcome(inst=inst,
+                                expected='null' if expect_null else 'not null',
+                                observed='null' if is_null else observed_v,
+                                severity=OutcomeSeverity.ERROR)
+
+
 @gherkin_ifc.step("[{attribute}] ^{comparison_operator:equal_or_not_equal}^ {value}")
 @gherkin_ifc.step("[{attribute}] ^{comparison_operator:equal_or_not_equal}^ {value} ^{subtype_handling:include_or_exclude_subtypes}^")
 @gherkin_ifc.step(".{attribute}. ^{comparison_operator:equal_or_not_equal}^ {value}")
@@ -49,9 +71,7 @@ def step_impl(context, inst, comparison_operator, attribute, value, subtype_hand
             values = check_entity_type(inst, value, subtype_handling)
         entity_is_applicable = pred(values, True)
     else:
-        observed_v = getattr(inst, attribute, ())
-        if observed_v is None or observed_v == '': # other falsy values such as 0. or .F. are not empty
-            observed_v = ()
+        observed_v = getattr(inst, attribute, ()) or ()
         entity_is_applicable = pred(value, observed_v)
 
     if entity_is_applicable:

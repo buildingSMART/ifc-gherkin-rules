@@ -63,12 +63,11 @@ def get_mvd(ifc_file):
 
 
 def get_view_definitions(ifc_file):
-    """All ViewDefinition names in FILE_DESCRIPTION, stripped and without duplicates."""
+    """All ViewDefinition names in FILE_DESCRIPTION, stripped; a name declared twice is listed twice."""
     if not ifc_file.header.file_description.description:
         return []
     view_definitions = ifc_file.mvd.view_definitions or []
-    names = [name.strip() for name in view_definitions if name.strip()]
-    return list(dict.fromkeys(names))
+    return [name.strip() for name in view_definitions if name.strip()]
 
 
 def is_add_on_view(view_definition):

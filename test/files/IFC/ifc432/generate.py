@@ -11,9 +11,9 @@ TEST_FILES = [
      ("ViewDefinition [Alignment-basedView]",)),
     ("pass-ifc432-referenceview_with_comment_and_option.ifc", "IFC4X3_ADD2",
      ("ViewDefinition [ReferenceView]", "Comment [other keywords do not count as a view]", "Option [SplitLevel: On]")),
-    ("pass-ifc432-referenceview_declared_twice.ifc", "IFC4X3_ADD2",
-     ("ViewDefinition [ReferenceView]", "ViewDefinition [ReferenceView]")),
     # fail
+    ("fail-ifc432-scenario01-referenceview_declared_twice.ifc", "IFC4X3_ADD2",
+     ("ViewDefinition [ReferenceView]", "ViewDefinition [ReferenceView]")),
     ("fail-ifc432-scenario01-two_base_mvds_in_separate_strings.ifc", "IFC4X3_ADD2",
      ("ViewDefinition [Alignment-basedView]", "ViewDefinition [ReferenceView]")),  # as seen in a vendor export on PROD
     ("fail-ifc432-scenario01-two_base_mvds_in_one_string.ifc", "IFC4X3_ADD2",

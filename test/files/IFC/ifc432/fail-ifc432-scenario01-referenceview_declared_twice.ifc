@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('ViewDefinition [ReferenceView]','ViewDefinition [ReferenceView]'),'2;1');
-FILE_NAME('pass-ifc432-referenceview_declared_twice.ifc','2026-10-29T18:36:19',(''),(''),'IfcOpenShell contributors - IfcOpenShell - v0.8.6+8b5b400','IfcOpenShell contributors - IfcOpenShell - v0.8.6+8b5b400','');
+FILE_NAME('fail-ifc432-scenario01-referenceview_declared_twice.ifc','2026-10-29T18:36:19',(''),(''),'IfcOpenShell contributors - IfcOpenShell - v0.8.6+8b5b400','IfcOpenShell contributors - IfcOpenShell - v0.8.6+8b5b400','');
 FILE_SCHEMA(('IFC4X3_ADD2'));
 ENDSEC;
 DATA;

@@ -2,7 +2,7 @@ import operator
 import re
 import ifcopenshell
 
-from utils import misc, system, geometry
+from utils import ifc, misc, system, geometry
 from validation_handling import gherkin_ifc
 
 from . import ValidationOutcome, OutcomeSeverity
@@ -196,6 +196,13 @@ def step_impl(context, inst, value_or_comparison_op:str, attribute:str=None, exp
 
 @gherkin_ifc.step("The {field} of the {file_or_model} must be '{values}'")
 def step_impl(context, inst, field, file_or_model, values):
+    if field == "Model View Definition":
+        # base MVDs only, compared case-sensitively
+        official_mvds = misc.strip_split(values, strp="'", splt=" or ", lower=False)
+        for view in ifc.get_base_view_definitions(context.model):
+            if view not in official_mvds:
+                yield ValidationOutcome(inst=inst, expected=list(official_mvds), observed=view, severity=OutcomeSeverity.ERROR)
+        return
     values = misc.strip_split(values, strp="'", splt=" or ")
     if field == "Schema Identifier":
         s = context.model.schema_identifier

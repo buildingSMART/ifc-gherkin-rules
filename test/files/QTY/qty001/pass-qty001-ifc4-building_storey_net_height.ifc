@@ -1,0 +1,16 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('pass-qty001-ifc4-building_storey_net_height.ifc','2026-10-28T00:00:00',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+6180d73f','');
+FILE_SCHEMA(('IFC4'));
+ENDSEC;
+DATA;
+#1=IFCBUILDINGSTOREY('0Qty001StoreyIfc4Pas0A',$,'Level 1',$,$,$,$,$,.ELEMENT.,0.);
+#2=IFCQUANTITYLENGTH('GrossHeight',$,$,3.2,$);
+#3=IFCQUANTITYLENGTH('NetHeight',$,$,2.9,$);
+#4=IFCELEMENTQUANTITY('0Qty001StoreyIfc4Pas0B',$,'Qto_BuildingStoreyBaseQuantities',$,'BaseQuantities',(#2,#3));
+#5=IFCRELDEFINESBYPROPERTIES('0Qty001StoreyIfc4Pas0C',$,$,$,(#1),#4);
+#6=IFCPROJECT('0Qty001StoreyIfc4Pas0D',$,'Project',$,$,$,$,$,$);
+#7=IFCRELAGGREGATES('0Qty001StoreyIfc4Pas0E',$,$,$,#6,(#1));
+ENDSEC;
+END-ISO-10303-21;

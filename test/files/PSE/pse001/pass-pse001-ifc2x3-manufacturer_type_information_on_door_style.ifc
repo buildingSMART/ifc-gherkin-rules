@@ -1,0 +1,13 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0]'),'2;1');
+FILE_NAME('pass-pse001-ifc2x3-manufacturer_type_information_on_door_style.ifc','2026-10-28T00:00:00',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+6180d73f','');
+FILE_SCHEMA(('IFC2X3'));
+ENDSEC;
+DATA;
+#1=IFCPROPERTYSINGLEVALUE('Manufacturer',$,IFCLABEL('Example Doors'),$);
+#2=IFCPROPERTYSINGLEVALUE('ModelLabel',$,IFCLABEL('D-100'),$);
+#3=IFCPROPERTYSET('0Pse001DoorStyle2x3P0A',$,'Pset_ManufacturerTypeInformation',$,(#1,#2));
+#4=IFCDOORSTYLE('0Pse001DoorStyle2x3P0B',$,'Door style',$,$,(#3),$,.SINGLE_SWING_LEFT.,.NOTDEFINED.,.F.,.F.);
+ENDSEC;
+END-ISO-10303-21;

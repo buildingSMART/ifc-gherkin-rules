@@ -9,6 +9,7 @@ import re
 from typing import List, Dict
 
 import ifcopenshell
+import ifcopenshell.util.schema
 from ifcopenshell.util.unit import convert
 from validation_handling import gherkin_ifc
 from utils import ifc, misc, system
@@ -304,13 +305,17 @@ def step_impl(context, inst, table, inst_type=None):
                 except:
                     return False
 
+            # IFC names the abstract type roots the other way round: IfcTypeProduct, IfcTypeObject
+            type_name_aliases = {"IfcProduct": "IfcTypeProduct", "IfcObject": "IfcTypeObject"}
             correct_type1 = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities']
-                             if (schema_has_declaration_name(accepted_object + "Type") and obj.is_a(
-                    accepted_object + "Type"))]
-            # in rare occasions (IfcWindow and IfcDoor) in IFC4, the Type object is named IfcDoorStyle
+                             for type_name in (accepted_object + "Type", type_name_aliases.get(accepted_object))
+                             if type_name and schema_has_declaration_name(type_name) and obj.is_a(type_name)]
+            # IfcDoor / IfcWindow types are named IfcDoorStyle / IfcWindowStyle (IFC2X3, deprecated in IFC4) and derive
+            # from IfcTypeProduct, not IfcElementType: accept them for every entity that IfcDoor / IfcWindow inherit from
+            style_occurrence = next((occ for occ in ("IfcDoor", "IfcWindow") if obj.is_a(occ + "Style")), None)
             correct_type2 = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities']
-                             if (schema_has_declaration_name(accepted_object + "Style") and obj.is_a(
-                    accepted_object + "Style"))]
+                             if style_occurrence and ifcopenshell.util.schema.is_a(
+                                 obj.wrapped_data.declaration().schema().declaration_by_name(style_occurrence), accepted_object)]
             correct = functools.reduce(operator.add, (correct, correct_type1, correct_type2))
 
             if not any(correct):

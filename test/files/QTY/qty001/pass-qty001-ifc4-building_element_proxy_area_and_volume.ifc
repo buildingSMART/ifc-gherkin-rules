@@ -1,0 +1,14 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('ViewDefinition [ReferenceView_V1.2]'),'2;1');
+FILE_NAME('pass-qty001-ifc4-building_element_proxy_area_and_volume.ifc','2026-10-28T00:00:00',(''),(''),'','IfcOpenShell contributors - IfcOpenShell - v0.7.0+6180d73f','');
+FILE_SCHEMA(('IFC4'));
+ENDSEC;
+DATA;
+#1=IFCBUILDINGELEMENTPROXY('0Qty001ProxyIfc4Pass0A',$,'Proxy',$,$,$,$,$,$);
+#2=IFCQUANTITYAREA('NetSurfaceArea',$,$,12.5,$);
+#3=IFCQUANTITYVOLUME('NetVolume',$,$,3.75,$);
+#4=IFCELEMENTQUANTITY('0Qty001ProxyIfc4Pass0B',$,'Qto_BuildingElementProxyQuantities',$,'BaseQuantities',(#2,#3));
+#5=IFCRELDEFINESBYPROPERTIES('0Qty001ProxyIfc4Pass0C',$,$,$,(#1),#4);
+ENDSEC;
+END-ISO-10303-21;

@@ -126,7 +126,7 @@ do not export any entities that are outside the scope of this MVD.
       | IfcMaterialProfileWithOffsets                |
       | IfcMaterialRelationship                      |
       | IfcMaterialUsageDefinition                   |
-      | IfcMapConversionScaled
+      | IfcMapConversionScaled                       |
       | IfcMetric                                    |
       | IfcMirroredProfileDef                        |
       | IfcObjective                                 |

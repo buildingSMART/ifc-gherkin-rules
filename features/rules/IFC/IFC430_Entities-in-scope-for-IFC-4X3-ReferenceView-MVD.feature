@@ -1,5 +1,5 @@
 @IFC
-@version2
+@version3
 @industry-practice
 Feature: IFC430 - Entities in scope for IFC 4X3 ReferenceView MVD
 

@@ -3,12 +3,7 @@
 @implementer-agreement
 Feature: PSE003 - Absence of deprecated properties
 
-The rule verifies that standard property sets (property sets with a name starting with 'Pset_') do not contain properties that are marked as deprecated in the IFC specification.
-By definition, a deprecated property shall no longer be used by applications that export IFC.
-Complying interpreters shall still be able to import deprecated definitions.
-IFC4.3: the property 'Reference' is deprecated in every standard property set that defines it
-("IFC4.3.0.0 DEPRECATION The Reference property is deprecated and shall no longer be used, use attribute Name on the relating type instead").
-The property 'Reference' is not deprecated in IFC4 and IFC2X3.
+The rule verifies that standard property sets (Pset_*) do not contain deprecated properties.
 
 
   Scenario: Check for deprecated property - IFC4.3

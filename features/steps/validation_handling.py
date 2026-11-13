@@ -153,6 +153,17 @@ def handle_given(context, fn, **kwargs):
 
     # print('>', getattr(context, 'instances', ()))
 
+    if context.config.verbose:
+        def instance_to_str(v):
+            if isinstance(v, (list, tuple)):
+                return type(v)(map(instance_to_str, v))
+            elif isinstance(v, ifcopenshell.entity_instance):
+                return str(v)
+            else:
+                return v
+        if insts := getattr(context, 'instances', None):
+            print('>', list(map(instance_to_str, insts)))
+
 
 def is_nested(val):
     return isinstance(val, (tuple, list, misc.PackedSequence))

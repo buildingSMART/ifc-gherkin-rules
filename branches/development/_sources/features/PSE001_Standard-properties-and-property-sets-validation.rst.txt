@@ -1,11 +1,11 @@
-``PSE001`` Standard properties and property sets validation - v3
+``PSE001`` Standard properties and property sets validation - v4
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
 
    001 | \@implementer-agreement
    002 | \@PSE
-   003 | \@version3
+   003 | \@version4
    004 | Feature: PSE001 - Standard properties and property sets validation
    005 | The rule verifies that each IfcPropertySet starting with 'Pset\_' is defined correctly.
    006 | 
@@ -64,3 +64,8 @@
      - 2025-02-27
      - :commit:`8f4976cba3bc740263ce20838b089f5f896fc813`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.1/features/rules/PSE/PSE001_Standard-properties-and-property-sets-validation.feature>`_
+   * - v4
+     - n/a
+     - 2026-11-13
+     - :commit:`2a0c37ab6cc88f0e325a75b0ead70cc903cd58a2`
+     - n/a

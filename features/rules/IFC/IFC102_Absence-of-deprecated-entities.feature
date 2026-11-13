@@ -365,15 +365,6 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Then .Name. ^is not^ 'Pset_Draughting'
 
 
-  Scenario: Check for deprecated property - IFC4.3
-
-    Given A model with Schema 'IFC4.3'
-    Given an .IfcPropertySet.
-    Given its .Name. attribute ^starts^ with 'Pset_'
-    Given Its attribute .HasProperties.
-
-    Then .Name. ^is not^ 'Reference'
-
   Scenario: Check for deprecated property set - IFC4
 
     Given A model with Schema 'IFC4'

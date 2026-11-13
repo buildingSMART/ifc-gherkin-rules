@@ -1,10 +1,10 @@
-``IFC430`` Entities in scope for IFC 4X3 ReferenceView MVD - v2
+``IFC430`` Entities in scope for IFC 4X3 ReferenceView MVD - v3
 ========================================================================================================================================================================================================
 
 .. parsed-literal::
 
    001 | \@IFC
-   002 | \@version2
+   002 | \@version3
    003 | \@industry-practice
    004 | Feature: IFC430 - Entities in scope for IFC 4X3 ReferenceView MVD
    005 | 
@@ -136,7 +136,7 @@
    131 |       | IfcLinearPlacement                           |
    132 |       | IfcLoop                                      |
    133 |       | IfcLShapeProfileDef                          |
-   134 |       | IfcMapConversionScaled
+   134 |       | IfcMapConversionScaled                       |
    135 |       | IfcMaterialClassificationRelationship        |
    136 |       | IfcMaterialDefinitionRepresentation          |
    137 |       | IfcMaterialLayerSetUsage                     |
@@ -351,3 +351,8 @@
      - 2026-08-01
      - :commit:`231d9d455aae593d4802081ebc723435c10e0775`
      - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.3/features/rules/IFC/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD.feature>`_
+   * - v3
+     - n/a
+     - 2026-11-13
+     - :commit:`5c7ba5ac5f6ea01366da1576593b1872886ae0e3`
+     - n/a

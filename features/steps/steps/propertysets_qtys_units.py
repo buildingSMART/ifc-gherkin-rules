@@ -304,9 +304,14 @@ def step_impl(context, inst, table, inst_type=None):
                 except:
                     return False
 
+            # IFC names the abstract type roots the other way round (IfcTypeProduct, IfcTypeObject), and the door and window
+            # types IfcDoorStyle / IfcWindowStyle (IFC2X3, deprecated in IFC4) derive from IfcTypeProduct, not IfcElementType
+            type_name_aliases = {"IfcProduct": ("IfcTypeProduct",), "IfcObject": ("IfcTypeObject",),
+                                 "IfcElement": ("IfcDoorStyle", "IfcWindowStyle"),
+                                 "IfcBuildingElement": ("IfcDoorStyle", "IfcWindowStyle")}
             correct_type1 = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities']
-                             if (schema_has_declaration_name(accepted_object + "Type") and obj.is_a(
-                    accepted_object + "Type"))]
+                             for type_name in (accepted_object + "Type", *type_name_aliases.get(accepted_object, ()))
+                             if schema_has_declaration_name(type_name) and obj.is_a(type_name)]
             # in rare occasions (IfcWindow and IfcDoor) in IFC4, the Type object is named IfcDoorStyle
             correct_type2 = [accepted_object.lower() for accepted_object in accepted_values['applicable_entities']
                              if (schema_has_declaration_name(accepted_object + "Style") and obj.is_a(

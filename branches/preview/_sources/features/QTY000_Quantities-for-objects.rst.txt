@@ -1,0 +1,40 @@
+``QTY000`` Quantities for objects - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@QTY
+   003 | \@version1
+   004 | 
+   005 | Feature: QTY000 - Quantities for Objects
+   006 |     The rule verifies the presence of IFC entities used to define quantities of elements, such as their dimensions, volume, area, weight.
+   007 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object\_Definition/Quantity\_Sets/content.html
+   008 | 
+   009 | 
+   010 |     Scenario: Check for activation
+   011 | 
+   012 |     :doc:`Given an .IfcObject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     :doc:`Given its attribute .IsDefinedBy. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 |     :doc:`Given [its entity type] ^is^ 'IfcRelDefinesByProperties' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   015 |     :doc:`Given its attribute .RelatingPropertyDefinition. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |     :doc:`Given [its entity type] ^is^ 'IfcElementQuantity' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 | 
+   018 |     :doc:`Then The IFC model contains information on quantities of elements </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   019 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-08-19
+     - :commit:`76eeaaff1c1884ef512ffc6d378a7b26c1aa405a`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/QTY000_Quantities-for-objects.feature>`_

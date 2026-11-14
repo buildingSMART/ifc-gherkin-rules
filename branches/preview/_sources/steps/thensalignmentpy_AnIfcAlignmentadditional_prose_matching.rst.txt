@@ -1,0 +1,11 @@
+An \ .\ IfcAlignment\ .\  [``additional_prose_matching``]
+=========================================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *An .IfcAlignment. [with business logic and geometric representation]*
+
+   :doc:`/features/ALB021_Alignment-overall-agreement-of-business-logic-and-geometry`:11
+
+

@@ -1,0 +1,15 @@
+The values grouped pairwise at depth ``ignored:d``
+==================================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *The values grouped pairwise at depth 3*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:25
+
+ - **Given** *The values grouped pairwise at depth 3*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:23
+
+

@@ -1,0 +1,52 @@
+``BLT001`` Correct use of operation type attributes for doors - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@BLT
+   003 | \@version1
+   004 | 
+   005 | Feature: BLT001 - Correct use of operation type attributes for doors
+   006 | 
+   007 |   The rule verifies that attribute UserDefinedOperationType is provided only when
+   008 |   the value of the attribute OperationType is set to USERDEFINED.
+   009 |   Additionally, when an IfcDoor is assigned an IfcDoorType, the type should
+   010 |   dictate the OperationType, and the instance should not override it.
+   011 | 
+   012 | Scenario Outline: Correct values for OperationType and UserDefinedOperationType
+   013 | 
+   014 |   :doc:`Given an .\<entity\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   015 |   :doc:`Given .UserDefinedOperationType. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   016 |   :doc:`Given .IsTypedBy. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   017 | 
+   018 |   :doc:`Then .OperationType. ^is^ 'USERDEFINED' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   019 | 
+   020 |   Examples:
+   021 |     | entity |
+   022 |     | IfcDoor |
+   023 |     | IfcDoorType |
+   024 | 
+   025 | 
+   026 | Scenario: Correct IfcOperationType with relating type object
+   027 | 
+   028 |   :doc:`Given an .IfcDoor. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   029 |   :doc:`Given a relationship .IfcRelDefinesByType. to .IfcDoor. from .IfcDoorType. </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entity>`
+   030 | 
+   031 |   :doc:`Then .OperationType. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-16
+     - :commit:`d196cf976000054a4c2f0f752fa8292ef33e4325`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/BLT001_Correct-use-of-operation-type-attributes-for-doors.feature>`_

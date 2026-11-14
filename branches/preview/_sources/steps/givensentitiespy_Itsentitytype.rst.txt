@@ -1,0 +1,27 @@
+Its entity type
+===============
+
+Usages:
+~~~~~~~
+
+ - **Given** *its entity type*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:25
+
+ - **Given** *its entity type*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:42
+
+ - **Given** *its entity type*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:56
+
+ - **Given** *its entity type*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:25
+
+ - **Given** *its entity type*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:40
+
+

@@ -1,0 +1,11 @@
+the boundaries of the face must conform to the implicit plane fitted through the boundary points
+================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *the boundaries of the face must conform to the implicit plane fitted through the boundary points*
+
+   :doc:`/features/BRP003_Planar-faces-are-planar`:11
+
+

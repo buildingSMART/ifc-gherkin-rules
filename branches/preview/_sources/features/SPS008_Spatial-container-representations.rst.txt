@@ -1,0 +1,61 @@
+``SPS008`` Spatial container representations - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@industry-practice
+   002 | \@SPS
+   003 | \@version1
+   004 | 
+   005 | Feature: SPS008 - Spatial Container Representations
+   006 |   The rule verifies that certain spatial containers do not have a geometric representation,
+   007 |   but are rather solely a container for other elements or aggregated into other facility parts.
+   008 | 
+   009 | 
+   010 |   Scenario: Instances of IfcBuildingStorey must not have an independent representation
+   011 | 
+   012 |     :doc:`Given an .IfcBuildingStorey. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 | 
+   014 |     :doc:`Then .Representation. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   015 | 
+   016 | 
+   017 |   Scenario: Instances of IfcSite must not have an independent representation
+   018 | 
+   019 |     :doc:`Given a model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   020 |     :doc:`Given an .IfcSite. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   021 | 
+   022 |     :doc:`Then .Representation. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   023 | 
+   024 | 
+   025 |   Scenario Outline: Instances of infrastructure facilities must not have an independent representation
+   026 | 
+   027 |     :doc:`Given a model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   028 |     :doc:`Given an .\<infrastructure\_facility\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   029 | 
+   030 |     :doc:`Then .Representation. ^is^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   031 | 
+   032 |     Examples:
+   033 | 
+   034 |       | infrastructure\_facility |
+   035 |       | IfcBridge               |
+   036 |       | IfcMarineFacility       |
+   037 |       | IfcRailway              |
+   038 |       | IfcRoad                 |
+   039 | 
+   040 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.7`
+     - 2025-06-10
+     - :commit:`631cd94e076b54be5962cb162280bfaa8ca12e3e`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/SPS/SPS008_Spatial-container-representations.feature>`_

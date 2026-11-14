@@ -1,0 +1,23 @@
+Its ``first_or_final:first_or_final`` element at depth ``ignored:d``
+====================================================================
+
+Usages:
+~~~~~~~
+
+ - **Given** *Its final element at depth 1*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:13
+
+ - **Given** *Its final element at depth 1*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:21
+
+ - **Given** *Its final element at depth 1*
+
+   :doc:`/features/ALB015_Alignment-business-logic-zero-length-final-segment`:29
+
+ - **Given** *Its final element at depth 3*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:17
+
+

@@ -1,0 +1,63 @@
+``GRF004`` Valid EPSG prefix in coordinate reference system - v2
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GRF
+   003 | \@version2
+   004 | Feature: GRF004 - Valid EPSG prefix in coordinate reference system
+   005 | The rule verifies that if the name of a CRS starts with "EPSG:", it must refer to a valid coordinate reference system code from the official EPSG geodetic parameter dataset,
+   006 | and that if the geodetic datum or vertical datum starts with "EPSG:", it must identify a datum of the matching kind (reference frame or datum ensemble)
+   007 | or a geographic / vertical CRS that is defined on such a datum. Datums given by name are accepted when the name matches an EPSG datum or CRS of the matching kind exactly,
+   008 | or is a geodetic datum key of the CS-MAP catalogue. A name of a datum of the other kind is an error; other names are not checked.
+   009 | EPSG code validation is performed using the pyproj library, which includes a local copy of the official EPSG dataset (https://epsg.org) maintained by IOGP.
+   010 | For reference: https://pyproj4.github.io/pyproj/stable/api/database.html
+   011 | 
+   012 |   Background:
+   013 | 
+   014 |       :doc:`Given A model with Schema 'IFC4' or 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   015 | 
+   016 |   Scenario: Validate EPSG code for the name of IfcCoordinateReferenceSystem
+   017 | 
+   018 |       :doc:`Given An .IfcCoordinateReferenceSystem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   019 |       :doc:`Given Its attribute .Name. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   020 |       :doc:`Given Its value ^starts^ with 'EPSG:' </steps/givensattributespy_Itsvalueprefix_conditionprefix_conditionwithprefix>`
+   021 | 
+   022 |       :doc:`Then The value must refer to a valid EPSG code for a coordinate reference system </steps/stepscrspy_ThevaluemustrefertoavalidEPSGcodeforacoordinatereferencesystem>`
+   023 | 
+   024 |   Scenario: Validate the geodetic datum of IfcCoordinateReferenceSystem
+   025 | 
+   026 |         :doc:`Given An .IfcCoordinateReferenceSystem. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   027 |         :doc:`Given Its attribute .GeodeticDatum. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   028 | 
+   029 |         :doc:`Then The value must identify a [geodetic datum] </steps/stepscrspy_Thevaluemustidentifyageodetic_or_vertical_datumgeodetic_or_vertical_datum>`
+   030 | 
+   031 |   Scenario: Validate the vertical datum of IfcProjectedCRS
+   032 | 
+   033 |       :doc:`Given An .IfcProjectedCRS. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   034 |       :doc:`Given Its attribute .VerticalDatum. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   035 | 
+   036 |       :doc:`Then The value must identify a [vertical datum] </steps/stepscrspy_Thevaluemustidentifyageodetic_or_vertical_datumgeodetic_or_vertical_datum>`
+   037 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.7`
+     - 2025-06-08
+     - :commit:`1b873abc87fa26cbd09fac2909d6ccea52f14546`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.7/features/rules/GRF/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.feature>`_
+   * - v2
+     - :tag:`v1.0.4`
+     - 2026-08-22
+     - :commit:`089d3e7fba1106e8e51b54ac19a511a9f31699c1`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.4/features/rules/GRF/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.feature>`_

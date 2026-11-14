@@ -1,0 +1,11 @@
+Mapped geometry (``MPD``)
+=========================
+
+This involves identifying a representation and a representation item in that representation for the purpose of mapping. The representation item defines the origin of the mapping. The representation map is used as the source of a mapping by a mapped item.
+
+.. toctree::
+
+   :titlesonly:
+
+   MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem
+

@@ -1,0 +1,12 @@
+Quantities for objects (``QTY``)
+================================
+
+The ability to define quantities of elements, such as their dimensions, volume, area, weight.
+
+.. toctree::
+
+   :titlesonly:
+
+   QTY000_Quantities-for-objects
+   QTY001_Standard-quantities-and-quantity-sets-validation
+

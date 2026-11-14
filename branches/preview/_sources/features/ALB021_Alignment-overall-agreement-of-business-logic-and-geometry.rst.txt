@@ -1,0 +1,49 @@
+``ALB021`` Alignment overall agreement of business logic and geometry - v2
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version2
+   004 | 
+   005 | Feature: ALB021 - Alignment overall agreement of business logic and geometry
+   006 |   The rule verifies that when an Alignment has both business logic and geometry (representation),
+   007 |   the representation entity type must correspond to the layouts present in the business logic.
+   008 | 
+   009 | Background: Selecting an alignment that has both business logic and geometric representation
+   010 |   :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |   :doc:`Given An .IfcAlignment. [with business logic and geometric representation] </steps/thensalignmentpy_AnIfcAlignmentadditional_prose_matching>`
+   012 | 
+   013 | Scenario: Validating the presence of cant layout for IfcSegmentedReferenceCurve
+   014 |   :doc:`Then  A representation by .IfcSegmentedReferenceCurve. requires the ^presence^ of .IfcAlignmentCant. in the business logic </steps/thensalignmentpy_Arepresentationbyifc_rep_criteriarequirestheexistenceabsence_or_presenceoflogic_entityinthebusinesslogic>`
+   015 | 
+   016 | Scenario: Validating the presence of vertical layout for IfcGradientCurve
+   017 |   :doc:`Then  A representation by .IfcGradientCurve. requires the ^presence^ of .IfcAlignmentVertical. in the business logic </steps/thensalignmentpy_Arepresentationbyifc_rep_criteriarequirestheexistenceabsence_or_presenceoflogic_entityinthebusinesslogic>`
+   018 | 
+   019 | Scenario: Validating the absence of vertical and cant layout for IfcCompositeCurve as Axis
+   020 |   :doc:`Then A representation by .IfcCompositeCurve as Axis. requires the ^absence^ of .IfcAlignmentVertical and IfcAlignmentCant. in the business logic </steps/thensalignmentpy_Arepresentationbyifc_rep_criteriarequirestheexistenceabsence_or_presenceoflogic_entityinthebusinesslogic>`
+   021 | 
+   022 | Scenario: Validating the absence of cant layout for IfcGradientCurve
+   023 |   :doc:`Then A representation by .IfcGradientCurve. requires the ^absence^ of .IfcAlignmentCant. in the business logic </steps/thensalignmentpy_Arepresentationbyifc_rep_criteriarequirestheexistenceabsence_or_presenceoflogic_entityinthebusinesslogic>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-01-22
+     - :commit:`b3f3302bc9b9ff89f0e8eef4917bcddb012303ff`
+     - n/a
+   * - v2
+     - :tag:`v0.8.0`
+     - 2025-08-28
+     - :commit:`9cefddf80b5ba198e769c6717f39ed3737563ac8`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.0/features/rules/ALB/ALB021_Alignment-overall-agreement-of-business-logic-and-geometry.feature>`_

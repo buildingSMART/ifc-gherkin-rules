@@ -1,0 +1,48 @@
+\( ⚠ ``TAS001`` Polygonal face boundary no self intersections - v2\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@disabled
+   002 | \@informal-proposition
+   003 | \@TAS
+   004 | \@version2
+   005 | Feature: TAS001 - Polygonal face boundary no self-intersections
+   006 | The rule verifies that IfcFace instances do not have any self-intersections in their boundaries.
+   007 | IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) mechanism.
+   008 | 
+   009 |   Scenario: Validating that tessellated face instances do not have self-intersections in their boundaries
+   010 | 
+   011 |     :doc:`Given An .IfcPolygonalFaceSet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |     :doc:`Given Its attribute .Faces. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   013 | 
+   014 |     :doc:`Then There must be no self-intersections for attribute CoordIndex </steps/thensgeometrypy_Theremustbenoselfintersectionsforattributeattr>`
+   015 | 
+   016 |   Scenario: Validating that tessellated face instances with voids do not have self-intersections in their inner boundaries
+   017 | 
+   018 |     :doc:`Given An .IfcPolygonalFaceSet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   019 |     :doc:`Given Its attribute .Faces. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   020 |     :doc:`Given [Its Entity Type] ^is^ 'IfcIndexedPolygonalFaceWithVoids' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   021 | 
+   022 |     :doc:`Then There must be no self-intersections for attribute InnerCoordIndices </steps/thensgeometrypy_Theremustbenoselfintersectionsforattributeattr>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-10-06
+     - :commit:`c66ae40691b617523b473521d0b6c9d1635971b7`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/TAS001_Polygonal-face-boundary-no-self-intersections.feature>`_
+   * - v2
+     - :tag:`v0.8.1`
+     - 2025-09-15
+     - :commit:`f44240213e57c425e95e66a407dce9c3543d938e`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.1/features/rules/TAS/TAS001_Polygonal-face-boundary-no-self-intersections.feature>`_

@@ -1,0 +1,33 @@
+``SPS003`` Correct containment of assemblies - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@SPS
+   003 | \@version1
+   004 | Feature: SPS003 - Correct containment of assemblies
+   005 | The rule verifies that IfcElement that are aggregated in another IfcElement must not be contained using IfcRelContainedInSpatialStructure.
+   006 | 
+   007 |   Scenario: Agreement on aggregated elements not being contained
+   008 | 
+   009 |     :doc:`Given An .IfcElement. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   010 |     :doc:`Given .Decomposes. ^is not^ empty </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   011 | 
+   012 |     :doc:`Then The value of attribute .ContainedInStructure. must be ^empty^ </steps/thensattributespy_Thevalueofattributeattributemustbevalue_or_comparison_op>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-26
+     - :commit:`10425e4626374bb2813c851ed85c32287dbe8ea1`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/SPS003_Correct-containment-of-assemblies.feature>`_

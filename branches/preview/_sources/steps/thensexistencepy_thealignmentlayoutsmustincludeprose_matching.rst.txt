@@ -1,0 +1,24 @@
+the alignment layouts must include [``prose_matching``]
+=======================================================
+
+.. container:: prewrap
+
+   | This implementation is specific to the ALB functional part and validates the proper usage of nesting for alignment layouts.
+   | It must be preceded by a 'Given its attribute .IsNestedBy.' step so that all RelatedObjects are passed as a single object.
+
+Usages:
+~~~~~~~
+
+ - **Then** *the alignment layouts must include [1 horiz] or [1 horiz and 1 vert] or [1 horiz and 1 vert and 1 cant]*
+
+   :doc:`/features/ALB031_Alignment-layouts-default-case`:18
+
+ - **Then** *the alignment layouts must include [1 horiz]*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:18
+
+ - **Then** *the alignment layouts must include [1 vert] or [1 vert and 1 cant]*
+
+   :doc:`/features/ALB032_Alignment-layouts-reusing-horizontal`:24
+
+

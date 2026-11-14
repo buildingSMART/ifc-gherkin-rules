@@ -1,0 +1,11 @@
+A representation must have 2 items for PredefinedType of HELMERTCURVE and 1 item for all other values of PredefinedType
+=======================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *A representation must have 2 items for PredefinedType of HELMERTCURVE and 1 item for all other values of PredefinedType*
+
+   :doc:`/features/ALS010_Alignment-segment-shape-representation-has-the-correct-number-of-items`:12
+
+

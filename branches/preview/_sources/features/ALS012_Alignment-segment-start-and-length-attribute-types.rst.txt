@@ -1,0 +1,51 @@
+``ALS012`` Alignment segment start and length attribute types - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@informal-proposition
+   002 | \@ALS
+   003 | \@version1
+   004 | 
+   005 | Feature: ALS012 - Alignment segment start and length attribute types
+   006 | 
+   007 |   The rule verifies that an alignment segment uses the correct IfcLengthMeasure type
+   008 |   for attributes SegmentStart and SegmentLength.
+   009 |   Ref: [Issue #141](https://github.com/buildingSMART/ifc-gherkin-rules/issues/141)
+   010 | 
+   011 | Scenario Outline: Correct entity type used for SegmentStart and Segment Length
+   012 |   :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   013 |   :doc:`Given An .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |   :doc:`Given Its attribute .Representation. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |   :doc:`Given Its attribute .Representations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 |   :doc:`Given All referenced instances </steps/givensentitiespy_Allreferencedinstances>`
+   017 |   :doc:`Given [Its Entity Type] ^is^ '\<entity\>' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   018 |   :doc:`Given its attribute .Segments. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   019 |   :doc:`Given [Its Entity Type] ^is^ 'IfcCurveSegment' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   020 | 
+   021 |   :doc:`Then The type of attribute .\<attribute\>. must be 'IfcLengthMeasure' </steps/thensattributespy_Thetypeofattributeattributemustbeexpected_entity_type>`
+   022 | 
+   023 |   Examples:
+   024 |     | entity                      | attribute     |
+   025 |     | IfcCompositeCurve           | SegmentStart  |
+   026 |     | IfcCompositeCurve           | SegmentLength |
+   027 |     | IfcGradientCurve            | SegmentStart  |
+   028 |     | IfcGradientCurve            | SegmentLength |
+   029 |     | IfcSegmentedReferenceCurve  | SegmentStart  |
+   030 |     | IfcSegmentedReferenceCurve  | SegmentLength |
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-06-28
+     - :commit:`e6280d3556f121d39b2a8f93d3cc9c8eddae7a29`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALS012_Alignment-segment-start-and-length-attribute-types.feature>`_

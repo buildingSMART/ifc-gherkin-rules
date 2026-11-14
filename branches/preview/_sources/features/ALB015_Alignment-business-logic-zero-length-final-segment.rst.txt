@@ -1,0 +1,57 @@
+``ALB015`` Alignment business logic zero length final segment - v2
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version2
+   004 | 
+   005 | Feature: ALB015 - Alignment business logic zero length final segment
+   006 |   The rule verifies that each layout (horizontal, vertical, cant) of the alignment business logic
+   007 |   ends with a segment of length = 0.
+   008 | 
+   009 |   Scenario: Validating final segment of horizontal alignment business logic
+   010 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   011 |     :doc:`Given An .IfcAlignmentHorizontal. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   012 |     :doc:`Given A relationship .IfcRelNests. from .IfcAlignmentHorizontal. to .IfcAlignmentSegment. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
+   013 |     :doc:`Given Its final element at depth 1 </steps/givensattributespy_Itsfirst_or_finalfirst_or_finalelementatdepthignoredd>`
+   014 |     :doc:`Given Its attribute .DesignParameters. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Then The SegmentLength of the IfcAlignmentHorizontalSegment must be 0 </steps/thensattributespy_Thelength_attributeofthesegment_typemustbe0>`
+   016 | 
+   017 |   Scenario: Validating final segment of vertical alignment business logic
+   018 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   019 |     :doc:`Given An .IfcAlignmentVertical. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   020 |     :doc:`Given A relationship .IfcRelNests. from .IfcAlignmentHorizontal. to .IfcAlignmentSegment. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
+   021 |     :doc:`Given Its final element at depth 1 </steps/givensattributespy_Itsfirst_or_finalfirst_or_finalelementatdepthignoredd>`
+   022 |     :doc:`Given Its attribute .DesignParameters. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   023 |     :doc:`Then The HorizontalLength of the IfcAlignmentVerticalSegment must be 0 </steps/thensattributespy_Thelength_attributeofthesegment_typemustbe0>`
+   024 | 
+   025 |   Scenario: Validating final segment of cant alignment business logic
+   026 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   027 |     :doc:`Given An .IfcAlignmentCant. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   028 |     :doc:`Given A relationship .IfcRelNests. from .IfcAlignmentCant. to .IfcAlignmentSegment. and following that </steps/givensrelationshipspy_Arelationshiprelationshipdir1from_toentitydir2from_toother_entitytailmaybe_and_following_that>`
+   029 |     :doc:`Given Its final element at depth 1 </steps/givensattributespy_Itsfirst_or_finalfirst_or_finalelementatdepthignoredd>`
+   030 |     :doc:`Given Its attribute .DesignParameters. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   031 |     :doc:`Then The HorizontalLength of the IfcAlignmentCantSegment must be 0 </steps/thensattributespy_Thelength_attributeofthesegment_typemustbe0>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2024-01-14
+     - :commit:`bbe4a1544b23ea93d507fba705559d3f2579d218`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB015_Alignment-business-logic-zero-length-final-segment.feature>`_
+   * - v2
+     - :tag:`v0.6.6`
+     - 2024-04-30
+     - :commit:`321a46ccd808c0b20145458e99965290cc0cc845`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB015_Alignment-business-logic-zero-length-final-segment.feature>`_

@@ -1,0 +1,12 @@
+Groups (``GRP``)
+================
+
+The ability to group objects related by functional or logical criteria. Used, for example to model building systems, such as HVAC (heating, ventilation, and air conditioning) systems; to group assets that have the same maintenance schedule; to group all terminals of a fire-protection system.
+
+.. toctree::
+
+   :titlesonly:
+
+   GRP000_Groups
+   GRP001_Acyclic-groups
+

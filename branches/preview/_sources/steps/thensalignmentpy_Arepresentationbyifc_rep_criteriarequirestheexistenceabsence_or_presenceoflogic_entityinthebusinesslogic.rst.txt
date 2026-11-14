@@ -1,0 +1,23 @@
+A representation by \ .\ ``ifc_rep_criteria``\ .\  requires the \ ^\ ``existence:absence_or_presence``\ ^\  of \ .\ ``logic_entity``\ .\  in the business logic
+===============================================================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *A representation by .IfcSegmentedReferenceCurve. requires the ^presence^ of .IfcAlignmentCant. in the business logic*
+
+   :doc:`/features/ALB021_Alignment-overall-agreement-of-business-logic-and-geometry`:14
+
+ - **Then** *A representation by .IfcGradientCurve. requires the ^presence^ of .IfcAlignmentVertical. in the business logic*
+
+   :doc:`/features/ALB021_Alignment-overall-agreement-of-business-logic-and-geometry`:17
+
+ - **Then** *A representation by .IfcCompositeCurve as Axis. requires the ^absence^ of .IfcAlignmentVertical and IfcAlignmentCant. in the business logic*
+
+   :doc:`/features/ALB021_Alignment-overall-agreement-of-business-logic-and-geometry`:20
+
+ - **Then** *A representation by .IfcGradientCurve. requires the ^absence^ of .IfcAlignmentCant. in the business logic*
+
+   :doc:`/features/ALB021_Alignment-overall-agreement-of-business-logic-and-geometry`:23
+
+

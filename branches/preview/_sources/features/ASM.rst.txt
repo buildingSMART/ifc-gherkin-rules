@@ -1,0 +1,11 @@
+Assemblies (``ASM``)
+====================
+
+The ability to model elements composed of / constructed by other elements. For example, a roof might be assembled from a series of prefabricated truss components.
+
+.. toctree::
+
+   :titlesonly:
+
+   ASM000_Composed-elements
+

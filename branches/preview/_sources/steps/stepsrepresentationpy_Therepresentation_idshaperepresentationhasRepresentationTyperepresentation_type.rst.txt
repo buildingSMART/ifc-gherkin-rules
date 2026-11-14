@@ -1,0 +1,15 @@
+The ``representation_id`` shape representation has RepresentationType "``representation_type``"
+===============================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The Body shape representation has RepresentationType "SweptSolid, Clipping, Brep, Tessellation"*
+
+   :doc:`/features/GEM002_Space-representation`:13
+
+ - **Given** *The Body shape representation has RepresentationType "Brep"*
+
+   :doc:`/features/GEM002_Space-representation`:19
+
+

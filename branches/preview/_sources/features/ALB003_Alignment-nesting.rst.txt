@@ -1,0 +1,36 @@
+``ALB003`` Alignment nesting - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | 
+   005 | Feature: ALB003 - Alignment Nesting
+   006 | The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts)
+   007 | or with Referents (e.g., mileage markers). And not with any other entity.
+   008 | 
+   009 | 
+   010 |   Scenario: Agreement on nested elements of IfcAlignment
+   011 | 
+   012 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   013 |     :doc:`Given an .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 | 
+   015 |     :doc:`Then It [must be nested by only the following entities]: .IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent. </steps/thensnestingpy_Itmustbenestedbyonlythefollowingentitiesother_entities>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-01-16
+     - :commit:`a714b1fe1d248d1e9088db3432d9d51487c01331`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB003_Alignment-nesting.feature>`_

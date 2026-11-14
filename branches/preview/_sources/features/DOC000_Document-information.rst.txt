@@ -1,0 +1,44 @@
+``DOC000`` Document information - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@DOC
+   003 | \@version1
+   004 | 
+   005 | Feature: DOC000 - Document information
+   006 |     The rule verifies the presence of IFC entities used to define external documents, which may be used to attach arbitrary information to objects.
+   007 |     https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project\_Context/Project\_Document\_Information/content.html
+   008 | 
+   009 |     Scenario Outline: IFC model with external document references
+   010 |     :doc:`Given an .\<entity type\>. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 |     :doc:`Given its attribute .HasAssociations. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 |     :doc:`Given [its entity type] ^is^ 'IfcRelAssociatesDocument' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   013 | 
+   014 |     :doc:`Then The IFC model contains information on external documents </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+   015 | 
+   016 |     Examples:
+   017 |         | entity type |
+   018 |         | IfcContext  |
+   019 |         | IfcObject   |
+   020 | 
+   021 | 
+   022 | 
+   023 | 
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v1.0.0`
+     - 2026-03-02
+     - :commit:`b06c21c480d1886315f5a9b8558eec3d33d77e6a`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/1.0.0/features/rules/DOC/DOC000_Document-information.feature>`_

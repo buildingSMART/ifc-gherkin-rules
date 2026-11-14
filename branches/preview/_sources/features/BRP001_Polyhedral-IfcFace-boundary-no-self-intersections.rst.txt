@@ -1,0 +1,43 @@
+\( ⚠ ``BRP001`` Polyhedral IfcFace boundary no self intersections - v2\) \(disabled\)
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@disabled
+   002 | \@informal-proposition
+   003 | \@BRP
+   004 | \@version2
+   005 | 
+   006 | Feature: BRP001 - Polyhedral IfcFace boundary no self-intersections
+   007 | The rule verifies that IfcFace instances do not have any self-intersections in their boundaries.
+   008 | IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) mechanism.
+   009 | 
+   010 |   Scenario: Validating that polyhedral IfcFace instances do not have self-intersections in their boundaries
+   011 | 
+   012 |     :doc:`Given An .IfcFace. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 |     :doc:`Given Its attribute .Bounds. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   014 |     :doc:`Given Its attribute .Bound. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   015 |     :doc:`Given [Its Entity Type] ^is^ 'IfcPolyLoop' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   016 | 
+   017 |     :doc:`Then There must be no self-intersections </steps/thensgeometrypy_Theremustbenoselfintersections>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.7`
+     - 2024-10-06
+     - :commit:`86c398383f51316bdb960d41a9b83148da12104a`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.7/features/BRP001_Polyhedral-IfcFace-boundary-no-self-intersections.feature>`_
+   * - v2
+     - :tag:`v0.8.1`
+     - 2025-09-15
+     - :commit:`f44240213e57c425e95e66a407dce9c3543d938e`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.8.1/features/rules/BRP/BRP001_Polyhedral-IfcFace-boundary-no-self-intersections.feature>`_

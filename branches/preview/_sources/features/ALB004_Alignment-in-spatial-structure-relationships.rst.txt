@@ -1,0 +1,35 @@
+``ALB004`` Alignment in spatial structure relationships - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@ALB
+   003 | \@version1
+   004 | 
+   005 | Feature: ALB004 - Alignment in spatial structure relationships
+   006 | The rule verifies that each IfcAlignment must be related to IfcProject using the IfcRelAggregates relationship - either directly or indirectly. The indirect case is when a child alignment is aggregated to a parent alignment.
+   007 | In this case, only the parent alignment shall be related to the project.
+   008 | 
+   009 |   Scenario: Agreement on each IfcAlignment being aggregated to IfcProject
+   010 | 
+   011 |       :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   012 |       :doc:`Given an .IfcAlignment. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   013 | 
+   014 |       :doc:`Then It must be aggregated to IfcProject directly or indirectly </steps/thensrelationspy_Itdecisionbeaggregated_or_contained_or_positionedaggregated_or_contained_or_positionedprepositionother_entitycondition>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-21
+     - :commit:`05329ef21559fc1de7113626f716ead32a5b0320`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/ALB004_Alignment-in-spatial-structure-relationships.feature>`_

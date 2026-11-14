@@ -1,0 +1,35 @@
+``LOP000`` Local placement - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@LOP
+   003 | \@version1
+   004 | Feature: LOP000 - Local placement
+   005 | The rule verifies the presence of IFC entities used to position a product in relation to the placement of another product;
+   006 | or its absolute placement within the geometric representation context of the project.
+   007 | 
+   008 |   Scenario: Check for activation .
+   009 | 
+   010 |       :doc:`Given An .IfcObject. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   011 |       :doc:`Given Its attribute .ObjectPlacement. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   012 |       :doc:`Given [Its entity type] ^is^ 'IfcLocalPlacement' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+   013 | 
+   014 |       :doc:`Then The IFC model contains information on the selected functional part </steps/thensexistencepy_TheIFCmodelcontainsinformationonfunctional_part_description>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.7.3`
+     - 2025-03-28
+     - :commit:`a53efba7cd4d1d92b2a949bb4b015df6728c9724`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.7.3/features/rules/LOP/LOP000_Local-placement.feature>`_

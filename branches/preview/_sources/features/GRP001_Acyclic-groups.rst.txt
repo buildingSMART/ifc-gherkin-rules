@@ -1,0 +1,32 @@
+``GRP001`` Acyclic groups - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@implementer-agreement
+   002 | \@GRP
+   003 | \@version1
+   004 | Feature: GRP001 - Acyclic groups
+   005 | The rule verifies that an IfcGroup does not reference itself, not even through intermediary entities.
+   006 | 
+   007 |   Scenario: Agreement on IfcGroup (and hence systems) being acyclic
+   008 | 
+   009 |     :doc:`Given an .IfcGroup. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   010 | 
+   011 |     :doc:`Then It must not be referenced by itself directly or indirectly </steps/thensrelationspy_Itmustnotbereferencedbyitselfdirectlyorindirectly>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - :tag:`v0.6.6`
+     - 2023-09-26
+     - :commit:`ba6fe76dab590d0bb1d8ba8e8eab7a254a8795c2`
+     - `view <https://github.com/buildingSMART/ifc-gherkin-rules/blob/release/0.6.6/features/GRP001_Acyclic-groups.feature>`_

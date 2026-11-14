@@ -1,0 +1,15 @@
+Each associated \ .\ ``inst_type:property_or_physical_quantity``\ .\  must be of valid entity type [according to the table] '``table``'
+=======================================================================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *Each associated .IfcProperty. must be of valid entity type [according to the table] 'pset_definitions'*
+
+   :doc:`/features/PSE001_Standard-properties-and-property-sets-validation`:29
+
+ - **Then** *Each associated .IfcPhysicalQuantity. must be of valid entity type [according to the table] 'qto_definitions'*
+
+   :doc:`/features/QTY001_Standard-quantities-and-quantity-sets-validation`:29
+
+

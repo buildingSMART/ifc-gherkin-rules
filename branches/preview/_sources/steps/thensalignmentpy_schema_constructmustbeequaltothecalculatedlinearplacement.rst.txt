@@ -1,0 +1,11 @@
+\ .\ ``schema_construct``\ .\  must be *equal to* [the calculated linear placement]
+===================================================================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *.CartesianPosition. must be *equal to* [the calculated linear placement]*
+
+   :doc:`/features/LIP002_Linear-placement-fallback-coordinates`:18
+
+

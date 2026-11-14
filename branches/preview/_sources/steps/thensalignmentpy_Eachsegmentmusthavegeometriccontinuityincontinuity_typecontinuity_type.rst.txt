@@ -1,0 +1,27 @@
+Each segment must have geometric continuity in \ ^\ ``continuity_type:continuity_type``\ ^\ 
+============================================================================================
+
+.. container:: prewrap
+
+   | Assess geometric continuity between alignment segments for ALS016, ALS017, and ALS018
+
+Usages:
+~~~~~~~
+
+ - **Then** *Each segment must have geometric continuity in ^position^*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:29
+
+ - **Then** *Each segment must have geometric continuity in ^tangency^*
+
+   :doc:`/features/ALS016_Alignment-horizontal-segment-geometric-continuity`:33
+
+ - **Then** *Each segment must have geometric continuity in ^position^*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:27
+
+ - **Then** *Each segment must have geometric continuity in ^vertical gradient^*
+
+   :doc:`/features/ALS017_Alignment-vertical-segment-geometric-continuity`:31
+
+

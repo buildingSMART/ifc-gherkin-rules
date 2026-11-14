@@ -1,0 +1,43 @@
+The ``i:value_or_type`` must be '``value``'
+===========================================
+
+Usages:
+~~~~~~~
+
+ - **Then** *The type must be 'IfcGradientCurve'*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:17
+
+ - **Then** *The value must be 'Axis'*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:22
+
+ - **Then** *The value must be 'Curve3D'*
+
+   :doc:`/features/ALS007_Alignment-vertical-shape-representation`:28
+
+ - **Then** *The value must be 'Axis'*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:16
+
+ - **Then** *The value must be 'Curve3D'*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:22
+
+ - **Then** *The type must be 'IfcSegmentedReferenceCurve'*
+
+   :doc:`/features/ALS008_Alignment-cant-shape-representation`:28
+
+ - **Then** *The value must be 'IfcCurveSegment'*
+
+   :doc:`/features/ALS011_Alignment-segment-entity-type-consistency`:58
+
+ - **Then** *The value must be 'DISCONTINUOUS'*
+
+   :doc:`/features/ALS015_Alignment-representation-zero-length-final-segment`:24
+
+ - **Then** *The value must be 'IfcCurveSegment'*
+
+   :doc:`/features/GEM011_Curve-segments-consistency`:42
+
+

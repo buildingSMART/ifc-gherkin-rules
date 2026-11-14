@@ -1,0 +1,38 @@
+``PSE003`` Absence of deprecated properties - v1
+========================================================================================================================================================================================================
+
+.. parsed-literal::
+
+   001 | \@PSE
+   002 | \@version1
+   003 | \@implementer-agreement
+   004 | Feature: PSE003 - Absence of deprecated properties
+   005 | 
+   006 | The rule verifies that standard property sets (Pset\_*) do not contain the property 'Reference',
+   007 | which is deprecated as of IFC version 4.3.
+   008 | 
+   009 | 
+   010 |   Scenario: Check for deprecated property - IFC4.3
+   011 | 
+   012 |     :doc:`Given A model with Schema 'IFC4.3' </steps/givensattributespy_Afile_or_modelwithfieldvalues>`
+   013 |     :doc:`Given an .IfcPropertySet. </steps/stepsentity_selectionpy_Anentity_opt_stmt>`
+   014 |     :doc:`Given its .Name. attribute ^starts^ with 'Pset\_' </steps/givensattributespy_Itsattributeattributeprefix_conditionprefix_conditionwithprefix>`
+   015 |     :doc:`Given Its attribute .HasProperties. </steps/stepsattribute_selectionpy_Itsattributeattribute>`
+   016 | 
+   017 |     :doc:`Then .Name. ^is not^ 'Reference' </steps/stepsattribute_valuepy_attributecomparison_operatorequal_or_not_equalvalue>`
+
+.. rubric:: Version history
+
+.. list-table::
+   :header-rows: 1
+
+   * - Version
+     - Tag
+     - Date
+     - Commit
+     - Rule link
+   * - v1
+     - n/a
+     - 2026-11-13
+     - :commit:`8228a9b50d5a088c856911fe69502782c8450fc5`
+     - n/a

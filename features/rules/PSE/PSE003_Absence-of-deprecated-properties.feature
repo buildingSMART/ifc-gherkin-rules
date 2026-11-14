@@ -3,7 +3,8 @@
 @implementer-agreement
 Feature: PSE003 - Absence of deprecated properties
 
-The rule verifies that standard property sets (Pset_*) do not contain deprecated properties.
+The rule verifies that standard property sets (Pset_*) do not contain the property 'Reference',
+which is deprecated as of IFC version 4.3.
 
 
   Scenario: Check for deprecated property - IFC4.3

@@ -1,6 +1,6 @@
 @implementer-agreement
 @PSE
-@version3
+@version4
 Feature: PSE001 - Standard properties and property sets validation
 The rule verifies that each IfcPropertySet starting with 'Pset_' is defined correctly.
   

@@ -1,5 +1,5 @@
 @IFC
-@version6
+@version7
 @implementer-agreement
 Feature: IFC102 - Absence of deprecated entities
 
@@ -108,7 +108,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema 'IFC4.3'
     Given an .<Entity>.
 
-    Then .<Attribute>. ^is^ empty
+    Then .<Attribute>. ^is^ ^null^
 
     Examples: 
       | Entity                    | Attribute                      | 
@@ -155,7 +155,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
     Given A model with Schema 'IFC4'
     Given an .<Entity>.
 
-    Then .<Attribute>. ^is^ empty
+    Then .<Attribute>. ^is^ ^null^
 
     Examples:
       | Entity                        | Attribute                     |
@@ -209,7 +209,7 @@ IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/
       Given A model with Schema 'IFC2X3'
       Given an .<Entity>.
 
-      Then .<Attribute>. ^is^ empty
+      Then .<Attribute>. ^is^ ^null^
 
     Examples:
       | Entity                        | Attribute                     |

@@ -302,7 +302,7 @@ class AlignmentSegmentContinuityCalculation:
         following_i = following_start_transform[0][0]
         following_j = following_start_transform[1][0]
         self.following_start_direction = math.atan2(following_j, following_i)
-        self.current_end_gradient = _safe_slope(current_i, current_j)
+        self.following_start_gradient = _safe_slope(following_i, following_j)
 
     def run(self) -> None:
         """

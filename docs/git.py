@@ -12,10 +12,16 @@ def git(*args, cwd=REPO_ROOT):
     return out.stdout.strip()
 
 def introduced_commit(path, repo):
-    return (git("log", "--follow", "--diff-filter=A", "--format=%H", "-1", "--", path, cwd=repo) or '').strip()
+    intro = git("log", "--follow", "--diff-filter=A", "--format=%H", "-1", "--", path, cwd=repo)
+    if not intro:  # git >= 2.56: --follow can stop before the addition (ALS008); retry on the oldest name it does reach
+        names = [l.split("\t")[1] for l in git("log", "--follow", "--format=", "--name-status", "--", path, cwd=repo).splitlines() if "\t" in l]
+        intro = git("log", "--diff-filter=A", "--format=%H", "-1", "--", names[-1], cwd=repo) if names else ""
+    return intro
 
 
 def tags_for_commit(commit, repo):
+    if not commit:
+        return []
     return natsorted(git("tag", "--contains", commit, cwd=repo).splitlines())
 
 
@@ -90,7 +96,7 @@ def version_events_for_file(path, repo=REPO_ROOT):
             "version": 1, # introduction
             "commit": intro,
             "tag": tag,
-            "date": git("show", "-s", "--format=%cd", "--date=short", intro, cwd=repo).strip() 
+            "date": git("show", "-s", "--format=%cd", "--date=short", intro, cwd=repo).strip() if intro else "n/a",
         }
     )
     

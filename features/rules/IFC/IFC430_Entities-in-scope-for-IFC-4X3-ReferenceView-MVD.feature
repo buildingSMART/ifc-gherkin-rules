@@ -56,7 +56,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcCompositeCurveOnSurface                   |
       | IfcCompositeCurveSegment                     |
       | IfcConic                                     |
-      | IfcConnectedFaceSet                          |
       | IfcConnectionCurveGeometry                   |
       | IfcConnectionGeometry                        |
       | IfcConnectionPointEccentricity               |
@@ -98,10 +97,7 @@ do not export any entities that are outside the scope of this MVD.
       | IfcExternalReferenceRelationship             |
       | IfcExtrudedAreaSolid                         |
       | IfcExtrudedAreaSolidTapered                  |
-      | IfcFace                                      |
       | IfcFaceBasedSurfaceModel                     |
-      | IfcFaceBound                                 |
-      | IfcFaceOuterBound                            |
       | IfcFaceSurface                               |
       | IfcFacetedBrepWithVoids                      |
       | IfcFailureConnectionCondition                |
@@ -129,7 +125,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcLightSourceSpot                           |
       | IfcLine                                      |
       | IfcLinearPlacement                           |
-      | IfcLoop                                      |
       | IfcLShapeProfileDef                          |
       | IfcMapConversionScaled                       |
       | IfcMaterialClassificationRelationship        |
@@ -163,13 +158,11 @@ do not export any entities that are outside the scope of this MVD.
       | IfcPhysicalComplexQuantity                   |
       | IfcPixelTexture                              |
       | IfcPlanarBox                                 |
-      | IfcPlanarExtent                              |
       | IfcPlane                                     |
       | IfcPointByDistanceExpression                 |
       | IfcPointOnCurve                              |
       | IfcPointOnSurface                            |
       | IfcPolygonalBoundedHalfSpace                 |
-      | IfcPolyLoop                                  |
       | IfcPolynomialCurve                           |
       | IfcPreDefinedColour                          |
       | IfcPreDefinedCurveFont                       |
@@ -230,7 +223,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcRightCircularCone                         |
       | IfcRightCircularCylinder                     |
       | IfcRoundedRectangleProfileDef                |
-      | IfcSchedulingTime                            |
       | IfcSeamCurve                                 |
       | IfcSecondOrderPolynomialSpiral               |
       | IfcSectionedSolid                            |
@@ -295,7 +287,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcTableColumn                               |
       | IfcTableRow                                  |
       | IfcTaskTimeRecurring                         |
-      | IfcTextLiteralWithExtent                     |
       | IfcTextureCoordinateGenerator                |
       | IfcTextureCoordinateIndices                  |
       | IfcTextureCoordinateIndicesWithVoids         |
@@ -305,7 +296,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcTimePeriod                                |
       | IfcTimeSeries                                |
       | IfcTimeSeriesValue                           |
-      | IfcTopologicalRepresentationItem             |
       | IfcTopologyRepresentation                    |
       | IfcToroidalSurface                           |
       | IfcTrapeziumProfileDef                       |

@@ -101,7 +101,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcFace                                      |
       | IfcFaceBasedSurfaceModel                     |
       | IfcFaceBound                                 |
-      | IfcFaceOuterBound                            |
       | IfcFaceSurface                               |
       | IfcFacetedBrepWithVoids                      |
       | IfcFailureConnectionCondition                |

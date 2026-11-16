@@ -46,7 +46,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcComplexPropertyTemplate                   |
       | IfcCompositeCurveOnSurface                   |
       | IfcCompositeCurveSegment                     |
-      | IfcConnectedFaceSet                          |
       | IfcConnectionCurveGeometry                   |
       | IfcConnectionPointEccentricity               |
       | IfcConnectionPointGeometry                   |
@@ -85,9 +84,7 @@ do not export any entities that are outside the scope of this MVD.
       | IfcExternalReferenceRelationship             |
       | IfcExtrudedAreaSolid                         |
       | IfcExtrudedAreaSolidTapered                  |
-      | IfcFace                                      |
       | IfcFaceBasedSurfaceModel                     |
-      | IfcFaceBound                                 |
       | IfcFaceSurface                               |
       | IfcFacetedBrepWithVoids                      |
       | IfcFailureConnectionCondition                |
@@ -113,8 +110,8 @@ do not export any entities that are outside the scope of this MVD.
       | IfcLightSourceGoniometric                    |
       | IfcLightSourcePositional                     |
       | IfcLightSourceSpot                           |
-      | IfcLoop                                      |
       | IfcLShapeProfileDef                          |
+      | IfcMapConversionScaled                       |
       | IfcMaterialClassificationRelationship        |
       | IfcMaterialDefinitionRepresentation          |
       | IfcMaterialLayerSetUsage                     |
@@ -125,7 +122,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcMaterialProfileWithOffsets                |
       | IfcMaterialRelationship                      |
       | IfcMaterialUsageDefinition                   |
-      | IfcMapConversionScaled                       |
       | IfcMetric                                    |
       | IfcMirroredProfileDef                        |
       | IfcObjective                                 |
@@ -146,12 +142,10 @@ do not export any entities that are outside the scope of this MVD.
       | IfcPhysicalComplexQuantity                   |
       | IfcPixelTexture                              |
       | IfcPlanarBox                                 |
-      | IfcPlanarExtent                              |
       | IfcPlane                                     |
       | IfcPointOnCurve                              |
       | IfcPointOnSurface                            |
       | IfcPolygonalBoundedHalfSpace                 |
-      | IfcPolyLoop                                  |
       | IfcPreDefinedColour                          |
       | IfcPreDefinedCurveFont                       |
       | IfcPreDefinedProperties                      |
@@ -209,7 +203,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcRightCircularCone                         |
       | IfcRightCircularCylinder                     |
       | IfcRoundedRectangleProfileDef                |
-      | IfcSchedulingTime                            |
       | IfcSeamCurve                                 |
       | IfcSectionedSpine                            |
       | IfcSectionProperties                         |
@@ -266,7 +259,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcTableColumn                               |
       | IfcTableRow                                  |
       | IfcTaskTimeRecurring                         |
-      | IfcTextLiteralWithExtent                     |
       | IfcTextureCoordinateGenerator                |
       | IfcTextureCoordinateIndices                  |
       | IfcTextureCoordinateIndicesWithVoids         |
@@ -275,7 +267,6 @@ do not export any entities that are outside the scope of this MVD.
       | IfcTimePeriod                                |
       | IfcTimeSeries                                |
       | IfcTimeSeriesValue                           |
-      | IfcTopologicalRepresentationItem             |
       | IfcTopologyRepresentation                    |
       | IfcToroidalSurface                           |
       | IfcTrapeziumProfileDef                       |

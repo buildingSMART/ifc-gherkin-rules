@@ -36,6 +36,10 @@ Usages:
 
    :doc:`/features/IFC102_Absence-of-deprecated-entities`:19
 
+ - **Then** *There must be less than 1 instance(s) of .IfcFillAreaStyleTiles. ^excluding subtypes^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:19
+
  - **Then** *There must be less than 1 instance(s) of .IfcMaterialClassificationRelationship. ^excluding subtypes^*
 
    :doc:`/features/IFC102_Absence-of-deprecated-entities`:19
@@ -98,143 +102,143 @@ Usages:
 
  - **Then** *There must be less than 1 instance(s) of .Ifc2DCompositeCurve. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcBeamStandardCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcConnectionPortGeometry. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcColumnStandardCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcDoorStandardCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcDoorStyle. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcDoorStyleOperationEnum. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcElectricalElement. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcEquipmentElement. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcFaceBasedSurfaceModel. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcMaterialClassificationRelationship. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcMaterialList. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcMemberStandardCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcNullStyle. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcObjectTypeEnum. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcOpeningStandardCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcPlateStandardCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcPresentationStyleAssignment. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcProxy. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcRelCoversBldgElements. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcRelCoversSpaces. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcSlabElementedCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcSlabStandardCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcTextLiteral. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcWallElementedCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcWallStandardCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcWindowStandardCase. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcWindowStyle. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .IfcWindowStyleOperationEnum. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:53
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:54
 
  - **Then** *There must be less than 1 instance(s) of .Ifc2DCompositeCurve. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:93
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:94
 
  - **Then** *There must be less than 1 instance(s) of .IfcConnectionPortGeometry. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:93
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:94
 
  - **Then** *There must be less than 1 instance(s) of .IfcElectricalElement. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:93
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:94
 
  - **Then** *There must be less than 1 instance(s) of .IfcEquipmentElement. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:93
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:94
 
  - **Then** *There must be less than 1 instance(s) of .IfcObjectTypeEnum. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:93
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:94
 
  - **Then** *There must be less than 1 instance(s) of .IfcTextLiteral. ^excluding subtypes^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:93
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:94
 
  - **Then** *There must be less than 1 instance(s) of .IfcAdvancedBrep. ^excluding subtypes^*
 

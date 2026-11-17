@@ -206,63 +206,63 @@ Usages:
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:51
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:52
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:91
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:92
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:107
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:108
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:141
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:155
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:181
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:209
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:200
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:230
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:224
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:261
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:238
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:277
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:250
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:289
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:269
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:314
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:288
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:339
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:303
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:354
 
  - **Given** *A model with Schema 'IFC4.3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:311
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:362
 
  - **Given** *A model with Schema 'IFC4'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:319
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:370
 
  - **Given** *A model with Schema 'IFC2X3'*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:327
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:378
 
  - **Given** *A model with Schema 'IFC4.3'*
 

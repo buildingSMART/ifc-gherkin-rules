@@ -15,154 +15,246 @@ Usages:
 
  - **Then** *.BuildingAddress. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.ElevationOfRefHeight. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.ElevationOfTerrain. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.Elevation. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.PointOfReferenceHatchLine. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.NominalDiameter. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.NominalLength. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.Addresses. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.ConstructionType. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.BarLength. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.BarSurface. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.SteelGrade. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.MeshLength. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.MeshWidth. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.LongitudinalBarNominalDiameter. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.TransverseBarNominalDiameter. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.LongitudinalBarCrossSectionArea. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.TransverseBarCrossSectionArea. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.LongitudinalBarSpacing. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
+
+ - **Then** *.TransverseBarSpacing. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.RelatedObjectsType. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.LandTitleNumber. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.SiteAddress. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.NumberOfRisers. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.NumberOfTreads. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.RiserHeight. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.TreadLength. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.DiffuseTransmissionColour. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.ReflectionColour. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.TransmissionColour. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.Parameter. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
-
- - **Then** *.NominalDiameter. ^is^ ^null^*
-
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.CrossSectionArea. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:110
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:111
 
  - **Then** *.ShapeAspectStyle. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.PointOfReferenceHatchLine. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
-
- - **Then** *.SteelGrade. ^is^ ^null^*
-
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
-
- - **Then** *.RelatedObjectsType. ^is^ ^null^*
-
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
-
- - **Then** *.NumberOfRisers. ^is^ ^null^*
-
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
-
- - **Then** *.NumberOfTreads. ^is^ ^null^*
-
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
-
- - **Then** *.RiserHeight. ^is^ ^null^*
-
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
-
- - **Then** *.TreadLength. ^is^ ^null^*
-
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.NominalDiameter. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.NominalLength. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.ConstructionType. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.BarLength. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.BarSurface. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.SteelGrade. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.MeshLength. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.MeshWidth. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.LongitudinalBarNominalDiameter. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.TransverseBarNominalDiameter. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.LongitudinalBarCrossSectionArea. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.TransverseBarCrossSectionArea. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.LongitudinalBarSpacing. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.TransverseBarSpacing. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.RelatedObjectsType. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.NumberOfRisers. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.NumberOfTreads. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.RiserHeight. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
+
+ - **Then** *.TreadLength. ^is^ ^null^*
+
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.CrossSectionArea. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.TensionForce. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.PreStress. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.FrictionCoefficient. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.AnchorageSlip. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.MinCurvatureRadius. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.SheathDiameter. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:144
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:158
 
  - **Then** *.PointOfReferenceHatchLine. ^is^ ^null^*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:184
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:212
 
 

@@ -14,11 +14,11 @@ Usages:
 
  - **Given** *An IFC model*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:50
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:51
 
  - **Given** *An IFC model*
 
-   :doc:`/features/IFC102_Absence-of-deprecated-entities`:90
+   :doc:`/features/IFC102_Absence-of-deprecated-entities`:91
 
  - **Given** *An IFC model*
 

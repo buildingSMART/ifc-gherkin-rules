@@ -490,10 +490,6 @@ Usages:
 
  - **Given** *Its attribute .VerticalDatum.*
 
-   :doc:`/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system`:34
-
- - **Given** *Its attribute .VerticalDatum.*
-
    :doc:`/features/GRF007_valid-vertical-datum-crs-type`:16
 
  - **Given** *its attribute .Representation.*

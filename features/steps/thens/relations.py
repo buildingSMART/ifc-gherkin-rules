@@ -137,14 +137,16 @@ def step_impl(context, inst, decision, aggregated_or_contained_or_positioned, pr
 def step_impl(context, inst):
     relationship = {'IfcGroup': ('HasAssignments', 'IfcRelAssignsToGroup', 'RelatingGroup')}
 
-    def get_memberships(inst):
+    def get_memberships(inst, visited):
         for rel in filter(misc.is_a(ent), getattr(inst, inv, [])):
             container = getattr(rel, attr)
             yield container
-            yield from get_memberships(container)
+            if container not in visited:
+                visited.add(container)
+                yield from get_memberships(container, visited)
 
-    inv, ent, attr = relationship[inst.is_a()]
-    if inst in get_memberships(inst):
+    inv, ent, attr = next(v for k, v in relationship.items() if inst.is_a(k))
+    if inst in get_memberships(inst, set()):
         yield ValidationOutcome(inst=inst, expected=None, observed = None, severity=OutcomeSeverity.ERROR)
 
 @gherkin_ifc.step("The current directional relationship must not contain multiple entities at depth 1")

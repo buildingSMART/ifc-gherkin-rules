@@ -26,7 +26,7 @@ def step_impl(context, inst, relationship, dir1, entity, dir2, other_entity, tai
     relationships = [i for i in context.model.get_inverse(inst, with_attribute_indices=True, allow_duplicate=True) if i[0].is_a(relationship)]
 
     for rel, attribute_index in relationships:
-        attr_to_entity = relating_attr_matrix.get(rel.is_a())
+        attr_to_entity = relating_attr_matrix.get(rel.is_a()) or next((v for k, v in relating_attr_matrix.items() if rel.is_a(k)), None)
         attr_to_other = {0: v for k, v in related_attr_matrix.items() if rel.is_a(k)}.get(0)
 
         assert attr_to_entity
